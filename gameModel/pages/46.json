@@ -2,399 +2,231 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "taskName",
-                    "layoutStyle" : { },
-                    "name" : "taskName",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getTitle();",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "taskStatus",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "Context.item.status",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "className" : "taskHeader",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "taskActiveHeader",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) === Context.item.Uid;",
-                    "language" : "typescript"
-                  }
-                } ],
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "Variable.find(gameModel, 'currentTaskUid').setValue(self, Context.item.Uid);",
-                    "language" : "javascript"
-                  }
-                },
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutStyle" : { },
-                "name" : "taskHeader",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "className" : "taskDescription",
-                        "layoutStyle" : { },
-                        "name" : "taskDescription",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { TaskBase } from \"./game/common/tasks/taskBase\";\nconst task = Context.item as TaskBase;\ntask.getDescription();",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ],
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : { },
-                    "name" : "texts",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "assignBtn minusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>-</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { releaseResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = Context.interfaceState.state.currentActorUid;\n\nreleaseResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "-",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "user-nurse",
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { countAllocatedResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAllocatedResources(Context.item.Uid, 'ambulancier');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center",
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "className" : "assignBtn plusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>+</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { allocateResource } from \"./UIfacade/resourceTaskFacade\";\n\nconst actorUid = Context.interfaceState.state.currentActorUid;\n\nallocateResource(Context.item.Uid, actorUid, \"ambulancier\", 1);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "+",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "className" : "resourceGestion-container  ",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "aButton - Person",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "assignBtn minusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>-</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "name" : "-",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "ambulance",
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'assigned')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center",
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "className" : "assignBtn plusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>+</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "name" : "+",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "className" : "resourceGestion-container  ",
-                        "layout" : { },
-                        "layoutStyle" : {
-                          "display" : "none"
-                        },
-                        "name" : "aButton - Ambulance",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "assignBtn minusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>-</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "name" : "-",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "icon" : "helicopter",
-                                "layoutStyle" : { },
-                                "style" : { }
-                              },
-                              "type" : "Icon"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : { },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'assigned')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number"
-                            } ],
-                            "layout" : {
-                              "alignItems" : "center",
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "className" : "assignBtn plusBtn pink",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>+</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "assignBtn-container",
-                            "layoutStyle" : { },
-                            "name" : "+",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "className" : "resourceGestion-container  ",
-                        "layout" : { },
-                        "layoutStyle" : {
-                          "display" : "none"
-                        },
-                        "name" : "aButton - Helicopter",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "buttons",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'currentTaskUid').getValue(self) !== Context.item.Uid;",
-                  "language" : "typescript"
-                },
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "className" : "noMargin noPadding",
-            "layout" : {
-              "flexDirection" : "column",
-              "justifyContent" : "space-between"
-            },
-            "layoutClassName" : "resourceTask-container noMargin noPadding",
-            "layoutStyle" : { },
-            "name" : "OneTask",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "exposeAs" : "item",
-        "getItemsFn" : {
+        "layoutStyle" : {
+          "display" : "none"
+        },
+        "name" : "hack",
+        "style" : { },
+        "text" : {
           "@class" : "Script",
-          "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\ngetAvailableTasks(Context.interfaceState.state.currentActorUid);",
+          "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n  registerSelf();\n  \"<p>(Trigger event loop hack)</p>\"",
           "language" : "TypeScript"
-        },
-        "itemKey" : "Uid",
-        "layout" : {
-          "flexDirection" : "column"
-        },
-        "layoutClassName" : "forEachTask-container noPadding",
-        "layoutStyle" : { },
-        "style" : { }
+        }
       },
-      "type" : "For each"
+      "type" : "Text"
     }, {
       "props" : {
         "children" : [ {
           "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "rectangleButton",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Register</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n\nregisterSelf();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "register",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Unregister</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { unregisterSelf } from \"./multiplayer/multiplayerManager\";\n\nunregisterSelf()",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "unregister",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Clear</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { clearMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\nclearMultiplayerMatrix();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "clear",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : { },
             "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'available');",
-              "language" : "TypeScript"
-            }
+            "name" : "buttons",
+            "style" : { }
           },
-          "type" : "Text"
+          "type" : "FlexList"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "oneResource",
-                    "icon" : "user-nurse",
-                    "layoutClassName" : "oneResource-container",
-                    "layoutStyle" : { },
+                    "children" : [ {
+                      "props" : {
+                        "className" : "matrixHeaderItem",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-id');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixHeaderItem",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-name');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "playerIdentity",
+                    "layoutStyle" : {
+                      "width" : "15rem"
+                    },
+                    "name" : "IdentityBox",
                     "style" : { }
                   },
-                  "type" : "Icon"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : "resourceCounter",
-                    "layoutClassName" : "resourceCounter-container noPadding",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-al');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-acs');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-mcs');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-evasan');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-leadpma');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
                     "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Variable.find(gameModel, 'currentActorUid').getValue(self), 'ambulancier');",
-                      "language" : "TypeScript"
-                    }
+                    "name" : "rolesBox",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "matrixHeaderRole",
+                        "layoutStyle" : { },
+                        "name" : "readyness",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-ready');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "ready?",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
                 } ],
-                "layout" : { },
+                "className" : "matrixHeader",
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
                 "layoutStyle" : { },
-                "name" : "Medic",
+                "name" : "matrixHeader",
                 "style" : { }
               },
               "type" : "FlexList"
@@ -402,97 +234,281 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "oneResource",
-                    "icon" : "ambulance",
-                    "layoutClassName" : "oneResource-container",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "playerIdentity",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  String(Context.player.id)",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "playerIdentity",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.name",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "paddingLeft" : "0px",
+                          "width" : "15rem"
+                        },
+                        "name" : "playerIdentity",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'AL');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.AL",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'ACS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.ACS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'MCS');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.MCS",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'EVASAN');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.EVASAN",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'LEADPMA');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.roles.LEADPMA",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "matrixRowItem",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateReady } from \"./multiplayer/multiplayerManager\";\n\nupdateReady(Context.player.id);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.player.ready",
+                              "language" : "TypeScript"
+                            },
+                            "style" : {
+                              "justifyContent" : "right",
+                              "width" : "5rem"
+                            },
+                            "type" : "toggler"
+                          },
+                          "type" : "Boolean"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "highlightSelf",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  if (getPlayersAndRoles().length > 1) {\n  return Context.player.id === self.getId();\n  }\n  false;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
                     "layoutStyle" : { },
                     "style" : { }
                   },
-                  "type" : "Icon"
-                }, {
-                  "props" : {
-                    "className" : "resourceCounter",
-                    "layoutClassName" : "resourceCounter-container noPadding",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"0\";",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 } ],
-                "layout" : { },
-                "layoutStyle" : {
-                  "display" : "none"
+                "exposeAs" : "player",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                  "language" : "TypeScript"
                 },
-                "name" : "Ambulance",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "oneResource",
-                    "icon" : "helicopter",
-                    "layoutClassName" : "oneResource-container",
-                    "layoutStyle" : { },
-                    "style" : { }
-                  },
-                  "type" : "Icon"
-                }, {
-                  "props" : {
-                    "className" : "resourceCounter",
-                    "layoutClassName" : "resourceCounter-container noPadding",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"0\";",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "layout" : { },
-                "layoutStyle" : {
-                  "display" : "none"
+                "itemKey" : "id",
+                "layout" : {
+                  "flexDirection" : "column"
                 },
-                "name" : "Helicopter",
-                "style" : { }
+                "layoutStyle" : { },
+                "style" : {
+                  "gap" : "5px"
+                }
               },
-              "type" : "FlexList"
+              "type" : "For each"
             } ],
-            "className" : "noPadding noMargin",
-            "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
-            "layoutStyle" : { },
-            "name" : "resource pools",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : {
+              "marginBottom" : "1em"
+            },
+            "name" : "playerMatrix",
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "warningText",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { checkAllRolesPlayed } from \"./multiplayer/multiplayerManager\";\ncheckAllRolesPlayed();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "notAllRoles",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'minimum-one-per-role');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "warningText",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { checkAllPlayersReady } from \"./multiplayer/multiplayerManager\";\ncheckAllPlayersReady();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "padding" : "0"
+            },
+            "name" : "notAllReady",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'not-all-ready');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "layout" : {
+          "alignItems" : "center",
           "flexDirection" : "column"
         },
-        "layoutClassName" : "poolResources-container",
         "layoutStyle" : { },
-        "name" : "poolResources",
+        "name" : "multiplayerConfig",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
     "layout" : {
-      "flexDirection" : "column",
-      "justifyContent" : "space-between"
+      "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin resourcesPanel-container",
     "layoutStyle" : {
-      "minWidth" : "fit-content"
-    },
-    "style" : { }
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
   },
   "type" : "FlexList"
 }

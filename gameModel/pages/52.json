@@ -2,123 +2,79 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "resourceIcon",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "greyRessources",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "icon" : "user-nurse",
-                    "layoutClassName" : "resourceIcon-container headerResourceIcon-container",
-                    "layoutStyle" : { },
-                    "name" : "resource icon",
-                    "style" : { }
-                  },
-                  "type" : "Icon"
-                }, {
-                  "props" : {
-                    "className" : "resourceCounter",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "greyRessources",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "layoutClassName" : "resourceCounter-container noPadding",
-                    "layoutStyle" : { },
-                    "name" : "nb available",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\"\" + countAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "greyRessources",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\n\tcountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
-                    "language" : "typescript"
-                  }
-                } ],
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "icon with nb",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "layoutClassName" : "resourceTypeName-container",
-                "layoutStyle" : { },
-                "name" : "resource type name",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', Context.resourceType.enum);",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "className" : "oneHeaderResource",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "greyRessources",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { countAvailableResources } from \"./UIfacade/resourceTaskFacade\";\ncountAvailableResources(Context.interfaceState.state.currentActorUid, Context.resourceType.enum) === 0;",
-                "language" : "typescript"
-              }
-            } ],
-            "layout" : {
-              "alignItems" : "center",
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "one resource",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "className" : "",
-        "exposeAs" : "resourceType",
-        "getItemsFn" : {
+        "alignSelf" : "flex-start",
+        "icon" : "save",
+        "label" : {
           "@class" : "Script",
-          "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+          "content" : "\"<p>Store Current State<br></p>\"",
           "language" : "TypeScript"
         },
-        "itemKey" : "enum",
-        "layout" : { },
         "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugStoreCurrentState } from \"./UIfacade/debugFacade\";\ndebugStoreCurrentState()",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "store",
         "style" : { }
       },
-      "type" : "For each"
+      "type" : "Button"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Currently Stored State Id<br></p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'debugStoredState')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Number"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-start",
+        "icon" : "arrow-left",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Restore Saved State<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { debugRestoreSavedState } from \"./UIfacade/debugFacade\";\n  debugRestoreSavedState();",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "name" : "restore",
+        "style" : { }
+      },
+      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "resourcesPanel-container",
-    "layoutStyle" : { },
-    "name" : "available resources",
-    "style" : { }
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
   },
   "type" : "FlexList"
 }

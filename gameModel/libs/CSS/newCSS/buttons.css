@@ -1,0 +1,196 @@
+/** All code for buttons **/
+
+/************************************************************** BIG SCREENS **************************************************************/
+@media screen and (min-width: 1200px) {
+  
+  
+  /********************************* S *********************************/
+  .s_button {
+    background-color: var(--interface_BLUE);
+    border-radius: var(--L_borderRadius);
+    padding: 8px 15px;
+    font-size: var(--SM_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+  }
+
+  .s_button:hover {
+    background-color: var(--interface_200);
+  }
+
+ /********************************* L *********************************/
+
+  .l_button {
+    background-color: green;
+    border-radius: var(--L_borderRadius);
+    padding: 15px 20px;
+    font-size: var(--M_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+  }
+  .l_button:hover {
+    background-color: var(--interface_200);
+    text-decoration: none;
+  }
+
+   /********************************* PINK *********************************/
+  /* Assign the pink class to every action button of the interface */
+
+  .pink {
+    background-color: var(--secondaryInterface_400);
+    color: var(--gray_WHITE);
+  }
+
+  .pink:hover {
+    background-color: var(--secondaryInterface_200);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .disabled.pink {
+    color: var(--gray_500);
+  }
+
+  .disabled.pink:hover {
+    background-color: var(--gray_300);
+    color: var(--gray_500);
+    cursor: not-allowed;
+  }
+  /********************************* WHITE *********************************/
+  /*to do rename whiteButton to white */
+  .whiteButton {
+    background-color: var(--gray_200);
+    border-radius: var(--L_borderRadius);
+    color: var(--gray_700);
+  }
+
+  .whiteButton:hover {
+    background-color: var(--gray_300);
+  }
+
+  .disabled.whiteButton {
+    color: var(--gray_500);
+  }
+
+  .disabled.whiteButton:hover {
+    background-color: var(--gray_300);
+    color: var(--gray_500);
+    cursor: not-allowed;
+  }
+
+   /********************************* SQUARE *********************************/
+
+  .s_squareButton > button {
+    background-color: var(--gray_150);
+    border-radius: var(--XS_borderRadius);
+    height: 2.2em;
+    border: 2px solid var(--gray_700);
+    font-size: var(--SM_text);
+    font-family: var(--mainFont);
+    color: var(--gray_700);
+  }
+
+  .s_squareButton > button:hover {
+    color: var(--gray_500);
+	background-color: var(--gray_200);
+    border-color: var(--gray_500);
+  }
+
+  .s_squareButton > button:active {
+    color: var(--gray_WHITE);
+    background-color: var(--interface_BLUE);
+    border-color: var(--interface_BLUE);
+  }
+
+  .s_squareButton > button:active:hover {
+    background-color: var(--interface_200);
+    border-color: var(--interface_200);
+  }
+
+  .s_squareButton > button:disabled {
+    color: var(--gray_400);
+    background-color: var(--gray_150);
+    border-color: var(--gray_150);
+  }
+}
+
+/************************************************************** SMALL SCREENS **************************************************************/
+@media screen and (max-width: 1199px) {
+
+/********************************* S *********************************/
+  .s_button {
+    background-color: var(--interface_BLUE);
+    border-radius: var(--L_borderRadius);
+    padding: 6px 6px;
+    font-size: var(--S_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+  }
+
+  .s_button:hover {
+    background-color: var(--interface_200);
+  }
+
+   /********************************* L *********************************/
+
+  .l_button {
+    background-color: var(--interface_BLUE);
+    border-radius: var(--L_borderRadius);
+    padding: 15px 20px;
+    font-size: var(--SM_text);
+    font-weight: var(--boldWeight);
+    font-family: var(--mainFont);
+  }
+  .l_button:hover {
+    background-color: var(--interface_200);
+    text-decoration: none;
+  }
+
+   /********************************* PINK *********************************/
+  /* Assign the pink class to every action button of the interface */
+
+  .pink {
+    background-color: var(--secondaryInterface_400);
+    color: var(--gray_WHITE);
+  }
+
+  .pink:hover {
+    background-color: var(--secondaryInterface_200);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .disabled.pink {
+    color: var(--gray_500);
+  }
+
+  .disabled.pink:hover {
+    background-color: var(--gray_300);
+    color: var(--gray_500);
+    cursor: not-allowed;
+  }
+   /********************************* WHITE *********************************/
+  .whiteButton {
+    background-color: var(--gray_200);
+    border-radius: var(--L_borderRadius);
+    color: var(--gray_700);
+  }
+
+  .whiteButton:hover {
+    background-color: var(--gray_300);
+  }
+
+  .disabled.whiteButton {
+    color: var(--gray_500);
+  }
+
+  .disabled.whiteButton:hover {
+    background-color: var(--gray_300);
+    color: var(--gray_500);
+    cursor: not-allowed;
+  }
+
+
+   /********************************* SQUARE *********************************/
+   /* NONE YET */
+}

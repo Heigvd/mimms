@@ -1,0 +1,197 @@
+/************************* Button size ****************************/
+.button-S{
+  border-radius: var(--L_borderRadius);
+  padding: 8px 15px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+.button-M{
+	border-radius: var(--L_borderRadius);
+  padding: 8px 15px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+.button-L{
+  border-radius: var(--L_borderRadius);
+  padding: 15px 20px;
+  font-size: var(--M_text);
+  font-weight: var(--boldWeight);
+  font-family: var(--mainFont);
+	cursor: pointer;
+}
+
+/************************* Button color ****************************/
+/** primary **/
+.button-primaryColor{
+	border: solid 3px var(--primary_base);
+	background-color: var(--grey_0);
+	color: var(--primary_base);
+}
+
+.button-primaryColor:hover{
+	background-color: var(--primary_base);
+	box-shadow: var(--buttonShadow);
+	cursor: pointer;
+	color: var(--grey_0);
+}
+
+.button-primaryColor:active{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: var(--buttonInsetShadow);
+}
+ 
+.button-primaryColor.current{
+	border: solid 3px var(--primary_base);
+	background-color: var(--primary_base);
+	font-weight: var(--boldWeight);
+	color: var(--grey_0);
+}
+
+
+
+.disabled.button-primaryColor{
+	background-color: var(--grey_50);
+	color: var(--grey_0);
+	cursor: not-allowed;
+  border-color: var(--grey_50);
+}
+
+.disabled.button-primaryColor:hover{
+	background-color: var(--grey_30);
+  color: var(--grey40);
+  cursor: not-allowed;
+  border-color: var(--grey_30);
+}
+
+/** secondary **/
+.button-secondaryColor{
+	background-color: var(--secondary_base);
+    color: var(--gray_WHITE);
+}
+
+.button-secondaryColor:hover{
+	background-color: var(--secondary_base);
+	box-shadow: var(--buttonShadow);
+	cursor: pointer;
+}
+
+.button-secondaryColor:active{
+	background-color: var(--secondary_50);
+	box-shadow: var(--buttonInsetShadow);
+}
+
+
+.disabled.button-secondaryColor{
+	background-color: var(--grey_20);
+	color: var(--gray_150);
+	cursor: not-allowed;
+}
+
+.disabled.button-secondaryColor:hover{
+	background-color: var(--grey_30);
+  color: var(--grey_40);
+  cursor: not-allowed;
+}
+
+/************************* Special button  ****************************/
+
+/***** ABORT *****/
+.abort{
+	background-color: var(--grey_60);
+}
+
+.abort:hover{
+	background-color: var(--grey_70);
+	box-shadow: var(--buttonShadow);
+}
+
+/**** rectangles buttons ****/
+.rectangleButton{
+	border-radius: var(--XXS_borderRadius);
+	font-size: var(--S_text);
+	color: var(--primary_base);
+	font-weight: var(--boldWeight);
+	background-color: var(--grey_0);
+	border: solid 2px var(--primary_base);
+	margin: 0px;
+}
+
+/* probably unused 
+.rectangleButton-container{
+	margin: 0px;
+}
+*/
+/* buttons in METHANE and in welcome page */
+.rectangleButton:hover{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: var(--buttonShadow);
+	color: var(--grey_0);
+}
+.disabled.rectangleButton{
+  background-color:transparent;
+  color: var(--grey_50);
+  border-color: var(--grey_50);
+  cursor: not-allowed;
+}
+
+.disabled.rectangleButton:hover{
+  background-color: var(--grey_10);
+  color: var(--grey_50);
+}
+
+.rectangleButton:focus{
+	background-color: var(--primary_base);
+	color: var(--grey_0);
+	border: solid 2px var(--primary_base);
+	margin: 0px;
+}
+
+.rectangleButton:focus:hover{
+	background-color: var(--primary_50);
+	border: solid 2px var(--primary_50);
+	box-shadow: var(--buttonInsetShadow);;
+}
+
+/*********************** NEXT BUTTON ***********************/
+.next-container{
+	z-index: 4;
+	position: absolute;
+	top: -85px;
+	right: 10px;
+  overflow: visible;
+}
+
+.nextActionBtn { 
+  margin: 0.5em;
+  
+  padding: 1.8em;
+  height: 3.5em;
+  max-width: 12.5em;
+  border-radius: 25px;
+  font-weight: var(--boldWeight);
+  color: var(--gray_WHITE);
+  background: var(--secondary_base); 
+  box-shadow: var(--buttonShadow);
+}
+
+.nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
+  background: var(--secondary_50);
+	cursor: pointer;
+}
+
+.nextActionBtn > * > svg {
+	font-size: 1.6em;
+	margin: auto;
+}
+
+
+
+

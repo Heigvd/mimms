@@ -1,132 +1,84 @@
-import { GeometryType } from "../game/common/events/defineMapObjectEvent";
-import { Point } from "../map/point2D";
-import { getActionTemplate, planAction } from "../UIfacade/actionFacade";
+import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { bringOverlayToFront, toggleOverlayItem } from '../gameMap/mapEntities';
+import { Point } from '../map/point2D';
 
-const logger = Helpers.getLogger('mainSim-interface');
+const logger = Helpers.getLogger('mainSim.map');
 
 export const mapRef = Helpers.useRef<any>('map', null);
-export const buildingsRef = Helpers.useRef<any>("buildings", null);
-export const selectionLayerRef = Helpers.useRef<any>("selectionLayer", null);
+export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
 
-export function getInitialMapState() {
-	return {
-		mapAction: false,
-		mapSelect: false,
-		multiClick: false,
-		tmpFeature: {
-			feature: [],
-			geometryType: 'Point',
-		},
-		selectionState: {},
-	};
-}
-
-export function clearMapState() {
-	const newState = getInitialMapState();
-	Context.mapState.setState(newState);
-	if (buildingsRef.current) buildingsRef.current.changed();
+export interface MapState {
+  mapSelect: boolean;
+  selectionState: FixedMapEntity | undefined;
+  overlayState: LOCATION_ENUM[];
 }
 
 /**
- * Initialize a map interaction
+ * Get initial empty MapState object
+ *
+ * @returns initialMapState
  */
-export function startMapAction(feature: GeometryType) {
-	clearMapState();
-	logger.info('MAP ACTION: Action initiated');
-	const newState = Helpers.cloneDeep(Context.mapState.state);
-	newState.mapAction = true;
-	newState.multiClick = feature !== 'Point';
-	newState.tmpFeature.geometryType = feature;
-	Context.mapState.setState(newState);
+export function getInitialMapState(): MapState {
+  return {
+    mapSelect: false,
+    selectionState: undefined,
+    overlayState: [LOCATION_ENUM.chantier],
+  };
+}
+
+/**
+ * Reset mapState to initial state
+ */
+export function clearMapState() {
+  const newState = getInitialMapState();
+  newState.overlayState = Context.mapState.state.overlayState;
+  Context.mapState.setState(newState);
 }
 
 /**
  * Cancel current map action routine
  */
 export function endMapAction() {
-	logger.info('MAP ACTION: Action Cancelled')
-	clearMapState();
+  logger.info('MAP: Action cancelled');
+  clearMapState();
 }
 
+/**
+ * Start MapSelect routine
+ */
 export function startMapSelect() {
-	let params;
-	if (Context.action.featureSelection) {
-		params = Context.action.featureSelection;
-	}
-	if (Context.action.geometrySelection) {
-		params = Context.action.geometrySelection;
-	}
+  let params;
+  if (Context.action.fixedMapEntity) {
+    logger.info('MAP: Geometry Select Action started');
+    params = Context.action.fixedMapEntity;
+  }
 
-	clearMapState();
-	const newState = Helpers.cloneDeep(Context.mapState.state);
-	newState.mapSelect = true;
-	newState.selectionState = params;
-	Context.mapState.setState(newState);
-	wlog('startMapSelect');
+  clearMapState();
+  const newState = Helpers.cloneDeep(Context.mapState.state);
+  newState.mapSelect = true;
+  newState.selectionState = params;
+  Context.mapState.setState(newState);
 }
 
 /**
  * Map click handler
+ *
  * @param point Point
  * @param features
  */
 export function handleMapClick(
-	point: Point,
-	features: {
-		feature: Record<string, unknown>;
-		layerId?: string
-	}[],
+  _point: Point,
+  features: {
+    feature: Record<string, unknown>;
+    layerId?: string;
+  }[]
 ): void {
-	const interfaceState = Context.interfaceState.state;
-	const mapState = Context.mapState.state;
+  const mapEntities = features.find(f => f.layerId === 'available');
 
-	logger.info('MAP ACTION: Map click')
-	logger.info('MAP ACTION - isMapAction: ', Context.mapState.state.mapAction)
-
-	if (mapState.mapAction) {
-		if (mapState.tmpFeature === 'Point') {
-			const newState = Helpers.cloneDeep(Context.mapState.state);
-			newState.tmpFeature.feature = [point.x, point.y];
-			Context.mapState.setState(newState);
-		} else {
-			const newState = Helpers.cloneDeep(Context.mapState.state);
-			newState.tmpFeature.feature.push([point.x, point.y]);
-			Context.mapState.setState(newState);
-		}
-	} else if (mapState.mapSelect) {
-		const ref = getActionTemplate(interfaceState.currentActionUid)!.getTemplateRef();
-		const actor = interfaceState.currentActorUid;
-
-		if (mapState.selectionState.geometryType) {
-			const feature = features.find(f => f.layerId === 'selectionLayer');
-
-			if (feature) {
-				const index = feature.feature.name as number;
-
-				const tmpFeature = {
-					geometryType: feature.feature.type,
-					feature: mapState.selectionState.geometries[index],
-				}
-
-				planAction(ref, actor, tmpFeature);
-				clearMapState();
-			}
-		}
-		if (mapState.selectionState.layerId) {
-			wlog(features)
-			const feature = features.find(f => f.layerId === mapState.selectionState.layerId)
-			wlog(feature)
-			if (feature) {
-				const id = feature.feature[mapState.selectionState.featureKey];
-
-				const tmpFeature = {
-					featureKey: mapState.selectionState.featureKey,
-					featureId: id,
-				}
-
-				planAction(ref, actor, tmpFeature)
-				clearMapState();
-			}
-		}
-	}
+  if (mapEntities) {
+    const mapEntityId = mapEntities.feature['id'] as LOCATION_ENUM;
+    toggleOverlayItem(mapEntityId);
+    bringOverlayToFront(mapEntityId);
+  }
 }

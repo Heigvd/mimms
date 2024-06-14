@@ -1,50 +1,100 @@
 Key	EN	FR	
 basic-info-title	Scene examination	Examen de la scène	
 basic-info-desc	You take sometime to evaluate the situation	Vous prenez le temps d'évaluer la situation	
-basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur qui s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 	
-other-basic-info-title	Get information from passerby	Obtenir de l'information d'un passant	
-other-basic-info-desc	Take a minute to listen to a passerby that comes up to you and wants to tell you something seemingly important.	Prendre le temps d'écouter ce qu'un passant a à vous dire, apparemment quelque chose d'important.	
+basic-info-feedback	You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25. 	Vous faites un rapide tour de la scène. Il s’agit d’un accident d’un car de voyageur. Le car s’est renversé après avoir heurté un obstacle. Vous évaluez le nombre de victimes entre 15 et 25. 	
+other-basic-info-title	Request information from a passerby	Demander des informations à un passant	
+other-basic-info-desc	You ask a passerby, who is visibly agitated, to tell you what happened.	Vous demandez à un passant, visiblement agité, de vous raconter ce qui s'est passé.	
 other-basic-info-feedback	The passer-by seems to be in a state of shock. He didn't see what happened.	Le passant semble en état de choc. Il n'a pas vu ce qui s'est passé.	
-basic-info-police-title	Get police information	Obtenir des informations de la police	
-basic-info-police-desc	You approach a nearby police car to get some more information about the situation	Vous approchez d'une voiture de police pour obtenir des informations	
+basic-info-police-title	Request information from the police	Demander des informations de la police	
+basic-info-police-desc	You approach a police car and ask for information	Vous approchez d'une voiture de police et demander des informations	
 basic-info-police-feedback	Police are informing you that rue de Lausanne is now closed to traffic in both directions.	La police vous informe que la rue de Lausanne est maintenant coupée à la circulation dans les deux sens.	
-basic-info-firefighter-title	Get firefighter information	Obtenir des informations des pompiers	
-basic-info-firefighter-desc	You approach a firefighter truck to get information.	Vous vous approchez d'un camion pompier pour obtenir des informations.	
-basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the bus, which now has to be shored up and extricated. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car, qui doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.	
-define-PC-title	Define command post location	Placer le poste de commandement	
-define-PC-desc	Pick a position on the map for your command post	Définir l'emplacement du poste de commandement sur la carte	
-define-PC-feedback	The command post is now ready	Le post de commandement est maintenant prêt	
-define-Nest-title	Define survivor reception center location	Placer le nid de blessés	
-define-Nest-desc	Pick a position on the map for the survivor reception center	Définir l'emplacement du nid de blessés sur la carte	
+basic-info-firefighter-title	Request information from the fire brigade	Demander des informations des pompiers	
+basic-info-firefighter-desc	You approach a firefighter truck and ask for information	Vous vous approchez d'un camion pompier pour obtenir des informations.	
+basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car. Celui-ci doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.	
+define-PC-title	Positioning the command post (CP)	Placer le poste de commandement (PC)	
+define-PC-desc	Choose a position for the command post CP	Choisir l'emplacement du PC	
+define-PC-feedback	The CP is now ready	Le poste de commandement est maintenant prêt	
+define-Nest-title	Positioning survivor reception center location	Placer le nid de blessés	
+define-Nest-desc	Choose a position for the survivor reception center	Choisir l'emplacement du nid de blessés	
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé	
-define-PMA-title	Deciding where to locate the advanced medical post	Décider de l’emplacement du poste médical avancé (PMA)	
-define-PMA-desc	Pick a location on the map for the advanced medical post	Décider de l'emplacement du poste médical avancé (PMA) sur la carte	
-define-PMA-feedback	The advanced medical post can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
-define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation.	
-define-accreg-desc	Define the access and egress routes along that your resources will use.	Définir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site.	
-define-accreg-feedback	You successfully defined access and regress routes for the incident. 	Vous avez défini les routes d'accès et d'évacuation du chantier.	
+define-PMA-title	Positioning the advanced medical post location (AMP)	Placer le poste médical avancé (PMA)	
+define-PMA-desc	Choose a position for the AMP	Choisir l'emplacement du poste médical avancé (PMA)	
+define-PMA-feedback	The AMP can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
+define-ambulance-park-title	Define ambulance park location	Placer le parc ambulance	
+define-ambulance-park-desc	Choose a position for the ambulance park	Choisir l'emplacement du parc ambulances	
+define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance est maintenant prêt	
+define-helicopter-park-title	Define helicopter park location	Placer le parc hélicoptère	
+define-helicopter-park-desc	Choose a position for the helicopter park	Choisir l'emplacement du parc hélicoptères	
+define-helicopter-park-feedback	The helicopter park is now ready	Le parc hélicoptère est maintenant prêt	
+define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation	
+define-accreg-desc	Choose a position for access and egress routes along that your resources will use.	Choisir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site	
+define-accreg-feedback	Access and regress routes are defined	Les routes d'accès et d'évacuation sont définies	
 casu-message-title	Send message to CASU	Envoyer un message à CASU	
 casu-message-title-MET	Send MET	Envoi du MET	
 casu-message-title-HANE	Send HANE	Envoi du HANE	
 casu-message-title-E	Send E	Envoi du E	
-casu-message-title-METHANE	Send METHANE	Envoie du METHANE	
+casu-message-title-METHANE	Send METHANE	Envoi METHANE	
+casu-message-title-R	Request for hospital information	Demande d'informations sur hôpitaux	
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
-send-resources-title	Send resources	Envoyer des ressources	
-send-resources-desc	Transfer some of your resources to another actor	Transférer certaines de vos ressources à un autre acteur	
-send-resources-feedback	You received resources	Vous avez reçu des ressources	
-assign-task-title	Assign a task	Assigner une tâche	
-assign-task-desc	Assign resources to a task	Assigner des ressources à une tâche	
-assign-task-feedback	You assigned resources to a task	Vous avez assigné des ressources à une tâche	
-release-task-title	Release resources	Rappeler des ressources	
-release-task-desc	Release resources from a task	Rappelle des ressources d'une tâche	
-release-task-feedback	You released resources from a task	Vous avez rappelé des ressources	
 on-the-road	On the way	En route	
 pre-tri-title	Pre-triage	Pré-triage	
 brancardage-title	Brancardage	Brancardage	
+request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
 pretriage-task-completed	Pre-triage done	Pré-triage terminé	
+porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
+porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé	 
+porters-task-nid-completed	Patients evacuation done from the survivor receptor center	Brancardage depuis le nid de blessés terminé	 
+healing-title	Patients care	Soins des patients	
+healing-desc	Patients care	Soins des patients	
+healing-pma-red-title	Red patients care	Soins des patients rouges	
+healing-pma-red-desc	Red patients care	Soins des patients rouges	
+healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes	
+healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes	
+healing-pma-green-title	Green patients care	Soins des patients verts	
+healing-pma-green-desc	Green patients care	Soins des patients verts	
 send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
+define-meetingPoint-title	Define meeting point	Placer le point de rassemblement	
+define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
+define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
+move-actor-title	Move to another location	Se déplacer	
+move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
+move-actor-feedback	Moving	En déplacement	
+appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
+appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
+appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
+appoint-EVASAN-wentWrong-feedback	You could not appoint an EVASAN	Vous n'avez pas pu nommer un EVASAN	
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
+define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
+define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
+waiting-title	Waiting	En attente	
+currentActivity	Current Activity	Activité en cours	
+targetActivity	Target Activity	Activité à destination	
+move-res-task-title	Assign resource	Assigner ressource	
+move-res-task-desc	Send resources	Envoyer des ressources	
+move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succès	
+move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} faisant {2} vont aller à {3} faire {4}	
+move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
+move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
+move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
+get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
+evacuate-title	Evacuation	Evacuation	
+evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
+evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
+evacuate-task-started	Evacuation of patient {0} {1} {2} {3}	Évacuation du patient {0} {1} {2} {3}	
+evacuate-task-abort	The evacuation is aborted because there are not enough resources	L'évacuation est annulée parce qu'il n'y a pas assez de ressources	
+by-ambulance	By ambulance	En ambulance	
+by-helicopter	By helicopter	En hélicoptère	
+with-healer	With healer	Avec soignant	
+with-healers	With healers	Avec soignants	
+without-healer	Without healer	Sans soignant	
+patient	Patient	Patient	
+patients	Patients	Patients	
+no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA	
+no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
+place	Place	Lieu	
+vector	Vector	Vecteur	

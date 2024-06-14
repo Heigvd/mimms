@@ -1,0 +1,70 @@
+/*** Header ***/
+
+/* the header's text */ 
+.evasanChoicesTitle > *{
+  font-weight: var(--boldWeight);
+  font-size: var(--M_text);
+}
+
+/* the whole header */
+.choiceHeader-container{
+  width: 100%;
+  height: 3rem;
+}
+
+.dropdownTitle{
+  font-size: var(--S_text);
+}
+
+/* open carret icon on open/close choice + color for left icon in choices header*/
+.choiceCloseIcon{
+  color: var(--grey_60);
+  transform: rotate(180deg);
+}
+
+.choiceCloseIcon.closeIcon{
+  transform: rotate(0deg);
+}
+
+.unfilledChoiceIcon{
+  color: var(--yellow_base);
+}
+
+.unfilledChoiceIcon.filledChoiceIcon{
+  color: green;
+}
+
+/*** Content ***/
+/*** Vector ***/
+
+.selectableRow-container{
+  background-color:var(--grey_10);
+  width: 100%;
+  padding: 0px 5px;
+  margin: 0px;
+}
+
+.selectableRow-container:hover{
+  background-color: var(--primary_10);
+}
+
+
+.selectableRow-container.selectedVectorSquad{
+  background-color: var(--primary_base);
+  color: var(--grey-white);
+  font-weight: var(--boldWeight);
+}
+
+.selectableRow-container.selectedVectorSquad:hover{
+  background-color: var(--primary_40);
+}
+
+
+/*** General EVASAN FORM ***/
+
+.evasanChoicesBox-container{
+  /*background-color: antiquewhite;*/
+  border-radius: var(--XXS_borderRadius);
+  border: solid 1px var(--grey_20);
+  margin-bottom: 5px;
+}

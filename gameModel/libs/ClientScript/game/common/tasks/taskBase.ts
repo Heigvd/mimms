@@ -1,39 +1,65 @@
-import { taskLogger } from "../../../tools/logger";
-import { getTranslation } from "../../../tools/translation";
-import { Actor } from "../actors/actor";
-import { SimTime, TaskId, TranslationKey } from "../baseTypes";
-import { MainSimulationState } from "../simulationState/mainSimulationState";
-import * as TaskState from "../simulationState/taskStateAccess";
-
+import { taskLogger } from '../../../tools/logger';
+import { getTranslation } from '../../../tools/translation';
+import { Actor, InterventionRole } from '../actors/actor';
+import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { SubTask } from './subTask';
+import { Resource } from '../resources/resource';
+import * as ResourceState from '../simulationState/resourceStateAccess';
+import * as TaskState from '../simulationState/taskStateAccess';
+import { localEventManager } from '../localEvents/localEventManager';
+import {
+  AddRadioMessageLocalEvent,
+  ReleaseResourcesFromTaskLocalEvent,
+  TaskStatusChangeLocalEvent,
+} from '../localEvents/localEventBase';
+import { ActionType } from '../actionType';
+import { Category } from '../../pretri/triage';
 
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
 
+const TASK_SEED_ID: TaskId = 4000;
+
 // -------------------------------------------------------------------------------------------------
-// Base
+// -------------------------------------------------------------------------------------------------
+// Task base
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
 /**
  * Base class for a task
  */
-export abstract class TaskBase {
+export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
+  private static idProvider: TaskId = TASK_SEED_ID;
 
-  private static IdSeed = 1000;
+  public static resetIdSeed() {
+    TaskBase.idProvider = TASK_SEED_ID;
+  }
+
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
 
-  public constructor(
-    readonly title: TranslationKey,
-    readonly description: TranslationKey,
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number) {
-    this.Uid = TaskBase.IdSeed++;
-    this.status = 'Uninitialized';
-  }
+  public subTasks: Record<SubTaskId, SubTaskType>;
 
-  static resetIdSeed() {
-    this.IdSeed = 1000;
+  protected constructor(
+    readonly title: TranslationKey,
+    readonly description: TranslationKey, // currently not used
+    readonly nbMinResources: number,
+    readonly nbMaxResources: number, // currently not used
+    /** the actor role owner of the task */
+    readonly ownerRole: InterventionRole,
+    /** the locations where the task can take place */
+    readonly availableToLocations: LOCATION_ENUM[] = [],
+    /** which roles can order the task */
+    readonly availableToRoles: InterventionRole[] = [],
+    readonly isStandardAssignation: boolean = true
+  ) {
+    this.Uid = ++TaskBase.idProvider;
+    this.status = 'Uninitialized';
+    this.subTasks = {};
   }
 
   /** Its short name */
@@ -41,17 +67,20 @@ export abstract class TaskBase {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
+  // TODO see if useful
   /** Its description to give more details */
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
+  // TODO see if useful
   // TODO to be refined with types
   /** The minimum resources needed for the task to be performed */
   public getNbMinResources(): number {
     return this.nbMinResources;
   }
 
+  // TODO see if useful
   // TODO to be refined with types
   /** The maximum useful resources. More would be useless */
   public getNbMaxResources(): number {
@@ -72,54 +101,65 @@ export abstract class TaskBase {
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  // TODO see where it can go
-  // Note : based on cancel method on ationBase
+  // TODO see where it can go and if it is needed
+  // Note : based on cancel method on actionBase
   public cancel(): boolean {
-    if(this.status === "Cancelled") {
+    if (this.status === 'Cancelled') {
       taskLogger.warn('This action was cancelled already');
-
-    } else if(this.status === 'Completed') {
+    } else if (this.status === 'Completed') {
       taskLogger.error('This action is completed, it cannot be cancelled');
       return false;
     }
 
     // TODO some way ResourceState.releaseAllResources(state, this);
-    this.setStatus('Cancelled');
+    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
     return true;
   }
 
-	/** Is the task ready for an actor to allocate resources to start it. Aka can the actor see it to allocate resources. */
-	public abstract isAvailable(state : Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean;
-
-  /** Update the state */
-  public abstract update(state: Readonly<MainSimulationState>, timeJump: number): void;
-
-}
-
-// -------------------------------------------------------------------------------------------------
-// Default
-// -------------------------------------------------------------------------------------------------
-
-/**
- * Default behaviour of a task
- */
-export abstract class DefaultTask extends TaskBase {
-
-  /** The last time that the task was updated */
-  protected lastUpdateSimTime : SimTime | undefined = undefined;
-
-  public constructor(
-    readonly title: TranslationKey,
-    readonly description: TranslationKey,
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number) {
-    super(title, description, nbMinResources, nbMaxResources);
+  /** Is the task ready for an actor to allocate resources to start it. */
+  public isAvailable(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>,
+    location: Readonly<LOCATION_ENUM>,
+    checkStandardAssignation: boolean
+  ): boolean {
+    return (
+      this.isRoleWiseAvailable(actor.Role) &&
+      this.isLocationWiseAvailable(location) &&
+      this.isAvailableCustom(state, actor, location) &&
+      (!checkStandardAssignation || this.isStandardAssignation)
+    );
   }
 
-  protected abstract dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void;
+  protected isRoleWiseAvailable(role: InterventionRole): boolean {
+    return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
+  }
 
+  protected isLocationWiseAvailable(location: LOCATION_ENUM): boolean {
+    return this.availableToLocations.includes(location) || this.availableToLocations.length === 0;
+  }
+
+  /**
+   * Override adds additional conditions for this task availability
+   *
+   * @param _state
+   * @param _actor
+   * @param _location
+   *
+   * @see isAvailable
+   */
+  // to override when needed
+  protected isAvailableCustom(
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>,
+    _location: Readonly<LOCATION_ENUM>
+  ): boolean {
+    return true;
+  }
+
+  /** Update the state */
   public update(state: Readonly<MainSimulationState>, timeJump: number): void {
-    const enoughResources = TaskState.hasEnoughResources(state, this);
+    const hasAnyResource = TaskState.isAtLeastOneResource(state, this);
 
     switch (this.status) {
       case 'Cancelled':
@@ -131,36 +171,36 @@ export abstract class DefaultTask extends TaskBase {
       }
 
       case 'Uninitialized': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = "OnGoing";
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
 
-        // no evolution if not enough resources
-
+        // no evolution if no resource
         break;
       }
 
       case 'OnGoing': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task : dispatch local events to update the state');
 
           this.dispatchInProgressEvents(state, timeJump);
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = "Paused";
+          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
         }
+
         break;
       }
 
       case 'Paused': {
-        if (enoughResources) {
+        if (hasAnyResource) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = "OnGoing";
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
         break;
@@ -172,220 +212,151 @@ export abstract class DefaultTask extends TaskBase {
         break;
       }
     }
+  }
 
-    this.lastUpdateSimTime = state.getSimTime();
+  protected abstract dispatchInProgressEvents(
+    state: Readonly<MainSimulationState>,
+    timeJump: number
+  ): void;
+
+  /*
+   * Cleanup sub-tasks according to new allocated resources information.
+   * <p>
+   * A resource that was working on a sub-task may have been unallocated to the task.
+   * <p>
+   * In that cas, the sub-task is stopped and everything goes as if nothing happened.
+   */
+  protected cleanupSubTasksFromUnallocatedResources(state: Readonly<MainSimulationState>) {
+    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
+      state,
+      this.Uid
+    );
+
+    // FIXME see if no problem removing element from the list we browse
+
+    for (const subTask of Object.values(this.subTasks)) {
+      for (const subTaskResourceId of subTask.resources) {
+        if (
+          allocatedToTaskResources.find(resource => resource.Uid === subTaskResourceId) ===
+          undefined
+        ) {
+          // if a resource is no more working on the task, then delete complete sub-task
+          delete this.subTasks[subTask.subTaskId];
+          // no need to go through other resources
+          break;
+        }
+      }
+    }
+  }
+
+  /*
+   * Get the resources that are allocated to the task, but not involved in a sub-task
+   */
+  protected getResourcesReadyForNewSubTask(state: Readonly<MainSimulationState>): Resource[] {
+    const result: Resource[] = [];
+
+    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
+      state,
+      this.Uid
+    );
+    allocatedToTaskResources.map(resource => {
+      if (!this.isResourceInvolvedInASubTask(resource.Uid)) {
+        result.push(resource);
+      }
+    });
+
+    return result;
+  }
+
+  /*
+   * Determine if the resource is involved in a sub-task
+   */
+  protected isResourceInvolvedInASubTask(resourceId: number): boolean {
+    return (
+      Object.values(this.subTasks).find((subTask: SubTaskType) =>
+        subTask.resources.find((subTaskResourceId: ResourceId) => subTaskResourceId === resourceId)
+      ) !== undefined
+    );
+  }
+
+  /*
+   * Get the patients that are involved in a sub-task
+   */
+  protected getPatientsInvolvedInSubTasks(): PatientId[] {
+    return Object.values(this.subTasks)
+      .filter(subTask => subTask.patientId != null)
+      .map(subTask => subTask.patientId!);
+  }
+
+  protected finaliseTask(
+    state: Readonly<MainSimulationState>,
+    feedbackRadioMessage: TranslationKey
+  ) {
+    localEventManager.queueLocalEvent(
+      new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
+    );
+
+    localEventManager.queueLocalEvent(
+      new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
+    );
+
+    // We broadcast a message when the task is completed
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        0,
+        state.getSimTime(),
+        0,
+        'resources',
+        feedbackRadioMessage || 'TODO add task feedback',
+        ActionType.RESOURCES_RADIO,
+        undefined,
+        true
+      )
+    );
   }
 }
 
-
 // -------------------------------------------------------------------------------------------------
-// PreTriage
 // -------------------------------------------------------------------------------------------------
+// Healing
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// should be in its own file, but does not compile in wegas ...
 
 /**
- * Default behaviour of a task
+ * Task to treat patients.
  */
-/*
-export class PreTriageTask extends DefaultTask {
-
+export class HealingTask extends TaskBase {
   public constructor(
-    readonly title: TranslationKey,
-    readonly description: TranslationKey,
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number,
-    //readonly zone: string, // TODO see how represent it
-    readonly feedbackAtEnd : TranslationKey,
+    title: TranslationKey,
+    description: TranslationKey,
+    nbMinResources: number,
+    nbMaxResources: number,
+    ownerRole: InterventionRole,
+    availableToLocations: LOCATION_ENUM[],
+    availableToRoles?: InterventionRole[],
+    readonly patientPriority?: Category<string>['priority']
   ) {
-    super(title, description, nbMinResources, nbMaxResources);
+    super(
+      title,
+      description,
+      nbMinResources,
+      nbMaxResources,
+      ownerRole,
+      availableToLocations,
+      availableToRoles
+    );
   }
 
-  public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
-    //return state.areZonesAlreadyDefined();
-	return getNonPreTriagedPatientsSize(state) > 0;
-  }
-
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
-    // check if we have the capacity to do something
-    if (!TaskState.hasEnoughResources(state, this)) {
-		taskLogger.info("Not enough resources!");
-      	return;
+  protected override dispatchInProgressEvents(
+    _state: Readonly<MainSimulationState>,
+    _timeJump: number
+  ): void {
+    // no effect
+    if (this.patientPriority != null) {
+      taskLogger.info('healing for priority ' + this.patientPriority);
+    } else {
+      taskLogger.info('healing');
     }
-		taskLogger.info("Patients not pretriaged before action: " + getNonPreTriagedPatientsSize(state));
-		const RESOURCE_EFFICACITY = 1;
-		const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
-		ResourceState.getAllocatedResourcesAnyKind(state, this.Uid).map(resource => {
-			if ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY >= TIME_REQUIRED_FOR_PATIENT_PRETRI){
-
-				(resource as Resource).cumulatedUnusedTime = ((resource.cumulatedUnusedTime + timeJump)*RESOURCE_EFFICACITY) - TIME_REQUIRED_FOR_PATIENT_PRETRI;
-				const nextPatient = getNextNonPreTriagedPatient(state);
-				if (nextPatient)
-					nextPatient.preTriageResult = doPatientAutomaticTriage(nextPatient.humanBody, state.getSimTime())!;
-			}
-			else {
-				(resource as Resource).cumulatedUnusedTime += timeJump;
-			}
-		});
-
-		taskLogger.info("Patients not pretriaged after action: " + getNonPreTriagedPatientsSize(state));
-
-		if (getNonPreTriagedPatientsSize(state) === 0){
-			localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
-			localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
-
-			//get distinct pretriage categories with count
-			let result = "Result: ";
-			Object.entries(getPreTriagedAmountByCategory(state)).forEach(([key, value]) => {
-				result += key + ": " + value + "\n";
-			});
-
-			// FIXME See to whom and from whom
-			state.getAllActors().forEach(actor => {
-				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd + "\n" + result));
-			});
-		}
   }
-
 }
-
-export class PorterTask extends DefaultTask {
-
-  private GROUP_SIZE = 2;
-  private TIME_REQUIRED_FOR_TRANSPORT = 120;
-  private TIME_REQUIRED_FOR_SELF_TRANSPORT = 60;
-
-  private resourcesGroups: TaskResourcesGroup[] = [];
-  private instructedToMovePatients: string[] = [];
-
-  public constructor(
-    readonly title: TranslationKey,
-    readonly description: TranslationKey,
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number,
-    readonly feedbackAtEnd : TranslationKey,
-  ) {
-    super(title, description, nbMinResources, nbMaxResources);
-  }
-
-  private isAlreadyGroupMember(resourceId: number): boolean {
-	  return this.resourcesGroups.find(group => group.resources.find(groupedResourceId => groupedResourceId === resourceId)) !== undefined
-  }
-
-  private cleanupUnallocatedResourcesAndGroups(allocatedResources: Resource[]) {
-	  for (const resourceGroup of this.resourcesGroups) {
-		for (const resourceId of resourceGroup.resources) {
-			if (allocatedResources.find(resource => resource.Uid === resourceId) === undefined){
-				//if resource not found, then delete complete group
-				this.resourcesGroups.splice(this.resourcesGroups.indexOf(resourceGroup), 1);
-			}
-		}
-	  }
-  }
-
-  private groupUnallocatedResources(allocatedResources: Resource[]) {
-	const toBeGroupedResources: number[] = [];
-	allocatedResources.map(resource => {
-		if (!this.isAlreadyGroupMember(resource.Uid)) {
-			toBeGroupedResources.push(resource.Uid);
-		}
-	});
-	
-	while ( toBeGroupedResources.length >= this.GROUP_SIZE ) {
-		const taskGroup = new TaskResourcesGroup(toBeGroupedResources.splice(0, this.GROUP_SIZE));
-		this.resourcesGroups.push(taskGroup);
-
-	}
-  }
-
-  private getAssignedToResourcesGroupPatientIds(): string[] {
-	  return this.resourcesGroups.filter(resourceGroup => resourceGroup.transportingPatientId !== undefined).map(resourceGroup => resourceGroup.transportingPatientId!);
-  }
-
-  public isAvailable(state: Readonly<MainSimulationState>, actor : Readonly<Actor>): boolean {
-	return getNonTransportedPatientsSize(state) > 0;
-  }
-
-  protected dispatchInProgressEvents(state: Readonly<MainSimulationState>, timeJump: number): void {
-    // check if we have the capacity to do something
-    if (!TaskState.hasEnoughResources(state, this)) {
-		taskLogger.info("Not enough resources!");
-      	return;
-    }
-	taskLogger.info("Patients not transported before action: " + getNonTransportedPatientsSize(state));
-	taskLogger.info("Current porter groups: ", this.resourcesGroups);
-
-
-	//1. cleanup instance groups according to new allocated resources information
-	this.cleanupUnallocatedResourcesAndGroups(ResourceState.getAllocatedResourcesAnyKind(state, this.Uid));
-
-	taskLogger.info("Current porter groups after cleanup: ", this.resourcesGroups);
-
-	//2. Group resources not grouped yet
-  	this.groupUnallocatedResources(ResourceState.getAllocatedResourcesAnyKind(state, this.Uid));
-
-	taskLogger.info("Current porter groups after grouping: ", this.resourcesGroups);
-
-	//3. move patients
-	console.log("INSTRUCTED TO MOVE: ", this.instructedToMovePatients);
-	const assignedToResourcesGroupPatients: string[] = this.getAssignedToResourcesGroupPatientIds();
-	this.resourcesGroups.map(resourceGroup => {
-		let nextPatient;
-		if (resourceGroup.transportingPatientId)
-			nextPatient = getPatient(state, resourceGroup.transportingPatientId);
-		else
-			nextPatient = getNextNonTransportedPatientByPriority(state, this.instructedToMovePatients.concat(assignedToResourcesGroupPatients));
-
-		console.log("NEXT PATIENT: ", nextPatient);
-		if (nextPatient) {
-			if (
-				(nextPatient.preTriageResult &&
-				(getPriorityByCategoryId(nextPatient.preTriageResult.categoryId!) === 1 ||
-				getPriorityByCategoryId(nextPatient.preTriageResult.categoryId!) === 2 ||
-				!nextPatient.preTriageResult.vitals["vitals.canWalk"]))
-				||
-				(!nextPatient.humanBody.state.vitals.canWalk)
-				) {
-				//3.a cannot walk, handle transport
-				//timejump is enough to transport patient, so we just move it and unassign patient
-				if ((resourceGroup.cumulatedUnusedTime + timeJump) >= this.TIME_REQUIRED_FOR_TRANSPORT){
-					console.log("TRANSPORTING");
-					resourceGroup.cumulatedUnusedTime = (resourceGroup.cumulatedUnusedTime + timeJump) - this.TIME_REQUIRED_FOR_TRANSPORT;
-					nextPatient.location = LOCATION_ENUM.PMA; //TODO: implement better logic
-					resourceGroup.transportingPatientId = undefined;
-				}
-				else {
-					console.log("ADDING TO GROUP");
-					//timejump is not enough, we cumulate time and assign patient to group
-					resourceGroup.transportingPatientId = nextPatient.patientId
-					resourceGroup.cumulatedUnusedTime += timeJump;
-				}
-			}
-			else {
-				console.log("CAN WALK");
-				//3.a can walk, instruct to move
-				// Even if resources are removed, action will be completed by patient, just fire an event
-				localEventManager.queueLocalEvent(new PatientMovedLocalEvent(0, state.getSimTime()+this.TIME_REQUIRED_FOR_SELF_TRANSPORT, this.Uid, nextPatient.patientId, LOCATION_ENUM.PMA));
-				this.instructedToMovePatients.push(nextPatient.patientId)
-				resourceGroup.transportingPatientId = undefined;
-			}
-		}
-	});
-
-	taskLogger.info("Current porter groups after treatment: ", this.resourcesGroups);
-
-	taskLogger.info("Patients not transported after action: " + getNonTransportedPatientsSize(state));
-	
-	//4. completed
-	if (getNonTransportedPatientsSize(state) === 0){
-			this.resourcesGroups = [];
-			localEventManager.queueLocalEvent(new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed'));
-			localEventManager.queueLocalEvent(new AllResourcesReleaseLocalEvent(0, state.getSimTime(), this.Uid));
-
-			// FIXME See to whom and from whom
-			state.getAllActors().forEach(actor => {
-				localEventManager.queueLocalEvent(new AddRadioMessageLocalEvent(0, state.getSimTime(), actor!.Uid, 'resources', this.feedbackAtEnd));
-			});
-		}
-		
-  }
-
-}*/

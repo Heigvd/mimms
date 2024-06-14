@@ -3,36 +3,36 @@
 	border-right: 1px solid var(--gray_200);	
 }
 
-
-
 .actor {
 	height: 2em;
-    width: 4em;
-    background: var(--interface_0);
-	color: var(--interface_700);
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--L_borderRadius);
+  background-color: var(--gray_150);
+	color: var(--primary_90);
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--L_borderRadius);
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
-	padding: 15px 5px 15px 5px;
+	padding: 15px 8px 15px 8px;
 	animation: popping 1s linear;
-	
-}
-
-.actor.current {
-	background: var(--interface_0);
-	box-shadow: inset 0px 0px 0px 3px var(--interface_BLUE);
 }
 
 .actor:hover{
-	background:var(--interface_100);
-	cursor: pointer;
+	background:var(--gray_200);
+	color:var(--gray_700);
+}
+
+.actor.current {
+	background-color: var(--primary_base);
+	color: var(--gray_WHITE);
 	
 }
 
+.actor.current:hover{
+	background-color: var(--primary_40);
+}
+
 .actor:focus:hover{
-	background:var(--interface_100);
+	background:var(--primary_20);
 	cursor: pointer;
 }
 

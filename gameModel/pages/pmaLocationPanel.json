@@ -1,0 +1,132 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h2title",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'patients')",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "alignSelf" : "flex-end",
+        "icon" : "external-link-alt",
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showPatientModal = !newState.showPatientModal;\nContext.interfaceState.setState(newState);",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : {
+          "color" : "var(--secondary_base)"
+        }
+      },
+      "type" : "Icon"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { getPatientsForLocation } from \"./UIfacade/patientFacade\";\n getPatientsForLocation(LOCATION_ENUM.PMA).length > 0;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "noPatients",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'no-patients-pma')",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.patient.patientId",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getDivForCategory } from \"./UIfacade/patientFacade\";\n  getDivForCategory(Context.patient.patientId);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "className" : "",
+            "layout" : {
+              "alignItems" : "center",
+              "justifyContent" : "space-between"
+            },
+            "layoutClassName" : "patientEvenOddList-container patientLine-container",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getPatient } from './UIfacade/patientFacade';\nlet newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nContext.interfaceState.setState(newState);\nnewState.showPatientModal = !newState.showPatientModal;\nContext.currentPatient.setState(getPatient(Context.patient.patientId));",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patient",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { LOCATION_ENUM } from './game/common/simulationState/locationState';\nimport { getPatientsForLocation } from './UIfacade/patientFacade';\n    getPatientsForLocation(LOCATION_ENUM.PMA)",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "patientId",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : {
+          "height" : "250px",
+          "width" : "100%"
+        },
+        "style" : {
+          "height" : "250px",
+          "overflow" : "auto",
+          "width" : "100%"
+        }
+      },
+      "type" : "For each"
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "import { LOCATION_ENUM } from './game/common/simulationState/locationState';\nimport { getSelectedActorLocation } from './UIfacade/actorFacade';\n  getSelectedActorLocation() !== LOCATION_ENUM.PMA;",
+      "language" : "typescript"
+    },
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

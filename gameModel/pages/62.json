@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "Context.item.emitter;",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\n \t\tif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\n  \n  getNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;",
+                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  }\n  '...';",
                   "language" : "TypeScript"
                 }
               },
@@ -45,6 +45,22 @@
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-last",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.EVASAN_RADIO, Context.item.uid);",
+                "language" : "typescript"
+              }
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -55,26 +71,25 @@
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "style" : {
-              "max-height" : "300px"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "className" : "messageArea",
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages();",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.EVASAN_RADIO));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "style" : {
-          "max-height" : "350px",
-          "overflow-y" : "auto"
+          "overflow" : "auto"
         }
       },
       "type" : "For each"
@@ -82,59 +97,1035 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "mimms_h2title",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'evacuate-title')}`",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.evasam = Context.evasam;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isPatientChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isPatientChoiceFilled();",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'patient')}`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
                   },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"evasam\"",
-                    "language" : "TypeScript"
-                  }
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isPatientChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceOpen();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
                 },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "rows" : 2,
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.channelText.evasam;",
-                  "language" : "TypeScript"
-                },
-                "style" : {
-                  "border" : "none",
-                  "height" : "100px",
-                  "resize" : "none",
-                  "width" : "100%"
-                }
+                "layoutClassName" : "noPadding noMargin   choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "patientChoiceHeader",
+                "style" : { }
               },
-              "type" : "String input"
+              "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "pink l_button",
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientsAvailableForEvacuation } from \"./UIfacade/patientFacade\";\ngetPatientsAvailableForEvacuation();",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { selectPatientId } from \"./UIfacade/evacuationFacade\";\n\nselectPatientId(Context.patientId);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"patientId\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\ngetPatientId() || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    } ],
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isPatientChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceOpen();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\ngetPatientId();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientId } from \"./UIfacade/evacuationFacade\";\nimport { getDivForCategory } from \"./UIfacade/patientFacade\";\ngetDivForCategory(getPatientId()!);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isPatientChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isPatientChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "patientChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "name" : "patientChoice",
+            "style" : {
+              "width" : "100%"
+            }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isDestinationChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isDestinationChoiceFilled();",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'targetLocation')}`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isDestinationChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceOpen();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding noMargin  choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "destinationChoiceHeader",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacHospitalsChoices } from \"./UIfacade/evacuationFacade\";\ngetEvacHospitalsChoices();",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { selectHospitalId } from \"./UIfacade/evacuationFacade\";\n\nselectHospitalId(Context.hospitalId);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"hospitalId\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "import { getHospitalId } from \"./UIfacade/evacuationFacade\";\ngetHospitalId() || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getHospitalId, getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(getHospitalId());",
+                          "language" : "typescript"
+                        },
+                        "className" : "evacuationInputField",
+                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutStyle" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { selectPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\n\nselectPatientUnitAtHospital(Context.patientUnitAtHospital);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"patientUnitAtHospital\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital() || '';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    } ],
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isDestinationChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceOpen();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : " noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getHospitalShortName } from \"./UIfacade/evacuationFacade\";\ngetHospitalShortName();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isDestinationChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isDestinationChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-evenly"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "destinationChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : {
+              "width" : "100%"
+            },
+            "name" : "destinationChoice",
+            "style" : {
+              "width" : "100%"
+            }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "filledChoiceIcon",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isVectorChoiceFilled } from \"./UIfacade/evacuationFacade\";\n  isVectorChoiceFilled();",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "exclamation-circle",
+                        "layoutClassName" : "unfilledChoiceIcon",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "evasanChoicesTitle",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-actions-tasks', 'vector')}`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "noMargin noPadding",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noMargin noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : "closeIcon",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isVectorChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceOpen();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "caret-square-down",
+                    "layoutClassName" : "choiceCloseIcon",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding noMargin choiceHeader-container",
+                "layoutStyle" : { },
+                "name" : "vectorChoiceHeader",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "ambulance",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "helicopter",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "className" : "noPadding noMargin",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "selection",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbDrivers } from \"./UIfacade/evacuationFacade\";\ngetNbDrivers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'driver')}`",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "driver",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbHealers } from \"./UIfacade/evacuationFacade\";\ngetNbHealers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'healer')}`",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "healers",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "selectableRow",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "selectedVectorSquad",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { isSelectedSquad } from \"./UIfacade/evacuationFacade\";\nisSelectedSquad(Context.evacSquadDef.uid);",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isEvacSquadEnabled } from \"./UIfacade/evacuationFacade\";\n!isEvacSquadEnabled(Context.evacSquadDef.uid);",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "alignItems" : "center",
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "selectableRow-container",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { selectTransportSquad } from \"./UIfacade/evacuationFacade\";\n\nselectTransportSquad(Context.evacSquadDef.uid);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "selectableRow",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "evacSquadDef",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacSquadDefinitions } from \"./UIfacade/evacuationFacade\";\ngetEvacSquadDefinitions();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : " ''",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { selectDoResourcesComeBack } from \"./UIfacade/evacuationFacade\";\n\nselectDoResourcesComeBack(Context.doResourcesComeBack);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"doResourcesComeBack\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "vectorComeback",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isVectorChoiceOpen } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceOpen();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : " noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "open",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "ambulance",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "helicopter",
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "className" : "noPadding noMargin",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "name" : "selection",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbDrivers } from \"./UIfacade/evacuationFacade\";\ngetNbDrivers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'driver')}`",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "driver",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getNbHealers } from \"./UIfacade/evacuationFacade\";\ngetNbHealers(Context.evacSquadDef);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'healer')}`",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "healers",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isSelectedSquad, isVectorChoiceClosedAndFilled} from \"./UIfacade/evacuationFacade\";\n!isSelectedSquad(Context.evacSquadDef.uid) || !isVectorChoiceClosedAndFilled();",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "alignItems" : "center",
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "selectedRow",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "evacSquadDef",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacSquadDefinitions } from \"./UIfacade/evacuationFacade\";\ngetEvacSquadDefinitions();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"doResourcesComeBack\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "vectorComeback",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : " noPadding",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isVectorChoiceClosedAndFilled } from \"./UIfacade/evacuationFacade\";\n!isVectorChoiceClosedAndFilled();",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : " noPadding",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "name" : "closedAfter",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "vectorChoiceContent",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "noPadding noMargin evasanChoicesBox",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin evasanChoicesBox-container",
+            "layoutStyle" : { },
+            "name" : "vectorChoice",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "button-S button-secondaryColor",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n  const action = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\nisPlannedAction(action.Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n\nconst params = Context.interfaceState.state.evacuation;\nObject.values(params).includes(undefined);",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0].Uid);",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `send-one-minute`);",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : {
-                  "bottom" : "5px",
-                  "right" : "5px"
-                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst test =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nrunActionButton(test[0]);",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO);\nrunActionButton(actions[0]);",
                     "language" : "TypeScript"
                   }
                 },
@@ -142,42 +1133,40 @@
               },
               "type" : "Button"
             } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "true",
-              "language" : "typescript"
+            "className" : "",
+            "layout" : {
+              "justifyContent" : "flex-end"
             },
-            "layoutStyle" : {
-              "margin-right" : "5px",
-              "width" : "100%"
-            },
-            "onAbsoluteClick" : { },
-            "style" : {
-              "height" : "200px",
-              "width" : "100%"
-            }
+            "layoutStyle" : { },
+            "name" : "button",
+            "style" : { }
           },
-          "type" : "AbsoluteLayout"
+          "type" : "FlexList"
         } ],
-        "layout" : { },
-        "layoutStyle" : {
-          "background-color" : "white",
-          "border" : "1px solid black",
-          "border-radius" : "15px",
-          "height" : "180px"
+        "className" : "noPadding noMargin",
+        "layout" : {
+          "flexDirection" : "column"
         },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
+        "name" : "EVASANform",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding noMargin",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
+    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

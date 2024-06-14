@@ -1,13 +1,16 @@
-import { mainSimStateLogger, taskLogger } from "../../../tools/logger";
-import { ActorId, TaskId } from "../baseTypes";
-import { TaskBase, TaskStatus } from "../tasks/taskBase";
-import { MainSimulationState } from "./mainSimulationState";
-import * as ResourceState from "./resourceStateAccess";
-import { ResourceType } from '../resources/resourceType';
+import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { getStateActorSymbolicLocation } from '../actors/actorLogic';
+import { ActorId, TaskId } from '../baseTypes';
+import { TaskBase, TaskStatus } from '../tasks/taskBase';
+import { PorterTask } from '../tasks/taskBasePorter';
+import { LOCATION_ENUM } from './locationState';
+import { MainSimulationState } from './mainSimulationState';
+import * as ResourceState from './resourceStateAccess';
+import { getIdleTask } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// get read only data
+// get data
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -21,23 +24,47 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
 }
 
 /**
- * @returns The tasks that can be handled by the actor regarding the current state.
- * (= the tasks to which the actor can allocate resources)
+ * Temporary filtering implementation of local communication restrictions on incident site
  */
-export function fetchAvailableTasks(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
+const restrictedDirectCommAreas: Partial<Record<LOCATION_ENUM, boolean>> = { chantier: true };
+
+export function fetchTaskChoicesForActorAndLocation(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+  location: LOCATION_ENUM,
+  radioComm: boolean
+): Readonly<TaskBase>[] {
+  if (!radioComm && restrictedDirectCommAreas[location]) {
+    return [getIdleTask(state)];
+  } else {
+    return fetchAvailableStandardTasksForActorAndLocation(state, actorId, location);
+  }
+}
+
+export function fetchAvailableStandardTasksForActorAndLocation(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId,
+  location: LOCATION_ENUM
+): Readonly<TaskBase>[] {
   const actor = state.getActorById(actorId);
   if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta => ta.isAvailable(state, actor));
+    return Object.values(getAllTasks(state)).filter(ta =>
+      ta.isAvailable(state, actor, location, true)
+    );
   } else {
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];
   }
 }
 
-export function fetchTasksWithResources(state: Readonly<MainSimulationState>, actorId: ActorId): Readonly<TaskBase>[] {
-  const allocatedResources = ResourceState.getResourcesAllocatedToAnyTaskForActor(state, actorId);
-  const tasksIdWhereResources = allocatedResources.flatMap(resource => [resource.currentActivity!]);
-  return Object.values(getAllTasks(state)).filter(ta => tasksIdWhereResources.find(taskId => taskId == ta.Uid));
+export function isBrancardageTaskForTargetLocation(
+  state: Readonly<MainSimulationState>,
+  targetLocation: LOCATION_ENUM
+): boolean {
+  return Object.values(getAllTasks(state))
+    .filter(ta => ta instanceof PorterTask)
+    .flatMap(ta => Object.values((ta as PorterTask).subTasks))
+    .some(st => st.targetLocation === targetLocation);
 }
 
 /**
@@ -51,22 +78,13 @@ export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId
 }
 
 /**
- * @returns The nb of resources that are still useful to perform the task. (More resources would be useless)
- */
-export function getNbResourcesStillUsefulForTask(state: Readonly<MainSimulationState>, taskId : TaskId, type: ResourceType): number {
-  const task = internallyGetTask(state, taskId);
-
-  // TODO pro type
-
-  return task.getNbMaxResources() - ResourceState.getResourcesAllocatedToTask(state, taskId).length;
-}
-
-/**
  * @returns Whether the allocated resources are enough to perform the task
  */
-export function hasEnoughResources(state: Readonly<MainSimulationState>, task: TaskBase): boolean {
-  // TODO for each type
-  return ResourceState.getResourcesAllocatedToTask(state, task.Uid).length >= task.getNbMinResources();
+export function isAtLeastOneResource(
+  state: Readonly<MainSimulationState>,
+  task: TaskBase
+): boolean {
+  return ResourceState.getFreeResourcesByTask(state, task.Uid).length > 0;
 }
 
 /**
@@ -78,11 +96,11 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
   const matchingTasks = internalState.tasks.filter(ta => ta.Uid === taskId);
 
   if (matchingTasks.length === 0 || matchingTasks[0] == null) {
-    mainSimStateLogger.error("No task matches id : " + taskId);
+    mainSimStateLogger.error('No task matches id : ' + taskId);
   }
 
   if (matchingTasks.length > 1) {
-    mainSimStateLogger.error("Error in data : there must not be 2 tasks with same id : " + taskId);
+    mainSimStateLogger.error('Error in data : there must not be 2 tasks with same id : ' + taskId);
   }
 
   return matchingTasks[0]!;
@@ -97,8 +115,20 @@ function internallyGetTask(state: Readonly<MainSimulationState>, taskId: TaskId)
 /**
  * Change the status of a task
  */
-export function changeTaskStatus(state: MainSimulationState, taskId: TaskId, status: TaskStatus): void {
+export function changeTaskStatus(
+  state: MainSimulationState,
+  taskId: TaskId,
+  status: TaskStatus
+): void {
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);
+}
+
+export function getTaskResponsibleActorSymbolicLocation(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId
+): LOCATION_ENUM {
+  const task = internallyGetTask(state, taskId);
+  return getStateActorSymbolicLocation(state, task.ownerRole);
 }

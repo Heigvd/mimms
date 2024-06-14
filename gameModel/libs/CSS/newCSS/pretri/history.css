@@ -18,7 +18,7 @@
 }
 
 .resultConsole{
-margin-left: 1rem;
+	margin-left: 1rem;
 }
 
 
@@ -31,7 +31,7 @@ margin-left: 1rem;
 
 /* Animation for latest result */
 
-@keyframes example {
+@keyframes highlight {
  	0% {
 	background-color: rgba(var(--interface_200), .01 );
 	}
@@ -46,7 +46,7 @@ margin-left: 1rem;
 
 
 .lastResult div .log_container:first-child{
-animation-name: example;
+animation-name: highlight;
 animation-duration: 3s;
 }
 

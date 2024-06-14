@@ -1,68 +1,171 @@
-/**************************** RADIO CSS (upper-right) ************************************/
-.radio-container {
-	right: 0;
+/***** NEW NOTIFICAITON PANEL ******/
+
+.notificationPanel-container{
+	right: 20px;
+	top: 20px;
+	background-color: var(--gray_WHITE);
+	border-radius: var(--XS_borderRadius);
+	width: 21rem;
 	pointer-events: auto;
-	min-width: 17em;
-	max-width: 20%;
-	overflow: hidden;
+	max-height: 70%;
+  padding-right: 4.2rem;
 }
 
-.aMessage{
-		border-radius: var(--S_borderRadius);
-		padding: 0px;
-		margin: 0px;
-
+.notificationPanel-container_Hidden{
+	background-color: rgba(245, 40, 145, 0);
 }
 
-.aMessage-animation {
-	animation: popping 1s linear;
-}
-
-
-.radioContent-container{
-	font-size: var(--S_text);
-	color: var(--gray_BLACK);			
-}
-
-
-.sender-container{
+/*** HEADER ***/
+.notificationPanelHeader{
+	width: 6em;
+	height: auto;
+	max-height: 80vh;
+	margin-left: 5px;
+  margin-bottom: 15px;
+	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
-	margin-bottom: 0px ;
-	padding-bottom: 0px;
 }
 
-.aMessage-container{
-	padding-top: 0px;
-	background-color: var(--gray_200);
-	
+.notificationPanelHeader > p{
+	margin-bottom: 0px;
+	margin-top: 15px;
 }
 
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
+
+
+.notificationPageloader-container{
+  width: calc(100% - 3em);
+}
+/****** NOTIFICATION BUTTONS ******/
+
+.notificationButton-container{
+	position: absolute;
+	z-index: 3;
+	right: 3px;
+	top: 3px;
+	pointer-events: auto;
+	border-radius: 100%;
+	margin: .5rem .5rem 0 0;
+	padding: 0px;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+  box-shadow: var(--buttonShadow);
 
 }
-/**** COLOR MANAGEMENT MSG RADIO
-.sender-role[data-sender-role="MCS"] {
-  background-color: var(--yellow_0);
+
+.notificationButton > *{
+	color: var(--grey_0);
+  font-size: var(--L_text);
 }
 
-.sender-role[data-sender-role="ACS"] {
-  background-color: var(--orange_0);
+.notificationButton{
+	height: 4em;
+	width: 4em;
 }
 
-.sender-role[data-sender-role="AL"] {
-  background-color:var(--blue_0);
+.notificationButton-container:hover{
+	box-shadow: var(--buttonShadow);
+}
+
+
+.notificationButton-container .openNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+	box-shadow: var(--buttonInsetShadow);
+}
+
+
+.notificationButton-container .closedNotif-button{
+	background-color: var(--primary_base);
+	border-radius: 100%;
+	justify-content: center;
+	align-items: center;
+	display: inline-flex;
+}
+
+.notificationButton-container .newNotif{
+	background-color: var(--yellow_base);
+}
+
+.counterCircle-container {
+	width: 1.8em;
+	height: 1.8em;
+	color: var(--grey_70);
+	background-color: var(--yellow_10);
+	border: 1px var(--yellow_base) solid;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	z-index: 4;
+	border-radius: 100%;
+ 
+}
+
+/* WIP - potential future feature */
+/*
+ animation-name: example;
+  animation-duration: 2s;
+
+@keyframes example {
+  0%   {background-color: #CA2E55;}
+  50%  {background-color: #CA2E55;}
+  0%   {background-color: #CA2E55;}
+  100% {background-color: #FBB13C;}
 }
 */
 
-.sender{
-		font-weight: var(--boldWeight);
 
+
+
+
+.counterCircle {
+	margin: auto;
+	font-size: var(--SM_text);
+	font-weight: var(--boldWeight);
+	position: relative;
+	top: -1px;
+	color: var(--secondary_70);
 }
 
-.noRadio{
-	margin:5px;
-	padding:5px;
+.counterCircle > p {
+	padding: 0px;
+	margin: -2px;
+}
+
+/***** A NOTIFICATION *****/
+
+.aNotification-container{
+	background-color: var(--grey_10);
+	border-radius: var(--XS_borderRadius);
+  margin-bottom: 10px;
+}
+
+@keyframes notifHighlight {
+ 	0% {
+	background-color: var(--grey_10);
+	}
+  	50% {
+	background-color: var(--primary_30);
+	}
+
+	100% {
+	background-color: var(--grey_10);
+	}
+}
+
+.aMessage-animation{
+  animation-name: notifHighlight;
+  animation-duration: 2s;
+}
+
+.notificationTime{
+  font-weight: var(--boldWeight);
+}
+
+.notificationText{
+  font-size: var(--SM_text);
 }

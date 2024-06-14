@@ -1,0 +1,60 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h2title",
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "Panel title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-locations', 'sourcelocation')}`",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "noPadding noMargin",
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"67\"",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding noMargin",
+        "layoutStyle" : { },
+        "name" : "resources management",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"pmaLocationPanel\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "pmaLocationPanel",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "className" : "",
+    "conditionnalClassNames" : [ ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "leftSubPanel-container ",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

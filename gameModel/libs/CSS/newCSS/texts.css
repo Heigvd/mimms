@@ -1,0 +1,75 @@
+
+/************************************************************** SMALL SCREENS **************************************************************/
+
+@media screen and (max-width: 1199px) {
+  .h1title {
+    font-size: var(--ML_text);
+    margin-bottom: 5px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  .h2title {
+    font-size: var(--M_text);
+    margin: 3px 0px 3px 0px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  .h3title{
+    font-size: var(--S_text);
+    margin-bottom: 5px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  .h3title p{
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .simpleText {
+    font-size: var(--SM_text);
+    color: var(--gray_700);
+    font-family: var(--mainFont);
+  }
+}
+
+/************************************************************** BIG SCREENS **************************************************************/
+
+@media screen and (min-width: 1200px) {
+  .h1title {
+    font-size: var(--L_text);
+    margin-bottom: 5px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  .h2title {
+    font-size: var(--ML_text);
+    margin: 10px 0px 5px 0px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  .h3title {
+    font-size: var(--M_text);
+    margin-bottom: 5px;
+    font-weight: var(--boldWeight);
+    color: var(--gray_BLACK);
+    font-family: var(--mainFont);
+  }
+
+  /* DIRTY RALEWAY DEBUG - @import url(https://fonts.googleapis.com/css?family=Roboto); */
+  .simpleText {
+    font-size: var(--M_text);
+    color: var(--gray_700);
+    font-family: var(--mainFont);
+    /* font-family: 'Roboto'; */
+  }
+}

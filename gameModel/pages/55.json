@@ -2,134 +2,52 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getAvailableTasks } from \"./UIfacade/resourceTaskFacade\";\n\ngetAvailableTasks(Context.interfaceState.state.currentActorUid).map((task) => {return {label: task.title, value: \"\" + task.Uid}});",
-              "language" : "typescript"
-            },
-            "layoutClassName" : "taskChoiceInAction",
-            "layoutStyle" : { },
-            "name" : "selected task",
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.assignResources.selectedTaskId = Context.assignTaskSelectedTask;\nContext.interfaceState.setState(newState);",
-                "language" : "TypeScript"
-              },
-              "exposeVariableAs" : {
-                "@class" : "Script",
-                "content" : "\"assignTaskSelectedTask\"",
-                "language" : "TypeScript"
-              }
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Context.interfaceState.state.resources.assignResources.selectedTaskId;",
-              "language" : "TypeScript"
-            },
-            "style" : { }
-          },
-          "type" : "Select input"
-        } ],
-        "layout" : {
-          "alignContent" : "stretch",
-          "alignItems" : "center"
-        },
-        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
-        "name" : "task choice",
-        "style" : { }
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTimeFrameHistory } from \"./UIfacade/debugFacade\";\n  wlog(getTimeFrameHistory())\n  'Time frames'",
+          "language" : "TypeScript"
+        }
       },
-      "type" : "FlexList"
+      "type" : "Text"
     }, {
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "icon" : "user-nurse",
-                "layoutClassName" : "actionResourceIcon-container",
-                "layoutStyle" : { },
-                "name" : "resource icon",
-                "style" : { }
-              },
-              "type" : "Icon"
-            }, {
-              "props" : {
-                "layoutClassName" : "chosenNumber-container",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.assignResources[Context.resourceType.enum] = Context.assignResourcesNbForType;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"assignResourcesNbForType\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.resources.assignResources[Context.resourceType.enum];",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "Number input"
-            }, {
-              "props" : {
-                "layoutClassName" : "resourceTypeName-container",
-                "layoutStyle" : { },
-                "name" : "resource type name",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceType.enum + '-short');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "className" : "oneActionResource noPadding",
-            "layout" : {
-              "alignItems" : "center",
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "one resource",
-            "style" : { }
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.timeFrame)",
+              "language" : "TypeScript"
+            }
           },
-          "type" : "FlexList"
+          "type" : "Text"
         } ],
-        "className" : "actionResources",
-        "exposeAs" : "resourceType",
+        "exposeAs" : "timeFrame",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceTaskFacade\";\ngetHumanResourceTypes().map(type => {return {enum: type}});",
+          "content" : "import { getTimeFrameHistory } from \"./UIfacade/debugFacade\";\n  getTimeFrameHistory()",
           "language" : "TypeScript"
         },
-        "itemKey" : "enum",
-        "layout" : { },
-        "layoutClassName" : "noPadding",
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "For each"
     } ],
-    "className" : "resourcesPanel",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "resourcesPanel-container",
-    "layoutStyle" : { },
-    "name" : "resources for assignation",
-    "style" : { }
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
   },
   "type" : "FlexList"
 }

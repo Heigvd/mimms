@@ -1,154 +1,236 @@
+/**
+ * Generate layer style according to geometry type
+ *
+ * @params feature for which to generate style
+ * @returns LayerStyleObject corresponding style
+ */
 export function getLayerStyle(feature: any): LayerStyleObject {
-
-	const properties = feature.getProperties();
-	const geometryType = properties.type;
-	let style;
-
-	switch (geometryType) {
-		case 'Point':
-			style = getPointStyle(feature);
-			break;
-		case 'LineString':
-			style = getLineStringStyle(feature);
-			break;
-		case 'MultiLineString':
-			style = getLineStringStyle(feature);
-			break;
-		case 'MultiPolygon':
-			style = getMultiPolygonStyle(feature);
-			break;
-	}
-
-	return style;
+  const properties = feature.getProperties();
+  const geometryType = properties.type;
+  switch (geometryType) {
+    case 'Point':
+      return getPointStyle(feature);
+    case 'LineString':
+      return getLineStringStyle(feature);
+    case 'MultiLineString':
+      return getLineStringStyle(feature);
+    case 'Polygon':
+      return getPolygonStyle(feature);
+    case 'MultiPolygon':
+      return getMultiPolygonStyle(feature);
+    default:
+      return {};
+  }
 }
 
-// TODO Eliminated a lot of redundancy, should have distinct getIconStyle and getArrowStyle functions
+/**
+ * Generate style for points
+ *
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated point style
+ */
 function getPointStyle(feature: any): LayerStyleObject {
+  const properties = feature.getProperties();
+  const icon = properties.icon;
+  const name = properties.name;
+  const rotation = properties.rotation;
+  const duration = properties.durationTimeSec;
+  if (icon) {
+    const iconStyle: ImageStyleObject = {
+      type: 'IconStyle',
+      anchor: [0.5, 0.5],
+      displacement: [0, 300],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      src: `/maps/mapIcons/${icon}.svg`,
+      scale: 0.1,
+      opacity: 1,
+    };
 
-	const properties = feature.getProperties();
-	const icon = properties.icon;
-	const name = properties.name;
-	const rotation = properties.rotation;
-	const duration = properties.durationTimeSec;
+    const textStyle: TextStyleObject = {
+      type: 'TextStyle',
+    };
 
-	if (icon) {
-		const iconStyle: ImageStyleObject = {
-			type: 'IconStyle',
-			anchor: [0.5, 0.5],
-			displacement: [0, 300],
-			anchorXUnits: 'fraction',
-			anchorYUnits: 'fraction',
-			src: `/maps/mapIcons/${icon}.svg`,
-			scale: .1,
-			opacity: 1,
-		}
+    // Arrow-heads are the only icon to be rotated
+    if (rotation) {
+      iconStyle.rotation = rotation;
+      iconStyle.displacement = [0, 0];
+      iconStyle.src = '/maps/mapIcons/arrow.svg';
+      iconStyle.scale = 0.08;
 
-		const textStyle: TextStyleObject = {
-			type: 'TextStyle'
-		};
+      textStyle.text = properties.accessType;
+      textStyle.offsetX = 0.5;
+      textStyle.offsetY = -18;
+      textStyle.scale = 1.6;
+      textStyle.fill = {
+        type: 'FillStyle',
+        color: 'white',
+      };
+      textStyle.stroke = {
+        type: 'StrokeStyle',
+        width: 3,
+        color: '#3CA3CC',
+        lineCap: 'round',
+        lineJoin: 'round',
+      };
 
-		// Arrow-heads are the only icon to be rotated
-		if (rotation) {
+      // If selection action and not currently selected
+      if (
+        !(name === Context.interfaceState.state.selectedMapObjectId) &&
+        Context.mapState.state.mapSelect
+      ) {
+        iconStyle.opacity = 0;
+        textStyle.text = '';
+      }
+    }
 
-			// If selection action and not currently selected return invisible
-			if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect) return {};
+    if (
+      Context.mapState.state.selectionState &&
+      icon === Context.mapState.state.selectionState.icon &&
+      !duration
+    ) {
+      // Convert to int to add 1
+      const index = parseInt(name, 10) + 1;
+      // Is this feature currently selected ?
+      const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
+      // Define textStyle for Icons
+      textStyle.text = (index + 9).toString(36).toUpperCase();
+      textStyle.offsetX = 0.5;
+      textStyle.offsetY = -18;
+      textStyle.scale = 1.6;
+      // If point is currently selected, we give it half opacity
+      textStyle.opacity = isSelected ? 1 : 0.5;
+      iconStyle.opacity = isSelected ? 1 : 0.5;
+      textStyle.fill = {
+        type: 'FillStyle',
+        color: 'white',
+      };
+    }
 
-			iconStyle.rotation = rotation;
-			iconStyle.displacement = [0, 0];
-			iconStyle.src = '/maps/mapIcons/arrow.svg';
-			iconStyle.scale = .08;
+    return { image: iconStyle, text: textStyle };
+  }
 
-			textStyle.text = properties.accessType;
-			textStyle.offsetX = .5;
-			textStyle.offsetY = -18;
-			textStyle.scale = 1.6;
-			textStyle.fill = {
-				type: 'FillStyle',
-				color: 'white',
-			};
-			textStyle.stroke = {
-				type: 'StrokeStyle',
-				width: 3,
-				color: '#575FCF',
-				lineCap: 'round',
-				lineJoin: 'round',
-			};
-		}
-
-		if (icon === Context.mapState.state.selectionState.icon && !duration) {
-			// Convert to int to add 1
-			const index = parseInt(name, 10) + 1;
-			// Define textStyle for Icons
-			textStyle.text = String(index);
-			textStyle.offsetX = .5;
-			textStyle.offsetY = -18;
-			textStyle.scale = 1.6;
-			textStyle.opacity = name === Context.interfaceState.state.selectedMapObjectId ? 1 : .5;
-			textStyle.fill = {
-				type: 'FillStyle',
-				color: 'white',
-			};
-		}
-
-		return { image: iconStyle, text: textStyle };
-	}
-
-	const circleStyle: ImageStyleObject = {
-		type: 'CircleStyle',
-		radius: 10,
-		fill: {
-			type: 'FillStyle',
-			color: 'red',
-		}
-	};
-
-	return { image: circleStyle }
-
+  return {};
 }
 
-function getLineStringStyle(feature: any) {
+/**
+ * Generate style for line string
+ *
+ * @params feature for which to generate style
+ * @returns
+ */
+function getLineStringStyle(feature: any): LayerStyleObject {
+  const properties = feature.getProperties();
+  const name = properties.name;
+  const duration = properties.durationTimeSec;
 
-	const properties = feature.getProperties();
-	const name = properties.name;
-	const duration = properties.durationTimeSec;
+  const strokeStyle: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: '#3CA3CC',
+    width: 6,
+    lineCap: 'round',
+    lineJoin: 'round',
+  };
 
-	const strokeStyle = {
-		type: 'StrokeStyle',
-		color: '#575FCF',
-		width: 6,
-		lineCap: 'round',
-		lineJoin: 'round',
-	};
+  // If we're currently performing a selection
+  if (
+    !(name === Context.interfaceState.state.selectedMapObjectId) &&
+    Context.mapState.state.mapSelect &&
+    !duration
+  ) {
+    strokeStyle.color = '#3CA3CC00';
+  }
 
-	// If we're currently performing a selection
-	if (!(name === Context.interfaceState.state.selectedMapObjectId) && Context.mapState.state.mapSelect && !duration) {
-		return {};
-	}
-
-	return { stroke: strokeStyle }
+  return { stroke: strokeStyle };
 }
 
-function getMultiPolygonStyle(feature: any): any {
-	const properties = feature.getProperties();
+/**
+ * Generate style for polygons (i.e.: PMA)
+ *
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated multi polygon style
+ */
+function getPolygonStyle(feature: any): LayerStyleObject {
+  const properties = feature.getProperties();
+  const name = properties.name;
 
-	const fill: FillStyleObject = {
-		type: 'FillStyle',
-		color: '#BCBFECCC',
-	};
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: '#3CA3CC',
+  };
 
-	const stroke: StrokeStyleObject = {
-		type: 'StrokeStyle',
-		color: '#575FCF',
-		lineCap: 'round',
-		lineJoin: 'round',
-		width: 5,
-	}
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: '#3CA3CC',
+    lineCap: 'round',
+    lineJoin: 'round',
+    width: 5,
+  };
 
-	const text: TextStyleObject = {
-		type: 'TextStyle',
-		text: properties.name || 'No name',
-		textAlign: 'center',
-	}
+  // Convert to int to add 1
+  let index;
+  if (isNaN(properties.name)) index = properties.name;
+  else index = parseInt(properties.name, 10) + 1;
 
-	return { fill, stroke, text };
+  const text: TextStyleObject = {
+    type: 'TextStyle',
+    // If we are in a selection state we use alphabetical index, otherwise we apply the name
+    text: Context.mapState.state.mapSelect
+      ? (index + 9).toString(36).toUpperCase()
+      : String(index) || 'No name',
+    font: 'bold 10px sans-serif',
+    textAlign: 'center',
+    scale: 1.6,
+    fill: {
+      type: 'FillStyle',
+      color: 'white',
+    },
+  };
+
+  // If we're currently performing a selection
+  if (
+    !(name === Context.interfaceState.state.selectedMapObjectId) &&
+    Context.mapState.state.mapSelect
+  ) {
+    stroke.color = '#3CA3CC80';
+    fill.color = '#3CA3CC80';
+  }
+
+  return { fill, stroke, text };
+}
+
+/**
+ * Generate style for multi polygons
+ *
+ * @params feature for which to generate style
+ * @returns LayerStyleObject generated multi polygon style
+ */
+function getMultiPolygonStyle(feature: any): LayerStyleObject {
+  const properties = feature.getProperties();
+
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: '#BCBFECCC',
+  };
+
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: '#3CA3CC',
+    lineCap: 'round',
+    lineJoin: 'round',
+    width: 5,
+  };
+
+  // Convert to int to add 1
+  let index;
+  if (isNaN(properties.name)) index = properties.name;
+  else index = parseInt(properties.name, 10) + 1;
+
+  const text: TextStyleObject = {
+    type: 'TextStyle',
+    text: String(index) || 'No name',
+    textAlign: 'center',
+  };
+
+  return { fill, stroke, text };
 }

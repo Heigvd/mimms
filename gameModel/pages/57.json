@@ -32,11 +32,24 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "correction",
+            "name" : "pretri category",
             "style" : { },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-pretri-result');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-summary--header",
+            "layoutStyle" : { },
+            "name" : "actions",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-actions');",
               "language" : "TypeScript"
             }
           },
@@ -58,11 +71,11 @@
           "props" : {
             "className" : "patient-summary--header",
             "layoutStyle" : { },
-            "name" : "actions",
+            "name" : "prise en charge",
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-actions');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-patient-unit');",
               "language" : "TypeScript"
             }
           },
@@ -99,11 +112,23 @@
                   "props" : {
                     "className" : "answer",
                     "layoutStyle" : { },
-                    "name" : "correction",
+                    "name" : "pretri category",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
                       "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization?.categoryId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "effects",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nContext.patient.data.effects.map((effect: string) => (effect)?getTranslation('mainSim-summary', 'summary-actions-' + effect):\"\").join(\", \");",
                       "language" : "TypeScript"
                     }
                   },
@@ -123,11 +148,11 @@
                 }, {
                   "props" : {
                     "layoutStyle" : { },
-                    "name" : "effects",
+                    "name" : "location",
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\nContext.patient.data.effects.map((effect: string) => (effect)?getTranslation('mainSim-summary', 'summary-actions-' + effect):\"\").join(\", \");",
+                      "content" : "Context.patient.data.patientUnitAtHospital;",
                       "language" : "TypeScript"
                     }
                   },
@@ -148,7 +173,7 @@
             "exposeAs" : "patient",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAllPatients } from \"./UIfacade/pretriFacade\";\ngetAllPatients();",
+              "content" : "import { getPatientsSummary } from \"./UIfacade/patientFacade\";\ngetPatientsSummary();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",

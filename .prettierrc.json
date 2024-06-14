@@ -2,15 +2,9 @@
   "singleQuote": true,
   "semi": true,
   "arrowParens": "avoid",
-  "useTabs": true,
+  "useTabs": false,
+  "tabWidth": 2,
   "printWidth": 100,
   "bracketSpacing": true,
-  "trailingComma": "all",
-  "overrides": [{
-      "files": "*.json",
-      "options": {
-          "useTabs": false,
-          "tabWidth": 2
-      }
-  }]
+  "trailingComma": "es5"
 }

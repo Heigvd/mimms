@@ -4,14 +4,14 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "const choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState) {\n\tlet selection;\n\tif (Context.mapState.state.selectionState.layerId) {\n\t\tselection = Context.mapState.state.selectionState.featureIds;\n\t}\n\tif (Context.mapState.state.selectionState.geometryType) {\n\t\tselection = Context.mapState.state.selectionState.geometries;\n\t}\n\n\tif (selection) {\n\t\tselection.forEach((f: string, i: number) => {\n\t\t\tchoices.push({ label: String(i + 1), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
+          "content" : "import { FixedMapEntity } from \"./game/common/events/defineMapObjectEvent\";\nconst choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState && Context.mapState.state.selectionState instanceof FixedMapEntity) {\n\tconst selection = Context.mapState.state.selectionState.getGeometricalShape().availablePositions;\n\n\tif (selection) {\n\t\tselection.forEach((_f: string, i: number) => {\n\t\t\tchoices.push({ label: (i + 10).toString(36).toUpperCase(), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
           "language" : "typescript"
         },
         "layoutStyle" : { },
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { buildingsRef, selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();\nbuildingsRef.current.changed();",
+            "content" : "import { selectionLayerRef } from \"./gameMap/main\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedMapObjectId = Context.mapObjectSelection;\nContext.interfaceState.setState(newState);\nselectionLayerRef.current.changed();",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -67,7 +67,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][0] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][0] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -120,7 +120,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][1] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][1] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -173,7 +173,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][2]) + \" \" + getTranslation('mainSim-resources', 'pca-people').toLowerCase()",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nimport { getTranslation } from \"./tools/translation\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][2]) + \" \" + getTranslation('mainSim-resources', 'pca-people').toLowerCase()",
                           "language" : "TypeScript"
                         }
                       },
@@ -226,7 +226,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][3])",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nString(pmaDetails[Context.interfaceState.state.selectedMapObjectId][3])",
                           "language" : "TypeScript"
                         }
                       },
@@ -279,7 +279,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][4] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][4] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -332,7 +332,7 @@
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][5] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
+                          "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nimport { getTranslation } from \"./tools/translation\";\npmaDetails[Context.interfaceState.state.selectedMapObjectId][5] ? getTranslation('mainSim-resources', 'pca-true') : getTranslation('mainSim-resources', 'pca-false') ;",
                           "language" : "TypeScript"
                         }
                       },
@@ -364,7 +364,7 @@
             "exposeAs" : "pmaDetails",
             "initialState" : {
               "@class" : "Script",
-              "content" : "import { pmaDetails } from \"./gameInterface/PMA\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId])",
+              "content" : "import { pmaDetails } from \"./gameInterface/mock_data\";\nObject.values(pmaDetails[Context.interfaceState.state.selectedMapObjectId]);",
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
@@ -375,7 +375,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "if (Context.mapState.state.selectionState.layerId) {\n\treturn false;\n}\ntrue;",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nif (Context.mapState.state.selectionState && Context.mapState.state.selectionState.id === LOCATION_ENUM.PMA) {\n\treturn false;\n}\ntrue;",
           "language" : "typescript"
         },
         "layout" : { },

@@ -7,12 +7,6 @@
   },
   "/MIMMS_logo.png" : {
     "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/dead_man.png" : {
-    "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
@@ -119,9 +113,33 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/Nest.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/Nest.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/Nest_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/Nest_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -131,15 +149,105 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/PC_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PC_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/PMA.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/ambulance.svg" : {
+  "/maps/mapIcons/PMA_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance _blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance-park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/ambulance_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -149,9 +257,57 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/firetruck.svg" : {
+  "/maps/mapIcons/firetruck.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/firetruck_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/firetruck_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/helicopter-park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/mainAccident.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -161,15 +317,129 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/police.svg" : {
+  "/maps/mapIcons/mainAccident_black.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/mainAccident_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/mainAccident_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingPoint_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint_blue.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/meetingpoint_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/nest_choice.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/secondaryAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/selected_1.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/selected_2.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/selected_3.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/unselected_1.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/unselected_2.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/unselected_3.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -487,7 +757,7 @@
   },
   "/translations/mainSim-actions-tasks.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -499,13 +769,19 @@
   },
   "/translations/mainSim-interface.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/translations/mainSim-locations.tsv" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/translations/mainSim-resources.tsv" : {
     "description" : "",
-    "mimeType" : "text/tab-separated-values",
+    "mimeType" : "application/octet-stream",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -523,7 +799,7 @@
   },
   "/translations/pretriage-interface.tsv" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -539,33 +815,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/tutorial/" : {
-    "description" : "",
-    "mimeType" : "application/wfs-directory",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/Tutorial_1.svg" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/Tutorial_2.svg" : {
+  "/walkie-talkie-solid.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/tutorial_1.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/tutorial/tutorial_2.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   }

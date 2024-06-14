@@ -1,0 +1,123 @@
+/*** COLORS ***/
+
+:root {
+  --primary_10: #d0e9f3ff;
+  --primary_20: #b1daebff;
+  --primary_30: #8ac8e0ff;
+  --primary_40: #63b6d6ff;
+  --primary_50: #3ca3ccff;
+  --primary_base: #1591c2ff;
+  --primary_60: #1179a2ff;
+  --primary_70: #0e6181ff;
+  --primary_80: #0a4861ff;
+  --primary_90: #073041ff;
+  --primary_100: #041d27ff;
+
+  --grey_10: #e0e2e3ff;
+  --grey_20: #cccfd0ff;
+  --grey_30: #b2b6b8ff;
+  --grey_40: #989ea1ff;
+  --grey_50: #7f8689ff;
+  --grey_base: #656e72ff;
+  --grey_60: #545c5fff;
+  --grey_70: #43494cff;
+  --grey_80: #323739ff;
+  --grey_90: #222526ff;
+  --grey_100: #141617ff;
+  --grey_0: #f6f7f9ff;
+  --grey-white: #ffffffff;
+  
+  --secondary_10: #DDDBEA;
+  --secondary_20: #C6C2DB;
+  --secondary_30: #AAA4C9;
+  --secondary_40: #8E86B8;
+  --secondary_50: #7167A6;
+  --secondary_base: #554994;
+  --secondary_60: #473D7B;
+  --secondary_70: #393163;
+  --secondary_80: #2B254A;
+  --secondary_90: #1C1831;
+  --secondary_100: #110F1E;
+  
+/* color for hurt bodyParts*/
+  --orange_100: #fee5be;
+
+/* yellows for notifications */
+  --yellow_10: #fee5be ;
+  --yellow_base: #FBB13C;
+  
+/*shadows on buttons */
+  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+  --buttonShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+/* used for modals and fixedMapEntities */
+  --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*** GENERAL STYLING ***/
+.stateInterface-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+.mainGame-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.interface-container{
+  height: 100%;
+	width: 100%;
+  margin: 0px;
+  padding: 0px;
+	z-index: 1;
+}
+
+/*Page loader in left panel, linked to the main menu*/
+.interfaceMenuLoader-container{
+  overflow: auto;
+  height: 100%;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-gap: 0px;
+}
+
+/*** TEXTS ***/
+.mimms_h1title{
+  font-size: var(--ML_text);
+  margin-bottom: 5px;
+  font-weight: var(--boldWeight);
+  color: var(--grey_90);
+  font-family: var(--mainFont);
+}
+
+.mimms_h3title{
+  color: var(--grey_90);
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  padding-left: 0px;
+}
+
+.mimms_h2title{
+  margin: 10px 0px 5px 0px;
+  font-weight: var(--boldWeight);
+  color: var(--grey_90);
+  font-family: var(--mainFont);
+}
+
+
+.warningText{
+  color: red;
+}
+/*** Unclassables ***/
+.unauthorizedAction{
+  cursor: not-allowed;
+}

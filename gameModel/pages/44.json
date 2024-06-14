@@ -10,19 +10,35 @@
           "content" : "\"/MIMMS_logo.png\"",
           "language" : "TypeScript"
         },
-        "style" : { }
+        "style" : {
+          "margin" : "auto",
+          "width" : "30rem"
+        }
       },
       "type" : "Image"
     }, {
       "props" : {
-        "className" : "l_button pink",
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : "46",
+        "layoutStyle" : { },
+        "name" : "multiplayerMatrixPageLoader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    }, {
+      "props" : {
+        "className" : "button-L button-secondaryColor",
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { checkAllPlayersReady, checkAllRolesPlayed } from \"./multiplayer/multiplayerManager\";\n  if (APP_CONTEXT === 'Editor') return false;\n!checkAllRolesPlayed() || !checkAllPlayersReady();",
+          "language" : "typescript"
+        },
         "impactVariable" : {
           "impact" : {
             "@class" : "Script",
             "content" : "Variable.find(gameModel, 'gameState').setAllowedValue(self, \"RUNNING\");",
             "language" : "javascript"
-          },
-          "priority" : 0
+          }
         },
         "label" : {
           "@class" : "Script",
@@ -30,6 +46,7 @@
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
+        "name" : "start",
         "style" : { }
       },
       "type" : "Button"
@@ -40,7 +57,6 @@
       "justifyContent" : "center"
     },
     "layoutStyle" : {
-      "" : "",
       "height" : "100%",
       "width" : "100%"
     },

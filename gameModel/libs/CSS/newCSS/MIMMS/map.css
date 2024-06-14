@@ -1,3 +1,203 @@
+.map-container{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
 .cursor-crosshair {
 	cursor: crosshair;
+}
+
+.overlay-container {
+	box-shadow: var(--overlaysShadows);
+}
+
+/*** ARROWS ***/
+
+.fixedEntities-arrow{
+ 	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid var(--grey_60);
+	margin: auto;
+	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
+}
+
+.fixedEntities-arrow.selectedFixedMapEntityArrow{
+  border-top: 20px solid var(--primary_base);
+}
+
+.fixedEntities-mapSelect {
+  opacity: .1;
+}
+
+/*** SELECTED ***/
+
+/* selected fixed map entity - open */
+
+
+.fixedEntities-container.selectedFixedMapEntity{
+  border-radius: var(--XS_borderRadius);
+  border: solid 3px var(--primary_base);
+}
+
+.selectedFixedEntityHeader ~ mimms_h3title{
+  color: var(--primary_base);
+}
+
+.selectedFixedEntityHeader{
+  color: var(--primary_base);
+}
+
+/* selected fixed map entity - close */
+
+.closedFixedMapEntity.selectedFixedMapEntity{
+  border: solid 3px var(--primary_base);
+  background-color: var(--primary_base);
+}
+
+/*** UNSELECTED ***/
+
+/* unselected fixed map entities  - open */
+.fixedEntities-container{
+	background-color: var(--gray_WHITE);
+	border-radius: var(--XS_borderRadius);
+	border: solid 3px var(--grey_60);
+	margin: auto;
+	box-shadow:var(--overlaysShadows);
+}
+
+
+.fixedEntities-container .close-button {
+	background-color: transparent;
+	color: var(--gray_400);
+}
+
+.fixedEntities-container .close-button:hover {
+	background-color: transparent;
+	color: var(--gray_700);
+}
+
+/* unselected fixed map entity - closed */
+
+.closedFixedMapEntity{
+  border: solid 3px var(--grey_60);
+  background-color: var(--grey_60);
+  pointer-events: auto;
+}
+
+.closedFixedMapEntityTitle{
+  color: var(--grey-white);
+  font-weight: var(--boldWeight);
+}
+
+/***** BUTTONS RESOURCES *****/
+
+/*** Buttons for resources in fixed map entities ***/
+.mimms_s_squareButton > button {
+    color: var(--grey_60);
+	  background-color: var(--grey-10);
+    border-radius: var(--XS_borderRadius);
+    height: 2.2em;
+    border: 2px solid var(--grey_60);
+    font-size: var(--SM_text);
+    font-family: var(--mainFont);
+}
+
+
+/* no hover or active for unclickable buttons but we have to bypass wegas theme */
+  .mimms_s_squareButton > button:hover {
+    color: var(--grey_60);
+    background-color: transparent;
+    border-color: var(--grey_60);
+    box-shadow: none;
+  }
+
+  .mimms_s_squareButton > button:active {
+    color: var(--grey_60);
+    background-color:var(--grey_0);
+    border-color: var(--grey_60);
+    box-shadow: none;
+  }
+
+  .mimms_s_squareButton > button:active:hover {
+    background-color:var(--grey_0);
+    border-color: var(--grey_60);
+  }
+
+  .mimms_s_squareButton > button:disabled {
+    color: var(--grey_40);
+    background-color: var(--grey_10);
+    border-color:var(--grey_10);
+    cursor: not-allowed;
+  }
+
+
+/* current resources */
+
+.mimms_s_squareButton.currentResources > button{
+  background-color: var(--primary_base);
+  border-color: var(--primary_base);
+  color: var(--grey_0);
+}
+
+.mimms_s_squareButton.currentResources > button:hover{
+  border-color: var(--primary_base);
+  color: var(--grey_0);
+  box-shadow: var(--buttonShadow);
+}
+
+
+.mimms_s_squareButton.currentResources > button:active{
+  background-color: var(--primary_base);
+  border-color: var(--primary_base);
+  box-shadow: var(--buttonInsetShadow);
+  color: var(--grey_0);
+}
+
+/*  for resources at current actor's location while unselected */
+.mimms_s_squareButton.resourcesNearCurrentActor> button{
+  border-color: var(--primary_base);
+  color: var(--primary_base);
+}
+
+.mimms_s_squareButton.resourcesNearCurrentActor> button:hover{
+  box-shadow: var(--buttonShadow);
+}
+
+.mimms_s_squareButton.resourcesNearCurrentActor> button:active{
+  border-color: var(--primary_base);
+}
+
+
+/* counter for the rsrc square btn in fixed map entities */
+.squareCounter{
+	color: var(--grey_60);
+}
+
+.squareCounter-container{
+	position: absolute;
+	top: -0.1em;
+	right: -.2em;
+	background-color: var(--grey_0);
+	color: var(--grey_60);
+	border: solid 1.5px var(--grey_60);
+	z-index: 2;
+}
+
+/* counter for resources at current actor's location while selected */
+.squareCounter-container.currentResourcesCounter{
+  background-color: var(--primary_10);
+  border: solid 1.5px var(--primary_base);
+}
+
+.squareCounter-container.counter-resourcesNearCurrentActor{
+  border-color: var(--primary_base);
+  color: var(--primary_base);
+}
+
+.squareCounter.counterText-resourcesNearCurrentActor{
+  color: var(--primary_base);
 }

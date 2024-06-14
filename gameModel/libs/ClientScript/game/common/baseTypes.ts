@@ -1,13 +1,11 @@
-import { LOCATION_ENUM } from './simulationState/locationState';
-
 /**
  * Represents the time in the simulation in seconds
  */
-export type SimTime = number
+export type SimTime = number;
 /**
  * Represent a duration in seconds
  */
-export type SimDuration = number
+export type SimDuration = number;
 
 export type TranslationKey = string;
 
@@ -24,11 +22,14 @@ export type ActorId = number;
 export type TemplateId = number;
 
 export type ActionTemplateId = number;
+export type ActionId = number;
 
 export type TaskId = number;
+export type SubTaskId = number;
 
+export type ResourceContainerDefinitionId = number;
 export type ResourceId = number;
 
 export type PatientId = string;
 
-export type Location = LOCATION_ENUM;
+export type HospitalId = string;

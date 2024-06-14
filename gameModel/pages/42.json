@@ -4,7 +4,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "modalTitle",
+            "className" : "mimms_h2title",
             "layoutStyle" : { },
             "name" : "modalTitle",
             "style" : {
@@ -21,124 +21,138 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "whiteButton methaneMenuButton",
-                "id" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>METHANE</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "methane",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "whiteButton methaneMenuButton",
-                "id" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>MET</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "met",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "whiteButton methaneMenuButton",
-                "id" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>HANE</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "hane",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "whiteButton methaneMenuButton",
-                "id" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-resources');",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n Context.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "demandeRessources",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "rotate",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Context.interfaceState.state.casuMessage.messageType != '';",
-                    "language" : "typescript"
-                  }
+                "children" : [ {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>METHANE</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "methane",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>MET</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "met",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>HANE</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "hane",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "id" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-resources');",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n Context.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "demandeRessources",
+                    "style" : { }
+                  },
+                  "type" : "Button"
                 } ],
-                "icon" : "chevron-up",
-                "layoutClassName" : "",
+                "className" : "noPadding noMargin",
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : {
+                  "maxWidth" : "25vw"
+                },
+                "name" : "methaneButtons",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-hospital-info');",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nif (!newState.isCasuOpen) {\n\tnewState.casuMessage.messageType = '';\n}\nContext.interfaceState.setState(newState);",
+                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'R';\n Context.interfaceState.setState(newState);",
                     "language" : "TypeScript"
                   }
                 },
+                "name" : "demandeInfoHopitaux",
                 "style" : { }
               },
-              "type" : "Icon"
+              "type" : "Button"
             } ],
+            "className" : "noPadding",
             "layout" : {
-              "flexDirection" : "row"
+              "alignItems" : "flex-start",
+              "flexDirection" : "column"
             },
             "layoutClassName" : "noPadding noMargin",
-            "layoutStyle" : { },
-            "name" : "methaneButtons",
+            "layoutStyle" : {
+              "maxWidth" : "25vw"
+            },
+            "name" : "buttons",
             "style" : { }
           },
           "type" : "FlexList"
@@ -549,7 +563,7 @@
                           "language" : "TypeScript"
                         },
                         "style" : {
-                          "min-width" : "0px",
+                          "minWidth" : "0px",
                           "width" : "30px"
                         }
                       },
@@ -558,8 +572,8 @@
                       "props" : {
                         "className" : "methane-input-label",
                         "layoutStyle" : {
-                          "padding-bottom" : "0px",
-                          "padding-top" : "0px",
+                          "paddingBottom" : "0px",
+                          "paddingTop" : "0px",
                           "width" : "84px"
                         },
                         "onCancel" : { },
@@ -578,7 +592,7 @@
                       "width" : "120px"
                     },
                     "style" : {
-                      "flex-direction" : "row"
+                      "flexDirection" : "row"
                     }
                   },
                   "type" : "FlexList"
@@ -592,11 +606,11 @@
                 "itemKey" : "type",
                 "layout" : { },
                 "layoutStyle" : {
-                  "margin-top" : "7px"
+                  "marginTop" : "7px"
                 },
                 "style" : {
-                  "flex-wrap" : "wrap",
-                  "max-width" : "700px"
+                  "flexWrap" : "wrap",
+                  "maxWidth" : "700px"
                 }
               },
               "type" : "For each"
@@ -617,12 +631,84 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "pink l_button",
-                "disableIf" : {
+                "className" : "mimms_h3title",
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "name" : "letterR",
+                "style" : { },
+                "text" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
-                  "language" : "typescript"
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'get-hospital-information-desc')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "rectangleButton",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : " Context.hospitalProximityEntry.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "rectangleButton-container",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "noPadding noMargin",
+                "exposeAs" : "hospitalProximityEntry",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
+                  "language" : "TypeScript"
                 },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('R');",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : { },
+            "name" : "LetterR",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "button-secondaryColor button-S",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "language" : "typescript"
+                  }
+                } ],
                 "label" : {
                   "@class" : "Script",
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
@@ -652,27 +738,28 @@
             },
             "layoutClassName" : "",
             "layoutStyle" : { },
-            "name" : "btnModal",
+            "name" : "button send",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "className" : "scrollableCasuTransmission",
         "layout" : {
-          "flexDirection" : "column"
+          "flexDirection" : "column",
+          "justifyContent" : "flex-start"
         },
         "layoutStyle" : { },
+        "name" : "",
         "style" : { }
       },
       "type" : "FlexList"
     } ],
+    "className" : "noPadding noMargin ",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin modal-methane-container",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto"
-    },
+    "layoutClassName" : " noPadding noMargin casuTransmission-container",
+    "layoutStyle" : { },
     "name" : "casuMessageInput",
     "style" : { }
   },
