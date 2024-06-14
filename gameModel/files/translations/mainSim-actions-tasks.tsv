@@ -77,6 +77,7 @@ targetActivity	Target Activity	Activité à destination
 move-res-task-title	Assign resource	Assigner ressource	
 move-res-task-desc	Send resources	Envoyer des ressources	
 move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succès	
+move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} faisant {2} vont aller à {3} faire {4}	
 move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
 move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	

@@ -1037,20 +1037,24 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   }
 
   private formatSendingMessage(): string {
-    let sendingMessage: string = '';
+    let arg0: string = '';
     for (const res in this.sentResources) {
-      sendingMessage += this.sentResources[res as ResourceType];
-      sendingMessage += ' ';
-      sendingMessage += getTranslation('mainSim-resources', '' + res);
-      sendingMessage += ', ';
+      arg0 += this.sentResources[res as ResourceType];
+      arg0 += ' ';
+      arg0 += getTranslation('mainSim-resources', '' + res);
+      arg0 += ', ';
     }
-    sendingMessage +=
-      '\nlocated at ' + getTranslation('mainSim-locations', 'location-' + this.sourceLocation);
-    sendingMessage += ' doing ' + TaskLogic.getTaskTitle(this.sourceTaskId);
-    sendingMessage +=
-      ' will go to ' + getTranslation('mainSim-locations', 'location-' + this.targetLocation);
-    sendingMessage += ' to do  ' + TaskLogic.getTaskTitle(this.targetTaskId);
-    return sendingMessage;
+    const arg1: string = getTranslation('mainSim-locations', 'location-' + this.sourceLocation);
+    const arg2: string = TaskLogic.getTaskTitle(this.sourceTaskId);
+    const arg3: string = getTranslation('mainSim-locations', 'location-' + this.targetLocation);
+    const arg4: string = TaskLogic.getTaskTitle(this.targetTaskId);
+    return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
+      arg0,
+      arg1,
+      arg2,
+      arg3,
+      arg4,
+    ]);
   }
 
   public getChannel(): ActionType {
