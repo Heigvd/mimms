@@ -119,10 +119,6 @@ export function isOrderValidationDisabled(): boolean {
   ResourcesArray.forEach(resourceType => {
     nbResourcesRequested += params[resourceType];
   });
-  if (nbResourcesRequested === 0) {
-    // check that at least one resource is wanted
-    return true;
-  }
-
-  return false;
+  // disable when 0 resources requested
+  return nbResourcesRequested === 0;
 }
