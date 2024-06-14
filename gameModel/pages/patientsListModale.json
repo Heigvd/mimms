@@ -516,7 +516,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('A');",
+                                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('Glasgow');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -529,7 +529,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.eye))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal))\n   + '</br>- '\n   + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.motor))",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.eye')}` + ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.eye))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.verbal')}` + ':     ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.motor')}`+ ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.motor))",
                                   "language" : "TypeScript"
                                 }
                               },
