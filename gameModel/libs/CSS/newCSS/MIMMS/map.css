@@ -91,10 +91,9 @@
 .closedFixedMapEntityTitle{
   color: var(--grey-white);
   font-weight: var(--boldWeight);
-  }
+}
 
-
-  /***** BUTTONS RESOURCES *****/
+/***** BUTTONS RESOURCES *****/
 
 /*** Buttons for resources in fixed map entities ***/
 .mimms_s_squareButton > button {
@@ -105,7 +104,7 @@
     border: 2px solid var(--grey_60);
     font-size: var(--SM_text);
     font-family: var(--mainFont);
-  }
+}
 
 
 /* no hover or active for unclickable buttons but we have to bypass wegas theme */
@@ -147,6 +146,7 @@
 .mimms_s_squareButton.currentResources > button:hover{
   border-color: var(--primary_base);
   color: var(--grey_0);
+  box-shadow: var(--buttonShadow);
 }
 
 
@@ -161,6 +161,14 @@
 .mimms_s_squareButton.resourcesNearCurrentActor> button{
   border-color: var(--primary_base);
   color: var(--primary_base);
+}
+
+.mimms_s_squareButton.resourcesNearCurrentActor> button:hover{
+  box-shadow: var(--buttonShadow);
+}
+
+.mimms_s_squareButton.resourcesNearCurrentActor> button:active{
+  border-color: var(--primary_base);
 }
 
 

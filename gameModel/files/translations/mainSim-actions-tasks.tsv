@@ -63,12 +63,12 @@ define-meetingPoint-desc	Choose a position for the meeting point's location	Choi
 define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Vous vous déplacez à un autre endroit (à choisir sur la carte)	
-move-actor-feedback	You moved	Vous vous êtes déplacé	
+move-actor-feedback	Moving	En déplacement	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
 appoint-EVASAN-wentWrong-feedback	You could not appoint an EVASAN	Vous n'avez pas pu nommer un EVASAN	
-define-acsMscArrival-title	Assume ACS/MCS duties	Prise de responsabilité ACS/MCS	
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
 waiting-title	Waiting	En attente	
