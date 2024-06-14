@@ -69,7 +69,7 @@ export function getAllResources() {
     let reservationActor = '';
     if (resource.reservationActionId != undefined) {
       const actionOwnerId = actions.find(a => a.Uid === resource.reservationActionId)?.ownerId;
-      if (actionOwnerId != undefined) {
+      if (actionOwnerId) {
         reservationActor = getCurrentState().getActorById(actionOwnerId)?.ShortName || '';
       }
     }
