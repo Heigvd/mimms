@@ -646,10 +646,8 @@ export class MoveResourcesLocalEvent extends LocalEventBase {
   }
 
   override applyStateUpdate(state: MainSimulationState) {
-    this.resourcesId.forEach(resourceId => {
-      const resource: Resource = ResourceState.getResourceById(state, resourceId);
-      ResourceState.sendResourcesToLocation([resource], this.location);
-    });
+    const resources = this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
+    ResourceState.sendResourcesToLocation(resources, this.location);
   }
 }
 
