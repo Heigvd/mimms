@@ -111,15 +111,6 @@
 	background-color: var(--grey_70);
 	box-shadow: var(--buttonShadow);
 }
-/***** SQUARE *****/
-/* Probably unused 
-.button-square{
-	padding: 8px 15px;
-	justify-content: center;
-	align-items: center;
-	border-radius: var(--XXS_borderRadius);
-}
-*/
 
 /**** rectangles buttons ****/
 .rectangleButton{
@@ -166,100 +157,9 @@
 .rectangleButton:focus:hover{
 	background-color: var(--primary_50);
 	border: solid 2px var(--primary_50);
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+	box-shadow: var(--buttonInsetShadow);;
 }
 
-
-/***** ROUND *****/
-/* Probably unused 3
-.button-round{
-	width: 5rem;
-	height: 5rem;
-}*/
-
-/*** Buttons for resources in fixed map entities ***/
-.mimms_s_squareButton > button {
-    color: var(--grey_60);
-	  background-color: var(--grey-10);
-    border-radius: var(--XS_borderRadius);
-    height: 2.2em;
-    border: 2px solid var(--grey_60);
-    font-size: var(--SM_text);
-    font-family: var(--mainFont);
-  }
-
-
-/* no hover or active for unclickable buttons but we have to bypass wegas theme */
-  .mimms_s_squareButton > button:hover {
-    color: var(--grey_60);
-    background-color: transparent;
-    border-color: var(--grey_60);
-    box-shadow: none;
-  }
-
-  .mimms_s_squareButton > button:active {
-    color: var(--grey_60);
-    background-color:var(--grey_0);
-    border-color: var(--grey_60);
-    box-shadow: none;
-  }
-
-  .mimms_s_squareButton > button:active:hover {
-    background-color:var(--grey_0);
-    border-color: var(--grey_60);
-  }
-
-  .mimms_s_squareButton > button:disabled {
-    color: var(--grey_40);
-    background-color: var(--grey_10);
-    border-color:var(--grey_10);
-    cursor: not-allowed;
-  }
-
-
-/* current resources */
-
-.mimms_s_squareButton.currentResources > button{
-  background-color: var(--primary_base);
-  border-color: var(--primary_base);
-  color: var(--grey_0);
-}
-
-.mimms_s_squareButton.currentResources > button:hover{
-  border-color: var(--primary_base);
-  color: var(--grey_0);
-}
-
-
-.mimms_s_squareButton.currentResources > button:active{
-  background-color: var(--primary_base);
-  border-color: var(--primary_base);
-  box-shadow: var(--buttonInsetShadow);
-  color: var(--grey_0);
-}
-
-
-
-/* counter for the rsrc square btn in fixed map entities */
-.squareCounter{
-	color: var(--grey_60);
-}
-
-.squareCounter-container{
-	position: absolute;
-	top: -0.1em;
-	right: -.2em;
-	background-color: var(--grey_0);
-	color: var(--grey_60);
-	border: solid 1.5px var(--grey_60);
-	z-index: 2;
-}
-
-/* counter for resources at current actor's location */
-.squareCounter-container.currentResourcesCounter{
-  background-color: var(--primary_10);
-  border: solid 1.5px var(--primary_base);
-}
 /*********************** NEXT BUTTON ***********************/
 .next-container{
 	z-index: 4;

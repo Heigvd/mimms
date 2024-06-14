@@ -209,6 +209,22 @@
                                                         "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
                                                         "language" : "typescript"
                                                       }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "counter-resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "counterText-resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "language" : "typescript"
+                                                      }
                                                     } ],
                                                     "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
                                                     "layoutStyle" : { },
@@ -228,6 +244,14 @@
                                                       "condition" : {
                                                         "@class" : "Script",
                                                         "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    }, {
+                                                      "applyOn" : "Outside",
+                                                      "className" : "resourcesNearCurrentActor",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -942,7 +966,7 @@
                               "type" : "Icon"
                             }, {
                               "props" : {
-                                "className" : "menuItem",
+                                "className" : "",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Outside",
                                   "className" : "active-selected-item ",

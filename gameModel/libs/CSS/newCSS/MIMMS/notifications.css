@@ -64,9 +64,8 @@
 	width: 4em;
 }
 
-/*is it a good styling design wise? it's not similar to other shadow's attitudes*/ 
 .notificationButton-container:hover{
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.65);
+	box-shadow: var(--buttonShadow);
 }
 
 
