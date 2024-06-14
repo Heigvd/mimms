@@ -39,6 +39,8 @@ export function triggerEventLoop() {
   setTimeout(() => {
     Helpers.scrollIntoView('#current-time', { behavior: 'smooth', inline: 'center' });
     Helpers.scrollIntoView('.aMessage-animation', { behavior: 'smooth', block: 'start' });
+    Helpers.scrollIntoView('.radio-message-last', { behavior: 'smooth', block: 'start' });
+    Helpers.scrollIntoView('.pending', { behavior: 'smooth', block: 'start' });
   }, 1);
 }
 

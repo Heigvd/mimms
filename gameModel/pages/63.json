@@ -45,6 +45,22 @@
                 "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
                 "language" : "typescript"
               }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-last",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.RESOURCES_RADIO, Context.item.uid);",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending;",
+                "language" : "typescript"
+              }
             } ],
             "hideIf" : {
               "@class" : "Script",
