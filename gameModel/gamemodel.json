@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1718373642157,
+  "createdTime" : 1718375272330,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6561,7 +6561,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS-14-06-24_afternoon_jess",
+  "name" : "MIMMS - XGO dev 16h",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
