@@ -1,4 +1,8 @@
-import { HumanResourceTypeArray, ResourceType } from '../game/common/resources/resourceType';
+import {
+  HumanResourceTypeArray,
+  ResourcesArray,
+  ResourceType,
+} from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
@@ -92,16 +96,29 @@ export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined
 
 export function isOrderValidationDisabled(): boolean {
   if (!canPlanAction()) {
+    // to be able to cancel the action
     return false;
   }
 
   const key = getStateKeyForResource();
   const params = Context.interfaceState.state.resources[key];
   if (
-    getAllocateResourcesCurrentLocation() === params.targetLocation &&
-    params.currentTaskId === params.targetTaskId
+    getAllocateResourcesCurrentLocation() == params.targetLocation &&
+    params.currentTaskId == params.targetTaskId
   ) {
+    // disable if same locations and actions
     return true;
   }
-  return Object.values(params).some(p => p === undefined || p === '');
+
+  if (Object.values(params).some(p => p === undefined || p === '')) {
+    // disable if any param is unset
+    return true;
+  }
+
+  let nbResourcesRequested = 0;
+  ResourcesArray.forEach(resourceType => {
+    nbResourcesRequested += params[resourceType];
+  });
+  // disable when 0 resources requested
+  return nbResourcesRequested === 0;
 }
