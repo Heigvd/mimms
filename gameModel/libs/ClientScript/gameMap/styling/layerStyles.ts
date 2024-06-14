@@ -174,7 +174,10 @@ function getPolygonStyle(feature: any): LayerStyleObject {
 
   const text: TextStyleObject = {
     type: 'TextStyle',
-    text: (index + 9).toString(36).toUpperCase() || 'No name',
+    // If we are in a selection state we use alphabetical index, otherwise we apply the name
+    text: Context.mapState.state.mapSelect
+      ? (index + 9).toString(36).toUpperCase()
+      : String(index) || 'No name',
     font: 'bold 10px sans-serif',
     textAlign: 'center',
     scale: 1.6,

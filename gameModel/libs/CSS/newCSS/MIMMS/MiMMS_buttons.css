@@ -111,13 +111,6 @@
 	background-color: var(--grey_70);
 	box-shadow: var(--buttonShadow);
 }
-/***** SQUARE *****/
-.button-square{
-	padding: 8px 15px;
-	justify-content: center;
-	align-items: center;
-	border-radius: var(--XXS_borderRadius);
-}
 
 /**** rectangles buttons ****/
 .rectangleButton{
@@ -130,9 +123,12 @@
 	margin: 0px;
 }
 
+/* probably unused 
 .rectangleButton-container{
 	margin: 0px;
 }
+*/
+/* buttons in METHANE and in welcome page */
 .rectangleButton:hover{
 	background-color: var(--primary_50);
 	border: solid 2px var(--primary_50);
@@ -161,69 +157,9 @@
 .rectangleButton:focus:hover{
 	background-color: var(--primary_50);
 	border: solid 2px var(--primary_50);
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+	box-shadow: var(--buttonInsetShadow);;
 }
 
-
-/***** ROUND *****/
-.button-round{
-	width: 5rem;
-	height: 5rem;
-}
-
-/*** Buttons for resources in fixed map entities ***/
-.mimms_s_squareButton > button {
-    color: var(--primary_base);
-	  background-color: var(--grey-10);
-    border-radius: var(--XS_borderRadius);
-    height: 2.2em;
-    border: 2px solid var(--primary_base);
-    font-size: var(--SM_text);
-    font-family: var(--mainFont);
-  }
-
-
-  .mimms_s_squareButton > button:hover {
-    color: var(--gray_WHITE);
-    background-color: var(--primary_base);
-    border-color: var(--primary_base);
-    box-shadow: var(--buttonShadow);
-  }
-
-  .mimms_s_squareButton > button:active {
-    color: var(--gray_WHITE);
-    background-color: var(--primary_base);
-    border-color: var(--primary_base);
-    box-shadow: var(--buttonInsetShadow);
-  }
-
-  .mimms_s_squareButton > button:active:hover {
-    background-color: var(--primary_base);
-    border-color: var(--primary_base);
-  }
-
-  .mimms_s_squareButton > button:disabled {
-    color: var(--grey_40);
-    background-color: var(--grey_10);
-    border-color:var(--grey_10);
-  }
-
-
-/* counter for the rsrc square btn in fixed map entities */
-  .squareCounter{
-	  color: var(--gray_700);
-
-}
-
-.squareCounter-container{
-	position: absolute;
-	top: -0.1em;
-	right: -.2em;
-	background-color: var(--gray_WHITE);
-	color: var(--gray_500);
-	border: solid 1.5px var(--primary_base);
-	z-index: 2;
-}
 /*********************** NEXT BUTTON ***********************/
 .next-container{
 	z-index: 4;

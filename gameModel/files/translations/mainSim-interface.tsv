@@ -31,7 +31,13 @@ patientDetails	Patient's details	Détails patient
 search	Search	Rechercher
 waiting-player	Waiting for other players	En attente des autres joueurs
 game-will-proceed	The game will proceed once all players are ready/have pressed "Advance time"	Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “avancer le temps”
-player-unready	Ready	Prêt
-player-ready	Unready	En jeu
+player-ready	Ready	Prêt
+player-unready	Unready	En jeu
 msg-now	Now	Maintenant
 notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.
+youre-not-here	You haven't arrived on site yet	Vous n'êtes pas encore sur site
+when-youre-here	You may start playing when the role(s) you selected arrives on site	Vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.
+not-all-ready	All players need to be marked as ready!	Tous les joueurs doivent confirmer être prêts!
+minimum-one-per-role	A minimum of one player per role is required !	Un joueur par rôle est requis au minimum
+player-id	Player ID	ID du joueur
+player-name	Name	Nom

@@ -10,7 +10,10 @@
           "content" : "\"/MIMMS_logo.png\"",
           "language" : "TypeScript"
         },
-        "style" : { }
+        "style" : {
+          "margin" : "auto",
+          "width" : "30rem"
+        }
       },
       "type" : "Image"
     }, {
@@ -106,7 +109,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>PlayerId<br></p>\"",
+                      "content" : "  fakevar = 333;\n\"PlayerId\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -117,7 +120,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>AL<br></p>\"",
+                      "content" : "  fakevar = 333;\n\"AL\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -128,7 +131,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>ACS</p>\"",
+                      "content" : "  fakevar = 333;\n\"ACS\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -139,7 +142,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>MCS</p>\"",
+                      "content" : "  fakevar = 333;\n\"MCS\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -150,7 +153,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>EVASAN</p>\"",
+                      "content" : "  fakevar = 333;\n\"EVASAN\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -161,7 +164,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>LEADPMA</p>\"",
+                      "content" : "  fakevar = 333;\n\"LEADPMA\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -172,7 +175,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Ready</p>\"",
+                      "content" : "  fakevar = 333;\n\"Ready\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -412,7 +415,6 @@
       "justifyContent" : "center"
     },
     "layoutStyle" : {
-      "" : "",
       "height" : "100%",
       "width" : "100%"
     },

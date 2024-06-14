@@ -4,7 +4,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "h1title",
+            "className" : "mimms_h1title",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -219,7 +219,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "h2title  noPadding",
+                            "className" : "mimms_h2title  noPadding",
                             "layoutClassName" : "noMargin ",
                             "layoutStyle" : { },
                             "name" : "name",
@@ -645,7 +645,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "h2title",
+                            "className" : "mimms_h2title",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {

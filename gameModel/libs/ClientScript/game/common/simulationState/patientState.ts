@@ -79,17 +79,20 @@ export function comparePatientByPreTriageResult(a: PatientState, b: PatientState
 // pre tri
 // -------------------------------------------------------------------------------------------------
 
+function preTriagedPatientPredicate(patient: PatientState, location: LOCATION_ENUM | undefined) {
+  return (
+    patient.preTriageResult === undefined &&
+    (location === undefined || patient.location.locationId === location)
+  );
+}
+
 export function getNextNonPreTriagedPatient(
   state: Readonly<MainSimulationState>,
   location?: LOCATION_ENUM
 ): PatientState | undefined {
   const patients = state.getInternalStateObject().patients;
 
-  return patients.find(
-    patient =>
-      patient.preTriageResult === undefined &&
-      (location === undefined || patient.location.locationId === location)
-  );
+  return patients.find(patient => preTriagedPatientPredicate(patient, location));
 }
 
 export function getNonPreTriagedPatientsSize(
@@ -98,11 +101,7 @@ export function getNonPreTriagedPatientsSize(
 ): number {
   const patients = state.getInternalStateObject().patients;
 
-  return patients.filter(
-    patient =>
-      patient.preTriageResult === undefined &&
-      (location === undefined || patient.location.locationId === location)
-  ).length;
+  return patients.filter(patient => preTriagedPatientPredicate(patient, location)).length;
 }
 
 export function getPreTriagedAmountByCategory(
