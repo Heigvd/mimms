@@ -388,7 +388,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'appoint-EVASAN-feedback',
     true,
-    'appoint-EVASAN-wentWrong-feedback',
+    'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
     'ambulancier',
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
