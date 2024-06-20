@@ -20,7 +20,7 @@ import {
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
-import { ACSMCSAutoRequestDelay, TimeSliceDuration } from './common/constants';
+import { TimeSliceDuration } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
   BuildingStatus,
@@ -40,7 +40,6 @@ import {
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
   AddRadioMessageLocalEvent,
-  AutoSendACSMCSLocalEvent,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
