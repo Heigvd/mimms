@@ -12,3 +12,8 @@ export const OneMinuteDuration = 60;
  * Helicopter / amubulance arrival retry interval
  */
 export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
+
+/**
+ * ACS/MCS auto send by CASU delay
+ */
+export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;

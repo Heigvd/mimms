@@ -20,7 +20,7 @@ import {
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
-import { TimeSliceDuration } from './common/constants';
+import { ACSMCSAutoRequestDelay, TimeSliceDuration } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
   BuildingStatus,
@@ -40,6 +40,7 @@ import {
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
   AddRadioMessageLocalEvent,
+  AutoSendACSMCSLocalEvent,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
@@ -78,8 +79,25 @@ Helpers.registerEffect(() => {
   mainSimLogger.info('Main simulation initialized', actionTemplates);
   mainSimLogger.info('Initial state', currentSimulationState);
 
+  mainSimLogger.info('scheduling automatic events');
+  queueAutomaticEvents();
+
   recomputeState();
 });
+
+function queueAutomaticEvents() {
+  // Scheduling automatic sending of ACS/MCS
+  mainSimLogger.info(
+    'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
+  );
+  localEventManager.queueLocalEvent(
+    new AutoSendACSMCSLocalEvent(
+      0,
+      currentSimulationState.getSimTime() + ACSMCSAutoRequestDelay,
+      currentSimulationState.getAllActors().find(actor => actor.Role == 'CASU')?.Uid!
+    )
+  );
+}
 
 function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation

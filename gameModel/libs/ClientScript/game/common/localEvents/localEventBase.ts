@@ -19,7 +19,11 @@ import {
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay } from '../constants';
 import { getHospitalsByProximity } from '../evacuation/hospitalController';
-import { CasuMessagePayload, HospitalRequestPayload } from '../events/casuMessageEvent';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
@@ -413,6 +417,30 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
         this.request.resourceRequest
       );
     }
+  }
+}
+
+export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEvent {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actorUid: ActorId) {
+    //Request ACS-MCS
+    const casuMessage: MethaneMessagePayload = {
+      messageType: 'E',
+      resourceRequest: {
+        'ACS-MCS': 1,
+        Ambulance: 0,
+        SMUR: 0,
+        PMA: 0,
+        PICA: 0,
+        PCS: 0,
+        Helicopter: 0,
+      },
+    };
+    super(parentEventId, timeStamp, actorUid, casuMessage);
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    resourceLogger.info('Force requesting ACS-MCS if needed');
+    super.applyStateUpdate(state);
   }
 }
 
