@@ -86,17 +86,7 @@ Helpers.registerEffect(() => {
 });
 
 function queueAutomaticEvents() {
-  // Scheduling automatic sending of ACS/MCS
-  mainSimLogger.info(
-    'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
-  );
-  localEventManager.queueLocalEvent(
-    new AutoSendACSMCSLocalEvent(
-      0,
-      currentSimulationState.getSimTime() + ACSMCSAutoRequestDelay,
-      currentSimulationState.getAllActors().find(actor => actor.Role == 'CASU')?.Uid!
-    )
-  );
+  // empty for now
 }
 
 function initMainState(): MainSimulationState {

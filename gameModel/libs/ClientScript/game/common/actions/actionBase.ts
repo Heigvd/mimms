@@ -29,6 +29,7 @@ import {
   MoveFreeWaitingResourcesByTypeLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   MoveResourcesLocalEvent,
+  AutoSendACSMCSLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -60,6 +61,7 @@ import {
 } from '../evacuation/hospitalType';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
+import { ACSMCSAutoRequestDelay } from '../constants';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -436,6 +438,22 @@ export class CasuMessageAction extends RadioDrivenAction {
         this.casuMessagePayload
       );
       localEventManager.queueLocalEvent(dispatchEvent);
+
+      // Auto request ACS MCS if not requested within 5 mins after methane and ACS/MCS is not on site already
+      // enough to test for presence, in case of multiple requests, only the first one is executed
+      if (!state.getOnSiteActors().find(actor => actor.Role === 'ACS' || actor.Role === 'MCS')) {
+        // Scheduling automatic sending of ACS/MCS
+        this.logger.info(
+          'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
+        );
+        localEventManager.queueLocalEvent(
+          new AutoSendACSMCSLocalEvent(
+            this.eventId,
+            now + ACSMCSAutoRequestDelay,
+            state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId
+          )
+        );
+      }
     }
   }
 
