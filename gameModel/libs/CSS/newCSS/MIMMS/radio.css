@@ -77,6 +77,7 @@
   margin-top: 10px;
 }
 
+
 /**************************** RADIO CSS (upper-right) ************************************/
 
 /*** message (single) ***/
@@ -92,14 +93,12 @@
 	background-color: var(--gray_200);
 }
 
-
 .aMessage-animation {
 	animation: popping 1s linear;
 }
 */
 
 /*
-
 .message{
 	font-weight: var(--regularWeight);
 }
@@ -108,8 +107,6 @@
 	font-size: var(--S_text);
 	color: var(--gray_BLACK);			
 }
-
-
 
 .sender-container{
 	font-weight: var(--boldWeight);
@@ -126,23 +123,6 @@
 .sender{
 		font-weight: var(--boldWeight);
 }
-*/
-
-/**** COLOR MANAGEMENT MSG RADIO
- probably depreciated 
-
-.sender-role[data-sender-role="MCS"] {
-  background-color: var(--yellow_0);
-}
-
-.sender-role[data-sender-role="ACS"] {
-  background-color: var(--orange_0);
-}
-
-.sender-role[data-sender-role="AL"] {
-  background-color:var(--blue_0);
-}
-
 */
 
 .noRadio {
