@@ -155,6 +155,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/PC_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/PC_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -176,6 +182,12 @@
   "/maps/mapIcons/PMA_blue.png" : {
     "description" : "",
     "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/PMA_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -209,9 +221,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/ambulance-park_choice.png" : {
+  "/maps/mapIcons/ambulance-park_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -281,9 +293,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/helicopter-park_choice.png" : {
+  "/maps/mapIcons/helicopter-park_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -347,9 +359,21 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/meetingpoint_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/meetingpoint_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/nest_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -368,6 +392,12 @@
   "/maps/mapIcons/park_blue.png" : {
     "description" : "",
     "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
