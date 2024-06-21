@@ -1,5 +1,7 @@
+import { forEach } from 'lodash';
 import { entries } from '../../../tools/helper';
 import { resourceLogger } from '../../../tools/logger';
+import { getTranslation } from '../../../tools/translation';
 import { SimFlag } from '../actions/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
 import {
@@ -8,7 +10,11 @@ import {
   ResourceContainerDefinitionId,
   TranslationKey,
 } from '../baseTypes';
-import { ResourceMobilizationEvent } from '../localEvents/localEventBase';
+import {
+  AddRadioMessageLocalEvent,
+  ResourceMobilizationEvent,
+  ResourcesDepartureLocalEvent,
+} from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
@@ -18,6 +24,7 @@ import {
   ResourceContainerType,
 } from './resourceContainer';
 import { ResourceType } from './resourceType';
+import { ActionType } from '../actionType';
 
 const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
@@ -204,6 +211,18 @@ export function resolveResourceRequest(
 ) {
   const containers = state.getResourceContainersByType();
   const now = state.getSimTime();
+
+  const sentContainers: Record<number, { name: string; def: ResourceContainerDefinition }[]> = {};
+  function addDepartureEntry(
+    travelTime: number,
+    containerName: string,
+    containerDef: ResourceContainerDefinition
+  ) {
+    if (!sentContainers[travelTime]) {
+      sentContainers[travelTime] = [];
+    }
+    sentContainers[travelTime]?.push({ name: containerName, def: containerDef });
+  }
   entries(request)
     .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
     .forEach(([typeId, requestedAmount]) => {
@@ -232,6 +251,52 @@ export function resolveResourceRequest(
           c.name
         );
         localEventManager.queueLocalEvent(evt);
+        addDepartureEntry(c.travelTime, c.name, definition);
       }
     });
+  queueResourceDepartureRadioMessageEvents(sentContainers, globalEventId, senderId);
+}
+
+/**
+ * TODO amount sent ?
+ * Generates one radio message per departure time containing all the sent ressources at that time
+ * @param sentContainers
+ * @param globalEventId
+ * @param senderId
+ */
+function queueResourceDepartureRadioMessageEvents(
+  sentContainers: Record<number, { name: string; def: ResourceContainerDefinition }[]>,
+  globalEventId: GlobalEventId,
+  senderId: ActorId
+): void {
+  forEach(Object.entries(sentContainers), ([depTime, sent]) => {
+    const time = depTime as unknown as number;
+    const msgs: string[] = [];
+    forEach(Object.values(sent), v => {
+      msgs.push(buildRadioText(time, v.def, v.name));
+    });
+
+    const evt = new AddRadioMessageLocalEvent(
+      globalEventId,
+      time,
+      senderId,
+      'CASU',
+      msgs.join('\n'), // TODO works ?
+      ActionType.CASU_RADIO,
+      true,
+      true
+    );
+    localEventManager.queueLocalEvent(evt);
+  });
+}
+
+function buildRadioText(time: number, c: ResourceContainerDefinition, name: string): string {
+  const parts: string[] = [];
+  parts.push(getTranslation('mainSim-resources', 'sending'));
+  parts.push(name); // Specific name (e.g. AMB002)
+  parts.push('(' + getTranslation('mainSim-resources', c.name) + ')'); // type
+  parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
+  parts.push(Math.round(time / 60) + '');
+  parts.push(getTranslation('mainSim-resources', 'minutes', false));
+  return parts.join(' ');
 }
