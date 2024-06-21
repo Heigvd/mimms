@@ -78,8 +78,15 @@ Helpers.registerEffect(() => {
   mainSimLogger.info('Main simulation initialized', actionTemplates);
   mainSimLogger.info('Initial state', currentSimulationState);
 
+  mainSimLogger.info('scheduling automatic events');
+  queueAutomaticEvents();
+
   recomputeState();
 });
+
+function queueAutomaticEvents() {
+  // empty for now
+}
 
 function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
