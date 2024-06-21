@@ -1,5 +1,9 @@
 import { HumanBody } from '../../../HUMAn/human';
-import { getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
+import {
+  getColorByCategoryId,
+  getPriorityByCategoryId,
+  PreTriageResult,
+} from '../../pretri/triage';
 import { MainSimulationState } from './mainSimulationState';
 import { HospitalId, PatientId } from '../baseTypes';
 import { LOCATION_ENUM } from './locationState';
@@ -124,6 +128,28 @@ export function getPreTriagedAmountByCategory(
     });
 
   return amountsByCategory;
+}
+
+export function getPreTriagedAmountByColor(
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
+): Record<string, number> {
+  const internalState = state.getInternalStateObject();
+  const amountsByColor: Record<string, number> = {};
+
+  internalState.patients
+    .filter(p => location === undefined || p.location.locationId === location)
+    .map(patient => patient.preTriageResult?.categoryId)
+    .filter(categoryId => categoryId != null)
+    .forEach(category => {
+      if (getColorByCategoryId(category!) in amountsByColor) {
+        amountsByColor[getColorByCategoryId(category!)] += 1;
+      } else {
+        amountsByColor[getColorByCategoryId(category!)] = 1;
+      }
+    });
+
+  return amountsByColor;
 }
 
 // -------------------------------------------------------------------------------------------------

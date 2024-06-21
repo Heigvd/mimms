@@ -80,6 +80,7 @@ export interface Category<
   T extends SAP_CATEGORY | SAP2020_CATEGORY | STANDARD_CATEGORY | SACCO_CATEGORY | string
 > {
   id: T;
+  tagColor: 'black' | 'white' | 'yellow' | 'green' | 'red' | 'orange' | 'blue';
   bgColor: string;
   color: string;
   name: string;
@@ -114,6 +115,7 @@ const sapSystem: TagSystem<SAP_CATEGORY> = {
   categories: [
     {
       id: NON_URGENT,
+      tagColor: 'orange',
       bgColor: orangeTag,
       name: 'SAP',
       color: 'white',
@@ -122,6 +124,7 @@ const sapSystem: TagSystem<SAP_CATEGORY> = {
     },
     {
       id: URGENT,
+      tagColor: 'yellow',
       bgColor: yellowTag,
       color: 'black',
       name: 'URGENT',
@@ -130,6 +133,7 @@ const sapSystem: TagSystem<SAP_CATEGORY> = {
     },
     {
       id: DEAD,
+      tagColor: 'black',
       bgColor: deadTag,
       color: 'white',
       name: 'DEAD',
@@ -143,6 +147,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
   categories: [
     {
       id: SECONDARY_TRIAGE,
+      tagColor: 'black',
       bgColor: deadTag,
       name: 'DELAYED',
       color: 'white',
@@ -151,6 +156,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: INVOLVED,
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: 'INVOLVED',
@@ -159,6 +165,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: NON_URGENT,
+      tagColor: 'green',
       bgColor: greenTag,
       color: 'white',
       name: 'NON URGENT',
@@ -167,6 +174,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: URGENT,
+      tagColor: 'yellow',
       bgColor: yellowTag,
       color: 'black',
       name: 'URGENT',
@@ -175,6 +183,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: IMMEDIATE,
+      tagColor: 'red',
       bgColor: redTag,
       color: 'white',
       name: 'IMMEDIATE',
@@ -183,6 +192,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: ALMOST_DEAD,
+      tagColor: 'blue',
       bgColor: blueTag,
       color: 'white',
       name: 'ALMOST DEAD',
@@ -191,6 +201,7 @@ const sap2System: TagSystem<SAP2020_CATEGORY> = {
     },
     {
       id: DEAD,
+      tagColor: 'black',
       bgColor: deadTag,
       color: 'white',
       name: 'DEAD',
@@ -204,6 +215,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
   categories: [
     {
       id: NON_URGENT,
+      tagColor: 'green',
       bgColor: greenTag,
       color: 'white',
       name: 'P3',
@@ -212,6 +224,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: URGENT,
+      tagColor: 'yellow',
       bgColor: yellowTag,
       color: 'black',
       name: 'P2',
@@ -220,6 +233,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: IMMEDIATE,
+      tagColor: 'red',
       bgColor: redTag,
       color: 'white',
       name: 'P1',
@@ -228,6 +242,7 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: DEAD,
+      tagColor: 'black',
       bgColor: deadTag,
       color: 'white',
       name: 'DEAD',
@@ -241,6 +256,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
   categories: [
     {
       id: NON_URGENT,
+      tagColor: 'green',
       bgColor: greenTag,
       color: 'white',
       name: 'MINOR',
@@ -249,6 +265,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: URGENT,
+      tagColor: 'yellow',
       bgColor: yellowTag,
       color: 'black',
       name: 'DELAYED',
@@ -257,6 +274,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: IMMEDIATE,
+      tagColor: 'red',
       bgColor: redTag,
       color: 'white',
       name: 'IMMEDIATE',
@@ -265,6 +283,7 @@ const startSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: DEAD,
+      tagColor: 'black',
       bgColor: deadTag,
       color: 'white',
       name: 'EXPECTANT',
@@ -278,6 +297,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
   categories: [
     {
       id: NON_URGENT,
+      tagColor: 'green',
       bgColor: greenTag,
       color: 'white',
       name: 'DELAYED',
@@ -286,6 +306,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: URGENT,
+      tagColor: 'yellow',
       bgColor: yellowTag,
       color: 'black',
       name: 'URGENT',
@@ -294,6 +315,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: IMMEDIATE,
+      tagColor: 'red',
       bgColor: redTag,
       color: 'white',
       name: 'IMMEDIATE',
@@ -302,6 +324,7 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
     },
     {
       id: DEAD,
+      tagColor: 'black',
       bgColor: deadTag,
       color: 'white',
       name: 'UNSALVAGEABLE',
@@ -311,10 +334,12 @@ const careFlightSystem: TagSystem<STANDARD_CATEGORY> = {
   ],
 };
 
+// tagColor not applicable in this system
 const saccoSystem: TagSystem<SACCO_CATEGORY> = {
   categories: [
     {
       id: 'twelve',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '12',
@@ -323,6 +348,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'eleven',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '11',
@@ -331,6 +357,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'ten',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '10',
@@ -339,6 +366,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'nine',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '9',
@@ -347,6 +375,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'eight',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '8',
@@ -355,6 +384,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'seven',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '7',
@@ -363,6 +393,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'six',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '6',
@@ -371,6 +402,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'five',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '5',
@@ -379,6 +411,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'four',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '4',
@@ -387,6 +420,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'three',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '3',
@@ -395,6 +429,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'two',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '2',
@@ -403,6 +438,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'one',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '1',
@@ -411,6 +447,7 @@ const saccoSystem: TagSystem<SACCO_CATEGORY> = {
     },
     {
       id: 'zero',
+      tagColor: 'white',
       bgColor: 'white',
       color: 'black',
       name: '0',
@@ -501,6 +538,10 @@ export function getCategoryIdsByPriorityOrder(): string[] {
 
 export function getPriorityByCategoryId(categoryId: string): number {
   return getTagSystemCategories().categories.find(category => category.id === categoryId)!.priority;
+}
+
+export function getColorByCategoryId(categoryId: string): string {
+  return getTagSystemCategories().categories.find(category => category.id === categoryId)!.tagColor;
 }
 
 export function getBackgroundColorByCategoryId(categoryId: string): string {
@@ -1400,8 +1441,8 @@ export function doAutomaticTriageAndLogToConsole() {
 
     //wlog("PreTriage: " + message);
     /*setState(state => {
-			return { ...state, logs: [...state.logs, output.join("")] };
-		});*/
+      return { ...state, logs: [...state.logs, output.join("")] };
+    });*/
   } else {
     wlog(`PreTriage "${tagSystem}": Not Yet Implements]`);
 
