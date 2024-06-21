@@ -441,7 +441,7 @@ export class CasuMessageAction extends RadioDrivenAction {
 
       // Auto request ACS MCS if not requested within 5 mins after methane and ACS/MCS is not on site already
       // enough to test for presence, in case of multiple requests, only the first one is executed
-      if (!state.getOnSiteActors().find(actor => actor.Role === 'ACS' || actor.Role === 'MCS')) {
+      if (!state.getAllActors().some(actor => actor.Role === 'ACS' || actor.Role === 'MCS')) {
         // Scheduling automatic sending of ACS/MCS
         this.logger.info(
           'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
