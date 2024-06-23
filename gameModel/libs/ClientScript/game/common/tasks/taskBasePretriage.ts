@@ -17,7 +17,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   getNextNonPreTriagedPatient,
   getNonPreTriagedPatientsSize,
-  getPreTriagedAmountByColor,
+  getPreTriagedAmountByTagName,
 } from '../simulationState/patientState';
 import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -94,7 +94,7 @@ export class PreTriageTask extends TaskBase {
 
       //get distinct pretriage categories with count
       let result = 'Result: ';
-      Object.entries(getPreTriagedAmountByColor(state, this.locationSource)).forEach(
+      Object.entries(getPreTriagedAmountByTagName(state, this.locationSource)).forEach(
         ([key, value]) => {
           result += key + ': ' + value + '\n';
         }
