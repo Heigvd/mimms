@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  \"...\";",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
                   "language" : "TypeScript"
                 }
               },
