@@ -255,7 +255,7 @@
                                                         "language" : "typescript"
                                                       }
                                                     } ],
-                                                    "icon" : "hospital-user",
+                                                    "icon" : "users",
                                                     "label" : {
                                                       "@class" : "Script",
                                                       "content" : "\"<p>&nbsp;<br></p>\"",
@@ -1116,7 +1116,7 @@
                                 "className" : "nextActionBtn",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().timeForward.hidden;",
+                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() < 0;",
                                   "language" : "typescript"
                                 },
                                 "label" : {
@@ -1445,7 +1445,8 @@
                                 "style" : {
                                   "margin" : "auto",
                                   "maxWidth" : "25rem",
-                                  "paddingTop" : "1rem"
+                                  "paddingTop" : "1rem",
+                                  "textAlign" : "center"
                                 },
                                 "text" : {
                                   "@class" : "Script",
