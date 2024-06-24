@@ -58,16 +58,16 @@ healing-pma-green-desc	Green patients care	Soins des patients verts
 send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
-define-meetingPoint-title	Define meeting point	Placer le point de rassemblement	
-define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
-define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
+define-meetingPoint-title	Define Forward CP	Placer le PC front	
+define-meetingPoint-desc	Choose a position for the Forward CP's location	Choisir l'emplacement du PC front	
+define-meetingPoint-feedback	Forward CP is defined	Le PC front est défini	
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
 move-actor-feedback	Moving	En déplacement	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
-appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous	
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous
 define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
