@@ -118,7 +118,7 @@ export function getPreTriagedAmountByCategory(
   internalState.patients
     .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != null)
+    .filter(categoryId => categoryId != undefined)
     .forEach(category => {
       if (category! in amountsByCategory) {
         amountsByCategory[category!] += 1;
@@ -140,7 +140,7 @@ export function getPreTriagedAmountByTagName(
   internalState.patients
     .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != null)
+    .filter(categoryId => categoryId != undefined)
     .forEach(category => {
       if (getTagNameByCategoryId(category!) in amountsByTagName) {
         amountsByTagName[getTagNameByCategoryId(category!)] += 1;
