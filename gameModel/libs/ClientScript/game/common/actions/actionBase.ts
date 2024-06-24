@@ -1,3 +1,9 @@
+import { hospitalInfo } from '../../../gameInterface/mock_data';
+import { entries } from '../../../tools/helper';
+import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
+import { getCurrentState } from '../../mainSimulationLogic';
+import { ActionType } from '../actionType';
+import { InterventionRole } from '../actors/actor';
 import {
   ActionId,
   ActionTemplateId,
@@ -11,57 +17,51 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
-import {
-  AddRadioMessageLocalEvent,
-  AddFixedEntityLocalEvent,
-  RemoveFixedEntityLocalEvent,
-  CompleteBuildingFixedEntityLocalEvent,
-  ResourceRequestResolutionLocalEvent,
-  MoveActorLocalEvent,
-  AddActorLocalEvent,
-  HospitalRequestUpdateLocalEvent,
-  AssignResourcesToTaskLocalEvent,
-  ReserveResourcesLocalEvent,
-  DeleteResourceLocalEvent,
-  UnReserveResourcesLocalEvent,
-  MoveFreeWaitingHumanResourcesLocalEvent,
-  MoveFreeWaitingResourcesByTypeLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
-  MoveResourcesLocalEvent,
-  AutoSendACSMCSLocalEvent,
-} from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { ResourceTypeAndNumber, ResourceType, VehicleType } from '../resources/resourceType';
-import {
-  CasuMessagePayload,
-  HospitalRequestPayload,
-  MethaneMessagePayload,
-} from '../events/casuMessageEvent';
-import { RadioMessagePayload } from '../events/radioMessageEvent';
-import { entries } from '../../../tools/helper';
-import { ActionType } from '../actionType';
-import { SimFlag } from './actionTemplateBase';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import * as ResourceState from '../simulationState/resourceStateAccess';
-import { InterventionRole } from '../actors/actor';
-import { getEvacuationTask } from '../tasks/taskLogic';
-import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { hospitalInfo } from '../../../gameInterface/mock_data';
-import { getCurrentState } from '../../mainSimulationLogic';
-import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
-import { Resource } from '../resources/resource';
+import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
-import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
+import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
   PatientUnitTypology,
 } from '../evacuation/hospitalType';
-import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
-import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import { ACSMCSAutoRequestDelay } from '../constants';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../events/casuMessageEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
+import { RadioMessagePayload } from '../events/radioMessageEvent';
+import {
+  AddActorLocalEvent,
+  AddFixedEntityLocalEvent,
+  AddRadioMessageLocalEvent,
+  AssignResourcesToTaskLocalEvent,
+  AssignResourcesToWaitingTaskLocalEvent,
+  AutoSendACSMCSLocalEvent,
+  CompleteBuildingFixedEntityLocalEvent,
+  DeleteResourceLocalEvent,
+  HospitalRequestUpdateLocalEvent,
+  MoveActorLocalEvent,
+  MoveFreeWaitingHumanResourcesLocalEvent,
+  MoveFreeWaitingResourcesByTypeLocalEvent,
+  MoveResourcesLocalEvent,
+  RemoveFixedEntityLocalEvent,
+  ReserveResourcesLocalEvent,
+  ResourceRequestResolutionLocalEvent,
+  UnReserveResourcesLocalEvent,
+} from '../localEvents/localEventBase';
+import { localEventManager } from '../localEvents/localEventManager';
+import { Resource } from '../resources/resource';
+import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import * as ResourceState from '../simulationState/resourceStateAccess';
+import { getEvacuationTask } from '../tasks/taskLogic';
+import { SimFlag } from './actionTemplateBase';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -87,7 +87,7 @@ export abstract class ActionBase {
 
   protected readonly templateId;
 
-  public constructor(
+  protected constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId,
@@ -152,7 +152,7 @@ export abstract class StartEndAction extends ActionBase {
    */
   public provideFlagsToState: SimFlag[];
 
-  public constructor(
+  protected constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
@@ -219,7 +219,7 @@ export abstract class StartEndAction extends ActionBase {
 }
 
 export abstract class RadioDrivenAction extends StartEndAction {
-  public constructor(
+  protected constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
@@ -1089,6 +1089,57 @@ export class SendRadioMessageAction extends RadioDrivenAction {
 
   public getRecipient(): number {
     return this.radioMessagePayload.actorId;
+  }
+}
+
+export class ActivateRadioSchemaAction extends StartEndAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[]
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event ActivateRadioSchemaAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event ActivateRadioSchemaAction');
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        state.getActorById(this.ownerId)?.ShortName || '',
+        this.messageKey,
+        ActionType.CASU_RADIO,
+        true,
+        false
+      )
+    );
+  }
+
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
+    return;
   }
 }
 
