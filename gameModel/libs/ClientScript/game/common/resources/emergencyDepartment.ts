@@ -13,7 +13,6 @@ import {
 import {
   AddRadioMessageLocalEvent,
   ResourceMobilizationEvent,
-  ResourcesDepartureLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -212,16 +211,24 @@ export function resolveResourceRequest(
   const containers = state.getResourceContainersByType();
   const now = state.getSimTime();
 
-  const sentContainers: Record<number, { name: string; def: ResourceContainerDefinition }[]> = {};
+  const sentContainers: Record<
+    number,
+    { name: string; def: ResourceContainerDefinition; travelTime: number }[]
+  > = {};
   function addDepartureEntry(
+    departureTime: number,
     travelTime: number,
     containerName: string,
     containerDef: ResourceContainerDefinition
   ) {
-    if (!sentContainers[travelTime]) {
-      sentContainers[travelTime] = [];
+    if (!sentContainers[departureTime]) {
+      sentContainers[departureTime] = [];
     }
-    sentContainers[travelTime]?.push({ name: containerName, def: containerDef });
+    sentContainers[departureTime]?.push({
+      name: containerName,
+      def: containerDef,
+      travelTime: travelTime,
+    });
   }
   entries(request)
     .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
@@ -251,7 +258,7 @@ export function resolveResourceRequest(
           c.name
         );
         localEventManager.queueLocalEvent(evt);
-        addDepartureEntry(c.travelTime, c.name, definition);
+        addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
     });
   queueResourceDepartureRadioMessageEvents(sentContainers, globalEventId, senderId);
@@ -265,23 +272,27 @@ export function resolveResourceRequest(
  * @param senderId
  */
 function queueResourceDepartureRadioMessageEvents(
-  sentContainers: Record<number, { name: string; def: ResourceContainerDefinition }[]>,
+  sentContainers: Record<
+    number,
+    { name: string; def: ResourceContainerDefinition; travelTime: number }[]
+  >,
   globalEventId: GlobalEventId,
   senderId: ActorId
 ): void {
-  forEach(Object.entries(sentContainers), ([depTime, sent]) => {
-    const time = depTime as unknown as number;
+  Object.entries(sentContainers).forEach(([depTime, sent]) => {
+    const dtime = parseInt(depTime);
     const msgs: string[] = [];
-    forEach(Object.values(sent), v => {
-      msgs.push(buildRadioText(time, v.def, v.name));
+
+    Object.values(sent).forEach(v => {
+      msgs.push(buildRadioText(v.travelTime, v.def, v.name));
     });
 
     const evt = new AddRadioMessageLocalEvent(
       globalEventId,
-      time,
+      dtime,
       senderId,
       'CASU',
-      msgs.join('\n'), // TODO works ?
+      msgs.join('\n'),
       ActionType.CASU_RADIO,
       true,
       true
@@ -290,13 +301,13 @@ function queueResourceDepartureRadioMessageEvents(
   });
 }
 
-function buildRadioText(time: number, c: ResourceContainerDefinition, name: string): string {
+function buildRadioText(travelTime: number, c: ResourceContainerDefinition, name: string): string {
   const parts: string[] = [];
   parts.push(getTranslation('mainSim-resources', 'sending'));
   parts.push(name); // Specific name (e.g. AMB002)
   parts.push('(' + getTranslation('mainSim-resources', c.name) + ')'); // type
   parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
-  parts.push(Math.round(time / 60) + '');
+  parts.push(Math.round(travelTime / 60) + '');
   parts.push(getTranslation('mainSim-resources', 'minutes', false));
   return parts.join(' ');
 }
