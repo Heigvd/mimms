@@ -112,7 +112,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     });
 
     const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
-      'PCS',
+      'PC San',
       'pcs',
       {},
       [],
