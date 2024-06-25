@@ -343,7 +343,23 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
+
+    const targetLocation = so.mapLocations.find(l => l.id === this.location);
+    if (targetLocation === undefined) {
+      const noLocationMessage = new AddRadioMessageLocalEvent(
+        this.parentEventId,
+        state.getSimTime(),
+        this.actorUid,
+        'ACS',
+        'move-actor-no-location',
+        undefined,
+        false,
+        false
+      );
+      localEventManager.queueLocalEvent(noLocationMessage);
+    } else {
+      so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
+    }
   }
 }
 
@@ -688,6 +704,22 @@ export class MoveFreeWaitingHumanResourcesLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const resources = ResourceState.getFreeWaitingHumanResources(state);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class MoveFreeWaitingResourcesByLocationLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly sourceLocation: LOCATION_ENUM,
+    readonly targetLocation: LOCATION_ENUM
+  ) {
+    super(parentId, 'MoveFreeWaitingResourcesByLocationLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const resources = ResourceState.getFreeHumanResourcesByLocation(state, this.sourceLocation);
     ResourceState.sendResourcesToLocation(resources, this.targetLocation);
   }
 }

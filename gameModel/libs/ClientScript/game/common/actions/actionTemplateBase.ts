@@ -32,6 +32,7 @@ import {
   RadioDrivenAction,
   EvacuationAction,
   SelectionMeetingPointAction,
+  SelectionPCAction,
 } from './actionBase';
 import {
   SelectionFixedMapEntityEvent,
@@ -561,6 +562,62 @@ export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTempla
     const ownerId = payload.emitterCharacterId as ActorId;
 
     return new SelectionMeetingPointAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
+      this.provideFlagsToState
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place PC San
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Template of an action to select the place of the PC San
+ */
+export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<SelectionPCAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    fixedMapEntity: FixedMapEntity,
+    replayable = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      fixedMapEntity,
+      replayable,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public override getTemplateRef(): string {
+    return 'SelectionPCTemplate' + '_' + this.title;
+  }
+
+  protected override createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityEvent>
+  ): SelectionPCAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SelectionPCAction(
       payload.triggerTime,
       this.duration,
       event.id,

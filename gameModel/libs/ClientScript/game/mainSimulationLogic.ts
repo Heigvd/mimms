@@ -14,6 +14,7 @@ import {
   SelectionFixedMapEntityTemplate,
   SelectionMeetingPointTemplate,
   SelectionParkTemplate,
+  SelectionPCTemplate,
   SelectionPMATemplate,
   SendRadioMessage,
   SimFlag,
@@ -452,7 +453,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const placePC = new SelectionFixedMapEntityTemplate(
+  const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
     TimeSliceDuration * 2,
@@ -474,6 +475,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.PCS_ARRIVED],
     [SimFlag.PC_BUILT]
   );
+
   const placeNest = new SelectionFixedMapEntityTemplate(
     'define-Nest-title',
     'define-Nest-desc',

@@ -64,6 +64,7 @@ define-meetingPoint-feedback	Forward CP is defined	Le PC front est défini
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
 move-actor-feedback	Moving	En déplacement	
+move-actor-no-location	Impossible to move because the location does not exist	Impossible de se déplacer car l'emplacement n'existe pas	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
