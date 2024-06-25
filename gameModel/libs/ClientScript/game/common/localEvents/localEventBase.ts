@@ -431,7 +431,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         SMUR: 0,
         PMA: 0,
         PICA: 0,
-        PCS: 0,
+        'PC San': 0,
         Helicopter: 0,
       },
     };
