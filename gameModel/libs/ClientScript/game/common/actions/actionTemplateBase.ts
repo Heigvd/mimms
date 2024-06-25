@@ -34,12 +34,10 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
-  ActivateRadioSchemaAction,
   AppointActorAction,
   ArrivalAnnouncementAction,
   CasuMessageAction,
   EvacuationAction,
-  GetInformationAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
   RadioDrivenAction,
@@ -47,6 +45,7 @@ import {
   SelectionMeetingPointAction,
   SelectionPMAAction,
   SelectionParkAction,
+  SendMessageAction,
   SendRadioMessageAction,
 } from './actionBase';
 
@@ -266,7 +265,7 @@ export abstract class StartEndTemplate<
   }
 }
 
-export class GetInformationTemplate extends StartEndTemplate {
+export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -290,11 +289,11 @@ export class GetInformationTemplate extends StartEndTemplate {
     );
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new GetInformationAction(
+    return new SendMessageAction(
       payload.triggerTime,
       this.duration,
       this.message,
@@ -879,7 +878,7 @@ export class SendRadioMessage extends StartEndTemplate {
   }
 }
 
-export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<ActivateRadioSchemaAction> {
+export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<SendMessageAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -903,21 +902,22 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     );
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<StandardActionEvent>
-  ): ActivateRadioSchemaAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new ActivateRadioSchemaAction(
+
+    return new SendMessageAction(
       payload.triggerTime,
       this.duration,
-      event.id,
-      this.title,
       this.message,
+      this.title,
+      event.id,
       ownerId,
       this.Uid,
-      this.provideFlagsToState
+      this.provideFlagsToState,
+      ActionType.CASU_RADIO,
+      true
     );
   }
 

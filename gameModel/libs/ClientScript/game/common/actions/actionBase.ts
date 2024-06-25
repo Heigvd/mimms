@@ -254,7 +254,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
   public abstract getRecipient(): number;
 }
 
-export class GetInformationAction extends StartEndAction {
+export class SendMessageAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -262,25 +262,40 @@ export class GetInformationAction extends StartEndAction {
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState?: SimFlag[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event GetInformationAction');
+    this.logger.info('start event SendMessageAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event GetInformationAction');
+    this.logger.info('end event SendMessageAction');
+
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.ownerId,
-        'ACS',
-        this.messageKey
+        state.getActorById(this.ownerId)?.ShortName || '',
+        this.messageKey,
+        this.channel,
+        this.isRadioMessage
       )
     );
   }
@@ -1089,57 +1104,6 @@ export class SendRadioMessageAction extends RadioDrivenAction {
 
   public getRecipient(): number {
     return this.radioMessagePayload.actorId;
-  }
-}
-
-export class ActivateRadioSchemaAction extends StartEndAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    provideFlagsToState: SimFlag[]
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      provideFlagsToState
-    );
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    //likely nothing to do
-    this.logger.info('start event ActivateRadioSchemaAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event ActivateRadioSchemaAction');
-
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        state.getActorById(this.ownerId)?.ShortName || '',
-        this.messageKey,
-        ActionType.CASU_RADIO,
-        true,
-        false
-      )
-    );
-  }
-
-  protected cancelInternal(_state: MainSimulationState): void {
-    // nothing to do
-    return;
   }
 }
 
