@@ -7,7 +7,7 @@ notifications	notifications	notifications
 no-notifications	no notification	aucune notification
 actor	actor	acteur
 next-phase	next phase	prochaine phase
-time-forward	advance time	avancer le temps
+time-forward	Continue	Continuer
 time-rewind	rewind time	reculer le temps
 available	available	disponible
 cancel	cancel	annuler
@@ -41,3 +41,4 @@ not-all-ready	All players need to be marked as ready!	Tous les joueurs doivent c
 minimum-one-per-role	A minimum of one player per role is required !	Un joueur par rôle est requis au minimum
 player-id	Player ID	ID du joueur
 player-name	Name	Nom
+incoming-message	Communication in progress	Communication en cours

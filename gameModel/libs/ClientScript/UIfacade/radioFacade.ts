@@ -9,14 +9,25 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { setInterfaceState } from '../gameInterface/interfaceState';
 import { canCancelOnGoingAction, canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getAvailableActions } from '../UIfacade/actionFacade';
-import { getSimTime } from '../UIfacade/timeFacade';
+import { getAvailableActions } from './actionFacade';
+import { isRadioSchemaActivated } from './flagsFacade';
+import { getSimTime } from './timeFacade';
 
 /**
  * All radio messages currently in state
  */
 export function getAllRadioMessages(): RadioMessage[] {
   return getCurrentState().getRadioMessages();
+}
+
+export function isChannelHidden(channel: ActionType): boolean {
+  if (channel === ActionType.CASU_RADIO) {
+    // never hide the CASU channel
+    return false;
+  }
+
+  // the others are hidden until the activation of the radio schema
+  return !isRadioSchemaActivated();
 }
 
 /**

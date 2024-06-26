@@ -1,5 +1,9 @@
 import { HumanBody } from '../../../HUMAn/human';
-import { getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
+import {
+  getTagNameByCategoryId,
+  getPriorityByCategoryId,
+  PreTriageResult,
+} from '../../pretri/triage';
 import { MainSimulationState } from './mainSimulationState';
 import { HospitalId, PatientId } from '../baseTypes';
 import { LOCATION_ENUM } from './locationState';
@@ -116,14 +120,29 @@ export function getPreTriagedAmountByCategory(
     .map(patient => patient.preTriageResult?.categoryId)
     .filter(categoryId => categoryId != null)
     .forEach(category => {
-      if (category! in amountsByCategory) {
-        amountsByCategory[category!] += 1;
-      } else {
-        amountsByCategory[category!] = 1;
-      }
+      amountsByCategory[category!] = (amountsByCategory[category!] || 0) + 1;
     });
 
   return amountsByCategory;
+}
+
+export function getPreTriagedAmountByTagName(
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
+): Record<string, number> {
+  const internalState = state.getInternalStateObject();
+  const amountsByColor: Record<string, number> = {};
+
+  internalState.patients
+    .filter(p => location === undefined || p.location.locationId === location)
+    .map(patient => patient.preTriageResult?.categoryId)
+    .filter(categoryId => categoryId != null)
+    .forEach(category => {
+      const col = getTagNameByCategoryId(category!);
+      amountsByColor[col] = (amountsByColor[col] || 0) + 1;
+    });
+
+  return amountsByColor;
 }
 
 // -------------------------------------------------------------------------------------------------

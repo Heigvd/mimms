@@ -1,3 +1,6 @@
+import { getTranslation } from '../../../tools/translation';
+import { ActionType } from '../actionType';
+import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
   ActorId,
@@ -8,7 +11,13 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { initBaseEvent } from '../events/baseEvent';
-import { FullEvent } from '../events/eventUtils';
+import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
+import {
+  FixedMapEntity,
+  SelectionFixedMapEntityEvent,
+  createFixedMapEntityInstanceFromAnyObject,
+} from '../events/defineMapObjectEvent';
+import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import {
   ActionCreationEvent,
   AppointActorEvent,
@@ -16,38 +25,29 @@ import {
   MoveResourcesAssignTaskEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
+import { FullEvent } from '../events/eventUtils';
+import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
+import { PlanActionLocalEvent } from '../localEvents/localEventBase';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { getOngoingActions } from '../simulationState/actionStateAccess';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
-  CasuMessageAction,
-  GetInformationAction,
-  SendRadioMessageAction,
-  SelectionFixedMapEntityAction,
-  MoveActorAction,
-  ArrivalAnnouncementAction,
-  MoveResourcesAssignTaskAction,
   AppointActorAction,
+  ArrivalAnnouncementAction,
+  CasuMessageAction,
+  EvacuationAction,
+  MoveActorAction,
+  MoveResourcesAssignTaskAction,
+  RadioDrivenAction,
+  SelectionFixedMapEntityAction,
+  SelectionMeetingPointAction,
   SelectionPMAAction,
   SelectionParkAction,
-  RadioDrivenAction,
-  EvacuationAction,
-  SelectionMeetingPointAction,
+  SendMessageAction,
+  SendRadioMessageAction,
 } from './actionBase';
-import {
-  SelectionFixedMapEntityEvent,
-  FixedMapEntity,
-  createFixedMapEntityInstanceFromAnyObject,
-} from '../events/defineMapObjectEvent';
-import { PlanActionLocalEvent } from '../localEvents/localEventBase';
-import { Actor, InterventionRole } from '../actors/actor';
-import { getTranslation } from '../../../tools/translation';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
-import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
-import { ActionType } from '../actionType';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getOngoingActions } from '../simulationState/actionStateAccess';
-import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
@@ -58,6 +58,7 @@ export enum SimFlag {
   AMBULANCE_PARK_BUILT = 'AMBULANCE_PARK_BUILT',
   HELICOPTER_PARK_BUILT = 'HELICOPTER_PARK_BUILT',
   ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
+  RADIO_SCHEMA_ACTIVATED = 'RADIO_SCHEMA_ACTIVATED',
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
 }
 
@@ -85,10 +86,12 @@ export abstract class ActionTemplateBase<
    * @param title action display title translation key
    * @param description short description of the action
    * @param replayable defaults to false, when true the action can be played multiple times
+   * @param category The type of action
    * @param flags list of simulation flags that make the action available, undefined or empty array means no flag condition
    * @param provideFlagsToState list of simulation flags added to state when action ends
+   * @param availableToRoles list of roles admitted to launch the action, undefined or empty array means available to everyone
    */
-  public constructor(
+  protected constructor(
     protected readonly title: TranslationKey,
     protected readonly description: TranslationKey,
     public replayable: boolean = false,
@@ -237,7 +240,7 @@ export abstract class StartEndTemplate<
   public readonly duration: SimDuration;
   public readonly message: TranslationKey;
 
-  constructor(
+  protected constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -262,7 +265,7 @@ export abstract class StartEndTemplate<
   }
 }
 
-export class GetInformationTemplate extends StartEndTemplate {
+export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -286,11 +289,11 @@ export class GetInformationTemplate extends StartEndTemplate {
     );
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): GetInformationAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new GetInformationAction(
+    return new SendMessageAction(
       payload.triggerTime,
       this.duration,
       this.message,
@@ -790,6 +793,12 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   }
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 export class SendRadioMessage extends StartEndTemplate {
   constructor(
     title: TranslationKey,
@@ -868,6 +877,75 @@ export class SendRadioMessage extends StartEndTemplate {
     );
   }
 }
+
+export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<SendMessageAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable: boolean = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SendMessageAction(
+      payload.triggerTime,
+      this.duration,
+      this.message,
+      this.title,
+      event.id,
+      ownerId,
+      this.Uid,
+      this.provideFlagsToState,
+      ActionType.CASU_RADIO,
+      true
+    );
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  actor
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 export class MoveActorActionTemplate extends StartEndTemplate {
   constructor(
