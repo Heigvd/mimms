@@ -46,7 +46,7 @@
 
 .walkieTalkie{
   width: 1.25em;
-  padding: .18rem; /* precise value, only chnage proportionally to padding in walkieTalkie-selected */
+  padding: .18rem; /* precise value, only change proportionally to padding in walkieTalkie-selected */
   filter: invert(26%) 
           sepia(11%) 
           saturate(321%) 

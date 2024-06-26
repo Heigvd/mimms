@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1718374725821,
+  "createdTime" : 1719241454383,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3947,7 +3947,7 @@
           "send-request-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send request (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer la demande (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
-          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advance time\"},\"FR\":{\"status\":\"\",\"translation\":\"avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6564,7 +6564,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO dev 16h",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

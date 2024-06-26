@@ -125,7 +125,7 @@
                   "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
                   "language" : "typescript"
                 },
-                "rows" : 2,
+                "rows" : 6,
                 "script" : {
                   "@class" : "Script",
                   "content" : "Context.interfaceState.state.channelText.actors;",
