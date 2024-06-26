@@ -1438,11 +1438,6 @@ export function doAutomaticTriageAndLogToConsole() {
       targetId: patientId,
       message: message,
     });
-
-    //wlog("PreTriage: " + message);
-    /*setState(state => {
-      return { ...state, logs: [...state.logs, output.join("")] };
-    });*/
   } else {
     wlog(`PreTriage "${tagSystem}": Not Yet Implements]`);
 
