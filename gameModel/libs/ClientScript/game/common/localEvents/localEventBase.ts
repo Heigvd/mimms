@@ -3,7 +3,7 @@ import { entries } from '../../../tools/helper';
 import { resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
-import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
+import { ActionBase, OnTheRoadAction, SendRadioMessageAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionId,
