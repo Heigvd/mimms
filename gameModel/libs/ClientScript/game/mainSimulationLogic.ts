@@ -93,7 +93,7 @@ function queueAutomaticEvents() {
 function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
-  const testAL = new Actor('AL', LOCATION_ENUM.meetingPoint);
+  const testAL = new Actor('AL', LOCATION_ENUM.pcFront);
   // AL's default location (symbolicLocation) doesn't exist yet
   testAL.setLocation(LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
@@ -266,7 +266,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     new GeometryBasedFixedMapEntity(
       0,
       'location-meetingpoint',
-      LOCATION_ENUM.meetingPoint,
+      LOCATION_ENUM.pcFront,
       ['AL'],
       new PointGeometricalShape([
         [2500075.549931927, 1118500.103111194],

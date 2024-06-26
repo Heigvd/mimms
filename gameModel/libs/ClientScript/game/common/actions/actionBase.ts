@@ -575,7 +575,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 }
 
 // -------------------------------------------------------------------------------------------------
-// place meetingPoint
+// place PC Front
 // -------------------------------------------------------------------------------------------------
 
 export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
@@ -606,12 +606,7 @@ export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
   protected override dispatchEndedEvents(state: MainSimulationState): void {
     super.dispatchEndedEvents(state);
     localEventManager.queueLocalEvent(
-      new MoveActorLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        LOCATION_ENUM.meetingPoint
-      )
+      new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, LOCATION_ENUM.pcFront)
     );
     // First and only resource on scene
     const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
@@ -619,7 +614,7 @@ export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingHumanResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
-        LOCATION_ENUM.meetingPoint
+        LOCATION_ENUM.pcFront
       )
     );
     localEventManager.queueLocalEvent(
@@ -662,28 +657,28 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     // Move actors to PC
     const actors = state
       .getInternalStateObject()
-      .actors.filter(a => a.Location === LOCATION_ENUM.meetingPoint);
+      .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
 
     for (const actor of actors) {
       localEventManager.queueLocalEvent(
         new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
       );
     }
-    // Move resources to PC (resources can only be idle at meetingPoint)
+    // Move resources to PC (resources can only be idle at PC Front)
     localEventManager.queueLocalEvent(
       new MoveFreeWaitingResourcesByLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
-        LOCATION_ENUM.meetingPoint,
+        LOCATION_ENUM.pcFront,
         this.fixedMapEntity.id
       )
     );
-    // Remove meetingPoint once all actors and resources have been moved
-    const meetingPointFixedEntity = state
+    // Remove PC Front once all actors and resources have been moved
+    const pcFrontFixedEntity = state
       .getInternalStateObject()
-      .mapLocations.find(l => l.id === LOCATION_ENUM.meetingPoint);
+      .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
     localEventManager.queueLocalEvent(
-      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), meetingPointFixedEntity!)
+      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
     );
   }
 }

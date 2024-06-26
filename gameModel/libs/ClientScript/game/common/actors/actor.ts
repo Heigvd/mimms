@@ -109,6 +109,6 @@ export class Actor {
       return LOCATION_ENUM.PC;
     }
 
-    return LOCATION_ENUM.meetingPoint;
+    return LOCATION_ENUM.pcFront;
   }
 }
