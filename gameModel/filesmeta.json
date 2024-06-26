@@ -95,24 +95,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/ACS.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/AL.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/MCS.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/Nest.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -410,42 +392,6 @@
   "/maps/mapIcons/secondaryAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/selected_1.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/selected_2.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/selected_3.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/unselected_1.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/unselected_2.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/unselected_3.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
