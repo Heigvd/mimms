@@ -341,37 +341,37 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint.png" : {
+  "/maps/mapIcons/pcFront.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint.svg" : {
+  "/maps/mapIcons/pcFront.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_blue.png" : {
+  "/maps/mapIcons/pcFront_blue.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_blue.svg" : {
+  "/maps/mapIcons/pcFront_blue.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_choice.svg" : {
+  "/maps/mapIcons/pcFront_choice.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_white.png" : {
+  "/maps/mapIcons/pcFront_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",

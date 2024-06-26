@@ -42,7 +42,7 @@ import {
   MoveResourcesAssignTaskAction,
   RadioDrivenAction,
   SelectionFixedMapEntityAction,
-  SelectionMeetingPointAction,
+  SelectionPCFrontAction,
   SelectionPMAAction,
   SelectionParkAction,
   SendMessageAction,
@@ -52,7 +52,7 @@ import {
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS-ARRIVED',
-  MEETINGPOINT_BUILT = 'MEETINGPOINT_BUILT',
+  PCFRONT_BUILT = 'PCFRONT_BUILT',
   MCS_ARRIVED = 'MCS_ARRIVED',
   ACS_ARRIVED = 'ACS_ARRIVED',
   PC_BUILT = 'PC_BUILT',
@@ -97,7 +97,7 @@ export abstract class ActionTemplateBase<
     protected readonly description: TranslationKey,
     public replayable: boolean = false,
     protected readonly category: ActionType = ActionType.ACTION,
-    private flags: SimFlag[] = [SimFlag.MEETINGPOINT_BUILT],
+    private flags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
@@ -529,7 +529,7 @@ export class SelectionFixedMapEntityTemplate<
 /**
  * Template of an action to select the place of the Meeting Point
  */
-export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTemplate<SelectionMeetingPointAction> {
+export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<SelectionPCFrontAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -555,16 +555,16 @@ export class SelectionMeetingPointTemplate extends SelectionFixedMapEntityTempla
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionMeetingPointTemplate' + '_' + this.title;
+    return 'SelectionPCFrontTemplate' + '_' + this.title;
   }
 
   protected override createActionFromEvent(
     event: FullEvent<SelectionFixedMapEntityEvent>
-  ): SelectionMeetingPointAction {
+  ): SelectionPCFrontAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
-    return new SelectionMeetingPointAction(
+    return new SelectionPCFrontAction(
       payload.triggerTime,
       this.duration,
       event.id,

@@ -214,7 +214,7 @@
                                                       "className" : "counter-resourcesNearCurrentActor",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisMeetingPointBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
                                                         "language" : "typescript"
                                                       }
                                                     }, {
@@ -222,7 +222,7 @@
                                                       "className" : "counterText-resourcesNearCurrentActor",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisMeetingPointBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -251,7 +251,7 @@
                                                       "className" : "resourcesNearCurrentActor",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisMeetingPointBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -266,7 +266,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\nimport { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isMeetingPointBuilt() && isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                        "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isPCFrontBuilt() && isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -1007,7 +1007,7 @@
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\nisMeetingPointBuilt() === false;",
+                                  "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nisPCFrontBuilt() === false;",
                                   "language" : "typescript"
                                 },
                                 "layoutClassName" : "menuItem-container",
@@ -1066,7 +1066,7 @@
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isMeetingPointBuilt } from \"./UIfacade/actionFacade\";\n  if(isMeetingPointBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n  if(isPCFrontBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",

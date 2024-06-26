@@ -578,7 +578,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 // place PC Front
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
+export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,

@@ -152,8 +152,8 @@ export function isEvacuationActionTemplate(id: number): boolean {
 }
 
 /**
- * Check if meetingpoint is already built
+ * Check if pcFront is already built
  */
-export function isMeetingPointBuilt(): boolean {
-  return getCurrentState().isSimFlagEnabled(SimFlag.MEETINGPOINT_BUILT);
+export function isPCFrontBuilt(): boolean {
+  return getCurrentState().isSimFlagEnabled(SimFlag.PCFRONT_BUILT);
 }

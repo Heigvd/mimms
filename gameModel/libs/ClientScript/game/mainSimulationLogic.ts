@@ -13,7 +13,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
-  SelectionMeetingPointTemplate,
+  SelectionPCFrontTemplate,
   SelectionParkTemplate,
   SelectionPCTemplate,
   SelectionPMATemplate,
@@ -258,14 +258,14 @@ function initMainState(): MainSimulationState {
 function initActionTemplates(): Record<string, ActionTemplateBase> {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const placeMeetingPoint = new SelectionMeetingPointTemplate(
-    'define-meetingPoint-title',
-    'define-meetingPoint-desc',
+  const placePCFront = new SelectionPCFrontTemplate(
+    'define-pcFront-title',
+    'define-pcFront-desc',
     TimeSliceDuration,
-    'define-meetingPoint-feedback',
+    'define-pcFront-feedback',
     new GeometryBasedFixedMapEntity(
       0,
-      'location-meetingpoint',
+      'location-pcFront',
       LOCATION_ENUM.pcFront,
       ['AL'],
       new PointGeometricalShape([
@@ -274,11 +274,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2500106.549931926, 1118489.103111192],
       ]),
       BuildingStatus.selection,
-      'meetingpoint' /*_blue*/
+      'pcFront' /*_blue*/
     ),
     false,
     [],
-    [SimFlag.MEETINGPOINT_BUILT]
+    [SimFlag.PCFRONT_BUILT]
   );
   const getInfo = new GetInformationTemplate(
     'basic-info-title',
@@ -575,7 +575,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
-  templates[placeMeetingPoint.getTemplateRef()] = placeMeetingPoint;
+  templates[placePCFront.getTemplateRef()] = placePCFront;
   templates[moveActor.getTemplateRef()] = moveActor;
   templates[getInfo.getTemplateRef()] = getInfo;
   templates[getInfo2.getTemplateRef()] = getInfo2;
