@@ -118,7 +118,7 @@ export function getPreTriagedAmountByCategory(
   internalState.patients
     .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != null)
+    .filter(categoryId => categoryId != undefined)
     .forEach(category => {
       amountsByCategory[category!] = (amountsByCategory[category!] || 0) + 1;
     });
@@ -131,18 +131,18 @@ export function getPreTriagedAmountByTagName(
   location?: LOCATION_ENUM
 ): Record<string, number> {
   const internalState = state.getInternalStateObject();
-  const amountsByColor: Record<string, number> = {};
+  const amountsByTagName: Record<string, number> = {};
 
   internalState.patients
     .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != null)
+    .filter(categoryId => categoryId != undefined)
     .forEach(category => {
       const col = getTagNameByCategoryId(category!);
-      amountsByColor[col] = (amountsByColor[col] || 0) + 1;
+      amountsByTagName[col] = (amountsByTagName[col] || 0) + 1;
     });
 
-  return amountsByColor;
+  return amountsByTagName;
 }
 
 // -------------------------------------------------------------------------------------------------
