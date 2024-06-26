@@ -8,7 +8,7 @@ location-PC	Medical command post	Poste de commandement sanitaire
 location-PC-short	Medical CP	PC San
 location-ambulancePark	Ambulance park	Parc ambulance
 location-helicopterPark	Helicopter park	Parc hélicoptère
-location-meetingPoint	Forward CP	PC front
+location-pcFront	Forward CP	PC front
 location-remote	Remotely	À distance
 location-access	Access	Accès
 location-regress	Regress	Evacuation
