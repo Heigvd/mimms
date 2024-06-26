@@ -47,6 +47,7 @@ import {
   SelectionParkAction,
   SendMessageAction,
   SendRadioMessageAction,
+  SelectionPCAction,
 } from './actionBase';
 
 export enum SimFlag {
