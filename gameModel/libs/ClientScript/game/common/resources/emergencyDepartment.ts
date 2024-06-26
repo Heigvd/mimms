@@ -215,6 +215,7 @@ export function resolveResourceRequest(
     number,
     { name: string; def: ResourceContainerDefinition; travelTime: number }[]
   > = {};
+  
   function addDepartureEntry(
     departureTime: number,
     travelTime: number,
