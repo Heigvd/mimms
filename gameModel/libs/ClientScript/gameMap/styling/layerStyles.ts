@@ -37,8 +37,7 @@ function getPointStyle(feature: any): LayerStyleObject {
   const duration = properties.durationTimeSec;
 
   if (icon) {
-
-    const iconStyle : ImageStyleObject = {
+    const iconStyle: ImageStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
       displacement: [0, 300],
