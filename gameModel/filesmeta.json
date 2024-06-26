@@ -371,12 +371,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/nest_choice.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/park.png" : {
     "description" : "",
     "mimeType" : "image/png",
