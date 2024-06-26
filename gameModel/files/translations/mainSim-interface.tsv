@@ -17,7 +17,7 @@ error	You can't do that yet	Vous ne pouvez pas faire ça actuellement
 press-start	Press start to launch the game	Appuyez sur "démarrer" pour lancer la simulation
 methane-placeholder	Your METHANE message here	Votre message METHANE
 welcome	Welcome to MIMMS	Bienvenue dans MIMMS
-methane-ok	Your METHANE was sent succeffully	Votre message a bien été transmis
+methane-ok	Your METHANE was sent successfully	Votre message a bien été transmis
 start-time	Scenario start time :	Heure de début du scénario:
 your-message	Your message	Votre message
 your-text	Your text	Votre texte
@@ -30,7 +30,7 @@ bloodPressure	BloodPressure	Tension artérielle
 patientDetails	Patient's details	Détails patient
 search	Search	Rechercher
 waiting-player	Waiting for other players	En attente des autres joueurs
-game-will-proceed	The game will proceed once all players are ready/have pressed "Advance time"	Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “avancer le temps”
+game-will-proceed	The game will proceed once all players are ready/have pressed "Continue"	Vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “continuer”
 player-ready	Ready	Prêt
 player-unready	Unready	En jeu
 msg-now	Now	Maintenant
