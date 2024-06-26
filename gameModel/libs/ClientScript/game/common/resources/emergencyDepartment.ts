@@ -231,6 +231,7 @@ export function resolveResourceRequest(
       travelTime: travelTime,
     });
   }
+  
   entries(request)
     .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
     .forEach(([typeId, requestedAmount]) => {
