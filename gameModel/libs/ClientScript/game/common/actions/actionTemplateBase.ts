@@ -527,7 +527,7 @@ export class SelectionFixedMapEntityTemplate<
 // -------------------------------------------------------------------------------------------------
 
 /**
- * Template of an action to select the place of the Meeting Point
+ * Template of an action to select the place of the PC Front
  */
 export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<SelectionPCFrontAction> {
   constructor(
