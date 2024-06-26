@@ -200,3 +200,11 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
   updateSubStateRecursive(update, newState, 0);
   Context.interfaceState.setState(newState);
 }
+
+/**
+ * For convenience
+ * Just casting the interface state properly
+ */
+export function getTypedInterfaceState(): InterfaceState {
+  return Context.state.interfaceState;
+}
