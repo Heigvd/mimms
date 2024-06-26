@@ -63,7 +63,6 @@
 /*** General EVASAN FORM ***/
 
 .evasanChoicesBox-container{
-  /*background-color: antiquewhite;*/
   border-radius: var(--XXS_borderRadius);
   border: solid 1px var(--grey_20);
   margin-bottom: 5px;

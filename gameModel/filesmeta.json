@@ -131,6 +131,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/Nest_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/Nest_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -155,9 +161,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/PC_choice.png" : {
+  "/maps/mapIcons/PC_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -185,9 +191,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/PMA_choice.png" : {
+  "/maps/mapIcons/PMA_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -221,9 +227,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/ambulance-park_choice.png" : {
+  "/maps/mapIcons/ambulance-park_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -293,9 +299,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/helicopter-park_choice.png" : {
+  "/maps/mapIcons/helicopter-park_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -335,12 +341,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingPoint_choice.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/meetingpoint.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -365,13 +365,13 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint_white.png" : {
+  "/maps/mapIcons/meetingpoint_choice.svg" : {
     "description" : "",
-    "mimeType" : "image/png",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/nest_choice.png" : {
+  "/maps/mapIcons/meetingpoint_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
@@ -392,6 +392,12 @@
   "/maps/mapIcons/park_blue.png" : {
     "description" : "",
     "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/park_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },

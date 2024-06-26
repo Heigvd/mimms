@@ -1,5 +1,9 @@
 import { HumanBody } from '../../../HUMAn/human';
-import { getPriorityByCategoryId, PreTriageResult } from '../../pretri/triage';
+import {
+  getTagNameByCategoryId,
+  getPriorityByCategoryId,
+  PreTriageResult,
+} from '../../pretri/triage';
 import { MainSimulationState } from './mainSimulationState';
 import { HospitalId, PatientId } from '../baseTypes';
 import { LOCATION_ENUM } from './locationState';
@@ -114,16 +118,31 @@ export function getPreTriagedAmountByCategory(
   internalState.patients
     .filter(p => location === undefined || p.location.locationId === location)
     .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != null)
+    .filter(categoryId => categoryId != undefined)
     .forEach(category => {
-      if (category! in amountsByCategory) {
-        amountsByCategory[category!] += 1;
-      } else {
-        amountsByCategory[category!] = 1;
-      }
+      amountsByCategory[category!] = (amountsByCategory[category!] || 0) + 1;
     });
 
   return amountsByCategory;
+}
+
+export function getPreTriagedAmountByTagName(
+  state: Readonly<MainSimulationState>,
+  location?: LOCATION_ENUM
+): Record<string, number> {
+  const internalState = state.getInternalStateObject();
+  const amountsByTagName: Record<string, number> = {};
+
+  internalState.patients
+    .filter(p => location === undefined || p.location.locationId === location)
+    .map(patient => patient.preTriageResult?.categoryId)
+    .filter(categoryId => categoryId != undefined)
+    .forEach(category => {
+      const col = getTagNameByCategoryId(category!);
+      amountsByTagName[col] = (amountsByTagName[col] || 0) + 1;
+    });
+
+  return amountsByTagName;
 }
 
 // -------------------------------------------------------------------------------------------------

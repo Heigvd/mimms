@@ -35,6 +35,7 @@ function getPointStyle(feature: any): LayerStyleObject {
   const name = properties.name;
   const rotation = properties.rotation;
   const duration = properties.durationTimeSec;
+
   if (icon) {
     const iconStyle: ImageStyleObject = {
       type: 'IconStyle',
@@ -46,6 +47,42 @@ function getPointStyle(feature: any): LayerStyleObject {
       scale: 0.1,
       opacity: 1,
     };
+
+    if (
+      Context.mapState.state.selectionState &&
+      icon === Context.mapState.state.selectionState.icon &&
+      !duration
+    ) {
+      iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
+    }
+
+    if (
+      Context.mapState.state.selectionState &&
+      icon === Context.mapState.state.selectionState.icon &&
+      !duration
+    ) {
+      iconStyle = {
+        type: 'IconStyle',
+        anchor: [0.5, 0.5],
+        displacement: [0, 300],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: `/maps/mapIcons/${icon}_choice.svg`,
+        scale: 0.1,
+        opacity: 1,
+      };
+    } else {
+      iconStyle = {
+        type: 'IconStyle',
+        anchor: [0.5, 0.5],
+        displacement: [0, 300],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: `/maps/mapIcons/${icon}.svg`,
+        scale: 0.1,
+        opacity: 1,
+      };
+    }
 
     const textStyle: TextStyleObject = {
       type: 'TextStyle',
@@ -95,8 +132,8 @@ function getPointStyle(feature: any): LayerStyleObject {
       const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
       // Define textStyle for Icons
       textStyle.text = (index + 9).toString(36).toUpperCase();
-      textStyle.offsetX = 0.5;
-      textStyle.offsetY = -18;
+      textStyle.offsetX = 12;
+      textStyle.offsetY = -38;
       textStyle.scale = 1.6;
       // If point is currently selected, we give it half opacity
       textStyle.opacity = isSelected ? 1 : 0.5;

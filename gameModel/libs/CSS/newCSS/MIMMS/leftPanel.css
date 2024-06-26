@@ -65,16 +65,7 @@
 	padding: 0px 15px;
 }
 
-interfaceMenuLoader-container{
+.interfaceMenuLoader-container{
   width: 100%;
   margin: auto;
 }
-
-/*** Sub panel for resources ***/
-/* Probably unused
-.resourcesSubPanel-container{
-	height: 100%;
-	width: 100%;
-	overflow-y: auto;
-	padding: 0px 15px;
-}*/

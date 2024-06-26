@@ -1,38 +1,4 @@
-/****************************** METHANE ***************************/
-/* Probably unused -> old stuff
-.methaneInput-container{
-	background-color: var(--gray_200);
-}
-
- Probably unused 
-.jodit{
-	color: VAR(--gray_500);
-}
-
-
-.methaneBtn-container{
-	margin-top: 1em;
-}
-
-.cancelBtn{
-	color: var(--gray_700);
-	background-color: var(--gray_200);
-}
-
-.cancelBtn:hover{
-	color: var(--gray_700);
-	background-color: var(--gray_300);
-}
-
-
-.sysOk{
-	color: var(--green);
-}
-.sysFail{
-	color: var(--orange);
-}
-*/
- /**************** CASU TRANSMISSION ***********************/
+/**************** CASU TRANSMISSION ***********************/
 
 .casuTransmission-container{
 	max-height: 15rem;

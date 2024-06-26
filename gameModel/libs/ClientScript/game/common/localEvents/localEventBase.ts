@@ -171,9 +171,9 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
  */
 export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(
-    readonly parentEventId: GlobalEventId,
+    parentEventId: GlobalEventId,
     readonly timeStamp: SimTime,
-    readonly actors: ActorId[],
+    actors: ActorId[],
     readonly timeJump: number
   ) {
     super(parentEventId, 'TimeForwardEvent', actors, timeStamp);
@@ -214,7 +214,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
  * When applied, bumps down being readiness for a time forward for the provided actors
  */
 export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly actors: ActorId[]) {
+  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actors: ActorId[]) {
     super(parentEventId, 'TimeForwardCancelEvent', actors, timeStamp);
   }
 
@@ -495,18 +495,6 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       localEventManager.queueLocalEvent(evt);
     });
 
-    // schedule messages when the emergency center has new ressources that are sent
-    const dptEvt = new ResourcesDepartureLocalEvent(
-      this.parentEventId,
-      this.departureTime,
-      this.actorId,
-      this.containerDefId,
-      this.travelTime,
-      this.amount,
-      this.configName
-    );
-    localEventManager.queueLocalEvent(dptEvt);
-
     if (
       Object.keys(containerDef.resources).length > 0 ||
       Object.keys(containerDef.flags).length > 0
@@ -521,52 +509,6 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       );
       localEventManager.queueLocalEvent(evt);
     }
-  }
-}
-
-/**
- * Spawned when the emergency center has a resource available and sends it to the incident site
- */
-export class ResourcesDepartureLocalEvent extends LocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly senderId: ActorId,
-    public readonly containerDef: ResourceContainerDefinitionId,
-    public readonly travelTime: SimDuration,
-    public readonly amount: number,
-    public readonly configName: string
-  ) {
-    super(parentId, 'ResourcesDepartureLocalEvent', timeStamp);
-  }
-
-  override applyStateUpdate(_state: MainSimulationState): void {
-    const t = Math.round(this.travelTime / 60);
-    const msg = this.buildRadioText(t);
-    const evt = new AddRadioMessageLocalEvent(
-      this.parentEventId,
-      this.simTimeStamp,
-      this.senderId,
-      'CASU',
-      msg,
-      ActionType.CASU_RADIO,
-      true,
-      true
-    );
-    localEventManager.queueLocalEvent(evt);
-  }
-
-  private buildRadioText(time: number): string {
-    const c = getContainerDef(this.containerDef);
-    const parts: string[] = [];
-    parts.push(getTranslation('mainSim-resources', 'sending'));
-    //parts.push(this.amount + '');
-    parts.push(this.configName); // Specific name (e.g. AMB002)
-    parts.push('(' + getTranslation('mainSim-resources', c.name) + ')'); // type
-    parts.push(getTranslation('mainSim-resources', 'arrival-in', false));
-    parts.push(time + '');
-    parts.push(getTranslation('mainSim-resources', 'minutes', false));
-    return parts.join(' ');
   }
 }
 
@@ -894,8 +836,8 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
     const evt = new AddRadioMessageLocalEvent(
       this.parentEventId,
       this.simTimeStamp,
-      'CASU',
       this.senderId,
+      'CASU',
       this.formatHospitalResponse(this.hospitalRequestPayload),
       ActionType.CASU_RADIO,
       true,

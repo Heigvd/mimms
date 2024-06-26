@@ -23,7 +23,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  \"...\";",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
                   "language" : "TypeScript"
                 }
               },
@@ -99,6 +99,11 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+                  "language" : "typescript"
+                },
                 "layoutStyle" : {
                   "width" : "100%"
                 },
@@ -122,10 +127,10 @@
                 },
                 "readOnlyIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
                   "language" : "typescript"
                 },
-                "rows" : 2,
+                "rows" : 6,
                 "script" : {
                   "@class" : "Script",
                   "content" : "Context.interfaceState.state.channelText.actors;",
@@ -185,7 +190,7 @@
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
               "language" : "typescript"
             },
             "layoutStyle" : {
