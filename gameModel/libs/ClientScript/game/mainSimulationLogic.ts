@@ -4,6 +4,7 @@
 import { mainSimLogger } from '../tools/logger';
 import {
   ActionTemplateBase,
+  ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
   ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
@@ -542,6 +543,16 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
+  const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
+    'activate-radio-schema-title',
+    'activate-radio-schema-desc',
+    TimeSliceDuration,
+    'activate-radio-schema-feedback',
+    false,
+    undefined,
+    [SimFlag.RADIO_SCHEMA_ACTIVATED]
+  );
+
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
     'move-res-task-title',
     'move-res-task-desc',
@@ -577,6 +588,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
+  templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
