@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1718374725821,
+  "createdTime" : 1719241454383,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3948,7 +3948,7 @@
           "send-request-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send request (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer la demande (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
-          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advance time\"},\"FR\":{\"status\":\"\",\"translation\":\"avancer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3988,6 +3988,9 @@
         },
         "name" : "mainSim-actions-tasks",
         "properties" : {
+          "activate-radio-schema-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"activate the different radio channels\"},\"FR\":{\"status\":\"\",\"translation\":\"activer les différents canaux radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "activate-radio-schema-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"communication schema activation\"},\"FR\":{\"status\":\"\",\"translation\":\"activation du schéma de communication\",\"lang\":\"FR\"}},\"version\":0}",
+          "activate-radio-schema-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"activate the communication schema\"},\"FR\":{\"status\":\"\",\"translation\":\"activer le schéma de communication\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-arrival" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have arrived at the incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes arrivé sur les lieux de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"vous nommez un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN is appointed\"},\"FR\":{\"status\":\"\",\"translation\":\"l' EVASAN est nommé\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6562,7 +6565,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - main sim",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
