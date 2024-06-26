@@ -1,4 +1,3 @@
-import { forEach } from 'lodash';
 import { entries } from '../../../tools/helper';
 import { resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
