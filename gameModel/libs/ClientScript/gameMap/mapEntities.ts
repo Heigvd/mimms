@@ -1,9 +1,6 @@
 import { getActorsByLocation, isCurrentActorAtLocation } from '../UIfacade/actorFacade';
 import { getAvailableLocationsFacade } from '../UIfacade/locationFacade';
-import {
-  getHumanResourcesByLocation,
-  getResourcesByTypeAndLocation,
-} from '../game/common/simulationState/resourceStateAccess';
+import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { Actor } from '../game/common/actors/actor';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
@@ -27,9 +24,17 @@ export function getOverlayItems() {
         name: mapEntity.name,
         icon: mapEntity.icon,
         actors: getActorsByLocation(mapEntity.id),
-        resources: getHumanResourcesByLocation(getCurrentState(), mapEntity.id),
-        ambulances: getResourcesByTypeAndLocation(getCurrentState(), 'ambulance', mapEntity.id),
-        helicopters: getResourcesByTypeAndLocation(getCurrentState(), 'helicopter', mapEntity.id),
+        resources: ResourceState.getFreeHumanResourcesByLocation(getCurrentState(), mapEntity.id),
+        ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
+          getCurrentState(),
+          'ambulance',
+          mapEntity.id
+        ),
+        helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
+          getCurrentState(),
+          'helicopter',
+          mapEntity.id
+        ),
       },
     });
   }

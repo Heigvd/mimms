@@ -86,7 +86,6 @@ export function getFreeResourcesByTypeLocationAndTask(
     );
 }
 
-// ready if we want to display only the free human resources on the map
 export function getFreeResourcesByTypeAndLocation(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType,
@@ -113,7 +112,6 @@ export function getFreeResourcesByTask(
     );
 }
 
-// ready if we want to display only the free human resources on the map
 export function getFreeHumanResourcesByLocation(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
