@@ -614,6 +614,7 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingHumanResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
+        this.ownerId,
         LOCATION_ENUM.pcFront
       )
     );
@@ -669,6 +670,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingResourcesByLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
+        this.ownerId,
         LOCATION_ENUM.pcFront,
         this.fixedMapEntity.id
       )
@@ -677,6 +679,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     const pcFrontFixedEntity = state
       .getInternalStateObject()
       .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
+    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
     );
@@ -757,6 +760,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingResourcesByTypeLocalEvent(
         this.eventId,
         state.getSimTime(),
+        this.ownerId,
         this.vehicleType,
         this.fixedMapEntity.id
       )
@@ -1006,6 +1010,11 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     );
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
+    const targetMapLocation = state
+      .getInternalStateObject()
+      .mapLocations.find(l => l.id === this.targetLocation);
+    wlog('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
+    wlog(targetMapLocation);
 
     if (this.compliantWithHierarchy) {
       if (!this.isSameLocation) {
@@ -1013,6 +1022,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           new MoveResourcesLocalEvent(
             this.eventId,
             state.getSimTime(),
+            this.ownerId,
             this.involvedResourcesId,
             this.targetLocation
           )
@@ -1066,6 +1076,19 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
             this.ownerId,
             actionOwnerActor.Role as unknown as TranslationKey,
             'move-res-task-not-enough-resources'
+          )
+        );
+      } else if (
+        targetMapLocation === undefined ||
+        targetMapLocation.buildingStatus === BuildingStatus.removed
+      ) {
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime(),
+            this.ownerId,
+            actionOwnerActor.Role as unknown as TranslationKey,
+            'move-res-task-no-location'
           )
         );
       } else {
@@ -1211,14 +1234,33 @@ export class ArrivalAnnouncementAction extends StartEndAction {
     );
 
     const ownerActor = state.getActorById(this.ownerId)!;
+    const ownerActorMapLocation = state
+      .getInternalStateObject()
+      .mapLocations.find(l => l.id === ownerActor.Location);
 
-    localEventManager.queueLocalEvent(
-      new MoveFreeWaitingHumanResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        ownerActor.Location
-      )
-    );
+    if (
+      ownerActorMapLocation === undefined ||
+      ownerActorMapLocation.buildingStatus === BuildingStatus.removed
+    ) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          ownerActor.Role as unknown as TranslationKey,
+          'move-res-task-no-location'
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new MoveFreeWaitingHumanResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          ownerActor.Location
+        )
+      );
+    }
   }
 
   protected cancelInternal(_state: MainSimulationState): void {

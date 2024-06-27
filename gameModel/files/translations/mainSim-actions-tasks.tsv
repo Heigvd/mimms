@@ -85,6 +85,7 @@ move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} f
 move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
 move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
+move-res-task-no-location	Impossible to move resources because the location doesn't exist	Impossible de déplacer les ressources car l'emplacement n'existe pas	
 get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	

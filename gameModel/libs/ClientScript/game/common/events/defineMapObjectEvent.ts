@@ -26,6 +26,7 @@ export enum BuildingStatus {
   selection = 'selection',
   inProgress = 'inProgress',
   ready = 'ready',
+  removed = 'removed',
 }
 
 export abstract class FixedMapEntity {
