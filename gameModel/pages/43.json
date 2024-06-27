@@ -90,14 +90,14 @@
                                                       "className" : "closedFixedMapEntityIcon",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id)",
+                                                        "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id)",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
                                                     "layoutStyle" : { },
                                                     "script" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(!Context.mapState?.state.overlayState.includes(Context.overlayItem.id)){\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n}else if(Context.mapState?.state.overlayState.includes(Context.overlayItem.id) && isCurrentActorAtLocation(Context.overlayItem.id)){\n     return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n  }\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
+                                                      "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(!isOverlayItemOpen(Context.overlayItem.id)) {\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n} else if(isOverlayItemOpen(Context.overlayItem.id) && isCurrentActorAtLocation(Context.overlayItem.id)) {\n  return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n}\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
                                                       "language" : "TypeScript"
                                                     },
                                                     "style" : {
@@ -121,7 +121,7 @@
                                                       "className" : "closedFixedMapEntityTitle",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
+                                                        "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
@@ -150,7 +150,7 @@
                                                 "className" : "close-button",
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
+                                                  "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "label" : {
@@ -186,7 +186,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { toggleOverlayItem } from \"./gameMap/mapEntities\";\n\nif (!Context.mapState.state.overlayState.includes(Context.overlayItem.id)) {\n  toggleOverlayItem(Context.overlayItem.id);\n}",
+                                                "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -430,7 +430,7 @@
                                             } ],
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
+                                              "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
                                               "language" : "typescript"
                                             },
                                             "layout" : { },
@@ -454,7 +454,7 @@
                                           "className" : "closedFixedMapEntity",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "  !Context.mapState.state.overlayState.includes(Context.overlayItem.id);",
+                                            "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n  !isOverlayItemOpen(Context.overlayItem.id);",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -466,7 +466,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { bringOverlayToFront } from \"./gameMap/mapEntities\";\n\nif(Context.mapState.state.overlayState.includes(Context.overlayItem.id)) {\n  bringOverlayToFront(Context.overlayItem.id);\n}",
+                                            "content" : "import { bringOverlayToFront, isOverlayItemOpen } from \"./gameMap/mapEntities\";\n\nif(isOverlayItemOpen(Context.overlayItem.id)) {\n  bringOverlayToFront(Context.overlayItem.id);\n}",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -490,7 +490,7 @@
                                           "className" : "closedFixedMapEntityArrow",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "!Context.mapState.state.overlayState.includes(Context.overlayItem.id)",
+                                            "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id)",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -1171,7 +1171,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
                                             "language" : "TypeScript"
                                           }
                                         },

@@ -89,6 +89,22 @@ export function toggleOverlayItem(itemId: LOCATION_ENUM) {
   Context.mapState.setState(newState);
 }
 
+export function openOverlayItem(itemId: LOCATION_ENUM) {
+  const isAlreadyOpen = isOverlayItemOpen(itemId);
+
+  if (!isAlreadyOpen) {
+    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
+    newState.overlayState.unshift(itemId);
+    Context.mapState.setState(newState);
+  } else {
+    bringOverlayToFront(itemId);
+  }
+}
+
+export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
+  return Context.mapState?.state.overlayState.includes(itemId);
+}
+
 /**
  * Should ressource be visible to current actor at location
  */

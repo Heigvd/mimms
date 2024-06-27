@@ -3,6 +3,7 @@ import { ActorId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
+import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 
 /**
@@ -10,6 +11,15 @@ import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
  */
 export function getAllActors(): Readonly<Actor[]> {
   return getCurrentState().getAllActors();
+}
+
+export function selectActor(id: ActorId) {
+  Context.interfaceState.setState({
+    ...Context.interfaceState.state,
+    currentActorUid: id,
+  });
+
+  openOverlayItem(getActorLocation(id)!);
 }
 
 /**
@@ -80,4 +90,8 @@ export function isCurrentActorAtLocation(location: LOCATION_ENUM): boolean {
 export function getSelectedActorLocation(): LOCATION_ENUM | undefined {
   const currentActorUid = Context.interfaceState.state.currentActorUid;
   return getActor(currentActorUid)?.Location;
+}
+
+export function getActorLocation(actorId: ActorId): LOCATION_ENUM | undefined {
+  return getActor(actorId)?.Location;
 }
