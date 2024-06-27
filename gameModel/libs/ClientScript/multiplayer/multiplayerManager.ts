@@ -30,11 +30,11 @@ export async function registerSelf(): Promise<void> {
   const currentPlayerId = self.getId();
   const currentPlayerName = self.getName();
   const playableRoles: PlayerRoles = {
-    AL: true,
-    ACS: true,
-    MCS: true,
-    EVASAN: true,
-    LEADPMA: true,
+    AL: false,
+    ACS: false,
+    MCS: false,
+    EVASAN: false,
+    LEADPMA: false,
   };
 
   const matrix = Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).getProperties();

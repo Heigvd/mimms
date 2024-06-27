@@ -193,12 +193,12 @@ function getPolygonStyle(feature: any): LayerStyleObject {
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: '#3CA3CC',
+    color: '#7f868a',
   };
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#3CA3CC',
+    color: '#7f868a',
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,
@@ -229,8 +229,8 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     !(name === Context.interfaceState.state.selectedMapObjectId) &&
     Context.mapState.state.mapSelect
   ) {
-    stroke.color = '#3CA3CC80';
-    fill.color = '#3CA3CC80';
+    stroke.color = '#7f868a80';
+    fill.color = '#7f868a80';
   }
 
   return { fill, stroke, text };
