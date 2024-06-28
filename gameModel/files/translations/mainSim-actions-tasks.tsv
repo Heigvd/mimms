@@ -63,7 +63,7 @@ define-meetingPoint-desc	Choose a position for the meeting point's location	Choi
 define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
-move-actor-feedback	Moving	En déplacement	
+move-actor-feedback	Moving	En déplacement
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
@@ -83,7 +83,7 @@ move-res-task-feedback	The resources have been sucessfuly assigned	Les ressource
 move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} faisant {2} vont aller à {3} faire {4}	
 move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
 move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
-move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
+move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre
 get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
@@ -101,3 +101,4 @@ no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA
 no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
 place	Place	Lieu	
 vector	Vector	Vecteur	
+incoming-resources	Arrival of {0}	Arrivée de {0}	

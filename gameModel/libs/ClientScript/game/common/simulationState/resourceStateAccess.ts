@@ -2,7 +2,6 @@ import { entries } from '../../../tools/helper';
 import { mainSimStateLogger, resourceLogger } from '../../../tools/logger';
 import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
-import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType, ResourceTypeAndNumber, isHuman } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
@@ -216,11 +215,10 @@ export function getFreeResourcesByNumberTypeLocationAndTask(
 export function addIncomingResources(
   state: MainSimulationState,
   resourceType: ResourceType,
-  amount: number
+  amount: number,
+  location: LOCATION_ENUM
 ): void {
   const internalState = state.getInternalStateObject();
-
-  const location: LOCATION_ENUM = resourceArrivalLocationResolution(state, resourceType);
 
   for (let i = 0; i < amount; i++) {
     const resource: Resource = new Resource(resourceType, location, getIdleTaskUid(state));
