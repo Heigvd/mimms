@@ -807,9 +807,27 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(
-      new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
-    );
+    const so = state.getInternalStateObject();
+    const targetLocation = so.mapLocations.find(l => l.id === this.location);
+
+    if (targetLocation === undefined || targetLocation.buildingStatus === BuildingStatus.removed) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          'ACS',
+          'move-actor-no-location',
+          undefined,
+          false,
+          false
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
+      );
+    }
   }
 
   protected cancelInternal(_state: MainSimulationState): void {
@@ -1013,10 +1031,34 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     const targetMapLocation = state
       .getInternalStateObject()
       .mapLocations.find(l => l.id === this.targetLocation);
-    wlog('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW');
-    wlog(targetMapLocation);
 
-    if (this.compliantWithHierarchy) {
+    if (!this.compliantWithHierarchy) {
+      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+      // Resources refused the order due to hierarchy conflict
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          actionOwnerActor.Role as unknown as TranslationKey,
+          'move-res-task-refused'
+        )
+      );
+    } else if (
+      targetMapLocation === undefined ||
+      targetMapLocation.buildingStatus === BuildingStatus.removed
+    ) {
+      // Resources cannot move to a non existent location
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          actionOwnerActor.Role as unknown as TranslationKey,
+          'move-res-task-no-location'
+        )
+      );
+    } else {
       if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
           new MoveResourcesLocalEvent(
@@ -1078,19 +1120,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
             'move-res-task-not-enough-resources'
           )
         );
-      } else if (
-        targetMapLocation === undefined ||
-        targetMapLocation.buildingStatus === BuildingStatus.removed
-      ) {
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            'move-res-task-no-location'
-          )
-        );
       } else {
         // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
         localEventManager.queueLocalEvent(
@@ -1103,17 +1132,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           )
         );
       }
-    } else {
-      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-refused'
-        )
-      );
     }
   }
 
@@ -1239,25 +1257,27 @@ export class ArrivalAnnouncementAction extends StartEndAction {
       .mapLocations.find(l => l.id === ownerActor.Location);
 
     if (
-      ownerActorMapLocation === undefined ||
-      ownerActorMapLocation.buildingStatus === BuildingStatus.removed
+      !(
+        ownerActorMapLocation === undefined ||
+        ownerActorMapLocation.buildingStatus === BuildingStatus.removed
+      )
     ) {
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          ownerActor.Role as unknown as TranslationKey,
-          'move-res-task-no-location'
-        )
-      );
-    } else {
       localEventManager.queueLocalEvent(
         new MoveFreeWaitingHumanResourcesLocalEvent(
           this.eventId,
           state.getSimTime(),
           this.ownerId,
           ownerActor.Location
+        )
+      );
+    } else {
+      // If the actors location is unavailable, resources default to PC
+      localEventManager.queueLocalEvent(
+        new MoveFreeWaitingHumanResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          LOCATION_ENUM.PC
         )
       );
     }

@@ -1,6 +1,6 @@
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries } from '../../../tools/helper';
-import { resourceLogger } from '../../../tools/logger';
+import { mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
@@ -346,17 +346,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
     const targetLocation = so.mapLocations.find(l => l.id === this.location);
     if (targetLocation === undefined) {
-      const noLocationMessage = new AddRadioMessageLocalEvent(
-        this.parentEventId,
-        state.getSimTime(),
-        this.actorUid,
-        'ACS',
-        'move-actor-no-location',
-        undefined,
-        false,
-        false
-      );
-      localEventManager.queueLocalEvent(noLocationMessage);
+      mainSimLogger.warn('The actor could not be moved as the location is undefined');
     } else {
       so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
     }
@@ -637,6 +627,16 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
     const targetLocation = so.mapLocations.find(l => l.id === this.targetLocation);
     return targetLocation === undefined;
   }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    if (this.locationUndefined(state)) {
+      resourceLogger.warn('The resources could not be moved as the location is undefined');
+      return;
+    }
+
+    const resources = ResourceState.getFreeWaitingHumanResources(state);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
 }
 
 export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
@@ -671,16 +671,6 @@ export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalE
   ) {
     super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
   }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (this.locationUndefined(state)) {
-      resourceLogger.warn('The resources could not be moved as the location is undefined');
-      return;
-    }
-
-    const resources = ResourceState.getFreeWaitingHumanResources(state);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
-  }
 }
 
 export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
@@ -699,15 +689,6 @@ export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesL
       targetLocation
     );
   }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (this.locationUndefined(state)) {
-      resourceLogger.warn('The resources could not be moved as the location is undefined');
-      return;
-    }
-    const resources = ResourceState.getFreeHumanResourcesByLocation(state, this.sourceLocation);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
-  }
 }
 
 export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
@@ -725,15 +706,6 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
       ownerUid,
       targetLocation
     );
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (this.locationUndefined(state)) {
-      resourceLogger.warn('The resources could not be moved as the location is undefined');
-      return;
-    }
-    const resources = ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
   }
 }
 
