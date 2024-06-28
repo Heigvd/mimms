@@ -628,13 +628,15 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
     return targetLocation === undefined;
   }
 
+  abstract getInvolvedResources(state: MainSimulationState): Resource[];
+
   applyStateUpdate(state: MainSimulationState): void {
     if (this.locationUndefined(state)) {
       resourceLogger.warn('The resources could not be moved as the location is undefined');
       return;
     }
 
-    const resources = ResourceState.getFreeWaitingHumanResources(state);
+    const resources = this.getInvolvedResources(state);
     ResourceState.sendResourcesToLocation(resources, this.targetLocation);
   }
 }
@@ -650,15 +652,8 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
     super(parentEventId, 'MoveResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
   }
 
-  override applyStateUpdate(state: MainSimulationState) {
-    if (this.locationUndefined(state)) {
-      resourceLogger.warn('The resources could not be moved as the location is undefined');
-      return;
-    }
-    const resources = this.resourcesId.map(resourceId =>
-      ResourceState.getResourceById(state, resourceId)
-    );
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
   }
 }
 
@@ -670,6 +665,10 @@ export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalE
     targetLocation: LOCATION_ENUM
   ) {
     super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
+  }
+
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeWaitingHumanResources(state);
   }
 }
 
@@ -689,6 +688,10 @@ export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesL
       targetLocation
     );
   }
+
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeHumanResourcesByLocation(state, this.sourceLocation);
+  }
 }
 
 export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
@@ -706,6 +709,10 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
       ownerUid,
       targetLocation
     );
+  }
+
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
   }
 }
 
