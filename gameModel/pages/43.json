@@ -59,6 +59,7 @@
                         "layoutStyle" : {
                           "display" : "none"
                         },
+                        "name" : "interface state update trigger",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",

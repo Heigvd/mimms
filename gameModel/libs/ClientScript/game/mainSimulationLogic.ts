@@ -62,6 +62,7 @@ import { SubTask } from './common/tasks/subTask';
 import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { ActionBase } from './common/actions/actionBase';
+import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -604,6 +605,7 @@ export function runUpdateLoop(): void {
   // get all events
   const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
+  setPreviousReferenceState(currentSimulationState);
   // filter out non processed events
   // and filter out ignored events (if a previous state was restored)
   const ignored = getOmittedEvents();

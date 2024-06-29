@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1719406278077,
+  "createdTime" : 1719653179276,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5730,6 +5730,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameInterface/afterUpdateCallbacks",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1073901:7OOSJe",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameInterface/interfaceConfiguration",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6565,7 +6574,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "MIMMS - XGO MIM-255-map",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -44,6 +44,7 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
   type: string;
@@ -193,6 +194,8 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
       // update all tasks
       this.updateTasks(state);
+
+      registerOpenSelectedActorPanelAfterMove();
     }
   }
 
