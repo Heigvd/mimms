@@ -67,11 +67,11 @@ move-actor-feedback	Moving	En déplacement
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
-appoint-EVASAN-wentWrong-feedback	You could not appoint an EVASAN	Vous n'avez pas pu nommer un EVASAN
-activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
-activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
-activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
-define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous
+activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication
+activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio
+activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
 waiting-title	Waiting	En attente	
