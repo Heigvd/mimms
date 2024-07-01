@@ -169,7 +169,7 @@ export function triggerInterfaceStateUpdate(state: InterfaceState) {
     setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
   }
 
-  wlog('applying callbacks', state.currentActorUid);
+  mainSimLogger.debug('applying callbacks', state.currentActorUid);
   applyPendingCallbacks(state);
 }
 

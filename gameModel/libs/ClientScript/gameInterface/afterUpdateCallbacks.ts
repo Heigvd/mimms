@@ -25,6 +25,9 @@ function addAfterUpdateCallback(callback: AfterUpdateCallback): void {
   afterUpdateCallbacks.push(callback);
 }
 
+/**
+ * Sets the previous state reference that will be passed in the callback functions
+ */
 export function setPreviousReferenceState(prevState: Readonly<MainSimulationState>): void {
   // only update the previous state if the pending callbacks have been called
   if (!previousState) {
@@ -32,6 +35,10 @@ export function setPreviousReferenceState(prevState: Readonly<MainSimulationStat
   }
 }
 
+/**
+ * If a previous reference state has been set,
+ * applies the pending callbacks and clears the callback list
+ */
 export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partial<InterfaceState> {
   if (previousState) {
     const ps = previousState;
@@ -46,6 +53,9 @@ export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partia
   return current;
 }
 
+/**
+ * opens the position of the selected actor if it has moved since the previous reference state
+ */
 export function registerOpenSelectedActorPanelAfterMove(): void {
   const f: AfterUpdateCallback = function (
     oldState: Readonly<MainSimulationState>,
