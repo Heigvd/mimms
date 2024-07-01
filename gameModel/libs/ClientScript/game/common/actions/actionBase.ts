@@ -1415,6 +1415,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
       evacuationTask.createSubTask(
         this.eventId,
+        this.ownerId,
         this.involvedResourcesId,
         this.patientId,
         this.hospitalId,
