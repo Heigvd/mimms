@@ -64,7 +64,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     _actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>
+    _location: Readonly<LOCATION_ENUM>
   ): boolean {
     return (
       // we allow the player to assign resources even if there is no work to do

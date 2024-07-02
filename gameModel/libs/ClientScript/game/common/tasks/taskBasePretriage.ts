@@ -100,6 +100,9 @@ export class PreTriageTask extends TaskBase {
         }
       );
 
+      const locationName = state
+        .getInternalStateObject()
+        .mapLocations.find(l => l.id === this.locationSource)!.name;
       // We broadcast a message that task is completed (recipient = 0)
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -107,7 +110,10 @@ export class PreTriageTask extends TaskBase {
           state.getSimTime(),
           0,
           'resources',
-          getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) + '\n' + result,
+          `${getTranslation('mainSim-locations', locationName)} - ` +
+            getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) +
+            '\n' +
+            result,
           ActionType.RESOURCES_RADIO,
           false,
           true

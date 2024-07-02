@@ -1,6 +1,6 @@
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries } from '../../../tools/helper';
-import { resourceLogger } from '../../../tools/logger';
+import { mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
@@ -24,7 +24,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
@@ -346,7 +346,11 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
+    if (!canMoveToLocation(state, this.location)) {
+      mainSimLogger.warn('The actor could not be moved as the target location is invalid');
+    } else {
+      so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
+    }
   }
 }
 
@@ -434,7 +438,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         SMUR: 0,
         PMA: 0,
         PICA: 0,
-        PCS: 0,
+        'PC San': 0,
         Helicopter: 0,
       },
     };
@@ -608,48 +612,102 @@ export class UnReserveResourcesLocalEvent extends LocalEventBase {
   }
 }
 
-export class MoveResourcesLocalEvent extends LocalEventBase {
+abstract class MoveResourcesLocalEventBase extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    type: string,
+    timeStamp: SimTime,
+    readonly ownerUid: ActorId,
+    readonly targetLocation: LOCATION_ENUM
+  ) {
+    super(parentEventId, type, timeStamp);
+  }
+
+  abstract getInvolvedResources(state: MainSimulationState): Resource[];
+
+  applyStateUpdate(state: MainSimulationState): void {
+    if (!canMoveToLocation(state, this.targetLocation)) {
+      resourceLogger.warn('The resources could not be moved as the target location is invalid');
+      return;
+    }
+
+    const resources = this.getInvolvedResources(state);
+    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  }
+}
+
+export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
     timeStamp: SimTime,
+    ownerUid: ActorId,
     readonly resourcesId: ResourceId[],
-    readonly location: LOCATION_ENUM
+    targetLocation: LOCATION_ENUM
   ) {
-    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp);
+    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
   }
 
-  override applyStateUpdate(state: MainSimulationState) {
-    const resources = this.resourcesId.map(resourceId =>
-      ResourceState.getResourceById(state, resourceId)
-    );
-    ResourceState.sendResourcesToLocation(resources, this.location);
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
   }
 }
 
-export class MoveFreeWaitingHumanResourcesLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly targetLocation: LOCATION_ENUM) {
-    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp);
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const resources = ResourceState.getFreeWaitingHumanResources(state);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
-  }
-}
-
-export class MoveFreeWaitingResourcesByTypeLocalEvent extends LocalEventBase {
+export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentId: GlobalEventId,
     timeStamp: SimTime,
-    readonly resourceType: ResourceType,
-    readonly targetLocation: LOCATION_ENUM
+    ownerUid: ActorId,
+    targetLocation: LOCATION_ENUM
   ) {
-    super(parentId, 'MoveFreeWaitingResourcesByTypeLocalEvent', timeStamp);
+    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
   }
 
-  applyStateUpdate(state: MainSimulationState): void {
-    const resources = ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeWaitingHumanResources(state);
+  }
+}
+
+export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    ownerUid: ActorId,
+    readonly sourceLocation: LOCATION_ENUM,
+    targetLocation: LOCATION_ENUM
+  ) {
+    super(
+      parentId,
+      'MoveFreeWaitingResourcesByLocationLocalEvent',
+      timeStamp,
+      ownerUid,
+      targetLocation
+    );
+  }
+
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeHumanResourcesByLocation(state, this.sourceLocation);
+  }
+}
+
+export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    ownerUid: ActorId,
+    readonly resourceType: ResourceType,
+    targetLocation: LOCATION_ENUM
+  ) {
+    super(
+      parentId,
+      'MoveFreeWaitingResourcesByTypeLocalEvent',
+      timeStamp,
+      ownerUid,
+      targetLocation
+    );
+  }
+
+  override getInvolvedResources(state: MainSimulationState): Resource[] {
+    return ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
   }
 }
 

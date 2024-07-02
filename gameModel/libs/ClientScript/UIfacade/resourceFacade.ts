@@ -87,7 +87,7 @@ export function getStateKeyForResource(): string {
 export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined {
   const panel = Context.interfaceState.state.selectedPanel;
   if (panel === SelectedPanel.resources) {
-    return getSelectedActorLocation() || LOCATION_ENUM.meetingPoint;
+    return getSelectedActorLocation() || LOCATION_ENUM.pcFront;
   }
 
   const paramKey = getStateKeyForResource();

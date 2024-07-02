@@ -1,4 +1,4 @@
-import { GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId } from '../baseTypes';
+import { ActorId, GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
 
@@ -52,6 +52,7 @@ export class EvacuationSubTask extends SubTask {
   public patientUnitAtHospital: PatientUnitTypology;
   public doResourcesComeBack: boolean;
   public parentEventId: GlobalEventId;
+  public ownerId: ActorId;
   public travelTime: number;
 
   constructor(
@@ -61,6 +62,7 @@ export class EvacuationSubTask extends SubTask {
     patientUnitAtHospital: PatientUnitTypology,
     doResourcesComeBack: boolean,
     parentEventId: GlobalEventId,
+    ownerId: ActorId,
     travelTime: number
   ) {
     super(resources, patientId);
@@ -68,6 +70,7 @@ export class EvacuationSubTask extends SubTask {
     this.patientUnitAtHospital = patientUnitAtHospital;
     this.doResourcesComeBack = doResourcesComeBack;
     this.parentEventId = parentEventId;
+    this.ownerId = ownerId;
     this.travelTime = travelTime;
     this.status = 'started';
   }

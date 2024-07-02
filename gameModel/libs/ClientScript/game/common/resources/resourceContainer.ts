@@ -15,7 +15,7 @@ export const ResourceContainerTypeArray = [
   'SMUR',
   'PMA',
   'PICA',
-  'PCS',
+  'PC San',
   'Helicopter',
 ] as const;
 
