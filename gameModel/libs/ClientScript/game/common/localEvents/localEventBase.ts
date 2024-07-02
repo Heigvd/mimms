@@ -43,6 +43,7 @@ import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
 import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
   type: string;
@@ -192,6 +193,8 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
       // update all tasks
       this.updateTasks(state);
+
+      registerOpenSelectedActorPanelAfterMove();
     }
   }
 
