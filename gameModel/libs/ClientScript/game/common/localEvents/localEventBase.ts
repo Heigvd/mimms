@@ -24,7 +24,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
@@ -622,17 +622,11 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
     super(parentEventId, type, timeStamp);
   }
 
-  protected locationUndefined(state: MainSimulationState): boolean {
-    const so = state.getInternalStateObject();
-    const targetLocation = so.mapLocations.find(l => l.id === this.targetLocation);
-    return targetLocation === undefined;
-  }
-
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (this.locationUndefined(state)) {
-      resourceLogger.warn('The resources could not be moved as the location is undefined');
+    if (!canMoveToLocation(state, this.targetLocation)) {
+      resourceLogger.warn('The resources could not be moved as the target is invalid');
       return;
     }
 

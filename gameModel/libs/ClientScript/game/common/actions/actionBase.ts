@@ -31,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -807,10 +807,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    const targetLocation = so.mapLocations.find(l => l.id === this.location);
-
-    if (targetLocation === undefined || targetLocation.buildingStatus === BuildingStatus.removed) {
+    if (!canMoveToLocation(state, this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1028,9 +1025,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     );
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
-    const targetMapLocation = state
-      .getInternalStateObject()
-      .mapLocations.find(l => l.id === this.targetLocation);
 
     if (!this.compliantWithHierarchy) {
       // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
@@ -1044,10 +1038,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           'move-res-task-refused'
         )
       );
-    } else if (
-      targetMapLocation === undefined ||
-      targetMapLocation.buildingStatus === BuildingStatus.removed
-    ) {
+    } else if (!canMoveToLocation(state, this.targetLocation)) {
       // Resources cannot move to a non existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
