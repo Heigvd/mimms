@@ -1,6 +1,6 @@
 import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { bringOverlayToFront, toggleOverlayItem } from '../gameMap/mapEntities';
+import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../map/point2D';
 
 const logger = Helpers.getLogger('mainSim.map');
@@ -79,6 +79,6 @@ export function handleMapClick(
   if (mapEntities) {
     const mapEntityId = mapEntities.feature['id'] as LOCATION_ENUM;
     toggleOverlayItem(mapEntityId);
-    bringOverlayToFront(mapEntityId);
+    bringOverlayItemToFront(mapEntityId);
   }
 }

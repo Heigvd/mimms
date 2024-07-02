@@ -12,6 +12,7 @@ import { ResourcesArray, ResourceType } from '../game/common/resources/resourceT
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { getIdleTaskUid } from '../UIfacade/taskFacade';
+import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
@@ -167,6 +168,9 @@ export function triggerInterfaceStateUpdate(state: InterfaceState) {
   if (state.currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
     setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
   }
+
+  mainSimLogger.debug('applying callbacks', state.currentActorUid);
+  applyPendingCallbacks(state);
 }
 
 /**
