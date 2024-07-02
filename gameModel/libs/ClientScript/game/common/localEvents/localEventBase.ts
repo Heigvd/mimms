@@ -343,10 +343,8 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-
-    const targetLocation = so.mapLocations.find(l => l.id === this.location);
-    if (targetLocation === undefined) {
-      mainSimLogger.warn('The actor could not be moved as the location is undefined');
+    if (!canMoveToLocation(state, this.location)) {
+      mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
       so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
     }
@@ -626,7 +624,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     if (!canMoveToLocation(state, this.targetLocation)) {
-      resourceLogger.warn('The resources could not be moved as the target is invalid');
+      resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
     }
 
