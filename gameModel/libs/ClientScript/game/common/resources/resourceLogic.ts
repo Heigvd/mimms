@@ -33,7 +33,7 @@ export function resourceArrivalLocationResolution(
     return LOCATION_ENUM.helicopterPark;
   }
 
-  return LOCATION_ENUM.meetingPoint;
+  return LOCATION_ENUM.pcFront;
 }
 
 /**

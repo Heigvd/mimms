@@ -11,7 +11,7 @@ export enum LOCATION_ENUM {
   PC = 'PC',
   ambulancePark = 'ambulancePark',
   helicopterPark = 'helicopterPark',
-  meetingPoint = 'meetingPoint',
+  pcFront = 'pcFront',
   remote = 'remote',
   AccReg = 'AccReg',
 }

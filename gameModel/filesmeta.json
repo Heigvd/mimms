@@ -323,42 +323,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/meetingpoint.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/meetingpoint.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/meetingpoint_blue.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/meetingpoint_blue.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/meetingpoint_choice.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/meetingpoint_white.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/park.png" : {
     "description" : "",
     "mimeType" : "image/png",
@@ -384,6 +348,42 @@
     "visibility" : "PRIVATE"
   },
   "/maps/mapIcons/park_white.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront_blue.png" : {
+    "description" : "",
+    "mimeType" : "image/png",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront_blue.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront_choice.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/mapIcons/pcFront_white.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
@@ -727,13 +727,13 @@
   },
   "/translations/mainSim-locations.tsv" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
   },
   "/translations/mainSim-resources.tsv" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
   },

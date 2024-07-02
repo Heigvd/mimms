@@ -31,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -40,7 +40,6 @@ import {
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
-  AutoSendACSMCSLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
@@ -48,6 +47,8 @@ import {
   MoveFreeWaitingHumanResourcesLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
+  AutoSendACSMCSLocalEvent,
+  MoveFreeWaitingResourcesByLocationLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -574,10 +575,10 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 }
 
 // -------------------------------------------------------------------------------------------------
-// place meetingPoint
+// place PC Front
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
+export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -605,12 +606,7 @@ export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
   protected override dispatchEndedEvents(state: MainSimulationState): void {
     super.dispatchEndedEvents(state);
     localEventManager.queueLocalEvent(
-      new MoveActorLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        LOCATION_ENUM.meetingPoint
-      )
+      new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, LOCATION_ENUM.pcFront)
     );
     // First and only resource on scene
     const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
@@ -618,11 +614,74 @@ export class SelectionMeetingPointAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingHumanResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
-        LOCATION_ENUM.meetingPoint
+        this.ownerId,
+        LOCATION_ENUM.pcFront
       )
     );
     localEventManager.queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent(this.eventId, state.getSimTime(), [resourceUid])
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// place PC
+// -------------------------------------------------------------------------------------------------
+
+export class SelectionPCAction extends SelectionFixedMapEntityAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntity: FixedMapEntity,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      fixedMapEntity,
+      provideFlagsToState
+    );
+  }
+
+  protected override dispatchEndedEvents(state: MainSimulationState): void {
+    super.dispatchEndedEvents(state);
+    // Move actors to PC
+    const actors = state
+      .getInternalStateObject()
+      .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
+
+    for (const actor of actors) {
+      localEventManager.queueLocalEvent(
+        new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
+      );
+    }
+    // Move resources to PC (resources can only be idle at PC Front)
+    localEventManager.queueLocalEvent(
+      new MoveFreeWaitingResourcesByLocationLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        LOCATION_ENUM.pcFront,
+        this.fixedMapEntity.id
+      )
+    );
+    // Remove PC Front once all actors and resources have been moved
+    const pcFrontFixedEntity = state
+      .getInternalStateObject()
+      .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
+    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
+    localEventManager.queueLocalEvent(
+      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
     );
   }
 }
@@ -701,6 +760,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       new MoveFreeWaitingResourcesByTypeLocalEvent(
         this.eventId,
         state.getSimTime(),
+        this.ownerId,
         this.vehicleType,
         this.fixedMapEntity.id
       )
@@ -747,9 +807,24 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(
-      new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
-    );
+    if (!canMoveToLocation(state, this.location)) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          'ACS',
+          'move-actor-no-location',
+          undefined,
+          false,
+          false
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
+      );
+    }
   }
 
   protected cancelInternal(_state: MainSimulationState): void {
@@ -951,12 +1026,36 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 
     const actionOwnerActor = state.getActorById(this.ownerId)!;
 
-    if (this.compliantWithHierarchy) {
+    if (!this.compliantWithHierarchy) {
+      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+      // Resources refused the order due to hierarchy conflict
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          actionOwnerActor.Role as unknown as TranslationKey,
+          'move-res-task-refused'
+        )
+      );
+    } else if (!canMoveToLocation(state, this.targetLocation)) {
+      // Resources cannot move to a non existent location
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          actionOwnerActor.Role as unknown as TranslationKey,
+          'move-res-task-no-location'
+        )
+      );
+    } else {
       if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
           new MoveResourcesLocalEvent(
             this.eventId,
             state.getSimTime(),
+            this.ownerId,
             this.involvedResourcesId,
             this.targetLocation
           )
@@ -1024,17 +1123,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           )
         );
       }
-    } else {
-      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-refused'
-        )
-      );
     }
   }
 
@@ -1155,14 +1243,35 @@ export class ArrivalAnnouncementAction extends StartEndAction {
     );
 
     const ownerActor = state.getActorById(this.ownerId)!;
+    const ownerActorMapLocation = state
+      .getInternalStateObject()
+      .mapLocations.find(l => l.id === ownerActor.Location);
 
-    localEventManager.queueLocalEvent(
-      new MoveFreeWaitingHumanResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        ownerActor.Location
+    if (
+      !(
+        ownerActorMapLocation === undefined ||
+        ownerActorMapLocation.buildingStatus === BuildingStatus.removed
       )
-    );
+    ) {
+      localEventManager.queueLocalEvent(
+        new MoveFreeWaitingHumanResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          ownerActor.Location
+        )
+      );
+    } else {
+      // If the actors location is unavailable, resources default to PC
+      localEventManager.queueLocalEvent(
+        new MoveFreeWaitingHumanResourcesLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          LOCATION_ENUM.PC
+        )
+      );
+    }
   }
 
   protected cancelInternal(_state: MainSimulationState): void {
@@ -1297,6 +1406,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
       evacuationTask.createSubTask(
         this.eventId,
+        this.ownerId,
         this.involvedResourcesId,
         this.patientId,
         this.hospitalId,

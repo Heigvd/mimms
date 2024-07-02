@@ -1,6 +1,13 @@
 import { taskLogger } from '../../../tools/logger';
 import { InterventionRole } from '../actors/actor';
-import { GlobalEventId, HospitalId, PatientId, ResourceId, TranslationKey } from '../baseTypes';
+import {
+  ActorId,
+  GlobalEventId,
+  HospitalId,
+  PatientId,
+  ResourceId,
+  TranslationKey,
+} from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { TaskBase } from './taskBase';
@@ -42,6 +49,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
 
   public createSubTask(
     parentEventId: GlobalEventId,
+    ownerId: ActorId,
     resourcesId: ResourceId[],
     patientId: PatientId,
     hospitalId: HospitalId,
@@ -56,6 +64,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       patientUnitAtHospital,
       doResourcesComeBack,
       parentEventId,
+      ownerId,
       travelTime
     );
 
@@ -126,6 +135,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       new MoveResourcesLocalEvent(
         subTask.parentEventId,
         state.getSimTime(),
+        subTask.ownerId,
         subTask.resources,
         LOCATION_ENUM.remote
       )

@@ -11,15 +11,15 @@ basic-info-police-feedback	Police are informing you that rue de Lausanne is now 
 basic-info-firefighter-title	Request information from the fire brigade	Demander des informations des pompiers	
 basic-info-firefighter-desc	You approach a firefighter truck and ask for information	Vous vous approchez d'un camion pompier pour obtenir des informations.	
 basic-info-firefighter-feedback	Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.	Les pompiers n’ont pu évacuer que 5 personnes du car. Celui-ci doit maintenant être étayé et une désincarcération est à prévoir. Il faudra 20 minutes avant que d’autres personnes ne puissent être sorties du car.	
-define-PC-title	Positioning the command post (CP)	Placer le poste de commandement (PC)	
-define-PC-desc	Choose a position for the command post CP	Choisir l'emplacement du PC	
-define-PC-feedback	The CP is now ready	Le poste de commandement est maintenant prêt	
+define-PC-title	Positioning the medical command post	Placer le poste de commandement sanitaire (PC SAN)
+define-PC-desc	Choose a position for the medical command post	Choisir l'emplacement du poste de commandement sanitaire
+define-PC-feedback	The medical command post is now ready	Le poste de commandement sanitaire (PC SAN) est maintenant prêt
 define-Nest-title	Positioning survivor reception center location	Placer le nid de blessés	
 define-Nest-desc	Choose a position for the survivor reception center	Choisir l'emplacement du nid de blessés	
 define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé	
-define-PMA-title	Positioning the advanced medical post location (AMP)	Placer le poste médical avancé (PMA)	
-define-PMA-desc	Choose a position for the AMP	Choisir l'emplacement du poste médical avancé (PMA)	
-define-PMA-feedback	The AMP can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
+define-PMA-title	Positioning the advanced medical post location	Placer le poste médical avancé (PMA)
+define-PMA-desc	Choose a position for the medical post location	Choisir l'emplacement du poste médical avancé
+define-PMA-feedback	The medical post location can now be prepared	Le poste médical avancé (PMA) est prêt à être installé
 define-ambulance-park-title	Define ambulance park location	Placer le parc ambulance	
 define-ambulance-park-desc	Choose a position for the ambulance park	Choisir l'emplacement du parc ambulances	
 define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance est maintenant prêt	
@@ -58,20 +58,21 @@ healing-pma-green-desc	Green patients care	Soins des patients verts
 send-radio-title	Sends radio message	Envoie message radio	
 send-radio-desc	Sends a radio message	Envoie un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
-define-meetingPoint-title	Define meeting point	Placer le point de rassemblement	
-define-meetingPoint-desc	Choose a position for the meeting point's location	Choisir l'emplacement du point de rassemblement	
-define-meetingPoint-feedback	Meeting point is defined	Le point de rassemblement est défini	
+define-pcFront-title	Define forward command post	Placer le poste de commandement au front (PC front)
+define-pcFront-desc	Choose a position for the forward command post's location	Choisir l'emplacement du poste de commandement au front
+define-pcFront-feedback	Forward command post is defined	Le poste de commandement au front (PC front) est défini
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
 move-actor-feedback	Moving	En déplacement
+move-actor-no-location	Impossible to move because the location does not exist	Impossible de se déplacer car l'emplacement n'existe pas
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
 appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous
-activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication
-activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio
-activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication
-define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS
+activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
+activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
+activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
 waiting-title	Waiting	En attente	
@@ -84,6 +85,7 @@ move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} f
 move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
 move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre
+move-res-task-no-location	Impossible to move resources because the location doesn't exist	Impossible de déplacer les ressources car l'emplacement n'existe pas
 get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
@@ -100,5 +102,5 @@ patients	Patients	Patients
 no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA	
 no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
 place	Place	Lieu	
-vector	Vector	Vecteur	
-incoming-resources	Arrival of {0}	Arrivée de {0}	
+vector	Vector	Vecteur
+incoming-resources	Arrival of {0}	Arrivée de {0}
