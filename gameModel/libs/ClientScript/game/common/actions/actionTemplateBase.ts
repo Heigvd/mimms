@@ -51,7 +51,7 @@ import {
 } from './actionBase';
 
 export enum SimFlag {
-  PCS_ARRIVED = 'PCS-ARRIVED',
+  PCS_ARRIVED = 'PCS_ARRIVED',
   PCFRONT_BUILT = 'PCFRONT_BUILT',
   MCS_ARRIVED = 'MCS_ARRIVED',
   ACS_ARRIVED = 'ACS_ARRIVED',

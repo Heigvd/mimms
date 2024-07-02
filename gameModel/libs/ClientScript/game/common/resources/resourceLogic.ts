@@ -4,6 +4,7 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ResourceContainerType } from './resourceContainer';
 import { ResourceType, isHuman } from './resourceType';
+import { entries } from '../../../tools/helper';
 
 /**
  * Resolves which location new resources should be sent to
@@ -74,4 +75,18 @@ export function doesOrderRespectHierarchy(
   return currentActors
     .filter(a => locationLeaderRoles.includes(a))
     .every(r => hierarchyLevels[r] >= hierarchyLevels[actor.Role]);
+}
+
+export function formatResourceTypesAndNumber(
+  resources: Partial<Record<ResourceType, number>>
+): string[] {
+  const resourcesAsText: string[] = [];
+
+  entries(resources)
+    .filter(([_resourceType, qty]) => qty && qty > 0)
+    .forEach(([resourceType, qty]) => {
+      resourcesAsText.push('' + qty + ' ' + resourceType);
+    });
+
+  return resourcesAsText;
 }

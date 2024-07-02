@@ -1,5 +1,5 @@
 import { getEnv } from '../../../tools/WegasHelper';
-import { entries } from '../../../tools/helper';
+import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
@@ -29,10 +29,7 @@ import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
-import {
-  resourceArrivalLocationResolution,
-  resourceContainerCanArrive,
-} from '../resources/resourceLogic';
+import * as ResourceLogic from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -44,6 +41,8 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
+import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
@@ -371,7 +370,8 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     public readonly message: TranslationKey,
     public readonly channel: ActionType | undefined = undefined,
     public readonly isRadioMessage: boolean = false,
-    private readonly omitTranslation: boolean = false
+    private readonly omitTranslation: boolean = false,
+    private readonly messageValues: (string | number)[] = []
   ) {
     super(parentId, 'AddLogMessageLocalEvent', timeStamp);
   }
@@ -379,7 +379,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     const msg = this.omitTranslation
       ? this.message
-      : getTranslation('mainSim-actions-tasks', this.message);
+      : getTranslation('mainSim-actions-tasks', this.message, undefined, this.messageValues);
 
     state.getInternalStateObject().radioMessages.push({
       recipientId: this.recipient,
@@ -521,18 +521,46 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     const containerDef = getContainerDef(this.containerDefId);
 
-    if (resourceContainerCanArrive(state, containerDef.type)) {
+    if (ResourceLogic.resourceContainerCanArrive(state, containerDef.type)) {
       // add flags to state if any
       if (containerDef.flags) {
         containerDef.flags.forEach(f => (state.getInternalStateObject().flags[f] = true));
       }
 
-      entries(containerDef.resources)
-        .filter(([_resourceType, qty]) => qty && qty > 0)
-        .forEach(([resourceType, qty]) => {
-          const resourcesAmount = qty! * this.amount;
-          ResourceState.addIncomingResources(state, resourceType, resourcesAmount);
+      if (containerDef.resources) {
+        const sentResourcesByLocations: Partial<
+          Record<LOCATION_ENUM, Partial<Record<ResourceType, number>>>
+        > = {};
+
+        entries(containerDef.resources)
+          .filter(([_resourceType, qty]) => qty && qty > 0)
+          .forEach(([resourceType, qty]) => {
+            const resourcesAmount = qty! * this.amount;
+            const location: LOCATION_ENUM = resourceArrivalLocationResolution(state, resourceType);
+
+            if (!sentResourcesByLocations[location]) {
+              sentResourcesByLocations[location] = {};
+            }
+            sentResourcesByLocations[location]![resourceType] = resourcesAmount;
+
+            ResourceState.addIncomingResources(state, resourceType, resourcesAmount, location);
+          });
+
+        keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
+          const greetingActors = getActorsOfMostInfluentAuthorityLevelByLocation(state, location);
+
+          greetingActors.forEach((actorId: ActorId) => {
+            localEventManager.queueLocalEvent(
+              new ResourceArrivalAnnouncementLocalEvent(
+                this.parentEventId,
+                this.simTimeStamp,
+                actorId,
+                sentResourcesByLocations[location]!
+              )
+            );
+          });
         });
+      }
     } else {
       // missing ambulance or helicopter park location
       // radio message to the user
@@ -577,6 +605,33 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       ActionType.CASU_RADIO,
       true,
       true
+    );
+  }
+}
+
+export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    readonly recipientActor: ActorId,
+    readonly resources: Partial<Record<ResourceType, number>>
+  ) {
+    super(parentId, 'ResourceArrivalAnnouncementLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.parentEventId,
+        state.getSimTime(),
+        this.recipientActor,
+        'resources',
+        'incoming-resources',
+        undefined,
+        false,
+        false,
+        [ResourceLogic.formatResourceTypesAndNumber(this.resources).join(',<br/>')]
+      )
     );
   }
 }
@@ -723,7 +778,7 @@ export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
   override applyStateUpdate(state: MainSimulationState) {
     this.resourcesIds.forEach(resourceId => {
       const resource: Resource = ResourceState.getResourceById(state, resourceId);
-      const location = resourceArrivalLocationResolution(state, resource.type);
+      const location = ResourceLogic.resourceArrivalLocationResolution(state, resource.type);
       ResourceState.sendResourcesToLocation([resource], location);
     });
   }
