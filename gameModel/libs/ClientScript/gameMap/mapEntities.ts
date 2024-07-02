@@ -5,7 +5,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { Actor } from '../game/common/actors/actor';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { MapState } from '../gameMap/main';
+import { MapState } from './main';
 
 // used in page 43
 export function getOverlayItems() {
@@ -62,7 +62,7 @@ export function getOverlayItems() {
 /**
  * Bring the given overlayItem to the front
  */
-export function bringOverlayToFront(itemId: LOCATION_ENUM) {
+export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
   const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
   const index = newState.overlayState.indexOf(itemId);
 
@@ -97,7 +97,7 @@ export function openOverlayItem(itemId: LOCATION_ENUM) {
     newState.overlayState.unshift(itemId);
     Context.mapState.setState(newState);
   } else {
-    bringOverlayToFront(itemId);
+    bringOverlayItemToFront(itemId);
   }
 }
 

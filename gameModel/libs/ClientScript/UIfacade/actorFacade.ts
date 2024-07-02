@@ -13,6 +13,7 @@ export function getAllActors(): Readonly<Actor[]> {
   return getCurrentState().getAllActors();
 }
 
+// used in page 43
 export function selectActor(id: ActorId) {
   Context.interfaceState.setState({
     ...Context.interfaceState.state,

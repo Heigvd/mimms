@@ -467,7 +467,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { bringOverlayToFront, isOverlayItemOpen } from \"./gameMap/mapEntities\";\n\nif(isOverlayItemOpen(Context.overlayItem.id)) {\n  bringOverlayToFront(Context.overlayItem.id);\n}",
+                                            "content" : "import { bringOverlayItemToFront, isOverlayItemOpen } from \"./gameMap/mapEntities\";\n\nif(isOverlayItemOpen(Context.overlayItem.id)) {\n  bringOverlayItemToFront(Context.overlayItem.id);\n}",
                                             "language" : "TypeScript"
                                           }
                                         },
