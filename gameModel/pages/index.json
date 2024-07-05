@@ -469,7 +469,7 @@
       }, {
         "@class" : "Page",
         "id" : "patientsListModale",
-        "name" : "patients list",
+        "name" : "patients list with detail",
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
