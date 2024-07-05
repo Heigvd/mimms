@@ -436,12 +436,6 @@
           "name" : "D912 evacuation",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "evacuationForm",
-          "name" : "evacuation form",
-          "scenaristPage" : null,
-          "trainerPage" : null
         } ],
         "name" : "radio"
       }, {
