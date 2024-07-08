@@ -707,21 +707,6 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   }
 }
 
-export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    targetLocation: LOCATION_ENUM
-  ) {
-    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
-  }
-
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeWaitingHumanResources(state);
-  }
-}
-
 export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentId: GlobalEventId,

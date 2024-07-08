@@ -35,7 +35,6 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
   AppointActorAction,
-  ArrivalAnnouncementAction,
   CasuMessageAction,
   EvacuationAction,
   MoveActorAction,
@@ -297,9 +296,9 @@ export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> 
     return new SendMessageAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid
     );
@@ -967,9 +966,9 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<SendMess
     return new SendMessageAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
       this.Uid,
       this.provideFlagsToState,
@@ -1092,13 +1091,11 @@ export class ArrivalAnnouncementTemplate extends StartEndTemplate {
     );
   }
 
-  protected createActionFromEvent(
-    event: FullEvent<StandardActionEvent>
-  ): ArrivalAnnouncementAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new ArrivalAnnouncementAction(
+    return new SendMessageAction(
       payload.triggerTime,
       this.duration,
       event.id,
@@ -1106,7 +1103,9 @@ export class ArrivalAnnouncementTemplate extends StartEndTemplate {
       this.message,
       ownerId,
       this.Uid,
-      this.provideFlagsToState
+      this.provideFlagsToState,
+      ActionType.CASU_RADIO,
+      true
     );
   }
 
