@@ -354,7 +354,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'DefineCasuMessageObjectTemplate' + '_' + this.title;
+    return 'CasuMessageTemplate' + '_' + this.title;
   }
 
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
@@ -856,7 +856,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class SendRadioMessage extends StartEndTemplate {
+export class SendRadioMessageTemplate extends StartEndTemplate {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -1056,7 +1056,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveActorTemplate' + '_' + this.title;
+    return 'MoveActorActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {

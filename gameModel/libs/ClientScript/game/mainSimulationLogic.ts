@@ -17,7 +17,7 @@ import {
   SelectionParkTemplate,
   SelectionPCTemplate,
   SelectionPMATemplate,
-  SendRadioMessage,
+  SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
 import { Actor } from './common/actors/actor';
@@ -311,7 +311,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'casu-message-feedback'
   );
-  const radioMessage = new SendRadioMessage(
+  const radioMessage = new SendRadioMessageTemplate(
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
