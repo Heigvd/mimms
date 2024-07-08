@@ -14,17 +14,6 @@ export function getStateActorSymbolicLocation(
     .getComputedSymbolicLocation(state);
 }
 
-export function getStateActorSymbolicLocationForActor(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId
-): LOCATION_ENUM {
-  // there should only be one
-  return state
-    .getInternalStateObject()
-    .actors.filter(actor => actor.Uid === actorId)[0]!
-    .getComputedSymbolicLocation(state);
-}
-
 /**
  * Get the most influent actors at the given location.
  * <p>
