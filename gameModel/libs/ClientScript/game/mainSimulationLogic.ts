@@ -1,25 +1,28 @@
 /**
  * Setup function
  */
+import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
+import { getTranslation } from '../tools/translation';
+import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
+import { ActionBase } from './common/actions/actionBase';
 import {
   ActionTemplateBase,
-  ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
-  ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
+  DisplayMessageActionTemplate,
   EvacuationActionTemplate,
-  GetInformationTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
-  SelectionPCFrontTemplate,
   SelectionParkTemplate,
+  SelectionPCFrontTemplate,
   SelectionPCTemplate,
   SelectionPMATemplate,
   SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
+import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
@@ -48,22 +51,17 @@ import {
 } from './common/localEvents/localEventBase';
 import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
-import { MainSimulationState } from './common/simulationState/mainSimulationState';
+import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { Resource } from './common/resources/resource';
 import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
-import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
+import { LOCATION_ENUM } from './common/simulationState/locationState';
+import { MainSimulationState } from './common/simulationState/mainSimulationState';
+import { SubTask } from './common/tasks/subTask';
 import { HealingTask, TaskBase } from './common/tasks/taskBase';
+import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
-import { ActionType } from './common/actionType';
-import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
-import { getTranslation } from '../tools/translation';
-import { SubTask } from './common/tasks/subTask';
-import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
-import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
-import { ActionBase } from './common/actions/actionBase';
-import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -279,25 +277,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [],
     [SimFlag.PCFRONT_BUILT]
   );
-  const getInfo = new GetInformationTemplate(
+  const getInfo = new DisplayMessageActionTemplate(
     'basic-info-title',
     'basic-info-desc',
     TimeSliceDuration * 2,
     'basic-info-feedback'
   );
-  const getInfo2 = new GetInformationTemplate(
+  const getInfo2 = new DisplayMessageActionTemplate(
     'other-basic-info-title',
     'other-basic-info-desc',
     TimeSliceDuration,
     'other-basic-info-feedback'
   );
-  const getPoliceInfos = new GetInformationTemplate(
+  const getPoliceInfos = new DisplayMessageActionTemplate(
     'basic-info-police-title',
     'basic-info-police-desc',
     TimeSliceDuration,
     'basic-info-police-feedback'
   );
-  const getFireFighterInfos = new GetInformationTemplate(
+  const getFireFighterInfos = new DisplayMessageActionTemplate(
     'basic-info-firefighter-title',
     'basic-info-firefighter-desc',
     TimeSliceDuration,
@@ -371,7 +369,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnouncement = new ArrivalAnnouncementTemplate(
+  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -379,7 +377,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     false,
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.ACS_MCS_ANNOUNCED],
-    ['ACS', 'MCS']
+    ['ACS', 'MCS'],
+    ActionType.CASU_RADIO,
+    true
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
@@ -544,14 +544,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
-  const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
+  const activateRadioSchema = new DisplayMessageActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
     false,
     undefined,
-    [SimFlag.RADIO_SCHEMA_ACTIVATED]
+    [SimFlag.RADIO_SCHEMA_ACTIVATED],
+    undefined,
+    ActionType.CASU_RADIO,
+    true
   );
 
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(

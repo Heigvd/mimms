@@ -31,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -40,14 +40,14 @@ import {
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
+  AutoSendACSMCSLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
+  MoveFreeWaitingResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
-  AutoSendACSMCSLocalEvent,
-  MoveFreeWaitingResourcesByLocationLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -254,7 +254,10 @@ export abstract class RadioDrivenAction extends StartEndAction {
   public abstract getRecipient(): number;
 }
 
-export class SendMessageAction extends StartEndAction {
+/**
+ * The result of the action is to display a message in a radio channel or as a notification
+ */
+export class DisplayMessageAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -281,11 +284,11 @@ export class SendMessageAction extends StartEndAction {
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event SendMessageAction');
+    this.logger.info('start event DisplayMessageAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendMessageAction');
+    this.logger.info('end event DisplayMessageAction');
 
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -1136,6 +1139,9 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 }
 
+/**
+ * The result of the action is to spread a handwritten message from a player through a radio channel
+ */
 export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
