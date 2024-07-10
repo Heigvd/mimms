@@ -870,7 +870,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
 // -------------------------------------------------------------------------------------------------
 
 /**
- * The goal of the action is to spread a handwritten message from a player through a radio channel
+ * The goal of the action is to broadcast a written message from a player on a radio channel
  */
 export class SendRadioMessageTemplate extends StartEndTemplate {
   constructor(
