@@ -83,7 +83,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.selectedPatient = Context.patient.patientId;\nnewState.showPatientModal = true;\nContext.interfaceState.setState(newState);",
+                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, showPatientModal: true});"
                 "language" : "TypeScript"
               }
             },
