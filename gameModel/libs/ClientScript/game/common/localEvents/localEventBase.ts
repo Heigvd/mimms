@@ -100,7 +100,7 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
  */
 export class PlanActionLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase) {
-    super(parentEventId, 'PlanActionEvent', timeStamp);
+    super(parentEventId, 'PlanActionLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -120,7 +120,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
     readonly actorUid: ActorId,
     readonly planTime: SimTime
   ) {
-    super(parentEventId, 'CancelActionEvent', timeStamp);
+    super(parentEventId, 'CancelActionLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -176,7 +176,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
     actors: ActorId[],
     readonly timeJump: number
   ) {
-    super(parentEventId, 'TimeForwardEvent', actors, timeStamp);
+    super(parentEventId, 'TimeForwardLocalEvent', actors, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -217,7 +217,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
  */
 export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actors: ActorId[]) {
-    super(parentEventId, 'TimeForwardCancelEvent', actors, timeStamp);
+    super(parentEventId, 'TimeForwardCancelLocalEvent', actors, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -239,7 +239,7 @@ export class AddFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'AddFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -254,7 +254,7 @@ export class RemoveFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'RemoveFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -274,7 +274,7 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'CompleteBuildingFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -373,7 +373,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     private readonly omitTranslation: boolean = false,
     private readonly messageValues: (string | number)[] = []
   ) {
-    super(parentId, 'AddLogMessageLocalEvent', timeStamp);
+    super(parentId, 'AddRadioMessageLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -704,21 +704,6 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
     return this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
-  }
-}
-
-export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    targetLocation: LOCATION_ENUM
-  ) {
-    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
-  }
-
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeWaitingHumanResources(state);
   }
 }
 

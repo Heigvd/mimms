@@ -77,7 +77,7 @@ export class Actor {
     this.ShortName = getTranslation(this.translationVar, tkey);
     this.FullName = getTranslation(this.translationVar, tkey + '-long');
     this.symbolicLocation = symbolicLocation;
-    //current actor location is the sysmbolic location at the beginning
+    // actor location is the symbolic location at the beginning
     this.Location = symbolicLocation;
   }
 

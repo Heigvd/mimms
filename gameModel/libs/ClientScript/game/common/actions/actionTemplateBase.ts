@@ -35,19 +35,18 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
   AppointActorAction,
-  ArrivalAnnouncementAction,
   CasuMessageAction,
+  DisplayMessageAction,
   EvacuationAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
   RadioDrivenAction,
   SelectionFixedMapEntityAction,
+  SelectionPCAction,
   SelectionPCFrontAction,
   SelectionPMAAction,
   SelectionParkAction,
-  SendMessageAction,
   SendRadioMessageAction,
-  SelectionPCAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -266,16 +265,27 @@ export abstract class StartEndTemplate<
   }
 }
 
-export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> {
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * The result of the action is to display a message in a radio channel or as a notification
+ */
+export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessageAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    replayable = false,
+    replayable: boolean = false,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
+    availableToRoles?: InterventionRole[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
   ) {
     super(
       title,
@@ -290,18 +300,21 @@ export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> 
     );
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): DisplayMessageAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new SendMessageAction(
+    return new DisplayMessageAction(
       payload.triggerTime,
       this.duration,
-      this.message,
-      this.title,
       event.id,
+      this.title,
+      this.message,
       ownerId,
-      this.Uid
+      this.Uid,
+      this.provideFlagsToState,
+      this.channel,
+      this.isRadioMessage
     );
   }
 
@@ -313,7 +326,7 @@ export class GetInformationTemplate extends StartEndTemplate<SendMessageAction> 
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'GetInformationTemplate' + '_' + this.title;
+    return 'SendMessageActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -354,7 +367,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'DefineCasuMessageObjectTemplate' + '_' + this.title;
+    return 'CasuMessageTemplate' + '_' + this.title;
   }
 
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
@@ -856,13 +869,16 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class SendRadioMessage extends StartEndTemplate {
+/**
+ * The goal of the action is to broadcast a written message from a player on a radio channel
+ */
+export class SendRadioMessageTemplate extends StartEndTemplate {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    replayable = true,
+    replayable: boolean = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -935,69 +951,6 @@ export class SendRadioMessage extends StartEndTemplate {
   }
 }
 
-export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<SendMessageAction> {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable: boolean = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      replayable,
-      ActionType.ACTION,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
-  }
-
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SendMessageAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-
-    return new SendMessageAction(
-      payload.triggerTime,
-      this.duration,
-      this.message,
-      this.title,
-      event.id,
-      ownerId,
-      this.Uid,
-      this.provideFlagsToState,
-      ActionType.CASU_RADIO,
-      true
-    );
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-    };
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 //  actor
@@ -1056,69 +1009,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveActorTemplate' + '_' + this.title;
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-}
-
-export class ArrivalAnnouncementTemplate extends StartEndTemplate {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      replayable,
-      ActionType.ACTION,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
-  }
-
-  protected createActionFromEvent(
-    event: FullEvent<StandardActionEvent>
-  ): ArrivalAnnouncementAction {
-    const payload = event.payload;
-    // for historical reasons characterId could be of type string, cast it to ActorId (number)
-    const ownerId = payload.emitterCharacterId as ActorId;
-    return new ArrivalAnnouncementAction(
-      payload.triggerTime,
-      this.duration,
-      event.id,
-      this.title,
-      this.message,
-      ownerId,
-      this.Uid,
-      this.provideFlagsToState
-    );
-  }
-
-  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
-    return {
-      ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
-    };
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return 'ArrivalAnnouncementTemplate' + '_' + this.title;
+    return 'MoveActorActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {

@@ -31,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -40,15 +40,14 @@ import {
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
+  AutoSendACSMCSLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
-  MoveFreeWaitingHumanResourcesLocalEvent,
+  MoveFreeWaitingResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
-  AutoSendACSMCSLocalEvent,
-  MoveFreeWaitingResourcesByLocationLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -255,13 +254,16 @@ export abstract class RadioDrivenAction extends StartEndAction {
   public abstract getRecipient(): number;
 }
 
-export class SendMessageAction extends StartEndAction {
+/**
+ * The result of the action is to display a message in a radio channel or as a notification
+ */
+export class DisplayMessageAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
-    actionNameKey: TranslationKey,
     eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState?: SimFlag[],
@@ -282,11 +284,11 @@ export class SendMessageAction extends StartEndAction {
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     //likely nothing to do
-    this.logger.info('start event SendMessageAction');
+    this.logger.info('start event DisplayMessageAction');
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendMessageAction');
+    this.logger.info('end event DisplayMessageAction');
 
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
@@ -605,16 +607,19 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
 
   protected override dispatchEndedEvents(state: MainSimulationState): void {
     super.dispatchEndedEvents(state);
+
     localEventManager.queueLocalEvent(
       new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, LOCATION_ENUM.pcFront)
     );
-    // First and only resource on scene
+
+    // First and only resource on scene comes with
     const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
     localEventManager.queueLocalEvent(
-      new MoveFreeWaitingHumanResourcesLocalEvent(
+      new MoveResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.ownerId,
+        [resourceUid],
         LOCATION_ENUM.pcFront
       )
     );
@@ -1134,6 +1139,9 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 }
 
+/**
+ * The result of the action is to spread a handwritten message from a player through a radio channel
+ */
 export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
@@ -1192,91 +1200,6 @@ export class SendRadioMessageAction extends RadioDrivenAction {
 
   public getRecipient(): number {
     return this.radioMessagePayload.actorId;
-  }
-}
-
-export class ArrivalAnnouncementAction extends StartEndAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    provideFlagsToState: SimFlag[]
-    /* do we need to list the flags here? It seems like it should be in the template but how does the class know she needs flags?
-    private flags: SimFlag[]=[SimFlag.PCS_ARRIVED,
-     */
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      provideFlagsToState
-    );
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    //likely nothing to do
-    this.logger.info('start event ArrivalAnnouncementAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event ArrivalAnnouncementAction');
-
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        state.getActorById(this.ownerId)?.ShortName || '',
-        this.messageKey,
-        ActionType.CASU_RADIO,
-        true,
-        false
-      )
-    );
-
-    const ownerActor = state.getActorById(this.ownerId)!;
-    const ownerActorMapLocation = state
-      .getInternalStateObject()
-      .mapLocations.find(l => l.id === ownerActor.Location);
-
-    if (
-      !(
-        ownerActorMapLocation === undefined ||
-        ownerActorMapLocation.buildingStatus === BuildingStatus.removed
-      )
-    ) {
-      localEventManager.queueLocalEvent(
-        new MoveFreeWaitingHumanResourcesLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          ownerActor.Location
-        )
-      );
-    } else {
-      // If the actors location is unavailable, resources default to PC
-      localEventManager.queueLocalEvent(
-        new MoveFreeWaitingHumanResourcesLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          LOCATION_ENUM.PC
-        )
-      );
-    }
-  }
-
-  protected cancelInternal(_state: MainSimulationState): void {
-    // nothing to do
-    return;
   }
 }
 

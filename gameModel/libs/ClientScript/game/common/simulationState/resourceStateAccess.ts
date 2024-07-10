@@ -164,16 +164,6 @@ export function getFreeWaitingResourcesByLocation(
   );
 }
 
-export function getFreeWaitingHumanResources(state: Readonly<MainSimulationState>): Resource[] {
-  const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(
-    (resource: Resource) =>
-      !resource.isReserved() &&
-      isHuman(resource.type) &&
-      resource.currentActivity == getIdleTaskUid(state)
-  );
-}
-
 export function getFreeResourcesByNumberTypeLocationAndTask(
   state: Readonly<MainSimulationState>,
   sentResources: ResourceTypeAndNumber,

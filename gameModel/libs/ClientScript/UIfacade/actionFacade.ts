@@ -12,7 +12,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SelectionFixedMapEntityTemplate,
-  SendRadioMessage,
+  SendRadioMessageTemplate,
   SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
@@ -119,7 +119,7 @@ export function isRadioActionTemplate(id: number): boolean {
     Context.interfaceState.state.currentActorUid,
     ActionType.ACTORS_RADIO
   ).find(t => t.Uid === id);
-  return template instanceof SendRadioMessage;
+  return template instanceof SendRadioMessageTemplate;
 }
 
 /**
