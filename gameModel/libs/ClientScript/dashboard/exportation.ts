@@ -80,9 +80,9 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
 
       switch (evt.payload.type) {
         case 'Categorize':
-          playersCategories[plid][ptid] = evt.payload.category;
-          playersAutoCat[plid][ptid] = evt.payload.autoTriage.categoryId!;
-          playersCatVitals[plid][ptid] = evt.payload.autoTriage.vitals;
+          playersCategories[plid]![ptid] = evt.payload.category;
+          playersAutoCat[plid]![ptid] = evt.payload.autoTriage.categoryId!;
+          playersCatVitals[plid]![ptid] = evt.payload.autoTriage.vitals;
           break;
         case 'HumanMeasure':
           const durationM = getActionDuration(evt.payload as HumanMeasureEvent);
@@ -100,11 +100,11 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
             dataM.name = evt.payload.source.itemId;
           }
 
-          if (playersMeasures[plid][ptid]) {
-            playersMeasures[plid][ptid].push(dataM);
+          if (playersMeasures[plid]![ptid]) {
+            playersMeasures[plid]![ptid]!.push(dataM);
             maxMeasures[ptid]++;
           } else {
-            playersMeasures[plid][ptid] = [dataM];
+            playersMeasures[plid]![ptid] = [dataM];
             maxMeasures[ptid] = 1;
           }
 
@@ -123,11 +123,11 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
             data.type = evt.payload.source.actionId;
           }
 
-          if (playersTreatments[plid][ptid]) {
-            playersTreatments[plid][ptid].push(data);
+          if (playersTreatments[plid]![ptid]) {
+            playersTreatments[plid]![ptid]!.push(data);
             maxTreatments[ptid]++;
           } else {
-            playersTreatments[plid][ptid] = [data];
+            playersTreatments[plid]![ptid] = [data];
             maxTreatments[ptid] = 1;
           }
 
@@ -142,7 +142,7 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
       wlog('****** Could not resolve action', event);
       return 0;
     }
-    const skillId = characters[event.emitterCharacterId].skillId;
+    const skillId = characters[event.emitterCharacterId]!.skillId;
     const skillDef = getSkillDefinition(skillId);
 
     if (!skillDef) {
@@ -156,10 +156,10 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
     let skillLvl: SkillLevel = 'low_skill';
 
     if (event.source.type === 'act') {
-      skillLvl = skillDef.actions![getSkillActId(event.source.actId)];
+      skillLvl = skillDef.actions![getSkillActId(event.source.actId)]!;
     } else {
       skillLvl =
-        skillDef.actions![getSkillItemActionId(event.source.itemId, event.source.actionId)];
+        skillDef.actions![getSkillItemActionId(event.source.itemId, event.source.actionId)]!;
     }
     return resolvedAction.action.duration[skillLvl] || 0;
 
@@ -237,14 +237,14 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
     }
 
     // treatments header
-    for (let t = 1; t <= maxTreatments[id]; t++) {
+    for (let t = 1; t <= (maxTreatments[id] || 0); t++) {
       for (const h of treatmentColumns) {
         appendHeader(id, 'T', t.toString(), h);
       }
     }
 
     // measures headers
-    for (let m = 1; m <= maxMeasures[id]; m++) {
+    for (let m = 1; m <= (maxMeasures[id] || 0); m++) {
       for (const h of measureColumns) {
         appendHeader(id, 'M', m.toString(), h);
       }
@@ -264,16 +264,16 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
 
   players.updatedEntities.forEach((p: any) => {
     playerNames[p.id] = p.name;
-    playerTimes[p.id] = simRefs[p.teamId];
+    playerTimes[p.id] = simRefs[p.teamId]!;
   });
 
   Object.keys(playersAutoCat).forEach(pid => {
     lines[pid] = [];
-    lines[pid].push(pid);
-    lines[pid].push(playerNames[pid]);
-    lines[pid].push(systemName);
-    lines[pid].push(addPlayerScores(pid));
-    lines[pid].push(playerTimes[pid].toString());
+    lines[pid]!.push(pid);
+    lines[pid]!.push(playerNames[pid]!);
+    lines[pid]!.push(systemName);
+    lines[pid]!.push(addPlayerScores(pid));
+    lines[pid]!.push(playerTimes[pid]!.toString());
     sortedPatientIds.forEach((patId: PatientId) => {
       addPatientData(pid, patId);
     });
@@ -284,9 +284,9 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
     let totalCorrect = 0;
 
     sortedPatientIds.forEach((patientId: PatientId) => {
-      if (playersCategories[pid][patientId]) {
+      if (playersCategories[pid]![patientId]) {
         total++;
-        if (playersAutoCat[pid][patientId] === playersCategories[pid][patientId]) {
+        if (playersAutoCat[pid]![patientId] === playersCategories[pid]![patientId]) {
           totalCorrect++;
         }
       }
@@ -297,8 +297,8 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
 
   function addPatientData(pid: PlayerId, patientId: PatientId) {
     const line = lines[pid];
-    line.push(playersAutoCat[pid][patientId] || 'NOT CATEGORIZED'); // correct answer
-    line.push(playersCategories[pid][patientId] || 'NOT CATEGORIZED'); // given answer
+    line!.push(playersAutoCat[pid]![patientId] || 'NOT CATEGORIZED'); // correct answer
+    line!.push(playersCategories[pid]![patientId] || 'NOT CATEGORIZED'); // given answer
 
     if (vitalsExists[patientId]) {
       addPatientVitalParameters(pid, patientId);
@@ -309,7 +309,7 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
 
   function addTreatments(pid: PlayerId, patientId: PatientId) {
     const line = lines[pid];
-    const tdata = playersTreatments[pid][patientId];
+    const tdata = playersTreatments[pid]![patientId];
 
     const status: MeasureResultStatus = 'success';
 
@@ -318,27 +318,27 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
       const t = tdata ? tdata[i] : undefined;
 
       if (t) {
-        line.push(t.type);
-        line.push(status);
-        line.push(t.time.toString());
-        line.push(t.duration.toString());
+        line!.push(t.type);
+        line!.push(status);
+        line!.push(t.time.toString());
+        line!.push(t.duration.toString());
         //wrong typing from serialization blocks is an object
         const blocks = Object.values(t.blocks);
         if (blocks.length) {
-          line.push(blocks.join('|'));
+          line!.push(blocks.join('|'));
         } else {
-          line.push('N/A');
+          line!.push('N/A');
         }
       } else {
         //empty fill
-        line.push(...Array(treatmentColumns.length).fill(''));
+        line!.push(...Array(treatmentColumns.length).fill(''));
       }
     }
   }
 
   function addMeasures(pid: PlayerId, patientId: PatientId) {
     const line = lines[pid];
-    const mdata = playersMeasures[pid][patientId];
+    const mdata = playersMeasures[pid]![patientId];
     const max = maxMeasures[patientId] || 0;
     for (let i = 0; i < max; i++) {
       const m = mdata ? mdata[i] : undefined;
@@ -356,14 +356,14 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
           m.status = resEvent.payload.status;
           duration = m.duration || resEvent.payload.duration;
         }
-        line.push(m.name);
-        line.push(m.status);
-        line.push(m.time.toString());
-        line.push(duration.toString());
-        line.push(m.result);
+        line!.push(m.name);
+        line!.push(m.status);
+        line!.push(m.time.toString());
+        line!.push(duration.toString());
+        line!.push(m.result);
       } else {
         //empty fill
-        line.push(...Array(measureColumns.length).fill(''));
+        line!.push(...Array(measureColumns.length).fill(''));
       }
     }
   }
@@ -371,17 +371,17 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
   function addPatientVitalParameters(pid: PlayerId, patientId: PatientId) {
     const line = lines[pid];
 
-    const vitals = playersCatVitals[pid][patientId];
+    const vitals = playersCatVitals[pid]![patientId];
 
     if (vitals) {
       // if capillaryRefillTime_s isn't defined we set it as empty
       vitals['vitals.capillaryRefillTime_s'] ??= '';
 
       vitalsColumns.forEach(v => {
-        line.push(vitals[v].toString());
+        line!.push(vitals[v]!.toString());
       });
     } else {
-      line.push(...Array(vitalsColumns.length).fill(''));
+      line!.push(...Array(vitalsColumns.length).fill(''));
     }
   }
 
