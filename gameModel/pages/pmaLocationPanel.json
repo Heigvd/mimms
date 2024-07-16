@@ -83,7 +83,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, showPatientModal: true});"
+                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, showPatientModal: true});",
                 "language" : "TypeScript"
               }
             },
