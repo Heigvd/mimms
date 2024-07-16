@@ -401,16 +401,6 @@ export function getPatientsAsChoices(short: boolean = false) {
   return sortChoicesByLabel(getHumansAsChoices(Variable.find(gameModel, 'patients'), short));
 }
 
-export function getAutonomicNervousSystemModelsAsChoices() {
-  const systems = Variable.find(gameModel, 'autonomicNervousSystems');
-  return systems.getItems().map(child => {
-    return {
-      label: I18n.toString(child),
-      value: child.getName(),
-    };
-  });
-}
-
 export function getEnv(): Environnment {
   return {
     atmosphericPressure_mmHg: Variable.find(gameModel, 'atmP_mmHg').getValue(self),

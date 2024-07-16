@@ -1,4 +1,5 @@
 import { ActDefinition, ItemDefinition } from '../../HUMAn/pathology';
+import { SkillLevel } from '../../game/common/resources/skillsManager';
 import { registryLogger } from '../../tools/logger';
 import { BodyStateKeys } from '../human';
 
@@ -6,6 +7,10 @@ let initialized = false;
 
 const DFLT_ACTION_DURATION_LOW = 10;
 const DFLT_ACTION_DURATION_HIGH = 5;
+const DFLT_ACTION_DURATION: Omit<Record<SkillLevel, number>, 'no_skill'> = {
+  low_skill: DFLT_ACTION_DURATION_LOW,
+  high_skill: DFLT_ACTION_DURATION_HIGH,
+};
 let items: Record<string, ItemDefinition> = {};
 let acts: Record<string, ActDefinition> = {};
 
@@ -20,7 +25,7 @@ function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): v
     // for the following lines assume a single action and sets its duration
     Object.values(def.actions).forEach(elmt => {
       if (elmt && elmt.duration) {
-        elmt.duration = JSON.parse(actionDurations[def.id]);
+        elmt.duration = JSON.parse(actionDurations[def.id] || '');
       }
     });
   } else {
@@ -31,7 +36,7 @@ function registerItem(def: Omit<ItemDefinition, 'type' | 'translationGroup'>): v
 
 function registerAct(def: Omit<ActDefinition, 'type' | 'translationGroup'>): void {
   if (actionDurations[def.id]) {
-    def.action.duration = JSON.parse(actionDurations[def.id]);
+    def.action.duration = JSON.parse(actionDurations[def.id] || '');
   } else {
     registryLogger.info('using default duration for', def.id);
   }
@@ -79,7 +84,7 @@ export function initItemAndActs(
         },
       ],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -94,7 +99,7 @@ export function initItemAndActs(
       category: 'A',
       rules: [],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -122,7 +127,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -151,7 +156,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -180,7 +185,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -209,7 +214,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -238,7 +243,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -267,7 +272,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -296,7 +301,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -327,7 +332,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -356,7 +361,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -385,7 +390,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -414,7 +419,7 @@ export function initItemAndActs(
         category: 'B',
         targetedObject: 'HumanBody',
         metricName: ['vitals.respiration.SpO2'],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -457,7 +462,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -488,7 +493,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
       pressureBandage: {
         type: 'ActionBodyEffect',
@@ -535,7 +540,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -568,7 +573,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -605,7 +610,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -643,7 +648,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -681,7 +686,7 @@ export function initItemAndActs(
           },
         ],
         createActions: [],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -708,7 +713,7 @@ export function initItemAndActs(
       category: 'C',
       targetedObject: 'HumanBody',
       metricName: ['vitals.capillaryRefillTime_s'],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -723,7 +728,7 @@ export function initItemAndActs(
         type: 'ActionBodyMeasure',
         targetedObject: 'HumanBody',
         metricName: ['vitals.cardio.MAP'],
-        duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+        duration: DFLT_ACTION_DURATION,
       },
     },
   });
@@ -745,7 +750,7 @@ export function initItemAndActs(
         'vitals.glasgow.verbal',
         'vitals.glasgow.motor',
       ],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -778,7 +783,7 @@ export function initItemAndActs(
       category: 'Z',
       targetedObject: 'HumanBody',
       metricName: ['vitals.canWalk'],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -790,7 +795,7 @@ export function initItemAndActs(
       category: 'Z',
       targetedObject: 'HumanBody',
       metricName: ['vitals.visiblePain'],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -819,7 +824,7 @@ export function initItemAndActs(
         },
       ],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -845,7 +850,7 @@ export function initItemAndActs(
         },
       ],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -871,7 +876,7 @@ export function initItemAndActs(
         },
       ],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -897,7 +902,7 @@ export function initItemAndActs(
         },
       ],
       createActions: [],
-      duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+      duration: DFLT_ACTION_DURATION,
     },
   });
 
@@ -911,7 +916,7 @@ export function initItemAndActs(
 			name: 'dead',
 			targetedObject: 'HumanBody',
 			metricName: ['vitals.cardiacArrest'],
-			duration: { low_skill: DFLT_ACTION_DURATION_LOW, high_skill: DFLT_ACTION_DURATION_HIGH },
+			duration: DFLT_ACTION_DURATION,
 		},
 	});*/
 }

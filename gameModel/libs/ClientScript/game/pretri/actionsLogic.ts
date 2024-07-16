@@ -88,15 +88,18 @@ function resolveAction(
   return undefined;
 }
 
-function getPathologyTypesById(id: string): string[] {
-  return getPathologyDefinitionById(id).modules.map(defModule => defModule.type);
+function getPathologyTypesById(id: string): string[] | undefined {
+  if (id) {
+    return getPathologyDefinitionById(id)?.modules.map(defModule => defModule.type);
+  }
+  return undefined;
 }
 
 function getHemorrhageZone(pathology: RevivedPathology): string[] {
+  const pathologyType = getPathologyTypesById(pathology.pathologyId);
   if (
-    getPathologyTypesById(pathology.pathologyId).find(
-      pathologyType => pathologyType === 'Hemorrhage'
-    ) !== undefined
+    pathologyType &&
+    pathologyType.find(pathologyType => pathologyType === 'Hemorrhage') !== undefined
   ) {
     return pathology.modules.map(pathologyModule => pathologyModule.block);
   }
@@ -116,7 +119,7 @@ export function healHemorrhages(
     hemorrhageZones.forEach(hemorrhageZone => {
       let [bestItemId, bestActionId] = getBestHemorrhageItemAndAction(hemorrhageZone);
       if (bestActionId && bestItemId) {
-        const { source, actionId, action, label }: ResolvedAction = resolveAction(
+        const { source, actionId, action }: ResolvedAction = resolveAction(
           'itemAction',
           bestActionId,
           bestItemId
@@ -158,10 +161,7 @@ export function placeInRecoveryPosition(
 }
 
 function executeAction(data: PreTriageData, actionIdentifier: string, simTime: number) {
-  const { source, actionId, action, label }: ResolvedAction = resolveAction(
-    'act',
-    actionIdentifier
-  )!;
+  const { source, actionId, action }: ResolvedAction = resolveAction('act', actionIdentifier)!;
   if (action != null) {
     if (action.type === 'ActionBodyEffect') {
       logger.debug('ACTION: ', { time: simTime, source, action });

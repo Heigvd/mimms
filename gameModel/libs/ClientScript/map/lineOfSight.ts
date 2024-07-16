@@ -13,10 +13,10 @@ export function getBuildingInExtent(extent: ExtentLikeObject): Polygons {
   if (buildingLayer.current != null) {
     const buildingFeatures = buildingLayer.current.getSource().getFeaturesInExtent(extent);
     const buildingPolygonFeatures = buildingFeatures.filter(
-      feature => feature.getGeometry().getType() === 'Polygon'
+      (feature: any) => feature.getGeometry().getType() === 'Polygon'
     );
     const buildingMultiPolygonFeatures = buildingFeatures.filter(
-      feature => feature.getGeometry().getType() === 'MultiPolygon'
+      (feature: any) => feature.getGeometry().getType() === 'MultiPolygon'
     );
 
     for (const feature of buildingPolygonFeatures) {

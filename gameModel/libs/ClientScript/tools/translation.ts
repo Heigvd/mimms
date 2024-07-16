@@ -113,13 +113,22 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
   Helpers.downloadFile(`translations/${filename}`, 'TEXT').then(tsv => {
     if (tsv.startsWith('<!DOCTYPE')) {
       // TODO should be empty or raise and error
-      wlog('tsv file not found : ' + filename);
+      wlog('tsv file not found : ', filename);
       return;
     }
     const lines = tsv.split('\n');
-    const header = lines[0].split('\t');
+    if (lines.length < 1) {
+      wlog('File has no lines', filename);
+    }
+    const header = lines[0]!.split('\t');
 
-    if (header[1].trim() !== 'EN' || header[2].trim() !== 'FR') {
+    if (
+      !header ||
+      !header[1] ||
+      header[1].trim() !== 'EN' ||
+      !header[2] ||
+      header[2].trim() !== 'FR'
+    ) {
       throw new Error(
         filename + ' bad format, expected header : key, EN, FR, <any>. received : ' + header
       );
@@ -129,13 +138,11 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 
     lines.slice(1).forEach(line => {
       const l = line.split('\t');
-      if (!l) {
+      if (!l || l.length < 3) {
         return;
       }
-      const tr = buildTranslation(l[1], l[2]);
-      const key = l[0].trim().toLowerCase();
-      //const debug = `Variable.find(gameModel, "${category}").setProperty(${JSON.stringify(key)}, ${JSON.stringify(tr)})`;
-      //wlog(debug)
+      const tr = buildTranslation(l[1]!, l[2]!);
+      const key = l[0]!.trim().toLowerCase();
       const s = `Variable.find(gameModel, "${category}").setProperty(${JSON.stringify(
         key
       )}, ${JSON.stringify(JSON.stringify(tr))})`;

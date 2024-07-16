@@ -50,12 +50,15 @@ export function getLineEndAndRotation(segment: PointLikeObject[]): {
   rotation: number;
 } {
   const start = segment[0];
-  const end = segment[1];
+  let end = segment[1];
 
-  const dx = end[0] - start[0];
-  const dy = end[1] - start[1];
-  const rotation = Math.atan2(dy, dx);
-
+  let rotation = 0;
+  if (end && start) {
+    const dx = end[0] - start[0];
+    const dy = end[1] - start[1];
+    rotation = Math.atan2(dy, dx);
+  }
+  end = end || [0, 0];
   return { end, rotation };
 }
 

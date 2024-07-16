@@ -888,7 +888,7 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
     mainSimLogger.warn('state not found, cannot restore state with id', stateId);
     return;
   }
-  currentSimulationState = stateHistory[idx];
+  currentSimulationState = stateHistory[idx]!;
   stateHistory = stateHistory.slice(0, idx + 1);
 
   // store the events that have to be omitted when recomputing the state
@@ -897,8 +897,8 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
   const lastEvtId = currentSimulationState.getLastEventId();
   const all = getAllEvents();
   let i = all.length - 1;
-  while (i > 0 && all[i].id !== lastEvtId) {
-    ignored[all[i].id] = true;
+  while (i > 0 && all[i]?.id !== lastEvtId) {
+    ignored[all[i]!.id] = true;
     i--;
   }
 
@@ -912,9 +912,9 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
  * Get the events that have been cancelled due to previous stored state reloading
  */
 function getOmittedEvents(): Record<string, boolean> {
-  const raw = Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()[
-    'ignored'
-  ];
+  const raw =
+    Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
+    '{}';
   const ignored = JSON.parse(raw) as Record<string, boolean>;
   return ignored;
 }

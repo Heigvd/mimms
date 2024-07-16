@@ -79,8 +79,6 @@ export class MainSimulationState implements IClonable {
       ev.applyStateUpdate(newState);
     });
 
-    // TODO is that too much ?
-    // Object.freeze(newState.internalState);
     return newState;
   }
 
@@ -91,32 +89,12 @@ export class MainSimulationState implements IClonable {
     return this.internalState;
   }
 
-  // experimental, might be interesting to enforce immutability
-  // but functions are not callable anymore
-  // maybe this https://stackoverflow.com/questions/58210331/exclude-function-types-from-an-object-type
-  /**
-   * @returns a deep readonly main state object
-   */
-  public getImmutableStateObject(): Immutable<MainStateObject> {
-    const imm: Immutable<MainStateObject> = {
-      ...this.internalState,
-    };
-    // const so = this.internalState;
-    // so.actions[0]!.test.a = 2
-    // so.actions.push()
-    // imm.actions[0]!.test.a = 2
-    // imm.actions.push()
-    //imm.actions[0]?.cancel() non callable
-
-    return imm;
-  }
-
   /**
    * Get map of containers
    */
   public getResourceContainersByType(): Record<ResourceContainerType, ResourceContainerConfig[]> {
     const defs = getAllContainerDefs();
-    return group(this.internalState.resourceContainers, c => defs[c.templateId].type);
+    return group(this.internalState.resourceContainers, c => defs[c.templateId]!.type);
   }
 
   /**
@@ -235,8 +213,3 @@ interface MainStateObject {
   flags: Partial<Record<SimFlag, boolean>>;
   hospital: HospitalState;
 }
-
-// experimental to make an object immutable
-type Immutable<T> = {
-  readonly [K in keyof T]: Immutable<T[K]>;
-};

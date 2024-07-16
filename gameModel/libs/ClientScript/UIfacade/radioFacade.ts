@@ -87,12 +87,11 @@ function getActorNotificationChannelName(actorId: number | undefined = undefined
  * Get unread radio messages, by channel
  */
 function getUnreadMessagesCount(channel: ActionType): number {
-  return (
-    getAvailableRadioMessagesForChannel(channel).length -
-    +Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
+  const readCount =
+    +(Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
       channel
-    ]
-  );
+    ] || '0');
+  return getAvailableRadioMessagesForChannel(channel).length - readCount;
 }
 
 /**
@@ -154,10 +153,8 @@ export function getUnreadNotificationsCount(): number {
   const actorChannelName = getActorNotificationChannelName(
     Context.interfaceState.state.currentActorUid
   );
-  return (
-    getNotifications(Context.interfaceState.state.currentActorUid).length -
-    (+readMsgsProperties[actorChannelName] || 0)
-  );
+  const readCount = +(readMsgsProperties[actorChannelName] || '0');
+  return getNotifications(Context.interfaceState.state.currentActorUid).length - readCount;
 }
 
 export function getOngoingRadioMessagesForActorOnChannel(
@@ -212,5 +209,7 @@ export function isChannelNewActivityDisabled(
   if (isChannelBusy(channel)) return true;
   if (canPlanAction()) return false;
   const action = getAvailableActions(currentActorUid, channel);
-  return !isPlannedAction(action[0].Uid);
+  const actionId = action[0]?.Uid;
+
+  return actionId ? !isPlannedAction(actionId) : true;
 }
