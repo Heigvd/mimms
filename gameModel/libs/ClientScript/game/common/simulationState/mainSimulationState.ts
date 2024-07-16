@@ -1,7 +1,7 @@
 import { group } from '../../../tools/groupBy';
 import { ActionBase } from '../actions/actionBase';
 import { SimFlag } from '../actions/actionTemplateBase';
-import { Actor } from '../actors/actor';
+import { Actor, InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
 import { FixedMapEntity } from '../events/defineMapObjectEvent';
 import { IClonable } from '../interfaces';
@@ -141,6 +141,11 @@ export class MainSimulationState implements IClonable {
   public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
     // don't do ===, typescript seems to play tricks between string and number with records
     return this.internalState.actors.find(a => a.Uid == actorId);
+  }
+
+  public getActorByRole(role: InterventionRole): Readonly<Actor | undefined> {
+    // don't do ===, typescript seems to play tricks between string and number with records
+    return this.internalState.actors.find(a => a.Role == role);
   }
 
   public getOnSiteActors(): Readonly<Actor[]> {

@@ -34,7 +34,7 @@ export function isChannelHidden(channel: ActionType): boolean {
  * Get notifications for given recipientId
  */
 export function getNotifications(id: number): RadioMessage[] {
-  return getAllRadioMessages().filter(m => m.recipientId === id && !m.isRadioMessage);
+  return getAllRadioMessages().filter(m => m.recipientActorId === id && !m.isRadioMessage);
 }
 
 /**
@@ -181,13 +181,15 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
   channel: ActionType
 ): RadioMessage[] {
   return getOngoingRadioMessagesOnChannel(channel).map(rm => ({
-    recipientId: rm.getRecipient(),
-    timeStamp: getCurrentState().getSimTime(),
-    emitter: rm.getEmitter(),
-    message: rm.getMessage(),
     uid: rm.getEventId(),
-    channel: rm.getChannel(),
+    timeStamp: getCurrentState().getSimTime(),
+    message: rm.getMessage(),
+    recipientActorId: rm.getRecipientActorId(),
+    recipientName: rm.getRecipientName(),
+    emitterActorId: rm.getEmitterActorId(),
+    emitterName: rm.getEmitterName(),
     isRadioMessage: true,
+    channel: rm.getChannel(),
     pending: true,
   }));
 }

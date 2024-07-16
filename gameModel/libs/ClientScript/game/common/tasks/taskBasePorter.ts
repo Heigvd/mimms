@@ -2,7 +2,7 @@ import { taskLogger } from '../../../tools/logger';
 import { getPriorityByCategoryId } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
-import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
+import { AddRadioMessageLocalEventBase, MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { isLocationAvailableForPatients, LOCATION_ENUM } from '../simulationState/locationState';
@@ -185,15 +185,18 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
       // We broadcast a message when the task is completed
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
+        new AddRadioMessageLocalEventBase(
           0,
           state.getSimTime(),
-          0,
-          'resources',
-          this.getFeedbackIfNoTargetLocation(),
           ActionType.RESOURCES_RADIO,
+          this.getFeedbackIfNoTargetLocation(),
+          [],
           true,
-          true
+          state.getActorByRole(this.ownerRole)!.Uid,
+          undefined,
+          undefined,
+          'resources',
+
         )
       );
     }

@@ -37,6 +37,7 @@ import {
   AppointActorAction,
   CasuMessageAction,
   DisplayMessageAction,
+  DisplayNotificationAction,
   EvacuationAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
@@ -272,20 +273,20 @@ export abstract class StartEndTemplate<
 // -------------------------------------------------------------------------------------------------
 
 /**
- * The result of the action is to display a message in a radio channel or as a notification
+ * The result of the action is to display a message in a radio channel
  */
-export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessageAction> {
+export class DisplayRadioMessageActionTemplate extends StartEndTemplate<DisplayMessageAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly channel: ActionType,
+    readonly emitterName: string,
     replayable: boolean = false,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[],
-    readonly channel?: ActionType | undefined,
-    readonly isRadioMessage?: boolean
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       title,
@@ -312,9 +313,9 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       this.message,
       ownerId,
       this.Uid,
-      this.provideFlagsToState,
       this.channel,
-      this.isRadioMessage
+      this.emitterName,
+      this.provideFlagsToState
     );
   }
 
@@ -326,7 +327,70 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendMessageActionTemplate' + '_' + this.title;
+    return 'DisplayRadioMessageActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+}
+
+/**
+ * The result of the action is to display a notification
+ */
+export class DisplayNotificationActionTemplate extends StartEndTemplate<DisplayNotificationAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable: boolean = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): DisplayNotificationAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new DisplayNotificationAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.provideFlagsToState
+    );
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'DisplayNotificationActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -1036,7 +1100,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    readonly wentWrongMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
     readonly typeOfResource: ResourceType,
     flags?: SimFlag[],
@@ -1069,8 +1132,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.Uid,
       [],
       this.actorRole,
-      this.typeOfResource,
-      this.wentWrongMessageKey
+      this.typeOfResource
     );
   }
 

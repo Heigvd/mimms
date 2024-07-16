@@ -1,3 +1,4 @@
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
@@ -5,6 +6,7 @@ import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
+import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
 import {
   ActionId,
   ActorId,
@@ -24,12 +26,13 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -41,9 +44,6 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
-import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
-import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
   type: string;
@@ -359,38 +359,100 @@ export class MoveActorLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class AddRadioMessageLocalEvent extends LocalEventBase {
+export abstract class AddMessageLocalEventBase extends LocalEventBase {
   private static RadioIdProvider = 1;
 
-  constructor(
+  protected constructor(
     parentId: GlobalEventId,
+    type: string,
     timeStamp: SimTime,
-    public readonly recipient: ActorId,
-    public readonly emitter: TranslationKey,
-    public readonly message: TranslationKey,
-    public readonly channel: ActionType | undefined = undefined,
-    public readonly isRadioMessage: boolean = false,
-    private readonly omitTranslation: boolean = false,
-    private readonly messageValues: (string | number)[] = []
+    readonly message: TranslationKey | string,
+    readonly messageValues: (string | number)[] = [],
+    readonly omitTranslation: boolean = false,
+    readonly recipientActorId: ActorId | undefined = undefined,
+    readonly recipientName: TranslationKey | undefined = undefined,
+    readonly emitterActorId: ActorId | undefined = undefined,
+    readonly emitterName: TranslationKey | undefined = undefined,
+    readonly channel: ActionType | undefined = undefined,
+    readonly isRadioMessage: boolean = false
   ) {
-    super(parentId, 'AddRadioMessageLocalEvent', timeStamp);
+    super(parentId, type, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const msg = this.omitTranslation
       ? this.message
-      : getTranslation('mainSim-actions-tasks', this.message, undefined, this.messageValues);
+      : getTranslation('mainSim-actions-tasks', this.message, true, this.messageValues);
 
     state.getInternalStateObject().radioMessages.push({
-      recipientId: this.recipient,
+      uid: AddMessageLocalEventBase.RadioIdProvider++,
       timeStamp: this.simTimeStamp,
-      emitter: this.emitter,
       message: msg,
-      uid: AddRadioMessageLocalEvent.RadioIdProvider++,
-      isRadioMessage: this.isRadioMessage,
+      recipientActorId: this.recipientActorId,
+      recipientName:
+        this.recipientName ||
+        (this.recipientActorId && state.getActorById(this.recipientActorId)?.ShortName) ||
+        'Morty',
+      emitterActorId: this.emitterActorId,
+      emitterName:
+        this.emitterName ||
+        (this.emitterActorId && state.getActorById(this.emitterActorId)?.ShortName) ||
+        'Albert',
       channel: this.channel,
+      isRadioMessage: this.isRadioMessage,
       pending: false,
     });
+  }
+}
+
+export class AddRadioMessageLocalEventBase extends AddMessageLocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    channel: ActionType,
+    message: TranslationKey | string,
+    messageValues: (string | number)[],
+    omitTranslation: boolean,
+    recipientActorId: ActorId | undefined,
+    recipientName: TranslationKey | undefined,
+    emitterActorId: ActorId | undefined,
+    emitterName: TranslationKey | undefined
+  ) {
+    super(
+      parentId,
+      'AddRadioMessageLocalEventBase',
+      timeStamp,
+      message,
+      messageValues,
+      omitTranslation,
+      recipientActorId,
+      recipientName,
+      emitterActorId,
+      emitterName,
+      channel,
+      true
+    );
+  }
+}
+
+export class AddNotificationLocalEventBase extends AddMessageLocalEventBase {
+  constructor(
+    parentId: GlobalEventId,
+    timeStamp: SimTime,
+    message: TranslationKey | string,
+    messageValues: (string | number)[],
+    omitTranslation: boolean,
+    recipientActorId: ActorId
+  ) {
+    super(
+      parentId,
+      'AddNotificationLocalEventBase',
+      timeStamp,
+      message,
+      messageValues,
+      omitTranslation,
+      recipientActorId
+    );
   }
 }
 
@@ -407,6 +469,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
 export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
+
     timeStamp: SimTime,
     private actorUid: ActorId,
     private request: CasuMessagePayload
@@ -585,7 +648,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
   private buildArrivalFailureRadioEvent(
     rtype: ResourceContainerType,
     state: MainSimulationState
-  ): AddRadioMessageLocalEvent {
+  ): AddRadioMessageLocalEventBase {
     let parkKey = '';
     if (rtype === 'Ambulance') parkKey = 'location-ambulancePark';
     else if (rtype === 'Helicopter') parkKey = 'location-helicopterPark';
@@ -596,15 +659,17 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       park,
       this.squadName,
     ]);
-    return new AddRadioMessageLocalEvent(
+    return new AddRadioMessageLocalEventBase(
       this.parentEventId,
       state.getSimTime(),
-      0,
-      this.squadName,
-      message,
-      ActionType.CASU_RADIO,
-      true,
-      true
+        ActionType.CASU_RADIO,
+        message,
+        [],
+        true,
+      undefined,
+      undefined,
+      undefined,
+      this.squadName
     );
   }
 }
@@ -621,16 +686,13 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
+      new AddNotificationLocalEventBase(
         this.parentEventId,
         state.getSimTime(),
-        this.recipientActor,
-        'resources',
         'incoming-resources',
-        undefined,
+        [ResourceLogic.formatResourceTypesAndNumber(this.resources).join(',<br/>')],
         false,
-        false,
-        [ResourceLogic.formatResourceTypesAndNumber(this.resources).join(',<br/>')]
+        this.recipientActor
       )
     );
   }
@@ -902,15 +964,17 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     updateHospitalProximityRequest(state, this.hospitalRequestPayload.proximity);
-    const evt = new AddRadioMessageLocalEvent(
+    const evt = new AddRadioMessageLocalEventBase(
       this.parentEventId,
       this.simTimeStamp,
+        ActionType.CASU_RADIO,
+        this.formatHospitalResponse(this.hospitalRequestPayload),
+        [],
+        true,
       this.senderId,
-      'CASU',
-      this.formatHospitalResponse(this.hospitalRequestPayload),
-      ActionType.CASU_RADIO,
-      true,
-      true
+      undefined,
+        state.getActorByRole('CASU')!.Uid,
+        undefined
     );
     localEventManager.queueLocalEvent(evt);
   }

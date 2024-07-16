@@ -6,7 +6,7 @@ import { taskLogger } from '../../../tools/logger';
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
-  AddRadioMessageLocalEvent,
+  AddRadioMessageLocalEventBase,
   ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
@@ -105,18 +105,20 @@ export class PreTriageTask extends TaskBase {
         .mapLocations.find(l => l.id === this.locationSource)!.name;
       // We broadcast a message that task is completed (recipient = 0)
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
+        new AddRadioMessageLocalEventBase(
           0,
           state.getSimTime(),
-          0,
-          'resources',
-          `${getTranslation('mainSim-locations', locationName)} - ` +
-            getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) +
-            '\n' +
-            result,
           ActionType.RESOURCES_RADIO,
-          false,
-          true
+          `${getTranslation('mainSim-locations', locationName)} - ` +
+          getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) +
+          '\n' +
+          result,
+          [],
+          true,
+          undefined,
+          undefined,
+          undefined,
+          'resources',
         )
       );
     }

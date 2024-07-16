@@ -10,7 +10,8 @@ import {
   ActionTemplateBase,
   AppointActorActionTemplate,
   CasuMessageTemplate,
-  DisplayMessageActionTemplate,
+  DisplayNotificationActionTemplate,
+  DisplayRadioMessageActionTemplate,
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
@@ -44,7 +45,7 @@ import {
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
-  AddRadioMessageLocalEvent,
+  AddNotificationLocalEventBase,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
@@ -277,25 +278,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [],
     [SimFlag.PCFRONT_BUILT]
   );
-  const getInfo = new DisplayMessageActionTemplate(
+  const getInfo = new DisplayNotificationActionTemplate(
     'basic-info-title',
     'basic-info-desc',
     TimeSliceDuration * 2,
     'basic-info-feedback'
   );
-  const getInfo2 = new DisplayMessageActionTemplate(
+  const getInfo2 = new DisplayNotificationActionTemplate(
     'other-basic-info-title',
     'other-basic-info-desc',
     TimeSliceDuration,
     'other-basic-info-feedback'
   );
-  const getPoliceInfos = new DisplayMessageActionTemplate(
+  const getPoliceInfos = new DisplayNotificationActionTemplate(
     'basic-info-police-title',
     'basic-info-police-desc',
     TimeSliceDuration,
     'basic-info-police-feedback'
   );
-  const getFireFighterInfos = new DisplayMessageActionTemplate(
+  const getFireFighterInfos = new DisplayNotificationActionTemplate(
     'basic-info-firefighter-title',
     'basic-info-firefighter-desc',
     TimeSliceDuration,
@@ -369,17 +370,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
+  const acsMcsArrivalAnnouncement = new DisplayRadioMessageActionTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
     'define-acsMscArrival-feedback',
+    ActionType.CASU_RADIO,
+    'CASU',
     false,
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.ACS_MCS_ANNOUNCED],
-    ['ACS', 'MCS'],
-    ActionType.CASU_RADIO,
-    true
+    ['ACS', 'MCS']
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
@@ -388,7 +389,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'appoint-EVASAN-feedback',
     true,
-    'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
     'ambulancier',
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
@@ -544,17 +544,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
-  const activateRadioSchema = new DisplayMessageActionTemplate(
+  const activateRadioSchema = new DisplayRadioMessageActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
+    ActionType.CASU_RADIO,
+    'CASU',
     false,
     undefined,
     [SimFlag.RADIO_SCHEMA_ACTIVATED],
-    undefined,
-    ActionType.CASU_RADIO,
-    true
+    undefined
   );
 
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
@@ -668,15 +668,13 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
             // notify!
             const ownerId = event.payload.emitterCharacterId as ActorId;
             localEventManager.queueLocalEvent(
-              new AddRadioMessageLocalEvent(
+              new AddNotificationLocalEventBase(
                 event.id,
                 getCurrentState().getSimTime(),
-                ownerId,
-                'SYSTEM',
                 getTranslation('mainSim-interface', 'notification-concurrent-stop'),
-                ActionType.ACTION,
-                false,
-                true
+                [],
+                true,
+                ownerId
               )
             );
           }

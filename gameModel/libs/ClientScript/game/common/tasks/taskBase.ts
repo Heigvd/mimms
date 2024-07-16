@@ -10,7 +10,7 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
-  AddRadioMessageLocalEvent,
+  AddRadioMessageLocalEventBase,
   ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
@@ -302,15 +302,17 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
     // We broadcast a message when the task is completed
     localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
+      new AddRadioMessageLocalEventBase(
         0,
         state.getSimTime(),
-        0,
-        'resources',
-        feedbackRadioMessage || 'TODO add task feedback',
         ActionType.RESOURCES_RADIO,
+        feedbackRadioMessage,
+        [],
+        false,
+        state.getActorByRole(this.ownerRole)!.Uid,
         undefined,
-        true
+        undefined,
+        'resources',
       )
     );
   }

@@ -10,7 +10,7 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import {
-  AddRadioMessageLocalEvent,
+  AddRadioMessageLocalEventBase,
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
@@ -262,17 +262,19 @@ export function resolveResourceRequest(
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
     });
-  queueResourceDepartureRadioMessageEvents(sentContainers, globalEventId, senderId);
+  queueResourceDepartureRadioMessageEvents(state, sentContainers, globalEventId, senderId);
 }
 
 /**
  * TODO amount sent ?
  * Generates one radio message per departure time containing all the sent ressources at that time
+ * @param state
  * @param sentContainers
  * @param globalEventId
  * @param senderId
  */
 function queueResourceDepartureRadioMessageEvents(
+  state: MainSimulationState,
   sentContainers: Record<
     number,
     { name: string; def: ResourceContainerDefinition; travelTime: number }[]
@@ -288,15 +290,17 @@ function queueResourceDepartureRadioMessageEvents(
       msgs.push(buildRadioText(v.travelTime, v.def, v.name));
     });
 
-    const evt = new AddRadioMessageLocalEvent(
+    const evt = new AddRadioMessageLocalEventBase(
       globalEventId,
       dtime,
-      senderId,
-      'CASU',
-      msgs.join('\n'),
       ActionType.CASU_RADIO,
+      msgs.join('\n'),
+      [],
       true,
-      true
+      senderId,
+      undefined,
+      state.getActorByRole('CASU')!.Uid,
+      undefined
     );
     localEventManager.queueLocalEvent(evt);
   });
