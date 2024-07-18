@@ -166,7 +166,7 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
 
 export function triggerInterfaceStateUpdate(state: InterfaceState) {
   if (state.currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
-    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
+    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0]?.Uid });
   }
 
   mainSimLogger.debug('applying callbacks', state.currentActorUid);

@@ -1705,7 +1705,7 @@ function processEvent(
       worldLogger.info('Ignoring event of type (new sim)', eType);
       break;
     default:
-      unreachable(eType);
+      unreachable(eType as never);
   }
   processedEvent[event.id] = true;
 }

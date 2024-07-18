@@ -1,5 +1,3 @@
-import { layerDataLogger } from '../../tools/logger';
-
 interface RoadParams {
   color: string;
   size: number;
@@ -14,62 +12,35 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
   hw = hw || 'primary';
 
   let noStyle = false;
-  let color = 'white';
+  let color = '#FFF'; // default
   let size = 1;
 
   switch (hw) {
     case 'motorway':
-      color = '#FFF';
-      size = 8;
-      break;
     case 'trunk':
-      size = 8;
-      color = '#FFF';
-      break;
     case 'primary':
-      size = 8;
-      color = '#FFF';
-      break;
     case 'secondary':
-      color = '#FFF';
-      size = 8;
-      break;
     case 'tertiary':
-      color = '#FFF';
-      size = 8;
-      break;
     case 'unclassified':
-      color = '#FFF';
-      size = 8;
-      break;
     case 'residential':
     case 'living':
-      color = '#FFF';
       size = 8;
       break;
     case 'pedestrian':
     case 'footway':
-      size = 0;
-      color = '#FCDDE4';
-      noStyle = true;
-      break;
     case 'service':
     case 'path':
     case 'cycleway':
     case 'steps':
     case 'platform':
-      color = '#FCDDE4';
-      size = 0;
       noStyle = true;
       break;
     case 'proposed':
     case 'construction':
-      color = '#yellow';
       size = 5;
       break;
     default:
       color = '#D9DDE1';
-      layerDataLogger.debug(hw);
       break;
   }
 
@@ -87,17 +58,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
         lineJoin: 'round',
         miterLimit: 10,
         width: size,
-        color: '#fff',
-      },
-    },
-    {
-      stroke: {
-        type: 'StrokeStyle',
-        lineCap: 'round',
-        lineJoin: 'round',
-        miterLimit: 10,
-        width: size * 0.9,
-        color: '#fff',
+        color: color,
       },
     },
   ];
@@ -152,13 +113,10 @@ export function getRailwayStyle(resolution: number): LayerStyleObject[] {
   return [styleDark, styleLight];
 }
 
-export function getWaterStyle(feature: any, resolution: number): LayerStyleObject {
+export function getWaterStyle(feature: any, _resolution: number): LayerStyleObject {
   const label = feature.getProperties().name;
-
   const style: LayerStyleObject = {};
 
-  const color = 'rgba(80,150,200,0.5)';
-  const stroke = 'rgb(80,150,200)';
   if (label) {
     style.text = {
       type: 'TextStyle',
@@ -175,15 +133,15 @@ export function getWaterStyle(feature: any, resolution: number): LayerStyleObjec
       scale: 1.5,
       text: label,
     };
-  } else {
   }
+
   style.stroke = {
     type: 'StrokeStyle',
     lineCap: 'round',
     lineJoin: 'round',
     miterLimit: 10,
-    color: stroke,
+    color: 'rgb(80,150,200)',
   };
-  style.fill = { type: 'FillStyle', color: color };
+  style.fill = { type: 'FillStyle', color: 'rgba(80,150,200,0.5)' };
   return style;
 }

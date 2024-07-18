@@ -37,7 +37,7 @@ function getPointStyle(feature: any): LayerStyleObject {
   const duration = properties.durationTimeSec;
 
   if (icon) {
-    const iconStyle: ImageStyleObject = {
+    const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
       displacement: [0, 300],
@@ -54,34 +54,6 @@ function getPointStyle(feature: any): LayerStyleObject {
       !duration
     ) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
-    }
-
-    if (
-      Context.mapState.state.selectionState &&
-      icon === Context.mapState.state.selectionState.icon &&
-      !duration
-    ) {
-      iconStyle = {
-        type: 'IconStyle',
-        anchor: [0.5, 0.5],
-        displacement: [0, 300],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
-        src: `/maps/mapIcons/${icon}_choice.svg`,
-        scale: 0.1,
-        opacity: 1,
-      };
-    } else {
-      iconStyle = {
-        type: 'IconStyle',
-        anchor: [0.5, 0.5],
-        displacement: [0, 300],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
-        src: `/maps/mapIcons/${icon}.svg`,
-        scale: 0.1,
-        opacity: 1,
-      };
     }
 
     const textStyle: TextStyleObject = {

@@ -106,6 +106,15 @@ rm -R $TMP_DIR;
 echo "Prettier formatting"
 yarn format
 
+echo "Compiling TypeScript"
+yarn build
+
+if [ $? -gt 0 ]; then
+  echo
+  echo "Compilation error(s), please fix";
+  echo
+fi
+
 echo "Done"
 echo
 echo "Please review changes"

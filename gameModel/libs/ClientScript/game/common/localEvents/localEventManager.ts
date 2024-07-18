@@ -59,6 +59,10 @@ export class LocalEventManager {
 
     return events;
   }
+
+  public getProcessedEvents(): Readonly<LocalEventBase[]> {
+    return this.processedEvents;
+  }
 }
 
 // will be initialized as soon as all scripts have been evaluated

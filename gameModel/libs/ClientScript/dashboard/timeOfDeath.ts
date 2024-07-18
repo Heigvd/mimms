@@ -60,7 +60,7 @@ export function loadPatients(): PatientState[] {
 
     pathologies.forEach(p => {
       const pId = p.pathologyId;
-      const block = p.modules[0].block;
+      const block = p.modules[0]?.block;
       result.push(`${pId} (${block})`);
     });
 
@@ -126,7 +126,7 @@ export function computePresetPatientsUntilDeath() {
   const patients = loadPatients();
 
   for (let i = 0; i < patients.length; i++) {
-    patients[i] = computePatientUntilDeath(patients[i]);
+    patients[i] = computePatientUntilDeath(patients[i]!);
   }
 
   return patients;
@@ -143,11 +143,12 @@ export function exportAllPatientsTimeOfDeath() {
   let pathologyHeaderIndex = 0;
 
   for (let patient of patients) {
-    lines[patient.patientId] = [];
-    lines[patient.patientId].push(patient.patientId);
-    lines[patient.patientId].push(patient.timeOfDeath === 0 ? '.' : String(patient.timeOfDeath));
+    const line: string[] = [];
+    lines[patient.patientId] = line;
+    line.push(patient.patientId);
+    line.push(patient.timeOfDeath === 0 ? '.' : String(patient.timeOfDeath));
     for (let pathology of patient.pathologies) {
-      lines[patient.patientId].push(pathology);
+      line.push(pathology);
       pathologyHeaderIndex = Math.max(pathologyHeaderIndex, patient.pathologies.length);
     }
   }
