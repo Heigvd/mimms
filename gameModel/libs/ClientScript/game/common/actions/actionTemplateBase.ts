@@ -413,7 +413,8 @@ export class CasuMessageTemplate extends StartEndTemplate<
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO
+          (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO &&
+          (a as RadioDrivenAction).ownerId === _actorUid
       ).length === 0
     );
   }
@@ -945,7 +946,8 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.ACTORS_RADIO
+          (a as RadioDrivenAction).getChannel() === ActionType.ACTORS_RADIO &&
+          (a as RadioDrivenAction).ownerId === _actorUid
       ).length === 0
     );
   }

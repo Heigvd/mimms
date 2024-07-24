@@ -196,9 +196,6 @@ export function isChannelBusy(channel: ActionType): boolean {
   ) {
     return !canCancelOnGoingAction();
   }
-  if (getOngoingRadioMessagesOnChannel(channel).length > 0) {
-    return true;
-  }
   return false;
 }
 
