@@ -407,14 +407,14 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    _actorUid: ActorId
+    actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO &&
-          (a as RadioDrivenAction).ownerId === _actorUid
+          (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
   }
@@ -940,14 +940,14 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    _actorUid: ActorId
+    actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === ActionType.ACTORS_RADIO &&
-          (a as RadioDrivenAction).ownerId === _actorUid
+          (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
   }
