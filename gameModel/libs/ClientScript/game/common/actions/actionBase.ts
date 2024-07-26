@@ -20,7 +20,11 @@ import {
 import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
+import {
+  computeTravelTime,
+  formatTravelTimeToMinutes,
+  getHospitalById,
+} from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -1229,6 +1233,7 @@ export class EvacuationAction extends RadioDrivenAction {
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
     readonly feedbackWhenStarted: TranslationKey,
+    readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -1337,6 +1342,35 @@ export class EvacuationAction extends RadioDrivenAction {
         this.doResourcesComeBack,
         travelTime
       );
+
+      if (this.doResourcesComeBack) {
+        // Send radio message on CASU about time needed to come back to incident when arriving at hospital
+        localEventManager.queueLocalEvent(
+          new AddRadioMessageLocalEvent(
+            this.eventId,
+            state.getSimTime() + travelTime,
+            0,
+            '0',
+            this.feedbackWhenReturning,
+            ActionType.CASU_RADIO,
+            true,
+            false,
+            [
+              getTranslation(
+                'mainSim-actions-tasks',
+                getSquadDef(this.evacuationActionPayload.transportSquad).mainVehicleTranslationNoun,
+                false
+              ),
+              getTranslation(
+                'mainSim-actions-tasks',
+                getSquadDef(this.evacuationActionPayload.transportSquad).healerPresenceTranslation,
+                false
+              ),
+              formatTravelTimeToMinutes(travelTime),
+            ]
+          )
+        );
+      }
     }
   }
 
