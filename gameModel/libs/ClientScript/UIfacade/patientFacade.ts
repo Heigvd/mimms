@@ -16,7 +16,9 @@ import {
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
 import { PatientId } from '../game/common/baseTypes';
-import { HumanBody } from '../HUMAn/human';
+import { BodyState, HumanBody } from '../HUMAn/human';
+import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
+import { getTranslation } from '../tools/translation';
 
 /**
  * @returns All currently present patients
@@ -58,7 +60,7 @@ export function getAfflictedBlocksDetails(id: string): string[] {
   };
   const currentTime = getCurrentState().getSimTime();
 
-  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, true);
+  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, false);
 }
 
 function getAfflictedBlocks(id: string): string[] {
@@ -178,5 +180,41 @@ export function getPatientsSummary() {
 }
 
 // -------------------------------------------------------------------------------------------------
-//
+// Body State Values
 // -------------------------------------------------------------------------------------------------
+
+export function getHeartRate(state: BodyState): string {
+  return state.vitals.cardio.hr.toFixed() + '/min';
+}
+
+export function getRespirationRate(state: BodyState): string {
+  return state.vitals.respiration.rr.toFixed() + '/min';
+}
+
+export function getDiastolicPressure(state: BodyState): string {
+  return computeDiastolicPressure(state).toFixed();
+}
+
+export function getSystolicPressure(state: BodyState): string {
+  return computeSystolicPressure(state).toFixed();
+}
+
+export function getBloodPressure(state: BodyState): string {
+  const dp = getDiastolicPressure(state);
+  const sp = getSystolicPressure(state);
+  return sp + '/' + dp + ' mmHg';
+}
+
+export function getEtCO2(state: BodyState): string {
+  if (isIntubated(state)) return state.vitals.respiration.PaCO2.toFixed();
+  else return getTranslation('human-general', 'no-intubation-set');
+}
+
+export function getSpO2Percent(state: BodyState): string {
+  return (state.vitals.respiration.SpO2 * 100).toFixed() + '%';
+}
+
+export function isIntubated(state: BodyState): boolean {
+  if (!state) return false;
+  return state.blocks.get('NECK')?.params.intubated ? true : false;
+}

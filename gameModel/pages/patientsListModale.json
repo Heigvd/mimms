@@ -287,6 +287,15 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "constantTitle",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "TODO-grayed",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n!isIntubated(Context.currentPatient.state.humanBody.state);",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "layoutStyle" : { },
                                 "name" : "EtCO2",
                                 "style" : { },
@@ -305,7 +314,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  (Context.currentPatient.state.humanBody.state.vitals.respiration.PaCO2).toFixed(2)",
+                                  "content" : "import { getEtCO2 } from \"./UIfacade/patientFacade\";\n  getEtCO2(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -351,11 +360,11 @@
                               "props" : {
                                 "className" : "constantTitle",
                                 "layoutStyle" : { },
-                                "name" : "SpCO2-value",
+                                "name" : "SpO2-value",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " (Context.currentPatient.state.humanBody.state.vitals.respiration.SpO2).toFixed(2)",
+                                  "content" : "import { getSpO2Percent } from \"./UIfacade/patientFacade\";\n getSpO2Percent(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -392,7 +401,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " (Context.currentPatient.state.humanBody.state.vitals.respiration.rr).toFixed(2)",
+                                  "content" : "import { getRespirationRate } from \"./UIfacade/patientFacade\";\n getRespirationRate(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -442,7 +451,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "(Context.currentPatient.state.humanBody.state.vitals.cardio.hr).toFixed(2)",
+                                  "content" : "import { getHeartRate } from \"./UIfacade/patientFacade\";\ngetHeartRate(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -479,7 +488,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "(Context.currentPatient.state.humanBody.state.vitals.cardio.MAP).toFixed(2)",
+                                  "content" : "import { getBloodPressure } from \"./UIfacade/patientFacade\";\ngetBloodPressure(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
