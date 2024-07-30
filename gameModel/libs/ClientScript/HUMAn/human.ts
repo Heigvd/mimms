@@ -316,11 +316,6 @@ export interface BodyState {
       /** Mean arterial pressure */
       MAP: number;
 
-      /** Approximated as 1.5 * MAP */
-      //systolicPressure: number;
-      /** Approximated as 6/7 * MAP */
-      //diastolicPressure: number;
-
       /** cardiac output [L/min]*/
       cardiacOutput_LPerMin: number;
 
@@ -1175,7 +1170,6 @@ export function createHumanBody(param: BodyFactoryParam, env: Environnment): Hum
           //cardiacOutputRv_LPerMin: 4.9,
           q_delta_mLPermin: 0,
           MAP: 70,
-          //systolicPressure: 105,
           hr: 70,
           DO2Sys: 1000,
           vo2_mLperMin: meta.VO2min_mLperKgMin * meta.effectiveWeight_kg,

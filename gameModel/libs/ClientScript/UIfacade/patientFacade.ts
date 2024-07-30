@@ -10,13 +10,14 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
 import {
+  formatMetric,
   getAfflictedBlocksDetailsOfHuman,
   getAfflictedBlocksOfHuman,
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
 import { PatientId } from '../game/common/baseTypes';
-import { BodyState, HumanBody } from '../HUMAn/human';
+import { BodyState, BodyStateKeys, HumanBody, readKey } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getTranslation } from '../tools/translation';
 
@@ -217,4 +218,36 @@ export function getSpO2Percent(state: BodyState): string {
 export function isIntubated(state: BodyState): boolean {
   if (!state) return false;
   return state.blocks.get('NECK')?.params.intubated ? true : false;
+}
+
+export function getLimbsMotricity(state: BodyState): string {
+  if (!state) return '';
+  // TODO better format
+  const keys: BodyStateKeys[] = [
+    'vitals.motricity.leftArm',
+    'vitals.motricity.rightArm',
+    'vitals.motricity.leftLeg',
+    'vitals.motricity.rightLeg',
+  ];
+  const mapped = keys.map(k => formatMetric(k, readKey(state, k)));
+  return mapped.map(a => a.join(': ')).join('\n');
+}
+
+/**
+ * format : x/10 with x from 0 to 10
+ */
+export function getPainValue(state: BodyState): string {
+  if (!state) return '';
+  const [_, value] = formatMetric('vitals.visiblePain', state.vitals.pain);
+  return value;
+}
+
+export function getBloodSugarLevel(_state: BodyState): string {
+  //TODO
+  return (6.5).toFixed(1);
+}
+
+export function getTemperature(_state: BodyState): string {
+  // TODO
+  return (36.6).toFixed(1);
 }

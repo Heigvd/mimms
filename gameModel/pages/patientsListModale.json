@@ -552,6 +552,43 @@
                             "style" : { }
                           },
                           "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Motricity",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n \n  getTranslation('human-general','motricity');",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Glasgow-value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getLimbsMotricity } from \"./UIfacade/patientFacade\";\n getLimbsMotricity(Context.currentPatient.state.humanBody.state);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "motricity",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
                         } ],
                         "className" : "noPadding noMargin",
                         "layout" : {
@@ -660,6 +697,17 @@
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getPainValue } from \"./UIfacade/patientFacade\";\n  getTranslation('human-general', 'pain') + ': ' + getPainValue(Context.currentPatient.state.humanBody.state);",
                               "language" : "TypeScript"
                             }
                           },
