@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1722327269716,
+  "createdTime" : 1722352353241,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6577,7 +6577,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO dev MIM-265",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

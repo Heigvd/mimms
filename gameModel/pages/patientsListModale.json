@@ -182,8 +182,11 @@
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : {
+                              "alignItem" : "flex-end",
+                              "margin" : "auto",
                               "stroke" : "#43494C",
-                              "strokeWidth" : "1"
+                              "strokeWidth" : "1",
+                              "width" : "50px"
                             },
                             "name" : "category",
                             "style" : { },
@@ -257,6 +260,7 @@
                     } ],
                     "className" : "noPadding noMargin",
                     "layout" : {
+                      "alignItems" : "flex-end",
                       "justifyContent" : "flex-start"
                     },
                     "layoutClassName" : "noPadding noMargin",
@@ -286,7 +290,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantTitle noPadding noMargin",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
                                   "className" : "TODO-grayed",
@@ -370,9 +374,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "SPO2",
                             "style" : { }
@@ -407,9 +413,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "FR",
                             "style" : { }
@@ -457,9 +465,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "FrequCard",
                             "style" : { }
@@ -494,9 +504,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "TA",
                             "style" : { }
@@ -544,9 +556,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "Glasgow",
                             "style" : { }
@@ -581,11 +595,169 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "motricity",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MSD Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MSDvalue",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "MSD",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MSG Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSG' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MSGvalue",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "MSG",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MIG Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MIG' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MIGvalue",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MID' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "MIG",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MID Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MID' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "MIDvalue",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const fakevar = \"srghjkvhfhiklydcs\"\n   'MID' ;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "MID",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -788,7 +960,7 @@
                     },
                     "layoutClassName" : "noPadding noMargin",
                     "layoutStyle" : {
-                      "marginTop" : "3rem"
+                      "marginTop" : "1rem"
                     },
                     "name" : "allColumnsPatientInfos",
                     "style" : { }
