@@ -98,22 +98,10 @@ function resetCurrentPatient(): void {
   APIMethods.runScript(`Variable.find(gameModel, 'currentPatient').setValue(self, '');`, {});
 }
 
-// @ts-ignore
-function makeUid(length: number): string {
-  let id = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (let i = 0; i < length; i++) {
-    id += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return id;
-}
-
 /**
  * CH-XY-123 official patient format
  */
-export function makeOfficialUid(): string {
+function makeOfficialUid(): string {
   let id = 'CH-';
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -129,25 +117,6 @@ export function makeOfficialUid(): string {
   }
 
   return id;
-}
-
-// @ts-ignore
-function makeRandomName(length: number): string {
-  const consonants = 'bcdfghjklmnprstvwxz';
-  const vowels = 'aeiouy';
-
-  const all: string[] = [consonants, vowels];
-  let letterType = Math.random() > 0.8 ? 1 : 0;
-
-  let name = '';
-
-  for (let i = 0; i < length; i++) {
-    const letters = all[letterType]!;
-    name += letters.charAt(Math.floor(Math.random() * letters.length));
-    letterType = (letterType + 1) % 2;
-  }
-
-  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 /**
@@ -302,6 +271,12 @@ export interface PatientDistributionSettings {
   BMImean: number;
   BMIstdDev: number;
 
+  bodyTemperatureMean: number;
+  bodyTemperatureSTD: number;
+
+  bloodSugarLevelMean: number;
+  bloodSugarLevelSTD: number;
+
   WomanManRatio: number;
 }
 
@@ -329,12 +304,14 @@ export function buildScriptedPathologyPayload(
 }
 
 export class HumanGenerator {
-  settings: PatientDistributionSettings;
   public readonly heightDistributionMen: NormalDistribution;
   public readonly heightDistributionWomen: NormalDistribution;
   public readonly bmiDistribution: NormalDistribution;
 
   public readonly ageDistribution: HistogramDistribution;
+  private readonly temperatureDistribution: NormalDistribution;
+  private readonly bloodSugarLevelDistribution: NormalDistribution;
+  private readonly womanManRatio: number;
 
   constructor() {
     const raw = Variable.find(gameModel, 'generation_settings');
@@ -342,19 +319,26 @@ export class HumanGenerator {
     if (s == null) {
       throw new Error('Unable to fetch generation settings!');
     }
-    this.settings = s;
-
+    this.womanManRatio = s.WomanManRatio;
     this.heightDistributionMen = new NormalDistribution(s.heightMeanMen, s.heightStdDevMen);
     this.heightDistributionWomen = new NormalDistribution(s.heightMeanWomen, s.heightStdDevWomen);
 
     const h = new Histogram(s.ageHistogram);
     this.ageDistribution = new HistogramDistribution(h);
     this.bmiDistribution = new NormalDistribution(s.BMImean, s.BMIstdDev);
+
+    const tSTD = s.bodyTemperatureSTD;
+    this.temperatureDistribution = new NormalDistribution(s.bodyTemperatureMean, tSTD, tSTD * 2);
+    const sugarSTD = s.bloodSugarLevelSTD;
+    this.bloodSugarLevelDistribution = new NormalDistribution(
+      s.bloodSugarLevelMean,
+      sugarSTD,
+      sugarSTD * 2
+    );
   }
 
   public generateOneHuman(sexArg?: Sex): BodyFactoryParam {
-    //pick sex if undefined
-    const sex = sexArg || Math.random() > this.settings.WomanManRatio ? 'female' : 'male';
+    const sex = sexArg || Math.random() > this.womanManRatio ? 'female' : 'male';
 
     const heightDist: NormalDistribution =
       sex === 'female' ? this.heightDistributionWomen : this.heightDistributionMen;
@@ -363,11 +347,16 @@ export class HumanGenerator {
     const age = Math.floor(this.ageDistribution.sample());
     const bmi = Math.round((this.bmiDistribution.sample() + Number.EPSILON) * 100) / 100;
 
+    const sugar = this.bloodSugarLevelDistribution.sample();
+    const temperature = this.temperatureDistribution.sample();
+
     const h: BodyFactoryParam = {
       sex: sex,
       age: age,
       height_cm: height,
       bmi: bmi,
+      sugarLevel: sugar,
+      temperature: temperature,
       lungDepth: 1,
     };
 

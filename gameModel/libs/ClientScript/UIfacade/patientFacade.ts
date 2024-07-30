@@ -242,12 +242,10 @@ export function getPainValue(state: BodyState): string {
   return value;
 }
 
-export function getBloodSugarLevel(_state: BodyState): string {
-  //TODO
-  return (6.5).toFixed(1);
+export function getBloodSugarLevel(state: BodyState): string {
+  return state.vitals.cardio.bloodSugarLevel.toFixed(1);
 }
 
-export function getTemperature(_state: BodyState): string {
-  // TODO
-  return (36.6).toFixed(1);
+export function getTemperature(state: BodyState): string {
+  return state.vitals.temperature.toFixed(1);
 }

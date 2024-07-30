@@ -90,6 +90,10 @@ export interface BodyFactoryParam {
   bmi: number;
   /** Height in cm */
   height_cm: number;
+  /** body temperature (static) C°*/
+  temperature: number;
+  /** blood sugar level mmol/L */
+  sugarLevel: number;
   /** Effective number of respiratory units is 2^depth */
   lungDepth: number;
 
@@ -239,6 +243,8 @@ export interface BodyState {
     canWalk: boolean | 'no_response';
     canWalk_internal: boolean;
     spontaneousBreathing: boolean;
+    /** In C° */
+    temperature: number;
     respiration: {
       /** Quotient R */
       QR: number;
@@ -335,6 +341,11 @@ export interface BodyState {
       DO2Sys: number;
       /** Vo2 */
       vo2_mLperMin: number;
+
+      /**
+       * in mmol/L
+       */
+      bloodSugarLevel: number;
     };
     brain: {
       /** Res cerebral */
@@ -638,6 +649,8 @@ export const defaultMeta: BodyFactoryParam = {
   bmi: 20,
   height_cm: 170,
   lungDepth: 0,
+  temperature: 36.6,
+  sugarLevel: 6.5,
 };
 
 // ts-unused-exports:disable-next-line
@@ -1118,6 +1131,7 @@ export function createHumanBody(param: BodyFactoryParam, env: Environnment): Hum
         canWalk: true,
         canWalk_internal: true,
         spontaneousBreathing: true,
+        temperature: param.temperature || 36.6,
         glasgow: {
           total: 15,
           eye: 4,
@@ -1173,6 +1187,7 @@ export function createHumanBody(param: BodyFactoryParam, env: Environnment): Hum
           hr: 70,
           DO2Sys: 1000,
           vo2_mLperMin: meta.VO2min_mLperKgMin * meta.effectiveWeight_kg,
+          bloodSugarLevel: param.sugarLevel || 6.5,
         },
         brain: {
           Rbr: 60,

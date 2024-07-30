@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1722327269716,
+  "createdTime" : 1722351649854,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2884,7 +2884,7 @@
       },
       "name" : "generation_settings",
       "properties" : {
-        "generationSettings" : "{\"heightMeanMen\":178.4,\"heightStdDevMen\":7.59,\"heightMeanWomen\":164.7,\"heightStdDevWomen\":7.07,\"BMImean\":23,\"ageHistogram\":[{\"cardinality\":9.72,\"min\":15,\"max\":24},{\"cardinality\":55.55,\"min\":24,\"max\":65},{\"cardinality\":18.84,\"min\":65,\"max\":95}],\"WomanManRatio\":0.5,\"BMIstdDev\":3}"
+        "generationSettings" : "{\"heightMeanMen\":178.4,\"heightStdDevMen\":7.59,\"heightMeanWomen\":164.7,\"heightStdDevWomen\":7.07,\"BMImean\":23,\"ageHistogram\":[{\"cardinality\":9.72,\"min\":15,\"max\":24},{\"cardinality\":55.55,\"min\":24,\"max\":65},{\"cardinality\":18.84,\"min\":65,\"max\":95}],\"WomanManRatio\":0.5,\"BMIstdDev\":3,\"bloodSugarLevelMean\":6.5,\"bodyTemperatureMean\":36.6,\"bodyTemperatureSTD\":0.3,\"bloodSugarLevelSTD\":1}"
       },
       "refId" : "ObjectDescriptor:56324:HzyhRi",
       "scopeType" : "GameModelScope",
