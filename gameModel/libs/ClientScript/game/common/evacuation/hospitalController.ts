@@ -46,6 +46,10 @@ export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationS
   );
 }
 
+export function formatTravelTimeToMinutes(travelTime: number): number {
+  return travelTime > 0 ? Math.ceil(travelTime / OneMinuteDuration) : 0;
+}
+
 // -------------------------------------------------------------------------------------------------
 // hospital patient unit typology
 // -------------------------------------------------------------------------------------------------

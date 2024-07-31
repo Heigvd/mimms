@@ -91,9 +91,12 @@ evacuate-title	Evacuation	Evacuation
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
 evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
 evacuate-task-started	Evacuation of patient {0} {1} {2} {3}	Évacuation du patient {0} {1} {2} {3}	
+evacuate-feedback-return	{0} {1}: estimated return in {2} minute(s)	{0} {1} : retour dans environ {2} minute(s)	
 evacuate-task-abort	The evacuation is aborted because there are not enough resources	L'évacuation est annulée parce qu'il n'y a pas assez de ressources	
 by-ambulance	By ambulance	En ambulance	
+ambulance	Ambulance	Ambulance	
 by-helicopter	By helicopter	En hélicoptère	
+helicopter	Helicopter	Hélicoptère	
 with-healer	With healer	Avec soignant	
 with-healers	With healers	Avec soignants	
 without-healer	Without healer	Sans soignant	

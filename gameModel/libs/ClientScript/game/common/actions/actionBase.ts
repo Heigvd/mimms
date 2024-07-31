@@ -20,7 +20,10 @@ import {
 import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
+import {
+  computeTravelTime,
+  getHospitalById,
+} from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -1229,6 +1232,7 @@ export class EvacuationAction extends RadioDrivenAction {
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
     readonly feedbackWhenStarted: TranslationKey,
+    readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -1335,7 +1339,10 @@ export class EvacuationAction extends RadioDrivenAction {
         this.hospitalId,
         this.patientUnitAtHospital,
         this.doResourcesComeBack,
-        travelTime
+        travelTime,
+        this.feedbackWhenReturning,
+        getSquadDef(this.evacuationActionPayload.transportSquad)
+
       );
     }
   }
