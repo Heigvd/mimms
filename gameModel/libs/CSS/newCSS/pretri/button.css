@@ -1,0 +1,22 @@
+/**** SPECIFICS BUTTONS ****/
+.actionMeasure-button * div {
+  white-space: nowrap;
+  min-width: 8rem;
+}
+.actionMeasure-button{
+  background-color: var(--grey_20);
+  }
+
+.actionMeasure-button:hover{
+  background-color: var(--grey_30);
+}
+
+.actionMeasure-button.selected{
+	background-color: var(--primary_base) ;
+	color: var(--grey-white);
+}
+
+
+.actionMeasure-button.selected:hover{
+	background-color: var(--primary_30);
+}

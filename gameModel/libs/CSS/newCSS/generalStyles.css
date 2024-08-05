@@ -22,20 +22,27 @@ As the interface got more complex, we relocated these line in separated files:
 /*********** COLORS ***********/
 
 :root {
+  /*
 	  --interface_0: #DDDFF5;
     --interface_100: #BCBFEC;
     --interface_200: #797FD9;
     --interface_BLUE:#575FCF;
     --interface_700: #232653;
+  */
+    --secondaryInterface_200: #FD3388;
+    --secondaryInterface_400: #FD006A;
 
-	--gray_WHITE: #F6F7F9;
-	--gray_150: #E6E8EB;
+
+/*
+	  --gray_WHITE: #F6F7F9;
+	  --gray_150: #E6E8EB;
     --gray_200: #D9DDE1;
     --gray_300: #CCD2D7;
     --gray_400: #B3BBC3;
     --gray_500: #808E9B;
     --gray_700: #485460;
-    --gray_BLACK: #1E272E; 
+    --gray_BLACK: #1E272E; */
+    
 }
 
 
@@ -94,8 +101,8 @@ html{
 
 /**************************** PANELS ************************/
 .greyPanel{
-	background: var(--gray_WHITE);
-  	border-radius: var(--S_borderRadius);
+	background: var(--grey_0);
+  border-radius: var(--S_borderRadius);
 }
 
 

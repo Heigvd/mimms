@@ -6,7 +6,7 @@
     font-size: var(--ML_text);
     margin-bottom: 5px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
@@ -14,7 +14,7 @@
     font-size: var(--M_text);
     margin: 3px 0px 3px 0px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
@@ -22,7 +22,7 @@
     font-size: var(--S_text);
     margin-bottom: 5px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
@@ -33,7 +33,7 @@
 
   .simpleText {
     font-size: var(--SM_text);
-    color: var(--gray_700);
+    color: var(--grey_70);
     font-family: var(--mainFont);
   }
 }
@@ -45,7 +45,7 @@
     font-size: var(--L_text);
     margin-bottom: 5px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
@@ -53,7 +53,7 @@
     font-size: var(--ML_text);
     margin: 10px 0px 5px 0px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
@@ -61,14 +61,14 @@
     font-size: var(--M_text);
     margin-bottom: 5px;
     font-weight: var(--boldWeight);
-    color: var(--gray_BLACK);
+    color: var(--grey_100);
     font-family: var(--mainFont);
   }
 
   /* DIRTY RALEWAY DEBUG - @import url(https://fonts.googleapis.com/css?family=Roboto); */
   .simpleText {
     font-size: var(--M_text);
-    color: var(--gray_700);
+    color: var(--grey_70);
     font-family: var(--mainFont);
     /* font-family: 'Roboto'; */
   }

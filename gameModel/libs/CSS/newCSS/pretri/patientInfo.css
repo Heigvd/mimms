@@ -3,7 +3,7 @@
 .patientSAP{
 text-align: center;
 min-width: 100px;
-color: var(--gray_700);
+color: var(--grey_70);
 font-size: var(--M_text);
 }
 
@@ -23,7 +23,7 @@ font-size: var(--M_text);
 
 	.patientSAP{
 		text-align: center;
-		color: var(--gray_700);
+		color: var(--grey_70);
 		font-size: var(--S_text);
 }
 

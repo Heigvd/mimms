@@ -15,21 +15,7 @@
 	width: 40vw;
 	max-height: 90vh;
 }
-/**** SPECIFICS BUTTONS ****/
-.actionMeasure-button * div {
-white-space: nowrap;
-min-width: 8rem;
-}
 
-.actionMeasure-button.selected{
-	background-color: var(--interface_BLUE);
-	color: var(--gray_WHITE);
-}
-
-
-.actionMeasure-button.selected:hover{
-	background-color: var(--interface_200);
-}
 
 
 /*** SPECIFICS CUSTOMIZATION*/
