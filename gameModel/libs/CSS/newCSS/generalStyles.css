@@ -34,14 +34,14 @@ As the interface got more complex, we relocated these line in separated files:
 
 
 /*
-	  --gray_WHITE: #F6F7F9;
-	  --gray_150: #E6E8EB;
-    --gray_200: #D9DDE1;
-    --gray_300: #CCD2D7;
-    --gray_400: #B3BBC3;
+	  --grey-white: #F6F7F9;
+	  --grey_10: #E6E8EB;
+    --grey_0: #D9DDE1;
+    --grey_0: #CCD2D7;
+    --grey_30: #B3BBC3;
     --gray_500: #808E9B;
-    --gray_700: #485460;
-    --gray_BLACK: #1E272E; */
+    --grey_70: #485460;
+    --grey_100: #1E272E; */
     
 }
 

@@ -2,7 +2,7 @@
 
 /* Result of action or measure in the history console*/
 .lastResult div .log_container{
-	color: var(--gray_BLACK);
+	color: var(--grey_100);
 	background-color:transparent;
 	padding: 0px 10px;
 	margin-bottom: .8rem;

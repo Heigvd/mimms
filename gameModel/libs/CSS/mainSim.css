@@ -9,7 +9,7 @@
 }
 
 .headerPanels {
-  background: var(--gray_WHITE);
+  background: var(--grey-white);
   border-radius: var(--S_borderRadius);
   width: auto;
   height: auto;
@@ -32,7 +32,7 @@
 }
 
 .generalPanels {
-  background-color: var(--gray_WHITE);
+  background-color: var(--grey-white);
   border-radius: var(--S_borderRadius);
   width: auto;
   height: auto;

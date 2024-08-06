@@ -16,7 +16,7 @@
 }
 
 .timeline{
-	background: var(--gray_WHITE);
+	background: var(--grey-white);
 	height: auto;
 	pointer-events: auto;
 	width: 100%;
@@ -39,12 +39,12 @@
 .timeline-item {
 	z-index: 1;
 	border-radius: var(--XS_borderRadius);
-	background: var(--gray_200);
+	background: var(--grey_0);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 2em;
-	color: var(--gray_BLACK);
+	color: var(--grey_100);
 }
 
 .timeline-animation {
@@ -79,8 +79,8 @@
 	text-align: center;
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
-	color: var(--gray_700);
-	background-color: var(--gray_WHITE);
+	color: var(--grey_70);
+	background-color: var(--grey-white);
 }
 
 .time.current {
@@ -101,7 +101,7 @@
 .marker-line {
 	width: 1px;
 	height: 100%;
-	border-right: 3px dashed var(--gray_200);
+	border-right: 3px dashed var(--grey_0);
 }
 
 .marker-line.current {

@@ -5,7 +5,7 @@
 	background: var(--primary_base);
 	font-weight: var(--boldWeight);
 	font-size: var(--ML_text);
-	color: var(--gray_WHITE);
+	color: var(--grey-white);
 	white-space: nowrap;
 	padding: 0px;
 }
@@ -53,7 +53,7 @@
 	width: 100%;
 	padding: 0px;
   margin: auto;
-	background-color: var(--gray_WHITE);
+	background-color: var(--grey-white);
 	z-index: 4;
 }
 

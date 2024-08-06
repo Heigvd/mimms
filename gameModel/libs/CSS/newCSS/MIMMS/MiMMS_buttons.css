@@ -90,7 +90,7 @@
 
 .disabled.button-secondaryColor{
 	background-color: var(--grey_20);
-	color: var(--gray_150);
+	color: var(--grey_10);
 	cursor: not-allowed;
 }
 
@@ -192,7 +192,7 @@
   max-width: 12.5em;
   border-radius: 25px;
   font-weight: var(--boldWeight);
-  color: var(--gray_WHITE);
+  color: var(--grey-white);
   background: var(--secondary_base); 
   box-shadow: var(--buttonShadow);
 }

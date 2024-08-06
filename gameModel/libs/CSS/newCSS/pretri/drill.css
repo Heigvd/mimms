@@ -7,7 +7,7 @@
 	cursor: pointer;
 }
 .tagCategory:hover{
-	outline: 3px solid var(--gray_BLACK);
+	outline: 3px solid var(--grey_100);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -15,7 +15,7 @@
 
 
 .tagCategory.current{
-	outline: 3px solid var(--gray_BLACK);
+	outline: 3px solid var(--grey_100);
 }
 
 /*
