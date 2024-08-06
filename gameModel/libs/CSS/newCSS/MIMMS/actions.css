@@ -13,7 +13,7 @@
 }
 
 .actionHeader{
-	background-color: var(--grey_0);
+	background-color: var(--grey_10);
 	padding: 5px 10px ;
 	border-radius: var(--S_borderRadius);
 	font-size: var(--SM_text);
@@ -39,7 +39,7 @@
 
 .actionInfo{
 	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
-	background-color: var(--grey_0);
+	background-color: var(--grey_10);
 	padding: 0px 10px;
 	font-size: var(--S_text);
 }

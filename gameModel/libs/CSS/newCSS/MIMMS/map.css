@@ -62,7 +62,7 @@
 
 /* unselected fixed map entities  - open */
 .fixedEntities-container{
-	background-color: var(--grey-white);
+	background-color: var(--grey_0);
 	border-radius: var(--XS_borderRadius);
 	border: solid 3px var(--grey_60);
 	margin: auto;

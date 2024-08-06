@@ -16,7 +16,7 @@
 }
 
 .timeline{
-	background: var(--grey-white);
+	background: var(--grey_0);
 	height: auto;
 	pointer-events: auto;
 	width: 100%;
@@ -80,7 +80,7 @@
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
 	color: var(--grey_70);
-	background-color: var(--grey-white);
+	background-color: var(--grey_0);
 }
 
 .time.current {
