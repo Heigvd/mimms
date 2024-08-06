@@ -17,7 +17,7 @@ import {
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
 import { PatientId } from '../game/common/baseTypes';
-import { BodyState, BodyStateKeys, HumanBody, readKey } from '../HUMAn/human';
+import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getTranslation } from '../tools/translation';
 
@@ -218,19 +218,6 @@ export function getSpO2Percent(state: BodyState): string {
 export function isIntubated(state: BodyState): boolean {
   if (!state) return false;
   return state.blocks.get('NECK')?.params.intubated ? true : false;
-}
-
-export function getLimbsMotricity(state: BodyState): string {
-  if (!state) return '';
-  // TODO better format
-  const keys: BodyStateKeys[] = [
-    'vitals.motricity.leftArm',
-    'vitals.motricity.rightArm',
-    'vitals.motricity.leftLeg',
-    'vitals.motricity.rightLeg',
-  ];
-  const mapped = keys.map(k => formatMetric(k, readKey(state, k)));
-  return mapped.map(a => a.join(': ')).join('\n');
 }
 
 /**

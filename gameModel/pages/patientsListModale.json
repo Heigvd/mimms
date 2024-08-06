@@ -575,7 +575,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getLimbsMotricity } from \"./UIfacade/patientFacade\";\n getLimbsMotricity(Context.currentPatient.state.humanBody.state);",
+                                  "content" : " 'TODO get limbs motricity ' + '(Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm)'",
                                   "language" : "TypeScript"
                                 }
                               },
