@@ -73,11 +73,11 @@
 /** secondary **/
 .button-secondaryColor{
 	background-color: var(--secondary_base);
-    color: var(--gray_WHITE);
+  color: var(--grey-white);
 }
 
 .button-secondaryColor:hover{
-	background-color: var(--secondary_base);
+	background-color: var(--secondary_60);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
 }

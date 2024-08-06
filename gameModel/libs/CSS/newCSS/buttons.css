@@ -21,7 +21,7 @@
  /********************************* L *********************************/
 
   .l_button {
-    background-color: green;
+    /*background-color: green;*/
     border-radius: var(--L_borderRadius);
     padding: 15px 20px;
     font-size: var(--M_text);
