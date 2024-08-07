@@ -3,7 +3,6 @@ import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
 
 export type PointLikeObjects =
   | PointLikeObject
@@ -28,26 +27,6 @@ export enum BuildingStatus {
   inProgress = 'inProgress',
   ready = 'ready',
   removed = 'removed',
-}
-
-/**
- * Check if an actor or resource is allowed to move to given location
- * @param state MainSimulationState
- * @param targetLocation FixedMapEntity of target location
- */
-export function canMoveToLocation(
-  state: Readonly<MainSimulationState>,
-  targetLocation: LOCATION_ENUM
-): boolean {
-  // Remote has no conditions for movement
-  if (targetLocation === LOCATION_ENUM.remote) return true;
-
-  const so = state.getInternalStateObject();
-  const targetLocationEntity = so.mapLocations.find(l => l.id === targetLocation);
-  return !(
-    targetLocationEntity === undefined ||
-    targetLocationEntity.buildingStatus === BuildingStatus.removed
-  );
 }
 
 export abstract class FixedMapEntity {

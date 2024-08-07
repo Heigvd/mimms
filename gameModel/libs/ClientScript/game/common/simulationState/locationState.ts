@@ -35,6 +35,26 @@ export function isLocationAvailableForPatients(
   // Note : in the future, PMA could need a special treatment
 }
 
+/**
+ * Check if an actor or resource is allowed to move to given location
+ * @param state MainSimulationState
+ * @param targetLocation FixedMapEntity of target location
+ */
+export function canMoveToLocation(
+  state: Readonly<MainSimulationState>,
+  targetLocation: LOCATION_ENUM
+): boolean {
+  // Remote has no conditions for movement
+  if (targetLocation === LOCATION_ENUM.remote) return true;
+
+  const so = state.getInternalStateObject();
+  const targetLocationEntity = so.mapLocations.find(l => l.id === targetLocation);
+  return !(
+    targetLocationEntity === undefined ||
+    targetLocationEntity.buildingStatus === BuildingStatus.removed
+  );
+}
+
 function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
   return fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.isAccessible;
 }

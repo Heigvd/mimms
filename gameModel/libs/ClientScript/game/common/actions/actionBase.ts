@@ -20,10 +20,7 @@ import {
 import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import {
-  computeTravelTime,
-  getHospitalById,
-} from '../evacuation/hospitalController';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -34,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -60,7 +57,7 @@ import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
@@ -1342,7 +1339,6 @@ export class EvacuationAction extends RadioDrivenAction {
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
-
       );
     }
   }

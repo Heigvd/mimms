@@ -1,3 +1,4 @@
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
@@ -5,6 +6,7 @@ import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
+import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
 import {
   ActionId,
   ActorId,
@@ -24,26 +26,24 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { PatientLocation, changePatientLocation } from '../simulationState/patientState';
+import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
-import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
-import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
   type: string;
