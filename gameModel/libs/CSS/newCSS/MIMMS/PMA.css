@@ -9,7 +9,8 @@
 }
 
 .constantTitle{
-font-size: var(--SM_text);
+  font-size: var(--S_text);
+  padding-bottom: 0px;
 }
 
 .constantTitle > p{
@@ -18,8 +19,13 @@ font-size: var(--SM_text);
 }
 
 .constantTypeTitle{
-font-size: var(--SM_text);
-font-weight: var(--boldWeight);
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+}
+
+.constantValue{
+  font-size: var(--S_text);
+  padding-bottom: 0px;
 }
 
 /*** Patient list on the left ***/

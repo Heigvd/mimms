@@ -312,7 +312,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "EtCO2 - value",
                                 "style" : { },
@@ -362,7 +362,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "SpO2-value",
                                 "style" : { },
@@ -401,7 +401,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "FR-value",
                                 "style" : { },
@@ -453,7 +453,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "FreqCard-value",
                                 "style" : { },
@@ -492,7 +492,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "Tension arté-value",
                                 "style" : { },
@@ -544,10 +544,12 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "Glasgow-value",
-                                "style" : { },
+                                "style" : {
+                                  "textAlign" : "right"
+                                },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.eye')}` + ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.eye))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.verbal')}` + ':     ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.motor')}`+ ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.motor))",
@@ -583,7 +585,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "Glasgow-value",
                                 "style" : { },
@@ -609,26 +611,26 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantTitle ",
                                 "layoutStyle" : { },
                                 "name" : "MSD Title",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.rightArm');",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "MSDvalue",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm ;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -654,20 +656,20 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSG' ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.leftArm');",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "MSGvalue",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MSD' ;",
+                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm ;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -693,20 +695,20 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MIG' ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.rightLeg');",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "MIGvalue",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MID' ;",
+                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg ;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -732,20 +734,20 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : " const fakevar = 'dghdgfbhik';\n  'MID' ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.leftLeg');",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantValue",
                                 "layoutStyle" : { },
                                 "name" : "MIDvalue",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  const fakevar = \"srghjkvhfhiklydcs\"\n   'MID' ;",
+                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg ;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -758,6 +760,97 @@
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "MID",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "Glycemy Title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','glycemy');",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantValue",
+                                "layoutStyle" : { },
+                                "name" : "Glycemy value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel()",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "Glycemy",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "constantTypeTitle",
+                            "layoutStyle" : { },
+                            "name" : "E",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('E');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "constantTitle",
+                                "layoutStyle" : { },
+                                "name" : "TemperatureTitle",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','temperature');",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "constantValue",
+                                "layoutStyle" : { },
+                                "name" : "Temperature value",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getRawString } from \"./tools/helper\";\nimport { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(BodyState.vitals.temperature)",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "Temperature",
                             "style" : { }
                           },
                           "type" : "FlexList"
