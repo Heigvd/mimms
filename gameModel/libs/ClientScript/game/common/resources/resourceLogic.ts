@@ -1,10 +1,10 @@
+import { entries } from '../../../tools/helper';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ResourceContainerType } from './resourceContainer';
-import { ResourceType, isHuman } from './resourceType';
-import { entries } from '../../../tools/helper';
+import { isHuman, ResourceType } from './resourceType';
 
 /**
  * Resolves which location new resources should be sent to
@@ -68,9 +68,7 @@ export function doesOrderRespectHierarchy(
     .getAllActors()
     .filter(a => a.Location !== LOCATION_ENUM.remote)
     .map(a => a.Role);
-  const locationLeaderRoles = state
-    .getMapLocations()
-    .find(l => l.id === sourceLocation)!.leaderRoles;
+  const locationLeaderRoles = getMapLocationById(state, sourceLocation)!.leaderRoles;
 
   return currentActors
     .filter(a => locationLeaderRoles.includes(a))

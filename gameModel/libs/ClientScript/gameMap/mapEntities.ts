@@ -1,15 +1,17 @@
 import { getActorsByLocation, isCurrentActorAtLocation } from '../UIfacade/actorFacade';
-import { getAvailableLocationsFacade } from '../UIfacade/locationFacade';
+import { Actor } from '../game/common/actors/actor';
+import {
+  getAvailableMapLocations,
+  LOCATION_ENUM,
+} from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { Actor } from '../game/common/actors/actor';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { MapState } from './main';
 
 // used in page 43
 export function getOverlayItems() {
-  const mapEntities = getAvailableLocationsFacade();
+  const mapEntities = getAvailableMapLocations(getCurrentState());
   const overlayItems: OverlayItem[] = [];
 
   for (const mapEntity of mapEntities) {

@@ -21,7 +21,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\n\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', location.name), value: location.id}});",
+                  "content" : "import { getResourceMapLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceMapLocationChoices();",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",
@@ -311,7 +311,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getAvailableLocationsFacade } from \"./UIfacade/locationFacade\";\ngetAvailableLocationsFacade().map((location) => {return {label: getTranslation('mainSim-locations', location.name), value: location.id}});",
+                  "content" : "import { getResourceMapLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceMapLocationChoices();",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",

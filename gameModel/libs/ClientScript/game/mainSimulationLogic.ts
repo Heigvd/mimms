@@ -365,7 +365,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'right-arrow',
-      false
+      {
+        toAll: false,
+        toActors: false,
+      }
     )
   );
 
@@ -512,7 +515,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499961, 1118388],
       ]),
       BuildingStatus.selection,
-      'ambulance-park'
+      'ambulance-park',
+      {
+        toAll: true,
+        toActors: false,
+      }
     ),
     'ambulance',
     false,
@@ -536,7 +543,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499925, 1118451],
       ]),
       BuildingStatus.selection,
-      'helicopter-park'
+      'helicopter-park',
+      {
+        toAll: true,
+        toActors: false,
+      }
     ),
     'helicopter',
     false,
