@@ -16,6 +16,12 @@ export enum LOCATION_ENUM {
   AccReg = 'AccReg',
 }
 
+export function getFixedMapEntityById(state: Readonly<MainSimulationState>, locationKey: LOCATION_ENUM) : FixedMapEntity | undefined {
+  return state
+    .getInternalStateObject()
+    .mapLocations.find((fixedMapEntity: FixedMapEntity) => fixedMapEntity.id === locationKey);
+}
+
 export function getAvailableLocations(state: Readonly<MainSimulationState>): FixedMapEntity[] {
   return state
     .getInternalStateObject()
@@ -26,9 +32,7 @@ export function isLocationAvailableForPatients(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
 ): boolean {
-  const matchingFixedMapEntity = state
-    .getInternalStateObject()
-    .mapLocations.find(loc => loc.id === location);
+  const matchingFixedMapEntity = getFixedMapEntityById(state, location);
 
   return matchingFixedMapEntity != undefined && isBuiltAndAccessible(matchingFixedMapEntity);
 
@@ -47,8 +51,7 @@ export function canMoveToLocation(
   // Remote has no conditions for movement
   if (targetLocation === LOCATION_ENUM.remote) return true;
 
-  const so = state.getInternalStateObject();
-  const targetLocationEntity = so.mapLocations.find(l => l.id === targetLocation);
+  const targetLocationEntity = getFixedMapEntityById(state, targetLocation);
   return !(
     targetLocationEntity === undefined ||
     targetLocationEntity.buildingStatus === BuildingStatus.removed

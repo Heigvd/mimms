@@ -23,7 +23,7 @@ import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getFixedMapEntityById, LOCATION_ENUM } from '../simulationState/locationState';
 
 /**
  * Default behaviour of a task
@@ -100,9 +100,7 @@ export class PreTriageTask extends TaskBase {
         }
       );
 
-      const locationName = state
-        .getInternalStateObject()
-        .mapLocations.find(l => l.id === this.locationSource)!.name;
+      const locationName = getFixedMapEntityById(state, this.locationSource)!.name;
       // We broadcast a message that task is completed (recipient = 0)
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(

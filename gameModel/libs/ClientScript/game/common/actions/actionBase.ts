@@ -57,7 +57,7 @@ import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation, getFixedMapEntityById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
@@ -681,9 +681,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       )
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = state
-      .getInternalStateObject()
-      .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
+    const pcFrontFixedEntity = getFixedMapEntityById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)

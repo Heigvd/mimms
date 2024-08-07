@@ -1,6 +1,6 @@
 import { getTranslation } from '../../../tools/translation';
 import { ActorId, TranslationKey } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { getFixedMapEntityById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
@@ -63,7 +63,7 @@ export class Actor {
   public Location: LOCATION_ENUM;
 
   //responsible for this location
-  private symbolicLocation: LOCATION_ENUM;
+  private readonly symbolicLocation: LOCATION_ENUM;
 
   private readonly translationVar: keyof VariableClasses = 'mainSim-actors';
 
@@ -83,14 +83,14 @@ export class Actor {
 
   /**
    * Update the location of the Actor
-   * @param LOCATION_ENUM New location
+   * @param location New location
    */
   public setLocation(location: LOCATION_ENUM) {
     this.Location = location;
   }
 
   /**
-   * Returns true if the actor has arrived on incident site
+   * Returns true if the actor has arrived at incident site
    */
   public isOnSite(): boolean {
     return this.Location && this.Location !== LOCATION_ENUM.remote;
@@ -98,14 +98,12 @@ export class Actor {
 
   /**
    * Compute the available symbolic location of the actor
-   * @param MainSimulationState
+   * @param state
    */
   public getComputedSymbolicLocation(state: Readonly<MainSimulationState>): LOCATION_ENUM {
-    const so = state.getInternalStateObject();
-
-    if (so.mapLocations.find(l => l.id === this.symbolicLocation)) {
+    if (getFixedMapEntityById(state, this.symbolicLocation)) {
       return this.symbolicLocation;
-    } else if (so.mapLocations.find(l => l.id === LOCATION_ENUM.PC)) {
+    } else if (getFixedMapEntityById(state, LOCATION_ENUM.PC)) {
       return LOCATION_ENUM.PC;
     }
 
