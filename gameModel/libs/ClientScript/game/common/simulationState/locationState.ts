@@ -56,5 +56,7 @@ export function canMoveToLocation(
 }
 
 function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
-  return fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.isAccessible;
+  return (
+    fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.accessibility.toAll
+  );
 }

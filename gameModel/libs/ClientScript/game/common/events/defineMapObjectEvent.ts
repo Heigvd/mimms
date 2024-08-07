@@ -29,6 +29,12 @@ export enum BuildingStatus {
   removed = 'removed',
 }
 
+export type AccessibilityType = {
+  toAll: boolean; // if actors, resources, patients can be there
+  toActors: boolean; // if actors can be there (can only be true if toAll is true)
+  // For the moment no need to restrict specifically to resources or patients
+};
+
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
   name!: TranslationKey;
@@ -38,7 +44,10 @@ export abstract class FixedMapEntity {
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  isAccessible: boolean = true; // displayed on map but inaccessible to actors
+  /** is it a place where the actors / resources / patients can be.
+   * toAll = false means that it is displayed on map but no one must be there
+   * toActors = false means that the actors must not be there */
+  accessibility!: AccessibilityType;
 
   abstract getGeometricalShape(): GeometricalShape;
 }
@@ -55,7 +64,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     geometricalShape: GeometricalShape,
     buildingStatus: BuildingStatus,
     icon?: string,
-    isAccessible: boolean = true
+    accessibility: AccessibilityType = { toAll: true, toActors: true }
   ) {
     super();
     this.ownerId = ownerId;
@@ -65,13 +74,14 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     this.icon = icon;
     this.geometricalShape = geometricalShape;
     this.buildingStatus = buildingStatus;
-    this.isAccessible = isAccessible;
+    this.accessibility = accessibility;
   }
 
   getGeometricalShape(): GeometricalShape {
     return this.geometricalShape;
   }
 }
+
 export abstract class GeometricalShape {
   olGeometryType!: string;
   selectedPosition?: SelectedPositionType;
@@ -188,7 +198,7 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 	featureIds!: string[];
 
 	getGeometricalShape(): GeometricalShape {
-		//TODO: compute centroide
+		//TODO: compute centroid
 		const position = new PointGeometricalShape();
 		position.selectedPosition = [0,0];
 		return position;
@@ -201,9 +211,10 @@ export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {
 }
 
 /*
- * This function is necesssary as we do not receive a fixedmap instance from global event but a generic object
+ * This function is necessary as we do not receive a fixed-map instance from global event but a generic object
  * So we convert the object back to its original instance type
  */
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEntity {
   let geometricalShape: GeometricalShape;
   switch (obj.geometricalShape.olGeometryType) {
@@ -252,6 +263,6 @@ export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEnt
     geometricalShape!,
     obj.buildingStatus,
     obj.icon,
-    obj.isAccessible
+    obj.accessibility
   );
 }
