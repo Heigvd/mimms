@@ -57,7 +57,12 @@ import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { canMoveToLocation, getFixedMapEntityById, LOCATION_ENUM } from '../simulationState/locationState';
+import {
+  canActorMoveToLocation,
+  canMoveToLocation,
+  getMapLocationById,
+  LOCATION_ENUM,
+} from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
@@ -681,7 +686,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       )
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = getFixedMapEntityById(state, LOCATION_ENUM.pcFront);
+    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
@@ -810,7 +815,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, this.location)) {
+    if (!canActorMoveToLocation(state, this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1042,7 +1047,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
         )
       );
     } else if (!canMoveToLocation(state, this.targetLocation)) {
-      // Resources cannot move to a non existent location
+      // Resources cannot move to a non-existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,

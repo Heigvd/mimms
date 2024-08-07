@@ -8,58 +8,84 @@ export enum LOCATION_ENUM {
   chantier = 'chantier',
   nidDeBlesses = 'nidDeBlesses',
   PMA = 'PMA',
-  PC = 'PC',
+  pcFront = 'pcFront', // Temporary initial "Poste de commandement"
+  PC = 'PC', // "Poste de commandement sanitaire"
   ambulancePark = 'ambulancePark',
   helicopterPark = 'helicopterPark',
-  pcFront = 'pcFront',
   remote = 'remote',
-  AccReg = 'AccReg',
+  AccReg = 'AccReg', // ways to access and leave the site
 }
 
-export function getFixedMapEntityById(state: Readonly<MainSimulationState>, locationKey: LOCATION_ENUM) : FixedMapEntity | undefined {
-  return state
-    .getInternalStateObject()
-    .mapLocations.find((fixedMapEntity: FixedMapEntity) => fixedMapEntity.id === locationKey);
-}
-
-export function getAvailableLocations(state: Readonly<MainSimulationState>): FixedMapEntity[] {
-  return state
-    .getInternalStateObject()
-    .mapLocations.filter(mapLocation => isBuiltAndAccessible(mapLocation));
-}
-
-export function isLocationAvailableForPatients(
+export function getMapLocationById(
   state: Readonly<MainSimulationState>,
-  location: LOCATION_ENUM
-): boolean {
-  const matchingFixedMapEntity = getFixedMapEntityById(state, location);
-
-  return matchingFixedMapEntity != undefined && isBuiltAndAccessible(matchingFixedMapEntity);
-
-  // Note : in the future, PMA could need a special treatment
+  locationKey: LOCATION_ENUM
+): FixedMapEntity | undefined {
+  return state
+    .getInternalStateObject()
+    .mapLocations.find((mapLocation: FixedMapEntity): boolean => mapLocation.id === locationKey);
 }
 
 /**
- * Check if an actor or resource is allowed to move to given location
- * @param state MainSimulationState
- * @param targetLocation FixedMapEntity of target location
+ * All defined and ready places
+ */
+export function getAvailableMapLocations(state: Readonly<MainSimulationState>): FixedMapEntity[] {
+  return state
+    .getInternalStateObject()
+    .mapLocations.filter((mapLocation: FixedMapEntity) => isBuiltAndAccessible(mapLocation));
+}
+
+/**
+ * All places where an actor can be, regarding the state
+ */
+export function getAvailableMapLocationsForActors(
+  state: Readonly<MainSimulationState>
+): FixedMapEntity[] {
+  return getAvailableMapLocations(state).filter((mapLocation: FixedMapEntity) =>
+    isSpecificallyAccessibleToActors(mapLocation)
+  );
+}
+
+/**
+ * Check if a resource / patient can go to the given place (aka if the place is ready to welcome people).
  */
 export function canMoveToLocation(
   state: Readonly<MainSimulationState>,
   targetLocation: LOCATION_ENUM
 ): boolean {
-  // Remote has no conditions for movement
+  // Someone can always be at remote location
   if (targetLocation === LOCATION_ENUM.remote) return true;
 
-  const targetLocationEntity = getFixedMapEntityById(state, targetLocation);
-  return !(
-    targetLocationEntity === undefined ||
-    targetLocationEntity.buildingStatus === BuildingStatus.removed
+  // Other locations must be ready to have people
+  const targetLocationEntity: FixedMapEntity | undefined = getMapLocationById(
+    state,
+    targetLocation
+  );
+  return targetLocationEntity != undefined && isBuiltAndAccessible(targetLocationEntity);
+}
+
+/**
+ Check if an actor can go to the given place (aka if the place is ready to welcome people).
+ */
+export function canActorMoveToLocation(
+  state: Readonly<MainSimulationState>,
+  targetLocation: LOCATION_ENUM
+): boolean {
+  const targetLocationEntity: FixedMapEntity | undefined = getMapLocationById(
+    state,
+    targetLocation
+  );
+
+  return (
+    canMoveToLocation(state, targetLocation) &&
+    targetLocationEntity != undefined &&
+    isSpecificallyAccessibleToActors(targetLocationEntity)
   );
 }
 
-function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
-  return (
-    fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.accessibility.toAll
-  );
+function isBuiltAndAccessible(mapLocation: FixedMapEntity): boolean {
+  return mapLocation.buildingStatus === BuildingStatus.ready && mapLocation.accessibility.toAll;
+}
+
+function isSpecificallyAccessibleToActors(mapLocation: FixedMapEntity): boolean {
+  return mapLocation.accessibility.toActors;
 }

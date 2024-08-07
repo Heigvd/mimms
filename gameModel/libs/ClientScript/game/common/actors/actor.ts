@@ -1,6 +1,6 @@
 import { getTranslation } from '../../../tools/translation';
 import { ActorId, TranslationKey } from '../baseTypes';
-import { getFixedMapEntityById, LOCATION_ENUM } from '../simulationState/locationState';
+import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
@@ -101,9 +101,9 @@ export class Actor {
    * @param state
    */
   public getComputedSymbolicLocation(state: Readonly<MainSimulationState>): LOCATION_ENUM {
-    if (getFixedMapEntityById(state, this.symbolicLocation)) {
+    if (getMapLocationById(state, this.symbolicLocation)) {
       return this.symbolicLocation;
-    } else if (getFixedMapEntityById(state, LOCATION_ENUM.PC)) {
+    } else if (getMapLocationById(state, LOCATION_ENUM.PC)) {
       return LOCATION_ENUM.PC;
     }
 
