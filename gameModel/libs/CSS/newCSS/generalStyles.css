@@ -17,35 +17,6 @@ As the interface got more complex, we relocated these line in separated files:
 
 */
 
-
-
-/*********** COLORS ***********/
-
-:root {
-  /*
-	  --interface_0: #DDDFF5;
-    --interface_100: #BCBFEC;
-    --interface_200: #797FD9;
-    --interface_BLUE:#575FCF;
-    --interface_700: #232653;
-  */
-    --secondaryInterface_200: #FD3388;
-    --secondaryInterface_400: #FD006A;
-
-
-/*
-	  --grey-white: #F6F7F9;
-	  --grey_10: #E6E8EB;
-    --grey_0: #D9DDE1;
-    --grey_0: #CCD2D7;
-    --grey_30: #B3BBC3;
-    --gray_500: #808E9B;
-    --grey_70: #485460;
-    --grey_100: #1E272E; */
-    
-}
-
-
 /*********** GENERAL STYLES ***********/
 
 /*** PETITS ECRANS ***/

@@ -70,6 +70,5 @@
     font-size: var(--M_text);
     color: var(--grey_70);
     font-family: var(--mainFont);
-    /* font-family: 'Roboto'; */
   }
 }

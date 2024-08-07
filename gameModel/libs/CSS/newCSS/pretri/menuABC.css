@@ -4,14 +4,14 @@
 /*************** ABCDE MENU ****************/
 /* Container de tout le menu*/
 .ABCDETT_Menu-container{
-margin-left: .9rem;
-margin-right: .9rem;
-margin-top: 10px;
+  margin-left: .9rem;
+  margin-right: .9rem;
+  margin-top: 10px;
 }
 
 /* fallback color */
 .menuABC{
-color: var(--grey_70);
+  color: var(--grey_70);
 }
 
 .menuABC-button{
@@ -27,8 +27,8 @@ color: var(--grey_70);
 }
 
 .menuABC .menuABC-button > button.selected:hover{
-background-color:var(--primary_20);
-color: var(--grey_100);
+  background-color:var(--primary_20);
+  color: var(--grey_100);
 }
 
 
@@ -43,15 +43,15 @@ color: var(--grey_100);
 }
 
 .menuABC .menuABC-button > button:hover{
-color: var(--grey_70);
-background-color: var(--grey_30);
+  color: var(--grey_70);
+  background-color: var(--grey_30);
 }
 
 
 /*Disabled buttons*/
 .menuABC .menuABC-button > button.no-selection{
-	 color: var(--grey_30);
-	 background-color: var(--grey_10);
+	color: var(--grey_30);
+	background-color: var(--grey_10);
 }
 
 .menuABC .menuABC-button > button.no-selection:hover{
@@ -59,12 +59,9 @@ background-color: var(--grey_30);
 	background-color: var(--grey_20);
 }
 
-
-
 .theLine{
-border-bottom: solid 3px var(--primary_base);
+  border-bottom: solid 3px var(--primary_base);
 }
-
 
 @media screen and (min-width: 1200px){}
 
@@ -77,16 +74,13 @@ border-bottom: solid 3px var(--primary_base);
 	.ABCDETT_Menu-container .menuABC-button > button{
 		padding:  6px 15px 6px 15px;
 		flex-wrap: nowrap;
-		
 	}
 
 	.menuABC-button{
 		padding:   0px 2px  0px 0px; 
-		
 	}
 
 	.menuABC{
-flex-wrap: nowrap;
-
+    flex-wrap: nowrap;
 	}
 }

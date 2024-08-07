@@ -128,6 +128,7 @@
 	margin: 0px;
 }
 */
+
 /* buttons in METHANE and in welcome page */
 .rectangleButton:hover{
 	background-color: var(--primary_50);
@@ -135,6 +136,7 @@
 	box-shadow: var(--buttonShadow);
 	color: var(--grey_0);
 }
+
 .disabled.rectangleButton{
   background-color:transparent;
   color: var(--grey_50);
@@ -157,7 +159,7 @@
 .rectangleButton:focus:hover{
 	background-color: var(--primary_50);
 	border: solid 2px var(--primary_50);
-	box-shadow: var(--buttonInsetShadow);;
+	box-shadow: var(--buttonInsetShadow);
 }
 
 /*********************** NEXT BUTTON ***********************/

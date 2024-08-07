@@ -101,7 +101,7 @@
 .marker-line {
 	width: 1px;
 	height: 100%;
-	border-right: 3px dashed var(--grey_0);
+	border-right: 3px dashed var(--grey_10);
 }
 
 .marker-line.current {

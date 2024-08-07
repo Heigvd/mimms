@@ -1,3 +1,10 @@
+html{
+  /*specific secondary color for drill pretri. The main color is the same as in MiMMS*/
+    --secondaryInterface_200: #FD3388;
+    --secondaryInterface_400: #FD006A;
+}
+
+
 /*****BUTTONS NEXT + CORRECTION *****/
 .nextAndCorrection{
 	padding-left: 1rem;
@@ -21,7 +28,7 @@
 /*** SPECIFICS CUSTOMIZATION*/
 
 .actionTitle{
-padding-left: 1rem;
+  padding-left: 1rem;
 }
 
 
@@ -34,8 +41,6 @@ padding-left: 1rem;
 /****** Fix for shadowMan ******/
 .theGame-container{
 		background: var(--colors-backgroundcolor);
-
-
 }
 
 /****** DRILL PRETRI PAGE ******/

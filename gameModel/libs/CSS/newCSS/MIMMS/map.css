@@ -91,20 +91,19 @@
 .closedFixedMapEntityTitle{
   color: var(--grey-white);
   font-weight: var(--boldWeight);
-  }
+}
 
-
-  /***** BUTTONS RESOURCES *****/
+/***** BUTTONS RESOURCES *****/
 
 /*** Buttons for resources in fixed map entities ***/
 .mimms_s_squareButton > button {
-    color: var(--grey_60);
-	  background-color: var(--grey-10);
-    border-radius: var(--XS_borderRadius);
-    height: 2.2em;
-    border: 2px solid var(--grey_60);
-    font-size: var(--SM_text);
-    font-family: var(--mainFont);
+  color: var(--grey_60);
+	background-color: var(--grey-10);
+  border-radius: var(--XS_borderRadius);
+  height: 2.2em;
+  border: 2px solid var(--grey_60);
+  font-size: var(--SM_text);
+  font-family: var(--mainFont);
   }
 
 

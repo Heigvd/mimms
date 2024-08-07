@@ -33,7 +33,7 @@ font-size: var(--M_text);
 
 @media screen and (min-width:1200px){
 	.categoryAndID{
-	flex-direction: row;
+	  flex-direction: row;
 	}
 }
 
