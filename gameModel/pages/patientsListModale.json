@@ -183,15 +183,15 @@
                         "layout" : { },
                         "layoutClassName" : "",
                         "layoutStyle" : {
-                          "border" : "solid 3px orange",
-                          "heigth" : "50px",
-                          "width" : "50px"
+                          "heigth" : "6rem",
+                          "paddingBottom" : "1rem",
+                          "width" : "5rem"
                         },
                         "name" : "painSmiley",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getCurrentPatientBody } from './game/legacy/the_world';\ngetCurrentPatientBody();",
+                          "content" : "\nimport { getVisualDetailsFrom } from './game/patientZoom/graphics';\ngetVisualDetailsFrom(Context.currentPatient.state.humanBody);",
                           "language" : "JavaScript"
                         }
                       },
@@ -801,7 +801,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state)",
+                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state) + ' mmol/l'",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -853,7 +853,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(Context.currentPatient.state.humanBody.state)",
+                                  "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(Context.currentPatient.state.humanBody.state) +'°'",
                                   "language" : "TypeScript"
                                 }
                               },
