@@ -58,7 +58,6 @@ import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import {
-  canActorMoveToLocation,
   canMoveToLocation,
   getMapLocationById,
   LOCATION_ENUM,
@@ -815,7 +814,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (!canActorMoveToLocation(state, this.location)) {
+    if (!canMoveToLocation(state, 'Actor', this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1046,7 +1045,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           'move-res-task-refused'
         )
       );
-    } else if (!canMoveToLocation(state, this.targetLocation)) {
+    } else if (!canMoveToLocation(state, 'Resource', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(

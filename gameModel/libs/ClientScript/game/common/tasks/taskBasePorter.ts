@@ -230,13 +230,13 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     state: Readonly<MainSimulationState>,
     locationSource: LOCATION_ENUM
   ): LOCATION_ENUM | undefined {
-    if (canMoveToLocation(state, LOCATION_ENUM.PMA)) {
+    if (canMoveToLocation(state, 'Patient', LOCATION_ENUM.PMA)) {
       return LOCATION_ENUM.PMA;
     }
 
     if (
       locationSource != LOCATION_ENUM.nidDeBlesses &&
-      canMoveToLocation(state, LOCATION_ENUM.nidDeBlesses)
+      canMoveToLocation(state, 'Patient', LOCATION_ENUM.nidDeBlesses)
     ) {
       return LOCATION_ENUM.nidDeBlesses;
     }

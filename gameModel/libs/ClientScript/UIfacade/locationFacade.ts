@@ -1,8 +1,5 @@
 import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import {
-  getAvailableMapLocations,
-  getAvailableMapLocationsForActors,
-} from '../game/common/simulationState/locationState';
+import { getAvailableMapLocations } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTranslation } from '../tools/translation';
 import { getActor } from './actorFacade';
@@ -11,7 +8,7 @@ import { getActor } from './actorFacade';
 export function getActorMapLocationChoices(): { label: string; value: string }[] {
   const currentActor = getActor(Context.interfaceState.state.currentActorUid);
 
-  const locations = getAvailableMapLocationsForActors(getCurrentState())
+  const locations = getAvailableMapLocations(getCurrentState(), 'Actor')
     /* filter out the current location */
     .filter(fixedEntity => fixedEntity.id != currentActor!.Location);
 
@@ -20,7 +17,7 @@ export function getActorMapLocationChoices(): { label: string; value: string }[]
 
 // used in page 67
 export function getResourceMapLocationChoices(): { label: string; value: string }[] {
-  const locations = getAvailableMapLocations(getCurrentState());
+  const locations = getAvailableMapLocations(getCurrentState(), 'Resource');
   return getLocationChoicesData(locations);
 }
 

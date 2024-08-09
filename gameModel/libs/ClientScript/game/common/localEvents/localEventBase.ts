@@ -35,11 +35,7 @@ import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
-import {
-  canActorMoveToLocation,
-  canMoveToLocation,
-  LOCATION_ENUM,
-} from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -349,7 +345,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    if (!canActorMoveToLocation(state, this.location)) {
+    if (!canMoveToLocation(state, 'Actor', this.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
       so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
@@ -685,7 +681,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, this.targetLocation)) {
+    if (!canMoveToLocation(state, 'Resource', this.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
     }

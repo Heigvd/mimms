@@ -11,7 +11,8 @@ import { MapState } from './main';
 
 // used in page 43
 export function getOverlayItems() {
-  const mapEntities = getAvailableMapLocations(getCurrentState());
+  // fetch all map locations entities where there can be actors / resources / patients
+  const mapEntities = getAvailableMapLocations(getCurrentState(), undefined);
   const overlayItems: OverlayItem[] = [];
 
   for (const mapEntity of mapEntities) {

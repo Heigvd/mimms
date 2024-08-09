@@ -30,9 +30,9 @@ export enum BuildingStatus {
 }
 
 export type AccessibilityType = {
-  toAll: boolean; // if actors, resources, patients can be there
-  toActors: boolean; // if actors can be there (can only be true if toAll is true)
-  // For the moment no need to restrict specifically to resources or patients
+  toActors: boolean;
+  toResources: boolean;
+  toPatients: boolean;
 };
 
 export abstract class FixedMapEntity {
@@ -44,9 +44,7 @@ export abstract class FixedMapEntity {
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  /** is it a place where the actors / resources / patients can be.
-   * toAll = false means that it is displayed on map but no one must be there
-   * toActors = false means that the actors must not be there */
+  /** Is it a place that can contain actors / human resources / patients */
   accessibility!: AccessibilityType;
 
   abstract getGeometricalShape(): GeometricalShape;
@@ -64,7 +62,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     geometricalShape: GeometricalShape,
     buildingStatus: BuildingStatus,
     icon?: string,
-    accessibility: AccessibilityType = { toAll: true, toActors: true }
+    accessibility: AccessibilityType = { toActors: true, toResources: true, toPatients: true }
   ) {
     super();
     this.ownerId = ownerId;
