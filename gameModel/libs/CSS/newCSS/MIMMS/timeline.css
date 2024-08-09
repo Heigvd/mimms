@@ -39,13 +39,18 @@
 .timeline-item {
 	z-index: 1;
 	border-radius: var(--XS_borderRadius);
-	background: var(--grey_0);
+	background: var(--grey_10);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 2em;
 	color: var(--grey_100);
 }
+
+.timeline-item.planned{
+  	background: var(--grey_20);
+}
+
 
 .timeline-animation {
 	animation: popping 1s linear;
