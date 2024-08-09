@@ -1,11 +1,11 @@
 
 .timeline-actors {
-	border-right: 1px solid var(--gray_200);	
+	border-right: 1px solid var(--grey_10);	
 }
 
 .actor {
 	height: 2em;
-  background-color: var(--gray_150);
+  background-color: var(--grey_10);
 	color: var(--primary_90);
   justify-content: center;
   align-items: center;
@@ -17,13 +17,13 @@
 }
 
 .actor:hover{
-	background:var(--gray_200);
-	color:var(--gray_700);
+	background:var(--grey_0);
+	color:var(--grey_70);
 }
 
 .actor.current {
 	background-color: var(--primary_base);
-	color: var(--gray_WHITE);
+	color: var(--grey-white);
 	
 }
 

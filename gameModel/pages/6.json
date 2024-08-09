@@ -288,9 +288,10 @@
                     } ],
                     "className" : "",
                     "layout" : {
-                      "alignContent" : "space-between"
+                      "alignContent" : "space-between",
+                      "flexDirection" : "row"
                     },
-                    "layoutClassName" : "leftPanel-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "detailsPanel",
                     "style" : { }

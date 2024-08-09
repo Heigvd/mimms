@@ -1,3 +1,10 @@
+html{
+  /*specific secondary color for drill pretri. The main color is the same as in MiMMS*/
+    --secondaryInterface_200: #FD3388;
+    --secondaryInterface_400: #FD006A;
+}
+
+
 /*****BUTTONS NEXT + CORRECTION *****/
 .nextAndCorrection{
 	padding-left: 1rem;
@@ -15,27 +22,13 @@
 	width: 40vw;
 	max-height: 90vh;
 }
-/**** SPECIFICS BUTTONS ****/
-.actionMeasure-button * div {
-white-space: nowrap;
-min-width: 8rem;
-}
 
-.actionMeasure-button.selected{
-	background-color: var(--interface_BLUE);
-	color: var(--gray_WHITE);
-}
-
-
-.actionMeasure-button.selected:hover{
-	background-color: var(--interface_200);
-}
 
 
 /*** SPECIFICS CUSTOMIZATION*/
 
 .actionTitle{
-padding-left: 1rem;
+  padding-left: 1rem;
 }
 
 
@@ -48,8 +41,6 @@ padding-left: 1rem;
 /****** Fix for shadowMan ******/
 .theGame-container{
 		background: var(--colors-backgroundcolor);
-
-
 }
 
 /****** DRILL PRETRI PAGE ******/

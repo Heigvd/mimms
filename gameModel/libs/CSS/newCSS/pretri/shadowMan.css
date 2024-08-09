@@ -44,7 +44,7 @@
 	.observe .block:not(.forTreatmentBlock, .afflictedBlock) {
 		position: absolute;
 		fill: none;
-		stroke: var(--gray_500);
+		stroke: var(--grey_50);
 		stroke-dasharray:  "2 2";
 		pointer-events: none;
 		/*z-index: 1;*/
@@ -101,7 +101,7 @@
 
 	/*selection blocks -> the ones that can be selected */
 	.forTreatmentBlock svg:last-child rect {
-		stroke: var(--interface_BLUE);
+		stroke: var(--primary_base);
 		position: relative;
 		z-index: 1;
 	}
@@ -118,7 +118,7 @@
 
 	/*selection blocks -> the ones that can be selected while beeing hovered */
 	.forTreatmentBlock:not(.selectedBlock):hover svg:last-child rect {
-		stroke: var(--interface_BLUE);
+		stroke: var(--primary_base);
 		stroke-width: 4px;
 		cursor: pointer;
 		transition: 0.2s;

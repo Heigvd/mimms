@@ -7,7 +7,7 @@
 }
 
 .welcomeText{
-	color:var(--gray_700);
+	color:var(--grey_70);
 	font-size: var(--L_text);
 	margin-bottom: 2em;
 	line-height: normal;

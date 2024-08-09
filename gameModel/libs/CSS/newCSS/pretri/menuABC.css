@@ -4,14 +4,14 @@
 /*************** ABCDE MENU ****************/
 /* Container de tout le menu*/
 .ABCDETT_Menu-container{
-margin-left: .9rem;
-margin-right: .9rem;
-margin-top: 10px;
+  margin-left: .9rem;
+  margin-right: .9rem;
+  margin-top: 10px;
 }
 
-
+/* fallback color */
 .menuABC{
-color: var(--interface_BLUE);
+  color: var(--grey_70);
 }
 
 .menuABC-button{
@@ -22,49 +22,46 @@ color: var(--interface_BLUE);
 /* Selected button */
 .menuABC .menuABC-button > button.selected{
 	font-weight: var(--boldWeight);
-	background-color: var(--interface_BLUE);
-	color: var(--gray_WHITE); 
+	background-color: var(--primary_base);
+	color: var(--grey-white); 
 }
 
 .menuABC .menuABC-button > button.selected:hover{
-background-color:var(--interface_200);
-color: var(--gray_WHITE);
+  background-color:var(--primary_20);
+  color: var(--grey_100);
 }
 
 
 /* Unselected buttons */
 .menuABC .menuABC-button > button{
 	font-weight: var(--boldWeight);
-	background-color:var(--gray_300);
-	color: var(--gray_700);
+	background-color:var(--grey_20);
+	color: var(--grey_70);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px;
 	padding:  8px 15px 8px 15px;
 	margin-bottom: 0px;
 }
 
 .menuABC .menuABC-button > button:hover{
-color: var(--gray_200);
-background-color: var(--interface_200);
+  color: var(--grey_70);
+  background-color: var(--grey_30);
 }
 
 
 /*Disabled buttons*/
 .menuABC .menuABC-button > button.no-selection{
-	 color: var(--gray_400);
-	 background-color: var(--gray_200);
+	color: var(--grey_30);
+	background-color: var(--grey_10);
 }
 
 .menuABC .menuABC-button > button.no-selection:hover{
-	color: var(--gray_400);
-	background-color: var(--gray_200);
+	color: var(--grey_30);
+	background-color: var(--grey_20);
 }
-
-
 
 .theLine{
-border-bottom: solid 3px var(--interface_BLUE);
+  border-bottom: solid 3px var(--primary_base);
 }
-
 
 @media screen and (min-width: 1200px){}
 
@@ -77,16 +74,13 @@ border-bottom: solid 3px var(--interface_BLUE);
 	.ABCDETT_Menu-container .menuABC-button > button{
 		padding:  6px 15px 6px 15px;
 		flex-wrap: nowrap;
-		
 	}
 
 	.menuABC-button{
 		padding:   0px 2px  0px 0px; 
-		
 	}
 
 	.menuABC{
-flex-wrap: nowrap;
-
+    flex-wrap: nowrap;
 	}
 }

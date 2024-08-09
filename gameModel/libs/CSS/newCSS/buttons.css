@@ -6,7 +6,7 @@
   
   /********************************* S *********************************/
   .s_button {
-    background-color: var(--interface_BLUE);
+    background-color: var(--primary_base);
     border-radius: var(--L_borderRadius);
     padding: 8px 15px;
     font-size: var(--SM_text);
@@ -15,21 +15,22 @@
   }
 
   .s_button:hover {
-    background-color: var(--interface_200);
+    background-color: var(--primary_30);
   }
 
  /********************************* L *********************************/
 
   .l_button {
-    background-color: green;
+    /*background-color: green;*/
     border-radius: var(--L_borderRadius);
     padding: 15px 20px;
     font-size: var(--M_text);
     font-weight: var(--boldWeight);
     font-family: var(--mainFont);
   }
+
   .l_button:hover {
-    background-color: var(--interface_200);
+    background-color: var(--primary_30);
     text-decoration: none;
   }
 
@@ -38,7 +39,7 @@
 
   .pink {
     background-color: var(--secondaryInterface_400);
-    color: var(--gray_WHITE);
+    color: var(--grey-white);
   }
 
   .pink:hover {
@@ -48,69 +49,69 @@
   }
 
   .disabled.pink {
-    color: var(--gray_500);
+    color: var(--grey_40);
   }
 
   .disabled.pink:hover {
-    background-color: var(--gray_300);
-    color: var(--gray_500);
+    background-color: var(--grey_20);
+    color: var(--grey_40);
     cursor: not-allowed;
   }
   /********************************* WHITE *********************************/
   /*to do rename whiteButton to white */
   .whiteButton {
-    background-color: var(--gray_200);
+    background-color: var(--grey_10);
     border-radius: var(--L_borderRadius);
-    color: var(--gray_700);
+    color: var(--grey_70);
   }
 
   .whiteButton:hover {
-    background-color: var(--gray_300);
+    background-color: var(--grey_20);
   }
 
   .disabled.whiteButton {
-    color: var(--gray_500);
+    color: var(--grey_40);
   }
 
   .disabled.whiteButton:hover {
-    background-color: var(--gray_300);
-    color: var(--gray_500);
+    background-color: var(--grey_20);
+    color: var(--grey_40);
     cursor: not-allowed;
   }
 
    /********************************* SQUARE *********************************/
 
   .s_squareButton > button {
-    background-color: var(--gray_150);
+    background-color: var(--grey_0);
     border-radius: var(--XS_borderRadius);
     height: 2.2em;
-    border: 2px solid var(--gray_700);
+    border: 2px solid var(--grey_70);
     font-size: var(--SM_text);
     font-family: var(--mainFont);
-    color: var(--gray_700);
+    color: var(--grey_70);
   }
 
   .s_squareButton > button:hover {
-    color: var(--gray_500);
-	background-color: var(--gray_200);
-    border-color: var(--gray_500);
+    color: var(--grey_40);
+	  background-color: var(--grey_10);
+    border-color: var(--grey_40);
   }
 
   .s_squareButton > button:active {
-    color: var(--gray_WHITE);
-    background-color: var(--interface_BLUE);
-    border-color: var(--interface_BLUE);
+    color: var(--grey-white);
+    background-color: var(--primary_base);
+    border-color: var(--primary_base);
   }
 
   .s_squareButton > button:active:hover {
-    background-color: var(--interface_200);
-    border-color: var(--interface_200);
+    background-color: var(--primary_30);
+    border-color: var(--primary_30);
   }
 
   .s_squareButton > button:disabled {
-    color: var(--gray_400);
-    background-color: var(--gray_150);
-    border-color: var(--gray_150);
+    color: var(--grey_30);
+    background-color: var(--grey_0);
+    border-color: var(--grey_0);
   }
 }
 
@@ -119,7 +120,7 @@
 
 /********************************* S *********************************/
   .s_button {
-    background-color: var(--interface_BLUE);
+    background-color: var(--primary_base);
     border-radius: var(--L_borderRadius);
     padding: 6px 6px;
     font-size: var(--S_text);
@@ -128,13 +129,13 @@
   }
 
   .s_button:hover {
-    background-color: var(--interface_200);
+    background-color: var(--primary_30);
   }
 
    /********************************* L *********************************/
 
   .l_button {
-    background-color: var(--interface_BLUE);
+    background-color: var(--primary_base);
     border-radius: var(--L_borderRadius);
     padding: 15px 20px;
     font-size: var(--SM_text);
@@ -142,7 +143,7 @@
     font-family: var(--mainFont);
   }
   .l_button:hover {
-    background-color: var(--interface_200);
+    background-color: var(--primary_30);
     text-decoration: none;
   }
 
@@ -151,7 +152,7 @@
 
   .pink {
     background-color: var(--secondaryInterface_400);
-    color: var(--gray_WHITE);
+    color: var(--grey-white);
   }
 
   .pink:hover {
@@ -161,32 +162,32 @@
   }
 
   .disabled.pink {
-    color: var(--gray_500);
+    color: var(--grey_40);
   }
 
   .disabled.pink:hover {
-    background-color: var(--gray_300);
-    color: var(--gray_500);
+    background-color: var(--grey_20);
+    color: var(--grey_40);
     cursor: not-allowed;
   }
    /********************************* WHITE *********************************/
   .whiteButton {
-    background-color: var(--gray_200);
+    background-color: var(--grey_10);
     border-radius: var(--L_borderRadius);
-    color: var(--gray_700);
+    color: var(--grey_70);
   }
 
   .whiteButton:hover {
-    background-color: var(--gray_300);
+    background-color: var(--grey_20);
   }
 
   .disabled.whiteButton {
-    color: var(--gray_500);
+    color: var(--grey_40);
   }
 
   .disabled.whiteButton:hover {
-    background-color: var(--gray_300);
-    color: var(--gray_500);
+    background-color: var(--grey_20);
+    color: var(--grey_40);
     cursor: not-allowed;
   }
 
