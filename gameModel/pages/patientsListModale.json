@@ -179,6 +179,25 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "border" : "solid 3px orange",
+                          "heigth" : "50px",
+                          "width" : "50px"
+                        },
+                        "name" : "painSmiley",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getCurrentPatientBody } from './game/legacy/the_world';\ngetCurrentPatientBody();",
+                          "language" : "JavaScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
                             "layoutStyle" : {
@@ -293,10 +312,10 @@
                                 "className" : "constantTitle noPadding noMargin",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
-                                  "className" : "TODO-grayed",
+                                  "className" : "notIntubated",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n!isIntubated(Context.currentPatient.state.humanBody.state);",
+                                    "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -313,12 +332,21 @@
                             }, {
                               "props" : {
                                 "className" : "constantValue",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "notIntubated",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { isIntubated } from \"./UIfacade/patientFacade\";\n  if (isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn false\n  } true",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "layoutStyle" : { },
                                 "name" : "EtCO2 - value",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getEtCO2 } from \"./UIfacade/patientFacade\";\n  getEtCO2(Context.currentPatient.state.humanBody.state);",
+                                  "content" : "import { getEtCO2, isIntubated } from \"./UIfacade/patientFacade\";\n\n  if (!isIntubated(Context.currentPatient.state.humanBody.state)){\nreturn 'not intubated'\n  }\n    getEtCO2(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -578,20 +606,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n \n  getTranslation('human-general','motricity');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "constantValue",
-                                "layoutStyle" : { },
-                                "name" : "Glasgow-value",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : " 'TODO get limbs motricity ' + '(Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm)'",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n \n  getTranslation('human-general','motricity') + ':';",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -630,7 +645,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -669,7 +684,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -708,7 +723,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  \n    getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -747,7 +762,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg ;",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -786,7 +801,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel()",
+                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state)",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -838,7 +853,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getRawString } from \"./tools/helper\";\nimport { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(BodyState.vitals.temperature)",
+                                  "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(Context.currentPatient.state.humanBody.state)",
                                   "language" : "TypeScript"
                                 }
                               },
