@@ -1,5 +1,5 @@
 import { ActorId } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { isOnSite, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Actor, hierarchyLevels, InterventionRole, sortByHierarchyLevel } from './actor';
 
@@ -27,17 +27,35 @@ export function getActorsOfMostInfluentAuthorityLevelByLocation(
     .getAllActors()
     .filter((actor: Actor) => actor.Location === location);
 
-  if (actorsAtLocation.length === 0) {
-    return [];
-  }
-  if (actorsAtLocation.length === 1) {
-    return actorsAtLocation.map((actor: Actor) => actor.Uid);
+  return getMostInfluentActors(actorsAtLocation).map((actor: Actor) => actor.Uid);
+}
+
+/**
+ * Get the most influent actors on site (= not remote).
+ * <p>
+ * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
+ */
+export function getActorsOfMostInfluentAuthorityLevelOnSite(
+  state: Readonly<MainSimulationState>
+): ActorId[] {
+  const actorsOnSite = state.getAllActors().filter((actor: Actor) => isOnSite(actor.Location));
+
+  return getMostInfluentActors(actorsOnSite).map((actor: Actor) => actor.Uid);
+}
+
+/**
+ * Get the most influent actors from a list
+ * <p>
+ * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
+ */
+function getMostInfluentActors(actors: Actor[]): Actor[] {
+  if (actors.length < 2) {
+    return actors;
   }
 
-  const mostInfluentHierarchyLevel =
-    hierarchyLevels[sortByHierarchyLevel(actorsAtLocation)[0]!.Role];
+  const mostInfluentHierarchyLevel = hierarchyLevels[sortByHierarchyLevel(actors)[0]!.Role];
 
-  return actorsAtLocation
-    .filter((actor: Actor) => hierarchyLevels[actor.Role] === mostInfluentHierarchyLevel)
-    .map((actor: Actor) => actor.Uid);
+  return actors.filter(
+    (actor: Actor) => hierarchyLevels[actor.Role] === mostInfluentHierarchyLevel
+  );
 }

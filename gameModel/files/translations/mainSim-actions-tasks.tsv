@@ -72,6 +72,9 @@ appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because the
 activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
 activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
 activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
+activate-radio-schema-request	Request to activate the communication schema	Demande d'activation du schéma de communication	
+activate-radio-schema-reply-ok	Approved	Accepté	
+activate-radio-schema-reply-unauthorized	Refused. The request must be made by the highest hierarchical manager present on site	Refusé. La demande doit être faite par le plus haut responsable hiérarchique présent sur site	
 define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	

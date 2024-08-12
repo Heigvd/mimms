@@ -34,6 +34,7 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
+  ActivateRadioSchemaAction,
   AppointActorAction,
   CasuMessageAction,
   DisplayMessageAction,
@@ -417,6 +418,85 @@ export class CasuMessageTemplate extends StartEndTemplate<
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
+  }
+}
+
+export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<ActivateRadioSchemaAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    feedbackMessage: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly positiveReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    replayable: boolean = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackMessage,
+      replayable,
+      ActionType.ACTION,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<StandardActionEvent>
+  ): ActivateRadioSchemaAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new ActivateRadioSchemaAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      this.requestMessage,
+      this.positiveReplyMessage,
+      this.unauthorizedReplyMessage,
+      ownerId,
+      this.Uid,
+      this.provideFlagsToState,
+      this.channel,
+      this.isRadioMessage
+    );
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
   }
 }
 

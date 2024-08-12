@@ -38,3 +38,10 @@ export function isLocationAvailableForPatients(
 function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
   return fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.isAccessible;
 }
+
+/**
+ * Is a location on the site or not ?
+ */
+export function isOnSite(location: LOCATION_ENUM) {
+  return location !== LOCATION_ENUM.remote;
+}

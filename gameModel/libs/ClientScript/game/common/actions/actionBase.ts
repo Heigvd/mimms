@@ -4,6 +4,7 @@ import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../..
 import { getCurrentState } from '../../mainSimulationLogic';
 import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
+import * as ActorLogic from '../actors/actorLogic';
 import {
   ActionId,
   ActionTemplateId,
@@ -20,10 +21,7 @@ import {
 import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import {
-  computeTravelTime,
-  getHospitalById,
-} from '../evacuation/hospitalController';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -505,6 +503,90 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   public getRecipient(): number {
     return this.ownerId;
+  }
+}
+
+export class ActivateRadioSchemaAction extends StartEndAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    feedbackMessageKey: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly positiveReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState?: SimFlag[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackMessageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event ActivateRadioSchemaAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event ActivateRadioSchemaAction');
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId, // must be CASU
+        state.getActorById(this.ownerId)?.ShortName || '',
+        this.requestMessage,
+        this.channel,
+        this.isRadioMessage
+      )
+    );
+
+    const suitableActors = ActorLogic.getActorsOfMostInfluentAuthorityLevelOnSite(state);
+    if (suitableActors.includes(this.ownerId)) {
+      state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
+
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, //this.ownerId,
+          'CASU',
+          this.positiveReplyMessage,
+          this.channel,
+          this.isRadioMessage
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, // this.ownerId,
+          'CASU',
+          this.unauthorizedReplyMessage,
+          this.channel,
+          this.isRadioMessage
+        )
+      );
+    }
+  }
+
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
+    return;
   }
 }
 
@@ -1142,6 +1224,12 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   }
 }
 
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 /**
  * The result of the action is to spread a handwritten message from a player through a radio channel
  */
@@ -1342,7 +1430,6 @@ export class EvacuationAction extends RadioDrivenAction {
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
-
       );
     }
   }

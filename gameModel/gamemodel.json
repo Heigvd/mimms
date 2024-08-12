@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1720185798964,
+  "createdTime" : 1723479456028,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3990,6 +3990,9 @@
         "properties" : {
           "activate-radio-schema-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"activate the different radio channels\"},\"FR\":{\"status\":\"\",\"translation\":\"activer les différents canaux radio\",\"lang\":\"FR\"}},\"version\":0}",
           "activate-radio-schema-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"communication schema activation\"},\"FR\":{\"status\":\"\",\"translation\":\"activation du schéma de communication\",\"lang\":\"FR\"}},\"version\":0}",
+          "activate-radio-schema-reply-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"approved\"},\"FR\":{\"status\":\"\",\"translation\":\"accepté\",\"lang\":\"FR\"}},\"version\":0}",
+          "activate-radio-schema-reply-unauthorized" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"refused. The request must be made by the highest hierarchical manager present on site\"},\"FR\":{\"status\":\"\",\"translation\":\"refusé. La demande doit être faite par le plus haut responsable hiérarchique présent sur site\",\"lang\":\"FR\"}},\"version\":0}",
+          "activate-radio-schema-request" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request to activate the communication schema\"},\"FR\":{\"status\":\"\",\"translation\":\"demande d'activation du schéma de communication\",\"lang\":\"FR\"}},\"version\":0}",
           "activate-radio-schema-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"activate the communication schema\"},\"FR\":{\"status\":\"\",\"translation\":\"activer le schéma de communication\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-arrival" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you have arrived at the incident site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes arrivé sur les lieux de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
