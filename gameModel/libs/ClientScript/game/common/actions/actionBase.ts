@@ -692,43 +692,6 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 }
 
 // -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-// export class SelectionPMAAction extends SelectionFixedMapEntityAction {
-//   constructor(
-//     startTimeSec: SimTime,
-//     durationSeconds: SimDuration,
-//     eventId: GlobalEventId,
-//     actionNameKey: TranslationKey,
-//     messageKey: TranslationKey,
-//     ownerId: ActorId,
-//     uuidTemplate: ActionTemplateId,
-//     fixedMapEntity: FixedMapEntity,
-//     provideFlagsToState: SimFlag[] = []
-//   ) {
-//     super(
-//       startTimeSec,
-//       durationSeconds,
-//       eventId,
-//       actionNameKey,
-//       messageKey,
-//       ownerId,
-//       uuidTemplate,
-//       fixedMapEntity,
-//       provideFlagsToState
-//     );
-//   }
-//
-//   protected override dispatchEndedEvents(state: MainSimulationState): void {
-//     super.dispatchEndedEvents(state);
-//     localEventManager.queueLocalEvent(
-//       new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
-//     );
-//   }
-// }
-
-// -------------------------------------------------------------------------------------------------
 // place park
 // -------------------------------------------------------------------------------------------------
 
