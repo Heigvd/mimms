@@ -1040,11 +1040,11 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
     case 'vitals.motricity.rightLeg':
       return [metricName, motricityFormatter(value)];
     case 'vitals.glasgow.motor':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.verbal':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.eye':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.total':
       return [metricName, String(value)];
     case 'vitals.canWalk':

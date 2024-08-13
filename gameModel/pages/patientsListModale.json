@@ -580,7 +580,7 @@
                                 },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.eye')}` + ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.eye))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.verbal')}` + ':     ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal))\n   + '</br> '\n   + `${getTranslation('human-general', 'vitals.glasgow.motor')}`+ ':      ' + String((Context.currentPatient.state.humanBody.state.vitals.glasgow.motor))",
+                                  "content" : "import { formatMetric } from \"./game/patientZoom/currentPatientZoom\";\n String((Context.currentPatient.state.humanBody.state.vitals.glasgow.total))\n   + '</br> '\n   + formatMetric('vitals.glasgow.eye', Context.currentPatient.state.humanBody.state.vitals.glasgow.eye).join(': ')\n   + '</br> '\n   + formatMetric('vitals.glasgow.verbal', Context.currentPatient.state.humanBody.state.vitals.glasgow.verbal).join(': ')\n   + '</br> '\n   + formatMetric('vitals.glasgow.motor', Context.currentPatient.state.humanBody.state.vitals.glasgow.motor).join(': ')",
                                   "language" : "TypeScript"
                                 }
                               },

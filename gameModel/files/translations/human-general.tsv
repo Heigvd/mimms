@@ -32,9 +32,9 @@ vitals.motricity.leftArm	left arm motricity	motricité bras gauche
 vitals.motricity.rightArm	right arm motricity	motricité bras droit
 vitals.motricity.leftLeg	left leg motricity	Motricité jambe gauche
 vitals.motricity.rightLeg	right leg motricity	motricité jambe droite
-vitals.glasgow.motor	 - motor	 - moteur
-vitals.glasgow.verbal	 - verbal	 - verbal
-vitals.glasgow.eye	 - eye	 - occulaire
+vitals.glasgow.motor	motor	moteur
+vitals.glasgow.verbal	verbal	verbal
+vitals.glasgow.eye	eye	oculaire
 vitals.glasgow.total	GCS	Glasgow
 vitals.canWalk	Can you walk?	Pouvez-vous marcher ?
 vitals.cardiacArrest	Cardiac arrest?	Arrêt cardiaque ?
@@ -62,5 +62,5 @@ you-are-dead	you're dead...	vous êtes mort...
 you-are-unconscious	you're unconscious	vous êtes inconscient
 you-are-dizzy	you're dizzy	vous êtes non-alerte
 you-are-conscious	you're conscious	vous êtes alerte
-temperature	temperature	temperature
-glycemy	glycemy	glycémie
+temperature	temperature	température
+glycemy	glycemia	glycémie
