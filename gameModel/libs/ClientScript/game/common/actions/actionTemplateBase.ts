@@ -44,7 +44,6 @@ import {
   SelectionFixedMapEntityAction,
   SelectionPCAction,
   SelectionPCFrontAction,
-  SelectionPMAAction,
   SelectionParkAction,
   SendRadioMessageAction,
 } from './actionBase';
@@ -60,6 +59,8 @@ export enum SimFlag {
   ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
   RADIO_SCHEMA_ACTIVATED = 'RADIO_SCHEMA_ACTIVATED',
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
+  PMA_BUILT = 'PMA_BUILT',
+  LEADPMA_ARRIVED = 'LEADPMA_ARRIVED',
 }
 
 const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
@@ -655,7 +656,7 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
 /**
  * Template of an action to select the place of the PMA
  */
-export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
+export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionFixedMapEntityAction> {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
@@ -686,11 +687,11 @@ export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<Select
 
   protected override createActionFromEvent(
     event: FullEvent<SelectionFixedMapEntityEvent>
-  ): SelectionPMAAction {
+  ): SelectionFixedMapEntityAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
-    return new SelectionPMAAction(
+    return new SelectionFixedMapEntityAction(
       payload.triggerTime,
       this.duration,
       event.id,

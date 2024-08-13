@@ -20,10 +20,7 @@ import {
 import { ACSMCSAutoRequestDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import {
-  computeTravelTime,
-  getHospitalById,
-} from '../evacuation/hospitalController';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -698,38 +695,38 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 // place PMA
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionPMAAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
-    super.dispatchEndedEvents(state);
-    localEventManager.queueLocalEvent(
-      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
-    );
-  }
-}
+// export class SelectionPMAAction extends SelectionFixedMapEntityAction {
+//   constructor(
+//     startTimeSec: SimTime,
+//     durationSeconds: SimDuration,
+//     eventId: GlobalEventId,
+//     actionNameKey: TranslationKey,
+//     messageKey: TranslationKey,
+//     ownerId: ActorId,
+//     uuidTemplate: ActionTemplateId,
+//     fixedMapEntity: FixedMapEntity,
+//     provideFlagsToState: SimFlag[] = []
+//   ) {
+//     super(
+//       startTimeSec,
+//       durationSeconds,
+//       eventId,
+//       actionNameKey,
+//       messageKey,
+//       ownerId,
+//       uuidTemplate,
+//       fixedMapEntity,
+//       provideFlagsToState
+//     );
+//   }
+//
+//   protected override dispatchEndedEvents(state: MainSimulationState): void {
+//     super.dispatchEndedEvents(state);
+//     localEventManager.queueLocalEvent(
+//       new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
+//     );
+//   }
+// }
 
 // -------------------------------------------------------------------------------------------------
 // place park
@@ -1342,7 +1339,6 @@ export class EvacuationAction extends RadioDrivenAction {
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
-
       );
     }
   }
