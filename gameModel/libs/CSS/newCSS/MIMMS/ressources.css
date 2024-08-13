@@ -56,9 +56,9 @@
 .resourceCounter-container {
 	width: 1.5em;
 	height: 1.5em;
-	background-color: var(--gray_WHITE);
-	color: var(--gray_700);
-	border: 1px solid var(--gray_700);
+	background-color: var(--grey-white);
+	color: var(--grey_70);
+	border: 1px solid var(--grey_70);
 	border-radius: 100%;
 }
 
@@ -95,8 +95,8 @@
 }
 
 .greyRessources > *{
-	color: var(--gray_300);
-	border-color: var(--gray_300);
+	color: var(--grey_0);
+	border-color: var(--grey_0);
 	
 }
 
