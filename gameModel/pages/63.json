@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\n \tgetNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\n  if(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
@@ -79,7 +79,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages();",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.RESOURCES_RADIO));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",

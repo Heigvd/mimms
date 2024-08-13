@@ -17,13 +17,10 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
-import { ACSMCSAutoRequestDelay } from '../constants';
+import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import {
-  computeTravelTime,
-  getHospitalById,
-} from '../evacuation/hospitalController';
+import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -51,6 +48,7 @@ import {
   MoveFreeWaitingResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
+  PretriageReportResponseLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -1143,6 +1141,93 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
 }
 
 /**
+ * The result of the action is to request state of pretriage in a specific location
+ */
+export class RequestPretriageReportAction extends RadioDrivenAction {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private pretriageLocation: LOCATION_ENUM
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackWhenStarted,
+      ownerId,
+      uuidTemplate
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event RequestPretriageReportAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    localEventManager.queueLocalEvent(
+      new PretriageReportResponseLocalEvent(
+        this.eventId,
+        state.getSimTime() + PretriageReportResponseDelay,
+        'D424',
+        0,
+        this.pretriageLocation,
+        this.feedbackWhenReport
+      )
+    );
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(_state: MainSimulationState): void {
+    return;
+  }
+
+  private formatStartMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+    ]);
+  }
+
+  public getChannel(): ActionType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return this.formatStartMessage();
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)!.FullName;
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
+  }
+}
+
+/**
  * The result of the action is to spread a handwritten message from a player through a radio channel
  */
 export class SendRadioMessageAction extends RadioDrivenAction {
@@ -1342,7 +1427,6 @@ export class EvacuationAction extends RadioDrivenAction {
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
-
       );
     }
   }

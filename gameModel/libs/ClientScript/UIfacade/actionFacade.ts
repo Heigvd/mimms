@@ -11,6 +11,7 @@ import {
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
@@ -149,6 +150,14 @@ export function isEvacuationActionTemplate(id: number): boolean {
     ActionType.EVASAN_RADIO
   ).find(t => t.Uid === id);
   return template instanceof EvacuationActionTemplate;
+}
+
+export function isPretriageReportTemplate(id: number): boolean {
+  const template = getAvailableActions(
+    Context.interfaceState.state.currentActorUid,
+    ActionType.PRETRIAGE_REPORT
+  ).find(t => t.Uid === id);
+  return template instanceof PretriageReportTemplate;
 }
 
 /**

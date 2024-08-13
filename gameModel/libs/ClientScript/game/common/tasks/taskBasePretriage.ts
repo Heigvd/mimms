@@ -17,13 +17,12 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   getNextNonPreTriagedPatient,
   getNonPreTriagedPatientsSize,
-  getPreTriagedAmountByTagName,
 } from '../simulationState/patientState';
 import { TaskBase } from './taskBase';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 
 /**
  * Default behaviour of a task
@@ -92,17 +91,6 @@ export class PreTriageTask extends TaskBase {
         new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
       );
 
-      //get distinct pretriage categories with count
-      let result = 'Result: ';
-      Object.entries(getPreTriagedAmountByTagName(state, this.locationSource)).forEach(
-        ([key, value]) => {
-          result += key + ': ' + value + '\n';
-        }
-      );
-
-      const locationName = state
-        .getInternalStateObject()
-        .mapLocations.find(l => l.id === this.locationSource)!.name;
       // We broadcast a message that task is completed (recipient = 0)
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
@@ -110,10 +98,13 @@ export class PreTriageTask extends TaskBase {
           state.getSimTime(),
           0,
           'resources',
-          `${getTranslation('mainSim-locations', locationName)} - ` +
-            getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) +
-            '\n' +
-            result,
+          formatStandardPretriageReport(
+            state,
+            this.locationSource,
+            'pretriage-report-task-feedback-report',
+            true,
+            false
+          ),
           ActionType.RESOURCES_RADIO,
           false,
           true

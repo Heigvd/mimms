@@ -23,6 +23,7 @@ import {
   AppointActorEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
+  RequestPretriageReportEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
 import { FullEvent } from '../events/eventUtils';
@@ -47,6 +48,7 @@ import {
   SelectionPMAAction,
   SelectionParkAction,
   SendRadioMessageAction,
+  RequestPretriageReportAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -414,6 +416,96 @@ export class CasuMessageTemplate extends StartEndTemplate<
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO &&
+          (a as RadioDrivenAction).ownerId === actorUid
+      ).length === 0
+    );
+  }
+}
+
+export type PretriageReportActionPayload = {
+  pretriageLocation: LOCATION_ENUM;
+};
+
+export class PretriageReportTemplate extends StartEndTemplate<
+  RequestPretriageReportAction,
+  RequestPretriageReportEvent,
+  PretriageReportActionPayload
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackWhenStarted,
+      replayable,
+      ActionType.PRETRIAGE_REPORT,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'PretriageReportTemplate' + '_' + this.title;
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<RequestPretriageReportEvent>
+  ): RequestPretriageReportAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new RequestPretriageReportAction(
+      payload.triggerTime,
+      this.duration,
+      this.feedbackWhenStarted,
+      this.feedbackWhenReport,
+      this.title,
+      event.id,
+      ownerId,
+      this.Uid,
+      payload.pretriageLocation
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    params: PretriageReportActionPayload
+  ): RequestPretriageReportEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      pretriageLocation: params.pretriageLocation,
+    };
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof RadioDrivenAction &&
+          (a as RadioDrivenAction).getChannel() === ActionType.PRETRIAGE_REPORT &&
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
