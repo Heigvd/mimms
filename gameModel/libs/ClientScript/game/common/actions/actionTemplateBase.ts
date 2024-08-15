@@ -28,7 +28,7 @@ import {
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -1041,7 +1041,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     replayable = true,
     readonly wentWrongMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
-    readonly typeOfResource: ResourceType,
+    readonly typeOfResource: HumanResourceType[],
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[]

@@ -390,7 +390,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
-    'ambulancier',
+    ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
   );
@@ -403,7 +403,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-LeadPMA-no-resource-feedback',
     'LEADPMA',
-    'ambulancier' || 'medecinJunior' || 'medecinSenior', // TBD by HUG
+    ['medecinJunior', 'ambulancier'],
     [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.LEADPMA_ARRIVED]
   );
