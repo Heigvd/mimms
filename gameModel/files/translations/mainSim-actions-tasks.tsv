@@ -69,6 +69,9 @@ appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Nommer un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
 appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous	
+open-PMA-title	Open the advanced medical post	Ouvrir le poste médical avancé (PMA)	
+open-PMA-desc	Open the medical post to patients	Ouvrir le poste médical avancé aux patients	
+open-PMA-feedback	The advanced medical post has been opened	Le poste médical avancé a été ouvert	
 activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
 activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
 activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	

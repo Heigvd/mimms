@@ -453,6 +453,19 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    undefined,
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
+  );
+
   const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
@@ -587,6 +600,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[casuMessage.getTemplateRef()] = casuMessage;
   templates[radioMessage.getTemplateRef()] = radioMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
