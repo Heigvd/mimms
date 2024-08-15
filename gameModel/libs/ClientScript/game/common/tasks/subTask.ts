@@ -1,6 +1,7 @@
-import { ActorId, GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId } from '../baseTypes';
+import {ActorId, GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId, TranslationKey} from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
+import {EvacuationSquadDefinition} from "../evacuation/evacuationSquadDef";
 
 const SUB_TASK_SEED_ID: SubTaskId = 5000;
 
@@ -63,7 +64,9 @@ export class EvacuationSubTask extends SubTask {
     doResourcesComeBack: boolean,
     parentEventId: GlobalEventId,
     ownerId: ActorId,
-    travelTime: number
+    travelTime: number,
+    public feedbackWhenReturning: TranslationKey,
+    public squadDef: EvacuationSquadDefinition
   ) {
     super(resources, patientId);
     this.hospitalId = hospitalId;

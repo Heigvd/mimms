@@ -75,6 +75,11 @@ export interface EvacuationSquadDefinition {
   mainVehicleTranslation: TranslationKey;
 
   /**
+   * Translation to designate the main vehicle
+   */
+  mainVehicleTranslationNoun: TranslationKey;
+
+  /**
    * Translation to indicate if there are healers
    */
   healerPresenceTranslation: TranslationKey;
@@ -104,6 +109,7 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     infoNbDrivers: 1,
     infoNbHealers: 0,
     mainVehicleTranslation: 'by-ambulance',
+    mainVehicleTranslationNoun: 'ambulance',
     healerPresenceTranslation: 'without-healer',
   },
 
@@ -125,6 +131,7 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     infoNbDrivers: 1,
     infoNbHealers: 1,
     mainVehicleTranslation: 'by-ambulance',
+    mainVehicleTranslationNoun: 'ambulance',
     healerPresenceTranslation: 'with-healer',
   },
 
@@ -146,6 +153,7 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     infoNbDrivers: 1,
     infoNbHealers: 2,
     mainVehicleTranslation: 'by-helicopter',
+    mainVehicleTranslationNoun: 'helicopter',
     healerPresenceTranslation: 'with-healers',
   },
 };

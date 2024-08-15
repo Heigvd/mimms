@@ -14,12 +14,17 @@ import { TaskBase } from './taskBase';
 import { EvacuationSubTask } from './subTask';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
+  AddRadioMessageLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   MovePatientLocalEvent,
   MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
+import {ActionType} from "../actionType";
+import {getTranslation} from "../../../tools/translation";
+import {EvacuationSquadDefinition} from "../evacuation/evacuationSquadDef";
+import {formatTravelTimeToMinutes} from "../evacuation/hospitalController";
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task
@@ -55,7 +60,9 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     hospitalId: HospitalId,
     patientUnitAtHospital: PatientUnitTypology,
     doResourcesComeBack: boolean,
-    travelTime: number
+    travelTime: number,
+    feedbackWhenReturning: TranslationKey,
+    squadDef: EvacuationSquadDefinition
   ) {
     const newSubTask: EvacuationSubTask = new EvacuationSubTask(
       resourcesId,
@@ -65,7 +72,9 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       doResourcesComeBack,
       parentEventId,
       ownerId,
-      travelTime
+      travelTime,
+      feedbackWhenReturning,
+      squadDef
     );
 
     this.subTasks[newSubTask.subTaskId] = newSubTask;
@@ -153,6 +162,34 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         patientUnit: subTask.patientUnitAtHospital,
       })
     );
+    if (subTask.doResourcesComeBack) {
+      // Send radio message on CASU about time needed to come back to incident when arriving at hospital
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          subTask.parentEventId,
+          state.getSimTime(),
+          0,
+          '0',
+          subTask.feedbackWhenReturning,
+          ActionType.CASU_RADIO,
+          true,
+          false,
+          [
+            getTranslation(
+              'mainSim-actions-tasks',
+              subTask.squadDef.mainVehicleTranslationNoun,
+              false
+            ),
+            getTranslation(
+              'mainSim-actions-tasks',
+              subTask.squadDef.healerPresenceTranslation,
+              false
+            ),
+            formatTravelTimeToMinutes(subTask.travelTime),
+          ]
+        )
+      );
+    }
   }
 
   private launchEventsWhenResourcesComeBack(
