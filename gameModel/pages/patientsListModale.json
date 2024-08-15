@@ -632,7 +632,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.rightArm');",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.right');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -671,7 +671,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.leftArm');",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.left');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -710,7 +710,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.rightLeg');",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.right');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -749,7 +749,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','vitals.motricity.leftLeg');",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.left');",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -801,7 +801,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state) + ' mmol/l'",
+                                  "content" : "import { getBloodSugarLevel } from \"./UIfacade/patientFacade\";\n  getBloodSugarLevel(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -853,7 +853,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  \n  getTemperature(Context.currentPatient.state.humanBody.state) +'°'",
+                                  "content" : "import { getTemperature } from \"./UIfacade/patientFacade\";\n  getTemperature(Context.currentPatient.state.humanBody.state);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -894,6 +894,11 @@
                                       "margin" : "10px"
                                     },
                                     "name" : "human",
+                                    "onPointerOver" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ ],
+                                      "content" : "  Context.currentPatient.setState({...Context.currentPatient.state, observedBlock: '' })\n  return;"
+                                    },
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
@@ -907,8 +912,22 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "afflictedBlock observedBlock",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.block.blockName === Context.currentPatient.state.observedBlock;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "layoutClassName" : "block afflictedBlock",
                                         "layoutStyle" : { },
+                                        "onPointerOver" : {
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ ],
+                                          "content" : "  Context.currentPatient.setState({...Context.currentPatient.state, observedBlock: Context.block.blockName });\n  return;"
+                                        },
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
@@ -976,7 +995,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'patientDetails')}`;",
                               "language" : "TypeScript"
                             }
                           },
@@ -1000,17 +1019,46 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
+                                        "className" : "patient-block-name",
                                         "layoutStyle" : { },
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "Context.block.data;",
+                                          "content" : "import { getTranslatedBlockName } from \"./UIfacade/patientFacade\";\n getTranslatedBlockName(Context.block.name);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.block.details;",
                                           "language" : "TypeScript"
                                         }
                                       },
                                       "type" : "Text"
                                     } ],
                                     "className" : "block-details",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "patient-block-details-highlighted",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "Context.block.name === Context.currentPatient.state.observedBlock;",
+                                        "language" : "typescript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
+                                      "className" : "patient-block-details",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "  // just to avoid that it moves. (shame on me)\nContext.block.name !== Context.currentPatient.state.observedBlock;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
@@ -1024,7 +1072,7 @@
                                 "exposeAs" : "block",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAfflictedBlocksDetails } from \"./UIfacade/patientFacade\";\ngetAfflictedBlocksDetails(Context.currentPatient.state.patientId).map((data, i) => ({\n\tid: i, \n\tdata: data\n}));",
+                                  "content" : "import { getAfflictedBlocksDetails } from \"./UIfacade/patientFacade\";\ngetAfflictedBlocksDetails(Context.currentPatient.state.patientId).map((data, i) => ({\n\tid: i, \n  name: data.block,\n\tdetails: data.details\n}));",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -1096,13 +1144,14 @@
             "exposeAs" : "currentPatient",
             "initialState" : {
               "@class" : "Script",
-              "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\ngetPatient(Context.interfaceState.state.selectedPatient)!",
+              "content" : "import { getPatient } from \"./UIfacade/patientFacade\";\n({...getPatient(Context.interfaceState.state.selectedPatient)!, observedBlock: ''})",
               "language" : "TypeScript"
             },
             "layoutStyle" : {
               "width" : "100%"
             },
             "localState" : false,
+            "name" : "current patient",
             "style" : { }
           },
           "type" : "State"

@@ -1475,18 +1475,25 @@ export function getAfflictedBlocksOfHuman(
   return Object.keys(output);
 }
 
+export interface AfflictedBlockDetails {
+  block: string;
+  details: string;
+}
+
 export function getAfflictedBlocksDetailsOfHuman(
   human: HumanBody,
   health: HumanHealth,
   currentTime: number,
   fullDetails: boolean = false
-): string[] {
+): AfflictedBlockDetails[] {
   const blocks = getAfflictedBlocksOfHuman(human, health, currentTime, fullDetails);
 
-  const result = blocks.map(block =>
-    getBlockDetailOfHuman(human, health, currentTime, block, fullDetails)
-  );
-  return result;
+  return blocks.map(block => {
+    return {
+      block: block,
+      details: getBlockDetailOfHuman(human, health, currentTime, block, fullDetails),
+    };
+  });
 }
 
 export function getAfflictedBlocksDetails() {

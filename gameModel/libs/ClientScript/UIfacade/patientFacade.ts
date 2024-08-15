@@ -10,6 +10,7 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
 import {
+  AfflictedBlockDetails,
   formatMetric,
   getAfflictedBlocksDetailsOfHuman,
   getAfflictedBlocksOfHuman,
@@ -19,7 +20,7 @@ import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/
 import { PatientId } from '../game/common/baseTypes';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
-import { getTranslation } from '../tools/translation';
+import { getBlockTranslation, getTranslation } from '../tools/translation';
 
 /**
  * @returns All currently present patients
@@ -53,7 +54,11 @@ export function keepStateAlive({ state, setState }: FullState) {
 // human body
 // -------------------------------------------------------------------------------------------------
 
-export function getAfflictedBlocksDetails(id: string): string[] {
+export function getTranslatedBlockName(blockName: string): string {
+  return getBlockTranslation(blockName);
+}
+
+export function getAfflictedBlocksDetails(id: string): AfflictedBlockDetails[] {
   const human = getPatient(id)!.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
@@ -185,11 +190,11 @@ export function getPatientsSummary() {
 // -------------------------------------------------------------------------------------------------
 
 export function getHeartRate(state: BodyState): string {
-  return state.vitals.cardio.hr.toFixed() + '/min';
+  return state.vitals.cardio.hr.toFixed() + ' /min';
 }
 
 export function getRespirationRate(state: BodyState): string {
-  return state.vitals.respiration.rr.toFixed() + '/min';
+  return state.vitals.respiration.rr.toFixed() + ' /min';
 }
 
 export function getDiastolicPressure(state: BodyState): string {
@@ -203,7 +208,7 @@ export function getSystolicPressure(state: BodyState): string {
 export function getBloodPressure(state: BodyState): string {
   const dp = getDiastolicPressure(state);
   const sp = getSystolicPressure(state);
-  return sp + '/' + dp + ' mmHg';
+  return sp + ' / ' + dp + ' mmHg';
 }
 
 export function getEtCO2(state: BodyState): string {
@@ -230,9 +235,9 @@ export function getPainValue(state: BodyState): string {
 }
 
 export function getBloodSugarLevel(state: BodyState): string {
-  return state.vitals.cardio.bloodSugarLevel.toFixed(1);
+  return state.vitals.cardio.bloodSugarLevel.toFixed(1) + ' mmol/l';
 }
 
 export function getTemperature(state: BodyState): string {
-  return state.vitals.temperature.toFixed(1);
+  return state.vitals.temperature.toFixed(1) + '°';
 }
