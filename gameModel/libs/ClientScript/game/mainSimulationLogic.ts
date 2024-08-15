@@ -1,6 +1,7 @@
 /**
  * Setup function
  */
+import { updateLastState } from '../dashboard/impacts';
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
@@ -635,16 +636,22 @@ export function runUpdateLoop(): void {
  */
 function processEvent(event: FullEvent<TimedEventPayload>) {
   const now = currentSimulationState.getSimTime();
-  if (event.payload.triggerTime < now) {
-    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-    mainSimLogger.warn(
-      'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
-    );
-    return;
-  } else if (event.payload.triggerTime > now) {
-    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-    mainSimLogger.warn('This event will be processed later');
-    return;
+  if (!event.payload.bypassTriggerTime) {
+    if (event.payload.triggerTime < now) {
+      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+      mainSimLogger.warn(
+        'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
+      );
+      return;
+    } else if (event.payload.triggerTime > now) {
+      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+      mainSimLogger.warn('This event will be processed later');
+      return;
+    }
+  } else {
+    // DEBUG
+    mainSimLogger.warn('!!! Bypassed trigger time event', event);
+    event.payload.triggerTime = now; // make sure event is applied now
   }
 
   switch (event.payload.type) {
@@ -712,10 +719,15 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
       break;
     case 'TimeForwardEvent':
       {
+        // if event is forced, take all actors regardless
+        const involved = event.payload.forced
+          ? currentSimulationState.getAllActors().map(a => a.Uid)
+          : event.payload.involvedActors;
+
         const timefwdEvent = new TimeForwardLocalEvent(
           event.id,
           event.payload.triggerTime,
-          event.payload.involvedActors,
+          involved,
           event.payload.timeJump
         );
         localEventManager.queueLocalEvent(timefwdEvent);
@@ -749,6 +761,7 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
     mainSimLogger.info('updating current state', newState.stateCount);
     currentSimulationState = newState;
     stateHistory.push(newState);
+    updateLastState(newState);
   }
 }
 
@@ -828,6 +841,7 @@ export async function triggerTimeForward(): Promise<IManagedResponse> {
     triggerTime: currentSimulationState.getSimTime(),
     timeJump: TimeSliceDuration,
     involvedActors: actorIds,
+    forced: false,
     type: 'TimeForwardEvent',
   };
 

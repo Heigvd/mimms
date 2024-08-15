@@ -1,0 +1,86 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"<p>Trigger time forward<br></p>\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { triggerDashboardTimeForward } from \"./game/mainSimulationLogic\";\ntriggerDashboardTimeForward(1);",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Button"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  const id = Context.item.id;\n  'Team : ' + id;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Time forward<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ]
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "  teams.map(t => ({id: t.getId(), name: t.getName()}))",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "Teams",
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

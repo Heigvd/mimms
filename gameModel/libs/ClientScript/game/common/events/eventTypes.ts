@@ -188,6 +188,10 @@ interface TimedPayload {
    * Simulation time at which the event has to take effect
    */
   triggerTime: SimTime;
+  /**
+   * Ignore trigger time when processing this event
+   */
+  bypassTriggerTime?: boolean;
 }
 
 export type TimedEventPayload = TimedPayload & EventPayload;
@@ -234,6 +238,11 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
    * The time duration to jump forward
    */
   timeJump: SimDuration;
+
+  /**
+   * set to true when triggered by trainer. involvedActors are ignored
+   */
+  forced: boolean;
 }
 
 /**

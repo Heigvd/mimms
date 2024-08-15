@@ -193,6 +193,8 @@
           "startMenuPageLoader": SNumberDescriptor;
           'display_debug_button': SBooleanDescriptor;
           "readRadioMessagesByChannel": SObjectDescriptor;
+          "currentStateCount": SNumberDescriptor;
+          "currentState": SObjectDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(

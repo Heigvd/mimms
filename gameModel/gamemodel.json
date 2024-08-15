@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1723203378236,
+  "createdTime" : 1723733521795,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5085,6 +5085,86 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:1087352:URRCKc"
+    },
+    "editorTag" : "dashboard",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "Contains the last computed state of the team's main simulation",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:1087303:DPBrfZ"
+      },
+      "description" : "",
+      "editorTag" : "currentState",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1087304:OjFNkp",
+        "translations" : { }
+      },
+      "name" : "currentState",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:1087302:mzXlDQ",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "Contains the last computed state id",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1087357:5G3oPN",
+        "value" : 0.0
+      },
+      "defaultValue" : 0.0,
+      "editorTag" : "currentStateCount",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1087358:8seO4W",
+        "translations" : { }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "currentStateCount",
+      "refId" : "NumberDescriptor:1087356:MPzI0g",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:1087353:tlRWj7",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:1087353:tlRWj7::EN",
+          "status" : "",
+          "translation" : "dashboard"
+        }
+      }
+    },
+    "name" : "dashboard",
+    "refId" : "ListDescriptor:1087351:Wdjfbp",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -5110,6 +5190,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#54:64EhfL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/impacts",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1087301:4BmFap",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6519,6 +6608,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "CustomDashboard",
+    "contentType" : "application/javascript",
+    "libraryType" : "ServerScript",
+    "refId" : "GameModelContent:1087230:VYn2cq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "Dashboard",
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
@@ -6589,7 +6687,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "pretri_09-08-24_correctBrokenThings",
+  "name" : "MIMMS - XGO dev MIM-263",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -3,6 +3,8 @@
  * Server-side event manager
  */
 var EventManager = (function () {
+  var Long = Java.type('java.lang.Long');
+
   function lock(player) {
     var thePlayer = player || self;
     // !!!!!!!!!!!!!! Do NOT load events before locking !!!!!!!!!!!!!!!!!
@@ -38,11 +40,30 @@ var EventManager = (function () {
     lastEventI.setValue(newEvent.getId());
   }
 
+  function findTeamById(id) {
+    var teams = self.getGame().getTeams();
+    //teams.stream().forEach(function(t) {if(t.getId().equals(new Long(1087156))){team = t;}});
+    return teams
+      .stream()
+      .filter(function (t) {
+        return t.getId().equals(new Long(id));
+      })
+      .findFirst()
+      .get();
+  }
   /**
    * New implementation using new EventBox dedicated type
    */
-  function sendNewEvent(payload, time, player) {
+  function sendNewEvent(payload, time, teamId) {
     lock();
+
+    var player = undefined;
+    if (teamId) {
+      var team = findTeamById(teamId);
+      if (team) {
+        player = team.getAnyLivePlayer();
+      }
+    }
     var thePlayer = player || self;
     var realTime = getEventTime(time, thePlayer);
 
@@ -217,8 +238,6 @@ var EventManager = (function () {
     postEvent: function (payload, time) {
       sendEvent(payload, time);
     },
-    postNewEvent: function (payload, time) {
-      sendNewEvent(payload, time);
-    },
+    postNewEvent: sendNewEvent,
   };
 })();
