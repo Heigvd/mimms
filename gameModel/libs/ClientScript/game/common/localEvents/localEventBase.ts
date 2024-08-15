@@ -45,6 +45,11 @@ import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actor
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import {
+  getTaskByLocationAndClass,
+  getTaskCurrentStatus,
+} from '../simulationState/taskStateAccess';
+import { PreTriageTask } from '../tasks/taskBasePretriage';
 
 export interface LocalEvent {
   type: string;
@@ -935,19 +940,28 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
+    const taskStatus: TaskStatus = getTaskCurrentStatus(
+      state,
+      getTaskByLocationAndClass(state, PreTriageTask, this.pretriageLocation).Uid
+    );
+
     localEventManager.queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.parentEventId,
         this.simTimeStamp,
         this.recipient,
         this.senderId,
-        formatStandardPretriageReport(
-          state,
-          this.pretriageLocation,
-          this.feedbackWhenReport,
-          false,
-          true
-        ),
+        taskStatus === 'Uninitialized'
+          ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+              getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+            ])
+          : formatStandardPretriageReport(
+              state,
+              this.pretriageLocation,
+              this.feedbackWhenReport,
+              false,
+              true
+            ),
         this.channel,
         true,
         true

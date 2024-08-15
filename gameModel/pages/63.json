@@ -99,12 +99,12 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"67\"",
+          "content" : "\"68\"",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "resources management",
+        "name" : "resources management and reports",
         "style" : { }
       },
       "type" : "PageLoader"

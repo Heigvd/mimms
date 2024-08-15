@@ -27,12 +27,11 @@ export function formatStandardPretriageReport(
           getTranslation('mainSim-locations', 'location-' + pretriageLocation),
         ])) +
     '\n\n' +
-    (includeNonPretriagedInfo
+    (includeNonPretriagedInfo && getNonPreTriagedPatientsSize(state, pretriageLocation) > 0
       ? getTranslation(
           'mainSim-actions-tasks',
           feedbackReportTranslationPrefix + 'NonPretriaged',
-          false,
-          [getNonPreTriagedPatientsSize(state, pretriageLocation)]
+          false
         ) + '\n\n'
       : '') +
     getTranslation('mainSim-actions-tasks', feedbackReportTranslationPrefix + 'Report', false) +
