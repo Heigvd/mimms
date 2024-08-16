@@ -10,13 +10,17 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
 import {
+  AfflictedBlockDetails,
+  formatMetric,
   getAfflictedBlocksDetailsOfHuman,
   getAfflictedBlocksOfHuman,
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
 import { PatientId } from '../game/common/baseTypes';
-import { HumanBody } from '../HUMAn/human';
+import { BodyState, HumanBody } from '../HUMAn/human';
+import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
+import { getBlockTranslation, getTranslation } from '../tools/translation';
 
 /**
  * @returns All currently present patients
@@ -50,7 +54,11 @@ export function keepStateAlive({ state, setState }: FullState) {
 // human body
 // -------------------------------------------------------------------------------------------------
 
-export function getAfflictedBlocksDetails(id: string): string[] {
+export function getTranslatedBlockName(blockName: string): string {
+  return getBlockTranslation(blockName);
+}
+
+export function getAfflictedBlocksDetails(id: string): AfflictedBlockDetails[] {
   const human = getPatient(id)!.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
@@ -58,7 +66,7 @@ export function getAfflictedBlocksDetails(id: string): string[] {
   };
   const currentTime = getCurrentState().getSimTime();
 
-  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, true);
+  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, false);
 }
 
 function getAfflictedBlocks(id: string): string[] {
@@ -178,5 +186,58 @@ export function getPatientsSummary() {
 }
 
 // -------------------------------------------------------------------------------------------------
-//
+// Body State Values
 // -------------------------------------------------------------------------------------------------
+
+export function getHeartRate(state: BodyState): string {
+  return state.vitals.cardio.hr.toFixed() + ' /min';
+}
+
+export function getRespirationRate(state: BodyState): string {
+  return state.vitals.respiration.rr.toFixed() + ' /min';
+}
+
+export function getDiastolicPressure(state: BodyState): string {
+  return computeDiastolicPressure(state).toFixed();
+}
+
+export function getSystolicPressure(state: BodyState): string {
+  return computeSystolicPressure(state).toFixed();
+}
+
+export function getBloodPressure(state: BodyState): string {
+  const dp = getDiastolicPressure(state);
+  const sp = getSystolicPressure(state);
+  return sp + ' / ' + dp + ' mmHg';
+}
+
+export function getEtCO2(state: BodyState): string {
+  if (isIntubated(state)) return state.vitals.respiration.PaCO2.toFixed();
+  else return getTranslation('human-general', 'no-intubation-set');
+}
+
+export function getSpO2Percent(state: BodyState): string {
+  return (state.vitals.respiration.SpO2 * 100).toFixed() + '%';
+}
+
+export function isIntubated(state: BodyState): boolean {
+  if (!state) return false;
+  return state.blocks.get('NECK')?.params.intubated ? true : false;
+}
+
+/**
+ * format : x/10 with x from 0 to 10
+ */
+export function getPainValue(state: BodyState): string {
+  if (!state) return '';
+  const [_, value] = formatMetric('vitals.visiblePain', state.vitals.pain);
+  return value;
+}
+
+export function getBloodSugarLevel(state: BodyState): string {
+  return state.vitals.cardio.bloodSugarLevel.toFixed(1) + ' mmol/l';
+}
+
+export function getTemperature(state: BodyState): string {
+  return state.vitals.temperature.toFixed(1) + '°';
+}
