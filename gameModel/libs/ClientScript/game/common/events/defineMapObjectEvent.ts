@@ -49,7 +49,7 @@ export abstract class FixedMapEntity {
   public isBuiltAndAccessible(kind: LocationAccessibilityKind | undefined): boolean {
     const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
 
-    let isAccessible: boolean = false;
+    let isAccessible: boolean;
     if (kind !== undefined) {
       isAccessible = this.accessibility[kind];
     } else {
