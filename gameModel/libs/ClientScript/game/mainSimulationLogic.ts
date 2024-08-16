@@ -18,7 +18,6 @@ import {
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
   SelectionPCTemplate,
-  SelectionPMATemplate,
   SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
@@ -408,7 +407,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.LEADPMA_ARRIVED]
   );
 
-  const placePMA = new SelectionPMATemplate(
+  const placePMA = new SelectionFixedMapEntityTemplate(
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration * 4,

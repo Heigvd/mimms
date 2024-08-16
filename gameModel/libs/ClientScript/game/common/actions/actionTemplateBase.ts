@@ -650,62 +650,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
 }
 
 // -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-/**
- * Template of an action to select the place of the PMA
- */
-export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionFixedMapEntityAction> {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    fixedMapEntity: FixedMapEntity,
-    replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      fixedMapEntity,
-      replayable,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
-  }
-
-  public override getTemplateRef(): string {
-    return 'SelectionPMATemplate' + '_' + this.title;
-  }
-
-  protected override createActionFromEvent(
-    event: FullEvent<SelectionFixedMapEntityEvent>
-  ): SelectionFixedMapEntityAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-
-    return new SelectionFixedMapEntityAction(
-      payload.triggerTime,
-      this.duration,
-      event.id,
-      this.title,
-      this.message,
-      ownerId,
-      this.Uid,
-      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
 // place a park item
 // -------------------------------------------------------------------------------------------------
 
