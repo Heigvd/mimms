@@ -71,7 +71,7 @@ export function getTranslatedRecord(
   category: keyof VariableClasses,
   prefix: string
 ): Record<string, any> {
-  let translated: Record<string, number> = {};
+  const translated: Record<string, number> = {};
   Object.entries(record).forEach(([key, value]) => {
     translated[getTranslation(category, prefix + key)] = value;
   });
