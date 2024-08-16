@@ -322,8 +322,6 @@ export function getCategoryCard(): string {
         )}</div>`
       );
     }
-  } else {
-    //output.push("<em>Error [patient not found]</em>");
   }
   return output.join('');
 }
@@ -341,7 +339,6 @@ export function getVisualOverview(): string {
     }
   } else {
     output.push('<em>Loading...</em>');
-    //output.push("<em>Error [patient not found]</em>");
   }
   return output.join('');
 }
@@ -359,23 +356,19 @@ export function getVisualOverviewForHumanId(id: string, resolution: number = 0.0
   return output.join('');
 }
 
-/*
-function getCyanosisPos(cyanosis: boolean, pallor: number): number {
-	let pos = 50;
-	if (cyanosis) {
-		pos += (pallor * 0.5);
-	}
-	else {
-		pos -= (pallor * 0.5);
-	}
-	return pos * .8;
-}
-*/
-
 export function getVisualDetails(): string {
-  const output: string[] = [];
-
   const human = getCurrentPatientBody();
+  return getVisualDetailsFrom(human);
+}
+
+export function getVisualDetailsFrom(
+  human:
+    | (HumanBody & {
+        category: Categorization | undefined;
+      })
+    | undefined
+): string {
+  const output: string[] = [];
   if (human != null) {
     const overview = getOverview(human);
     if (overview) {
@@ -387,14 +380,6 @@ export function getVisualDetails(): string {
           overview.cyanosis
         )}'></div>`
       );
-      //const labelP = getTranslation('pretriage-interface', 'face');
-      //FACE LABEL (was inside the visualDetails_elem div) - <p>${labelP}</p>
-
-      // DEPRECATED - Triangle cursor
-      // const cursorPalor = (overview.colorful * 100 * 0.8) + 5;
-      // const cursorCyan = getCyanosisPos(overview.cyanosis, (overview.colorful * 100)) + 5;
-      // const labelC = getTranslation('pretriage-interface', 'coloration');
-      //output.push(`<div class='visualDetail_elem'><p>${labelC}</p><div class='coloration_triangle'><div class='cyanosis'><div class='pallor'><div class='coloration_cursor' style='left:${cursorPalor}%; top:${cursorCyan}%'></div></div></div></div></div>`);
     }
   }
   return output.join('');
@@ -497,10 +482,6 @@ export function getLocalizedBlocks(blocks: string[]) {
     not_localized: [],
   };
   const toDisplay: BlockName[] = blocks as BlockName[];
-
-  //toDisplay = allBlocks;
-  //toDisplay = extBlocks;
-  //toDisplay  = [ "HEAD", "NECK",  "THORAX_LEFT", "THORAX_RIGHT", "LEFT_SHOULDER", "LEFT_FOREARM", "ABDOMEN", "PELVIS"];
 
   toDisplay.forEach(blockName => {
     const svg = getBlockZone(blockName as BlockName);

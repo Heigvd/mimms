@@ -1,7 +1,7 @@
 @media screen and (min-width: 1200px){
 .selectBodyPartTxt{
 	font-size: var(--SM_text);
-	color: var(--gray_BLACK);
+	color: var(--grey_70);
 	font-family: var(--mainFont);
 	font-weight: var(--boldWeight);
 	padding-right: .8rem;
