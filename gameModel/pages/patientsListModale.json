@@ -352,9 +352,11 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "noPadding noMargin",
                             "layout" : {
                               "justifyContent" : "space-between"
                             },
+                            "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "A",
                             "style" : { }
@@ -600,7 +602,8 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "constantTitle",
+                                "className" : "constantTitle noPadding noMargin",
+                                "layoutClassName" : "noPadding noMargin",
                                 "layoutStyle" : { },
                                 "name" : "Motricity",
                                 "style" : { },
@@ -611,170 +614,191 @@
                                 }
                               },
                               "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "constantTitle",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MSD Title",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.right');",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "constantValue",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MSDvalue",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "noPadding noMargin",
+                                    "layout" : {
+                                      "justifyContent" : "space-between"
+                                    },
+                                    "layoutClassName" : "noPadding noMargin",
+                                    "layoutStyle" : { },
+                                    "name" : "MSD",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "constantTitle",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MSG Title",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.left');",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "constantValue",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MSGvalue",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "noPadding noMargin",
+                                    "layout" : {
+                                      "justifyContent" : "space-between"
+                                    },
+                                    "layoutClassName" : "noPadding noMargin",
+                                    "layoutStyle" : { },
+                                    "name" : "MSG",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "constantTitle",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MIG Title",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.right');",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "constantValue",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MIGvalue",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  \n    getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "noPadding noMargin",
+                                    "layout" : {
+                                      "justifyContent" : "space-between"
+                                    },
+                                    "layoutClassName" : "noPadding noMargin",
+                                    "layoutStyle" : { },
+                                    "name" : "MIG",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "constantTitle",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MID Title",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.left');",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "constantValue",
+                                        "layoutClassName" : "noPadding noMargin",
+                                        "layoutStyle" : { },
+                                        "name" : "MIDvalue",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "noPadding noMargin",
+                                    "layout" : {
+                                      "justifyContent" : "space-between"
+                                    },
+                                    "layoutClassName" : "noPadding noMargin",
+                                    "layoutStyle" : { },
+                                    "name" : "MID",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "pmaPatientInfos-constants-subInfoBox",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
                             } ],
-                            "className" : "noPadding noMargin",
+                            "className" : "",
                             "layout" : {
+                              "flexDirection" : "column",
                               "justifyContent" : "space-between"
                             },
-                            "layoutClassName" : "noPadding noMargin",
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "motricity",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "constantTitle ",
-                                "layoutStyle" : { },
-                                "name" : "MSD Title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.right');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "constantValue",
-                                "layoutStyle" : { },
-                                "name" : "MSDvalue",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightArm);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "justifyContent" : "space-between"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MSD",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "constantTitle",
-                                "layoutStyle" : { },
-                                "name" : "MSG Title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.arm.left');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "constantValue",
-                                "layoutStyle" : { },
-                                "name" : "MSGvalue",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftArm);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "justifyContent" : "space-between"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MSG",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "constantTitle",
-                                "layoutStyle" : { },
-                                "name" : "MIG Title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.right');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "constantValue",
-                                "layoutStyle" : { },
-                                "name" : "MIGvalue",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  \n    getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.leftLeg);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "justifyContent" : "space-between"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MIG",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "constantTitle",
-                                "layoutStyle" : { },
-                                "name" : "MID Title",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general','motricity.leg.left');",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "constantValue",
-                                "layoutStyle" : { },
-                                "name" : "MIDvalue",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('human-general', Context.currentPatient.state.humanBody.state.vitals.motricity.rightLeg);",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "noPadding noMargin",
-                            "layout" : {
-                              "justifyContent" : "space-between"
-                            },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "MID",
                             "style" : { }
                           },
                           "type" : "FlexList"

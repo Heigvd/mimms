@@ -63,6 +63,10 @@
   margin-bottom: 15px;
   }
 
+.pmaPatientInfos-constants-subInfoBox {
+  padding-left: 8px;
+}
+
   /* style for EtCO2 when not intubated */
   .notIntubated{
     color: var(--grey_20);
