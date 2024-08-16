@@ -403,7 +403,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-LeadPMA-no-resource-feedback',
     'LEADPMA',
-    ['medecinJunior', 'ambulancier'],
+    ['infirmier', 'ambulancier'],
     [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.LEADPMA_ARRIVED]
   );
