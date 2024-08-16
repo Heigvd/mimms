@@ -625,6 +625,9 @@ export function runUpdateLoop(): void {
     mainSimLogger.info('Processing event ', event);
     processEvent(event);
   });
+
+  // update last state variable for dashboard
+  updateLastState(currentSimulationState);
 }
 
 /**
@@ -649,7 +652,7 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
       return;
     }
   } else {
-    // DEBUG
+    // from trainer
     mainSimLogger.warn('!!! Bypassed trigger time event', event);
     event.payload.triggerTime = now; // make sure event is applied now
   }
@@ -743,6 +746,20 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         localEventManager.queueLocalEvent(timefwdEvent);
       }
       break;
+    case 'DashboardRadioMessageEvent': {
+      const radioMessageEvent = new AddRadioMessageLocalEvent(
+        event.id,
+        event.payload.triggerTime,
+        0,
+        'Trainer',
+        event.payload.message,
+        event.payload.canal as ActionType, // TODO type properly
+        true,
+        true
+      );
+      localEventManager.queueLocalEvent(radioMessageEvent);
+      break;
+    }
     default:
       if (isLegacyGlobalEvent(event)) {
         mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
@@ -761,7 +778,6 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
     mainSimLogger.info('updating current state', newState.stateCount);
     currentSimulationState = newState;
     stateHistory.push(newState);
-    updateLastState(newState);
   }
 }
 

@@ -2,23 +2,18 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "label" : {
+        "children" : [ ],
+        "exposeAs" : "state",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "\"<p>Trigger time forward<br></p>\"",
+          "content" : "({})",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { triggerDashboardTimeForward } from \"./game/mainSimulationLogic\";\ntriggerDashboardTimeForward(1);",
-            "language" : "TypeScript",
-            "returnType" : "Promise<unknown> | undefined"
-          }
-        },
+        "localState" : false,
         "style" : { }
       },
-      "type" : "Button"
+      "type" : "State"
     }, {
       "props" : {
         "children" : [ {
@@ -29,7 +24,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  const id = Context.item.id;\n  'Team : ' + id;",
+                  "content" : "  const id = Context.item.id;\n  `Team : ${Context.item.name} (${id})`;",
                   "language" : "TypeScript"
                 }
               },
@@ -38,7 +33,7 @@
               "props" : {
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Time forward<br></p>\"",
+                  "content" : "\"<p>Time forward (+3)<br></p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
@@ -46,6 +41,25 @@
                   "script" : {
                     "@class" : "ClientScript",
                     "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Say Hello to CASU<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\n  sendRadioMessage('Helllooo', 'CASU_RADIO', Context.item.id);",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
