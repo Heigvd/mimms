@@ -87,10 +87,11 @@ function getActorNotificationChannelName(actorId: number | undefined = undefined
  * Get unread radio messages, by channel
  */
 function getUnreadMessagesCount(channel: ActionType): number {
-  const readCount =
-    +(Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
+  const readCount = +(
+    Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
       channel
-    ] || '0');
+    ] || '0'
+  );
   return getAvailableRadioMessagesForChannel(channel).length - readCount;
 }
 
