@@ -46,16 +46,14 @@ export abstract class FixedMapEntity {
 
   abstract getGeometricalShape(): GeometricalShape;
 
-  public isBuiltAndAccessible(kind: LocationAccessibilityKind | undefined): boolean {
+  public isBuiltAndAccessible(kind: LocationAccessibilityKind | 'anyKind'): boolean {
     const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
 
     let isAccessible: boolean;
-    if (kind !== undefined) {
+    if (kind !== 'anyKind') {
       isAccessible = this.accessibility[kind];
     } else {
-      // by default, at least one kind of people can be there
-      isAccessible =
-        this.accessibility.Actors || this.accessibility.Resources || this.accessibility.Patients;
+      isAccessible = Object.values(this.accessibility).some(b => b);
     }
 
     return isBuilt && isAccessible;

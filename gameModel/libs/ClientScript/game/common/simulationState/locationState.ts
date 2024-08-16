@@ -30,7 +30,7 @@ export function getMapLocationById(
  */
 export function getAvailableMapLocations(
   state: Readonly<MainSimulationState>,
-  kind: LocationAccessibilityKind | undefined // undefined means that someone can be there, whatever the kind
+  kind: LocationAccessibilityKind | 'anyKind'
 ): FixedMapEntity[] {
   return state
     .getInternalStateObject()

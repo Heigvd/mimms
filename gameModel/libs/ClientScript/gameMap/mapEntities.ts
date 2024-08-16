@@ -12,7 +12,7 @@ import { MapState } from './main';
 // used in page 43
 export function getOverlayItems() {
   // fetch all map locations entities where there can be actors / resources / patients
-  const mapEntities = getAvailableMapLocations(getCurrentState(), undefined);
+  const mapEntities = getAvailableMapLocations(getCurrentState(), 'anyKind');
   const overlayItems: OverlayItem[] = [];
 
   for (const mapEntity of mapEntities) {
