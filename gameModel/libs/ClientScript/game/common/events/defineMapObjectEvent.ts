@@ -29,7 +29,7 @@ export enum BuildingStatus {
   removed = 'removed',
 }
 
-export type AccessibilityType = {
+export type LocationAccessibility = {
   toActors: boolean;
   toResources: boolean;
   toPatients: boolean;
@@ -45,7 +45,7 @@ export abstract class FixedMapEntity {
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
   /** Is it a place that can contain actors / human resources / patients */
-  accessibility!: AccessibilityType;
+  accessibility!: LocationAccessibility;
 
   abstract getGeometricalShape(): GeometricalShape;
 }
@@ -62,7 +62,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     geometricalShape: GeometricalShape,
     buildingStatus: BuildingStatus,
     icon?: string,
-    accessibility: AccessibilityType = { toActors: true, toResources: true, toPatients: true }
+    accessibility: LocationAccessibility = { toActors: true, toResources: true, toPatients: true }
   ) {
     super();
     this.ownerId = ownerId;
