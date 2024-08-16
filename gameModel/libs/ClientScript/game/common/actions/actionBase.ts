@@ -814,7 +814,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, 'Actor', this.location)) {
+    if (!canMoveToLocation(state, 'Actors', this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1045,7 +1045,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           'move-res-task-refused'
         )
       );
-    } else if (!canMoveToLocation(state, 'Resource', this.targetLocation)) {
+    } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(

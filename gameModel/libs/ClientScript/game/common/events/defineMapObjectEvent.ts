@@ -29,25 +29,37 @@ export enum BuildingStatus {
   removed = 'removed',
 }
 
-export type LocationAccessibility = {
-  toActors: boolean;
-  toResources: boolean;
-  toPatients: boolean;
-};
+export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
+/** Is it a place that can contain actors / resources / patients */
+export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
   name!: TranslationKey;
-  id!: LOCATION_ENUM; //symbolicPosition, LOCATION_ENUM
+  id!: LOCATION_ENUM;
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  /** Is it a place that can contain actors / human resources / patients */
   accessibility!: LocationAccessibility;
 
   abstract getGeometricalShape(): GeometricalShape;
+
+  public isBuiltAndAccessible(kind: LocationAccessibilityKind | undefined): boolean {
+    const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
+
+    let isAccessible: boolean = false;
+    if (kind !== undefined) {
+      isAccessible = this.accessibility[kind];
+    } else {
+      // by default, at least one kind of people can be there
+      isAccessible =
+        this.accessibility.Actors || this.accessibility.Resources || this.accessibility.Patients;
+    }
+
+    return isBuilt && isAccessible;
+  }
 }
 
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
@@ -62,7 +74,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     geometricalShape: GeometricalShape,
     buildingStatus: BuildingStatus,
     icon?: string,
-    accessibility: LocationAccessibility = { toActors: true, toResources: true, toPatients: true }
+    accessibility: LocationAccessibility = { Actors: true, Resources: true, Patients: true }
   ) {
     super();
     this.ownerId = ownerId;

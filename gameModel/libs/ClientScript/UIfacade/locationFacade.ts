@@ -8,7 +8,7 @@ import { getActor } from './actorFacade';
 export function getActorMapLocationChoices(): { label: string; value: string }[] {
   const currentActor = getActor(Context.interfaceState.state.currentActorUid);
 
-  const locations = getAvailableMapLocations(getCurrentState(), 'Actor')
+  const locations = getAvailableMapLocations(getCurrentState(), 'Actors')
     /* filter out the current location */
     .filter(fixedEntity => fixedEntity.id != currentActor!.Location);
 
@@ -17,7 +17,7 @@ export function getActorMapLocationChoices(): { label: string; value: string }[]
 
 // used in page 67
 export function getResourceMapLocationChoices(): { label: string; value: string }[] {
-  const locations = getAvailableMapLocations(getCurrentState(), 'Resource');
+  const locations = getAvailableMapLocations(getCurrentState(), 'Resources');
   return getLocationChoicesData(locations);
 }
 

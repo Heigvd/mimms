@@ -1,4 +1,4 @@
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { FixedMapEntity, LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { MainSimulationState } from './mainSimulationState';
 
 /**
@@ -15,8 +15,6 @@ export enum LOCATION_ENUM {
   remote = 'remote',
   AccReg = 'AccReg', // ways to access and leave the site
 }
-
-export type LocationAccessibilityKind = 'Actor' | 'Resource' | 'Patient';
 
 export function getMapLocationById(
   state: Readonly<MainSimulationState>,
@@ -36,7 +34,7 @@ export function getAvailableMapLocations(
 ): FixedMapEntity[] {
   return state
     .getInternalStateObject()
-    .mapLocations.filter((mapLocation: FixedMapEntity) => isBuiltAndAccessible(mapLocation, kind));
+    .mapLocations.filter((mapLocation: FixedMapEntity) => mapLocation.isBuiltAndAccessible(kind));
 }
 
 /**
@@ -55,33 +53,5 @@ export function canMoveToLocation(
 
   // Other locations must be ready and allow to contain people
   const mapLocationEntity: FixedMapEntity | undefined = getMapLocationById(state, location);
-  return mapLocationEntity != undefined && isBuiltAndAccessible(mapLocationEntity, kind);
-}
-
-function isBuiltAndAccessible(
-  mapLocation: FixedMapEntity,
-  kind: LocationAccessibilityKind | undefined
-): boolean {
-  const isBuilt: boolean = mapLocation.buildingStatus === BuildingStatus.ready;
-
-  let isAccessible: boolean = false;
-  switch (kind) {
-    case 'Actor':
-      isAccessible = mapLocation.accessibility.toActors;
-      break;
-    case 'Resource':
-      isAccessible = mapLocation.accessibility.toResources;
-      break;
-    case 'Patient':
-      isAccessible = mapLocation.accessibility.toPatients;
-      break;
-    default:
-      // by default, at least one kind of people can be there
-      isAccessible =
-        mapLocation.accessibility.toActors ||
-        mapLocation.accessibility.toResources ||
-        mapLocation.accessibility.toPatients;
-  }
-
-  return isBuilt && isAccessible;
+  return mapLocationEntity != undefined && mapLocationEntity.isBuiltAndAccessible(kind);
 }
