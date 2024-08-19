@@ -745,6 +745,11 @@ function getBlockDetails(
 
     if (block.params.totalExtLosses_ml ?? 0 > 0) {
       output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
+      if ((block.params.arterialBleedingFactor || 0) > (block.params.venousBleedingFactor || 0)) {
+        output.push(formatBlockEntry('venous', 'human-pathology'));
+      } else {
+        output.push(formatBlockEntry('arterial', 'human-pathology'));
+      }
 
       if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
         if (block.params.arterialLosses_mlPerMin ?? 0 > 0) {
@@ -1035,11 +1040,11 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
     case 'vitals.motricity.rightLeg':
       return [metricName, motricityFormatter(value)];
     case 'vitals.glasgow.motor':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.verbal':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.eye':
-      return [metricName, String(value)];
+      return ['- ' + metricName, String(value)];
     case 'vitals.glasgow.total':
       return [metricName, String(value)];
     case 'vitals.canWalk':
@@ -1470,18 +1475,25 @@ export function getAfflictedBlocksOfHuman(
   return Object.keys(output);
 }
 
+export interface AfflictedBlockDetails {
+  block: string;
+  details: string;
+}
+
 export function getAfflictedBlocksDetailsOfHuman(
   human: HumanBody,
   health: HumanHealth,
   currentTime: number,
   fullDetails: boolean = false
-): string[] {
+): AfflictedBlockDetails[] {
   const blocks = getAfflictedBlocksOfHuman(human, health, currentTime, fullDetails);
 
-  const result = blocks.map(block =>
-    getBlockDetailOfHuman(human, health, currentTime, block, fullDetails)
-  );
-  return result;
+  return blocks.map(block => {
+    return {
+      block: block,
+      details: getBlockDetailOfHuman(human, health, currentTime, block, fullDetails),
+    };
+  });
 }
 
 export function getAfflictedBlocksDetails() {

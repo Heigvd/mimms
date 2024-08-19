@@ -6,3 +6,19 @@
 .evacuationInputField {
     flex-grow: 1;
 }
+
+/********************** patient detail ****************************************/
+	.patient-block-name {
+		font-weight: var(--boldWeight);
+		font-size: var(--M_text);
+	}
+
+	.patient-block-details {
+	  border: 1px solid transparent;
+	  border-radius: var(--S_borderRadius);
+	}
+
+	.patient-block-details-highlighted {
+	  border: 1px solid var(--colors-disabledcolor);
+	  border-radius: var(--S_borderRadius);
+	}

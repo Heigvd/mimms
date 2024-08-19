@@ -3,7 +3,7 @@
  *
  * Copyright (2021-2022)
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
- *  - Hôpitaux Universitaires Genêve (HUG)
+ *  - Hôpitaux Universitaires Genève (HUG)
  */
 import { add, interpolate, normalize } from '../tools/helper';
 import { Point } from '../map/point2D';
@@ -32,15 +32,27 @@ import {
   Motricity,
 } from './human';
 import { logger, calcLogger, compLogger, respLogger, extraLogger } from '../tools/logger';
-// import { computePaO2 } from "./quarticSolver";
-
-//import { cloneDeep } from "lodash";
-//const cloneDeep = Helpers.cloneDeep;
 
 export const gambateMax = 15;
 
 const DEATHLY_MAP = 35;
 const DEATHLY_HR = 30;
+
+/**
+ * systolic pressure approximation derived from the MAP (mean arterial pressure)
+ * MAP * 3/2
+ */
+export function computeSystolicPressure(body: BodyState): number {
+  return 1.5 * body.vitals.cardio.MAP;
+}
+
+/**
+ * diastolic pressure approximation derived from the MAP (mean arterial pressure)
+ * MAP * 6/7
+ */
+export function computeDiastolicPressure(body: BodyState): number {
+  return 0.857 * body.vitals.cardio.MAP;
+}
 
 function computeGambateScore(bodyState: BodyState, meta: HumanMeta, durationInMin: number) {
   let score = 0;
@@ -520,7 +532,7 @@ export function compute(
   //const newVitals = body.vitals;
   calcLogger.info('Compute Vitals based on ', body);
 
-  const indexChoc = body.vitals.cardio.hr / body.vitals.cardio.systolicPressure;
+  const indexChoc = body.vitals.cardio.hr / computeSystolicPressure(body);
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // Cardiovascular system
@@ -762,10 +774,9 @@ export function compute(
 
   body.vitals.cardio.strokeVolume_mL = strokeVolume_mL;
   body.vitals.cardio.MAP = MAP;
-  body.vitals.cardio.systolicPressure = 1.5 * MAP; // 3 * MAP / 2;
 
   body.vitals.cardio.endDiastolicVolume_mL = edvEffective;
-  body.vitals.cardio.radialPulse = body.vitals.cardio.systolicPressure > 80;
+  body.vitals.cardio.radialPulse = computeSystolicPressure(body) > 80;
   //const diastolicPressure = x;
 
   body.vitals.cardio.cardiacOutput_LPerMin = Qc_LPerMin;
@@ -1184,7 +1195,7 @@ export function compute(
 //];
 
 const computeRecap = (state: BodyState): number => {
-  const indexChoc = state.vitals.cardio.hr / state.vitals.cardio.systolicPressure;
+  const indexChoc = state.vitals.cardio.hr / computeSystolicPressure(state);
   if (Number.isNaN(indexChoc)) {
     return 10;
   }
@@ -1341,7 +1352,11 @@ export type Compensation = Record<CompesationKeys, CompensationRule>;
 
 const average = false;
 
-export function computeOrthoLevel(state: BodyState, meta: HumanBody['meta'], duration_min: number) {
+export function computeOrthoLevel(
+  state: BodyState,
+  _meta: HumanBody['meta'],
+  _duration_min: number
+) {
   if (state.vitals.cardiacArrest! > 0) {
     state.variables.paraOrthoLevel = 0;
     return;
