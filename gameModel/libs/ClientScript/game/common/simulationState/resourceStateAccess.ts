@@ -125,17 +125,23 @@ export function getFreeHumanResourcesByLocation(
 
 export function getFreeWaitingResourcesByTypeAndLocation(
   state: Readonly<MainSimulationState>,
-  resourceType: ResourceType,
+  resourceType: ResourceType[],
   location: LOCATION_ENUM
 ): Resource[] {
   const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(
+  const resources = internalState.resources.filter(
     (resource: Resource) =>
       !resource.isReserved() &&
-      resource.type === resourceType &&
+      resourceType.includes(resource.type) &&
       resource.currentLocation === location &&
       resource.currentActivity == getIdleTaskUid(state)
   );
+  // Sorted if more than one type, order indicates priority
+  if (resourceType.length > 1) {
+    resources.sort((a, b) => resourceType.indexOf(a.type) - resourceType.indexOf(b.type));
+  }
+
+  return resources;
 }
 
 export function getFreeWaitingResourcesByType(

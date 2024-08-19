@@ -28,7 +28,7 @@ import {
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -44,7 +44,6 @@ import {
   SelectionFixedMapEntityAction,
   SelectionPCAction,
   SelectionPCFrontAction,
-  SelectionPMAAction,
   SelectionParkAction,
   SendRadioMessageAction,
 } from './actionBase';
@@ -60,6 +59,8 @@ export enum SimFlag {
   ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
   RADIO_SCHEMA_ACTIVATED = 'RADIO_SCHEMA_ACTIVATED',
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
+  PMA_BUILT = 'PMA_BUILT',
+  LEADPMA_ARRIVED = 'LEADPMA_ARRIVED',
   PMA_OPEN = 'PMA_OPEN',
 }
 
@@ -650,62 +651,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
 }
 
 // -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-/**
- * Template of an action to select the place of the PMA
- */
-export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    fixedMapEntity: FixedMapEntity,
-    replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      fixedMapEntity,
-      replayable,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
-  }
-
-  public override getTemplateRef(): string {
-    return 'SelectionPMATemplate' + '_' + this.title;
-  }
-
-  protected override createActionFromEvent(
-    event: FullEvent<SelectionFixedMapEntityEvent>
-  ): SelectionPMAAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-
-    return new SelectionPMAAction(
-      payload.triggerTime,
-      this.duration,
-      event.id,
-      this.title,
-      this.message,
-      ownerId,
-      this.Uid,
-      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
 // place a park item
 // -------------------------------------------------------------------------------------------------
 
@@ -1041,7 +986,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     replayable = true,
     readonly wentWrongMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
-    readonly typeOfResource: ResourceType,
+    readonly typeOfResource: HumanResourceType[],
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[]

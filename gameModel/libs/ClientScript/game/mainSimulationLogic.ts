@@ -18,7 +18,6 @@ import {
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
   SelectionPCTemplate,
-  SelectionPMATemplate,
   SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
@@ -390,12 +389,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
-    'ambulancier',
+    ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
   );
 
-  const placePMA = new SelectionPMATemplate(
+  const appointLeadPMA = new AppointActorActionTemplate(
+    'appoint-LeadPMA-title',
+    'appoint-LeadPMA-desc',
+    TimeSliceDuration,
+    'appoint-LeadPMA-feedback',
+    true,
+    'appoint-LeadPMA-no-resource-feedback',
+    'LEADPMA',
+    ['infirmier', 'ambulancier'],
+    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.LEADPMA_ARRIVED]
+  );
+
+  const placePMA = new SelectionFixedMapEntityTemplate(
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration * 4,
@@ -450,7 +462,10 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'PMA'
-    )
+    ),
+    false,
+    undefined,
+    [SimFlag.PMA_BUILT]
   );
 
   const openPMA = new DisplayMessageActionTemplate(
@@ -609,6 +624,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+  templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
 

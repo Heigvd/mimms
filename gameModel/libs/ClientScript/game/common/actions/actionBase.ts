@@ -56,7 +56,7 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -692,43 +692,6 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 }
 
 // -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-export class SelectionPMAAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
-    super.dispatchEndedEvents(state);
-    localEventManager.queueLocalEvent(
-      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
 // place park
 // -------------------------------------------------------------------------------------------------
 
@@ -851,7 +814,7 @@ export class AppointActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly requiredResourceType: ResourceType,
+    readonly requiredResourceType: HumanResourceType[],
     readonly failureMessageKey: TranslationKey
   ) {
     super(

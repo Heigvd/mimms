@@ -68,14 +68,22 @@ move-actor-no-location	Impossible to move because the location does not exist	Im
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Nommer un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
-appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous	
-open-PMA-title	Open the advanced medical post	Ouvrir le poste médical avancé (PMA)	
-open-PMA-desc	Open the medical post to patients	Ouvrir le poste médical avancé aux patients	
-open-PMA-feedback	The advanced medical post has been opened	Le poste médical avancé a été ouvert	
-activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondante à côté de vous
+appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA
+appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA
+appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé
+appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous
+open-PMA-title	Open the advanced medical post	Ouvrir le poste médical avancé (PMA)
+open-PMA-desc	Open the medical post to patients	Ouvrir le poste médical avancé aux patients
+open-PMA-feedback	The advanced medical post has been opened	Le poste médical avancé a été ouvert
+activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication
 activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
 activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
-define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
+activate-radio-schema-request	Request to activate the communication schema	Demande d'activation du schéma de communication
+activate-radio-schema-reply-ok	Approved	Accepté
+activate-radio-schema-reply-unauthorized	Refused. The request must be made by the highest hierarchical manager present on site	Refusé. La demande doit être faite par le plus haut responsable hiérarchique présent sur site
+define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
 waiting-title	At disposal	A disposition	
@@ -109,4 +117,4 @@ no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA
 no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
 place	Place	Lieu	
 vector	Vector	Vecteur	
-incoming-resources	Arrival of {0}	Arrivée de {0}	
+incoming-resources	Arrival of {0}	Arrivée de {0}
