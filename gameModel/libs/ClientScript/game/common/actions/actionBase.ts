@@ -514,7 +514,7 @@ export class ActivateRadioSchemaAction extends StartEndAction {
     actionNameKey: TranslationKey,
     feedbackMessageKey: TranslationKey,
     readonly requestMessage: TranslationKey,
-    readonly positiveReplyMessage: TranslationKey,
+    readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -564,7 +564,7 @@ export class ActivateRadioSchemaAction extends StartEndAction {
           state.getSimTime(),
           0, //this.ownerId,
           'CASU',
-          this.positiveReplyMessage,
+          this.authorizedReplyMessage,
           this.channel,
           this.isRadioMessage
         )
