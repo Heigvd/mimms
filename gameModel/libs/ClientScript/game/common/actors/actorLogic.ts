@@ -15,11 +15,11 @@ export function getStateActorSymbolicLocation(
 }
 
 /**
- * Get the most influent actors at the given location.
+ * Get the actors with the highest hierarchy at the given location.
  * <p>
  * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
  */
-export function getActorsOfMostInfluentAuthorityLevelByLocation(
+export function getHighestAuthorityActorsByLocation(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
 ): ActorId[] {
@@ -27,28 +27,28 @@ export function getActorsOfMostInfluentAuthorityLevelByLocation(
     .getAllActors()
     .filter((actor: Actor) => actor.Location === location);
 
-  return getMostInfluentActors(actorsAtLocation).map((actor: Actor) => actor.Uid);
+  return getHighestAuthorityActors(actorsAtLocation).map((actor: Actor) => actor.Uid);
 }
 
 /**
- * Get the most influent actors on site (= not remote).
+ * Get the actors with the highest hierarchy on site (= not remote).
  * <p>
  * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
  */
-export function getActorsOfMostInfluentAuthorityLevelOnSite(
+export function getHighestAuthorityActorOnSite(
   state: Readonly<MainSimulationState>
 ): ActorId[] {
   const actorsOnSite = state.getAllActors().filter((actor: Actor) => isOnSite(actor.Location));
 
-  return getMostInfluentActors(actorsOnSite).map((actor: Actor) => actor.Uid);
+  return getHighestAuthorityActors(actorsOnSite).map((actor: Actor) => actor.Uid);
 }
 
 /**
- * Get the most influent actors from a list
+ * Get the actors with the highest hierarchy from a list
  * <p>
  * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
  */
-function getMostInfluentActors(actors: Actor[]): Actor[] {
+function getHighestAuthorityActors(actors: Actor[]): Actor[] {
   if (actors.length < 2) {
     return actors;
   }

@@ -554,7 +554,7 @@ export class ActivateRadioSchemaAction extends StartEndAction {
       )
     );
 
-    const suitableActors = ActorLogic.getActorsOfMostInfluentAuthorityLevelOnSite(state);
+    const suitableActors = ActorLogic.getHighestAuthorityActorOnSite(state);
     if (suitableActors.includes(this.ownerId)) {
       state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
 

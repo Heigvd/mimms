@@ -41,7 +41,7 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
+import { getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
@@ -547,7 +547,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           });
 
         keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
-          const greetingActors = getActorsOfMostInfluentAuthorityLevelByLocation(state, location);
+          const greetingActors = getHighestAuthorityActorsByLocation(state, location);
 
           greetingActors.forEach((actorId: ActorId) => {
             localEventManager.queueLocalEvent(
