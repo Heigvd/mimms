@@ -478,7 +478,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'open-PMA-feedback',
     false,
-    undefined,
+    [SimFlag.PMA_BUILT],
     [SimFlag.PMA_OPEN],
     ['LEADPMA'],
     ActionType.RESOURCES_RADIO,
@@ -629,12 +629,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[casuMessage.getTemplateRef()] = casuMessage;
   templates[radioMessage.getTemplateRef()] = radioMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
-  templates[openPMA.getTemplateRef()] = openPMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
