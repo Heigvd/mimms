@@ -1,11 +1,13 @@
 import { taskLogger } from '../../../tools/logger';
+import { getTranslation } from '../../../tools/translation';
 import { getPriorityByCategoryId } from '../../pretri/triage';
+import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
 import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
-import { isLocationAvailableForPatients, LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   getNextNonTransportedPatientsByPriority,
@@ -13,11 +15,9 @@ import {
   getPatient,
   PatientState,
 } from '../simulationState/patientState';
-import { TaskBase } from './taskBase';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
-import { getTranslation } from '../../../tools/translation';
-import { ActionType } from '../actionType';
+import { TaskBase } from './taskBase';
 import { SimFlag } from '../actions/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     locationSource: LOCATION_ENUM
   ): LOCATION_ENUM | undefined {
     if (
-      isLocationAvailableForPatients(state, LOCATION_ENUM.PMA) &&
+      canMoveToLocation(state, 'Patients', LOCATION_ENUM.PMA) &&
       state.hasFlag(SimFlag.PMA_OPEN)
     ) {
       return LOCATION_ENUM.PMA;
@@ -240,7 +240,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
     if (
       locationSource != LOCATION_ENUM.nidDeBlesses &&
-      isLocationAvailableForPatients(state, LOCATION_ENUM.nidDeBlesses)
+      canMoveToLocation(state, 'Patients', LOCATION_ENUM.nidDeBlesses)
     ) {
       return LOCATION_ENUM.nidDeBlesses;
     }
