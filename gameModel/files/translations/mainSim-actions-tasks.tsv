@@ -68,7 +68,11 @@ move-actor-no-location	Impossible to move because the location does not exist	Im
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
 appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Nommer un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
-appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous	
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondante à côté de vous	
+appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA	
+appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA	
+appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé	
+appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous	
 activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
 activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
 activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
@@ -109,4 +113,4 @@ no-patients-pma	There's no patients at AMP	Il n'y a aucun patient au PMA
 no-patient-selected	Select a patient to know more about him	Sélectionner un patient pour en connaître plus sur lui	
 place	Place	Lieu	
 vector	Vector	Vecteur	
-incoming-resources	Arrival of {0}	Arrivée de {0}	
+incoming-resources	Arrival of {0}	Arrivée de {0}

@@ -24,9 +24,13 @@ Hemostasis	Hemostasis	Hémostase
 Upper Airways	Upper Airways	Voie aérienne haute 
 Surface	Surface	Surface 
 aborted	aborted	arrêté
-fracture-displaced	displaced	Déplacé 
-fracture-nonDisplaced	non-displaced	Non déplacé 
+fracture-displaced	displaced	Déplacée
+fracture-nonDisplaced	non-displaced	Non déplacée
 fracture-open	open	ouverte
 Total	Total	Total
 surface	surface	surface 
 hematoma	hematoma	hématome
+notIntubated	not intubated	pas intubé
+cyanosis	cyanosis	cyanose
+palor	palor	pâle
+normal	normal	normale

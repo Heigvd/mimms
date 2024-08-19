@@ -57,7 +57,6 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
 }
 
 /**
- * TODO move to math.ts
  * @param x the value on the x axis
  * @param points a list of 2D points sorted in ascending order by their x values.
  * Connecting these points with lines implicitely describes a 2D graph

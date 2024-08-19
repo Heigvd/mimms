@@ -510,6 +510,22 @@ Helpers.registerEffect(() => {
                       type: 'number',
                       view: { label: 'BMI Standard Deviation', layout: 'shortInline' },
                     },
+                    bodyTemperatureMean: {
+                      type: 'number',
+                      view: { label: 'Body Temperature Mean', layout: 'shortInline' },
+                    },
+                    bodyTemperatureSTD: {
+                      type: 'number',
+                      view: { label: 'Body Temperature STD', layout: 'shortInline' },
+                    },
+                    bloodSugarLevelMean: {
+                      type: 'number',
+                      view: { label: 'Blood Sugar Level Mean', layout: 'shortInline' },
+                    },
+                    bloodSugarLevelSTD: {
+                      type: 'number',
+                      view: { label: 'Blood Sugar Level STD', layout: 'shortInline' },
+                    },
 
                     WomanManRatio: {
                       type: 'number',
