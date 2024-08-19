@@ -18,6 +18,7 @@ import {
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { TaskBase } from './taskBase';
+import { SimFlag } from '../actions/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task
@@ -230,7 +231,10 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     state: Readonly<MainSimulationState>,
     locationSource: LOCATION_ENUM
   ): LOCATION_ENUM | undefined {
-    if (canMoveToLocation(state, 'Patients', LOCATION_ENUM.PMA)) {
+    if (
+      canMoveToLocation(state, 'Patients', LOCATION_ENUM.PMA) &&
+      state.hasFlag(SimFlag.PMA_OPEN)
+    ) {
       return LOCATION_ENUM.PMA;
     }
 
