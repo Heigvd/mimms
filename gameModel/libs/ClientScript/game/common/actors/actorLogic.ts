@@ -35,9 +35,7 @@ export function getHighestAuthorityActorsByLocation(
  * <p>
  * Usually there will be only 1 actor, apart from ACS + MCS who are at same hierarchy level and will be both returned
  */
-export function getHighestAuthorityActorOnSite(
-  state: Readonly<MainSimulationState>
-): ActorId[] {
+export function getHighestAuthorityActorOnSite(state: Readonly<MainSimulationState>): ActorId[] {
   const actorsOnSite = state.getAllActors().filter((actor: Actor) => isOnSite(actor.Location));
 
   return getHighestAuthorityActors(actorsOnSite).map((actor: Actor) => actor.Uid);
