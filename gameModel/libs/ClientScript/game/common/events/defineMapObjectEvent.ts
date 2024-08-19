@@ -3,7 +3,6 @@ import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
 
 export type PointLikeObjects =
   | PointLikeObject
@@ -30,38 +29,35 @@ export enum BuildingStatus {
   removed = 'removed',
 }
 
-/**
- * Check if an actor or resource is allowed to move to given location
- * @param state MainSimulationState
- * @param targetLocation FixedMapEntity of target location
- */
-export function canMoveToLocation(
-  state: Readonly<MainSimulationState>,
-  targetLocation: LOCATION_ENUM
-): boolean {
-  // Remote has no conditions for movement
-  if (targetLocation === LOCATION_ENUM.remote) return true;
-
-  const so = state.getInternalStateObject();
-  const targetLocationEntity = so.mapLocations.find(l => l.id === targetLocation);
-  return !(
-    targetLocationEntity === undefined ||
-    targetLocationEntity.buildingStatus === BuildingStatus.removed
-  );
-}
+export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
+/** Is it a place that can contain actors / resources / patients */
+export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
   name!: TranslationKey;
-  id!: LOCATION_ENUM; //symbolicPosition, LOCATION_ENUM
+  id!: LOCATION_ENUM;
   startTimeSec?: SimTime;
   durationTimeSec?: SimDuration;
   icon?: string;
   leaderRoles!: InterventionRole[];
   buildingStatus!: BuildingStatus;
-  isAccessible: boolean = true; // displayed on map but inaccessible to actors
+  accessibility!: LocationAccessibility;
 
   abstract getGeometricalShape(): GeometricalShape;
+
+  public isBuiltAndAccessible(kind: LocationAccessibilityKind | 'anyKind'): boolean {
+    const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
+
+    let isAccessible: boolean;
+    if (kind !== 'anyKind') {
+      isAccessible = this.accessibility[kind];
+    } else {
+      isAccessible = Object.values(this.accessibility).some(b => b);
+    }
+
+    return isBuilt && isAccessible;
+  }
 }
 
 export class GeometryBasedFixedMapEntity extends FixedMapEntity {
@@ -76,7 +72,7 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     geometricalShape: GeometricalShape,
     buildingStatus: BuildingStatus,
     icon?: string,
-    isAccessible: boolean = true
+    accessibility: LocationAccessibility = { Actors: true, Resources: true, Patients: true }
   ) {
     super();
     this.ownerId = ownerId;
@@ -86,13 +82,14 @@ export class GeometryBasedFixedMapEntity extends FixedMapEntity {
     this.icon = icon;
     this.geometricalShape = geometricalShape;
     this.buildingStatus = buildingStatus;
-    this.isAccessible = isAccessible;
+    this.accessibility = accessibility;
   }
 
   getGeometricalShape(): GeometricalShape {
     return this.geometricalShape;
   }
 }
+
 export abstract class GeometricalShape {
   olGeometryType!: string;
   selectedPosition?: SelectedPositionType;
@@ -209,7 +206,7 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 	featureIds!: string[];
 
 	getGeometricalShape(): GeometricalShape {
-		//TODO: compute centroide
+		//TODO: compute centroid
 		const position = new PointGeometricalShape();
 		position.selectedPosition = [0,0];
 		return position;
@@ -222,9 +219,10 @@ export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {
 }
 
 /*
- * This function is necesssary as we do not receive a fixedmap instance from global event but a generic object
+ * This function is necessary as we do not receive a fixed-map instance from global event but a generic object
  * So we convert the object back to its original instance type
  */
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEntity {
   let geometricalShape: GeometricalShape;
   switch (obj.geometricalShape.olGeometryType) {
@@ -273,6 +271,6 @@ export function createFixedMapEntityInstanceFromAnyObject(obj: any): FixedMapEnt
     geometricalShape!,
     obj.buildingStatus,
     obj.icon,
-    obj.isAccessible
+    obj.accessibility
   );
 }
