@@ -8,6 +8,7 @@ import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { ActionBase } from './common/actions/actionBase';
 import {
   ActionTemplateBase,
+  ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
   CasuMessageTemplate,
   DisplayMessageActionTemplate,
@@ -587,14 +588,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
-  const activateRadioSchema = new DisplayMessageActionTemplate(
+  const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
-    false,
+    'activate-radio-schema-request',
+    'activate-radio-schema-reply-ok',
+    'activate-radio-schema-reply-unauthorized',
+    true,
     undefined,
-    [SimFlag.RADIO_SCHEMA_ACTIVATED],
+    [],
     undefined,
     ActionType.CASU_RADIO,
     true

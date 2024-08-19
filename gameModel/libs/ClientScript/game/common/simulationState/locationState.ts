@@ -55,3 +55,10 @@ export function canMoveToLocation(
   const mapLocationEntity: FixedMapEntity | undefined = getMapLocationById(state, location);
   return mapLocationEntity != undefined && mapLocationEntity.isBuiltAndAccessible(kind);
 }
+
+/**
+ * Is a location on the site or not ?
+ */
+export function isOnSite(location: LOCATION_ENUM) {
+  return location !== LOCATION_ENUM.remote;
+}

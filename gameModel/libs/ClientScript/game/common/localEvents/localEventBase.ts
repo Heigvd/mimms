@@ -6,7 +6,7 @@ import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
+import { getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
   ActorId,
@@ -553,7 +553,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           });
 
         keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
-          const greetingActors = getActorsOfMostInfluentAuthorityLevelByLocation(state, location);
+          const greetingActors = getHighestAuthorityActorsByLocation(state, location);
 
           greetingActors.forEach((actorId: ActorId) => {
             localEventManager.queueLocalEvent(
