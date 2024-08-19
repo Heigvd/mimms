@@ -4,6 +4,22 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "children" : [ ],
+            "className" : "noPadding",
+            "layout" : {
+              "alignItems" : "flex-start",
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding noMargin",
+            "layoutStyle" : {
+              "maxWidth" : "25vw"
+            },
+            "name" : "buttons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "className" : "mimms_h3title",
@@ -401,6 +417,57 @@
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "button-S button-secondaryColor",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "abort",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                  "language" : "typescript"
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\n\nrunActionButton(actions[0]);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "",
+            "layout" : {
+              "justifyContent" : "flex-end"
+            },
+            "layoutStyle" : { },
+            "name" : "button",
+            "style" : { }
+          },
+          "type" : "FlexList"
         } ],
         "className" : "noPadding noMargin",
         "disableIf" : {
@@ -415,58 +482,7 @@
         "layoutStyle" : {
           "width" : "100%"
         },
-        "name" : "inputs",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "className" : "button-S button-secondaryColor",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "abort",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
-                "language" : "typescript"
-              }
-            } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
-              "language" : "typescript"
-            },
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
-              "language" : "typescript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\nrunActionButton(actions[0]);",
-                "language" : "TypeScript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "className" : "",
-        "layout" : {
-          "justifyContent" : "flex-end"
-        },
-        "layoutStyle" : { },
-        "name" : "button",
+        "name" : "assignTasksInputs",
         "style" : { }
       },
       "type" : "FlexList"

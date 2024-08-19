@@ -44,6 +44,15 @@ import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/t
 import { TaskStatus } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
+import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import {
+  getTaskByLocationAndClass,
+  getTaskCurrentStatus,
+} from '../simulationState/taskStateAccess';
+import { PreTriageTask } from '../tasks/taskBasePretriage';
 
 export interface LocalEvent {
   type: string;
@@ -913,6 +922,54 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       true
     );
     localEventManager.queueLocalEvent(evt);
+  }
+}
+
+/*
+Pretriage Report calculations and radio response
+*/
+export class PretriageReportResponseLocalEvent extends LocalEventBase {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    private readonly senderId: string,
+    private readonly recipient: number,
+    private pretriageLocation: LOCATION_ENUM,
+    private feedbackWhenReport: TranslationKey
+  ) {
+    super(parentEventId, 'PretriageReportResponseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const taskStatus: TaskStatus = getTaskCurrentStatus(
+      state,
+      getTaskByLocationAndClass(state, PreTriageTask, this.pretriageLocation).Uid
+    );
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.parentEventId,
+        this.simTimeStamp,
+        this.recipient,
+        this.senderId,
+        taskStatus === 'Uninitialized'
+          ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+              getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+            ])
+          : formatStandardPretriageReport(
+              state,
+              this.pretriageLocation,
+              this.feedbackWhenReport,
+              false,
+              true
+            ),
+        this.channel,
+        true,
+        true
+      )
+    );
   }
 }
 

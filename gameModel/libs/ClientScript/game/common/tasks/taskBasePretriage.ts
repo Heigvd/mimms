@@ -20,9 +20,12 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   getNextNonPreTriagedPatient,
   getNonPreTriagedPatientsSize,
-  getPreTriagedAmountByTagName,
 } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
+import { ActionType } from '../actionType';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import { getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { TaskBase } from './taskBase';
 
 /**
@@ -54,6 +57,12 @@ export class PreTriageTask extends TaskBase {
     state: Readonly<MainSimulationState>,
     timeJump: number
   ): void {
+    if (getTaskCurrentStatus(state, this.Uid) === 'Uninitialized') {
+      localEventManager.queueLocalEvent(
+        new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'OnGoing')
+      );
+    }
+
     taskLogger.info(
       'Patients not pretriaged before action: ' +
         getNonPreTriagedPatientsSize(state, this.locationSource)
@@ -108,10 +117,13 @@ export class PreTriageTask extends TaskBase {
           state.getSimTime(),
           0,
           'resources',
-          `${getTranslation('mainSim-locations', locationName)} - ` +
-            getTranslation('mainSim-actions-tasks', this.feedbackAtEnd) +
-            '\n' +
-            result,
+          formatStandardPretriageReport(
+            state,
+            this.locationSource,
+            'pretriage-report-task-feedback-report',
+            true,
+            false
+          ),
           ActionType.RESOURCES_RADIO,
           false,
           true

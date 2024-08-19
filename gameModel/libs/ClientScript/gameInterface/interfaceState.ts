@@ -14,6 +14,11 @@ import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDe
 import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 
+export enum ResourcesManagementActivityType {
+  assignTask = 'assignTask',
+  requestReport = 'requestReport',
+}
+
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
@@ -44,6 +49,9 @@ export interface InterfaceState {
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  resourcesManagement: {
+    activityType: ResourcesManagementActivityType;
   };
   evacuation: {
     data: {
@@ -104,6 +112,9 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
+    },
+    resourcesManagement: {
+      activityType: ResourcesManagementActivityType.assignTask,
     },
   };
 }
