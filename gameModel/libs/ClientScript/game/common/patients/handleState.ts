@@ -151,6 +151,9 @@ function computeVirtualElapsedTime(timeJump: number, location: PatientLocation):
     modifier = 0;
   } else {
     switch (location.locationId) {
+      case 'remote': // being evacuated
+        modifier = 0;
+        break;
       case 'PMA':
         modifier = 0.5;
         break;
