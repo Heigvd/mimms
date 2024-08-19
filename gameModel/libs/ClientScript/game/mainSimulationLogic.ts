@@ -15,6 +15,7 @@ import {
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
@@ -365,7 +366,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'right-arrow',
-      false
+      {
+        Actors: false,
+        Resources: false,
+        Patients: false,
+      }
     )
   );
 
@@ -469,6 +474,19 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.PMA_BUILT]
   );
 
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    [SimFlag.PMA_BUILT],
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
+  );
+
   const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
@@ -528,7 +546,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499961, 1118388],
       ]),
       BuildingStatus.selection,
-      'ambulance-park'
+      'ambulance-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'ambulance',
     false,
@@ -552,7 +575,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499925, 1118451],
       ]),
       BuildingStatus.selection,
-      'helicopter-park'
+      'helicopter-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'helicopter',
     false,
@@ -585,6 +613,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true
   );
 
+  const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-title',
+    'pretriage-report-task-desc',
+    TimeSliceDuration,
+    'pretriage-report-task-feedback-started',
+    'pretriage-report-task-feedback-report',
+    true
+  );
+
   const evacuate = new EvacuationActionTemplate(
     'evacuate-title',
     'evacuate-desc',
@@ -611,12 +648,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
+  templates[pretriageReport.getTemplateRef()] = pretriageReport;
 
   return templates;
 }

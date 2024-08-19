@@ -1,4 +1,4 @@
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { FixedMapEntity, LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { MainSimulationState } from './mainSimulationState';
 
 /**
@@ -8,35 +8,52 @@ export enum LOCATION_ENUM {
   chantier = 'chantier',
   nidDeBlesses = 'nidDeBlesses',
   PMA = 'PMA',
-  PC = 'PC',
+  pcFront = 'pcFront', // Temporary initial "Poste de commandement"
+  PC = 'PC', // "Poste de commandement sanitaire"
   ambulancePark = 'ambulancePark',
   helicopterPark = 'helicopterPark',
-  pcFront = 'pcFront',
   remote = 'remote',
-  AccReg = 'AccReg',
+  AccReg = 'AccReg', // ways to access and leave the site
 }
 
-export function getAvailableLocations(state: Readonly<MainSimulationState>): FixedMapEntity[] {
+export function getMapLocationById(
+  state: Readonly<MainSimulationState>,
+  locationKey: LOCATION_ENUM
+): FixedMapEntity | undefined {
   return state
     .getInternalStateObject()
-    .mapLocations.filter(mapLocation => isBuiltAndAccessible(mapLocation));
+    .mapLocations.find((mapLocation: FixedMapEntity): boolean => mapLocation.id === locationKey);
 }
 
-export function isLocationAvailableForPatients(
+/**
+ * All defined and ready places where actors / resources / patients can be
+ */
+export function getAvailableMapLocations(
   state: Readonly<MainSimulationState>,
+  kind: LocationAccessibilityKind | 'anyKind'
+): FixedMapEntity[] {
+  return state
+    .getInternalStateObject()
+    .mapLocations.filter((mapLocation: FixedMapEntity) => mapLocation.isBuiltAndAccessible(kind));
+}
+
+/**
+ * Check if an actor / resource / patient can go to the given place
+ * (aka if the place is ready to welcome them).
+ */
+export function canMoveToLocation(
+  state: Readonly<MainSimulationState>,
+  kind: LocationAccessibilityKind,
   location: LOCATION_ENUM
 ): boolean {
-  const matchingFixedMapEntity = state
-    .getInternalStateObject()
-    .mapLocations.find(loc => loc.id === location);
+  // Someone can always be at remote location
+  if (location === LOCATION_ENUM.remote) {
+    return true;
+  }
 
-  return matchingFixedMapEntity != undefined && isBuiltAndAccessible(matchingFixedMapEntity);
-
-  // Note : in the future, PMA could need a special treatment
-}
-
-function isBuiltAndAccessible(fixedMapEntity: FixedMapEntity): boolean {
-  return fixedMapEntity.buildingStatus === BuildingStatus.ready && fixedMapEntity.isAccessible;
+  // Other locations must be ready and allow to contain people
+  const mapLocationEntity: FixedMapEntity | undefined = getMapLocationById(state, location);
+  return mapLocationEntity != undefined && mapLocationEntity.isBuiltAndAccessible(kind);
 }
 
 /**

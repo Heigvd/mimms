@@ -473,6 +473,12 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
+        "@class" : "Page",
+        "id" : "68",
+        "name" : "resources management and reports",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",

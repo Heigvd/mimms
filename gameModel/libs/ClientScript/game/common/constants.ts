@@ -17,3 +17,8 @@ export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
  * ACS/MCS auto send by CASU delay
  */
 export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;
+
+/**
+ * Pretriage report delay
+ */
+export const PretriageReportResponseDelay = OneMinuteDuration * 2;

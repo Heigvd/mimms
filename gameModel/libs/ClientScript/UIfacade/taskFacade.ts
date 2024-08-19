@@ -1,6 +1,9 @@
 import { ActorId, TaskId } from '../game/common/baseTypes';
+import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
+import { getLocationsByTaskClass } from '../game/common/simulationState/taskStateAccess';
+import { TaskBase } from '../game/common/tasks/taskBase';
 import * as TaskLogic from '../game/common/tasks/taskLogic';
 import { getCurrentState } from '../game/mainSimulationLogic';
 
@@ -53,4 +56,13 @@ export function getTargetTaskChoices(
 
 export function getIdleTaskUid(): TaskId {
   return TaskLogic.getIdleTaskUid(getCurrentState());
+}
+
+export function getLocationsByTaskClassFacade<T extends TaskBase>(taskClass: {
+  new (...args: any[]): T;
+}): FixedMapEntity[] {
+  const locations = getLocationsByTaskClass(getCurrentState(), taskClass);
+  return getCurrentState()
+    .getMapLocations()
+    .filter(mapLocation => locations.includes(mapLocation.id));
 }
