@@ -1,7 +1,15 @@
-import {ActorId, GlobalEventId, HospitalId, PatientId, ResourceId, SubTaskId, TranslationKey} from '../baseTypes';
+import {
+  ActorId,
+  GlobalEventId,
+  HospitalId,
+  PatientId,
+  ResourceId,
+  SubTaskId,
+  TranslationKey,
+} from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
-import {EvacuationSquadDefinition} from "../evacuation/evacuationSquadDef";
+import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
 
 const SUB_TASK_SEED_ID: SubTaskId = 5000;
 

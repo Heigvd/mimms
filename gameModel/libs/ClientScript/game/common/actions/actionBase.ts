@@ -31,7 +31,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -57,8 +57,12 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import {
+  canMoveToLocation,
+  getMapLocationById,
+  LOCATION_ENUM,
+} from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
@@ -682,49 +686,10 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       )
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = state
-      .getInternalStateObject()
-      .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
+    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-export class SelectionPMAAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
-    super.dispatchEndedEvents(state);
-    localEventManager.queueLocalEvent(
-      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
     );
   }
 }
@@ -813,7 +778,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, this.location)) {
+    if (!canMoveToLocation(state, 'Actors', this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -852,7 +817,7 @@ export class AppointActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly requiredResourceType: ResourceType,
+    readonly requiredResourceType: HumanResourceType[],
     readonly failureMessageKey: TranslationKey
   ) {
     super(
@@ -1044,8 +1009,8 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           'move-res-task-refused'
         )
       );
-    } else if (!canMoveToLocation(state, this.targetLocation)) {
-      // Resources cannot move to a non existent location
+    } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
+      // Resources cannot move to a non-existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,

@@ -21,10 +21,10 @@ import {
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { PatientUnitTypology } from '../evacuation/hospitalType';
-import {ActionType} from "../actionType";
-import {getTranslation} from "../../../tools/translation";
-import {EvacuationSquadDefinition} from "../evacuation/evacuationSquadDef";
-import {formatTravelTimeToMinutes} from "../evacuation/hospitalController";
+import { ActionType } from '../actionType';
+import { getTranslation } from '../../../tools/translation';
+import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
+import { formatTravelTimeToMinutes } from '../evacuation/hospitalController';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task

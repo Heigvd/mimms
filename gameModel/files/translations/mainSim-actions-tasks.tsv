@@ -129,3 +129,4 @@ pretriage-category-immediate	red	rouge
 pretriage-category-urgent	yellow	jaune	
 pretriage-category-non_urgent	green	vert	
 pretriage-task-notStarted	Pretriage for location {0} not started.	Le pretriage pour {0} n'est pas en cours.	
+incoming-resources	Arrival of {0}	Arrivée de {0}
