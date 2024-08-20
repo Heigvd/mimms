@@ -535,7 +535,7 @@
                       "props" : {
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { containerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!containerTypeAvailable(Context.item.type)",
+                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
                           "language" : "typescript"
                         },
                         "layoutStyle" : { },
@@ -602,7 +602,7 @@
                       "props" : {
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { containerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!containerTypeAvailable(Context.item.type)",
+                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
                           "language" : "typescript"
                         },
                         "label" : {
