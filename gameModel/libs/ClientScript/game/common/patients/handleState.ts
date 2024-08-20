@@ -13,6 +13,7 @@ import { getAct, getItem } from '../../../HUMAn/registries';
 import { PatientLocation, PatientState } from '../simulationState/patientState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { getPresetByName } from '../../../edition/patientPreset';
+import { PatientEvolutionEVACTimeModifier, PatientEvolutionPMATimeModifier } from '../constants';
 
 const currentPatientPreset = 'CERN 12 Mai';
 
@@ -148,14 +149,14 @@ export function reviveAfflictedPathologies(
 function computeVirtualElapsedTime(timeJump: number, location: PatientLocation): number {
   let modifier = 1;
   if (location.kind === 'Hospital') {
-    modifier = 0;
+    modifier = PatientEvolutionEVACTimeModifier;
   } else {
     switch (location.locationId) {
       case 'remote': // being evacuated
-        modifier = 0;
+        modifier = PatientEvolutionEVACTimeModifier;
         break;
       case 'PMA':
-        modifier = 0.5;
+        modifier = PatientEvolutionPMATimeModifier;
         break;
       default:
         modifier = 1;
