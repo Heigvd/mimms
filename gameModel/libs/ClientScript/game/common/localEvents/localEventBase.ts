@@ -6,7 +6,7 @@ import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
+import { getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
   ActorId,
@@ -28,6 +28,7 @@ import {
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
@@ -40,8 +41,13 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
+import {
+  getTaskByLocationAndClass,
+  getTaskCurrentStatus,
+} from '../simulationState/taskStateAccess';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus } from '../tasks/taskBase';
+import { PreTriageTask } from '../tasks/taskBasePretriage';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
 
@@ -547,7 +553,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           });
 
         keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
-          const greetingActors = getActorsOfMostInfluentAuthorityLevelByLocation(state, location);
+          const greetingActors = getHighestAuthorityActorsByLocation(state, location);
 
           greetingActors.forEach((actorId: ActorId) => {
             localEventManager.queueLocalEvent(
@@ -913,6 +919,54 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       true
     );
     localEventManager.queueLocalEvent(evt);
+  }
+}
+
+/*
+Pretriage Report calculations and radio response
+*/
+export class PretriageReportResponseLocalEvent extends LocalEventBase {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    private readonly senderId: string,
+    private readonly recipient: number,
+    private pretriageLocation: LOCATION_ENUM,
+    private feedbackWhenReport: TranslationKey
+  ) {
+    super(parentEventId, 'PretriageReportResponseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const taskStatus: TaskStatus = getTaskCurrentStatus(
+      state,
+      getTaskByLocationAndClass(state, PreTriageTask, this.pretriageLocation).Uid
+    );
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.parentEventId,
+        this.simTimeStamp,
+        this.recipient,
+        this.senderId,
+        taskStatus === 'Uninitialized'
+          ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+              getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+            ])
+          : formatStandardPretriageReport(
+              state,
+              this.pretriageLocation,
+              this.feedbackWhenReport,
+              false,
+              true
+            ),
+        this.channel,
+        true,
+        true
+      )
+    );
   }
 }
 

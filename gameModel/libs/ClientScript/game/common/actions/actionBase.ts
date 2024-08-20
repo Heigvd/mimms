@@ -4,6 +4,7 @@ import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../..
 import { getCurrentState } from '../../mainSimulationLogic';
 import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
+import * as ActorLogic from '../actors/actorLogic';
 import {
   ActionId,
   ActionTemplateId,
@@ -17,7 +18,7 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
-import { ACSMCSAutoRequestDelay } from '../constants';
+import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
@@ -48,6 +49,7 @@ import {
   MoveFreeWaitingResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
+  PretriageReportResponseLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -506,6 +508,90 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   public getRecipient(): number {
     return this.ownerId;
+  }
+}
+
+export class ActivateRadioSchemaAction extends StartEndAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    feedbackMessageKey: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly authorizedReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState?: SimFlag[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackMessageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event ActivateRadioSchemaAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event ActivateRadioSchemaAction');
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId, // must be CASU
+        state.getActorById(this.ownerId)?.ShortName || '',
+        this.requestMessage,
+        this.channel,
+        this.isRadioMessage
+      )
+    );
+
+    const suitableActors = ActorLogic.getHighestAuthorityActorOnSite(state);
+    if (suitableActors.includes(this.ownerId)) {
+      state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
+
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, //this.ownerId,
+          'CASU',
+          this.authorizedReplyMessage,
+          this.channel,
+          this.isRadioMessage
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, // this.ownerId,
+          'CASU',
+          this.unauthorizedReplyMessage,
+          this.channel,
+          this.isRadioMessage
+        )
+      );
+    }
+  }
+
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
+    return;
   }
 }
 
@@ -1101,6 +1187,99 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     localEventManager.queueLocalEvent(
       new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * The result of the action is to request state of pretriage in a specific location
+ */
+export class RequestPretriageReportAction extends RadioDrivenAction {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private pretriageLocation: LOCATION_ENUM
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackWhenStarted,
+      ownerId,
+      uuidTemplate
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event RequestPretriageReportAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    localEventManager.queueLocalEvent(
+      new PretriageReportResponseLocalEvent(
+        this.eventId,
+        state.getSimTime() + PretriageReportResponseDelay,
+        'D424',
+        0,
+        this.pretriageLocation,
+        this.feedbackWhenReport
+      )
+    );
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(_state: MainSimulationState): void {
+    return;
+  }
+
+  private formatStartMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+    ]);
+  }
+
+  public getChannel(): ActionType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return this.formatStartMessage();
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)!.FullName;
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 

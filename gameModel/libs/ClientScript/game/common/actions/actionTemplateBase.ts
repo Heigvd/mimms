@@ -23,6 +23,7 @@ import {
   AppointActorEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
+  RequestPretriageReportEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
 import { FullEvent } from '../events/eventUtils';
@@ -34,6 +35,7 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
+  ActivateRadioSchemaAction,
   AppointActorAction,
   CasuMessageAction,
   DisplayMessageAction,
@@ -46,6 +48,7 @@ import {
   SelectionPCFrontAction,
   SelectionParkAction,
   SendRadioMessageAction,
+  RequestPretriageReportAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -61,6 +64,7 @@ export enum SimFlag {
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
   PMA_BUILT = 'PMA_BUILT',
   LEADPMA_ARRIVED = 'LEADPMA_ARRIVED',
+  PMA_OPEN = 'PMA_OPEN',
 }
 
 const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
@@ -418,6 +422,175 @@ export class CasuMessageTemplate extends StartEndTemplate<
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
+  }
+}
+
+export type PretriageReportActionPayload = {
+  pretriageLocation: LOCATION_ENUM;
+};
+
+export class PretriageReportTemplate extends StartEndTemplate<
+  RequestPretriageReportAction,
+  RequestPretriageReportEvent,
+  PretriageReportActionPayload
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackWhenStarted,
+      replayable,
+      ActionType.PRETRIAGE_REPORT,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'PretriageReportTemplate' + '_' + this.title;
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<RequestPretriageReportEvent>
+  ): RequestPretriageReportAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new RequestPretriageReportAction(
+      payload.triggerTime,
+      this.duration,
+      this.feedbackWhenStarted,
+      this.feedbackWhenReport,
+      this.title,
+      event.id,
+      ownerId,
+      this.Uid,
+      payload.pretriageLocation
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    params: PretriageReportActionPayload
+  ): RequestPretriageReportEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      pretriageLocation: params.pretriageLocation,
+    };
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof RadioDrivenAction &&
+          (a as RadioDrivenAction).getChannel() === ActionType.PRETRIAGE_REPORT &&
+          (a as RadioDrivenAction).ownerId === actorUid
+      ).length === 0
+    );
+  }
+}
+
+export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<ActivateRadioSchemaAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    feedbackMessage: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly authorizedReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    replayable: boolean = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    readonly channel?: ActionType | undefined,
+    readonly isRadioMessage?: boolean
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackMessage,
+      replayable,
+      ActionType.ACTION,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<StandardActionEvent>
+  ): ActivateRadioSchemaAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new ActivateRadioSchemaAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      this.requestMessage,
+      this.authorizedReplyMessage,
+      this.unauthorizedReplyMessage,
+      ownerId,
+      this.Uid,
+      this.provideFlagsToState,
+      this.channel,
+      this.isRadioMessage
+    );
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
   }
 }
 

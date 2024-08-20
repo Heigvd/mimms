@@ -27,3 +27,8 @@ export const PatientEvolutionPMATimeModifier = 0.5;
  * Slow down factor of patient evolution when evacuated. (time stops, it is considered stabilized)
  */
 export const PatientEvolutionEVACTimeModifier = 0;
+
+/**
+ * Pretriage report delay
+ */
+export const PretriageReportResponseDelay = OneMinuteDuration * 2;

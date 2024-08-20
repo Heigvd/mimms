@@ -8,12 +8,14 @@ import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { ActionBase } from './common/actions/actionBase';
 import {
   ActionTemplateBase,
+  ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
   CasuMessageTemplate,
   DisplayMessageActionTemplate,
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
@@ -472,6 +474,19 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.PMA_BUILT]
   );
 
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    [SimFlag.PMA_BUILT],
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
+  );
+
   const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
@@ -573,14 +588,17 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
-  const activateRadioSchema = new DisplayMessageActionTemplate(
+  const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
-    false,
+    'activate-radio-schema-request',
+    'activate-radio-schema-reply-ok',
+    'activate-radio-schema-reply-unauthorized',
+    true,
     undefined,
-    [SimFlag.RADIO_SCHEMA_ACTIVATED],
+    [],
     undefined,
     ActionType.CASU_RADIO,
     true
@@ -592,6 +610,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'move-res-task-feedback',
     'move-res-task-refused',
+    true
+  );
+
+  const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-title',
+    'pretriage-report-task-desc',
+    TimeSliceDuration,
+    'pretriage-report-task-feedback-started',
+    'pretriage-report-task-feedback-report',
     true
   );
 
@@ -621,12 +648,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
+  templates[pretriageReport.getTemplateRef()] = pretriageReport;
 
   return templates;
 }
