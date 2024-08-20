@@ -7,7 +7,7 @@ import {
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
-export function containerTypeAvailable(type: ResourceContainerType): boolean {
+export function isContainerTypeAvailable(type: ResourceContainerType): boolean {
   return hasContainerOfType(getCurrentState(), type);
 }
 
