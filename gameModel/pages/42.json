@@ -602,7 +602,7 @@
                       "props" : {
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { hasContainerOfType } from \"./game/common/resources/emergencyDepartment\";\nimport { containerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!containerTypeAvailable(Context.item.type)",
+                          "content" : "import { containerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!containerTypeAvailable(Context.item.type)",
                           "language" : "typescript"
                         },
                         "label" : {
