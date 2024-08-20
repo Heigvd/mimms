@@ -596,10 +596,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
-    true,
-    undefined,
-    [],
-    undefined,
     ActionType.CASU_RADIO,
     true
   );
