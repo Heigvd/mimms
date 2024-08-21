@@ -6639,7 +6639,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO dev MIM-272",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
