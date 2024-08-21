@@ -221,5 +221,5 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
  * Just casting the interface state properly
  */
 export function getTypedInterfaceState(): InterfaceState {
-  return Context.state.interfaceState;
+  return Context.interfaceState.state;
 }

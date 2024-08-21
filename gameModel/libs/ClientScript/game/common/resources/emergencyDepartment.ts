@@ -191,6 +191,14 @@ function addContainerDefinition(
   return c.uid;
 }
 
+export function hasContainerOfType(
+  state: Readonly<MainSimulationState>,
+  type: ResourceContainerType
+): boolean {
+  const config = state.getResourceContainersByType()[type];
+  return config?.some(c => c.amount > 0);
+}
+
 /**
  * This method changes the state, it should only be called during a state update
  * Resolve a resource request made by a player
@@ -266,7 +274,6 @@ export function resolveResourceRequest(
 }
 
 /**
- * TODO amount sent ?
  * Generates one radio message per departure time containing all the sent ressources at that time
  * @param sentContainers
  * @param globalEventId

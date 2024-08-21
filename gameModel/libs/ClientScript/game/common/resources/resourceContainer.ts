@@ -21,6 +21,16 @@ export const ResourceContainerTypeArray = [
 
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
+export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {
+  'ACS-MCS': true,
+  'PC San': true,
+  PICA: true,
+  PMA: true,
+  Ambulance: false,
+  Helicopter: false,
+  SMUR: false,
+};
+
 /**
  * Describes the content of one container that can be requested by an actor to the emergency department
  */
