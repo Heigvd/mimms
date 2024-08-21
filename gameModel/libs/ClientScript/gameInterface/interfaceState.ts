@@ -14,6 +14,11 @@ import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDe
 import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 
+export enum ResourcesManagementActivityType {
+  assignTask = 'assignTask',
+  requestReport = 'requestReport',
+}
+
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
@@ -44,6 +49,9 @@ export interface InterfaceState {
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  resourcesManagement: {
+    activityType: ResourcesManagementActivityType;
   };
   evacuation: {
     data: {
@@ -104,6 +112,9 @@ export function getInitialInterfaceState(): InterfaceState {
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
+    },
+    resourcesManagement: {
+      activityType: ResourcesManagementActivityType.assignTask,
     },
   };
 }
@@ -166,7 +177,7 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
 
 export function triggerInterfaceStateUpdate(state: InterfaceState) {
   if (state.currentActorUid === undefined && getCurrentPlayerActors().length > 0) {
-    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0].Uid });
+    setInterfaceState({ currentActorUid: getCurrentPlayerActors()[0]?.Uid });
   }
 
   mainSimLogger.debug('applying callbacks', state.currentActorUid);
@@ -210,5 +221,5 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
  * Just casting the interface state properly
  */
 export function getTypedInterfaceState(): InterfaceState {
-  return Context.state.interfaceState;
+  return Context.interfaceState.state;
 }

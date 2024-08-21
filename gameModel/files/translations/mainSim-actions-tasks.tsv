@@ -16,7 +16,7 @@ define-PC-desc	Choose a position for the medical command post	Choisir l'emplacem
 define-PC-feedback	The medical command post is now ready	Le poste de commandement sanitaire (PC SAN) est maintenant prêt	
 define-Nest-title	Positioning survivor reception center location	Placer le nid de blessés	
 define-Nest-desc	Choose a position for the survivor reception center	Choisir l'emplacement du nid de blessés	
-define-Nest-feedback	The survivor reception center is now defined	Le nid de blessé est maintenant placé	
+define-Nest-feedback	The survivor reception center is now defined	Le nid de blessés est maintenant placé	
 define-PMA-title	Positioning the advanced medical post location	Placer le poste médical avancé (PMA)	
 define-PMA-desc	Choose a position for the medical post location	Choisir l'emplacement du poste médical avancé	
 define-PMA-feedback	The medical post location can now be prepared	Le poste médical avancé (PMA) est prêt à être installé	
@@ -26,8 +26,8 @@ define-ambulance-park-feedback	The ambulance park is now ready	Le parc ambulance
 define-helicopter-park-title	Define helicopter park location	Placer le parc hélicoptère	
 define-helicopter-park-desc	Choose a position for the helicopter park	Choisir l'emplacement du parc hélicoptères	
 define-helicopter-park-feedback	The helicopter park is now ready	Le parc hélicoptère est maintenant prêt	
-define-accreg-title	Define access and egress routes	Définir les route d'accès et d'évacuation	
-define-accreg-desc	Choose a position for access and egress routes along that your resources will use.	Choisir les route d'accès et d'évacuation par lesquels les moyens engagés accèdent au site	
+define-accreg-title	Define access and egress routes	Définir les routes d'accès et d'évacuation	
+define-accreg-desc	Choose a position for access and egress routes along that your resources will use.	Choisir les routes d'accès et d'évacuation par lesquelles les moyens engagés accèdent au site	
 define-accreg-feedback	Access and regress routes are defined	Les routes d'accès et d'évacuation sont définies	
 casu-message-title	Send message to CASU	Envoyer un message à CASU	
 casu-message-title-MET	Send MET	Envoi du MET	
@@ -55,8 +55,8 @@ healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes
 healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes	
 healing-pma-green-title	Green patients care	Soins des patients verts	
 healing-pma-green-desc	Green patients care	Soins des patients verts	
-send-radio-title	Sends radio message	Envoie message radio	
-send-radio-desc	Sends a radio message	Envoie un message radio	
+send-radio-title	Sends radio message	Envoyer message radio	
+send-radio-desc	Sends a radio message	Envoyer un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
 define-pcFront-title	Define forward command post	Placer le poste de commandement au front (PC front)	
 define-pcFront-desc	Choose a position for the forward command post's location	Choisir l'emplacement du poste de commandement au front	
@@ -66,34 +66,47 @@ move-actor-desc	You move to another location (to be chosen on the map)	Aller à
 move-actor-feedback	Moving	En déplacement	
 move-actor-no-location	Impossible to move because the location does not exist	Impossible de se déplacer car l'emplacement n'existe pas	
 appoint-EVASAN-title	Appoint EVASAN	Nommer EVASAN	
-appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Vous nommez un ambulancier comme EVASAN	
+appoint-EVASAN-desc	You appoint an ambulancier as EVASAN 	Nommer un ambulancier comme EVASAN	
 appoint-EVASAN-feedback	EVASAN is appointed	L' EVASAN est nommé	
-appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondant à côté de vous	
+appoint-EVASAN-no-resource-feedback	Impossible to nominate an EVASAN because there is no matching resource next to you	Impossible de nommer un EVASAN car il n'y a aucune ressource correspondante à côté de vous	
+appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA	
+appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA	
+appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé	
+appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous	
+open-PMA-title	Open the advanced medical post	Ouvrir le poste médical avancé (PMA)	
+open-PMA-desc	Open the medical post to patients	Ouvrir le poste médical avancé aux patients	
+open-PMA-feedback	The advanced medical post has been opened	Le poste médical avancé a été ouvert	
 activate-radio-schema-title	Activate the communication schema	Activer le schéma de communication	
 activate-radio-schema-desc	Activate the different radio channels	Activer les différents canaux radio	
 activate-radio-schema-feedback	Communication schema activation	Activation du schéma de communication	
+activate-radio-schema-request	Request to activate the communication schema	Demande d'activation du schéma de communication	
+activate-radio-schema-reply-ok	Approved	Accepté	
+activate-radio-schema-reply-unauthorized	Refused. The request must be made by the highest hierarchical manager present on site	Refusé. La demande doit être faite par le plus haut responsable hiérarchique présent sur site	
 define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
-waiting-title	Waiting	En attente	
+waiting-title	Available	A disposition	
 currentActivity	Current Activity	Activité en cours	
 targetActivity	Target Activity	Activité à destination	
 move-res-task-title	Assign resource	Assigner ressource	
 move-res-task-desc	Send resources	Envoyer des ressources	
-move-res-task-feedback	The resources have been sucessfuly assigned	Les ressources ont été assignés avec succès	
+move-res-task-feedback	The resources have been successfully assigned	Les ressources ont été assignées avec succès	
 move-res-task-request	{0} at {1} doing {2} will go to {3} to do {4}	{0} au {1} faisant {2} vont aller à {3} faire {4}	
 move-res-task-no-resource	There is no available resource	Il n'y a aucune resource	
 move-res-task-not-enough-resources	There is not enough resources. The available ones are assigned	Il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès	
 move-res-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
 move-res-task-no-location	Impossible to move resources because the location doesn't exist	Impossible de déplacer les ressources car l'emplacement n'existe pas	
-get-hospital-information-desc	Ask CASU for available hospital places 	Demander à la CASU les places hospitalières disponibles	
+get-hospital-information-desc	Ask CASU for available hospital places 	Demander à CASU les places hospitalières disponibles	
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
 evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
 evacuate-task-started	Evacuation of patient {0} {1} {2} {3}	Évacuation du patient {0} {1} {2} {3}	
+evacuate-feedback-return	{0} {1}: estimated return in {2} minute(s)	{0} {1} : retour dans environ {2} minute(s)	
 evacuate-task-abort	The evacuation is aborted because there are not enough resources	L'évacuation est annulée parce qu'il n'y a pas assez de ressources	
 by-ambulance	By ambulance	En ambulance	
+ambulance	Ambulance	Ambulance	
 by-helicopter	By helicopter	En hélicoptère	
+helicopter	Helicopter	Hélicoptère	
 with-healer	With healer	Avec soignant	
 with-healers	With healers	Avec soignants	
 without-healer	Without healer	Sans soignant	
@@ -104,3 +117,15 @@ no-patient-selected	Select a patient to know more about him	Sélectionner un pat
 place	Place	Lieu	
 vector	Vector	Vecteur	
 incoming-resources	Arrival of {0}	Arrivée de {0}	
+pretriage-report-task-feedback-started	Requested pretriage status for location {0}	Demande status pretriage pour {0}	
+pretriage-report-task-feedback-reportIntro	Current pretriage status for location {0}:	Etat courant du pretriage pour {0}:  	
+pretriage-report-task-feedback-reportNonPretriaged	Some patients have not been pretriaged yet.	Des patients n'ont pas été pretriés.	
+pretriage-report-task-feedback-reportReport	pretriaged by category:	pretriés par catégorie:	
+assign-task	Move and assign task	Deplacer et assigner tâche	
+request-reports	Request pretriage status	Rapport état pretriage	
+pretriage-report-task-title	Pretriage status	Pretriage status	
+pretriage-category-dead	black	noir	
+pretriage-category-immediate	red	rouge	
+pretriage-category-urgent	yellow	jaune	
+pretriage-category-non_urgent	green	vert	
+pretriage-task-notStarted	Pretriage for location {0} not started.	Le pretriage pour {0} n'est pas en cours.	

@@ -644,7 +644,7 @@ export class PathFinder {
       this.counter < this.nodeCoverageLimit
     ) {
       //get node with minimum f value
-      const currentNode = this.openList.extract();
+      const currentNode = this.openList.extract()!; // defined by non-empty condition above
       currentNode.setIsOnOpenList(false);
 
       currentNode.setIsOnClosedList(true);
@@ -1188,7 +1188,7 @@ export class PathFinder {
       this.findPointsAtDistance(gridPoint, d, p => h.insert(p));
 
       while (!h.isEmpty()) {
-        const p = h.extract();
+        const p = h.extract()!; //non-empty => always defined
         if (this.grid.isWalkableAt(p)) {
           return p;
         }

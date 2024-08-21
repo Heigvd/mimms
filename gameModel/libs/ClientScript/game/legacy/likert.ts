@@ -775,7 +775,7 @@ export async function getAllLikertData() {
       formatCsvLine(
         expertId,
         ...demographicVariables.map(
-          dKey => fullData.demographics[expertToTeamIdMap[expertId]][dKey]
+          dKey => fullData.demographics[expertToTeamIdMap[expertId]!]![dKey]
         ),
         ...keys.map(key => allData[key]![expertId] || '')
       )
@@ -806,5 +806,5 @@ export function getPhysioMatrixRO(): MatrixConfig<TimeId, KeyId, LikertMatrixCel
 
 export async function runAgain() {
   getCurrentPatientData(true);
-  Context.livePathologyEditorState.setState(s => ({ toggle: !s.toggle }));
+  Context.livePathologyEditorState.setState((s: any) => ({ toggle: !s.toggle }));
 }

@@ -25,7 +25,7 @@ export function updatePatientDashboard() {
   APIMethods.runScript('PatientDashboard.overview();', {}).then(response => {
     dashboard = response.updatedEntities[0] as PatientDashboard;
     loading = false;
-    ctx.patientDashboardState.setState(s => ({ toggle: !s.toggle }));
+    ctx.patientDashboardState.setState((s: any) => ({ toggle: !s.toggle }));
   });
 }
 

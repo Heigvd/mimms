@@ -1107,7 +1107,7 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n\nconst params = Context.interfaceState.state.evacuation;\nObject.values(params).includes(undefined);",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "hideIf" : {
@@ -1152,7 +1152,7 @@
           "height" : "100%",
           "width" : "100%"
         },
-        "name" : "EVASANform",
+        "name" : "Evacuation form",
         "style" : { }
       },
       "type" : "FlexList"

@@ -10,9 +10,10 @@ import {
 import { mainSimLogger } from '../../../tools/logger';
 import { AfflictedPathology, RevivedPathology, revivePathology } from '../../../HUMAn/pathology';
 import { getAct, getItem } from '../../../HUMAn/registries';
-import { PatientState } from '../simulationState/patientState';
+import { PatientLocation, PatientState } from '../simulationState/patientState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { getPresetByName } from '../../../edition/patientPreset';
+import { PatientEvolutionEVACTimeModifier, PatientEvolutionPMATimeModifier } from '../constants';
 
 const currentPatientPreset = 'CERN 12 Mai';
 
@@ -141,59 +142,90 @@ export function reviveAfflictedPathologies(
   return pathologies;
 }
 
+/**
+ * Patient evolution varies depending on locations
+ * time is artificially slowed down to simulate that they are being taken care of
+ */
+function computeVirtualElapsedTime(timeJump: number, location: PatientLocation): number {
+  let modifier = 1;
+  if (location.kind === 'Hospital') {
+    modifier = PatientEvolutionEVACTimeModifier;
+  } else {
+    switch (location.locationId) {
+      case 'remote': // being evacuated
+        modifier = PatientEvolutionEVACTimeModifier;
+        break;
+      case 'PMA':
+        modifier = PatientEvolutionPMATimeModifier;
+        break;
+      default:
+        modifier = 1;
+        break;
+    }
+  }
+  return timeJump * modifier;
+}
+
 export function computeNewPatientsState(
   patients: PatientState[],
   timeJump: number,
   env: Environnment
 ): void {
   const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
-  patients
-    .map(patient => patient.humanBody)
-    .forEach(patient => {
-      if (patient.meta == null) throw `Unable to find meta for patient`;
+  patients.forEach(patient => {
+    const body = patient.humanBody;
+    if (body.meta == null) throw `Unable to find meta for patient`;
+    const from = body.state.time;
+    const virtualElapsed = computeVirtualElapsedTime(timeJump, patient.location);
 
-      const from = patient.state.time;
-
-      if (patient.effects!.length === 0 && patient.revivedPathologies!.length === 0) {
-        // no need to compute state; Human is stable
-        patient.state.time = from + timeJump;
-        mainSimLogger.info('Skip Human');
-      } else {
-        mainSimLogger.debug('Update Human');
-        for (let i = stepDuration; i <= timeJump; i += stepDuration) {
-          mainSimLogger.debug('Compute Human Step ', {
-            currentTime: patient.state.time,
-            stepDuration,
-            patient: patient.revivedPathologies,
-          });
-          computeState(
-            patient.state,
-            patient.meta,
-            env,
-            stepDuration,
-            patient.revivedPathologies!,
-            patient.effects!
-          );
-          mainSimLogger.debug('Step Time: ', patient.state.time);
-        }
-
-        // last tick
-        if (patient.state.time < from + timeJump) {
-          mainSimLogger.debug('Compute Human Step ', {
-            currentTime: patient.state.time,
-            stepDuration: timeJump - patient.state.time,
-            patient: patient.revivedPathologies,
-          });
-          computeState(
-            patient.state,
-            patient.meta,
-            env,
-            from + timeJump - patient.state.time,
-            patient.revivedPathologies!,
-            patient.effects!
-          );
-        }
-        mainSimLogger.debug('FinalStateTime: ', patient.state.time);
+    if (
+      virtualElapsed === 0 ||
+      (body.effects!.length === 0 && body.revivedPathologies!.length === 0)
+    ) {
+      // no need to compute state; Human is stable
+      mainSimLogger.info('Skip Human');
+    } else {
+      mainSimLogger.debug('Update Human');
+      for (let i = stepDuration; i <= virtualElapsed; i += stepDuration) {
+        mainSimLogger.debug('Compute Human Step ', {
+          patientId: patient.patientId,
+          currentTime: body.state.time,
+          stepDuration,
+          patient: body.revivedPathologies,
+        });
+        computeState(
+          body.state,
+          body.meta,
+          env,
+          stepDuration,
+          body.revivedPathologies!,
+          body.effects!
+        );
+        mainSimLogger.debug('Step Time: ', body.state.time);
       }
-    });
+
+      // last tick
+      if (body.state.time < from + virtualElapsed) {
+        mainSimLogger.debug('Compute Human Step ', {
+          patientId: patient.patientId,
+          currentTime: body.state.time,
+          stepDuration: from + virtualElapsed - body.state.time,
+          patient: body.revivedPathologies,
+        });
+        computeState(
+          body.state,
+          body.meta,
+          env,
+          from + virtualElapsed - body.state.time,
+          body.revivedPathologies!,
+          body.effects!
+        );
+      }
+
+      mainSimLogger.debug('FinalVirtualStateTime: ', patient.patientId, body.state.time);
+    }
+    // artificially update time to real elapsed time
+    body.state.time = from + timeJump;
+    mainSimLogger.debug('FinalStateTime: ', patient.patientId, body.state.time);
+  });
 }

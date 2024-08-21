@@ -1,3 +1,4 @@
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
@@ -5,6 +6,7 @@ import { getTranslation } from '../../../tools/translation';
 import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
+import { getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
   ActorId,
@@ -24,26 +26,30 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, canMoveToLocation, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
+import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { PatientLocation, changePatientLocation } from '../simulationState/patientState';
+import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
+import {
+  getTaskByLocationAndClass,
+  getTaskCurrentStatus,
+} from '../simulationState/taskStateAccess';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus } from '../tasks/taskBase';
+import { PreTriageTask } from '../tasks/taskBasePretriage';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
-import { getActorsOfMostInfluentAuthorityLevelByLocation } from '../actors/actorLogic';
-import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
-import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 export interface LocalEvent {
   type: string;
@@ -100,7 +106,7 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
  */
 export class PlanActionLocalEvent extends LocalEventBase {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase) {
-    super(parentEventId, 'PlanActionEvent', timeStamp);
+    super(parentEventId, 'PlanActionLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -120,7 +126,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
     readonly actorUid: ActorId,
     readonly planTime: SimTime
   ) {
-    super(parentEventId, 'CancelActionEvent', timeStamp);
+    super(parentEventId, 'CancelActionLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -176,7 +182,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
     actors: ActorId[],
     readonly timeJump: number
   ) {
-    super(parentEventId, 'TimeForwardEvent', actors, timeStamp);
+    super(parentEventId, 'TimeForwardLocalEvent', actors, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -217,7 +223,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
  */
 export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actors: ActorId[]) {
-    super(parentEventId, 'TimeForwardCancelEvent', actors, timeStamp);
+    super(parentEventId, 'TimeForwardCancelLocalEvent', actors, timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -239,7 +245,7 @@ export class AddFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'AddMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'AddFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -254,7 +260,7 @@ export class RemoveFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'RemoveFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -274,7 +280,7 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
     timeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'RemoveMapItemLocalEvent', timeStamp);
+    super(parentEventId, 'CompleteBuildingFixedEntityLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -345,7 +351,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    if (!canMoveToLocation(state, this.location)) {
+    if (!canMoveToLocation(state, 'Actors', this.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
       so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
@@ -373,7 +379,7 @@ export class AddRadioMessageLocalEvent extends LocalEventBase {
     private readonly omitTranslation: boolean = false,
     private readonly messageValues: (string | number)[] = []
   ) {
-    super(parentId, 'AddLogMessageLocalEvent', timeStamp);
+    super(parentId, 'AddRadioMessageLocalEvent', timeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -547,7 +553,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           });
 
         keys(sentResourcesByLocations).forEach((location: LOCATION_ENUM) => {
-          const greetingActors = getActorsOfMostInfluentAuthorityLevelByLocation(state, location);
+          const greetingActors = getHighestAuthorityActorsByLocation(state, location);
 
           greetingActors.forEach((actorId: ActorId) => {
             localEventManager.queueLocalEvent(
@@ -681,7 +687,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, this.targetLocation)) {
+    if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
     }
@@ -704,21 +710,6 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
     return this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
-  }
-}
-
-export class MoveFreeWaitingHumanResourcesLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    targetLocation: LOCATION_ENUM
-  ) {
-    super(parentId, 'MoveFreeWaitingHumanResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
-  }
-
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeWaitingHumanResources(state);
   }
 }
 
@@ -928,6 +919,54 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       true
     );
     localEventManager.queueLocalEvent(evt);
+  }
+}
+
+/*
+Pretriage Report calculations and radio response
+*/
+export class PretriageReportResponseLocalEvent extends LocalEventBase {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    private readonly senderId: string,
+    private readonly recipient: number,
+    private pretriageLocation: LOCATION_ENUM,
+    private feedbackWhenReport: TranslationKey
+  ) {
+    super(parentEventId, 'PretriageReportResponseLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const taskStatus: TaskStatus = getTaskCurrentStatus(
+      state,
+      getTaskByLocationAndClass(state, PreTriageTask, this.pretriageLocation).Uid
+    );
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.parentEventId,
+        this.simTimeStamp,
+        this.recipient,
+        this.senderId,
+        taskStatus === 'Uninitialized'
+          ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+              getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+            ])
+          : formatStandardPretriageReport(
+              state,
+              this.pretriageLocation,
+              this.feedbackWhenReport,
+              false,
+              true
+            ),
+        this.channel,
+        true,
+        true
+      )
+    );
   }
 }
 

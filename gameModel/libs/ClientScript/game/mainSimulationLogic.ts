@@ -1,25 +1,29 @@
 /**
  * Setup function
  */
+import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
+import { getTranslation } from '../tools/translation';
+import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
+import { ActionBase } from './common/actions/actionBase';
 import {
   ActionTemplateBase,
   ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
-  ArrivalAnnouncementTemplate,
   CasuMessageTemplate,
+  DisplayMessageActionTemplate,
   EvacuationActionTemplate,
-  GetInformationTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
-  SelectionPCFrontTemplate,
   SelectionParkTemplate,
+  SelectionPCFrontTemplate,
   SelectionPCTemplate,
-  SelectionPMATemplate,
-  SendRadioMessage,
+  SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
+import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
@@ -48,22 +52,17 @@ import {
 } from './common/localEvents/localEventBase';
 import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
-import { MainSimulationState } from './common/simulationState/mainSimulationState';
+import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { Resource } from './common/resources/resource';
 import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
-import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
+import { LOCATION_ENUM } from './common/simulationState/locationState';
+import { MainSimulationState } from './common/simulationState/mainSimulationState';
+import { SubTask } from './common/tasks/subTask';
 import { HealingTask, TaskBase } from './common/tasks/taskBase';
+import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
-import { ActionType } from './common/actionType';
-import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
-import { getTranslation } from '../tools/translation';
-import { SubTask } from './common/tasks/subTask';
-import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
-import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
-import { ActionBase } from './common/actions/actionBase';
-import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -94,9 +93,7 @@ function queueAutomaticEvents() {
 function initMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
-  const testAL = new Actor('AL', LOCATION_ENUM.pcFront);
-  // AL's default location (symbolicLocation) doesn't exist yet
-  testAL.setLocation(LOCATION_ENUM.chantier);
+  const testAL = new Actor('AL', LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const mainAccident = new GeometryBasedFixedMapEntity(
@@ -281,25 +278,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [],
     [SimFlag.PCFRONT_BUILT]
   );
-  const getInfo = new GetInformationTemplate(
+  const getInfo = new DisplayMessageActionTemplate(
     'basic-info-title',
     'basic-info-desc',
     TimeSliceDuration * 2,
     'basic-info-feedback'
   );
-  const getInfo2 = new GetInformationTemplate(
+  const getInfo2 = new DisplayMessageActionTemplate(
     'other-basic-info-title',
     'other-basic-info-desc',
     TimeSliceDuration,
     'other-basic-info-feedback'
   );
-  const getPoliceInfos = new GetInformationTemplate(
+  const getPoliceInfos = new DisplayMessageActionTemplate(
     'basic-info-police-title',
     'basic-info-police-desc',
     TimeSliceDuration,
     'basic-info-police-feedback'
   );
-  const getFireFighterInfos = new GetInformationTemplate(
+  const getFireFighterInfos = new DisplayMessageActionTemplate(
     'basic-info-firefighter-title',
     'basic-info-firefighter-desc',
     TimeSliceDuration,
@@ -311,7 +308,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'casu-message-feedback'
   );
-  const radioMessage = new SendRadioMessage(
+  const radioMessage = new SendRadioMessageTemplate(
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
@@ -369,11 +366,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'right-arrow',
-      false
+      {
+        Actors: false,
+        Resources: false,
+        Patients: false,
+      }
     )
   );
 
-  const acsMcsArrivalAnnouncement = new ArrivalAnnouncementTemplate(
+  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -381,7 +382,9 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     false,
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.ACS_MCS_ANNOUNCED],
-    ['ACS', 'MCS']
+    ['ACS', 'MCS'],
+    ActionType.CASU_RADIO,
+    true
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
@@ -392,12 +395,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
-    'ambulancier',
+    ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
   );
 
-  const placePMA = new SelectionPMATemplate(
+  const appointLeadPMA = new AppointActorActionTemplate(
+    'appoint-LeadPMA-title',
+    'appoint-LeadPMA-desc',
+    TimeSliceDuration,
+    'appoint-LeadPMA-feedback',
+    true,
+    'appoint-LeadPMA-no-resource-feedback',
+    'LEADPMA',
+    ['infirmier', 'ambulancier'],
+    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.LEADPMA_ARRIVED]
+  );
+
+  const placePMA = new SelectionFixedMapEntityTemplate(
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration * 4,
@@ -452,7 +468,23 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'PMA'
-    )
+    ),
+    false,
+    undefined,
+    [SimFlag.PMA_BUILT]
+  );
+
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    [SimFlag.PMA_BUILT],
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
   );
 
   const placePC = new SelectionPCTemplate(
@@ -514,7 +546,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499961, 1118388],
       ]),
       BuildingStatus.selection,
-      'ambulance-park'
+      'ambulance-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'ambulance',
     false,
@@ -538,7 +575,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499925, 1118451],
       ]),
       BuildingStatus.selection,
-      'helicopter-park'
+      'helicopter-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'helicopter',
     false,
@@ -551,9 +593,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
-    false,
-    undefined,
-    [SimFlag.RADIO_SCHEMA_ACTIVATED]
+    'activate-radio-schema-request',
+    'activate-radio-schema-reply-ok',
+    'activate-radio-schema-reply-unauthorized',
+    ActionType.CASU_RADIO,
+    true
   );
 
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
@@ -565,12 +609,22 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true
   );
 
+  const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-title',
+    'pretriage-report-task-desc',
+    TimeSliceDuration,
+    'pretriage-report-task-feedback-started',
+    'pretriage-report-task-feedback-report',
+    true
+  );
+
   const evacuate = new EvacuationActionTemplate(
     'evacuate-title',
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
     'evacuate-task-started',
+    'evacuate-feedback-return',
     'evacuate-task-abort',
     true
   );
@@ -590,11 +644,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+  templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
+  templates[pretriageReport.getTemplateRef()] = pretriageReport;
 
   return templates;
 }
@@ -887,7 +944,7 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
     mainSimLogger.warn('state not found, cannot restore state with id', stateId);
     return;
   }
-  currentSimulationState = stateHistory[idx];
+  currentSimulationState = stateHistory[idx]!;
   stateHistory = stateHistory.slice(0, idx + 1);
 
   // store the events that have to be omitted when recomputing the state
@@ -896,8 +953,8 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
   const lastEvtId = currentSimulationState.getLastEventId();
   const all = getAllEvents();
   let i = all.length - 1;
-  while (i > 0 && all[i].id !== lastEvtId) {
-    ignored[all[i].id] = true;
+  while (i > 0 && all[i]?.id !== lastEvtId) {
+    ignored[all[i]!.id] = true;
     i--;
   }
 
@@ -911,9 +968,9 @@ export async function setCurrentStateDebug(stateId: number | undefined) {
  * Get the events that have been cancelled due to previous stored state reloading
  */
 function getOmittedEvents(): Record<string, boolean> {
-  const raw = Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()[
-    'ignored'
-  ];
+  const raw =
+    Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
+    '{}';
   const ignored = JSON.parse(raw) as Record<string, boolean>;
   return ignored;
 }

@@ -1,32 +1,30 @@
 import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { getAvailableLocations } from '../game/common/simulationState/locationState';
+import { getAvailableMapLocations } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getAllActors } from './actorFacade';
+import { getTranslation } from '../tools/translation';
+import { getActor } from './actorFacade';
 
-/**
- * Returns list of accessible map entities
- * @returns FixedMapEntity[]
- */
-export function getAvailableLocationsFacade(): FixedMapEntity[] {
-  return getAvailableLocations(getCurrentState());
+// used in page 66
+export function getActorMapLocationChoices(): { label: string; value: string }[] {
+  const currentActor = getActor(Context.interfaceState.state.currentActorUid);
+
+  const locations = getAvailableMapLocations(getCurrentState(), 'Actors')
+    /* filter out the current location */
+    .filter(fixedEntity => fixedEntity.id != currentActor!.Location);
+
+  return getLocationChoicesData(locations);
 }
 
-export function getAvailableLocationsOnMapNameReplacedByActorIfAvailable(): {
-  label: string;
-  value: string;
-}[] {
-  const allActors = getAllActors();
+// used in page 67
+export function getResourceMapLocationChoices(): { label: string; value: string }[] {
+  const locations = getAvailableMapLocations(getCurrentState(), 'Resources');
+  return getLocationChoicesData(locations);
+}
 
-  const selectValues: { label: string; value: string }[] = [];
-
-  getAvailableLocationsFacade().map(mapLocation => {
-    const actorForLocation = allActors.filter(
-      actor => actor.getComputedSymbolicLocation(getCurrentState()) === mapLocation.id
-    );
-    if (actorForLocation.length > 0) {
-      //should be one...
-      selectValues.push({ label: actorForLocation[0]!.ShortName, value: '' + mapLocation.id });
-    } else selectValues.push({ label: mapLocation.id, value: '' + mapLocation.id });
+function getLocationChoicesData(
+  mapLocations: FixedMapEntity[]
+): { label: string; value: string }[] {
+  return mapLocations.map(fixedEntity => {
+    return { label: getTranslation('mainSim-locations', fixedEntity.name), value: fixedEntity.id };
   });
-  return selectValues;
 }

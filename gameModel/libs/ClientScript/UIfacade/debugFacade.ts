@@ -89,7 +89,7 @@ export function getAllResources() {
 
 export function getAllLocalEvents() {
   let counter = 0;
-  return localEventManager.processedEvents.map(pe => {
+  return localEventManager.getProcessedEvents().map(pe => {
     return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
   });
 }

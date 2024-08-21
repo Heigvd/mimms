@@ -214,6 +214,7 @@
         type CurrentLanguages = "EN" | "FR";
         type View = 'Editor' | 'Instance' | 'Export' | 'Public';
         declare const API_VIEW : View;
+        declare const APP_CONTEXT : 'Editor' | 'Trainer' | 'Player';
         declare const CurrentGame : IGame;
         interface EditorClass extends GlobalEditorClass {
           setLanguage: (lang: { code: SGameModelLanguage['code'] } | CurrentLanguages) => void;

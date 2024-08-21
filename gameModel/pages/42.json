@@ -533,17 +533,79 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "label" : {
+                        "disableIf" : {
                           "@class" : "Script",
-                          "content" : "\"0\"",
+                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\n  \tgetRequestValue<boolean>(Context.item.type);",
                           "language" : "TypeScript"
                         },
+                        "style" : { },
+                        "type" : "checkbox"
+                      },
+                      "type" : "Boolean"
+                    }, {
+                      "props" : {
+                        "className" : "methane-input-label",
+                        "layoutStyle" : {
+                          "paddingBottom" : "0px",
+                          "paddingTop" : "0px",
+                          "width" : "84px"
+                        },
+                        "onCancel" : { },
+                        "onVariableChange" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "// TODO transalations\nContext.item.type;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(true);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "type",
+                "layout" : { },
+                "layoutStyle" : {
+                  "marginTop" : "7px"
+                },
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "maxWidth" : "700px"
+                }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
                         "layoutStyle" : { },
                         "onCancel" : { },
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.resources.requestedResources[Context.item.type] = Context.value;\nContext.interfaceState.setState(newState);",
+                            "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -559,7 +621,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "Context.interfaceState.state.resources.requestedResources[Context.item.type] || '';",
+                          "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\ngetRequestValue<number>(Context.item.type);",
                           "language" : "TypeScript"
                         },
                         "style" : {
@@ -600,7 +662,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { ResourceContainerTypeArray } from \"./game/common/resources/resourceContainer\";\nResourceContainerTypeArray.map(t => {return {type : t}});",
+                  "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(false);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "type",

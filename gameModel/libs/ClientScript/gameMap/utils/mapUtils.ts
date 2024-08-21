@@ -32,6 +32,8 @@ export function getEmptyFeatureCollection(name?: string): FeatureCollection {
 
 /*
  * Computes centroid of polygon shape
+ * source https://www.spatialanalysisonline.com/HTML/centroids_and_centers.htm
+ * assumption : every vertice is non null and has defined x,y coordinates
  */
 export function getPolygonCentroid(vertices: PointLikeObject[]): PointLikeObject {
   const centroid: PointLikeObject = [0, 0];
@@ -46,10 +48,10 @@ export function getPolygonCentroid(vertices: PointLikeObject[]): PointLikeObject
   let i: number = 0; // Counter
 
   for (; i < vertexCount - 1; ++i) {
-    x0 = vertices[i][0];
-    y0 = vertices[i][1];
-    x1 = vertices[i + 1][0];
-    y1 = vertices[i + 1][1];
+    x0 = vertices[i]![0];
+    y0 = vertices[i]![1];
+    x1 = vertices[i + 1]![0];
+    y1 = vertices[i + 1]![1];
 
     a = x0 * y1 - x1 * y0;
 
@@ -61,10 +63,10 @@ export function getPolygonCentroid(vertices: PointLikeObject[]): PointLikeObject
 
   // Do last vertex separately to avoid performing an expensive
   // modulus operation in each iteration.
-  x0 = vertices[i][0];
-  y0 = vertices[i][1];
-  x1 = vertices[0][0];
-  y1 = vertices[0][1];
+  x0 = vertices[i]![0];
+  y0 = vertices[i]![1];
+  x1 = vertices[0]![0];
+  y1 = vertices[0]![1];
 
   a = x0 * y1 - x1 * y0;
 
@@ -83,5 +85,5 @@ export function getPolygonCentroid(vertices: PointLikeObject[]): PointLikeObject
  * Computes middle point of string shape composed of 2 vertices
  */
 export function getLineStringMiddlePoint(vertices: PointLikeObject[]): PointLikeObject {
-  return [(vertices[0][0] + vertices[1][0]) / 2.0, (vertices[0][1] + vertices[1][1]) / 2.0];
+  return [(vertices[0]![0] + vertices[1]![0]) / 2.0, (vertices[0]![1] + vertices[1]![1]) / 2.0];
 }
