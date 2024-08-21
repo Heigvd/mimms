@@ -600,16 +600,6 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
-                          "language" : "typescript"
-                        },
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"0\"",
-                          "language" : "TypeScript"
-                        },
                         "layoutStyle" : { },
                         "onCancel" : { },
                         "onVariableChange" : {

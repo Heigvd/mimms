@@ -22,13 +22,14 @@ export function getFilteredResourceContainerTypeArray(
   });
 }
 
-export function getRequestValue<T extends boolean | number>(type: ResourceContainerType): T {
+export function getRequestValue<T extends boolean | number | ''>(type: ResourceContainerType): T {
   const state = getTypedInterfaceState();
-  const value = state.resources.requestedResources[type] || 0;
+  const value = state.resources.requestedResources[type];
   if (UniqueResourceTypeMap[type]) {
-    return (value > 0) as T;
+    return (value || 0 > 0) as T;
   }
-  return value as T;
+  // Note : '' is a trick to have an empty value in the numerical field
+  return (value || '') as T;
 }
 
 export function updateRequestValue(type: ResourceContainerType, value: boolean | number): void {
