@@ -524,12 +524,11 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     readonly requestMessage: TranslationKey,
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
+    readonly channel: ActionType,
     replayable: boolean = false,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[],
-    readonly channel?: ActionType | undefined,
-    readonly isRadioMessage?: boolean
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       title,
@@ -561,9 +560,8 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       this.unauthorizedReplyMessage,
       ownerId,
       this.Uid,
-      this.provideFlagsToState,
       this.channel,
-      this.isRadioMessage
+      this.provideFlagsToState
     );
   }
 

@@ -511,7 +511,7 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 }
 
-export class ActivateRadioSchemaAction extends StartEndAction {
+export class ActivateRadioSchemaAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -523,9 +523,8 @@ export class ActivateRadioSchemaAction extends StartEndAction {
     readonly unauthorizedReplyMessage: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    provideFlagsToState?: SimFlag[],
-    readonly channel?: ActionType | undefined,
-    readonly isRadioMessage?: boolean
+    readonly channel: ActionType,
+    provideFlagsToState?: SimFlag[]
   ) {
     super(
       startTimeSec,
@@ -551,11 +550,12 @@ export class ActivateRadioSchemaAction extends StartEndAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.ownerId, // must be CASU
-        state.getActorById(this.ownerId)?.ShortName || '',
-        this.requestMessage,
-        this.channel,
-        this.isRadioMessage
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
       )
     );
 
@@ -571,7 +571,7 @@ export class ActivateRadioSchemaAction extends StartEndAction {
           'CASU',
           this.authorizedReplyMessage,
           this.channel,
-          this.isRadioMessage
+          true
         )
       );
     } else {
@@ -583,7 +583,7 @@ export class ActivateRadioSchemaAction extends StartEndAction {
           'CASU',
           this.unauthorizedReplyMessage,
           this.channel,
-          this.isRadioMessage
+          true
         )
       );
     }
@@ -592,6 +592,22 @@ export class ActivateRadioSchemaAction extends StartEndAction {
   protected cancelInternal(_state: MainSimulationState): void {
     // nothing to do
     return;
+  }
+
+  public getChannel(): ActionType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.requestMessage);
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)?.ShortName || '';
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 
