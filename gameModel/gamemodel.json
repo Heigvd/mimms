@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1724168381440,
+  "createdTime" : 1724239497781,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4124,7 +4124,7 @@
           "send-radio-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sends radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "targetactivity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"target Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité à destination\",\"lang\":\"FR\"}},\"version\":0}",
           "vector" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"vector\"},\"FR\":{\"status\":\"\",\"translation\":\"vecteur\",\"lang\":\"FR\"}},\"version\":0}",
-          "waiting-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"at disposal\"},\"FR\":{\"status\":\"\",\"translation\":\"a disposition\",\"lang\":\"FR\"}},\"version\":0}",
+          "waiting-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"available\"},\"FR\":{\"status\":\"\",\"translation\":\"a disposition\",\"lang\":\"FR\"}},\"version\":0}",
           "with-healer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"with healer\"},\"FR\":{\"status\":\"\",\"translation\":\"avec soignant\",\"lang\":\"FR\"}},\"version\":0}",
           "with-healers" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"with healers\"},\"FR\":{\"status\":\"\",\"translation\":\"avec soignants\",\"lang\":\"FR\"}},\"version\":0}",
           "without-healer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"without healer\"},\"FR\":{\"status\":\"\",\"translation\":\"sans soignant\",\"lang\":\"FR\"}},\"version\":0}"

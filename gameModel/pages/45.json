@@ -54,7 +54,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"minutes\"",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'minutes', false);",
                           "language" : "TypeScript"
                         }
                       },
