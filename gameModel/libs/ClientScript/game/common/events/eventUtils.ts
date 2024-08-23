@@ -29,28 +29,17 @@ If this value is changed:
 */
 export const eventBoxImplementation: EventBoxImpl = 'NEWEVENTBOX';
 
-export function getSendEventServerScript(payload: EventPayload, time?: number, teamId?: number) {
+export function getSendEventServerScript(payload: EventPayload, teamId?: number) {
   const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'postNewEvent' : 'postEvent';
-  const p = JSON.stringify(teamId);
-  const script = `EventManager.${verb}(${JSON.stringify(payload)}, ${time}, ${p});`;
-  wlog(script);
-  return script;
+  return `EventManager.${verb}(${JSON.stringify(payload)}, undefined, ${teamId});`;
 }
 
-export function sendEvent(
-  payload: EventPayload,
-  time?: number,
-  teamId?: number
-): Promise<IManagedResponse> {
-  return APIMethods.runScript(getSendEventServerScript(payload, time, teamId), {});
+export function sendEvent(payload: EventPayload, teamId?: number): Promise<IManagedResponse> {
+  return APIMethods.runScript(getSendEventServerScript(payload, teamId), {});
 }
 
-export function sendEvents(
-  payloads: EventPayload[],
-  time?: number,
-  teamId?: number
-): Promise<IManagedResponse> {
-  const script = payloads.map(payload => getSendEventServerScript(payload, time, teamId)).join('');
+export function sendEvents(payloads: EventPayload[], teamId?: number): Promise<IManagedResponse> {
+  const script = payloads.map(payload => getSendEventServerScript(payload, teamId)).join('');
   return APIMethods.runScript(script, {});
 }
 
@@ -94,9 +83,9 @@ function getAllEventsNewImpl<P extends EventPayload>(): FullEvent<P>[] {
     const content = parse<{ time: number; payload: P }>(rawEv.payload)!;
     const event: FullEvent<P> = {
       id: rawEv.id,
-      time: content.time, // sim provided time
+      time: content.time, // sim provided time (used in pre-tri real time)
       payload: content.payload,
-      timestamp: rawEv.timeStamp,
+      timestamp: rawEv.timeStamp, // server epoch time
     };
 
     return event;
@@ -106,7 +95,7 @@ function getAllEventsNewImpl<P extends EventPayload>(): FullEvent<P>[] {
 }
 
 /**
- * Legacy compare (real time in prétri)
+ * Legacy compare (sort by real time in prétri)
  * @param a
  * @param b
  * @returns
@@ -133,5 +122,8 @@ export function compareTimedEvents(
   a: FullEvent<TimedEventPayload>,
   b: FullEvent<TimedEventPayload>
 ): number {
-  return a.payload.triggerTime - b.payload.triggerTime;
+  if (a.timestamp !== b.timestamp) {
+    return a.timestamp - b.timestamp;
+  }
+  return a.id - b.id;
 }

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1723733521795,
+  "createdTime" : 1724422672086,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5128,9 +5128,9 @@
         "@class" : "NumberInstance",
         "history" : [ ],
         "refId" : "NumberInstance:1087357:5G3oPN",
-        "value" : 0.0
+        "value" : -1.0
       },
-      "defaultValue" : 0.0,
+      "defaultValue" : -1.0,
       "editorTag" : "currentStateCount",
       "historySize" : 20,
       "isolation" : "OPEN",
@@ -5186,6 +5186,15 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "dashboard/dashboardState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1107414:ZsKPmB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "dashboard/exportation",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5217,6 +5226,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:208752:bWHbOU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/utils",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1092401:IMNt4H",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6687,7 +6705,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO dev MIM-263",
+  "name" : "MIMMS - XGO dev MIM-263 DASHBOARD",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

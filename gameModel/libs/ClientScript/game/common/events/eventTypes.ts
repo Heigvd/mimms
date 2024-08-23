@@ -19,6 +19,7 @@ import {
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
+import { ActionType } from '../actionType';
 
 /**
  * Walk, drive, fly to destination
@@ -192,14 +193,14 @@ interface TimedPayload {
   /**
    * Ignore trigger time when processing this event
    */
-  bypassTriggerTime?: boolean;
+  dashboardForced?: boolean;
 }
 
 export type TimedEventPayload = TimedPayload & EventPayload;
 
 export interface DashboardRadioMessageEvent extends BaseEvent, TimedPayload {
   type: 'DashboardRadioMessageEvent';
-  canal: string;
+  canal: ActionType;
   message: string;
 }
 
@@ -245,11 +246,6 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
    * The time duration to jump forward
    */
   timeJump: SimDuration;
-
-  /**
-   * set to true when triggered by trainer. involvedActors are ignored
-   */
-  forced: boolean;
 }
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Setup function
  */
-import { updateLastState } from '../dashboard/impacts';
+import { updateLastState } from '../dashboard/dashboardState';
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
@@ -26,7 +26,7 @@ import {
 import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
-import { TimeSliceDuration } from './common/constants';
+import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
   BuildingStatus,
@@ -71,7 +71,7 @@ let actionTemplates: Record<string, ActionTemplateBase>;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
 Helpers.registerEffect(() => {
-  currentSimulationState = initMainState();
+  currentSimulationState = buildStartingMainState();
   stateHistory = [currentSimulationState];
 
   actionTemplates = {};
@@ -90,7 +90,7 @@ function queueAutomaticEvents() {
   // empty for now
 }
 
-function initMainState(): MainSimulationState {
+export function buildStartingMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
@@ -616,8 +616,6 @@ export function runUpdateLoop(): void {
   const ignored = getOmittedEvents();
   const unprocessed = globalEvents.filter(e => !processedEvents[e.id] && !ignored[e.id]);
 
-  // state restoration debug : filter out ignored events
-
   const sorted = unprocessed.sort(compareTimedEvents);
 
   // process all candidate events
@@ -635,11 +633,10 @@ export function runUpdateLoop(): void {
  * The new state is appended to the history
  * The event is ignored if it doesn't match with the current simulation time
  * @param event the global event to process
- * @returns the resulting simulation state
  */
-function processEvent(event: FullEvent<TimedEventPayload>) {
+function processEvent(event: FullEvent<TimedEventPayload>): void {
   const now = currentSimulationState.getSimTime();
-  if (!event.payload.bypassTriggerTime) {
+  if (!event.payload.dashboardForced) {
     if (event.payload.triggerTime < now) {
       mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
       mainSimLogger.warn(
@@ -653,8 +650,8 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
     }
   } else {
     // from trainer
-    mainSimLogger.warn('!!! Bypassed trigger time event', event);
-    event.payload.triggerTime = now; // make sure event is applied now
+    mainSimLogger.info('Trainer event', event);
+    event.payload.triggerTime = now;
   }
 
   switch (event.payload.type) {
@@ -723,7 +720,7 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
     case 'TimeForwardEvent':
       {
         // if event is forced, take all actors regardless
-        const involved = event.payload.forced
+        const involved = event.payload.dashboardForced
           ? currentSimulationState.getAllActors().map(a => a.Uid)
           : event.payload.involvedActors;
 
@@ -747,13 +744,14 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
       }
       break;
     case 'DashboardRadioMessageEvent': {
+      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const radioMessageEvent = new AddRadioMessageLocalEvent(
         event.id,
         event.payload.triggerTime,
         0,
-        'Trainer',
+        trainerName,
         event.payload.message,
-        event.payload.canal as ActionType, // TODO type properly
+        event.payload.canal,
         true,
         true
       );
@@ -857,7 +855,6 @@ export async function triggerTimeForward(): Promise<IManagedResponse> {
     triggerTime: currentSimulationState.getSimTime(),
     timeJump: TimeSliceDuration,
     involvedActors: actorIds,
-    forced: false,
     type: 'TimeForwardEvent',
   };
 
@@ -895,7 +892,7 @@ export function recomputeState() {
   Resource.resetIdSeed();
   ResourceContainerResetIdSeed();
 
-  currentSimulationState = initMainState();
+  currentSimulationState = buildStartingMainState();
   stateHistory = [currentSimulationState];
 
   actionTemplates = initActionTemplates();

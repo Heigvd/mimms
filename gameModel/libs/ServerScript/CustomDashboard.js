@@ -1,6 +1,4 @@
 CustomDashboard = (function () {
-  var Long = Java.type('java.lang.Long');
-
   function getInstances(name) {
     return Variable.getInstancesByKeyId(Variable.find(gameModel, name));
   }
@@ -21,8 +19,13 @@ CustomDashboard = (function () {
     return byTeamEvents;
   }
 
+  function getStoredStatesByTeam() {
+    return getInstances('currentState');
+  }
+
   return {
     getInstances: getInstances,
     getEventsByTeam: getEventsByTeam,
+    getStoredStatesByTeam: getStoredStatesByTeam,
   };
 })();

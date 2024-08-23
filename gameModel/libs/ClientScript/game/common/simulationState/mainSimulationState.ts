@@ -14,6 +14,7 @@ import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
+import { DashboardTeamGameState, makeReducedState } from '../../../dashboard/dashboardState';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -111,6 +112,17 @@ export class MainSimulationState implements IClonable {
     return this.forwardTimeFrame;
   }
 
+  public getReducedState(): DashboardTeamGameState {
+    const { patients, ...clone } = Helpers.cloneDeep(this.internalState);
+    const reducedState: DashboardTeamGameState = {
+      ...clone,
+      patients: patients.map(p => makeReducedState(p)),
+      simulationTime: this.simulationTimeSec,
+    };
+
+    return reducedState;
+  }
+
   /************ IMMUTABLE GETTERS ***************/
   public getSimTime(): SimTime {
     return this.simulationTimeSec;
@@ -194,7 +206,7 @@ export class MainSimulationState implements IClonable {
   }
 }
 
-interface MainStateObject {
+export interface MainStateObject {
   /**
    * All actions that have been created
    */
