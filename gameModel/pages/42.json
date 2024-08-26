@@ -568,7 +568,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "// TODO transalations\nContext.item.type;",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
                           "language" : "TypeScript"
                         }
                       },
@@ -643,7 +643,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "// TODO transalations\nContext.item.type;",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
                           "language" : "TypeScript"
                         }
                       },
