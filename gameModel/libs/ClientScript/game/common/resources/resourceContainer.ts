@@ -15,7 +15,7 @@ export const ResourceContainerTypeArray = [
   'SMUR',
   'PMA',
   'PICA',
-  'PC San',
+  'PC-San',
   'Helicopter',
 ] as const;
 
@@ -23,7 +23,7 @@ export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
 export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {
   'ACS-MCS': true,
-  'PC San': true,
+  'PC-San': true,
   PICA: true,
   PMA: true,
   Ambulance: false,

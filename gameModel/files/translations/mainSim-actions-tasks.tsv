@@ -58,9 +58,9 @@ healing-pma-green-desc	Green patients care	Soins des patients verts
 send-radio-title	Sends radio message	Envoyer message radio	
 send-radio-desc	Sends a radio message	Envoyer un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
-define-pcFront-title	Define forward command post	Placer le poste de commandement au front (PC front)	
-define-pcFront-desc	Choose a position for the forward command post's location	Choisir l'emplacement du poste de commandement au front	
-define-pcFront-feedback	Forward command post is defined	Le poste de commandement au front (PC front) est défini	
+define-pcFront-title	Position your ambulance	Positionner votre ambulance	
+define-pcFront-desc	Choose a position for your ambulance. This location will be the forward command post.	Choisir un emplacement pour votre ambulance. Ce lieu sera le poste de commandement au front.	
+define-pcFront-feedback	Forward command post is defined	Le poste de commandement au front est défini	
 move-actor-title	Move to another location	Se déplacer	
 move-actor-desc	You move to another location (to be chosen on the map)	Aller à	
 move-actor-feedback	Moving	En déplacement	

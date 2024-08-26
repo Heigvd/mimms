@@ -196,13 +196,22 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     },
   };
 
-  // If we're currently performing a selection
+  // If we're currently performing a selection - for the selected one
   if (
-    !(name === Context.interfaceState.state.selectedMapObjectId) &&
+    name === Context.interfaceState.state.selectedMapObjectId &&
     Context.mapState.state.mapSelect
   ) {
-    stroke.color = '#7f868a80';
-    fill.color = '#7f868a80';
+    stroke.color = '#3CA3CC';
+    fill.color = '#3CA3CC';
+  }
+
+  // If we're currently performing a selection - for the other choices
+  if (
+    name !== Context.interfaceState.state.selectedMapObjectId &&
+    Context.mapState.state.mapSelect
+  ) {
+    stroke.color = '#3CA3CC80';
+    fill.color = '#3CA3CC80';
   }
 
   return { fill, stroke, text };
