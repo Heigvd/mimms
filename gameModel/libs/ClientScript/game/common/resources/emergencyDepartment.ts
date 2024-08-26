@@ -117,8 +117,8 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     });
 
     const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
-      'PC San',
-      'pcs',
+      'PC-San',
+      'pc-san',
       {},
       [],
       [SimFlag.PCS_ARRIVED]
