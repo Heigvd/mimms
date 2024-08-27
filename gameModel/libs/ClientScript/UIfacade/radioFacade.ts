@@ -1,7 +1,7 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
 import { ActionType } from '../game/common/actionType';
 import { getRadioChannels as getInternalRadioChannels } from '../game/common/radio/radioLogic';
-import { RadioMessage } from '../game/common/radioMessage';
+import { RadioMessage } from '../game/common/radio/radioMessage';
 import {
   getOngoingActions,
   getOngoingActionsForActor,

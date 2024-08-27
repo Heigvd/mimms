@@ -24,7 +24,7 @@
               "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == Context.channel.type;",
+                "content" : "Context.interfaceState.state.channel == Context.channel.type;",
                 "language" : "typescript"
               }
             }, {
