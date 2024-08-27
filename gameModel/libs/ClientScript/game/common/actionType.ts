@@ -7,3 +7,9 @@ export enum ActionType {
   ALLOCATE_RESOURCES = 'ALLOCATE_RESOURCES',
   PRETRIAGE_REPORT = 'PRETRIAGE_REPORT',
 }
+
+export type RadioType =
+  | ActionType.CASU_RADIO
+  | ActionType.ACTORS_RADIO
+  | ActionType.RESOURCES_RADIO
+  | ActionType.EVASAN_RADIO;

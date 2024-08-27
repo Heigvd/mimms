@@ -1,5 +1,6 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
 import { ActionType } from '../game/common/actionType';
+import { getRadioChannels as getInternalRadioChannels } from '../game/common/radio/radioLogic';
 import { RadioMessage } from '../game/common/radioMessage';
 import {
   getOngoingActions,
@@ -12,6 +13,10 @@ import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getAvailableActions } from './actionFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
+
+export function getRadioChannels() {
+  return getInternalRadioChannels();
+}
 
 /**
  * All radio messages currently in state

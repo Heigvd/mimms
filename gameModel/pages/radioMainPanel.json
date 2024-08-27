@@ -9,7 +9,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'radio')}`",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'radio');",
           "language" : "TypeScript"
         }
       },
@@ -24,7 +24,7 @@
               "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.CASU_RADIO;",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == Context.channel.type;",
                 "language" : "typescript"
               }
             }, {
@@ -32,18 +32,18 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.CASU_RADIO;",
+                "content" : "Context.interfaceState.state.channel != Context.channel.type;",
                 "language" : "typescript"
               }
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(ActionType.CASU_RADIO);",
+              "content" : "import { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(Context.channel.type);",
               "language" : "typescript"
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>G679</p>\"",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-radio', Context.channel.translationKey);",
               "language" : "TypeScript"
             },
             "layoutClassName" : "button-channel-container",
@@ -51,7 +51,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\n\nsetChannelType(ActionType.CASU_RADIO);\nupdateReadMessages(ActionType.CASU_RADIO, getAvailableRadioMessagesForChannel(ActionType.CASU_RADIO).length);",
+                "content" : "import { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\n\nsetChannelType(Context.channel.type);\nupdateReadMessages(Context.channel.type, getAvailableRadioMessagesForChannel(Context.channel.type).length);",
                 "language" : "TypeScript",
                 "returnType" : "Promise<unknown> | undefined"
               }
@@ -59,164 +59,27 @@
             "style" : { },
             "unreadCount" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.CASU_RADIO);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "button-channel",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "button-channel_selected",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.ACTORS_RADIO;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Inside",
-              "className" : "not-active-channel",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.ACTORS_RADIO;",
-                "language" : "typescript"
-              }
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(ActionType.ACTORS_RADIO);",
-              "language" : "typescript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>D418</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "button-channel-container",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.ACTORS_RADIO);\nupdateReadMessages(ActionType.ACTORS_RADIO, getAvailableRadioMessagesForChannel(ActionType.ACTORS_RADIO).length);",
-                "language" : "TypeScript",
-                "returnType" : "Promise<unknown> | undefined"
-              }
-            },
-            "style" : { },
-            "unreadCount" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.ACTORS_RADIO);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "button-channel",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "button-channel_selected",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.RESOURCES_RADIO;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Inside",
-              "className" : "not-active-channel",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.RESOURCES_RADIO;",
-                "language" : "typescript"
-              }
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(ActionType.RESOURCES_RADIO);",
-              "language" : "typescript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>D424</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "button-channel-container",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.RESOURCES_RADIO);\nupdateReadMessages(ActionType.RESOURCES_RADIO, getAvailableRadioMessagesForChannel(ActionType.RESOURCES_RADIO).length);",
-                "language" : "TypeScript",
-                "returnType" : "Promise<unknown> | undefined"
-              }
-            },
-            "style" : { },
-            "unreadCount" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.RESOURCES_RADIO);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "button-channel",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "button-channel_selected",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel == ActionType.EVASAN_RADIO;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Inside",
-              "className" : "not-active-channel",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.interfaceState.state.channel != ActionType.EVASAN_RADIO;",
-                "language" : "typescript"
-              }
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(ActionType.EVASAN_RADIO);",
-              "language" : "typescript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>D912</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "button-channel-container",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetChannelType(ActionType.EVASAN_RADIO);\nupdateReadMessages(ActionType.EVASAN_RADIO, getAvailableRadioMessagesForChannel(ActionType.EVASAN_RADIO).length);",
-                "language" : "TypeScript",
-                "returnType" : "Promise<unknown> | undefined"
-              }
-            },
-            "style" : { },
-            "unreadCount" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(ActionType.EVASAN_RADIO);",
+              "content" : "import { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(Context.channel.type);",
               "language" : "TypeScript"
             }
           },
           "type" : "Button"
         } ],
         "className" : "noPadding noMargin",
+        "exposeAs" : "channel",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannels } from \"./UIfacade/radioFacade\";\nObject.values(getRadioChannels());",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "type",
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
         "name" : "Channel choice",
         "style" : { }
       },
-      "type" : "FlexList"
+      "type" : "For each"
     }, {
       "props" : {
         "className" : "noPadding noMargin",
