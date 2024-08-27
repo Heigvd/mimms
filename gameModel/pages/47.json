@@ -88,6 +88,7 @@
         },
         "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
+        "name" : "messages output",
         "style" : { }
       },
       "type" : "For each"
@@ -107,7 +108,7 @@
         },
         "layoutClassName" : "noMargin noPadding",
         "layoutStyle" : { },
-        "name" : "casuPageLoader",
+        "name" : "action page loader",
         "style" : { }
       },
       "type" : "PageLoader"
@@ -121,7 +122,6 @@
       "height" : "100%",
       "width" : "100%"
     },
-    "name" : "messagePanel",
     "style" : { }
   },
   "type" : "FlexList"

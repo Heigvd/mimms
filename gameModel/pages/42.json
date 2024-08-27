@@ -822,7 +822,6 @@
     },
     "layoutClassName" : " noPadding noMargin casuTransmission-container",
     "layoutStyle" : { },
-    "name" : "casuMessageInput",
     "style" : { }
   },
   "type" : "FlexList"

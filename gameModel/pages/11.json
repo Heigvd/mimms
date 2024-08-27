@@ -5,7 +5,7 @@
         "className" : "mimms_h2title",
         "layoutClassName" : "",
         "layoutStyle" : { },
-        "name" : "Panel title",
+        "name" : "Title",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -213,7 +213,7 @@
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "radioMenu",
+        "name" : "Channel choice",
         "style" : { }
       },
       "type" : "FlexList"
@@ -229,7 +229,7 @@
         },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "channelPageLoader",
+        "name" : "Channel page loader",
         "style" : { }
       },
       "type" : "PageLoader"
