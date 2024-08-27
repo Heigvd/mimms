@@ -392,7 +392,7 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "11",
+          "id" : "radioMainPanel",
           "name" : "radio main panel",
           "scenaristPage" : null,
           "trainerPage" : null
