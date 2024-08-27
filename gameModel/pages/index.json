@@ -420,19 +420,19 @@
           "name" : "centrale channel"
         }, {
           "@class" : "Page",
-          "id" : "50",
+          "id" : "radioChannelIntra",
           "name" : "D418 actors free msg",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "63",
+          "id" : "radioChannelRH",
           "name" : "D424 resources",
           "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "62",
+          "id" : "radioChannelEvacuation",
           "name" : "D912 evacuation",
           "scenaristPage" : null,
           "trainerPage" : null
