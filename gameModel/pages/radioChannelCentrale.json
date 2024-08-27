@@ -103,7 +103,7 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"42\"",
+          "content" : "\"actionMETHANE\"",
           "language" : "typescript"
         },
         "layoutClassName" : "noMargin noPadding",
