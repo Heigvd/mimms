@@ -57,12 +57,17 @@ export function isLastRadioMessageForChannel(channel: ActionType, messageUid: nu
 }
 
 /**
+ * Get the current channel
+ */
+export function getSelectedChannel(): ActionType {
+  return Context.interfaceState.state.channel;
+}
+
+/**
  * Set the channel type to know which is the current
  */
-export function setChannelType(channel: ActionType) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.channel = channel;
-  Context.interfaceState.setState(newState);
+export function setSelectedChannel(channel: ActionType) {
+  setInterfaceState({ channel: channel });
 }
 
 /**
@@ -135,7 +140,7 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
 let updatingReadChannelRadioMessages = false;
 export function getUnreadMessagesCountBullet(channel: ActionType): number | undefined {
   const unreadMsgs = getUnreadMessagesCount(channel);
-  if (Context.interfaceState.state.channel !== channel) {
+  if (getSelectedChannel() !== channel) {
     return unreadMsgs > 0 ? unreadMsgs : undefined;
   } else {
     if (

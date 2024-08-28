@@ -24,7 +24,7 @@
               "className" : "button-channel_selected",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel == Context.channel.type;",
+                "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\ngetSelectedChannel() == Context.channel.type;",
                 "language" : "typescript"
               }
             }, {
@@ -32,7 +32,7 @@
               "className" : "not-active-channel",
               "condition" : {
                 "@class" : "Script",
-                "content" : "Context.interfaceState.state.channel != Context.channel.type;",
+                "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\ngetSelectedChannel() != Context.channel.type;",
                 "language" : "typescript"
               }
             } ],
@@ -51,7 +51,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { getAvailableRadioMessagesForChannel, setChannelType, updateReadMessages } from \"./UIfacade/radioFacade\";\n\nsetChannelType(Context.channel.type);\nupdateReadMessages(Context.channel.type, getAvailableRadioMessagesForChannel(Context.channel.type).length);",
+                "content" : "import { getAvailableRadioMessagesForChannel, setSelectedChannel, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetSelectedChannel(Context.channel.type);\nupdateReadMessages(Context.channel.type, getAvailableRadioMessagesForChannel(Context.channel.type).length);",
                 "language" : "TypeScript",
                 "returnType" : "Promise<unknown> | undefined"
               }
@@ -87,7 +87,7 @@
         "id" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nlet page = '';\nswitch(Context.interfaceState.state.channel) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCentrale'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelIntra'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCentrale';\n}\npage;",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nlet page = '';\nswitch(getSelectedChannel()) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCentrale'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelIntra'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCentrale';\n}\npage;",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding noMargin",
