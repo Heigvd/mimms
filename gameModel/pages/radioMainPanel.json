@@ -65,7 +65,7 @@
           },
           "type" : "Button"
         } ],
-        "className" : "noPadding noMargin",
+        "className" : "noPadding",
         "exposeAs" : "channel",
         "getItemsFn" : {
           "@class" : "Script",
@@ -74,7 +74,7 @@
         },
         "itemKey" : "type",
         "layout" : { },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "Channel choice",
         "style" : { }
@@ -82,7 +82,7 @@
       "type" : "For each"
     }, {
       "props" : {
-        "className" : "noPadding noMargin",
+        "className" : "noPadding",
         "exposePageSizeAs" : "",
         "id" : "",
         "initialSelectedPageId" : {
@@ -90,7 +90,7 @@
           "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nlet page = '';\nswitch(getSelectedChannel()) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCentrale'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelIntra'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCentrale';\n}\npage;",
           "language" : "typescript"
         },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "Channel page loader",
         "style" : { }

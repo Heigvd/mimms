@@ -110,9 +110,9 @@
                   },
                   "type" : "Button"
                 } ],
-                "className" : "noPadding noMargin",
+                "className" : "noPadding",
                 "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : {
                   "maxWidth" : "25vw"
                 },
@@ -148,7 +148,7 @@
               "alignItems" : "flex-start",
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "maxWidth" : "25vw"
             },
@@ -211,7 +211,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterM",
             "style" : { }
@@ -270,7 +270,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterE",
             "style" : { }
@@ -329,7 +329,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterT",
             "style" : { }
@@ -388,7 +388,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterH",
             "style" : { }
@@ -447,7 +447,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterA",
             "style" : { }
@@ -506,7 +506,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterN",
             "style" : { }
@@ -683,7 +683,7 @@
               "language" : "typescript"
             },
             "layout" : { },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterE",
             "style" : { }
@@ -728,7 +728,7 @@
                   },
                   "type" : "Button"
                 } ],
-                "className" : "noPadding noMargin",
+                "className" : "noPadding",
                 "exposeAs" : "hospitalProximityEntry",
                 "getItemsFn" : {
                   "@class" : "Script",
@@ -737,7 +737,7 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -751,7 +751,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding noMargin",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterR",
             "style" : { }
@@ -816,11 +816,11 @@
       },
       "type" : "FlexList"
     } ],
-    "className" : "noPadding noMargin ",
+    "className" : "noPadding ",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : " noPadding noMargin casuTransmission-container",
+    "layoutClassName" : " noPadding casuTransmission-container",
     "layoutStyle" : { },
     "style" : { }
   },

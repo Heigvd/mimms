@@ -94,7 +94,7 @@
       "type" : "For each"
     }, {
       "props" : {
-        "className" : "noMargin noPadding",
+        "className" : "noPadding",
         "disableIf" : {
           "@class" : "Script",
           "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\nisChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid,  ActionType.CASU_RADIO);",
@@ -106,18 +106,18 @@
           "content" : "\"actionMETHANE\"",
           "language" : "typescript"
         },
-        "layoutClassName" : "noMargin noPadding",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "action page loader",
         "style" : { }
       },
       "type" : "PageLoader"
     } ],
-    "className" : "noPadding noMargin ",
+    "className" : "noPadding ",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin",
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "width" : "100%"
