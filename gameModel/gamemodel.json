@@ -4321,9 +4321,9 @@
         },
         "name" : "mainSim-radio",
         "properties" : {
-          "radio-channel-centrale" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"g679\"},\"FR\":{\"status\":\"\",\"translation\":\"g679\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-channel-actors" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d418\"},\"FR\":{\"status\":\"\",\"translation\":\"d418\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-channel-casu" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"g679\"},\"FR\":{\"status\":\"\",\"translation\":\"g679\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d912\"},\"FR\":{\"status\":\"\",\"translation\":\"d912\",\"lang\":\"FR\"}},\"version\":0}",
-          "radio-channel-intra" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d418\"},\"FR\":{\"status\":\"\",\"translation\":\"d418\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-rh" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d424\"},\"FR\":{\"status\":\"\",\"translation\":\"d424\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:661339:Uj1yC9",

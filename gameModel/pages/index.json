@@ -400,8 +400,8 @@
           "@class" : "Folder",
           "items" : [ {
             "@class" : "Page",
-            "id" : "radioChannelCentrale",
-            "name" : "G679 CASU Centrale channel",
+            "id" : "radioChannelCASU",
+            "name" : "CASU channel main panel",
             "scenaristPage" : null,
             "trainerPage" : null
           }, {
@@ -417,7 +417,7 @@
             "scenaristPage" : false,
             "trainerPage" : null
           } ],
-          "name" : "centrale channel"
+          "name" : "CASU channel"
         }, {
           "@class" : "Page",
           "id" : "radioChannelIntra",

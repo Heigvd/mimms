@@ -10,11 +10,11 @@ export function getRadioChannels(): Record<RadioType, RadioChannel> {
   return {
     CASU_RADIO: {
       type: ActionType.CASU_RADIO,
-      translationKey: 'radio-channel-centrale',
+      translationKey: 'radio-channel-casu',
     },
     ACTORS_RADIO: {
       type: ActionType.ACTORS_RADIO,
-      translationKey: 'radio-channel-intra',
+      translationKey: 'radio-channel-actors',
     },
     RESOURCES_RADIO: {
       type: ActionType.RESOURCES_RADIO,
