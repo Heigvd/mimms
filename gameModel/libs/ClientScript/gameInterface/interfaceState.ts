@@ -19,6 +19,8 @@ export enum ResourcesManagementActivityType {
   requestReport = 'requestReport',
 }
 
+export type CasuChannelAction = 'CASUMessage' | 'channelsActivation' | undefined;
+
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
@@ -30,11 +32,12 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
-  channel: string;
+  selectedRadioChannel: string;
   updatedChannelMessagesAt: number;
   channelText: {
     actors: string;
   };
+  selectedCASUChannelAction: CasuChannelAction;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -108,11 +111,12 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
-    channel: ActionType.CASU_RADIO,
+    selectedRadioChannel: ActionType.CASU_RADIO,
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
     },
+    selectedCASUChannelAction: undefined,
     resourcesManagement: {
       activityType: ResourcesManagementActivityType.assignTask,
     },

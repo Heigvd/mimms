@@ -536,7 +536,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       duration,
       feedbackMessage,
       replayable,
-      ActionType.ACTION,
+      ActionType.ACTIVATE_RADIO_CHANNELS,
       flags,
       provideFlagsToState,
       availableToRoles
