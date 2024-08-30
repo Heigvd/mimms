@@ -51,7 +51,7 @@
                       "className" : "aMessage-animation",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { RadioMessage } from \"./game/common/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
+                        "content" : "import { RadioMessage } from \"./game/common/radio/radioMessage\";\nimport { getSimTime } from \"./UIfacade/timeFacade\";\n(Context.item as RadioMessage).timeStamp == getSimTime();",
                         "language" : "typescript"
                       }
                     } ],

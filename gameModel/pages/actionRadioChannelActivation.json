@@ -1,0 +1,70 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h3title",
+        "layoutClassName" : "noPadding aDescriptionAction",
+        "layoutStyle" : { },
+        "name" : "description",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\ngetRadioChannelsActivationTemplate()?.getDescription();",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "button-secondaryColor button-S",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "abort",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getRadioChannelsActivationTemplate();\n!!action && isPlannedAction(action.Uid);",
+            "language" : "typescript"
+          }
+        } ],
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action =  getRadioChannelsActivationTemplate();\n  if (!action) return true;\nif (canPlanAction()) return false;\n!isPlannedAction(action.Uid);",
+          "language" : "typescript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\n!getRadioChannelsActivationTemplate();",
+          "language" : "typescript"
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action =  getRadioChannelsActivationTemplate();\n  if (!action) {\n    return undefined;\n  }\nconst isPlanned = isPlannedAction(action.Uid)\nisPlanned ? getTranslation('mainSim-interface', 'cancel') : getTranslation(`mainSim-interface`, `send-one-minute`);",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : {
+          "alignSelf" : "flex-end",
+          "padding" : "15px 0px 10px 0px"
+        },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action =  getRadioChannelsActivationTemplate();\nrunActionButton(action);",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "send",
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

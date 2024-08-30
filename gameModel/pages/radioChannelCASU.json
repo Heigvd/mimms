@@ -1,0 +1,323 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "emitter-text-header-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(Context.item.pending){\n    const translation = getTranslation('mainSim-interface', 'msg-now');\n      return translation;\n  }\n getNotificationTime(Context.item.timeStamp);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "emitter-text-body-layout",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n  return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "radio-message-others tri-right left-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "radio-message-myself tri-right right-top",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "radio-message-last",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.CASU_RADIO, Context.item.uid);",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "pending",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Context.item.pending",
+                "language" : "typescript"
+              }
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.CASU_RADIO;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "messageArea",
+        "exposeAs" : "item",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.CASU_RADIO));",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "messageArea-container",
+        "layoutStyle" : { },
+        "name" : "messages output",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "className" : "mimms_h2title",
+        "layoutStyle" : { },
+        "name" : "modalTitle",
+        "style" : {
+          "width" : "100%"
+        },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(`mainSim-interface`, `casu-transmission`);",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "rectangleButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>METHANE</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "methane",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>MET</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "met",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>HANE</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "hane",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-resources');",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n newState.selectedCASUChannelAction = 'CASUMessage';\n Context.interfaceState.setState(newState);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "demandeRessources",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "noPadding",
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "maxWidth" : "25vw"
+            },
+            "name" : "METHANE buttons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "rectangleButton",
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-hospital-info');",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "rectangleButton-container",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'R';\n newState.selectedCASUChannelAction = 'CASUMessage';\n Context.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "hospital info button",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "rectangleButton",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "radio-action_selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getSelectedCASUChannelAction } from \"./UIfacade/radioFacade\";\ngetSelectedCASUChannelAction() === 'channelsActivation';",
+                "language" : "typescript"
+              }
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\n  getRadioChannelsActivationTemplate() === undefined;",
+              "language" : "typescript"
+            },
+            "id" : "",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','activate-radio-schema-title');",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "rectangleButton-container",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = '';\n newState.selectedCASUChannelAction = 'channelsActivation';\n Context.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "radio channels button",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "noPadding",
+        "layout" : {
+          "alignItems" : "flex-start",
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "maxWidth" : "25vw"
+        },
+        "name" : "buttons",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "className" : "noPadding",
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\nfalse /* TODO */ && isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid,  ActionType.CASU_RADIO);",
+          "language" : "typescript"
+        },
+        "exposePageSizeAs" : "",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCASUChannelAction) === '';",
+          "language" : "typescript"
+        },
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCASUChannelAction);",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "action page loader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "className" : "noPadding ",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

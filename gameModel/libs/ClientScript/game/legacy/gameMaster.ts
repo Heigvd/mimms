@@ -50,7 +50,7 @@ export function getGamePageId() {
       case 'PRE-TRIAGE':
         return '12';
       case 'PRE-TRIAGE_ON_MAP':
-        return '11';
+        return '12'; // The dedicated page does not exist anymore, so redirect to same as 'PRE-TRIAGE'
       case 'LIKERT':
         return '26';
     }
@@ -60,7 +60,7 @@ export function getGamePageId() {
     switch (mode) {
       case 'SOFTWARE':
         // always on map
-        return '11';
+        return '12'; // The dedicated page does not exist anymore, so redirect to same as 'PRE-TRIAGE'
       case 'REAL_LIFE': {
         const role = getRealLifeRole();
         switch (role) {

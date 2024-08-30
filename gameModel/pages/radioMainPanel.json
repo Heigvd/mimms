@@ -1,0 +1,108 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h2title",
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "name" : "Title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'radio');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "button-channel ",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "button-channel_selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\ngetSelectedChannel() == Context.channel.type;",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "not-active-channel",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\ngetSelectedChannel() != Context.channel.type;",
+                "language" : "typescript"
+              }
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isChannelHidden } from \"./UIfacade/radioFacade\";\nisChannelHidden(Context.channel.type);",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-radio', Context.channel.translationKey);",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "button-channel-container",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getAvailableRadioMessagesForChannel, setSelectedChannel, updateReadMessages } from \"./UIfacade/radioFacade\";\nsetSelectedChannel(Context.channel.type);\nupdateReadMessages(Context.channel.type, getAvailableRadioMessagesForChannel(Context.channel.type).length);",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
+              }
+            },
+            "style" : { },
+            "unreadCount" : {
+              "@class" : "Script",
+              "content" : "import { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(Context.channel.type);",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "noPadding",
+        "exposeAs" : "channel",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getRadioChannels } from \"./UIfacade/radioFacade\";\nObject.values(getRadioChannels());",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "type",
+        "layout" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "Channel choice",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "className" : "noPadding",
+        "exposePageSizeAs" : "",
+        "id" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nlet page = '';\nswitch(getSelectedChannel()) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCASU'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelActors'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCASU';\n}\npage;",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "Channel page loader",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "leftSubPanel-container",
+    "layoutStyle" : { },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

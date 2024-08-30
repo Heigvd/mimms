@@ -162,6 +162,7 @@
           "mainSim-actions-tasks": SObjectDescriptor;
           "mainSim-actors": SObjectDescriptor;
           "mainSim-resources": SObjectDescriptor;
+          "mainSim-radio": SObjectDescriptor;
           "mainSim-summary": SObjectDescriptor;
           "mainSim-locations": SObjectDescriptor;
 
