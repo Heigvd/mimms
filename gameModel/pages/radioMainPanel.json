@@ -87,7 +87,7 @@
         "id" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nlet page = '';\nswitch(getSelectedChannel()) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCASU'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelIntra'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCASU';\n}\npage;",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nlet page = '';\nswitch(getSelectedChannel()) {\n\tcase ActionType.CASU_RADIO: page = 'radioChannelCASU'; break;\n\tcase ActionType.ACTORS_RADIO: page = 'radioChannelActors'; break;\n\tcase ActionType.RESOURCES_RADIO: page = 'radioChannelRH'; break;\n\tcase ActionType.EVASAN_RADIO: page = 'radioChannelEvacuation'; break;\n\tdefault: page = 'radioChannelCASU';\n}\npage;",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding",

@@ -420,7 +420,7 @@
           "name" : "CASU channel"
         }, {
           "@class" : "Page",
-          "id" : "radioChannelIntra",
+          "id" : "radioChannelActors",
           "name" : "D418 actors free msg",
           "scenaristPage" : null,
           "trainerPage" : null
