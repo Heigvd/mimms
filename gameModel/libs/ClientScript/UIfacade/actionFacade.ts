@@ -112,14 +112,14 @@ export function isCasuMessageActionTemplate(id: number): boolean {
   return template instanceof CasuMessageTemplate;
 }
 
-/**
- * @param id Uid of given action
- */
-export function isRadioActionTemplate(id: number): boolean {
+export function isRadioActionTemplate(
+  actionTemplateUid: number,
+  actionCategory: ActionType
+): boolean {
   const template = getAvailableActions(
     Context.interfaceState.state.currentActorUid,
-    ActionType.ACTORS_RADIO
-  ).find(t => t.Uid === id);
+    actionCategory
+  ).find(t => t.Uid === actionTemplateUid);
   return template instanceof SendRadioMessageTemplate;
 }
 

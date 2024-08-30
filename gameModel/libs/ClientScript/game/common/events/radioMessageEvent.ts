@@ -1,11 +1,9 @@
-import { ActionType } from '../actionType';
 import { SimDuration } from '../baseTypes';
 import { ActionCreationEvent } from './eventTypes';
 
 export interface RadioMessagePayload {
-  channel: ActionType;
+  actorId: number; // the emitter
   message: string;
-  actorId: number;
 }
 
 export interface RadioMessageActionEvent extends ActionCreationEvent {

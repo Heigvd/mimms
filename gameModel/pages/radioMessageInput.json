@@ -6,22 +6,22 @@
           "props" : {
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+              "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
               "language" : "typescript"
             },
             "layoutStyle" : {
-              "width" : "100%"
+              "width" : "calc(100% - 10px)"
             },
             "onCancel" : { },
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.actors = Context.actors;\nContext.interfaceState.setState(newState);",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.radioMessageInput[Context.currentRadio.state.channel] = Context.text;\nContext.interfaceState.setState(newState);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
                 "@class" : "Script",
-                "content" : "\"actors\"",
+                "content" : "\"text\"",
                 "language" : "TypeScript"
               }
             },
@@ -32,13 +32,13 @@
             },
             "readOnlyIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\n!canPlanAction();",
               "language" : "typescript"
             },
             "rows" : 6,
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.channelText.actors;",
+              "content" : "Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
               "language" : "TypeScript"
             },
             "style" : {
@@ -56,7 +56,7 @@
               "className" : "disabled",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+                "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
                 "language" : "typescript"
               }
             }, {
@@ -64,28 +64,30 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
+                "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\nisPlannedAction(actions[0].Uid);",
                 "language" : "typescript"
               }
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+              "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
               "language" : "typescript"
             },
             "label" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+              "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
               "language" : "TypeScript"
             },
             "layoutStyle" : {
+              "align-self" : "flex-end",
               "bottom" : "5px",
+              "justify-content" : "flex-end",
               "right" : "5px"
             },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nrunActionButton(action[0]);",
+                "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\nrunActionButton(action[0]);",
                 "language" : "TypeScript"
               }
             },
@@ -95,7 +97,7 @@
         } ],
         "disableIf" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+          "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
           "language" : "typescript"
         },
         "layoutStyle" : {
@@ -110,15 +112,17 @@
       },
       "type" : "AbsoluteLayout"
     } ],
+    "className" : "noPadding",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding",
+    "layoutClassName" : "noPadding freeMessageInput-container",
     "layoutStyle" : {
-      "height" : "100%",
       "width" : "100%"
     },
-    "style" : { }
+    "style" : {
+      "width" : "100%"
+    }
   },
   "type" : "FlexList"
 }

@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { ActionType } from '../actionType';
+import { ActionType, RadioType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
@@ -995,7 +995,9 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly radioChannel: RadioType,
     replayable: boolean = true,
+    category: ActionType,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -1006,7 +1008,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       duration,
       message,
       replayable,
-      ActionType.ACTORS_RADIO,
+      category,
       flags,
       provideFlagsToState,
       availableToRoles
@@ -1026,6 +1028,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       event.id,
       ownerId,
       this.Uid,
+      this.radioChannel,
       payload.radioMessagePayload
     );
   }
@@ -1043,7 +1046,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendRadioMessageTemplate' + '_' + this.title;
+    return 'SendRadioMessageTemplate' + '_' + this.radioChannel;
   }
 
   public getDescription(): string {
@@ -1062,7 +1065,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.ACTORS_RADIO &&
+          (a as RadioDrivenAction).getChannel() === this.radioChannel &&
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );

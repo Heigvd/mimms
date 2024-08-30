@@ -25,6 +25,7 @@ import {
   getEmptyAllocateResourcesRadio,
   getEmptyEvacuationInterfaceState,
   getEmptyResourceRequest,
+  getTypedInterfaceState,
   setInterfaceState,
 } from './interfaceState';
 import { ActionType } from '../game/common/actionType';
@@ -61,7 +62,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchMoveResourcesAssignTaskValues();
   } else if (isCasuMessageActionTemplate(actionRefUid)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(actionRefUid)) {
+  } else if (isRadioActionTemplate(actionRefUid, ActionType.ACTORS_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
   } else if (isMoveActorActionTemplate(actionRefUid)) {
     params = fetchMoveActorLocation();
@@ -205,20 +206,14 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
  * @returns RadioMessagePayload
  */
 function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
-  let res: RadioMessagePayload;
-  if (channel == ActionType.ACTORS_RADIO)
-    res = {
-      channel: channel,
-      message: Context.interfaceState.state.channelText.actors,
-      actorId: Context.interfaceState.state.currentActorUid,
-    };
-  else {
-    res = { channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid };
-  }
+  const res = {
+    message: getTypedInterfaceState().radioMessageInput[channel] ?? '',
+    actorId: getTypedInterfaceState().currentActorUid!,
+  };
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.channelText.actors = '';
+  newState.radioMessageInput[channel] = '';
   Context.interfaceState.setState(newState);
 
   return res;

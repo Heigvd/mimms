@@ -308,11 +308,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'casu-message-feedback'
   );
-  const radioMessage = new SendRadioMessageTemplate(
+
+  const actorFreeRadioMessage = new SendRadioMessageTemplate(
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
-    'send-radio-feedback'
+    'send-radio-feedback',
+    ActionType.ACTORS_RADIO,
+    true,
+    ActionType.ACTORS_RADIO
   );
 
   const moveActor = new MoveActorActionTemplate(
@@ -636,8 +640,6 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[getInfo2.getTemplateRef()] = getInfo2;
   templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
   templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
-  templates[casuMessage.getTemplateRef()] = casuMessage;
-  templates[radioMessage.getTemplateRef()] = radioMessage;
   templates[placePMA.getTemplateRef()] = placePMA;
   templates[placePC.getTemplateRef()] = placePC;
   templates[placeNest.getTemplateRef()] = placeNest;
@@ -647,6 +649,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
+  templates[casuMessage.getTemplateRef()] = casuMessage;
+  templates[actorFreeRadioMessage.getTemplateRef()] = actorFreeRadioMessage;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
