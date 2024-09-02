@@ -7,6 +7,7 @@ import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { ActionBase } from './common/actions/actionBase';
 import {
+  AcsMcsArrivalAnnouncement,
   ActionTemplateBase,
   ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
@@ -15,6 +16,7 @@ import {
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  OpenPmaActionTemplate,
   PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
@@ -312,7 +314,8 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
-    'send-radio-feedback'
+    'send-radio-feedback',
+    ActionType.ACTORS_RADIO
   );
 
   const moveActor = new MoveActorActionTemplate(
@@ -374,7 +377,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     )
   );
 
-  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
+  const acsMcsArrivalAnnouncement = new AcsMcsArrivalAnnouncement(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -474,7 +477,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.PMA_BUILT]
   );
 
-  const openPMA = new DisplayMessageActionTemplate(
+  const openPMA = new OpenPmaActionTemplate(
     'open-PMA-title',
     'open-PMA-desc',
     TimeSliceDuration,

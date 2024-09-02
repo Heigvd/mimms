@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { ActionType } from '../actionType';
+import { ActionType, RadioType, UniqueAction } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
@@ -331,7 +331,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendMessageActionTemplate' + '_' + this.title;
+    return 'DisplayMessageActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -340,6 +340,18 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
+  }
+}
+
+export class OpenPmaActionTemplate extends DisplayMessageActionTemplate {
+  public override getTemplateRef(): TemplateRef {
+    return UniqueAction.OpenPmaActionTemplate;
+  }
+}
+
+export class AcsMcsArrivalAnnouncement extends DisplayMessageActionTemplate {
+  public override getTemplateRef(): TemplateRef {
+    return UniqueAction.AcsMcsArrivalAnnouncement;
   }
 }
 
@@ -372,7 +384,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'CasuMessageTemplate' + '_' + this.title;
+    return UniqueAction.CasuMessageTemplate;
   }
 
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
@@ -459,7 +471,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'PretriageReportTemplate' + '_' + this.title;
+    return UniqueAction.PretriageReportTemplate;
   }
 
   protected createActionFromEvent(
@@ -573,7 +585,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+    return UniqueAction.ActivateRadioSchemaActionTemplate;
   }
 
   public getDescription(): string {
@@ -634,7 +646,7 @@ export class SelectionFixedMapEntityTemplate<
   }
 
   public getTemplateRef(): string {
-    return 'SelectionFixedMapEntityTemplate' + '_' + this.title;
+    return 'SelectionFixedMapEntityTemplate' + '_' + this.fixedMapEntity.id;
   }
 
   public buildGlobalEvent(
@@ -741,7 +753,7 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionPCFrontTemplate' + '_' + this.title;
+    return UniqueAction.SelectionPCFrontTemplate;
   }
 
   protected override createActionFromEvent(
@@ -797,7 +809,7 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionPCTemplate' + '_' + this.title;
+    return UniqueAction.SelectionPCTemplate;
   }
 
   protected override createActionFromEvent(
@@ -854,7 +866,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionParkTemplate' + '_' + this.title;
+    return 'SelectionParkTemplate' + '_' + this.vehicleType;
   }
 
   protected override createActionFromEvent(
@@ -928,7 +940,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveResourcesAssignTaskActionTemplate' + '_' + this.title;
+    return UniqueAction.MoveResourcesAssignTaskActionTemplate;
   }
 
   public getTitle(): string {
@@ -995,6 +1007,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly radioChannel: RadioType,
     replayable: boolean = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -1043,7 +1056,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendRadioMessageTemplate' + '_' + this.title;
+    return 'SendRadioMessageTemplate' + '_' + this.radioChannel;
   }
 
   public getDescription(): string {
@@ -1127,7 +1140,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveActorActionTemplate' + '_' + this.title;
+    return UniqueAction.MoveActorActionTemplate;
   }
 
   public getDescription(): string {
@@ -1213,7 +1226,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'AppointActorActionTemplate' + '_' + this.title;
+    return 'AppointActorActionTemplate' + '_' + this.actorRole;
   }
 
   public getDescription(): string {
@@ -1266,7 +1279,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'EvacuationActionTemplate' + '_' + this.title;
+    return UniqueAction.EvacuationActionTemplate;
   }
 
   public getTitle(): TranslationKey {
