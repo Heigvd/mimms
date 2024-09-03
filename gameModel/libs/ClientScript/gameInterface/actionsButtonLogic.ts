@@ -34,6 +34,7 @@ import { EvacuationActionPayload } from '../game/common/events/evacuationMessage
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { actionLogger } from '../tools/logger';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -45,6 +46,8 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
   if (action != undefined) {
     Context.action = action;
   }
+
+  actionLogger.debug('run action button for ' + JSON.stringify(action?.getTemplateRef()));
 
   const actionRefUid = Context.action.Uid;
 
@@ -62,6 +65,8 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchMoveResourcesAssignTaskValues();
   } else if (isCasuMessageActionTemplate(actionRefUid)) {
     params = fetchCasuMessageRequestValues();
+  } else if (isRadioActionTemplate(actionRefUid, ActionType.CASU_RADIO)) {
+    params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
   } else if (isRadioActionTemplate(actionRefUid, ActionType.ACTORS_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
   } else if (isMoveActorActionTemplate(actionRefUid)) {

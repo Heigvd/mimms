@@ -319,6 +319,16 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     ActionType.ACTORS_RADIO
   );
 
+  const casuFreeRadioMessage = new SendRadioMessageTemplate(
+    'send-radio-title',
+    'send-radio-desc',
+    TimeSliceDuration,
+    'send-radio-feedback',
+    ActionType.CASU_RADIO,
+    true,
+    ActionType.CASU_RADIO
+  );
+
   const moveActor = new MoveActorActionTemplate(
     'move-actor-title',
     'move-actor-desc',
@@ -651,6 +661,7 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[casuMessage.getTemplateRef()] = casuMessage;
   templates[actorFreeRadioMessage.getTemplateRef()] = actorFreeRadioMessage;
+  templates[casuFreeRadioMessage.getTemplateRef()] = casuFreeRadioMessage;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
   templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;

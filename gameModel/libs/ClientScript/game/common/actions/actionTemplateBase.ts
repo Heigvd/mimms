@@ -331,7 +331,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'SendMessageActionTemplate' + '_' + this.title;
+    return 'DisplayMessageActionTemplate' + '_' + this.title;
   }
 
   public getDescription(): string {
@@ -667,7 +667,7 @@ export class SelectionFixedMapEntityTemplate<
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
       this.provideFlagsToState
-    );
+    ) as ActionT;
   }
 
   public getDescription(): string {

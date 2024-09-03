@@ -67,6 +67,8 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
     return 'actionMETHANE';
   } else if (action === 'channelsActivation') {
     return 'actionRadioChannelActivation';
+  } else if (action === 'freeMessage') {
+    return 'radioMessageInput';
   }
   return '';
 }
@@ -250,6 +252,7 @@ export function isChannelNewActivityDisabled(
   if (isChannelBusy(channel)) return true;
   if (canPlanAction()) return false;
   const action = getAvailableActions(currentActorUid, channel);
+  // TODO make it stronger
   const actionId = action[0]?.Uid;
 
   return actionId ? !isPlannedAction(actionId) : true;
