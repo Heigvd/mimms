@@ -136,7 +136,14 @@ export function exportAllPatientsTimeOfDeath() {
   const patients = computePresetPatientsUntilDeath();
 
   const separator = '\t';
-  const header: string[] = ['patientId', 'time_to_death_minutes'];
+  const header: string[] = [
+    'patientId',
+    'sex',
+    'age',
+    'height (cm)',
+    'bmi',
+    'time_to_death_minutes',
+  ];
 
   const lines: Record<PatientId, string[]> = {};
 
@@ -146,6 +153,10 @@ export function exportAllPatientsTimeOfDeath() {
     const line: string[] = [];
     lines[patient.patientId] = line;
     line.push(patient.patientId);
+    line.push(patient.humanBody.meta.sex);
+    line.push(String(patient.humanBody.meta.age));
+    line.push(String(patient.humanBody.meta.height_cm));
+    line.push(String(patient.humanBody.meta.bmi));
     line.push(patient.timeOfDeath === 0 ? '.' : String(patient.timeOfDeath));
     for (let pathology of patient.pathologies) {
       line.push(pathology);
