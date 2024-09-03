@@ -81,6 +81,29 @@ export async function unregisterSelf(): Promise<void> {
   }
 }
 
+/**
+ * Register self as all roles and mark ready (use only for scenarist)
+ */
+export async function registerSelfAllRolesAndReady(): Promise<void> {
+  const playerId = self.getId();
+  const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
+
+  playerMatrix.ready = true;
+  for (const role in playerMatrix.roles) {
+    playerMatrix.roles[role as InterventionRole] = true;
+  }
+
+  const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${playerId!.toString()}, ${JSON.stringify(
+    JSON.stringify(playerMatrix)
+  )})`;
+
+  try {
+    await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
 function canUpdateRole(targetPlayerId: number): boolean {
   const currentPlayerId = self.getId();
   return (
@@ -149,7 +172,7 @@ export function getPlayersAndRoles(): MultiplayerMatrix {
 export function getPlayerRolesSelf(): PlayerRoles {
   const currentPlayerId = self.getId();
   if (currentPlayerId === undefined) {
-    mainSimLogger.error(`Your a currently not registered as a player`);
+    mainSimLogger.error(`You are currently not registered as a player`);
     return {};
   }
 
