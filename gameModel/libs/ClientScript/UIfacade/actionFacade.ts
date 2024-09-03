@@ -15,6 +15,7 @@ import {
   SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
+  StartEndTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
 import { ActionCreationEvent } from '../game/common/events/eventTypes';
@@ -25,6 +26,90 @@ import {
   getCurrentState,
 } from '../game/mainSimulationLogic';
 import { ActionType } from '../game/common/actionType';
+import { getTranslation } from '../tools/translation';
+import { canPlanAction, isPlannedAction, showActionParamsPanel } from '../gameInterface/main';
+import { runActionButton } from '../gameInterface/actionsButtonLogic';
+import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
+import { endMapAction, startMapSelect } from '../gameMap/main';
+
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Typed action template context
+ */
+export function getActionTemplateContext(): ActionTemplateBase {
+  return Context.actionTemplate as ActionTemplateBase;
+}
+
+export function getAvailableActionTemplates(
+  actionType: ActionType = ActionType.ACTION
+): ActionTemplateBase[] {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return fetchAvailableActions(currentActorUid, actionType);
+  }
+
+  return [];
+}
+
+export function getPlanActionButtonLabel(actionTemplate: ActionTemplateBase): string {
+  if (isPlannedAction(actionTemplate.Uid)) {
+    return getTranslation('mainSim-interface', 'cancel');
+  }
+  return getTranslation('mainSim-interface', 'send');
+}
+
+export function isNotPlanned(actionTemplate: ActionTemplateBase): boolean {
+  return !canPlanAction() && !isPlannedAction(actionTemplate.Uid);
+}
+
+export function isActiveAction(actionTemplate: ActionTemplateBase): boolean {
+  return actionTemplate.Uid === getTypedInterfaceState().currentActionUid;
+}
+
+export function canCancelAction(actionTemplate: ActionTemplateBase): boolean {
+  return isPlannedAction(actionTemplate.Uid);
+}
+
+export function isPlanActionButtonHidden(actionTemplate: ActionTemplateBase): boolean {
+  return isNotPlanned(actionTemplate);
+}
+
+export function runPlanAction(actionTemplate: ActionTemplateBase): void {
+  return runActionButton(actionTemplate);
+}
+
+export function getActionParamsPanel(actionTemplate: ActionTemplateBase): string {
+  return showActionParamsPanel(actionTemplate);
+}
+
+/**
+ * Update state whenever user changes action
+ */
+export function actionChangeHandler(actionTemplate: ActionTemplateBase) {
+  setInterfaceState({ currentActionUid: actionTemplate.Uid });
+
+  endMapAction();
+  // If action is SelectMapObject we begin routine
+  if (isFixedMapEntityTemplate(actionTemplate.Uid) && canPlanAction()) {
+    startMapSelect();
+  }
+}
+
+export function getDurationInfo(actionTemplate: ActionTemplateBase): string {
+  if (actionTemplate instanceof StartEndTemplate) {
+    const duration: number = actionTemplate.duration / 60;
+    return duration + ' ' + getTranslation('mainSim-resources', 'minutes', false);
+  }
+
+  return '';
+}
+
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**

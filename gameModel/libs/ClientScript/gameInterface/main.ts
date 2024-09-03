@@ -6,12 +6,10 @@ import {
 import { ActionType } from '../game/common/actionType';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { endMapAction, startMapSelect } from '../gameMap/main';
 import {
   cancelAction,
   getActionTemplate,
   getAllActions,
-  isFixedMapEntityTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -100,21 +98,6 @@ export function actionClickHandler(id: number, actionType: ActionType, params: a
     planAction(template.getTemplateRef(), uid, params);
   } else if (isPlannedAction(id)) {
     cancelAction(uid, id);
-  }
-}
-
-/**
- * Update state whenever user changes action
- */
-export function actionChangeHandler() {
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActionUid: Context.action.Uid,
-  });
-  endMapAction();
-  // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(Context.action.Uid) && canPlanAction()) {
-    startMapSelect();
   }
 }
 
