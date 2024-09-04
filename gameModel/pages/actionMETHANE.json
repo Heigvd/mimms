@@ -619,7 +619,7 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext());",
+                  "content" : "import { canCancelAction, getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext()) \n  // not enough data\n  || (!canCancelAction(getActionTemplateContext()) && Context.interfaceState.state.casuMessage.messageType === 'R' && Context.interfaceState.state.getHospitalInfoChosenProximity === undefined);",
                   "language" : "typescript"
                 },
                 "label" : {
