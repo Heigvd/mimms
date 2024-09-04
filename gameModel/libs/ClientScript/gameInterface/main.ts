@@ -1,12 +1,7 @@
-import { ActionType } from '../game/common/actionType';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import {
-  cancelAction,
-  getActionTemplate,
-  getAllActions,
-  planAction,
-} from '../UIfacade/actionFacade';
+import { cancelAction, getAllActions, planAction } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
 type gameStateStatus = 'NOT_INITIATED' | 'RUNNING' | 'PAUSED';
@@ -81,18 +76,16 @@ export function isPlannedAction(id: number) {
 /**
  * Handle when an action is planned
  *
- * @params number uid of the action
- * @params ActionType actionType of the action
+ * @params the action template
  * @params any payload the action creation
  */
-export function actionClickHandler(id: number, actionType: ActionType, params: any): void {
-  const template = getActionTemplate(id, actionType)!;
+export function actionClickHandler(template: ActionTemplateBase, params: any): void {
   const uid = Context.interfaceState.state.currentActorUid;
 
   if (canPlanAction()) {
     planAction(template.getTemplateRef(), uid, params);
-  } else if (isPlannedAction(id)) {
-    cancelAction(uid, id);
+  } else if (isPlannedAction(template.Uid)) {
+    cancelAction(uid, template.Uid);
   }
 }
 

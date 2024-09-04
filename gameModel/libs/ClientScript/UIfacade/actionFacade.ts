@@ -13,8 +13,7 @@ import {
   SimFlag,
   StartEndTemplate,
 } from '../game/common/actions/actionTemplateBase';
-import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
-import { ActionCreationEvent } from '../game/common/events/eventTypes';
+import { ActorId, TemplateId, TemplateRef, TranslationKey } from '../game/common/baseTypes';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
@@ -27,6 +26,7 @@ import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { runActionButton } from '../gameInterface/actionsButtonLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { endMapAction, startMapSelect } from '../gameMap/main';
+import { getAvailableActionTemplate } from '../game/common/simulationState/actionStateAccess';
 
 // -------------------------------------------------------------------------------------------------
 //
@@ -36,7 +36,12 @@ import { endMapAction, startMapSelect } from '../gameMap/main';
  * Typed action template context
  */
 export function getActionTemplateContext(): ActionTemplateBase {
-  return Context.actionTemplate as ActionTemplateBase;
+  // usage in a "for each"
+  if (Context.actionTemplate instanceof ActionTemplateBase) {
+    return Context.actionTemplate as ActionTemplateBase;
+  }
+  // usage in a "state"
+  return Context.actionTemplate.state as ActionTemplateBase;
 }
 
 export function getAvailableActionTemplates(
@@ -50,12 +55,24 @@ export function getAvailableActionTemplates(
   return [];
 }
 
-export function getPlanActionButtonLabel(actionTemplate: ActionTemplateBase): string {
+export function getActionTemplate(ref: TemplateRef): ActionTemplateBase | undefined {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return getAvailableActionTemplate(getCurrentState(), currentActorUid, ref);
+  }
+
+  return undefined;
+}
+
+export function getPlanActionButtonLabel(
+  actionTemplate: ActionTemplateBase,
+  translationKey: TranslationKey = 'send'
+): string {
   if (canCancelAction(actionTemplate)) {
     return getTranslation('mainSim-interface', 'cancel');
   }
 
-  return getTranslation('mainSim-interface', 'send');
+  return getTranslation('mainSim-interface', translationKey);
 }
 
 export function isNotPlanned(actionTemplate: ActionTemplateBase): boolean {
@@ -70,7 +87,7 @@ export function canCancelAction(actionTemplate: ActionTemplateBase): boolean {
   return isPlannedAction(actionTemplate.Uid);
 }
 
-export function isPlanActionButtonHidden(actionTemplate: ActionTemplateBase): boolean {
+export function isPlanActionButtonDisabled(actionTemplate: ActionTemplateBase): boolean {
   return isNotPlanned(actionTemplate);
 }
 
@@ -165,18 +182,6 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
 
 export function getAllCancelledActions(): Readonly<ActionBase[]> {
   return getCurrentState().getAllCancelledActions();
-}
-
-/**
- * @returns Template of given action Uid
- */
-export function getActionTemplate(
-  id: number,
-  actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
-  return getAvailableActions(Context.interfaceState.state.currentActorUid, actionType).find(
-    t => t.Uid === id
-  );
 }
 
 /**

@@ -2,61 +2,82 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "mimms_h3title",
-        "layoutClassName" : "noPadding aDescriptionAction",
-        "layoutStyle" : { },
-        "name" : "description",
-        "style" : { },
-        "text" : {
+        "children" : [ {
+          "props" : {
+            "className" : "mimms_h3title",
+            "layoutClassName" : "noPadding aDescriptionAction",
+            "layoutStyle" : { },
+            "name" : "description",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getActionTemplateContext } from \"./UIfacade/actionFacade\";\ngetActionTemplateContext().getDescription();",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "button-secondaryColor button-S",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "abort",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { canCancelAction, getActionTemplateContext } from \"./UIfacade/actionFacade\";\n  canCancelAction(getActionTemplateContext());",
+                "language" : "typescript"
+              }
+            } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext());",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\nimport { getActionTemplateContext, getPlanActionButtonLabel } from \"./UIfacade/actionFacade\";\ngetPlanActionButtonLabel(getActionTemplateContext(), 'send-one-minute');",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : {
+              "alignSelf" : "flex-end",
+              "padding" : "15px 0px 10px 0px"
+            },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getActionTemplateContext, runPlanAction } from \"./UIfacade/actionFacade\";\n\nrunPlanAction(getActionTemplateContext());",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Send",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "noPadding",
+        "exposeAs" : "actionTemplate",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\ngetRadioChannelsActivationTemplate()?.getDescription();",
+          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\ngetActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate)!;",
           "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "flex-direction" : "column",
+          "width" : "100%"
+        },
+        "localState" : false,
+        "style" : {
+          "width" : "100%"
         }
       },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "className" : "button-secondaryColor button-S",
-        "conditionnalClassNames" : [ {
-          "applyOn" : "Inside",
-          "className" : "abort",
-          "condition" : {
-            "@class" : "Script",
-            "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getRadioChannelsActivationTemplate();\n!!action && isPlannedAction(action.Uid);",
-            "language" : "typescript"
-          }
-        } ],
-        "disableIf" : {
-          "@class" : "Script",
-          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action =  getRadioChannelsActivationTemplate();\n  if (!action) return true;\nif (canPlanAction()) return false;\n!isPlannedAction(action.Uid);",
-          "language" : "typescript"
-        },
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\n!getRadioChannelsActivationTemplate();",
-          "language" : "typescript"
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action =  getRadioChannelsActivationTemplate();\n  if (!action) {\n    return undefined;\n  }\nconst isPlanned = isPlannedAction(action.Uid)\nisPlanned ? getTranslation('mainSim-interface', 'cancel') : getTranslation(`mainSim-interface`, `send-one-minute`);",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : {
-          "alignSelf" : "flex-end",
-          "padding" : "15px 0px 10px 0px"
-        },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action =  getRadioChannelsActivationTemplate();\nrunActionButton(action);",
-            "language" : "TypeScript"
-          }
-        },
-        "name" : "send",
-        "style" : { }
-      },
-      "type" : "Button"
+      "type" : "State"
     } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\ngetActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate) === undefined;",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },
@@ -64,7 +85,8 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

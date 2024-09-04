@@ -386,6 +386,12 @@
           "name" : "move actor action",
           "scenaristPage" : false,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "actionRadioChannelActivation",
+          "name" : "radio channel activation action",
+          "scenaristPage" : false,
+          "trainerPage" : null
         } ],
         "name" : "action"
       }, {
@@ -409,12 +415,6 @@
             "id" : "actionMETHANE",
             "name" : "METHANE action",
             "scenaristPage" : null,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
-            "id" : "actionRadioChannelActivation",
-            "name" : "radio channel activation action",
-            "scenaristPage" : false,
             "trainerPage" : null
           } ],
           "name" : "CASU channel"

@@ -810,6 +810,10 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
   }
 }
 
+export function fetchActionTemplate(ref: TemplateRef): ActionTemplateBase | undefined {
+  return actionTemplates[ref];
+}
+
 export function fetchAvailableActions(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION

@@ -23,7 +23,6 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { clearMapState, startMapSelect } from '../gameMap/main';
-import { getActionTemplateContext } from '../UIfacade/actionFacade';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
 import {
   getEmptyAllocateResources,
@@ -66,7 +65,7 @@ export function runActionButton(actionTemplate: ActionTemplateBase) {
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(getActionTemplateContext().Uid, actionTemplate.category, params);
+  actionClickHandler(actionTemplate, params);
 }
 
 /**

@@ -141,12 +141,11 @@
                         "language" : "typescript"
                       }
                     } ],
-                    "hideIf" : {
+                    "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { getActionTemplateContext, isPlanActionButtonHidden } from \"./UIfacade/actionFacade\";\nisPlanActionButtonHidden(getActionTemplateContext());",
+                      "content" : "import { getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext());",
                       "language" : "typescript"
                     },
-                    "icon" : "",
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",
@@ -164,6 +163,7 @@
                         "language" : "TypeScript"
                       }
                     },
+                    "name" : "Send",
                     "style" : { }
                   },
                   "type" : "Button"
