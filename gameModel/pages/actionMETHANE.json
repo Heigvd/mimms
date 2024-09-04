@@ -613,24 +613,32 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "content" : "import { canCancelAction, getActionTemplateContext } from \"./UIfacade/actionFacade\";\n  canCancelAction(getActionTemplateContext());",
                     "language" : "typescript"
                   }
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext());",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+                  "content" : "\nimport { getActionTemplateContext, getPlanActionButtonLabel } from \"./UIfacade/actionFacade\";\ngetPlanActionButtonLabel(getActionTemplateContext(), 'send-one-minute');",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "align-self" : "flex-end",
+                  "padding" : "15px 0px 10px 0px"
+                },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nrunActionButton(action[0]);",
+                    "content" : "import { getActionTemplateContext, runPlanAction } from \"./UIfacade/actionFacade\";\n\nrunPlanAction(getActionTemplateContext());",
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "send",
+                "name" : "Send",
                 "style" : { }
               },
               "type" : "Button"
@@ -651,16 +659,31 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "scrollableCasuTransmission",
-        "layout" : {
-          "flexDirection" : "column",
-          "justifyContent" : "flex-start"
+        "className" : "noPadding scrollableCasuTransmission",
+        "exposeAs" : "actionTemplate",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Context.interfaceState.state.casuMessage.messageType == '';",
+          "language" : "typescript"
         },
-        "layoutStyle" : { },
-        "name" : "",
-        "style" : { }
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\ngetActionTemplate(UniqueAction.CasuMessageTemplate)!;",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "flex-direction" : "column",
+          "width" : "100%"
+        },
+        "localState" : false,
+        "style" : {
+          "flex-direction" : "column",
+          "justify-content" : "flex-start",
+          "width" : "100%"
+        }
       },
-      "type" : "FlexList"
+      "type" : "State"
     } ],
     "className" : "noPadding ",
     "layout" : {

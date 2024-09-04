@@ -392,6 +392,12 @@
           "name" : "radio channel activation action",
           "scenaristPage" : false,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "actionMETHANE",
+          "name" : "METHANE action",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "action"
       }, {
@@ -408,12 +414,6 @@
             "@class" : "Page",
             "id" : "radioChannelCASU",
             "name" : "CASU channel main panel",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
-            "id" : "actionMETHANE",
-            "name" : "METHANE action",
             "scenaristPage" : null,
             "trainerPage" : null
           } ],
