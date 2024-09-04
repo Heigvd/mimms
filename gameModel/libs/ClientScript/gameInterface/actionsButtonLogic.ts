@@ -1,26 +1,30 @@
 import {
-  CasuMessagePayload,
-  HospitalRequestPayload,
-  MethaneMessagePayload,
-} from '../game/common/events/casuMessageEvent';
-import {
-  getActionTemplateContext,
   isCasuMessageActionTemplate,
+  isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
-  isRadioActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
-  isEvacuationActionTemplate,
   isPretriageReportTemplate,
-} from '../UIfacade/actionFacade';
-import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
-import { actionClickHandler, canPlanAction } from './main';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+  isRadioActionTemplate,
+} from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import { ActionType } from '../game/common/actionType';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../game/common/events/casuMessageEvent';
+import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { clearMapState, startMapSelect } from '../gameMap/main';
+import { getActionTemplateContext } from '../UIfacade/actionFacade';
+import { getSelectedActorLocation } from '../UIfacade/actorFacade';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -28,11 +32,7 @@ import {
   getEmptyResourceRequest,
   setInterfaceState,
 } from './interfaceState';
-import { ActionType } from '../game/common/actionType';
-import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
 
 /**
@@ -42,11 +42,9 @@ import { SelectedPanel } from './selectedPanel';
  */
 // used in several pages
 export function runActionButton(actionTemplate: ActionTemplateBase) {
-  const actionRefUid = actionTemplate.Uid;
-
   let params = {};
 
-  if (isFixedMapEntityTemplate(actionRefUid)) {
+  if (isFixedMapEntityTemplate(actionTemplate)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
       startMapSelect();
@@ -54,17 +52,17 @@ export function runActionButton(actionTemplate: ActionTemplateBase) {
       params = fetchSelectMapObjectValues()!;
       clearMapState();
     }
-  } else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+  } else if (isMoveResourcesAssignTaskActionTemplate(actionTemplate)) {
     params = fetchMoveResourcesAssignTaskValues();
-  } else if (isCasuMessageActionTemplate(actionRefUid)) {
+  } else if (isCasuMessageActionTemplate(actionTemplate)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(actionRefUid)) {
+  } else if (isRadioActionTemplate(actionTemplate)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-  } else if (isMoveActorActionTemplate(actionRefUid)) {
+  } else if (isMoveActorActionTemplate(actionTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (isEvacuationActionTemplate(actionRefUid)) {
+  } else if (isEvacuationActionTemplate(actionTemplate)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actionRefUid)) {
+  } else if (isPretriageReportTemplate(actionTemplate)) {
     params = fetchPretriageReportActionValues();
   }
 
