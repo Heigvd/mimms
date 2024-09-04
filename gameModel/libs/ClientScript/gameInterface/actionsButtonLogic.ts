@@ -4,6 +4,7 @@ import {
   MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
 import {
+  getActionTemplateContext,
   isCasuMessageActionTemplate,
   isFixedMapEntityTemplate,
   isRadioActionTemplate,
@@ -30,9 +31,9 @@ import {
 import { ActionType } from '../game/common/actionType';
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { SelectedPanel } from './selectedPanel';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -40,12 +41,8 @@ import { getSelectedActorLocation } from '../UIfacade/actorFacade';
  * @params ActionTemplateBase action being launched
  */
 // used in several pages
-export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
-  if (action != undefined) {
-    Context.action = action;
-  }
-
-  const actionRefUid = Context.action.Uid;
+export function runActionButton(actionTemplate: ActionTemplateBase) {
+  const actionRefUid = actionTemplate.Uid;
 
   let params = {};
 
@@ -71,7 +68,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(Context.action.Uid, Context.action.category, params);
+  actionClickHandler(getActionTemplateContext().Uid, actionTemplate.category, params);
 }
 
 /**

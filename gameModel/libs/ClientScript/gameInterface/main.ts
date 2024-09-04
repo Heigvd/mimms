@@ -1,8 +1,3 @@
-import {
-  ActionTemplateBase,
-  MoveActorActionTemplate,
-  SelectionFixedMapEntityTemplate,
-} from '../game/common/actions/actionTemplateBase';
 import { ActionType } from '../game/common/actionType';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
@@ -142,19 +137,4 @@ export function getNotificationTime(notificationTime: number): string {
 export function formatTime(dateTime: Date): string {
   const splitted = dateTime.toLocaleString().split(' ')[1]!.split(':').splice(0, 2);
   return splitted.join(':');
-}
-
-/**
- * Return action params panel associated with currently selected template
- *
- * @params ActionTemplateBase
- * @returns string Page number to be displayed in page loader
- */
-export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (Context.action instanceof SelectionFixedMapEntityTemplate) {
-    return '48';
-  } else if (Context.action instanceof MoveActorActionTemplate) {
-    return '66';
-  }
-  return '';
 }

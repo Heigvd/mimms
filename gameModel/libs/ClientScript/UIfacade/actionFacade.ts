@@ -1,7 +1,7 @@
 /**
- * All UX interactions related to actions should live here
- * if any signature is modified make sure to report it in all page scripts
- * put minimal logic in here
+ * All UX interactions related to actions should live here.
+ * If any signature is modified make sure to report it in all page scripts.
+ * Put minimal logic in here.
  */
 
 import { ActionBase } from '../game/common/actions/actionBase';
@@ -27,7 +27,7 @@ import {
 } from '../game/mainSimulationLogic';
 import { ActionType } from '../game/common/actionType';
 import { getTranslation } from '../tools/translation';
-import { canPlanAction, isPlannedAction, showActionParamsPanel } from '../gameInterface/main';
+import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { runActionButton } from '../gameInterface/actionsButtonLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { endMapAction, startMapSelect } from '../gameMap/main';
@@ -55,9 +55,10 @@ export function getAvailableActionTemplates(
 }
 
 export function getPlanActionButtonLabel(actionTemplate: ActionTemplateBase): string {
-  if (isPlannedAction(actionTemplate.Uid)) {
+  if (canCancelAction(actionTemplate)) {
     return getTranslation('mainSim-interface', 'cancel');
   }
+
   return getTranslation('mainSim-interface', 'send');
 }
 
@@ -82,7 +83,13 @@ export function runPlanAction(actionTemplate: ActionTemplateBase): void {
 }
 
 export function getActionParamsPanel(actionTemplate: ActionTemplateBase): string {
-  return showActionParamsPanel(actionTemplate);
+  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
+    return '48';
+  } else if (actionTemplate instanceof MoveActorActionTemplate) {
+    return '66';
+  }
+
+  return '';
 }
 
 /**
@@ -106,6 +113,8 @@ export function getDurationInfo(actionTemplate: ActionTemplateBase): string {
 
   return '';
 }
+
+// NO Context action !!!
 
 // -------------------------------------------------------------------------------------------------
 //

@@ -1,7 +1,9 @@
+import { SelectionFixedMapEntityTemplate } from '../game/common/actions/actionTemplateBase';
 import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../map/point2D';
+import { getActionTemplateContext } from '../UIfacade/actionFacade';
+import { bringOverlayItemToFront, toggleOverlayItem } from './mapEntities';
 
 const logger = Helpers.getLogger('mainSim.map');
 
@@ -49,9 +51,9 @@ export function endMapAction() {
  */
 export function startMapSelect() {
   let params;
-  if (Context.action.fixedMapEntity) {
+  if (getActionTemplateContext() instanceof SelectionFixedMapEntityTemplate) {
     logger.info('MAP: Geometry Select Action started');
-    params = Context.action.fixedMapEntity;
+    params = (getActionTemplateContext() as SelectionFixedMapEntityTemplate).fixedMapEntity;
   }
 
   clearMapState();

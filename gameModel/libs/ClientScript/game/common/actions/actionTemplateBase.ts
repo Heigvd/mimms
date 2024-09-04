@@ -100,7 +100,7 @@ export abstract class ActionTemplateBase<
     protected readonly title: TranslationKey,
     protected readonly description: TranslationKey,
     public replayable: boolean = false,
-    protected readonly category: ActionType = ActionType.ACTION,
+    public readonly category: ActionType = ActionType.ACTION,
     private flags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
