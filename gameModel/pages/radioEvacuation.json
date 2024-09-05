@@ -195,6 +195,11 @@
                   },
                   "type" : "FlexList"
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nisActionParametersPanelDisabled();",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -428,6 +433,11 @@
                   },
                   "type" : "FlexList"
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nisActionParametersPanelDisabled();",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -979,6 +989,11 @@
                   },
                   "type" : "FlexList"
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nisActionParametersPanelDisabled();",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },

@@ -4,22 +4,6 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ ],
-            "className" : "noPadding",
-            "layout" : {
-              "alignItems" : "flex-start",
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding noMargin",
-            "layoutStyle" : {
-              "maxWidth" : "25vw"
-            },
-            "name" : "buttons",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
             "children" : [ {
               "props" : {
                 "className" : "mimms_h3title",
@@ -487,7 +471,7 @@
       },
       "type" : "FlexList"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "noPadding",
     "conditionnalClassNames" : [ {
       "applyOn" : "Inside",
       "className" : "unauthorizedAction",
@@ -505,7 +489,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin",
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "width" : "100%"
     },

@@ -83,6 +83,10 @@ export function isActiveAction(actionTemplate: ActionTemplateBase): boolean {
   return actionTemplate.Uid === getTypedInterfaceState().currentActionUid;
 }
 
+export function isActionParametersPanelDisabled(): boolean {
+  return !canPlanAction();
+}
+
 export function canCancelAction(actionTemplate: ActionTemplateBase): boolean {
   return isPlannedAction(actionTemplate.Uid);
 }

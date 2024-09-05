@@ -6,592 +6,610 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterM",
-                "style" : {
-                  "padding" : "0px"
-                },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>M<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.major = Context.major;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"major\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.major;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterM",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterE",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>E<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.exact = Context.exact;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"exact\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.exact;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterE",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterT",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>T<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.incidentType = Context.incidentType;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"incidentType\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.incidentType;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterT",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterH",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>H<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.hazards = Context.hazards;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"hazards\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.hazards;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterH",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterA",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>A<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.access = Context.access;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"access\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.access;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterA",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "methane-letter",
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterN",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>N<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutClassName" : "methane-letter-input",
-                "layoutStyle" : { },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.victims = Context.victims;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"victims\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.casuMessage.victims;",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "String input"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterN",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutClassName" : "methane-letter-container",
-                "layoutStyle" : { },
-                "name" : "letterE",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>E<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
-                          "language" : "typescript"
-                        },
-                        "layoutStyle" : { },
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\n  \tgetRequestValue<boolean>(Context.item.type);",
-                          "language" : "TypeScript"
-                        },
-                        "style" : { },
-                        "type" : "checkbox"
-                      },
-                      "type" : "Boolean"
-                    }, {
-                      "props" : {
-                        "className" : "methane-input-label",
-                        "layoutStyle" : {
-                          "paddingBottom" : "0px",
-                          "paddingTop" : "0px",
-                          "width" : "84px"
-                        },
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                } ],
-                "exposeAs" : "item",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(true);",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "type",
-                "layout" : { },
-                "layoutStyle" : {
-                  "marginTop" : "7px"
-                },
-                "style" : {
-                  "flexWrap" : "wrap",
-                  "maxWidth" : "700px"
-                }
-              },
-              "type" : "For each"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "onCancel" : { },
-                        "onVariableChange" : {
-                          "client" : {
-                            "@class" : "Script",
-                            "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
-                            "language" : "TypeScript"
-                          },
-                          "exposeVariableAs" : {
-                            "@class" : "Script",
-                            "content" : "\"value\"",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "placeholder" : {
-                          "@class" : "Script",
-                          "content" : "\"0\"",
-                          "language" : "TypeScript"
-                        },
-                        "script" : {
-                          "@class" : "Script",
-                          "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\ngetRequestValue<number>(Context.item.type);",
-                          "language" : "TypeScript"
-                        },
-                        "style" : {
-                          "minWidth" : "0px",
-                          "width" : "30px"
-                        }
-                      },
-                      "type" : "Number input"
-                    }, {
-                      "props" : {
-                        "className" : "methane-input-label",
-                        "layoutStyle" : {
-                          "paddingBottom" : "0px",
-                          "paddingTop" : "0px",
-                          "width" : "84px"
-                        },
-                        "onCancel" : { },
-                        "onVariableChange" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ],
-                    "layout" : { },
-                    "layoutStyle" : {
-                      "width" : "120px"
-                    },
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterM",
                     "style" : {
-                      "flexDirection" : "row"
+                      "padding" : "0px"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>M<br></p>\"",
+                      "language" : "TypeScript"
                     }
                   },
-                  "type" : "FlexList"
-                } ],
-                "exposeAs" : "item",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(false);",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "type",
-                "layout" : { },
-                "layoutStyle" : {
-                  "marginTop" : "7px"
-                },
-                "style" : {
-                  "flexWrap" : "wrap",
-                  "maxWidth" : "700px"
-                }
-              },
-              "type" : "For each"
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('E');",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "LetterE",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "className" : "mimms_h3title",
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "name" : "letterR",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'get-hospital-information-desc')",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
+                  "type" : "Text"
+                }, {
                   "props" : {
-                    "className" : "rectangleButton",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : " Context.hospitalProximityEntry.label;",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "methane-letter-input",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.major = Context.major;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"major\"",
                         "language" : "TypeScript"
                       }
                     },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.major;",
+                      "language" : "TypeScript"
+                    },
                     "style" : { }
                   },
-                  "type" : "Button"
+                  "type" : "String input"
                 } ],
-                "className" : "noPadding",
-                "exposeAs" : "hospitalProximityEntry",
-                "getItemsFn" : {
+                "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
-                  "language" : "TypeScript"
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
+                  "language" : "typescript"
                 },
-                "itemKey" : "value",
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "LetterM",
                 "style" : { }
               },
-              "type" : "For each"
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterE",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>E<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-input",
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.exact = Context.exact;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"exact\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.exact;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterE",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterT",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>T<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-input",
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.incidentType = Context.incidentType;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"incidentType\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.incidentType;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterT",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterH",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>H<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-input",
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.hazards = Context.hazards;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"hazards\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.hazards;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterH",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterA",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>A<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-input",
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.access = Context.access;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"access\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.access;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterA",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "methane-letter",
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterN",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>N<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-input",
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.casuMessage.victims = Context.victims;\nContext.interfaceState.setState(newState);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"victims\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.interfaceState.state.casuMessage.victims;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterN",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "methane-letter-container",
+                    "layoutStyle" : { },
+                    "name" : "letterE",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>E<br></p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nimport { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type) \n  /* for an unknown reason, to disable an ancestor Flexlist has no impact on the checkboxes */ \n  || isActionParametersPanelDisabled();",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\n  \tgetRequestValue<boolean>(Context.item.type);",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
+                            "className" : "methane-input-label",
+                            "layoutStyle" : {
+                              "paddingBottom" : "0px",
+                              "paddingTop" : "0px",
+                              "width" : "84px"
+                            },
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ]
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(true);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "type",
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "marginTop" : "7px"
+                    },
+                    "style" : {
+                      "flexWrap" : "wrap",
+                      "maxWidth" : "700px"
+                    }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "onCancel" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { updateRequestValue } from \"./UIfacade/methaneFacade\";\n\nupdateRequestValue(Context.item.type, Context.value);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"value\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"0\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "import { getRequestValue } from \"./UIfacade/methaneFacade\";\ngetRequestValue<number>(Context.item.type);",
+                              "language" : "TypeScript"
+                            },
+                            "style" : {
+                              "minWidth" : "0px",
+                              "width" : "30px"
+                            }
+                          },
+                          "type" : "Number input"
+                        }, {
+                          "props" : {
+                            "className" : "methane-input-label",
+                            "layoutStyle" : {
+                              "paddingBottom" : "0px",
+                              "paddingTop" : "0px",
+                              "width" : "84px"
+                            },
+                            "onCancel" : { },
+                            "onVariableChange" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"mainSim-resources\", Context.item.type);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "width" : "120px"
+                        },
+                        "style" : {
+                          "flexDirection" : "row"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getFilteredResourceContainerTypeArray } from \"./UIfacade/methaneFacade\";\ngetFilteredResourceContainerTypeArray(false);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "type",
+                    "layout" : { },
+                    "layoutStyle" : {
+                      "marginTop" : "7px"
+                    },
+                    "style" : {
+                      "flexWrap" : "wrap",
+                      "maxWidth" : "700px"
+                    }
+                  },
+                  "type" : "For each"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('E');",
+                  "language" : "typescript"
+                },
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterE",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "mimms_h3title",
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "letterR",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'get-hospital-information-desc')",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "rectangleButton",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : " Context.hospitalProximityEntry.label;",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "rectangleButton-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "noPadding",
+                    "exposeAs" : "hospitalProximityEntry",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "value",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('R');",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "LetterR",
+                "style" : { }
+              },
+              "type" : "FlexList"
             } ],
-            "hideIf" : {
+            "className" : "noPadding scrollableCasuTransmission",
+            "disableIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('R');",
+              "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nisActionParametersPanelDisabled();",
               "language" : "typescript"
             },
             "layout" : {
@@ -599,7 +617,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "LetterR",
+            "name" : "params",
             "style" : { }
           },
           "type" : "FlexList"
@@ -659,7 +677,7 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "noPadding scrollableCasuTransmission",
+        "className" : "noPadding ",
         "exposeAs" : "actionTemplate",
         "hideIf" : {
           "@class" : "Script",

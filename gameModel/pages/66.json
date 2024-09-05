@@ -29,6 +29,11 @@
       },
       "type" : "Select input"
     } ],
+    "disableIf" : {
+      "@class" : "Script",
+      "content" : "import { isActionParametersPanelDisabled } from \"./UIfacade/actionFacade\";\nisActionParametersPanelDisabled();",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },
