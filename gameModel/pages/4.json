@@ -648,7 +648,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Likert: Downalod&nbsp;CSV data<br></p>\"",
+              "content" : "\"<p>Likert: Download&nbsp;CSV data<br></p>\"",
               "language" : "JavaScript"
             },
             "layoutStyle" : {
