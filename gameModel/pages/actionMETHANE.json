@@ -619,7 +619,7 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { canCancelAction, getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\nisPlanActionButtonDisabled(getActionTemplateContext()) \n  // not enough data\n  || (!canCancelAction(getActionTemplateContext()) && Context.interfaceState.state.casuMessage.messageType === 'R' && Context.interfaceState.state.getHospitalInfoChosenProximity === undefined);",
+                  "content" : "import { canCancelAction, getActionTemplateContext, isPlanActionButtonDisabled } from \"./UIfacade/actionFacade\";\n\nif (canCancelAction(getActionTemplateContext())) {\n    // must have access to cancel button\n  return false;\n  }\n    \nif (isPlanActionButtonDisabled(getActionTemplateContext())) {\n\treturn true;\n}\n\n// not enough data\n  if (Context.interfaceState.state.casuMessage.messageType === 'R') {\n    return Context.interfaceState.state.getHospitalInfoChosenProximity === undefined\n  }\n\n  false;",
                   "language" : "typescript"
                 },
                 "label" : {

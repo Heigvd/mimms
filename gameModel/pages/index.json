@@ -398,6 +398,12 @@
           "name" : "METHANE action",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "radioEvacuation",
+          "name" : "evacuation action",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "action"
       }, {
