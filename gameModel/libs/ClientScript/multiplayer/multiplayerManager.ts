@@ -60,28 +60,6 @@ export async function registerSelf(): Promise<void> {
 }
 
 /**
- * Unregister current (self) player from matrix
- */
-export async function unregisterSelf(): Promise<void> {
-  const currentPlayerId = self.getId();
-  const currentPlayers = Variable.find(gameModel, 'multiplayerMatrix')
-    .getInstance(self)
-    .getProperties();
-
-  if (currentPlayerId && currentPlayers[String(currentPlayerId)]) {
-    const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).removeProperty(${String(
-      currentPlayerId
-    )})`;
-
-    try {
-      await APIMethods.runScript(script, {});
-    } catch (error) {
-      mainSimLogger.error(error);
-    }
-  }
-}
-
-/**
  * Register self as all roles and mark ready (use only for scenarist)
  */
 export async function registerSelfAllRolesAndReady(): Promise<void> {
