@@ -246,7 +246,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\n  getRadioChannelsActivationTemplate() === undefined;",
+              "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n  getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate) === undefined;",
               "language" : "typescript"
             },
             "id" : "",
