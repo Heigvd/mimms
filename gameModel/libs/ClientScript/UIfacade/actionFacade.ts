@@ -1,9 +1,10 @@
 /**
- * All UX interactions related to actions should live here
- * if any signature is modified make sure to report it in all page scripts
- * put minimal logic in here
+ * All UX interactions related to actions should live here.
+ * If any signature is modified make sure to report it in all page scripts.
+ * Put minimal logic in here.
  */
 
+import { ActionType } from '../game/common/actionType';
 import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
@@ -18,13 +19,34 @@ import {
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
 import { ActionCreationEvent } from '../game/common/events/eventTypes';
+import { getAvailableActionTemplate as getAvailableActionTemplateFromState } from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
   fetchAvailableActions,
   getCurrentState,
 } from '../game/mainSimulationLogic';
-import { ActionType } from '../game/common/actionType';
+import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+
+export function getAvailableActionTemplates(
+  actionType: ActionType = ActionType.ACTION
+): ActionTemplateBase[] {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return fetchAvailableActions(currentActorUid, actionType);
+  }
+
+  return [];
+}
+
+export function getActionTemplate(ref: TemplateRef): ActionTemplateBase | undefined {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (currentActorUid) {
+    return getAvailableActionTemplateFromState(getCurrentState(), currentActorUid, ref);
+  }
+
+  return undefined;
+}
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
@@ -81,7 +103,7 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
 /**
  * @returns Template of given action Uid
  */
-export function getActionTemplate(
+export function getActionTemplateById(
   id: number,
   actionType: ActionType = ActionType.ACTION
 ): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {

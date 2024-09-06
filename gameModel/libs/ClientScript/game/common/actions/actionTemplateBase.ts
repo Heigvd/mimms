@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { ActionType, RadioType } from '../actionType';
+import { ActionType, RadioType, UniqueAction } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
@@ -43,12 +43,12 @@ import {
   MoveActorAction,
   MoveResourcesAssignTaskAction,
   RadioDrivenAction,
+  RequestPretriageReportAction,
   SelectionFixedMapEntityAction,
   SelectionPCAction,
   SelectionPCFrontAction,
   SelectionParkAction,
   SendRadioMessageAction,
-  RequestPretriageReportAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -100,7 +100,7 @@ export abstract class ActionTemplateBase<
     protected readonly title: TranslationKey,
     protected readonly description: TranslationKey,
     public replayable: boolean = false,
-    protected readonly category: ActionType = ActionType.ACTION,
+    public readonly category: ActionType = ActionType.ACTION,
     private flags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
@@ -343,6 +343,18 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
   }
 }
 
+export class OpenPmaActionTemplate extends DisplayMessageActionTemplate {
+  public override getTemplateRef(): TemplateRef {
+    return UniqueAction.OpenPmaActionTemplate;
+  }
+}
+
+export class AcsMcsArrivalAnnouncement extends DisplayMessageActionTemplate {
+  public override getTemplateRef(): TemplateRef {
+    return UniqueAction.AcsMcsArrivalAnnouncement;
+  }
+}
+
 export class CasuMessageTemplate extends StartEndTemplate<
   CasuMessageAction,
   CasuMessageActionEvent,
@@ -372,7 +384,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'CasuMessageTemplate' + '_' + this.title;
+    return UniqueAction.CasuMessageTemplate;
   }
 
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
@@ -459,7 +471,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'PretriageReportTemplate' + '_' + this.title;
+    return UniqueAction.PretriageReportTemplate;
   }
 
   protected createActionFromEvent(
@@ -573,7 +585,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+    return UniqueAction.ActivateRadioSchemaActionTemplate;
   }
 
   public getDescription(): string {
@@ -634,7 +646,7 @@ export class SelectionFixedMapEntityTemplate<
   }
 
   public getTemplateRef(): string {
-    return 'SelectionFixedMapEntityTemplate' + '_' + this.title;
+    return 'SelectionFixedMapEntityTemplate' + '_' + this.fixedMapEntity.id;
   }
 
   public buildGlobalEvent(
@@ -741,7 +753,7 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionPCFrontTemplate' + '_' + this.title;
+    return UniqueAction.SelectionPCFrontTemplate;
   }
 
   protected override createActionFromEvent(
@@ -797,7 +809,7 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionPCTemplate' + '_' + this.title;
+    return UniqueAction.SelectionPCSanTemplate;
   }
 
   protected override createActionFromEvent(
@@ -854,7 +866,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
   }
 
   public override getTemplateRef(): string {
-    return 'SelectionParkTemplate' + '_' + this.title;
+    return 'SelectionParkTemplate' + '_' + this.vehicleType;
   }
 
   protected override createActionFromEvent(
@@ -928,7 +940,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveResourcesAssignTaskActionTemplate' + '_' + this.title;
+    return UniqueAction.MoveResourcesAssignTaskActionTemplate;
   }
 
   public getTitle(): string {
@@ -1130,7 +1142,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'MoveActorActionTemplate' + '_' + this.title;
+    return UniqueAction.MoveActorActionTemplate;
   }
 
   public getDescription(): string {
@@ -1216,7 +1228,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'AppointActorActionTemplate' + '_' + this.title;
+    return 'AppointActorActionTemplate' + '_' + this.actorRole;
   }
 
   public getDescription(): string {
@@ -1269,7 +1281,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
   }
 
   public getTemplateRef(): TemplateRef {
-    return 'EvacuationActionTemplate' + '_' + this.title;
+    return UniqueAction.EvacuationActionTemplate;
   }
 
   public getTitle(): TranslationKey {

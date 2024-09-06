@@ -9,7 +9,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapSelect } from '../gameMap/main';
 import {
   cancelAction,
-  getActionTemplate,
+  getActionTemplateById,
   getAllActions,
   isFixedMapEntityTemplate,
   planAction,
@@ -93,7 +93,7 @@ export function isPlannedAction(id: number) {
  * @params any payload the action creation
  */
 export function actionClickHandler(id: number, actionType: ActionType, params: any): void {
-  const template = getActionTemplate(id, actionType)!;
+  const template = getActionTemplateById(id, actionType)!;
   const uid = Context.interfaceState.state.currentActorUid;
 
   if (canPlanAction()) {
