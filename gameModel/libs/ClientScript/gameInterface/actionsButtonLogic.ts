@@ -1,25 +1,31 @@
 import {
-  CasuMessagePayload,
-  HospitalRequestPayload,
-  MethaneMessagePayload,
-} from '../game/common/events/casuMessageEvent';
-import {
   isCasuMessageActionTemplate,
+  isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
-  isRadioActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
-  isEvacuationActionTemplate,
   isPretriageReportTemplate,
+  isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
-import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
-import { actionClickHandler, canPlanAction } from './main';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../game/common/events/casuMessageEvent';
+import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { ResourceTypeAndNumber, ResourcesArray } from '../game/common/resources/resourceType';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { clearMapState, startMapSelect } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -28,13 +34,7 @@ import {
   getTypedInterfaceState,
   setInterfaceState,
 } from './interfaceState';
-import { ActionType } from '../game/common/actionType';
-import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
-import { actionLogger } from '../tools/logger';
+import { actionClickHandler, canPlanAction } from './main';
 
 /**
  * Performs logic whenever a template is initiated in interface
@@ -49,11 +49,11 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
 
   actionLogger.debug('run action button for ' + JSON.stringify(action?.getTemplateRef()));
 
-  const actionRefUid = Context.action.Uid;
+  const actionRef = (Context.action as ActionTemplateBase).getTemplateRef();
 
   let params = {};
 
-  if (isFixedMapEntityTemplate(actionRefUid)) {
+  if (isFixedMapEntityTemplate(actionRef)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
       startMapSelect();
@@ -61,23 +61,23 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
       params = fetchSelectMapObjectValues()!;
       clearMapState();
     }
-  } else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+  } else if (isMoveResourcesAssignTaskActionTemplate(actionRef)) {
     params = fetchMoveResourcesAssignTaskValues();
-  } else if (isCasuMessageActionTemplate(actionRefUid)) {
+  } else if (isCasuMessageActionTemplate(actionRef)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(actionRefUid, ActionType.CASU_RADIO)) {
+  } else if (isRadioActionTemplate(actionRef, ActionType.CASU_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
-  } else if (isRadioActionTemplate(actionRefUid, ActionType.ACTORS_RADIO)) {
+  } else if (isRadioActionTemplate(actionRef, ActionType.ACTORS_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-  } else if (isMoveActorActionTemplate(actionRefUid)) {
+  } else if (isMoveActorActionTemplate(actionRef)) {
     params = fetchMoveActorLocation();
-  } else if (isEvacuationActionTemplate(actionRefUid)) {
+  } else if (isEvacuationActionTemplate(actionRef)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actionRefUid)) {
+  } else if (isPretriageReportTemplate(actionRef)) {
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(Context.action.Uid, Context.action.category, params);
+  actionClickHandler(Context.action, params);
 }
 
 /**

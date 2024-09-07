@@ -32,7 +32,7 @@
             },
             "readOnlyIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);\n!canPlanAction();",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
               "language" : "typescript"
             },
             "rows" : 6,
@@ -56,7 +56,7 @@
               "className" : "disabled",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.interfaceState.state.selectedRadioChannel, Context.currentRadio.state.channel);\nif (canPlanAction()) return false;\n!isPlannedAction(action!.Uid);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nif (canPlanAction()) return false;\n!isPlannedAction(action!.Uid);",
                 "language" : "typescript"
               }
             }, {
@@ -64,7 +64,7 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.interfaceState.state.selectedRadioChannel, Context.currentRadio.state.channel);\nisPlannedAction(action!.Uid);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nisPlannedAction(action!.Uid);",
                 "language" : "typescript"
               }
             } ],
@@ -75,7 +75,7 @@
             },
             "label" : {
               "@class" : "Script",
-              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action = getSendRadioMessageTemplate(Context.interfaceState.state.selectedRadioChannel, Context.currentRadio.state.channel);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
               "language" : "TypeScript"
             },
             "layoutStyle" : {
@@ -87,7 +87,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action = getSendRadioMessageTemplate(Context.interfaceState.state.selectedRadioChannel, Context.currentRadio.state.channel);\nrunActionButton(action);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nrunActionButton(action);",
                 "language" : "TypeScript"
               }
             },

@@ -248,7 +248,7 @@
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { getRadioChannelsActivationTemplate } from \"./game/common/actions/actionLogic\";\n  getRadioChannelsActivationTemplate() === undefined;",
+                  "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n  const action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate)!;\naction === undefined;",
                   "language" : "typescript"
                 },
                 "id" : "",
@@ -266,7 +266,7 @@
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "radio channels button",
+                "name" : "activate radio channels button",
                 "style" : { }
               },
               "type" : "Button"

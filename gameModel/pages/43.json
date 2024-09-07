@@ -1061,13 +1061,13 @@
                                   "className" : "unauthorizedAction",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                    "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  const action = getActionTemplate(UniqueAction.MoveResourcesAssignTaskActionTemplate);\n  !action || !isPlannedAction(action.Uid);",
                                     "language" : "typescript"
                                   }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n  if(isPCFrontBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                  "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate, isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n  if(isPCFrontBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  const action = getActionTemplate(UniqueAction.MoveResourcesAssignTaskActionTemplate);\n  !action || !isPlannedAction(action.Uid);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",

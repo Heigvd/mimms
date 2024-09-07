@@ -23,6 +23,7 @@ export function getAvailableActionTemplate(
 
   return undefined;
 }
+
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
   actorUid: number

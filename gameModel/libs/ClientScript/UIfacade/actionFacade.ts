@@ -4,7 +4,7 @@
  * Put minimal logic in here.
  */
 
-import { ActionType } from '../game/common/actionType';
+import { ActionType, RadioType } from '../game/common/actionType';
 import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
@@ -18,11 +18,11 @@ import {
   SimFlag,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
-import { ActionCreationEvent } from '../game/common/events/eventTypes';
 import { getAvailableActionTemplate as getAvailableActionTemplateFromState } from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
+  fetchActionTemplate,
   fetchAvailableActions,
   getCurrentState,
 } from '../game/mainSimulationLogic';
@@ -39,10 +39,10 @@ export function getAvailableActionTemplates(
   return [];
 }
 
-export function getActionTemplate(ref: TemplateRef): ActionTemplateBase | undefined {
+export function getActionTemplate(templateRef: TemplateRef): ActionTemplateBase | undefined {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
-    return getAvailableActionTemplateFromState(getCurrentState(), currentActorUid, ref);
+    return getAvailableActionTemplateFromState(getCurrentState(), currentActorUid, templateRef);
   }
 
   return undefined;
@@ -100,85 +100,38 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
   return getCurrentState().getAllCancelledActions();
 }
 
-/**
- * @returns Template of given action Uid
- */
-export function getActionTemplateById(
-  id: number,
-  actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase<ActionBase, ActionCreationEvent, unknown> | undefined {
-  return getAvailableActions(Context.interfaceState.state.currentActorUid, actionType).find(
-    t => t.Uid === id
-  );
-}
-
-/**
- * @param id Uid of given action
- */
-
-export function isFixedMapEntityTemplate(id: number): boolean {
-  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-    t => t.Uid === id
-  );
+export function isFixedMapEntityTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof SelectionFixedMapEntityTemplate;
 }
 
-/**
- * @param id Uid of given action
- */
-export function isCasuMessageActionTemplate(id: number): boolean {
-  const template = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    ActionType.CASU_RADIO
-  ).find(t => t.Uid === id);
+export function isCasuMessageActionTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof CasuMessageTemplate;
 }
 
-export function isRadioActionTemplate(
-  actionTemplateUid: number,
-  actionCategory: ActionType
-): boolean {
-  const template = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    actionCategory
-  ).find(t => t.Uid === actionTemplateUid);
-  return template instanceof SendRadioMessageTemplate;
+export function isRadioActionTemplate(templateRef: TemplateRef, radioChannel: RadioType): boolean {
+  const template = fetchActionTemplate(templateRef);
+  return template instanceof SendRadioMessageTemplate && template.radioChannel === radioChannel;
 }
 
-/**
- * @param id Uid of given action template
- */
-export function isMoveResourcesAssignTaskActionTemplate(id: number): boolean {
-  const template = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    ActionType.ALLOCATE_RESOURCES
-  ).find(t => t.Uid === id);
+export function isMoveResourcesAssignTaskActionTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof MoveResourcesAssignTaskActionTemplate;
 }
 
-/**
- * @param id Uid of given action template
- */
-export function isMoveActorActionTemplate(id: number): boolean {
-  const template = getAvailableActions(Context.interfaceState.state.currentActorUid).find(
-    t => t.Uid === id
-  );
+export function isMoveActorActionTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isEvacuationActionTemplate(id: number): boolean {
-  const template = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    ActionType.EVASAN_RADIO
-  ).find(t => t.Uid === id);
+export function isEvacuationActionTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof EvacuationActionTemplate;
 }
 
-export function isPretriageReportTemplate(id: number): boolean {
-  const template = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    ActionType.PRETRIAGE_REPORT
-  ).find(t => t.Uid === id);
+export function isPretriageReportTemplate(templateRef: TemplateRef): boolean {
+  const template = fetchActionTemplate(templateRef);
   return template instanceof PretriageReportTemplate;
 }
 

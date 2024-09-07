@@ -220,7 +220,7 @@
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAvailableActions } from \"./UIfacade/actionFacade\";\ngetAvailableActions(Context.interfaceState.state.currentActorUid);",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAvailableActionTemplates } from \"./UIfacade/actionFacade\";\ngetAvailableActionTemplates(ActionType.ACTION);",
           "language" : "TypeScript"
         },
         "id" : "",
