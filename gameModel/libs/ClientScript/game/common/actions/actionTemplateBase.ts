@@ -463,7 +463,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
       duration,
       feedbackWhenStarted,
       replayable,
-      ActionType.PRETRIAGE_REPORT,
+      ActionType.RESOURCES_RADIO,
       flags,
       provideFlagsToState,
       availableToRoles
@@ -520,7 +520,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.PRETRIAGE_REPORT &&
+          (a as RadioDrivenAction).getChannel() === ActionType.RESOURCES_RADIO &&
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
@@ -548,7 +548,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       duration,
       feedbackMessage,
       replayable,
-      ActionType.ACTIVATE_RADIO_CHANNELS,
+      ActionType.CASU_RADIO,
       flags,
       provideFlagsToState,
       availableToRoles
@@ -931,7 +931,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       duration,
       message,
       replayable,
-      ActionType.ALLOCATE_RESOURCES,
+      ActionType.RESOURCES_RADIO,
       flags,
       provideFlagsToState,
       availableToRoles
