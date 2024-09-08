@@ -28,6 +28,7 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
+// used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
   actionType: ActionType = ActionType.ACTION
 ): ActionTemplateBase[] {
@@ -39,6 +40,7 @@ export function getAvailableActionTemplates(
   return [];
 }
 
+// used in multiple pages
 export function getActionTemplate(templateRef: TemplateRef): ActionTemplateBase | undefined {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
@@ -76,17 +78,6 @@ export async function cancelAction(
   templateId: TemplateId
 ): Promise<IManagedResponse | undefined> {
   return await buildAndLaunchActionCancellation(selectedActor, templateId);
-}
-
-/**
- * @param actorId
- * @returns a list of actions that the current actor can undertake
- */
-export function getAvailableActions(
-  actorId: ActorId,
-  actionType: ActionType = ActionType.ACTION
-): ActionTemplateBase[] {
-  return fetchAvailableActions(actorId, actionType);
 }
 
 /**
