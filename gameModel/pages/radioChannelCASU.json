@@ -4,6 +4,21 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "noPadding",
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"radioMessageOutput\"",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "output messages",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {

@@ -1,5 +1,5 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
-import { ActionType } from '../game/common/actionType';
+import { ActionType, RadioType } from '../game/common/actionType';
 import { getRadioChannels as getInternalRadioChannels } from '../game/common/radio/radioLogic';
 import { RadioMessage } from '../game/common/radio/radioMessage';
 import {
@@ -47,6 +47,18 @@ export function getSelectedChannel(): string {
  */
 export function setSelectedChannel(channel: string) {
   setInterfaceState({ selectedRadioChannel: channel });
+}
+
+// -------------------------------------------------------------------------------------------------
+// Channel context
+// -------------------------------------------------------------------------------------------------
+
+export interface RadioContextState {
+  channel: RadioType;
+}
+
+export function getCurrentRadioContext(): RadioContextState {
+  return Context.currentRadio.state as RadioContextState;
 }
 
 // -------------------------------------------------------------------------------------------------
