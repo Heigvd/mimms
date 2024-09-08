@@ -79,7 +79,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages, getCurrentRadioContext, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(getCurrentRadioContext().channel));",
+          "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getAllRadioMessages, getCurrentRadioContext, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\nif (getCurrentRadioContext().channel === getTypedInterfaceState().selectedRadioChannel /* trick to prevent displaying messages of the previously selected channel */) {\n  return getAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(getCurrentRadioContext().channel));\n}\n[];",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",

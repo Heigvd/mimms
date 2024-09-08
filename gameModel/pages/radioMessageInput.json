@@ -38,7 +38,7 @@
             "rows" : 6,
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getCurrentRadioContext } from \"./UIfacade/radioFacade\";\nif (getCurrentRadioContext().channel === getTypedInterfaceState().selectedRadioChannel /* trick to prevent displaying messages of the previously selected channel */) {\n  return Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';\n}\n'';",
               "language" : "TypeScript"
             },
             "style" : {
