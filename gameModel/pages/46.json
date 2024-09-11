@@ -21,49 +21,11 @@
             "children" : [ {
               "props" : {
                 "className" : "rectangleButton",
-                "label" : {
+                "hideIf" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Register</p>\"",
-                  "language" : "TypeScript"
+                  "content" : "APP_CONTEXT !== \"Editor\";",
+                  "language" : "typescript"
                 },
-                "layoutClassName" : "rectangleButton-container",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { registerSelf } from \"./multiplayer/multiplayerManager\";\n\nregisterSelf();",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown> | undefined"
-                  }
-                },
-                "name" : "register",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "rectangleButton",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Unregister</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "rectangleButton-container",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { unregisterSelf } from \"./multiplayer/multiplayerManager\";\n\nunregisterSelf()",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "unregister",
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "rectangleButton",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>Clear</p>\"",
@@ -79,6 +41,32 @@
                   }
                 },
                 "name" : "clear",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "rectangleButton",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "APP_CONTEXT !== \"Editor\";",
+                  "language" : "typescript"
+                },
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Select all<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "rectangleButton-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { registerSelfAllRolesAndReady } from \"./multiplayer/multiplayerManager\";\n\nregisterSelfAllRolesAndReady();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "register",
                 "style" : { }
               },
               "type" : "Button"
