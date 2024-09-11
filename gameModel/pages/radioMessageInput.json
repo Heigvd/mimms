@@ -4,11 +4,6 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  false /* TODO */ && isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
-              "language" : "typescript"
-            },
             "layoutStyle" : {
               "width" : "calc(100% - 10px)"
             },
@@ -68,11 +63,6 @@
                 "language" : "typescript"
               }
             } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  false /* TODO */ && isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
-              "language" : "typescript"
-            },
             "label" : {
               "@class" : "Script",
               "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
@@ -95,11 +85,6 @@
           },
           "type" : "Button"
         } ],
-        "disableIf" : {
-          "@class" : "Script",
-          "content" : "import { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  false /* TODO */ && isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, Context.currentRadio.state.channel);",
-          "language" : "typescript"
-        },
         "layoutStyle" : {
           "height" : "100%",
           "width" : "100%"

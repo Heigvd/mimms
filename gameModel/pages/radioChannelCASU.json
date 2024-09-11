@@ -318,11 +318,6 @@
         }, {
           "props" : {
             "className" : "noPadding",
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\nfalse /* TODO */ && isChannelNewActivityDisabled(getTypedInterfaceState().currentActorUid!, ActionType.CASU_RADIO);",
-              "language" : "typescript"
-            },
             "exposePageSizeAs" : "",
             "hideIf" : {
               "@class" : "Script",

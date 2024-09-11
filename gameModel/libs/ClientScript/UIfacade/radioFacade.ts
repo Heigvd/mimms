@@ -12,7 +12,7 @@ import {
   getTypedInterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction, canPlanAction } from '../gameInterface/main';
+import { canCancelOnGoingAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
@@ -242,18 +242,4 @@ export function isChannelBusy(channel: ActionType): boolean {
     return !canCancelOnGoingAction();
   }
   return false;
-}
-
-export function isChannelNewActivityDisabled(
-  currentActorUid: number,
-  channel: ActionType
-): boolean {
-  if (isChannelBusy(channel)) return true;
-  if (canPlanAction()) return false;
-  return false;
-  // // TODO challenge what is needed
-  // const action = fetchAvailableActions(currentActorUid, channel);
-  // const actionId = action[0]?.Uid;
-  //
-  // return actionId ? !isPlannedAction(actionId) : true;
 }
