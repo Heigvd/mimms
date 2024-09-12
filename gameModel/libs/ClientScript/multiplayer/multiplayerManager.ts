@@ -28,7 +28,7 @@ export async function clearMultiplayerMatrix() {
 export async function registerSelf(): Promise<void> {
   if (hasRegisteredOnce) return;
   const currentPlayerId = self.getId();
-  const currentPlayerName = self.getName();
+  const currentPlayerName = self.getName() ?? currentUserName;
   const playableRoles: PlayerRoles = {
     AL: false,
     ACS: false,
