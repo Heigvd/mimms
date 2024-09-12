@@ -90,18 +90,6 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-id');",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "matrixHeaderItem",
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
                           "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-name');",
                           "language" : "TypeScript"
                         }
@@ -111,7 +99,7 @@
                     "layout" : { },
                     "layoutClassName" : "playerIdentity",
                     "layoutStyle" : {
-                      "width" : "15rem"
+                      "width" : "10rem"
                     },
                     "name" : "IdentityBox",
                     "style" : { }
@@ -231,18 +219,6 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  String(Context.player.id)",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "playerIdentity",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
                               "content" : "  Context.player.name",
                               "language" : "TypeScript"
                             }
@@ -254,7 +230,7 @@
                         "layoutClassName" : "",
                         "layoutStyle" : {
                           "paddingLeft" : "0px",
-                          "width" : "15rem"
+                          "width" : "10rem"
                         },
                         "name" : "playerIdentity",
                         "style" : { }
