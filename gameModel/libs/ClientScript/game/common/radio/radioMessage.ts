@@ -1,5 +1,5 @@
-import { ActionType } from './actionType';
-import { ActorId, SimTime } from './baseTypes';
+import { ActionType } from '../actionType';
+import { ActorId, SimTime } from '../baseTypes';
 
 // immutable
 export interface RadioMessage {

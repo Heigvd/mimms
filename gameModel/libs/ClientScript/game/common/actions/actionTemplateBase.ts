@@ -23,17 +23,19 @@ import {
   AppointActorEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
+  RequestPretriageReportEvent,
   StandardActionEvent,
 } from '../events/eventTypes';
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActionBase,
+  ActivateRadioSchemaAction,
   AppointActorAction,
   CasuMessageAction,
   DisplayMessageAction,
@@ -44,9 +46,9 @@ import {
   SelectionFixedMapEntityAction,
   SelectionPCAction,
   SelectionPCFrontAction,
-  SelectionPMAAction,
   SelectionParkAction,
   SendRadioMessageAction,
+  RequestPretriageReportAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -60,6 +62,9 @@ export enum SimFlag {
   ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
   RADIO_SCHEMA_ACTIVATED = 'RADIO_SCHEMA_ACTIVATED',
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
+  PMA_BUILT = 'PMA_BUILT',
+  LEADPMA_ARRIVED = 'LEADPMA_ARRIVED',
+  PMA_OPEN = 'PMA_OPEN',
 }
 
 const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
@@ -420,6 +425,173 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 }
 
+export type PretriageReportActionPayload = {
+  pretriageLocation: LOCATION_ENUM;
+};
+
+export class PretriageReportTemplate extends StartEndTemplate<
+  RequestPretriageReportAction,
+  RequestPretriageReportEvent,
+  PretriageReportActionPayload
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    replayable = true,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackWhenStarted,
+      replayable,
+      ActionType.PRETRIAGE_REPORT,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'PretriageReportTemplate' + '_' + this.title;
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<RequestPretriageReportEvent>
+  ): RequestPretriageReportAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new RequestPretriageReportAction(
+      payload.triggerTime,
+      this.duration,
+      this.feedbackWhenStarted,
+      this.feedbackWhenReport,
+      this.title,
+      event.id,
+      ownerId,
+      this.Uid,
+      payload.pretriageLocation
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    params: PretriageReportActionPayload
+  ): RequestPretriageReportEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      pretriageLocation: params.pretriageLocation,
+    };
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return (
+      getOngoingActions(state).filter(
+        a =>
+          a instanceof RadioDrivenAction &&
+          (a as RadioDrivenAction).getChannel() === ActionType.PRETRIAGE_REPORT &&
+          (a as RadioDrivenAction).ownerId === actorUid
+      ).length === 0
+    );
+  }
+}
+
+export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<ActivateRadioSchemaAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    feedbackMessage: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly authorizedReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    readonly channel: ActionType,
+    replayable: boolean = false,
+    flags?: SimFlag[],
+    provideFlagsToState?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      feedbackMessage,
+      replayable,
+      ActionType.ACTIVATE_RADIO_CHANNELS,
+      flags,
+      provideFlagsToState,
+      availableToRoles
+    );
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<StandardActionEvent>
+  ): ActivateRadioSchemaAction {
+    const payload = event.payload;
+    // for historical reasons characterId could be of type string, cast it to ActorId (number)
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new ActivateRadioSchemaAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      this.requestMessage,
+      this.authorizedReplyMessage,
+      this.unauthorizedReplyMessage,
+      ownerId,
+      this.Uid,
+      this.channel,
+      this.provideFlagsToState
+    );
+  }
+
+  public buildGlobalEvent(timeStamp: SimTime, initiator: Readonly<Actor>): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  public getTemplateRef(): TemplateRef {
+    return 'ActivateRadioSchemaActionTemplate' + '_' + this.title;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // place a map item
@@ -635,62 +807,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
     const ownerId = payload.emitterCharacterId as ActorId;
 
     return new SelectionPCAction(
-      payload.triggerTime,
-      this.duration,
-      event.id,
-      this.title,
-      this.message,
-      ownerId,
-      this.Uid,
-      createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-/**
- * Template of an action to select the place of the PMA
- */
-export class SelectionPMATemplate extends SelectionFixedMapEntityTemplate<SelectionPMAAction> {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    duration: SimDuration,
-    message: TranslationKey,
-    fixedMapEntity: FixedMapEntity,
-    replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      fixedMapEntity,
-      replayable,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
-  }
-
-  public override getTemplateRef(): string {
-    return 'SelectionPMATemplate' + '_' + this.title;
-  }
-
-  protected override createActionFromEvent(
-    event: FullEvent<SelectionFixedMapEntityEvent>
-  ): SelectionPMAAction {
-    const payload = event.payload;
-    const ownerId = payload.emitterCharacterId as ActorId;
-
-    return new SelectionPMAAction(
       payload.triggerTime,
       this.duration,
       event.id,
@@ -1040,7 +1156,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     replayable = true,
     readonly wentWrongMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
-    readonly typeOfResource: ResourceType,
+    readonly typeOfResource: HumanResourceType[],
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[]

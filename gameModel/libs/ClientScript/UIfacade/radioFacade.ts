@@ -1,23 +1,29 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
 import { ActionType } from '../game/common/actionType';
-import { RadioMessage } from '../game/common/radioMessage';
+import { getRadioChannels as getInternalRadioChannels } from '../game/common/radio/radioLogic';
+import { RadioMessage } from '../game/common/radio/radioMessage';
 import {
   getOngoingActions,
   getOngoingActionsForActor,
 } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { setInterfaceState } from '../gameInterface/interfaceState';
+import {
+  CasuChannelAction,
+  getTypedInterfaceState,
+  setInterfaceState,
+} from '../gameInterface/interfaceState';
 import { canCancelOnGoingAction, canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getAvailableActions } from './actionFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
 
-/**
- * All radio messages currently in state
- */
-export function getAllRadioMessages(): RadioMessage[] {
-  return getCurrentState().getRadioMessages();
+// -------------------------------------------------------------------------------------------------
+// radio channels choice
+// -------------------------------------------------------------------------------------------------
+
+export function getRadioChannels() {
+  return getInternalRadioChannels();
 }
 
 export function isChannelHidden(channel: ActionType): boolean {
@@ -28,6 +34,52 @@ export function isChannelHidden(channel: ActionType): boolean {
 
   // the others are hidden until the activation of the radio schema
   return !isRadioSchemaActivated();
+}
+
+/**
+ * Get the current channel
+ */
+export function getSelectedChannel(): string {
+  return getTypedInterfaceState().selectedRadioChannel;
+}
+
+/**
+ * Set the channel type to know which is the current
+ */
+export function setSelectedChannel(channel: string) {
+  setInterfaceState({ selectedRadioChannel: channel });
+}
+
+// -------------------------------------------------------------------------------------------------
+// CASU channel
+// -------------------------------------------------------------------------------------------------
+
+export function getSelectedCASUChannelAction(): CasuChannelAction {
+  return getTypedInterfaceState().selectedCASUChannelAction;
+}
+
+export function setSelectedCASUChannelAction(action: CasuChannelAction) {
+  setInterfaceState({ selectedCASUChannelAction: action });
+}
+
+export function showActionParamsPanel(action: CasuChannelAction): string {
+  if (action === 'CASUMessage') {
+    return 'actionMETHANE';
+  } else if (action === 'channelsActivation') {
+    return 'actionRadioChannelActivation';
+  }
+  return '';
+}
+
+// -------------------------------------------------------------------------------------------------
+// and so on
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * All radio messages currently in state
+ */
+export function getAllRadioMessages(): RadioMessage[] {
+  return getCurrentState().getRadioMessages();
 }
 
 /**
@@ -49,15 +101,6 @@ export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioM
  */
 export function isLastRadioMessageForChannel(channel: ActionType, messageUid: number): boolean {
   return getAvailableRadioMessagesForChannel(channel).slice(-1)[0]?.uid === messageUid;
-}
-
-/**
- * Set the channel type to know which is the current
- */
-export function setChannelType(channel: ActionType) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.channel = channel;
-  Context.interfaceState.setState(newState);
 }
 
 /**
@@ -130,7 +173,7 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
 let updatingReadChannelRadioMessages = false;
 export function getUnreadMessagesCountBullet(channel: ActionType): number | undefined {
   const unreadMsgs = getUnreadMessagesCount(channel);
-  if (Context.interfaceState.state.channel !== channel) {
+  if (getSelectedChannel() !== channel) {
     return unreadMsgs > 0 ? unreadMsgs : undefined;
   } else {
     if (

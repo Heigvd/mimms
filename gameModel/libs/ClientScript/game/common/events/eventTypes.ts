@@ -230,6 +230,11 @@ export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
   targetTaskId: TaskId;
 }
 
+export interface RequestPretriageReportEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  pretriageLocation: LOCATION_ENUM;
+}
+
 interface TimeForwardEventBase extends BaseEvent, TimedPayload {
   /**
    * Actors played by the emitter of the event

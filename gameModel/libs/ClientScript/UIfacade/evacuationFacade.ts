@@ -13,7 +13,7 @@ import { isEvacSquadAvailable } from '../game/common/evacuation/evacuationLogic'
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 
-// used in page 62
+// used in radioChannelEvacuation page
 
 // Data choices
 

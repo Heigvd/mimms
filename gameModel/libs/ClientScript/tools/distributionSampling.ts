@@ -117,7 +117,7 @@ export class NormalDistribution implements IDistribution {
     return s;
   }
 
-  // https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+  // https://en.wikipedia.org/wiki/Box-Muller_transform
   private sampleBoxMuller() {
     const u = 1 - Math.random(); //Converting [0,1) to (0,1]
     const v = Math.random();

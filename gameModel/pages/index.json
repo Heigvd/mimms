@@ -398,47 +398,47 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "48",
-          "name" : "map selection",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        } ],
-        "name" : "map"
-      }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "11",
-          "name" : "radio list",
+          "id" : "radioMainPanel",
+          "name" : "radio main panel",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
-          "@class" : "Page",
-          "id" : "47",
-          "name" : "G679 CASU",
-          "scenaristPage" : null,
-          "trainerPage" : null
+          "@class" : "Folder",
+          "items" : [ {
+            "@class" : "Page",
+            "id" : "radioChannelCASU",
+            "name" : "CASU channel main panel",
+            "scenaristPage" : null,
+            "trainerPage" : null
+          }, {
+            "@class" : "Page",
+            "id" : "actionMETHANE",
+            "name" : "METHANE action",
+            "scenaristPage" : null,
+            "trainerPage" : null
+          }, {
+            "@class" : "Page",
+            "id" : "actionRadioChannelActivation",
+            "name" : "radio channel activation action",
+            "scenaristPage" : false,
+            "trainerPage" : null
+          } ],
+          "name" : "CASU channel"
         }, {
           "@class" : "Page",
-          "id" : "42",
-          "name" : "CASU message input",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "50",
+          "id" : "radioChannelActors",
           "name" : "D418 actors free msg",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "63",
+          "id" : "radioChannelRH",
           "name" : "D424 resources",
           "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "62",
+          "id" : "radioChannelEvacuation",
           "name" : "D912 evacuation",
           "scenaristPage" : null,
           "trainerPage" : null
@@ -446,8 +446,14 @@
         "name" : "radio"
       }, {
         "@class" : "Page",
-        "id" : "64",
-        "name" : "notifications",
+        "id" : "67",
+        "name" : "resources management",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "68",
+        "name" : "resources management and reports",
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
@@ -473,9 +479,19 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "48",
+          "name" : "map selection",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "map"
+      }, {
         "@class" : "Page",
-        "id" : "67",
-        "name" : "resources management",
+        "id" : "64",
+        "name" : "notifications",
         "scenaristPage" : null,
         "trainerPage" : null
       }, {

@@ -14,6 +14,13 @@ import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDe
 import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 
+export enum ResourcesManagementActivityType {
+  assignTask = 'assignTask',
+  requestReport = 'requestReport',
+}
+
+export type CasuChannelAction = 'CASUMessage' | 'channelsActivation' | undefined;
+
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
@@ -25,11 +32,12 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
-  channel: string;
+  selectedRadioChannel: string;
   updatedChannelMessagesAt: number;
   channelText: {
     actors: string;
   };
+  selectedCASUChannelAction: CasuChannelAction;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -44,6 +52,9 @@ export interface InterfaceState {
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
+  };
+  resourcesManagement: {
+    activityType: ResourcesManagementActivityType;
   };
   evacuation: {
     data: {
@@ -100,10 +111,14 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
-    channel: ActionType.CASU_RADIO,
+    selectedRadioChannel: ActionType.CASU_RADIO,
     updatedChannelMessagesAt: 0,
     channelText: {
       actors: '',
+    },
+    selectedCASUChannelAction: undefined,
+    resourcesManagement: {
+      activityType: ResourcesManagementActivityType.assignTask,
     },
   };
 }
@@ -210,5 +225,5 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
  * Just casting the interface state properly
  */
 export function getTypedInterfaceState(): InterfaceState {
-  return Context.state.interfaceState;
+  return Context.interfaceState.state;
 }

@@ -4,6 +4,7 @@ import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../..
 import { getCurrentState } from '../../mainSimulationLogic';
 import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
+import * as ActorLogic from '../actors/actorLogic';
 import {
   ActionId,
   ActionTemplateId,
@@ -17,7 +18,7 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
-import { ACSMCSAutoRequestDelay } from '../constants';
+import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
@@ -31,7 +32,7 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity, canMoveToLocation } from '../events/defineMapObjectEvent';
+import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
@@ -48,6 +49,7 @@ import {
   MoveFreeWaitingResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
+  PretriageReportResponseLocalEvent,
   RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
@@ -56,8 +58,12 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import {
+  canMoveToLocation,
+  getMapLocationById,
+  LOCATION_ENUM,
+} from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
@@ -505,6 +511,106 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 }
 
+export class ActivateRadioSchemaAction extends RadioDrivenAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    feedbackMessageKey: TranslationKey,
+    readonly requestMessage: TranslationKey,
+    readonly authorizedReplyMessage: TranslationKey,
+    readonly unauthorizedReplyMessage: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    readonly channel: ActionType,
+    provideFlagsToState?: SimFlag[]
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackMessageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event ActivateRadioSchemaAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event ActivateRadioSchemaAction');
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    const suitableActors = ActorLogic.getHighestAuthorityActorOnSite(state);
+    if (suitableActors.includes(this.ownerId)) {
+      state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
+
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, //this.ownerId,
+          'CASU',
+          this.authorizedReplyMessage,
+          this.channel,
+          true
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0, // this.ownerId,
+          'CASU',
+          this.unauthorizedReplyMessage,
+          this.channel,
+          true
+        )
+      );
+    }
+  }
+
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
+    return;
+  }
+
+  public getChannel(): ActionType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.requestMessage);
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)?.ShortName || '';
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // place map items
@@ -681,49 +787,10 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       )
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = state
-      .getInternalStateObject()
-      .mapLocations.find(l => l.id === LOCATION_ENUM.pcFront);
+    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     localEventManager.queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PMA
-// -------------------------------------------------------------------------------------------------
-
-export class SelectionPMAAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
-    super.dispatchEndedEvents(state);
-    localEventManager.queueLocalEvent(
-      new AddActorLocalEvent(this.eventId, state.getSimTime(), 'LEADPMA')
     );
   }
 }
@@ -812,7 +879,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: MainSimulationState): void {}
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, this.location)) {
+    if (!canMoveToLocation(state, 'Actors', this.location)) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -851,7 +918,7 @@ export class AppointActorAction extends StartEndAction {
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly requiredResourceType: ResourceType,
+    readonly requiredResourceType: HumanResourceType[],
     readonly failureMessageKey: TranslationKey
   ) {
     super(
@@ -1043,8 +1110,8 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
           'move-res-task-refused'
         )
       );
-    } else if (!canMoveToLocation(state, this.targetLocation)) {
-      // Resources cannot move to a non existent location
+    } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
+      // Resources cannot move to a non-existent location
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1136,6 +1203,99 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     localEventManager.queueLocalEvent(
       new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+//  radio
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * The result of the action is to request state of pretriage in a specific location
+ */
+export class RequestPretriageReportAction extends RadioDrivenAction {
+  private channel = ActionType.RESOURCES_RADIO;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    actionNameKey: TranslationKey,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    private pretriageLocation: LOCATION_ENUM
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      feedbackWhenStarted,
+      ownerId,
+      uuidTemplate
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event RequestPretriageReportAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.getRecipient(),
+        this.getEmitter(),
+        this.getMessage(),
+        this.getChannel(),
+        true,
+        true
+      )
+    );
+
+    localEventManager.queueLocalEvent(
+      new PretriageReportResponseLocalEvent(
+        this.eventId,
+        state.getSimTime() + PretriageReportResponseDelay,
+        'D424',
+        0,
+        this.pretriageLocation,
+        this.feedbackWhenReport
+      )
+    );
+  }
+
+  // TODO probably nothing
+  protected cancelInternal(_state: MainSimulationState): void {
+    return;
+  }
+
+  private formatStartMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+    ]);
+  }
+
+  public getChannel(): ActionType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return this.formatStartMessage();
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)!.FullName;
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
   }
 }
 

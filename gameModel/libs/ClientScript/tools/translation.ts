@@ -66,6 +66,30 @@ function interpolate(template: string, values: (string | number)[]): string {
   return result;
 }
 
+export function getTranslatedRecord(
+  record: Record<string, any>,
+  category: keyof VariableClasses,
+  prefix: string
+): Record<string, any> {
+  const translated: Record<string, number> = {};
+  Object.entries(record).forEach(([key, value]) => {
+    translated[getTranslation(category, prefix + key)] = value;
+  });
+  return translated;
+}
+
+export function getTranslatedRecordAsString(
+  record: Record<string, any>,
+  category: keyof VariableClasses,
+  prefix: string
+): string {
+  let result = '';
+  Object.entries(getTranslatedRecord(record, category, prefix)).forEach(([key, value]) => {
+    result += key + ': ' + value + '\n';
+  });
+  return result;
+}
+
 export function getBlockTranslation(blockName: string): string {
   return getTranslation('human-blocks', blockName);
 }
@@ -190,11 +214,12 @@ export function updateFromAllTsv(dryrun: boolean): void {
     'general-likert',
     'mainSim-interface',
     'mainSim-actions-tasks',
-    'mainSim-locations',
     'mainSim-actors',
-    'mainSim-resources',
-    'mainSim-summary',
     'trainer-interface',
+    'mainSim-locations',
+    'mainSim-resources',
+    'mainSim-radio',
+    'mainSim-summary',
   ];
 
   variables.forEach(v => {

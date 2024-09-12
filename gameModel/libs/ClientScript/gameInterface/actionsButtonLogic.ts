@@ -10,11 +10,15 @@ import {
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
   isEvacuationActionTemplate,
+  isPretriageReportTemplate,
 } from '../UIfacade/actionFacade';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { actionClickHandler, canPlanAction } from './main';
 import { clearMapState, startMapSelect } from '../gameMap/main';
-import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import {
+  ActionTemplateBase,
+  PretriageReportActionPayload,
+} from '../game/common/actions/actionTemplateBase';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import {
   getEmptyAllocateResources,
@@ -63,6 +67,8 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchMoveActorLocation();
   } else if (isEvacuationActionTemplate(actionRefUid)) {
     params = fetchEvacuationActionValues();
+  } else if (isPretriageReportTemplate(actionRefUid)) {
+    params = fetchPretriageReportActionValues();
   }
 
   actionClickHandler(Context.action.Uid, Context.action.category, params);
@@ -236,6 +242,20 @@ function fetchEvacuationActionValues() {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.evacuation = getEmptyEvacuationInterfaceState();
   Context.interfaceState.setState(newState);
+
+  return res;
+}
+
+function fetchPretriageReportActionValues() {
+  const res: PretriageReportActionPayload = {
+    pretriageLocation:
+      Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation,
+  };
+
+  // Reset interface state
+  //const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  //newState.evacuation = getEmptyEvacuationInterfaceState();
+  //Context.interfaceState.setState(newState);
 
   return res;
 }

@@ -9,17 +9,18 @@ import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { ActionBase } from './common/actions/actionBase';
 import {
   ActionTemplateBase,
+  ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
   CasuMessageTemplate,
   DisplayMessageActionTemplate,
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
+  PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
   SelectionPCTemplate,
-  SelectionPMATemplate,
   SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
@@ -366,7 +367,11 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'right-arrow',
-      false
+      {
+        Actors: false,
+        Resources: false,
+        Patients: false,
+      }
     )
   );
 
@@ -391,12 +396,25 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     true,
     'appoint-EVASAN-no-resource-feedback',
     'EVASAN',
-    'ambulancier',
+    ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
   );
 
-  const placePMA = new SelectionPMATemplate(
+  const appointLeadPMA = new AppointActorActionTemplate(
+    'appoint-LeadPMA-title',
+    'appoint-LeadPMA-desc',
+    TimeSliceDuration,
+    'appoint-LeadPMA-feedback',
+    true,
+    'appoint-LeadPMA-no-resource-feedback',
+    'LEADPMA',
+    ['infirmier', 'ambulancier'],
+    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.LEADPMA_ARRIVED]
+  );
+
+  const placePMA = new SelectionFixedMapEntityTemplate(
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration * 4,
@@ -451,7 +469,23 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
       ]),
       BuildingStatus.selection,
       'PMA'
-    )
+    ),
+    false,
+    undefined,
+    [SimFlag.PMA_BUILT]
+  );
+
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    [SimFlag.PMA_BUILT],
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
   );
 
   const placePC = new SelectionPCTemplate(
@@ -513,7 +547,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499961, 1118388],
       ]),
       BuildingStatus.selection,
-      'ambulance-park'
+      'ambulance-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'ambulance',
     false,
@@ -537,7 +576,12 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
         [2499925, 1118451],
       ]),
       BuildingStatus.selection,
-      'helicopter-park'
+      'helicopter-park',
+      {
+        Actors: false,
+        Resources: true,
+        Patients: true,
+      }
     ),
     'helicopter',
     false,
@@ -545,15 +589,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
-  const activateRadioSchema = new DisplayMessageActionTemplate(
+  const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
     'activate-radio-schema-feedback',
-    false,
-    undefined,
-    [SimFlag.RADIO_SCHEMA_ACTIVATED],
-    undefined,
+    'activate-radio-schema-request',
+    'activate-radio-schema-reply-ok',
+    'activate-radio-schema-reply-unauthorized',
     ActionType.CASU_RADIO,
     true
   );
@@ -564,6 +607,15 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
     TimeSliceDuration,
     'move-res-task-feedback',
     'move-res-task-refused',
+    true
+  );
+
+  const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-title',
+    'pretriage-report-task-desc',
+    TimeSliceDuration,
+    'pretriage-report-task-feedback-started',
+    'pretriage-report-task-feedback-report',
     true
   );
 
@@ -593,11 +645,14 @@ function initActionTemplates(): Record<string, ActionTemplateBase> {
   templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
   templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
   templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
+  templates[openPMA.getTemplateRef()] = openPMA;
   templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
   templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
   templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
+  templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
   templates[allocateResources.getTemplateRef()] = allocateResources;
   templates[evacuate.getTemplateRef()] = evacuate;
+  templates[pretriageReport.getTemplateRef()] = pretriageReport;
 
   return templates;
 }

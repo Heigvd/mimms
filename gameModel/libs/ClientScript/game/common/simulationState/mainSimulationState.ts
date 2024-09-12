@@ -6,7 +6,7 @@ import { ActorId, SimDuration, SimTime } from '../baseTypes';
 import { FixedMapEntity } from '../events/defineMapObjectEvent';
 import { IClonable } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
-import { RadioMessage } from '../radioMessage';
+import { RadioMessage } from '../radio/radioMessage';
 import { getAllContainerDefs } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';

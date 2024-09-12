@@ -18,12 +18,13 @@ minutes	minute(s)	minute(s)
 emergencyAmbulance	Emergency ambulance	Ambulance urgence
 intermediateAmbulance	Intermediate ambulance	Ambulance intermédiaire
 transferAmbulance	Transfer ambulance	Ambulance de transfert
-helicopter	Helicopter	Hélicoptère
+ambulance	Ambulance	Ambulance
 smur	SMUR	SMUR
+helicopter	Helicopter	Hélicoptère
+acs-mcs	ACS / MCS	ACS / MCS
 pma	PMA	PMA
 pica	PICA	PICA
-pcs	PC San	PC SAN
-acs-mcs	ACS/MCS	ACS/MCS
+pc-san	PC San	PC SAN
 pca-separate-road	Separate entry/exit:	Entrée/sortie séparées:
 pca-true	Yes	Oui
 pca-false	No	Non

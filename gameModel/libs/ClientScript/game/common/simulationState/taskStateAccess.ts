@@ -132,3 +132,31 @@ export function getTaskResponsibleActorSymbolicLocation(
   const task = internallyGetTask(state, taskId);
   return getStateActorSymbolicLocation(state, task.ownerRole);
 }
+
+export function getTaskCurrentStatus(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId
+): TaskStatus {
+  return internallyGetTask(state, taskId).getStatus();
+}
+
+export function getTaskByLocationAndClass<T extends TaskBase>(
+  state: Readonly<MainSimulationState>,
+  taskClass: { new (...args: any[]): T },
+  location: LOCATION_ENUM
+): TaskBase {
+  return state
+    .getInternalStateObject()
+    .tasks.find(task => task instanceof taskClass && task.availableToLocations.includes(location))!;
+}
+
+export function getLocationsByTaskClass<T extends TaskBase>(
+  state: Readonly<MainSimulationState>,
+  taskClass: { new (...args: any[]): T }
+): LOCATION_ENUM[] {
+  return state
+    .getInternalStateObject()
+    .tasks.filter(task => task instanceof taskClass)
+    .flatMap(task => task.availableToLocations)
+    .filter((enumValue, index, array) => array.indexOf(enumValue) === index);
+}

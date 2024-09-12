@@ -122,3 +122,13 @@ export function isOrderValidationDisabled(): boolean {
   // disable when 0 resources requested
   return nbResourcesRequested === 0;
 }
+
+export function isPretriageReportRequestDisabled(): boolean {
+  if (!canPlanAction()) {
+    // to be able to cancel the action
+    return false;
+  }
+  return (
+    Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation === undefined
+  );
+}

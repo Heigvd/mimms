@@ -50,25 +50,25 @@ export const hospitalInfo: HospitalDefinition[] = [
         placeType: {
           typology: 'Caisson hyperbare - assis',
         },
-        availableCapacity: 30,
+        availableCapacity: 8,
       },
       {
         placeType: {
           typology: 'Caisson hyperbare - couchés',
         },
-        availableCapacity: 10,
+        availableCapacity: 2,
       },
       {
         placeType: {
-          typology: 'Traumas multiples',
+          typology: 'Polytraumatisés',
         },
-        availableCapacity: 50,
+        availableCapacity: 4,
       },
       {
         placeType: {
-          typology: 'Traumas singulier',
+          typology: 'Traumas simples',
         },
-        availableCapacity: 1,
+        availableCapacity: 20,
       },
     ],
   },
@@ -87,19 +87,7 @@ export const hospitalInfo: HospitalDefinition[] = [
         placeType: {
           typology: 'Grand brûlés',
         },
-        availableCapacity: 30,
-      },
-      {
-        placeType: {
-          typology: 'Brûlés - mi-saignant',
-        },
-        availableCapacity: 20,
-      },
-      {
-        placeType: {
-          typology: 'Brûlés - bien cuit',
-        },
-        availableCapacity: 10,
+        availableCapacity: 5,
       },
     ],
   },
@@ -116,21 +104,15 @@ export const hospitalInfo: HospitalDefinition[] = [
     units: [
       {
         placeType: {
-          typology: 'Assurance privés uniquement',
+          typology: 'Polytraumatisés',
         },
-        availableCapacity: 2,
+        availableCapacity: 1,
       },
       {
         placeType: {
-          typology: 'Fractures de fortune',
+          typology: 'Traumas simples',
         },
         availableCapacity: 5,
-      },
-      {
-        placeType: {
-          typology: 'Entorses des aisés',
-        },
-        availableCapacity: 30,
       },
     ],
   },
@@ -147,21 +129,15 @@ export const hospitalInfo: HospitalDefinition[] = [
     units: [
       {
         placeType: {
-          typology: 'Bobos kinésiologiques',
+          typology: 'Polytraumatisés',
         },
-        availableCapacity: 5,
+        availableCapacity: 1,
       },
       {
         placeType: {
-          typology: 'Blessures ophtalmologiques',
+          typology: 'Traumas simples',
         },
-        availableCapacity: 10,
-      },
-      {
-        placeType: {
-          typology: 'Brûlures par sèche-cheveux',
-        },
-        availableCapacity: 30,
+        availableCapacity: 6,
       },
     ],
   },

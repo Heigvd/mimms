@@ -175,18 +175,3 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
   }
   return '';
 }
-
-/**
- * Return modal associated with current state
- *
- * @returns string Page number to be displayed in page loader
- */
-export function getModalPageNumber(): string {
-  if (Context.interfaceState.state.showCasuMessageModal) {
-    return '42';
-  }
-  if (Context.interfaceState.state.showPatientModal) {
-    return '57';
-  }
-  return '';
-}

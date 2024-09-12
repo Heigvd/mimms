@@ -117,8 +117,8 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     });
 
     const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
-      'PC San',
-      'pcs',
+      'PC-San',
+      'pc-san',
       {},
       [],
       [SimFlag.PCS_ARRIVED]
@@ -189,6 +189,14 @@ function addContainerDefinition(
   const c = buildContainerDefinition(type, name, resources, roles, flags);
   containerDefinitions[c.uid] = c;
   return c.uid;
+}
+
+export function hasContainerOfType(
+  state: Readonly<MainSimulationState>,
+  type: ResourceContainerType
+): boolean {
+  const config = state.getResourceContainersByType()[type];
+  return config?.some(c => c.amount > 0);
 }
 
 /**
@@ -266,7 +274,6 @@ export function resolveResourceRequest(
 }
 
 /**
- * TODO amount sent ?
  * Generates one radio message per departure time containing all the sent ressources at that time
  * @param sentContainers
  * @param globalEventId
