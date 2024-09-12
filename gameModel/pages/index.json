@@ -176,7 +176,7 @@
         "name" : "QR"
       }, {
         "@class" : "Page",
-        "id" : "68",
+        "id" : "mainDashboard",
         "name" : "Main Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
