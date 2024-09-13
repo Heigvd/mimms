@@ -46,10 +46,11 @@
                     "children" : [ {
                       "props" : {
                         "layoutStyle" : { },
+                        "name" : "team",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "  const id = Context.item.id;\n  `${Context.item.name} (${id})`;",
+                          "content" : "  const id = Context.team.id;\n  `${Context.team.name} (${id})`;",
                           "language" : "TypeScript"
                         }
                       },
@@ -57,13 +58,20 @@
                     }, {
                       "props" : {
                         "layoutStyle" : { },
-                        "name" : "flags",
+                        "name" : "DEBUG flags",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.item.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  JSON.stringify(teamState.flags);",
+                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  JSON.stringify(teamState.flags);",
                           "language" : "TypeScript"
                         }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "METHANE",
+                        "style" : { }
                       },
                       "type" : "Text"
                     }, {
@@ -73,11 +81,51 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.item.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
+                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
                           "language" : "TypeScript"
                         }
                       },
                       "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "location",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getActorsLocation } from \"./dashboard/dashboardState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\n  const r = Context.actor.role as InterventionRole;\n  const location = getActorsLocation(Context.state.state, Context.team.id)[r] || 'not there';\n  Context.actor.name + ' ' + location;",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "exposeAs" : "actor",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "actors",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Play/Pause</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "play/pause",
+                        "style" : { }
+                      },
+                      "type" : "Button"
                     }, {
                       "props" : {
                         "icon" : "clock",
@@ -95,6 +143,7 @@
                             "returnType" : "Promise<unknown> | undefined"
                           }
                         },
+                        "name" : "time forward",
                         "style" : { }
                       },
                       "type" : "Button"
@@ -115,6 +164,7 @@
                             "returnType" : "Promise<unknown> | undefined"
                           }
                         },
+                        "name" : "radio message",
                         "style" : { }
                       },
                       "type" : "Button"
@@ -142,7 +192,7 @@
                   },
                   "type" : "FlexList"
                 } ],
-                "exposeAs" : "item",
+                "exposeAs" : "team",
                 "getItemsFn" : {
                   "@class" : "Script",
                   "content" : "import { getTeamsContext } from \"./dashboard/utils\";\n  getTeamsContext()",

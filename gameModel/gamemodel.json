@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1725368646147,
+  "createdTime" : 1726225021735,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6810,7 +6810,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO dev MIM-263 DASHBOARD",
+  "name" : "MIMMS - dev XGO DASHBOARD continued",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

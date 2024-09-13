@@ -1,3 +1,5 @@
+import { InterventionRole } from '../game/common/actors/actor';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import {
   MainSimulationState,
   MainStateObject,
@@ -109,6 +111,32 @@ export async function fetchAndUpdateTeamsGameState(
 /**
  * Just to type the context properly
  */
-export function getTypedState(state: DashboardGameState, teamId: number): DashboardTeamGameState | undefined {
+export function getTypedState(
+  state: DashboardGameState,
+  teamId: number
+): DashboardTeamGameState | undefined {
   return state[teamId];
+}
+
+export function getActorsLocation(
+  state: DashboardGameState,
+  teamId: number
+): Partial<Record<InterventionRole, LOCATION_ENUM>> {
+  const result: Partial<Record<InterventionRole, LOCATION_ENUM>> = {};
+  const tstate = getTypedState(state, teamId);
+  if (tstate) {
+    tstate.actors.forEach(act => {
+      result[act.Role] = act.Location;
+    });
+  }
+  return result;
+}
+
+/**
+ * TODO define what information is needed
+ * and possibly raise flags to change state
+ */
+export function getMethaneStatus(state: DashboardGameState, teamId: number): boolean {
+  const tstate = getTypedState(state, teamId);
+  return false;
 }

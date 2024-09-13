@@ -19,8 +19,8 @@ export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
 export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;
 
 /**
-* Trainer identifier
-*/
+ * Trainer identifier
+ */
 export const TRAINER_NAME = 'Game Master';
 
 /**
