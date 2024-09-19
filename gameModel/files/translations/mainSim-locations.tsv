@@ -1,17 +1,25 @@
 Key	EN	FR
 location-chantier	Incident	Chantier
+location-chantier-short	Incident	Chantier
 location-nidDeBlesses	Survivor reception center	Nid de blessés
 location-nidDeBlesses-short	Survivor reception center	Nid blessés
 location-PMA	Advanced medical post	Poste médical avancé
 location-PMA-short	AMP	PMA
 location-PC	Medical command post	Poste de commandement sanitaire
-location-PC-short	Medical CP	PC SAN
+location-PC-short	MCP	PC SAN
 location-ambulancePark	Ambulance park	Parc ambulance
+location-ambulancePark-short	AP	PA
 location-helicopterPark	Helicopter park	Parc hélicoptère
+location-helicopterPark-short	HP	PH
 location-pcFront	Forward CP	PC front
+location-pcFront-short	FCP	PCF
 location-remote	Remotely	À distance
+location-remote-short	Remotely	À distance
+location-AccReg	Access and egress	Accès et évacuation
+location-AccReg-short	A & E	A & E
 location-access	Access	Accès
-location-regress	Regress	Evacuation
+location-regress	Egress	Evacuation
+locations	Locations	Lieux
 sourceLocation	Location	Lieu
 targetLocation	Destination	Destination
 missingLocation	Missing {0}, resource {1} has no valid destination	Pas de {0}, la ressource {1} n'a pas de destination

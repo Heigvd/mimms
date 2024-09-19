@@ -58,30 +58,35 @@
                     }, {
                       "props" : {
                         "layoutStyle" : { },
-                        "name" : "DEBUG flags",
+                        "name" : "sim time",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  JSON.stringify(teamState.flags);",
+                          "content" : "import { getTime } from \"./dashboard/dashboardFacade\";\ngetTime(Context.state.state, Context.team.id);",
                           "language" : "TypeScript"
                         }
                       },
                       "type" : "Text"
                     }, {
                       "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getMethaneStatus } from \"./dashboard/dashboardFacade\";\n!getMethaneStatus(Context.state.state, Context.team.id);",
+                          "language" : "typescript"
+                        },
+                        "icon" : "check",
                         "layoutStyle" : { },
-                        "name" : "METHANE",
                         "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "Icon"
                     }, {
                       "props" : {
                         "layoutStyle" : { },
-                        "name" : "sim time",
+                        "name" : "METHANE",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
+                          "content" : "import { getMethaneStatus } from \"./dashboard/dashboardFacade\";\nJSON.stringify(getMethaneStatus(Context.state.state, Context.team.id));",
                           "language" : "TypeScript"
                         }
                       },
@@ -95,22 +100,52 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getActorsLocation } from \"./dashboard/dashboardState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\n  const r = Context.actor.role as InterventionRole;\n  const location = getActorsLocation(Context.state.state, Context.team.id)[r] || 'not there';\n  Context.actor.name + ' ' + location;",
+                              "content" : "import { getActorsLocation } from \"./dashboard/dashboardFacade\";\ngetActorsLocation(Context.state.state, Context.team.id, Context.role.role);",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         } ],
-                        "exposeAs" : "actor",
+                        "className" : "",
+                        "exposeAs" : "role",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
+                          "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
                         "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "actors",
+                        "name" : "roles",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "location",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getLocationChoice, showAsOpened } from \"./dashboard/dashboardFacade\";\ngetLocationChoice(Context.state.state, Context.team.id, Context.location.location) + ((showAsOpened(Context.state.state, Context.team.id, Context.location.location)) ? 'O' : '');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "exposeAs" : "location",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getLocationsContext } from \"./dashboard/dashboardFacade\";\n  getLocationsContext();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "locations",
                         "style" : { }
                       },
                       "type" : "For each"
@@ -138,7 +173,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
+                            "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.team.id);",
                             "language" : "TypeScript",
                             "returnType" : "Promise<unknown> | undefined"
                           }
@@ -159,7 +194,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.item.id);",
+                            "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
                             "language" : "TypeScript",
                             "returnType" : "Promise<unknown> | undefined"
                           }
@@ -181,7 +216,7 @@
                         "openUrl" : {
                           "url" : {
                             "@class" : "Script",
-                            "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.item.id);",
+                            "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.team.id);",
                             "language" : "TypeScript"
                           }
                         },
