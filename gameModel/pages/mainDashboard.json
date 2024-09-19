@@ -20,12 +20,14 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "reload",
                 "icon" : "redo",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "reload-container",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -39,24 +41,6 @@
                 "style" : { }
               },
               "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "reload",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "true;",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "name" : "reload",
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "\"/rotate-right-solid.svg\"",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "Image"
             }, {
               "props" : {
                 "children" : [ {
@@ -210,6 +194,8 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "style" : { },
                             "text" : {
@@ -233,76 +219,6 @@
                         "style" : { }
                       },
                       "type" : "For each"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "AL",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>AL</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "ACS",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>ACS</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "MCS",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>MCS</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "Lead PMA",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Lead PMA</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "EVASAN",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>EVASAN</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
                     } ],
                     "layout" : { },
                     "layoutStyle" : { },
@@ -661,6 +577,8 @@
                               "content" : "false;",
                               "language" : "typescript"
                             },
+                            "id" : "",
+                            "layoutClassName" : "line-text",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
@@ -688,6 +606,7 @@
                               "language" : "typescript"
                             },
                             "icon" : "pen",
+                            "id" : "radio-message-button",
                             "label" : {
                               "@class" : "Script",
                               "content" : "\"\"",
@@ -728,8 +647,9 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "line-text",
+                            "className" : "spy-text",
                             "icon" : "eye",
+                            "id" : "",
                             "label" : {
                               "@class" : "Script",
                               "content" : "\"\"",

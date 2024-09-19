@@ -2,11 +2,15 @@
 .accordion {
   margin-left: 12vw;
 }
+.reload-container {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  padding: 0;
+}
 .reload {
   width: 20px;
   height: auto;
-  margin-left: 10px;
-  transform: translateY(100%);
   filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
 }
 .accordion-header {
@@ -138,7 +142,7 @@
   font-weight: bold;
   text-transform: uppercase;
   color: var(--primary_base);
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, width 0.3s ease;
 }
 .words {
   display: flex;
@@ -155,7 +159,7 @@
   color: var(--primary_base);
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, width 0.3s ease;
 }
 .pastille:hover .letters {
   opacity: 0;
@@ -185,7 +189,7 @@
   color: var(--grey_base);
 }
 .team-text {
-  width: 12vw;
+  width: calc(12vw - 10px);
 }
 .line-text {
   display: flex;
@@ -201,7 +205,12 @@
 .line-locations {
   width: 42vw;
 }
+.spy-text {
+  display: flex;
+  justify-content: center;
+  width: calc(6vw - 10px);
+}
 
 .state-container, .roles-container, .impacts-container, .locations-container, .spy-container {
-  padding: 0;
+  padding: 24px 0 0 0;
 }
