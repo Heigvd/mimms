@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1726225021735,
+  "createdTime" : 1726674599941,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6443,6 +6443,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/dashboard",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1174013:wQfVhP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/evasanFrom",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6810,7 +6819,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO DASHBOARD continued",
+  "name" : "MIMMS - MIM-318",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

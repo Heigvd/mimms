@@ -1,0 +1,207 @@
+/* - - - - A C C O R D I O N - - - - */
+.accordion {
+  margin-left: 12vw;
+}
+.reload {
+  width: 20px;
+  height: auto;
+  margin-left: 10px;
+  transform: translateY(100%);
+  filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
+}
+.accordion-header {
+  height: 35px;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--primary_base);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--grey-white);
+}
+.accordion-header:hover {
+  background-color: var(--primary_base);
+}
+.accordion-header svg {
+  position: absolute;
+  right: 12px;
+  transform: rotate(180deg);
+}
+#state {
+  width: 12vw;
+}
+#roles {
+  width: 30vw;
+}
+#impacts {
+  width: 18vw;
+}
+#locations {
+  width: 42vw;
+}
+#spy {
+  width: 6vw;
+}
+
+/* - - - - H E A D E R - - - - */
+.header {
+  align-items: center;
+}
+#teams {
+  width: 12vw;
+  padding: 0 0 0 10px;
+}
+.header-text-container {
+  justify-content: center;
+  width: 6vw;
+  padding: 0;
+}
+.letters-container, .words-container {
+  padding: 0;
+}
+.header-place-container {
+  align-items: center;
+  justify-content: center;
+  width: 6vw;
+  padding: 0;
+}
+.header-text {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--primary_base);
+  white-space: nowrap;
+}
+.header-button {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 5px;
+  border: 1px solid var(--primary_base);
+  border-radius: 5px;
+  background-color: var(--grey-white);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--primary_base);
+}
+.header-button:hover {
+  background-color: var(--grey-white);
+}
+.play-pause {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--primary_base);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--grey-white);
+}
+.play-pause:hover {
+  background-color: var(--primary_70);
+}
+.play-pause:active {
+  background-color: var(--primary_100);
+}
+.header-place {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--primary_10);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--primary_base);
+}
+.pastille {
+  /* position: relative;
+  display: inline-block; */
+  align-items: center;
+  justify-content: center;
+  width: 6vw;
+  padding: 0;
+}
+.letters {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--primary_10);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--primary_base);
+  transition: opacity 0.3s ease;
+}
+.words {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 5px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  background-color: var(--primary_10);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--primary_base);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.pastille:hover .letters {
+  opacity: 0;
+}
+.pastille:hover .words {
+  opacity: 1;
+}
+
+/* - - - - L I N E - - - - */
+.line {
+  align-items: center;
+  height: 35px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--grey_base);
+  border-radius: 10px;
+  background-color: var(--grey_10);
+}
+.line:hover {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+}
+.line svg {
+  color: var(--grey_base);
+}
+.team-text {
+  width: 12vw;
+}
+.line-text {
+  display: flex;
+  justify-content: center;
+  width: 6vw;
+  /* white-space: nowrap;*/
+}
+.walkie-talkie {
+  width: 15px;
+  height: auto;
+  filter: invert(43%) sepia(15%) saturate(220%) hue-rotate(153deg) brightness(94%) contrast(87%);
+}
+.line-locations {
+  width: 42vw;
+}
+
+.state-container, .roles-container, .impacts-container, .locations-container, .spy-container {
+  padding: 0;
+}
