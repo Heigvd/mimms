@@ -1,3 +1,5 @@
+import { getLetterRepresentationOfIndex } from '../../tools/helper';
+
 /**
  * Generate layer style according to geometry type
  *
@@ -98,12 +100,12 @@ function getPointStyle(feature: any): LayerStyleObject {
       icon === Context.mapState.state.selectionState.icon &&
       !duration
     ) {
-      // Convert to int to add 1
-      const index = parseInt(name, 10) + 1;
+      // Convert to int
+      const index = parseInt(name, 10);
       // Is this feature currently selected ?
       const isSelected = name === Context.interfaceState.state.selectedMapObjectId;
       // Define textStyle for Icons
-      textStyle.text = (index + 9).toString(36).toUpperCase();
+      textStyle.text = getLetterRepresentationOfIndex(index);
       textStyle.offsetX = 12;
       textStyle.offsetY = -38;
       textStyle.scale = 1.6;
@@ -176,16 +178,16 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     width: 5,
   };
 
-  // Convert to int to add 1
+  // Convert to int
   let index;
   if (isNaN(properties.name)) index = properties.name;
-  else index = parseInt(properties.name, 10) + 1;
+  else index = parseInt(properties.name, 10);
 
   const text: TextStyleObject = {
     type: 'TextStyle',
     // If we are in a selection state we use alphabetical index, otherwise we apply the name
     text: Context.mapState.state.mapSelect
-      ? (index + 9).toString(36).toUpperCase()
+      ? getLetterRepresentationOfIndex(index)
       : String(index) || 'No name',
     font: 'bold 10px sans-serif',
     textAlign: 'center',
