@@ -1081,12 +1081,14 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "noPadding",
         "exposeAs" : "currentRadio",
         "initialState" : {
           "@class" : "Script",
           "content" : "import { ActionType } from \"./game/common/actionType\";\n({ channel: ActionType.EVASAN_RADIO })",
           "language" : "TypeScript"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "flex-direction" : "column",
           "width" : "100%"
