@@ -1,18 +1,34 @@
 /* - - - - A C C O R D I O N - - - - */
+.accordion-state * {
+  padding: 0;
+}
+
+div .button-closed {
+  width: 6vw;
+  transition: width 0.3s ease-in-out;
+}
+
+.button-closed div svg {
+  transform: initial;
+}
+
 .accordion {
   margin-left: 12vw;
 }
+
 .reload-container {
   position: absolute;
   top: 24px;
   left: 0;
   padding: 0;
 }
+
 .reload {
   width: 20px;
   height: auto;
   filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
 }
+
 .accordion-header {
   height: 35px;
   justify-content: center;
@@ -24,52 +40,115 @@
   text-transform: uppercase;
   color: var(--grey-white);
 }
+
 .accordion-header:hover {
   background-color: var(--primary_base);
 }
+
+.accordion-header:focus {
+  background-color: var(--primary_base);
+}
+
 .accordion-header svg {
   position: absolute;
   right: 12px;
   transform: rotate(180deg);
 }
+
+.state-container{
+  width: 12vw;
+  padding: 24px 0 0 0;
+  transition: width 0.3s ease-in-out;
+}
+
 #state {
   width: 12vw;
 }
+
+.roles-container {
+  width: 30vw;
+  padding: 24px 0 0 0;
+  transition: width 0.3s ease-in-out;
+}
+
 #roles {
   width: 30vw;
 }
+
+.impacts-container {
+  width: 18vw;
+  padding: 24px 0 0 0;
+  transition: width 0.3s ease-in-out;
+}
+
 #impacts {
   width: 18vw;
 }
+
+.locations-container {
+  width: 42vw;
+  padding: 24px 0 0 0;
+  transition: width 0.3s ease-in-out;
+}
+
 #locations {
   width: 42vw;
 }
+
+.spy-container {
+  width: 6vw;
+  padding: 24px 0 0 0;
+  transition: width 0.3s ease-in-out;
+}
+
 #spy {
   width: 6vw;
 }
+
 
 /* - - - - H E A D E R - - - - */
 .header {
   align-items: center;
 }
+
 #teams {
   width: 12vw;
   padding: 0 0 0 10px;
 }
+
+div .header-closed {
+  width: 6vw;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* .header-closed >* {
+  display: none;
+} */
+
+.header-open {
+  opacity: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
+
 .header-text-container {
+  align-items: center;
   justify-content: center;
   width: 6vw;
   padding: 0;
 }
+
 .letters-container, .words-container {
   padding: 0;
 }
+
 .header-place-container {
   align-items: center;
   justify-content: center;
   width: 6vw;
   padding: 0;
 }
+
 .header-text {
   font-size: 12px;
   font-weight: bold;
@@ -77,6 +156,7 @@
   color: var(--primary_base);
   white-space: nowrap;
 }
+
 .header-button {
   display: flex;
   align-items: center;
@@ -90,27 +170,43 @@
   text-transform: uppercase;
   color: var(--primary_base);
 }
+
 .header-button:hover {
   background-color: var(--grey-white);
 }
+
 .play-pause {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 50px;
   height: 25px;
   padding: 5px;
-  border-radius: 5px;
   background-color: var(--primary_base);
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
   color: var(--grey-white);
 }
+
 .play-pause:hover {
   background-color: var(--primary_70);
 }
+
 .play-pause:active {
   background-color: var(--primary_100);
 }
+
+#play {
+  border-right: 1px solid var(--grey-white);
+  border-radius: 5px 0 0 5px;
+}
+
+#pause {
+  border-left: 1px solid var(--grey-white);
+  border-radius: 0 5px 5px 0;
+}
+
 .header-place {
   display: flex;
   align-items: center;
@@ -122,7 +218,9 @@
   font-weight: bold;
   text-transform: uppercase;
   color: var(--primary_base);
+  transition: all 2s ease-in-out;
 }
+
 .pastille {
   /* position: relative;
   display: inline-block; */
@@ -131,6 +229,7 @@
   width: 6vw;
   padding: 0;
 }
+
 .letters {
   display: flex;
   align-items: center;
@@ -144,6 +243,7 @@
   color: var(--primary_base);
   transition: opacity 0.3s ease, width 0.3s ease;
 }
+
 .words {
   display: flex;
   align-items: center;
@@ -161,12 +261,21 @@
   opacity: 0;
   transition: opacity 0.3s ease, width 0.3s ease;
 }
+
 .pastille:hover .letters {
   opacity: 0;
 }
+
 .pastille:hover .words {
   opacity: 1;
 }
+
+#FCP:hover:after {
+  content: "Front Command Post";
+  white-space: nowrap;
+  transition: width 2s ease-in-out;
+}
+
 
 /* - - - - L I N E - - - - */
 .line {
@@ -181,36 +290,41 @@
   border-radius: 10px;
   background-color: var(--grey_10);
 }
+
 .line:hover {
   color: var(--primary_base);
   background-color: var(--primary_10);
 }
+
 .line svg {
   color: var(--grey_base);
 }
+
 .team-text {
   width: calc(12vw - 10px);
 }
+
 .line-text {
   display: flex;
   justify-content: center;
   width: 6vw;
   /* white-space: nowrap;*/
 }
+
 .walkie-talkie {
-  width: 15px;
-  height: auto;
+  display: flex;
+  justify-content: center;
+  width: 6vw;
+  height: 15px;
   filter: invert(43%) sepia(15%) saturate(220%) hue-rotate(153deg) brightness(94%) contrast(87%);
 }
+
 .line-locations {
   width: 42vw;
 }
+
 .spy-text {
   display: flex;
   justify-content: center;
   width: calc(6vw - 10px);
-}
-
-.state-container, .roles-container, .impacts-container, .locations-container, .spy-container {
-  padding: 24px 0 0 0;
 }

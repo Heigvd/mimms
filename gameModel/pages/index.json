@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "43",
+  "defaultPageId" : "mainDashboard",
   "root" : {
     "@class" : "Folder",
     "items" : [ {

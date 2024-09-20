@@ -45,446 +45,219 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "accordion-header",
-                    "icon" : "play",
-                    "id" : "state",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>State</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "state-container",
-                    "layoutStyle" : { },
-                    "name" : "state",
-                    "prefixedLabel" : true,
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "accordion-header",
-                    "icon" : "play",
-                    "id" : "roles",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Roles</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "roles-container",
-                    "layoutStyle" : { },
-                    "name" : "roles",
-                    "prefixedLabel" : true,
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "accordion-header",
-                    "icon" : "play",
-                    "id" : "impacts",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Impacts</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "impacts-container",
-                    "layoutStyle" : { },
-                    "name" : "impacts",
-                    "prefixedLabel" : true,
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "accordion-header",
-                    "icon" : "play",
-                    "id" : "locations",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Locations</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "locations-container",
-                    "layoutStyle" : { },
-                    "name" : "locations",
-                    "prefixedLabel" : true,
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "accordion-header",
-                    "id" : "spy",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Spy</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "spy-container",
-                    "layoutStyle" : { },
-                    "name" : "spy",
-                    "prefixedLabel" : false,
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "accordion",
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "accordion",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "header-text",
-                    "id" : "teams",
-                    "layoutStyle" : { },
-                    "name" : "teams",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Teams</p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "time",
-                        "style" : { },
-                        "text" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "state",
+                        "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Time</p>\"",
+                          "content" : "\"<p>State</p>\"",
                           "language" : "TypeScript"
-                        }
+                        },
+                        "layoutClassName" : "state-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.state = !newState.state;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "state",
+                        "prefixedLabel" : true,
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "Button"
                     }, {
                       "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "methane",
-                        "style" : { },
-                        "text" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "roles",
+                        "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Methane</p>\"",
+                          "content" : "\"<p>Roles</p>\"",
                           "language" : "TypeScript"
-                        }
+                        },
+                        "layoutClassName" : "roles-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.roles = !newState.roles;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "roles",
+                        "prefixedLabel" : true,
+                        "style" : { }
                       },
-                      "type" : "Text"
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "impacts",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Impacts</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "impacts-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.impacts = !newState.impacts;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "impacts",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "locations",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Locations</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "locations-container",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.locations = !newState.locations;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "locations",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "id" : "spy",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Spy</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "spy-container",
+                        "layoutStyle" : { },
+                        "name" : "spy",
+                        "prefixedLabel" : false,
+                        "style" : { }
+                      },
+                      "type" : "Button"
                     } ],
+                    "className" : "accordion noPadding",
                     "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "state",
+                    "name" : "accordion",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
+                      "props" : {
+                        "className" : "header-text",
+                        "id" : "teams",
+                        "layoutStyle" : { },
+                        "name" : "teams",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Teams</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
                             "className" : "header-text",
                             "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
+                            "name" : "time",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.actor.name;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "exposeAs" : "actor",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "actors",
-                        "style" : { }
-                      },
-                      "type" : "For each"
-                    } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "roles",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "className" : "play-pause",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Play | Pause</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "name" : "play/pause",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "header-button",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Time<br></p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
-                            "language" : "TypeScript",
-                            "returnType" : "Promise<unknown> | undefined"
-                          }
-                        },
-                        "name" : "time forward",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "header-button",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Radio | Notif<br></p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "header-text-container",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.item.id);",
-                            "language" : "TypeScript",
-                            "returnType" : "Promise<unknown> | undefined"
-                          }
-                        },
-                        "name" : "radio message",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "impacts",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "letters",
-                            "layoutClassName" : "letters-container",
-                            "layoutStyle" : { },
-                            "name" : "NB",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>NB</p>\"",
+                              "content" : "\"<p>Time</p>\"",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "words",
-                            "layoutClassName" : "words-container",
+                            "className" : "header-text",
+                            "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
-                            "name" : "Nid de blessés",
+                            "name" : "methane",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "\"<p>Nid de blessés</p>\"",
+                              "content" : "\"<p>Methane</p>\"",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         } ],
-                        "className" : "pastille",
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "NB",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "className" : "header-place",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "FCP",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>FCP</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-place",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "MCP",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>MCP</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-place",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "AMP",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>AMP</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-place",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "AP",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>AP</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-place",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "HP",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>HP</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "header-text",
-                        "layoutClassName" : "header-place-container",
-                        "layoutStyle" : { },
-                        "name" : "Access | Egress",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Access | Egress</p>\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "locations",
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                } ],
-                "className" : "header",
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "header",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "team-text",
-                            "layoutStyle" : { },
-                            "name" : "team",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  const id = Context.team.id;\n  `${Context.team.name} (${id})`;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
+                        "className" : "header-open",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
                         } ],
-                        "className" : "",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "team",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "line-text",
-                            "layoutStyle" : { },
-                            "name" : "sim time",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "line-text",
-                            "layoutStyle" : { },
-                            "name" : "METHANE",
-                            "style" : { }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
                         "layout" : { },
                         "layoutClassName" : "",
                         "layoutStyle" : { },
@@ -498,13 +271,13 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "line-text",
+                                "className" : "header-text",
+                                "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
-                                "name" : "location",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getActorsLocation } from \"./dashboard/dashboardState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\n  const r = Context.actor.role as InterventionRole;\n  const location = getActorsLocation(Context.state.state, Context.team.id)[r] || 'not there';\n  Context.actor.name + ' ' + location;",
+                                  "content" : "  Context.actor.name;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -524,7 +297,16 @@
                           },
                           "type" : "For each"
                         } ],
-                        "className" : "",
+                        "className" : "header-open",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "roles",
@@ -535,32 +317,59 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "line-text",
-                            "icon" : "play",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"\"",
-                              "language" : "TypeScript"
-                            },
+                            "children" : [ {
+                              "props" : {
+                                "className" : "play-pause",
+                                "id" : "play",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Play</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "play",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "play-pause",
+                                "id" : "pause",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Pause</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "pause",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "header-text-container",
+                            "layout" : { },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "play/pause",
                             "style" : { }
                           },
-                          "type" : "Button"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "className" : "line-text",
-                            "icon" : "clock",
+                            "className" : "header-button",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"\"",
+                              "content" : "\"<p>Time<br></p>\"",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.team.id);",
+                                "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -571,52 +380,18 @@
                           "type" : "Button"
                         }, {
                           "props" : {
-                            "className" : "walkie-talkie",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "false;",
-                              "language" : "typescript"
-                            },
-                            "id" : "",
-                            "layoutClassName" : "line-text",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
-                              }
-                            },
-                            "name" : "walkie-talkie",
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "\"/walkie-talkie-solid.svg\"",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Image"
-                        }, {
-                          "props" : {
-                            "className" : "line-text",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "true;",
-                              "language" : "typescript"
-                            },
-                            "icon" : "pen",
-                            "id" : "radio-message-button",
+                            "className" : "header-button",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"\"",
+                              "content" : "\"<p>Radio | Notif<br></p>\"",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n    wlog(\"clicked!\")\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
+                                "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.item.id);",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -626,7 +401,16 @@
                           },
                           "type" : "Button"
                         } ],
-                        "className" : "",
+                        "className" : "header-open",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "impacts",
@@ -635,87 +419,491 @@
                       "type" : "FlexList"
                     }, {
                       "props" : {
-                        "children" : [ ],
-                        "className" : "line-locations",
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "letters",
+                                "layoutClassName" : "letters-container",
+                                "layoutStyle" : { },
+                                "name" : "NB",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>NB</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "words",
+                                "layoutClassName" : "words-container",
+                                "layoutStyle" : { },
+                                "name" : "Nid de blessés",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Nid de blessés</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "pastille",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "NB",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "header-place",
+                            "id" : "FCP",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "FCP",
+                            "onPointerOver" : {
+                              "@class" : "ScriptCallback",
+                              "args" : [ ],
+                              "content" : "  wlog(\"hello\");"
+                            },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>FCP</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-place",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "MCP",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>MCP</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-place",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "AMP",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>AMP</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-place",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "AP",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>AP</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-place",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "HP",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>HP</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "header-place-container",
+                            "layoutStyle" : { },
+                            "name" : "Access | Egress",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Access | Egress</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "header-open",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "locations",
                         "style" : { }
                       },
                       "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "spy-text",
-                            "icon" : "eye",
-                            "id" : "",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "name" : "Spy game",
-                            "openUrl" : {
-                              "url" : {
-                                "@class" : "Script",
-                                "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.team.id);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "className" : "",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "spy",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "true;",
-                          "language" : "typescript"
-                        },
-                        "layoutStyle" : { },
-                        "name" : "DEBUG flags",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  JSON.stringify(teamState.flags);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
                     } ],
-                    "className" : "line",
+                    "className" : "header",
                     "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "line",
+                    "name" : "header",
                     "style" : { }
                   },
                   "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "team-text",
+                                "layoutStyle" : { },
+                                "name" : "team",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  const id = Context.team.id;\n  `${Context.team.name} (${id})`;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "team",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "line-text",
+                                "layoutStyle" : { },
+                                "name" : "sim time",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "layoutStyle" : { },
+                                "name" : "METHANE",
+                                "style" : { }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "header-open",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.dashboardState.state.state;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "state",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "line-text",
+                                    "layoutClassName" : "header-text-container",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "/* Please always respect the return type : string | undefined */\nimport { getActorsLocation } from \"./dashboard/dashboardState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\n  const r = Context.actor.role as InterventionRole;  \n    const location = getActorsLocation(Context.state.state, Context.team.id)[r] || '';  \n    location;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "exposeAs" : "actor",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "actors",
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            } ],
+                            "className" : "header-open",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.dashboardState.state.roles;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "roles",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "line-text",
+                                "icon" : "play",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "play/pause",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "icon" : "clock",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.team.id);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "time forward",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "walkie-talkie",
+                                "id" : "",
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "walkie-talkie",
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "\"/walkie-talkie-solid.svg\"",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Image"
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "true;",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "pen",
+                                "id" : "radio-message-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n    wlog(\"clicked!\")\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "radio message",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "header-open",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.dashboardState.state.impacts;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "impacts",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ ],
+                            "className" : "header-open line-locations",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.dashboardState.state.locations;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "locations",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "spy-text",
+                                "icon" : "eye",
+                                "id" : "",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "Spy game",
+                                "openUrl" : {
+                                  "url" : {
+                                    "@class" : "Script",
+                                    "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.team.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "spy",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "DEBUG flags",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  JSON.stringify(teamState.flags);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "line",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "line",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "team",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\n  getTeamsContext()",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "Teams",
+                    "style" : { }
+                  },
+                  "type" : "For each"
                 } ],
-                "exposeAs" : "team",
-                "getItemsFn" : {
+                "className" : "",
+                "exposeAs" : "dashboardState",
+                "initialState" : {
                   "@class" : "Script",
-                  "content" : "import { getTeamsContext } from \"./dashboard/utils\";\n  getTeamsContext()",
+                  "content" : "({\n    state: true, \n    roles: true,\n    impacts: true,\n    locations: false,\n  })",
                   "language" : "TypeScript"
                 },
-                "itemKey" : "id",
-                "layout" : {
+                "layoutClassName" : "accordion-state",
+                "layoutStyle" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : { },
-                "name" : "Teams",
+                "localState" : false,
+                "name" : "accordionState",
                 "style" : { }
               },
-              "type" : "For each"
+              "type" : "State"
             } ],
             "layout" : {
               "flexDirection" : "column"
