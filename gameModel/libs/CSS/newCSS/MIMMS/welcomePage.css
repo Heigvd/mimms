@@ -24,7 +24,6 @@
 /** header matrix **/
 /* ID header */
 .matrixHeaderItem {
-  width: 6em;
   text-align: left;
 }
 /* Roles header */
@@ -48,6 +47,5 @@
 }
 
 .playerIdentity{
-  width: 6em;
   text-align: left;
 }

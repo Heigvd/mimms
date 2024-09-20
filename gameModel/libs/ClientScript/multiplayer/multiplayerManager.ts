@@ -28,7 +28,7 @@ export async function clearMultiplayerMatrix() {
 export async function registerSelf(): Promise<void> {
   if (hasRegisteredOnce) return;
   const currentPlayerId = self.getId();
-  const currentPlayerName = self.getName();
+  const currentPlayerName = self.getName() ?? currentUserName;
   const playableRoles: PlayerRoles = {
     AL: false,
     ACS: false,
@@ -60,27 +60,8 @@ export async function registerSelf(): Promise<void> {
 }
 
 /**
- * Unregister current (self) player from matrix
+ * Is the current player allowed to update the target player ?
  */
-export async function unregisterSelf(): Promise<void> {
-  const currentPlayerId = self.getId();
-  const currentPlayers = Variable.find(gameModel, 'multiplayerMatrix')
-    .getInstance(self)
-    .getProperties();
-
-  if (currentPlayerId && currentPlayers[String(currentPlayerId)]) {
-    const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).removeProperty(${String(
-      currentPlayerId
-    )})`;
-
-    try {
-      await APIMethods.runScript(script, {});
-    } catch (error) {
-      mainSimLogger.error(error);
-    }
-  }
-}
-
 function canUpdateRole(targetPlayerId: number): boolean {
   const currentPlayerId = self.getId();
   return (
@@ -149,7 +130,7 @@ export function getPlayersAndRoles(): MultiplayerMatrix {
 export function getPlayerRolesSelf(): PlayerRoles {
   const currentPlayerId = self.getId();
   if (currentPlayerId === undefined) {
-    mainSimLogger.error(`Your a currently not registered as a player`);
+    mainSimLogger.error(`You are currently not registered as a player`);
     return {};
   }
 
@@ -183,4 +164,58 @@ export function checkAllPlayersReady(): boolean {
   return getPlayersAndRoles()
     .flatMap(p => p.ready)
     .every(r => r);
+}
+
+// ################################
+// ||                            ||
+// ||    SCENARIST & TRAINER     ||
+// ||         FUNCTIONS          ||
+// ||                            ||
+// ################################
+
+/**
+ * Unregister given player from playerMatrix
+ */
+export async function unregisterPlayer(playerId: number): Promise<void> {
+  // Players aren't allowed to unregister others
+  if (APP_CONTEXT === 'Player') return;
+
+  const currentPlayers = Variable.find(gameModel, 'multiplayerMatrix')
+    .getInstance(self)
+    .getProperties();
+
+  if (playerId && currentPlayers[String(playerId)]) {
+    const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).removeProperty(${String(
+      playerId
+    )})`;
+
+    try {
+      await APIMethods.runScript(script, {});
+    } catch (error) {
+      mainSimLogger.error(error);
+    }
+  }
+}
+
+/**
+ * Register self as all roles and mark ready (use only for scenarist)
+ */
+export async function registerSelfAllRolesAndReady(): Promise<void> {
+  const playerId = self.getId();
+  const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
+
+  playerMatrix.ready = true;
+  for (const role in playerMatrix.roles) {
+    playerMatrix.roles[role as InterventionRole] = true;
+  }
+
+  const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${playerId!.toString()}, ${JSON.stringify(
+    JSON.stringify(playerMatrix)
+  )})`;
+
+  try {
+    await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
 }
