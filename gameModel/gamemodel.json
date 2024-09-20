@@ -4203,18 +4203,26 @@
         "name" : "mainSim-locations",
         "properties" : {
           "location-access" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access\"},\"FR\":{\"status\":\"\",\"translation\":\"accès\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-accreg" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access and egress\"},\"FR\":{\"status\":\"\",\"translation\":\"accès et évacuation\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-accreg-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"a & E\"},\"FR\":{\"status\":\"\",\"translation\":\"a & E\",\"lang\":\"FR\"}},\"version\":0}",
           "location-ambulancepark" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance park\"},\"FR\":{\"status\":\"\",\"translation\":\"parc ambulance\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-ambulancepark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aP\"},\"FR\":{\"status\":\"\",\"translation\":\"pA\",\"lang\":\"FR\"}},\"version\":0}",
           "location-chantier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"incident\"},\"FR\":{\"status\":\"\",\"translation\":\"chantier\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-chantier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"incident\"},\"FR\":{\"status\":\"\",\"translation\":\"chantier\",\"lang\":\"FR\"}},\"version\":0}",
           "location-helicopterpark" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"helicopter park\"},\"FR\":{\"status\":\"\",\"translation\":\"parc hélicoptère\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-helicopterpark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hP\"},\"FR\":{\"status\":\"\",\"translation\":\"pH\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid blessés\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical command post\"},\"FR\":{\"status\":\"\",\"translation\":\"poste de commandement sanitaire\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-pc-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical CP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC SAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-pc-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC SAN\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pcfront" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"forward CP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC front\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-pcfront-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"fCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pCF\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"poste médical avancé\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pma-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aMP\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-regress" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"regress\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-regress" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"egress\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "location-remote" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"remotely\"},\"FR\":{\"status\":\"\",\"translation\":\"à distance\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-remote-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"remotely\"},\"FR\":{\"status\":\"\",\"translation\":\"à distance\",\"lang\":\"FR\"}},\"version\":0}",
+          "locations" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"locations\"},\"FR\":{\"status\":\"\",\"translation\":\"lieux\",\"lang\":\"FR\"}},\"version\":0}",
           "missinglocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"missing {0}, resource {1} has no valid destination\"},\"FR\":{\"status\":\"\",\"translation\":\"pas de {0}, la ressource {1} n'a pas de destination\",\"lang\":\"FR\"}},\"version\":0}",
           "sourcelocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"lieu\",\"lang\":\"FR\"}},\"version\":0}",
           "targetlocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"destination\"},\"FR\":{\"status\":\"\",\"translation\":\"destination\",\"lang\":\"FR\"}},\"version\":0}"
@@ -5255,6 +5263,15 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "dashboard/dashboardFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:752151:wqsXY7",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "dashboard/dashboardState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5556,6 +5573,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#76:ISxqrN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/location/locationLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:752204:U4ZtDo",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
