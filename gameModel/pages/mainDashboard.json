@@ -277,7 +277,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.actor.name;",
+                                  "content" : "  Context.actor.shortName;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -286,7 +286,7 @@
                             "exposeAs" : "actor",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
+                              "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -420,6 +420,32 @@
                     }, {
                       "props" : {
                         "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.location.shortName;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "exposeAs" : "location",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getLocationsContext } from \"./dashboard/dashboardFacade\";\n    getLocationsContext();",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
@@ -610,7 +636,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTypedState } from \"./dashboard/dashboardState\";\n  const teamState = getTypedState(Context.state.state, Context.team.id);\n    if(!teamState){\n      return 'loading...';\n    }\n  teamState.simulationTime + '';",
+                                  "content" : "import { getTime } from \"./dashboard/dashboardFacade\";\n  getTime(Context.state.state, Context.team.id);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -620,7 +646,12 @@
                                 "className" : "line-text",
                                 "layoutStyle" : { },
                                 "name" : "METHANE",
-                                "style" : { }
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getMethaneStatus } from \"./dashboard/dashboardFacade\";\n  JSON.stringify(getMethaneStatus(Context.state.state, Context.team.id));",
+                                  "language" : "TypeScript"
+                                }
                               },
                               "type" : "Text"
                             } ],
@@ -653,7 +684,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "/* Please always respect the return type : string | undefined */\nimport { getActorsLocation } from \"./dashboard/dashboardState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\n  const r = Context.actor.role as InterventionRole;  \n    const location = getActorsLocation(Context.state.state, Context.team.id)[r] || '';  \n    location;",
+                                      "content" : "import { getActorsLocation } from \"./dashboard/dashboardFacade\";\n  getActorsLocation(Context.state.state, Context.team.id, Context.role.role);",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -662,7 +693,7 @@
                                 "exposeAs" : "actor",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getRolesContext } from \"./dashboard/utils\";\n  getRolesContext();",
+                                  "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -797,7 +828,57 @@
                           "type" : "FlexList"
                         }, {
                           "props" : {
-                            "children" : [ ],
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || ! showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "door-open",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "door-closed",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocationChoice } from \"./dashboard/dashboardFacade\";\n  getLocationChoice(Context.state.state, Context.team.id, Context.location.location);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "exposeAs" : "location",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getLocationsContext } from \"./dashboard/dashboardFacade\";\n    getLocationsContext();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            } ],
                             "className" : "header-open line-locations",
                             "conditionnalClassNames" : [ {
                               "applyOn" : "Inside",
