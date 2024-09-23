@@ -5157,19 +5157,19 @@
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
-    "active" : false,
-    "code" : "EN",
+    "active" : true,
+    "code" : "FR",
     "indexOrder" : 0,
-    "lang" : "english",
-    "refId" : "gamemodellanguage:9624873OgkFz7",
+    "lang" : "français",
+    "refId" : "GameModelLanguage:63794:dY54fm",
     "visibility" : "PROTECTED"
   }, {
     "@class" : "GameModelLanguage",
     "active" : true,
-    "code" : "FR",
+    "code" : "EN",
     "indexOrder" : 1,
-    "lang" : "français",
-    "refId" : "GameModelLanguage:63794:dY54fm",
+    "lang" : "english",
+    "refId" : "gamemodellanguage:9624873OgkFz7",
     "visibility" : "PROTECTED"
   } ],
   "libraries" : [ {
