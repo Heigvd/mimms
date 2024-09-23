@@ -813,6 +813,27 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
       localEventManager.queueLocalEvent(radioMessageEvent);
       break;
     }
+    case 'DashboardNotificationMessageEvent': {
+      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
+      const payload = event.payload;
+      payload.roles.forEach(role => {
+        const actorId = currentSimulationState.getAllActors().find(a => a.Role === role)?.Uid;
+        if (actorId) {
+          const notificationMessageEvent = new AddRadioMessageLocalEvent(
+            event.id,
+            payload.triggerTime,
+            actorId,
+            trainerName,
+            payload.message,
+            ActionType.ACTION,
+            false,
+            true
+          );
+          localEventManager.queueLocalEvent(notificationMessageEvent);
+        }
+      });
+      break;
+    }
     default:
       if (isLegacyGlobalEvent(event)) {
         mainSimLogger.warn('Legacy event ignored', event.payload.type, event);

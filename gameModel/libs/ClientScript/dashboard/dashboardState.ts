@@ -8,9 +8,7 @@ import { PatientState } from '../game/common/simulationState/patientState';
 import { buildStartingMainState } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 
-type PatientReducedState = Omit<PatientState, 'humanBody'> & {
-  // TODO anything else?
-};
+type PatientReducedState = Omit<PatientState, 'humanBody'>;
 
 export function makeReducedState(patient: PatientState): PatientReducedState {
   const { humanBody, ...reduced } = patient;
@@ -93,8 +91,6 @@ async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> 
   return result;
 }
 
-// TODO not sure on this one
-// the state could just be stored in the stateCache var instead of living in a page Context
 export async function fetchAndUpdateTeamsGameState(
   updateFunc: (stateByTeam: DashboardGameState) => void,
   safety: boolean
@@ -130,13 +126,4 @@ export function getActorsLocation(
     });
   }
   return result;
-}
-
-/**
- * TODO define what information is needed
- * and possibly raise flags to change state
- */
-export function getMethaneStatus(state: DashboardGameState, teamId: number): boolean {
-  const tstate = getTypedState(state, teamId);
-  return false;
 }
