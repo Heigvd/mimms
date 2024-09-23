@@ -27,6 +27,8 @@ div .button-closed {
   width: 20px;
   height: auto;
   filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
+  cursor: pointer;
+  z-index: 10;
 }
 
 .accordion-header {
@@ -122,9 +124,9 @@ div .header-closed {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* .header-closed >* {
+.header-closed >* {
   display: none;
-} */
+}
 
 .header-open {
   opacity: 100%;
@@ -241,6 +243,7 @@ div .header-closed {
   font-weight: bold;
   text-transform: uppercase;
   color: var(--primary_base);
+  white-space: nowrap;
   transition: opacity 0.3s ease, width 0.3s ease;
 }
 
@@ -260,6 +263,7 @@ div .header-closed {
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.3s ease, width 0.3s ease;
+  z-index: 10;
 }
 
 .pastille:hover .letters {
@@ -270,11 +274,11 @@ div .header-closed {
   opacity: 1;
 }
 
-#FCP:hover:after {
+/* #FCP:hover:after {
   content: "Front Command Post";
   white-space: nowrap;
   transition: width 2s ease-in-out;
-}
+} */
 
 
 /* - - - - L I N E - - - - */
@@ -283,7 +287,7 @@ div .header-closed {
   height: 35px;
   margin-bottom: 10px;
   padding: 10px;
-  font-size: 14px;
+  font-size: var(--SM_text);
   font-weight: 900;
   text-transform: uppercase;
   color: var(--grey_base);
@@ -327,4 +331,100 @@ div .header-closed {
   display: flex;
   justify-content: center;
   width: calc(6vw - 10px);
+}
+
+/* - - - -  M O D A L S - - - - */
+
+.dashboard-modal {
+  width: 30%;
+  min-width: 450px;
+  padding: 15px;
+}
+
+.dashboard-modal > :first-child {
+  flex-direction: column;
+  gap: 25px;
+}
+
+.dashboard-modal p {
+  margin: 0;
+}
+
+.modal-icon-title {
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal-icon {
+  height: 15px;
+  color: var(--primary_base);
+  filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
+}
+
+.close-modal-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.modal-content {
+  padding: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.content-title {
+  font-family: var(--mainFont);
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+}
+
+.modal-dropdown {
+  font-family: var(--mainFont);
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: #000;
+  background-color: #fff;
+}
+
+.modal-dropdown:hover {
+  border: 1px solid #000;
+  background-color: #fff;
+}
+
+.modal-time {
+  font-family: var(--mainFont);
+  font-size: var(--SM_text);
+  background-color: #fff;
+}
+
+.modal-time p span {
+  padding: 7px;
+  color: var(--grey_base);
+  border-radius: 5px;
+  background-color: var(--grey_10);
+}
+
+.modal-buttons {
+  padding: 0;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.cancel-button {
+  color: var(--grey_70);
+  background-color: var(--grey_20);
+}
+
+.cancel-button:hover {
+  background-color: var(--grey_30);
 }

@@ -45,6 +45,331 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "icon" : "clock",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        }, {
+                          "props" : {
+                            "className" : "modal-title",
+                            "id" : "",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Time</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "content-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>All Teams</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "modal-dropdown",
+                            "icon" : "chevron-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Add</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Dropdown",
+                            "prefixedLabel" : true,
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "modal-time",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p><span>0</span> min</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "modal-content",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Content",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Cancel</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Confirm</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.dashboardState.state.allTeamsTimeModal;",
+                      "language" : "typescript"
+                    },
+                    "layout" : { },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "All Teams Time",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "\"/walkie-talkie-solid.svg\"",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Image"
+                        }, {
+                          "props" : {
+                            "className" : "modal-title",
+                            "id" : "",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Radio message</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "content-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>All Teams</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "modal-dropdown",
+                            "icon" : "chevron-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>G679</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Dropdown",
+                            "prefixedLabel" : true,
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : { },
+                          "type" : "Text input"
+                        } ],
+                        "className" : "modal-content",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Content",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Cancel</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Send</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.dashboardState.state.allTeamsRadioModal;",
+                      "language" : "typescript"
+                    },
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "Radio | Notif",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "className" : "accordion-header",
@@ -369,9 +694,8 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.item.id);",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
                               }
                             },
                             "name" : "time forward",
@@ -391,9 +715,8 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.item.id);",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
                               }
                             },
                             "name" : "radio message",
@@ -423,16 +746,43 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "letters",
+                                    "layoutClassName" : "letters-container",
+                                    "layoutStyle" : { },
+                                    "name" : "Default",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.location.shortName;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "words",
+                                    "layoutClassName" : "words-container",
+                                    "layoutStyle" : { },
+                                    "name" : "On Hover",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.location.longName;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "pastille",
+                                "layout" : { },
                                 "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.location.shortName;",
-                                  "language" : "TypeScript"
-                                }
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "FlexList"
                             } ],
+                            "className" : "",
                             "exposeAs" : "location",
                             "getItemsFn" : {
                               "@class" : "Script",
@@ -477,6 +827,11 @@
                               "type" : "Text"
                             } ],
                             "className" : "pastille",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
                             "layoutClassName" : "",
                             "layoutStyle" : { },
@@ -487,6 +842,11 @@
                         }, {
                           "props" : {
                             "className" : "header-place",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
                             "id" : "FCP",
                             "layoutClassName" : "header-place-container",
                             "layoutStyle" : { },
@@ -506,63 +866,12 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "header-place",
-                            "layoutClassName" : "header-place-container",
-                            "layoutStyle" : { },
-                            "name" : "MCP",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>MCP</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "header-place",
-                            "layoutClassName" : "header-place-container",
-                            "layoutStyle" : { },
-                            "name" : "AMP",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>AMP</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "header-place",
-                            "layoutClassName" : "header-place-container",
-                            "layoutStyle" : { },
-                            "name" : "AP",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>AP</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "header-place",
-                            "layoutClassName" : "header-place-container",
-                            "layoutStyle" : { },
-                            "name" : "HP",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>HP</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "className" : "header-text",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "true;",
+                              "language" : "typescript"
+                            },
                             "layoutClassName" : "header-place-container",
                             "layoutStyle" : { },
                             "name" : "Access | Egress",
@@ -684,7 +993,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getActorsLocation } from \"./dashboard/dashboardFacade\";\n  getActorsLocation(Context.state.state, Context.team.id, Context.role.role);",
+                                      "content" : "import { getActorsLocation } from \"./dashboard/dashboardFacade\";\n  getActorsLocation(Context.state.state, Context.team.id, Context.actor.role);",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -832,39 +1141,53 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || ! showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
-                                      "language" : "typescript"
-                                    },
-                                    "icon" : "door-open",
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "layoutClassName" : "",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getLocationChoice } from \"./dashboard/dashboardFacade\";\n  getLocationChoice(Context.state.state, Context.team.id, Context.location.location);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                          "language" : "typescript"
+                                        },
+                                        "icon" : "door-closed",
+                                        "layoutStyle" : { },
+                                        "name" : "Door Closed",
+                                        "style" : { }
+                                      },
+                                      "type" : "Icon"
+                                    }, {
+                                      "props" : {
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || ! showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                          "language" : "typescript"
+                                        },
+                                        "icon" : "door-open",
+                                        "layoutStyle" : { },
+                                        "name" : "Door Open",
+                                        "style" : { }
+                                      },
+                                      "type" : "Icon"
+                                    } ],
+                                    "className" : "line-text",
+                                    "layout" : { },
+                                    "layoutClassName" : "header-text-container",
                                     "layoutStyle" : { },
                                     "style" : { }
                                   },
-                                  "type" : "Icon"
-                                }, {
-                                  "props" : {
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
-                                      "language" : "typescript"
-                                    },
-                                    "icon" : "door-closed",
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "Icon"
-                                }, {
-                                  "props" : {
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getLocationChoice } from \"./dashboard/dashboardFacade\";\n  getLocationChoice(Context.state.state, Context.team.id, Context.location.location);",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
+                                  "type" : "FlexList"
                                 } ],
                                 "exposeAs" : "location",
                                 "getItemsFn" : {
@@ -973,7 +1296,7 @@
                 "exposeAs" : "dashboardState",
                 "initialState" : {
                   "@class" : "Script",
-                  "content" : "({\n    state: true, \n    roles: true,\n    impacts: true,\n    locations: false,\n  })",
+                  "content" : "({\n    state: true, \n    roles: true,\n    impacts: true,\n    locations: false,\n    allTeamsTimeModal: false,\n    allTeamsRadioModal: false,\n  })",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "accordion-state",

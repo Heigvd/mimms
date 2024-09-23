@@ -1,8 +1,8 @@
 Key	EN	FR
 location-chantier	Incident	Chantier
-location-chantier-short	Incident	Chantier
+location-chantier-short	I	C
 location-nidDeBlesses	Survivor reception center	Nid de blessés
-location-nidDeBlesses-short	Survivor reception center	Nid blessés
+location-nidDeBlesses-short	SRC	NB
 location-PMA	Advanced medical post	Poste médical avancé
 location-PMA-short	AMP	PMA
 location-PC	Medical command post	Poste de commandement sanitaire
@@ -14,7 +14,7 @@ location-helicopterPark-short	HP	PH
 location-pcFront	Forward CP	PC front
 location-pcFront-short	FCP	PCF
 location-remote	Remotely	À distance
-location-remote-short	Remotely	À distance
+location-remote-short	R	AD
 location-AccReg	Access and egress	Accès et évacuation
 location-AccReg-short	A & E	A & E
 location-access	Access	Accès
