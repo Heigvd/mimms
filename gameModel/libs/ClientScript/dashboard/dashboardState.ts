@@ -8,7 +8,7 @@ import { PatientState } from '../game/common/simulationState/patientState';
 import { buildStartingMainState } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 
-type PatientReducedState = Omit<PatientState, 'humanBody'> & {};
+type PatientReducedState = Omit<PatientState, 'humanBody'>;
 
 export function makeReducedState(patient: PatientState): PatientReducedState {
   const { humanBody, ...reduced } = patient;
