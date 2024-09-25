@@ -27,6 +27,7 @@ import {
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -42,7 +43,7 @@ export function getAvailableActionTemplates(
 
 export function isAvailable(template: ActionTemplateBase): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
-  if (currentActorUid) {
+  if (template && currentActorUid) {
     const state = getCurrentState();
     const actor = state.getActorById(currentActorUid);
     if(actor){
@@ -50,6 +51,23 @@ export function isAvailable(template: ActionTemplateBase): boolean {
     }
   }
   return false;
+}
+
+/**
+ * @param template 
+ * @returns true if the action can be played or is currently planned, thus can be cancelled
+ */
+export function canCancel(template: ActionTemplateBase): boolean {
+  return isAvailable(template) && isPlannedAction(template.Uid);
+}
+
+/**
+ * @param template 
+ * @returns true if an action can be planned by the current actor 
+ * or that the current actor can cancel an action based on this template
+ */
+export function canPlanOrCancel(template: ActionTemplateBase): boolean {
+  return canPlanAction() || canCancel(template);
 }
 
 export function uniqueActionTemplates(): IUniqueActionTemplates {

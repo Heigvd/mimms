@@ -3,6 +3,7 @@ import {
   MoveActorActionTemplate,
   SelectionFixedMapEntityTemplate,
 } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapSelect } from '../gameMap/main';
@@ -69,7 +70,7 @@ export function canCancelOnGoingAction() {
  * @params number uid of the action
  * @returns boolean whether action uid is currently planned one
  */
-export function isPlannedAction(id: number) {
+export function isPlannedAction(id: ActionTemplateId) {
   const actorUid = Context.interfaceState.state.currentActorUid;
   const actions = getAllActions()[actorUid];
 

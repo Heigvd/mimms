@@ -172,7 +172,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton();",
+                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(Context.action);",
                         "language" : "TypeScript"
                       }
                     },

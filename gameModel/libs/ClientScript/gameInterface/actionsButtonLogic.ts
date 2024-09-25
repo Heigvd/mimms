@@ -1,4 +1,5 @@
 import {
+  isAvailable,
   isCasuMessageActionTemplate,
   isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
@@ -37,16 +38,17 @@ import {
 import { actionClickHandler, canPlanAction } from './main';
 
 /**
- * Performs logic whenever a template is initiated in interface
+ * Plans an action with a given template and the current interface state
  *
  * @params ActionTemplateBase action being launched
  */
 // used in several pages
-export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
-  if (action != undefined) {
-    Context.action = action;
-  }
+export function runActionButton(action: ActionTemplateBase): void {
 
+  if(isAvailable(action)){
+    actionLogger.debug('action not available ' + JSON.stringify(action?.getTitle()));
+    return;
+  }
   actionLogger.debug('run action button for ' + JSON.stringify(action?.getTitle()));
 
   let params = {};
@@ -75,7 +77,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(Context.action, params);
+  actionClickHandler(action, params);
 }
 
 /**
@@ -83,7 +85,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
  *
  * @returns SelectMapObjectPayload
  */
-function fetchSelectMapObjectValues() {
+function fetchSelectMapObjectValues() : FixedMapEntity | undefined {
   // TODO Add type
 
   const mapState = Context.mapState.state;
