@@ -246,7 +246,7 @@ export async function registerSelfAllRolesAndReady(): Promise<void> {
 }
 
 interface TeamMatrix {
-  id: string;
+  id: number;
   matrix: MultiplayerMatrix;
 }
 
@@ -267,7 +267,7 @@ export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
   const teams = response!.updatedEntities[0] as any;
 
   const teamMatrixes = Object.keys(teams).map(key => ({
-    id: key,
+    id: Number(key),
     matrix: Object.values(teams[key].properties).map(m =>
       JSON.parse(String(m))
     ) as MultiplayerMatrix,
@@ -281,7 +281,7 @@ export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
  *
  * @params {string} teamId - Id of team to retrieve
  */
-export function getTeamMultiplayerMatrix(teamId: string): MultiplayerMatrix | undefined {
+export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix | undefined {
   if (multiPlayerMatrixes === undefined || multiPlayerMatrixes.length === 0) {
     return undefined;
   } else {
@@ -296,7 +296,7 @@ export function getTeamMultiplayerMatrix(teamId: string): MultiplayerMatrix | un
  * @params {number} - Id of player to retrieve
  * @returns {PlayerMatrix}
  */
-function getPlayerMatrix(teamId: string, playerId: number): PlayerMatrix {
+function getPlayerMatrix(teamId: number, playerId: number): PlayerMatrix {
   const teamMatrix = multiPlayerMatrixes.find(teamMatrixes => teamMatrixes.id === teamId);
   return teamMatrix!.matrix.find(m => m.id === playerId)!;
 }
@@ -309,7 +309,7 @@ function getPlayerMatrix(teamId: string, playerId: number): PlayerMatrix {
  * @params {InterventionRole} role - Role to update
  */
 export async function updatePlayerRole(
-  teamId: string,
+  teamId: number,
   playerId: number,
   role: InterventionRole
 ): Promise<void> {
@@ -329,7 +329,7 @@ export async function updatePlayerRole(
  * @params {string} teamId - Id of team to update
  * @params {number} playerId - Id of player to update
  */
-export async function updatePlayerReady(teamId: string, playerId: number): Promise<void> {
+export async function updatePlayerReady(teamId: number, playerId: number): Promise<void> {
   const playerMatrix = getPlayerMatrix(teamId, playerId);
 
   playerMatrix.ready = !playerMatrix.ready;
@@ -348,7 +348,7 @@ export async function updatePlayerReady(teamId: string, playerId: number): Promi
  * @params {PlayerMatrix} matrix - Matrix being replaced in variable
  */
 async function updatePlayerMatrix(
-  teamId: string,
+  teamId: number,
   playerId: number,
   matrix: PlayerMatrix
 ): Promise<void> {
