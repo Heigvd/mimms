@@ -262,7 +262,14 @@ export let multiPlayerMatrixes: TeamMatrix[] = [];
  */
 export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
   const script = 'MultiplayerHelper.getMultiplayerMatrix()';
-  const response: IManagedResponse = await APIMethods.runScript(script, {});
+
+  let response: IManagedResponse;
+
+  try {
+    response = await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
 
   const teams = response!.updatedEntities[0] as any;
 
