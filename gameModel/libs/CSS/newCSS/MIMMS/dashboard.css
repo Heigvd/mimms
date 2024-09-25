@@ -4,8 +4,13 @@
 }
 
 div .button-closed {
-  width: 6vw;
+  width: 6.74vw;
+  min-width: 115px;
   transition: width 0.3s ease-in-out;
+}
+
+.button-closed button {
+  justify-content: space-between;
 }
 
 .button-closed div svg {
@@ -13,7 +18,7 @@ div .button-closed {
 }
 
 .accordion {
-  margin-left: 12vw;
+  margin-left: 13.48vw;
 }
 
 .reload-container {
@@ -58,53 +63,53 @@ div .button-closed {
 }
 
 .state-container{
-  width: 12vw;
-  padding: 24px 0 0 0;
+  width: 13.48vw;
+  margin: 24px 0 0 0;
   transition: width 0.3s ease-in-out;
 }
 
 #state {
-  width: 12vw;
+  width: 13.48vw;
 }
 
 .roles-container {
-  width: 30vw;
-  padding: 24px 0 0 0;
+  width: 33.7vw;
+  margin: 24px 0 0 0;
   transition: width 0.3s ease-in-out;
 }
 
 #roles {
-  width: 30vw;
+  width: 33.7vw;
 }
 
 .impacts-container {
-  width: 18vw;
-  padding: 24px 0 0 0;
+  width: 20.22vw;
+  margin: 24px 0 0 0;
   transition: width 0.3s ease-in-out;
 }
 
 #impacts {
-  width: 18vw;
+  width: 20.22vw;
 }
 
 .locations-container {
-  width: 42vw;
-  padding: 24px 0 0 0;
+  width: 47.18vw;
+  margin: 24px 0 0 0;
   transition: width 0.3s ease-in-out;
 }
 
 #locations {
-  width: 42vw;
+  width: 47.18vw;
 }
 
 .spy-container {
-  width: 6vw;
-  padding: 24px 0 0 0;
+  width: 6.74vw;
+  margin: 24px 0 0 0;
   transition: width 0.3s ease-in-out;
 }
 
 #spy {
-  width: 6vw;
+  width: 6.74vw;
 }
 
 
@@ -114,12 +119,12 @@ div .button-closed {
 }
 
 #teams {
-  width: 12vw;
+  width: 13.48vw;
   padding: 0 0 0 10px;
 }
 
 div .header-closed {
-  width: 6vw;
+  width: 6.74vw;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -136,7 +141,7 @@ div .header-closed {
 .header-text-container {
   align-items: center;
   justify-content: center;
-  width: 6vw;
+  width: 6.74vw;
   padding: 0;
 }
 
@@ -147,7 +152,7 @@ div .header-closed {
 .header-place-container {
   align-items: center;
   justify-content: center;
-  width: 6vw;
+  width: 6.74vw;
   padding: 0;
 }
 
@@ -228,7 +233,7 @@ div .header-closed {
   display: inline-block; */
   align-items: center;
   justify-content: center;
-  width: 6vw;
+  width: 6.74vw;
   padding: 0;
 }
 
@@ -305,32 +310,37 @@ div .header-closed {
 }
 
 .team-text {
-  width: calc(12vw - 10px);
+  justify-content: space-between;
+  width: calc(13.48vw - 10px);
+}
+
+.team-text button {
+  transform: rotate(-180deg);
 }
 
 .line-text {
   display: flex;
   justify-content: center;
-  width: 6vw;
+  width: 6.74vw;
   /* white-space: nowrap;*/
 }
 
 .walkie-talkie {
   display: flex;
   justify-content: center;
-  width: 6vw;
+  width: 6.74vw;
   height: 15px;
   filter: invert(43%) sepia(15%) saturate(220%) hue-rotate(153deg) brightness(94%) contrast(87%);
 }
 
 .line-locations {
-  width: 42vw;
+  width: 47.18vw;
 }
 
 .spy-text {
   display: flex;
   justify-content: center;
-  width: calc(6vw - 10px);
+  width: calc(6.74vw - 10px);
 }
 
 /* - - - -  M O D A L S - - - - */
