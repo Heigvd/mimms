@@ -4,6 +4,7 @@
  * Put minimal logic in here.
  */
 
+import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionType, RadioType } from '../game/common/actionType';
 import { ActionBase } from '../game/common/actions/actionBase';
 import {
@@ -17,14 +18,13 @@ import {
   SendRadioMessageTemplate,
   SimFlag,
 } from '../game/common/actions/actionTemplateBase';
-import { ActorId, TemplateId, TemplateRef } from '../game/common/baseTypes';
-import { getAvailableActionTemplate as getAvailableActionTemplateFromState } from '../game/common/simulationState/actionStateAccess';
+import { ActorId, TemplateId } from '../game/common/baseTypes';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
-  fetchActionTemplate,
   fetchAvailableActions,
   getCurrentState,
+  getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
@@ -40,14 +40,20 @@ export function getAvailableActionTemplates(
   return [];
 }
 
-// used in multiple pages
-export function getActionTemplate(templateRef: TemplateRef): ActionTemplateBase | undefined {
+export function isAvailable(template: ActionTemplateBase): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
-    return getAvailableActionTemplateFromState(getCurrentState(), currentActorUid, templateRef);
+    const state = getCurrentState();
+    const actor = state.getActorById(currentActorUid);
+    if(actor){
+      return template.isAvailable(state, actor);
+    }
   }
+  return false;
+}
 
-  return undefined;
+export function uniqueActionTemplates(): IUniqueActionTemplates {
+  return getUniqueActionTemplates();
 }
 
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
@@ -59,11 +65,11 @@ export function getActionTemplate(templateRef: TemplateRef): ActionTemplateBase 
  * @returns a promise
  */
 export async function planAction(
-  actionTemplateId: TemplateRef,
+  actionTemplate: ActionTemplateBase,
   selectedActor: ActorId,
   params?: any
 ): Promise<IManagedResponse | undefined> {
-  return await buildAndLaunchActionFromTemplate(actionTemplateId, selectedActor, params);
+  return await buildAndLaunchActionFromTemplate(actionTemplate, selectedActor, params);
 }
 
 // TODO Maybe ensure only owning actor can cancel actions
@@ -91,38 +97,31 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
   return getCurrentState().getAllCancelledActions();
 }
 
-export function isFixedMapEntityTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof SelectionFixedMapEntityTemplate;
 }
 
-export function isCasuMessageActionTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof CasuMessageTemplate;
 }
 
-export function isRadioActionTemplate(templateRef: TemplateRef, radioChannel: RadioType): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isRadioActionTemplate(template: ActionTemplateBase | undefined, radioChannel: RadioType): boolean {
   return template instanceof SendRadioMessageTemplate && template.radioChannel === radioChannel;
 }
 
-export function isMoveResourcesAssignTaskActionTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isMoveResourcesAssignTaskActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof MoveResourcesAssignTaskActionTemplate;
 }
 
-export function isMoveActorActionTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isMoveActorActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isEvacuationActionTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof EvacuationActionTemplate;
 }
 
-export function isPretriageReportTemplate(templateRef: TemplateRef): boolean {
-  const template = fetchActionTemplate(templateRef);
+export function isPretriageReportTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof PretriageReportTemplate;
 }
 

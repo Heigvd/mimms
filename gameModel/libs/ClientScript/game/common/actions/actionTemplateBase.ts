@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { ActionType, RadioType, UniqueAction } from '../actionType';
+import { ActionType, RadioType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
@@ -7,7 +7,6 @@ import {
   SimDuration,
   SimTime,
   TaskId,
-  TemplateRef,
   TranslationKey,
 } from '../baseTypes';
 import { initBaseEvent } from '../events/baseEvent';
@@ -109,11 +108,6 @@ export abstract class ActionTemplateBase<
   }
 
   /**
-   * a deterministic unique identifier for this template
-   */
-  public abstract getTemplateRef(): TemplateRef;
-
-  /**
    * Build an instance from an incoming global event
    */
   protected abstract createActionFromEvent(event: FullEvent<EventT>): ActionT;
@@ -187,7 +181,7 @@ export abstract class ActionTemplateBase<
     return {
       ...initBaseEvent(actorId),
       type: 'ActionCreationEvent',
-      templateRef: this.getTemplateRef(),
+      templateUid: this.Uid,
       triggerTime: timeStamp,
     };
   }
@@ -330,28 +324,12 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     };
   }
 
-  public getTemplateRef(): TemplateRef {
-    return 'DisplayMessageActionTemplate' + '_' + this.title;
-  }
-
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-}
-
-export class OpenPmaActionTemplate extends DisplayMessageActionTemplate {
-  public override getTemplateRef(): TemplateRef {
-    return UniqueAction.OpenPmaActionTemplate;
-  }
-}
-
-export class AcsMcsArrivalAnnouncement extends DisplayMessageActionTemplate {
-  public override getTemplateRef(): TemplateRef {
-    return UniqueAction.AcsMcsArrivalAnnouncement;
   }
 }
 
@@ -381,10 +359,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
       provideFlagsToState,
       availableToRoles
     );
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.CasuMessageTemplate;
   }
 
   protected createActionFromEvent(event: FullEvent<CasuMessageActionEvent>): CasuMessageAction {
@@ -468,10 +442,6 @@ export class PretriageReportTemplate extends StartEndTemplate<
       provideFlagsToState,
       availableToRoles
     );
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.PretriageReportTemplate;
   }
 
   protected createActionFromEvent(
@@ -584,10 +554,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     };
   }
 
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.ActivateRadioSchemaActionTemplate;
-  }
-
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
@@ -643,10 +609,6 @@ export class SelectionFixedMapEntityTemplate<
       availableToRoles
     );
     this.fixedMapEntity = fixedMapEntity;
-  }
-
-  public getTemplateRef(): string {
-    return 'SelectionFixedMapEntityTemplate' + '_' + this.fixedMapEntity.id;
   }
 
   public buildGlobalEvent(
@@ -752,10 +714,6 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
     );
   }
 
-  public override getTemplateRef(): string {
-    return UniqueAction.SelectionPCFrontTemplate;
-  }
-
   protected override createActionFromEvent(
     event: FullEvent<SelectionFixedMapEntityEvent>
   ): SelectionPCFrontAction {
@@ -806,10 +764,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
       provideFlagsToState,
       availableToRoles
     );
-  }
-
-  public override getTemplateRef(): string {
-    return UniqueAction.SelectionPCSanTemplate;
   }
 
   protected override createActionFromEvent(
@@ -863,10 +817,6 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       provideFlagsToState,
       availableToRoles
     );
-  }
-
-  public override getTemplateRef(): string {
-    return 'SelectionParkTemplate' + '_' + this.vehicleType;
   }
 
   protected override createActionFromEvent(
@@ -937,10 +887,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       availableToRoles
     );
     this.failMessage = failMessage;
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.MoveResourcesAssignTaskActionTemplate;
   }
 
   public getTitle(): string {
@@ -1057,10 +1003,6 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     };
   }
 
-  public getTemplateRef(): TemplateRef {
-    return 'SendRadioMessageTemplate' + '_' + this.radioChannel;
-  }
-
   public getDescription(): string {
     return 'SendRadioMessageTemplateDescription';
   }
@@ -1139,10 +1081,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       location: params,
     };
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.MoveActorActionTemplate;
   }
 
   public getDescription(): string {
@@ -1227,10 +1165,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     return state.getAllActors().every(act => act.Role !== this.actorRole);
   }
 
-  public getTemplateRef(): TemplateRef {
-    return 'AppointActorActionTemplate' + '_' + this.actorRole;
-  }
-
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
   }
@@ -1278,10 +1212,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       provideFlagsToState,
       availableToRoles
     );
-  }
-
-  public getTemplateRef(): TemplateRef {
-    return UniqueAction.EvacuationActionTemplate;
   }
 
   public getTitle(): TranslationKey {

@@ -47,13 +47,11 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
     Context.action = action;
   }
 
-  actionLogger.debug('run action button for ' + JSON.stringify(action?.getTemplateRef()));
-
-  const actionRef = (Context.action as ActionTemplateBase).getTemplateRef();
+  actionLogger.debug('run action button for ' + JSON.stringify(action?.getTitle()));
 
   let params = {};
 
-  if (isFixedMapEntityTemplate(actionRef)) {
+  if (isFixedMapEntityTemplate(action)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
       startMapSelect();
@@ -61,19 +59,19 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
       params = fetchSelectMapObjectValues()!;
       clearMapState();
     }
-  } else if (isMoveResourcesAssignTaskActionTemplate(actionRef)) {
+  } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
     params = fetchMoveResourcesAssignTaskValues();
-  } else if (isCasuMessageActionTemplate(actionRef)) {
+  } else if (isCasuMessageActionTemplate(action)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(actionRef, ActionType.CASU_RADIO)) {
+  } else if (isRadioActionTemplate(action, ActionType.CASU_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
-  } else if (isRadioActionTemplate(actionRef, ActionType.ACTORS_RADIO)) {
+  } else if (isRadioActionTemplate(action, ActionType.ACTORS_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-  } else if (isMoveActorActionTemplate(actionRef)) {
+  } else if (isMoveActorActionTemplate(action)) {
     params = fetchMoveActorLocation();
-  } else if (isEvacuationActionTemplate(actionRef)) {
+  } else if (isEvacuationActionTemplate(action)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actionRef)) {
+  } else if (isPretriageReportTemplate(action)) {
     params = fetchPretriageReportActionValues();
   }
 

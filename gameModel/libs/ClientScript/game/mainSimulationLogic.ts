@@ -5,12 +5,12 @@ import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
-import { initActionTemplates, UniqueActionTemplates } from './actionTemplatesData';
+import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionBase } from './common/actions/actionBase';
 import { ActionTemplateBase} from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
-import { ActorId, TemplateId, TemplateRef } from './common/baseTypes';
+import { ActorId, TemplateId } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
@@ -51,8 +51,9 @@ let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
 
 let actionTemplates: Record<string, ActionTemplateBase>;
-let uniqueActionTemplates : UniqueActionTemplates;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
+
+let uniqueActionTemplates : IUniqueActionTemplates;
 
 Helpers.registerEffect(() => {
   currentSimulationState = initMainState();
@@ -288,9 +289,9 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
     case 'ActionCreationEvent':
       {
         // find corresponding creation template
-        const actionTemplate = actionTemplates[event.payload.templateRef];
+        const actionTemplate = actionTemplates[event.payload.templateUid];
         if (!actionTemplate) {
-          mainSimLogger.error('no template was found for ref ', event.payload.templateRef);
+          mainSimLogger.error('no template was found for ref ', event.payload.templateUid);
         } else {
           if (
             actionTemplate.canConcurrencyWiseBePlayed(
@@ -389,10 +390,6 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
   }
 }
 
-export function fetchActionTemplate(ref: TemplateRef): ActionTemplateBase | undefined {
-  return actionTemplates[ref];
-}
-
 export function fetchAvailableActions(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION
@@ -408,16 +405,19 @@ export function fetchAvailableActions(
   }
 }
 
+export function getUniqueActionTemplates(): IUniqueActionTemplates {
+  return uniqueActionTemplates;
+}
+
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
   return Object.values(actionTemplates);
 }
 
 export async function buildAndLaunchActionFromTemplate(
-  ref: TemplateRef,
+  actTemplate: ActionTemplateBase,
   selectedActor: ActorId,
   params: any
 ): Promise<IManagedResponse | undefined> {
-  const actTemplate = actionTemplates[ref];
 
   const actor = currentSimulationState.getActorById(selectedActor);
 
@@ -426,8 +426,7 @@ export async function buildAndLaunchActionFromTemplate(
     return await sendEvent(evt);
   } else {
     mainSimLogger.error(
-      'Could not find action template with ref or actor with id',
-      ref,
+      'Undefined template or actor',
       selectedActor
     );
   }

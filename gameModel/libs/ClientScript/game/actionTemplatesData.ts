@@ -1,5 +1,4 @@
 import {
-  AcsMcsArrivalAnnouncement,
   ActionTemplateBase,
   ActivateRadioSchemaActionTemplate,
   AppointActorActionTemplate,
@@ -8,7 +7,6 @@ import {
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
-  OpenPmaActionTemplate,
   PretriageReportTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
@@ -23,23 +21,25 @@ import { LOCATION_ENUM } from "./common/simulationState/locationState";
 import { ActionType } from "./common/actionType";
 
 
-export interface UniqueActionTemplates {
+export interface IUniqueActionTemplates {
 
   readonly SelectionPCFrontTemplate: SelectionPCFrontTemplate;
   readonly SelectionPCSanTemplate : SelectionPCTemplate,
   readonly MoveActorActionTemplate: MoveActorActionTemplate,
-  readonly AcsMcsArrivalAnnouncement: AcsMcsArrivalAnnouncement,
-  readonly OpenPmaActionTemplate: OpenPmaActionTemplate,
+  readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate,
+  readonly OpenPmaActionTemplate: DisplayMessageActionTemplate,
   readonly CasuMessageTemplate: CasuMessageTemplate,
   readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate,
   readonly MoveResourcesAssignTaskActionTemplate: MoveResourcesAssignTaskActionTemplate,
   readonly PretriageReportTemplate: PretriageReportTemplate,
   readonly EvacuationActionTemplate: EvacuationActionTemplate,
+  readonly ActorSendRadioMessageTemplate : SendRadioMessageTemplate,
+  readonly CasuSendRadioMessageTemplate : SendRadioMessageTemplate
 }
 
 export function initActionTemplates(): {
   actionTemplates :Record<string, ActionTemplateBase>, 
-  uniqueActionTemplates : UniqueActionTemplates} 
+  uniqueActionTemplates : IUniqueActionTemplates} 
   {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
@@ -175,7 +175,7 @@ export function initActionTemplates(): {
     )
   );
 
-  const acsMcsArrivalAnnouncement = new AcsMcsArrivalAnnouncement(
+  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -275,7 +275,7 @@ export function initActionTemplates(): {
     [SimFlag.PMA_BUILT]
   );
 
-  const openPMA = new OpenPmaActionTemplate(
+  const openPMA = new DisplayMessageActionTemplate(
     'open-PMA-title',
     'open-PMA-desc',
     TimeSliceDuration,
@@ -431,29 +431,29 @@ export function initActionTemplates(): {
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
-  templates[placePCFront.getTemplateRef()] = placePCFront;
-  templates[moveActor.getTemplateRef()] = moveActor;
-  templates[getInfo.getTemplateRef()] = getInfo;
-  templates[getInfo2.getTemplateRef()] = getInfo2;
-  templates[getPoliceInfos.getTemplateRef()] = getPoliceInfos;
-  templates[getFireFighterInfos.getTemplateRef()] = getFireFighterInfos;
-  templates[placePMA.getTemplateRef()] = placePMA;
-  templates[placePC.getTemplateRef()] = placePC;
-  templates[placeNest.getTemplateRef()] = placeNest;
-  templates[placeAccessRegress.getTemplateRef()] = placeAccessRegress;
-  templates[placeAmbulancePark.getTemplateRef()] = placeAmbulancePark;
-  templates[placeHelicopterPark.getTemplateRef()] = placeHelicopterPark;
-  templates[openPMA.getTemplateRef()] = openPMA;
-  templates[acsMcsArrivalAnnouncement.getTemplateRef()] = acsMcsArrivalAnnouncement;
-  templates[activateRadioSchema.getTemplateRef()] = activateRadioSchema;
-  templates[casuMessage.getTemplateRef()] = casuMessage;
-  templates[actorFreeRadioMessage.getTemplateRef()] = actorFreeRadioMessage;
-  templates[casuFreeRadioMessage.getTemplateRef()] = casuFreeRadioMessage;
-  templates[appointEVASAN.getTemplateRef()] = appointEVASAN;
-  templates[appointLeadPMA.getTemplateRef()] = appointLeadPMA;
-  templates[allocateResources.getTemplateRef()] = allocateResources;
-  templates[evacuate.getTemplateRef()] = evacuate;
-  templates[pretriageReport.getTemplateRef()] = pretriageReport;
+  templates[placePCFront.Uid] = placePCFront;
+  templates[moveActor.Uid] = moveActor;
+  templates[getInfo.Uid] = getInfo;
+  templates[getInfo2.Uid] = getInfo2;
+  templates[getPoliceInfos.Uid] = getPoliceInfos;
+  templates[getFireFighterInfos.Uid] = getFireFighterInfos;
+  templates[placePMA.Uid] = placePMA;
+  templates[placePC.Uid] = placePC;
+  templates[placeNest.Uid] = placeNest;
+  templates[placeAccessRegress.Uid] = placeAccessRegress;
+  templates[placeAmbulancePark.Uid] = placeAmbulancePark;
+  templates[placeHelicopterPark.Uid] = placeHelicopterPark;
+  templates[openPMA.Uid] = openPMA;
+  templates[acsMcsArrivalAnnouncement.Uid] = acsMcsArrivalAnnouncement;
+  templates[activateRadioSchema.Uid] = activateRadioSchema;
+  templates[casuMessage.Uid] = casuMessage;
+  templates[actorFreeRadioMessage.Uid] = actorFreeRadioMessage;
+  templates[casuFreeRadioMessage.Uid] = casuFreeRadioMessage;
+  templates[appointEVASAN.Uid] = appointEVASAN;
+  templates[appointLeadPMA.Uid] = appointLeadPMA;
+  templates[allocateResources.Uid] = allocateResources;
+  templates[evacuate.Uid] = evacuate;
+  templates[pretriageReport.Uid] = pretriageReport;
 
   return {
     actionTemplates : templates, 
@@ -468,6 +468,8 @@ export function initActionTemplates(): {
       MoveResourcesAssignTaskActionTemplate : allocateResources,
       PretriageReportTemplate : pretriageReport,
       EvacuationActionTemplate: evacuate,
+      ActorSendRadioMessageTemplate: actorFreeRadioMessage,
+      CasuSendRadioMessageTemplate: casuFreeRadioMessage
     }
   };
 

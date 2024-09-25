@@ -93,7 +93,7 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
   const uid = Context.interfaceState.state.currentActorUid;
 
   if (canPlanAction()) {
-    planAction(template.getTemplateRef(), uid, params);
+    planAction(template, uid, params);
   } else if (isPlannedAction(template.Uid)) {
     cancelAction(uid, template.Uid);
   }
@@ -109,9 +109,9 @@ export function actionChangeHandler() {
   });
   endMapAction();
 
-  const actionRef = (Context.action as ActionTemplateBase).getTemplateRef();
+  const action = (Context.action as ActionTemplateBase);
   // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(actionRef) && canPlanAction()) {
+  if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();
   }
 }
