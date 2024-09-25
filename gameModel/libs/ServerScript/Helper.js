@@ -54,6 +54,9 @@ var MimmsHelper = (function () {
   };
 })();
 
+/**
+ * Server-side multiplayer manager
+ */
 var MultiplayerHelper = (function () {
   function getTeams() {
     var teams = gameModel.getTeams();
@@ -87,9 +90,18 @@ var MultiplayerHelper = (function () {
     }
   }
 
+  function updatePlayerMatrix(teamId, playerId, playerMatrix) {
+    var player = inferPlayer(teamId);
+
+    Variable.find(gameModel, 'multiplayerMatrix')
+      .getInstance(player)
+      .setProperty(playerId, playerMatrix);
+  }
+
   return {
     registerSelf: registerSelf,
     getMultiplayerMatrix: getMultiplayerMatrix,
     getTeams: getTeams,
+    updatePlayerMatrix: updatePlayerMatrix,
   };
 })();

@@ -1,0 +1,423 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Update teams<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n  getAllTeamsMultiplayerMatrix()",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getTeamsContext } from \"./dashboard/utils\";\ngetTeamsContext().map(t => ({\n    label: t.name,\n    value: String(t.id)\n  }))",
+                  "language" : "typescript"
+                },
+                "className" : "",
+                "layoutStyle" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { getTeamMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\nconst newState = Helpers.cloneDeep(Context.selectedTeam.state);\nnewState.id = Context.currentSelectedTeam;\nnewState.matrix = getTeamMultiplayerMatrix(Context.currentSelectedTeam);\n\nContext.selectedTeam.setState(newState);\n",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"currentSelectedTeam\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.selectedTeam.state.id",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "matrixHeaderItem",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-name');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "playerIdentity",
+                        "layoutStyle" : {
+                          "width" : "10rem"
+                        },
+                        "name" : "IdentityBox",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-al');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-acs');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-mcs');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-evasan');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-leadpma');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "rolesBox",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "matrixHeaderRole",
+                            "layoutStyle" : { },
+                            "name" : "readyness",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-ready');",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "ready?",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "matrixHeader",
+                    "layout" : {
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "matrixHeader",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "playerIdentity",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.name",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "paddingLeft" : "0px",
+                              "width" : "10rem"
+                            },
+                            "name" : "playerIdentity",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerRole } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerRole(String(Context.selectedTeam.state.id), Context.player.id, 'AL');\n",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.roles.AL",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerRole } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerRole(String(Context.selectedTeam.state.id), Context.player.id, 'ACS');",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.roles.ACS",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerRole } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerRole(String(Context.selectedTeam.state.id), Context.player.id, 'MCS');",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.roles.MCS",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerRole } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerRole(String(Context.selectedTeam.state.id), Context.player.id, 'EVASAN');",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.roles.EVASAN",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerRole } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerRole(String(Context.selectedTeam.state.id), Context.player.id, 'LEADPMA');",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.roles.LEADPMA",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "matrixRowItem",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updatePlayerReady } from \"./multiplayer/multiplayerManager\";\n\nupdatePlayerReady(Context.selectedTeam.state.id ,Context.player.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.player.ready",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "justifyContent" : "right",
+                                  "width" : "5rem"
+                                },
+                                "type" : "toggler"
+                              },
+                              "type" : "Boolean"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "padding" : "0"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "highlightSelf",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  if (getPlayersAndRoles().length > 1) {\n  return Context.player.id === self.getId();\n  }\n  false;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "player",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getTeamMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n  getTeamMultiplayerMatrix(Context.selectedTeam.state.id)!;",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : {
+                      "gap" : "5px"
+                    }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "marginBottom" : "1em"
+                },
+                "name" : "playerMatrix",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "selectedTeam",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getTeamsContext } from \"./dashboard/utils\";\n  ({\n    id: getTeamsContext()[0].id,\n  })",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localState" : false,
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

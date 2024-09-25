@@ -23,6 +23,27 @@
                 "icon" : "quidditch",
                 "label" : {
                   "@class" : "Script",
+                  "content" : "\"<p>Log teams<br></p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n  getAllTeamsMultiplayerMatrix();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "update",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "icon" : "quidditch",
+                "label" : {
+                  "@class" : "Script",
                   "content" : "\"<p>Update all<br></p>\"",
                   "language" : "TypeScript"
                 },
