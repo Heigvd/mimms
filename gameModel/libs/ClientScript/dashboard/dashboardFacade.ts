@@ -17,6 +17,7 @@ import { formatTime, getStartTime } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
+import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -163,6 +164,25 @@ export function showAsOpened(
 // -------------------------------------------------------------------------------------------------
 // impacts part
 // -------------------------------------------------------------------------------------------------
+
+export function getRadioChannelChoices(): { label: string; value: string }[] {
+  return Object.values(getRadioChannels()).map(radio => {
+    return { label: getRadioTranslation(radio.translationKey), value: radio.type };
+  });
+}
+
+export function getRadioModeChoices(): { label: string; value: string }[] {
+  return [
+    {
+      label: 'Radio message',
+      value: 'radio',
+    },
+    {
+      label: 'Notification',
+      value: 'notif',
+    },
+  ];
+}
 
 // -------------------------------------------------------------------------------------------------
 // spy part
