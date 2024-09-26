@@ -5760,6 +5760,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/actionTemplatesData",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1184651:4GbkoY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/patientZoom/currentPatientZoom",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

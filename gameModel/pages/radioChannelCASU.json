@@ -248,7 +248,7 @@
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n  const action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate)!;\naction === undefined;",
+                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates().ActivateRadioSchemaActionTemplate);",
                   "language" : "typescript"
                 },
                 "id" : "",

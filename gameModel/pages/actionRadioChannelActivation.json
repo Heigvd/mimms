@@ -9,7 +9,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n  const action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate);\naction?.getDescription();",
+          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nuniqueActionTemplates().ActivateRadioSchemaActionTemplate.getDescription();",
           "language" : "TypeScript"
         }
       },
@@ -22,23 +22,23 @@
           "className" : "abort",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate)!;\n!!action && isPlannedAction(action.Uid);",
+            "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates().ActivateRadioSchemaActionTemplate);",
             "language" : "typescript"
           }
         } ],
         "disableIf" : {
           "@class" : "Script",
-          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate);\nif (!action) return true;\nif (canPlanAction()) return false;\n!isPlannedAction(action.Uid);",
+          "content" : "import { canPlanOrCancel, isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nconst action = uniqueActionTemplates().ActivateRadioSchemaActionTemplate;\nif(!isAvailable(action)){\n  return true;\n}\n!canPlanOrCancel(action);",
           "language" : "typescript"
         },
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n!getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate);",
+          "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates().ActivateRadioSchemaActionTemplate);",
           "language" : "typescript"
         },
         "label" : {
           "@class" : "Script",
-          "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nconst action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate);\n  if (!action) {\n    return undefined;\n  }\nconst isPlanned = isPlannedAction(action.Uid)\nisPlanned ? getTranslation('mainSim-interface', 'cancel') : getTranslation(`mainSim-interface`, `send-one-minute`);",
+          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = isPlannedAction(uniqueActionTemplates().ActivateRadioSchemaActionTemplate.Uid);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
           "language" : "TypeScript"
         },
         "layoutStyle" : {
@@ -48,7 +48,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\n\nconst action = getActionTemplate(UniqueAction.ActivateRadioSchemaActionTemplate);\nrunActionButton(action);",
+            "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(uniqueActionTemplates().ActivateRadioSchemaActionTemplate);",
             "language" : "TypeScript"
           }
         },

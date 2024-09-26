@@ -1061,13 +1061,13 @@
                                   "className" : "unauthorizedAction",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  const action = getActionTemplate(UniqueAction.MoveResourcesAssignTaskActionTemplate);\n  !action || !isPlannedAction(action.Uid);",
+                                    "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                                     "language" : "typescript"
                                   }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { UniqueAction } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getActionTemplate, isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n  if(isPCFrontBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  const action = getActionTemplate(UniqueAction.MoveResourcesAssignTaskActionTemplate);\n  !action || !isPlannedAction(action.Uid);",
+                                  "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",
