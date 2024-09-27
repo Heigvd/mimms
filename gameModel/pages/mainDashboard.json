@@ -100,51 +100,142 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "content-title",
-                            "layoutClassName" : "noPadding",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "content-title",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>All Teams</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "choices" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTime\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.setTime;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Select input"
+                            }, {
+                              "props" : {
+                                "className" : "modal-dropdown",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "true;",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "chevron-down",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Add</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Dropdown",
+                                "prefixedLabel" : true,
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "modal-time",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p><span>0</span> min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "modal-content",
+                            "layout" : { },
                             "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>All Teams</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "modal-dropdown",
-                            "icon" : "chevron-down",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Add</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Dropdown",
-                            "prefixedLabel" : true,
+                            "name" : "Content",
                             "style" : { }
                           },
-                          "type" : "Button"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
-                            "className" : "modal-time",
-                            "layoutClassName" : "noPadding",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Cancel</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Confirm</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p><span>0</span> min</p>\"",
-                              "language" : "TypeScript"
-                            }
+                            "name" : "Buttons",
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         } ],
-                        "className" : "modal-content",
-                        "layout" : { },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
                         "layoutStyle" : { },
-                        "name" : "Content",
+                        "name" : "Add",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -152,46 +243,52 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "button-S cancel-button",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Cancel</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "noPadding",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Cancel</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Confirm</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "Cancel",
+                            "name" : "Buttons",
                             "style" : { }
                           },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "className" : "button-S button-secondaryColor",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Confirm</p>\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Confirm",
-                            "style" : { }
-                          },
-                          "type" : "Button"
+                          "type" : "FlexList"
                         } ],
-                        "className" : "modal-buttons",
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "Buttons",
-                        "style" : { }
+                        "name" : "Set"
                       },
                       "type" : "FlexList"
                     } ],
@@ -201,7 +298,9 @@
                       "content" : "!Context.dashboardState.state.allTeamsTimeModal;",
                       "language" : "typescript"
                     },
-                    "layout" : { },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "All Teams Time",

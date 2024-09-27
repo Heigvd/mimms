@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1727364833386,
+  "createdTime" : 1727424907707,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4387,6 +4387,37 @@
           "summary-resource-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de la resource\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:582621:U3Go86",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:1189502:Badtxm"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1189503:q1I5P9",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1189503:q1I5P9::FR",
+              "status" : "",
+              "translation" : "mainSim-dashboard"
+            }
+          }
+        },
+        "name" : "mainSim_dashboard",
+        "properties" : { },
+        "refId" : "ObjectDescriptor:1189501:ZTwe9B",
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"

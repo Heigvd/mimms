@@ -220,6 +220,7 @@ export function updateFromAllTsv(dryrun: boolean): void {
     'mainSim-resources',
     'mainSim-radio',
     'mainSim-summary',
+    'mainSim-dashboard',
   ];
 
   variables.forEach(v => {

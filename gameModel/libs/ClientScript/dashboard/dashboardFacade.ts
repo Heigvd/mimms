@@ -184,6 +184,12 @@ export function getRadioModeChoices(): { label: string; value: string }[] {
   ];
 }
 
+// export function getTimeChoices(): { label: string; value: string }[] {
+//   return Object.values(getTime()).map(time => {
+//     return { label: getTimeTranslation(time.translationKey), value: time.type };
+//   });
+// }
+
 // -------------------------------------------------------------------------------------------------
 // spy part
 // -------------------------------------------------------------------------------------------------

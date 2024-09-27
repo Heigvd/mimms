@@ -15,6 +15,7 @@ export interface DashboardUIState {
     roles: Partial<Record<InterventionRole, boolean>>;
   };
   line: boolean;
+  setTime: number;
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -38,5 +39,6 @@ export function getInitialDashboardUIState(): DashboardUIState {
       },
     },
     line: false,
+    setTime: 0,
   };
 }

@@ -165,6 +165,7 @@
           "mainSim-resources": SObjectDescriptor;
           "mainSim-radio": SObjectDescriptor;
           "mainSim-summary": SObjectDescriptor;
+          "mainSim-dashboard": SObjectDescriptor;
           "mainSim-locations": SObjectDescriptor;
 
           "trainer": SListDescriptor;
