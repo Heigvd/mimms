@@ -74,7 +74,7 @@ fi
 
 $VERBOSE && echo Process
 
-zip -qq -r $ZIP_FILE gameModel
+zip -qq -r $ZIP_FILE gameModel -x '*.DS_Store'
 
 if [ $? -ne 0 ]; then
     printError "Failed to create ZIP file";
