@@ -1,7 +1,6 @@
 import { ActionBase } from '../actions/actionBase';
 import { MainSimulationState } from './mainSimulationState';
 
-
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
   actorUid: number

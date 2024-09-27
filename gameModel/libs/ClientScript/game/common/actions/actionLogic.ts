@@ -9,13 +9,12 @@ import { ActionTemplateBase } from './actionTemplateBase';
 export function getSendRadioMessageTemplate(
   radioChannel: RadioType
 ): ActionTemplateBase | undefined {
-
-  switch(radioChannel){
+  switch (radioChannel) {
     case ActionType.CASU_RADIO:
       return getUniqueActionTemplates().CasuSendRadioMessageTemplate;
-    case ActionType.ACTORS_RADIO: 
+    case ActionType.ACTORS_RADIO:
       return getUniqueActionTemplates().ActorSendRadioMessageTemplate;
     default:
-      return undefined
+      return undefined;
   }
 }

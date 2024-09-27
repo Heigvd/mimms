@@ -7,7 +7,7 @@ import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionBase } from './common/actions/actionBase';
-import { ActionTemplateBase} from './common/actions/actionTemplateBase';
+import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId } from './common/baseTypes';
@@ -53,7 +53,7 @@ let stateHistory: MainSimulationState[];
 let actionTemplates: Record<string, ActionTemplateBase>;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
-let uniqueActionTemplates : IUniqueActionTemplates;
+let uniqueActionTemplates: IUniqueActionTemplates;
 
 Helpers.registerEffect(() => {
   currentSimulationState = initMainState();
@@ -238,7 +238,6 @@ function initMainState(): MainSimulationState {
   );
 }
 
-
 /**
  * Checks for new events and applies them to the state
  * Forces rerendering if any changes ?
@@ -418,17 +417,13 @@ export async function buildAndLaunchActionFromTemplate(
   selectedActor: ActorId,
   params: any
 ): Promise<IManagedResponse | undefined> {
-
   const actor = currentSimulationState.getActorById(selectedActor);
 
   if (actTemplate && actor) {
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   } else {
-    mainSimLogger.error(
-      'Undefined template or actor',
-      selectedActor
-    );
+    mainSimLogger.error('Undefined template or actor', selectedActor);
   }
 }
 
@@ -508,7 +503,7 @@ export function recomputeState() {
   currentSimulationState = initMainState();
   stateHistory = [currentSimulationState];
 
-  ({actionTemplates, uniqueActionTemplates} = initActionTemplates());
+  ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
 
   mainSimLogger.info('reset done');
   runUpdateLoop();

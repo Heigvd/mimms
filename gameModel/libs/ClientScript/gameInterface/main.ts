@@ -110,7 +110,7 @@ export function actionChangeHandler() {
   });
   endMapAction();
 
-  const action = (Context.action as ActionTemplateBase);
+  const action = Context.action as ActionTemplateBase;
   // If action is SelectMapObject we begin routine
   if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();

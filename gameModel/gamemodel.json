@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1725368646147,
+  "createdTime" : 1727430177202,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5247,6 +5247,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/actionTemplatesData",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1184651:4GbkoY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/actionBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5755,15 +5764,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#64:vfz80k",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/actionTemplatesData",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1184651:4GbkoY",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6703,7 +6703,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "XGO MIMMS refactoring MIM-238 testing",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -44,8 +44,7 @@ import { actionClickHandler, canPlanAction } from './main';
  */
 // used in several pages
 export function runActionButton(action: ActionTemplateBase): void {
-
-  if(isAvailable(action)){
+  if (!isAvailable(action)) {
     actionLogger.debug('action not available ' + JSON.stringify(action?.getTitle()));
     return;
   }
@@ -85,7 +84,7 @@ export function runActionButton(action: ActionTemplateBase): void {
  *
  * @returns SelectMapObjectPayload
  */
-function fetchSelectMapObjectValues() : FixedMapEntity | undefined {
+function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
   // TODO Add type
 
   const mapState = Context.mapState.state;

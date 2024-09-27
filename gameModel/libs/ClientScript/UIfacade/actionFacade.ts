@@ -46,7 +46,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
   if (template && currentActorUid) {
     const state = getCurrentState();
     const actor = state.getActorById(currentActorUid);
-    if(actor){
+    if (actor) {
       return template.isAvailable(state, actor);
     }
   }
@@ -54,7 +54,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
 }
 
 /**
- * @param template 
+ * @param template
  * @returns true if the action can be played or is currently planned, thus can be cancelled
  */
 export function canCancel(template: ActionTemplateBase): boolean {
@@ -62,8 +62,8 @@ export function canCancel(template: ActionTemplateBase): boolean {
 }
 
 /**
- * @param template 
- * @returns true if an action can be planned by the current actor 
+ * @param template
+ * @returns true if an action can be planned by the current actor
  * or that the current actor can cancel an action based on this template
  */
 export function canPlanOrCancel(template: ActionTemplateBase): boolean {
@@ -123,11 +123,16 @@ export function isCasuMessageActionTemplate(template: ActionTemplateBase | undef
   return template instanceof CasuMessageTemplate;
 }
 
-export function isRadioActionTemplate(template: ActionTemplateBase | undefined, radioChannel: RadioType): boolean {
+export function isRadioActionTemplate(
+  template: ActionTemplateBase | undefined,
+  radioChannel: RadioType
+): boolean {
   return template instanceof SendRadioMessageTemplate && template.radioChannel === radioChannel;
 }
 
-export function isMoveResourcesAssignTaskActionTemplate(template: ActionTemplateBase | undefined): boolean {
+export function isMoveResourcesAssignTaskActionTemplate(
+  template: ActionTemplateBase | undefined
+): boolean {
   return template instanceof MoveResourcesAssignTaskActionTemplate;
 }
 

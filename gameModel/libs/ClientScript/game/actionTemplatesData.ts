@@ -15,32 +15,36 @@ import {
   SendRadioMessageTemplate,
   SimFlag,
 } from './common/actions/actionTemplateBase';
-import { TimeSliceDuration } from "./common/constants";
-import { BuildingStatus, GeometryBasedFixedMapEntity, MultiLineStringGeometricalShape, PointGeometricalShape, PolygonGeometricalShape } from "./common/events/defineMapObjectEvent";
-import { LOCATION_ENUM } from "./common/simulationState/locationState";
-import { ActionType } from "./common/actionType";
-
+import { TimeSliceDuration } from './common/constants';
+import {
+  BuildingStatus,
+  GeometryBasedFixedMapEntity,
+  MultiLineStringGeometricalShape,
+  PointGeometricalShape,
+  PolygonGeometricalShape,
+} from './common/events/defineMapObjectEvent';
+import { LOCATION_ENUM } from './common/simulationState/locationState';
+import { ActionType } from './common/actionType';
 
 export interface IUniqueActionTemplates {
-
   readonly SelectionPCFrontTemplate: SelectionPCFrontTemplate;
-  readonly SelectionPCSanTemplate : SelectionPCTemplate,
-  readonly MoveActorActionTemplate: MoveActorActionTemplate,
-  readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate,
-  readonly OpenPmaActionTemplate: DisplayMessageActionTemplate,
-  readonly CasuMessageTemplate: CasuMessageTemplate,
-  readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate,
-  readonly MoveResourcesAssignTaskActionTemplate: MoveResourcesAssignTaskActionTemplate,
-  readonly PretriageReportTemplate: PretriageReportTemplate,
-  readonly EvacuationActionTemplate: EvacuationActionTemplate,
-  readonly ActorSendRadioMessageTemplate : SendRadioMessageTemplate,
-  readonly CasuSendRadioMessageTemplate : SendRadioMessageTemplate
+  readonly SelectionPCSanTemplate: SelectionPCTemplate;
+  readonly MoveActorActionTemplate: MoveActorActionTemplate;
+  readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
+  readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
+  readonly CasuMessageTemplate: CasuMessageTemplate;
+  readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate;
+  readonly MoveResourcesAssignTaskActionTemplate: MoveResourcesAssignTaskActionTemplate;
+  readonly PretriageReportTemplate: PretriageReportTemplate;
+  readonly EvacuationActionTemplate: EvacuationActionTemplate;
+  readonly ActorSendRadioMessageTemplate: SendRadioMessageTemplate;
+  readonly CasuSendRadioMessageTemplate: SendRadioMessageTemplate;
 }
 
 export function initActionTemplates(): {
-  actionTemplates :Record<string, ActionTemplateBase>, 
-  uniqueActionTemplates : IUniqueActionTemplates} 
-  {
+  actionTemplates: Record<string, ActionTemplateBase>;
+  uniqueActionTemplates: IUniqueActionTemplates;
+} {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   const placePCFront = new SelectionPCFrontTemplate(
@@ -456,21 +460,20 @@ export function initActionTemplates(): {
   templates[pretriageReport.Uid] = pretriageReport;
 
   return {
-    actionTemplates : templates, 
-    uniqueActionTemplates : {
-      SelectionPCFrontTemplate : placePCFront,
+    actionTemplates: templates,
+    uniqueActionTemplates: {
+      SelectionPCFrontTemplate: placePCFront,
       SelectionPCSanTemplate: placePC,
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
       OpenPmaActionTemplate: openPMA,
       CasuMessageTemplate: casuMessage,
       ActivateRadioSchemaActionTemplate: activateRadioSchema,
-      MoveResourcesAssignTaskActionTemplate : allocateResources,
-      PretriageReportTemplate : pretriageReport,
+      MoveResourcesAssignTaskActionTemplate: allocateResources,
+      PretriageReportTemplate: pretriageReport,
       EvacuationActionTemplate: evacuate,
       ActorSendRadioMessageTemplate: actorFreeRadioMessage,
-      CasuSendRadioMessageTemplate: casuFreeRadioMessage
-    }
+      CasuSendRadioMessageTemplate: casuFreeRadioMessage,
+    },
   };
-
 }
