@@ -286,9 +286,9 @@ export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
  *
  * @params {string} teamId - Id of team to retrieve
  */
-export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix | undefined {
+export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix {
   if (multiPlayerMatrixes === undefined || multiPlayerMatrixes.length === 0) {
-    return undefined;
+    return [];
   } else {
     return multiPlayerMatrixes.find(matrix => matrix.id === teamId)!.matrix;
   }
