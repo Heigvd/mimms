@@ -1,26 +1,40 @@
 /* eslint-disable no-var */
+
+// Functions also used by MultiplayerHelper
+var Long = Java.type('java.lang.Long');
+
+function inferPlayer(teamId) {
+  var player = undefined;
+  if (teamId) {
+    var team = findTeamById(teamId);
+    if (team) {
+      player = team.getAnyLivePlayer();
+    }
+  }
+  return player || self;
+}
+
+function findTeamById(id) {
+  var teams = self.getGame().getTeams();
+  //teams.stream().forEach(function(t) {if(t.getId().equals(new Long(1087156))){team = t;}});
+  return teams
+    .stream()
+    .filter(function (t) {
+      return t.getId().equals(new Long(id));
+    })
+    .findFirst()
+    .get();
+}
+
 /**
  * Server-side event manager
  */
 var EventManager = (function () {
-  var Long = Java.type('java.lang.Long');
-
   function lock(player) {
     var thePlayer = player || self;
     // !!!!!!!!!!!!!! Do NOT load events before locking !!!!!!!!!!!!!!!!!
 
     RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
-  }
-
-  function inferPlayer(teamId) {
-    var player = undefined;
-    if (teamId) {
-      var team = findTeamById(teamId);
-      if (team) {
-        player = team.getAnyLivePlayer();
-      }
-    }
-    return player || self;
   }
 
   function sendEvent(payload, time, teamId) {
@@ -53,17 +67,6 @@ var EventManager = (function () {
     lastEventI.setValue(newEvent.getId());
   }
 
-  function findTeamById(id) {
-    var teams = self.getGame().getTeams();
-    //teams.stream().forEach(function(t) {if(t.getId().equals(new Long(1087156))){team = t;}});
-    return teams
-      .stream()
-      .filter(function (t) {
-        return t.getId().equals(new Long(id));
-      })
-      .findFirst()
-      .get();
-  }
   /**
    * New implementation using new EventBox dedicated type
    */
