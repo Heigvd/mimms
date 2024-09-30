@@ -18,6 +18,7 @@ import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
+import { getTranslation } from '../tools/translation';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -184,11 +185,18 @@ export function getRadioModeChoices(): { label: string; value: string }[] {
   ];
 }
 
-// export function getTimeChoices(): { label: string; value: string }[] {
-//   return Object.values(getTime()).map(time => {
-//     return { label: getTimeTranslation(time.translationKey), value: time.type };
-//   });
-// }
+export function getTimeChoices(): { label: string; value: string }[] {
+  return [
+    {
+      label: getTranslation('mainSim-dashboard', 'add-time'),
+      value: 'add',
+    },
+    {
+      label: getTranslation('mainSim-dashboard', 'set-time'),
+      value: 'set',
+    },
+  ];
+}
 
 // -------------------------------------------------------------------------------------------------
 // spy part

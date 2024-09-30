@@ -6,7 +6,9 @@ export interface DashboardUIState {
   roles: boolean;
   impacts: boolean;
   locations: boolean;
+  teamTimeModal: boolean;
   allTeamsTimeModal: boolean;
+  teamRadioModal: boolean;
   allTeamsRadioModal: boolean;
   radio: {
     mode: 'radio' | 'notif';
@@ -15,7 +17,12 @@ export interface DashboardUIState {
     roles: Partial<Record<InterventionRole, boolean>>;
   };
   line: boolean;
-  setTime: number;
+  time: {
+    mode: 'add' | 'set';
+    add: string;
+    setHour: string;
+    setMinute: string;
+  };
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -24,7 +31,9 @@ export function getInitialDashboardUIState(): DashboardUIState {
     roles: true,
     impacts: true,
     locations: false,
+    teamTimeModal: false,
     allTeamsTimeModal: false,
+    teamRadioModal: false,
     allTeamsRadioModal: false,
     radio: {
       mode: 'radio',
@@ -39,6 +48,11 @@ export function getInitialDashboardUIState(): DashboardUIState {
       },
     },
     line: false,
-    setTime: 0,
+    time: {
+      mode: 'add',
+      add: '',
+      setHour: '',
+      setMinute: '',
+    },
   };
 }

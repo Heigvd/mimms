@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1727424907707,
+  "createdTime" : 1727700262538,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4415,8 +4415,15 @@
             }
           }
         },
-        "name" : "mainSim_dashboard",
-        "properties" : { },
+        "name" : "mainSim-dashboard",
+        "properties" : {
+          "add-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"add\"},\"FR\":{\"status\":\"\",\"translation\":\"ajouter\",\"lang\":\"FR\"}},\"version\":0}",
+          "attention-please" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"keep in mind you can only go further to a time equal to or greater than the first team at {0}.\"},\"FR\":{\"status\":\"\",\"translation\":\"gardez à l'esprit que vous ne pouvez aller qu'à un temps égal ou supérieur à celui de la première équipe à {0}.\",\"lang\":\"FR\"}},\"version\":0}",
+          "hour" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hour(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "set-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"set\"},\"FR\":{\"status\":\"\",\"translation\":\"fixer à\",\"lang\":\"FR\"}},\"version\":0}",
+          "time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"time\"},\"FR\":{\"status\":\"\",\"translation\":\"temps\",\"lang\":\"FR\"}},\"version\":0}"
+        },
         "refId" : "ObjectDescriptor:1189501:ZTwe9B",
         "scopeType" : "GameModelScope",
         "version" : null,

@@ -100,72 +100,103 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "className" : "content-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>All Teams</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
+                              "language" : "typescript"
+                            },
+                            "className" : "modal-dropdown",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Dropdown",
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.mode = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"dashboardTime\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.dashboardState.state.time.mode || 'add';",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "content-title",
-                                "layoutClassName" : "noPadding",
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding time-textarea-container",
                                 "layoutStyle" : { },
+                                "name" : "",
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetMinute\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setMinute;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "className" : "",
+                                "layoutStyle" : { },
+                                "name" : "Min",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>All Teams</p>\"",
+                                  "content" : "\"<p>min</p>\"",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "choices" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
-                                  "language" : "typescript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardTime\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.setTime;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Select input"
-                            }, {
-                              "props" : {
-                                "className" : "modal-dropdown",
+                                "className" : "modal-time",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "true;",
                                   "language" : "typescript"
                                 },
-                                "icon" : "chevron-down",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Add</p>\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "Dropdown",
-                                "prefixedLabel" : true,
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "modal-time",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "style" : { },
@@ -177,10 +208,15 @@
                               },
                               "type" : "Text"
                             } ],
-                            "className" : "modal-content",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"add\";",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "Content",
+                            "name" : "Add",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -188,107 +224,173 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "button-S cancel-button",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Cancel</p>\"",
-                                  "language" : "TypeScript"
-                                },
+                                "className" : "time-textarea",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setHour = Context.dashboardTimeSetHour;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetHour\"",
                                     "language" : "TypeScript"
                                   }
                                 },
-                                "name" : "Cancel",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "button-S button-secondaryColor",
-                                "label" : {
+                                "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Confirm</p>\"",
+                                  "content" : "\"0\"",
                                   "language" : "TypeScript"
                                 },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "Confirm",
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setHour;",
+                                  "language" : "TypeScript"
+                                },
                                 "style" : { }
                               },
-                              "type" : "Button"
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "H",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>h</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetMinute\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setMinute;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "Min",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
                             } ],
-                            "className" : "modal-buttons",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                              "language" : "typescript"
+                            },
                             "layout" : { },
-                            "layoutClassName" : "",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "Buttons",
+                            "name" : "Set",
                             "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
+                        "className" : "modal-content",
+                        "layout" : { },
                         "layoutStyle" : { },
-                        "name" : "Add",
+                        "name" : "Content",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
+                        "className" : "attention-please",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "Set",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Keep in mind you can only go further to a time equal to or greater than the first team at 16h45.</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "button-S cancel-button",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Cancel</p>\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "Cancel",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "button-S button-secondaryColor",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Confirm</p>\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "Confirm",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "modal-buttons",
-                            "layout" : { },
-                            "layoutClassName" : "",
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Cancel</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "Buttons",
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
                             "style" : { }
                           },
-                          "type" : "FlexList"
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Confirm</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
                         } ],
-                        "name" : "Set"
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
@@ -304,6 +406,373 @@
                     "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "All Teams Time",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "icon" : "clock",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        }, {
+                          "props" : {
+                            "className" : "modal-title",
+                            "id" : "",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Time</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "content-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Team Name</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
+                              "language" : "typescript"
+                            },
+                            "className" : "modal-dropdown",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Dropdown",
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.mode = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"dashboardTime\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.dashboardState.state.time.mode || 'add';",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding time-textarea-container",
+                                "layoutStyle" : { },
+                                "name" : "",
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetMinute\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setMinute;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "className" : "",
+                                "layoutStyle" : { },
+                                "name" : "Min",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "modal-time",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "true;",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p><span>0</span> min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"add\";",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Add",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setHour = Context.dashboardTimeSetHour;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetHour\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setHour;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "H",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>h</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetMinute\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setMinute;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "Min",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Set",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "modal-content",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Content",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "className" : "attention-please",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "Set",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Keep in mind you can only go further to a time equal to or greater than the first team at 16h45.</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Cancel</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Confirm</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.dashboardState.state.teamTimeModal;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Team Time",
                     "onExitActions" : { },
                     "style" : { }
                   },
@@ -430,6 +899,7 @@
                                     "className" : "content-dropdown",
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
+                                    "name" : "Dropdown",
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
@@ -450,27 +920,6 @@
                                     "style" : { }
                                   },
                                   "type" : "Select input"
-                                }, {
-                                  "props" : {
-                                    "className" : "modal-dropdown",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "true;",
-                                      "language" : "typescript"
-                                    },
-                                    "icon" : "chevron-down",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"<p>G679</p>\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "name" : "Dropdown",
-                                    "prefixedLabel" : true,
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
                                 } ],
                                 "className" : "",
                                 "layout" : {
@@ -801,7 +1250,466 @@
                     },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
-                    "name" : "Radio | Notif",
+                    "name" : "All Teams Radio | Notif",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "\"/walkie-talkie-solid.svg\"",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Image"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getRadioModeChoices } from \"./dashboard/dashboardFacade\";\ngetRadioModeChoices();",
+                              "language" : "typescript"
+                            },
+                            "className" : "title-dropdown",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.mode = Context.dashboardRadioModel;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"dashboardRadioModel\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.dashboardState.state.radio.mode;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "content-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Team Name</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "choices" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getRadioChannelChoices } from \"./dashboard/dashboardFacade\";\ngetRadioChannelChoices();",
+                                      "language" : "typescript"
+                                    },
+                                    "className" : "content-dropdown",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "Dropdown",
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.channel = Context.dashboardRadioChannel;\n\nContext.dashboardState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"dashboardRadioChannel\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.dashboardState.state.radio.channel;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Select input"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Dropdown",
+                                "style" : {
+                                  "gap" : " 15px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "className" : "modal-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardRadioMessage\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "rows" : 4,
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.radio.message;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Content",
+                            "style" : {
+                              "gap" : "15px"
+                            }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Cancel</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Send</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Buttons",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.radio.mode !== \"radio\";",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Radio",
+                        "style" : {
+                          "gap" : "25px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "content-title",
+                                    "id" : "",
+                                    "layoutClassName" : "noPadding notif-content-title",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Team Name</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutClassName" : "noPadding modal-matrix-text",
+                                            "layoutStyle" : { },
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "  Context.actor.shortName;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutClassName" : "noPadding modal-matrix-checkbox",
+                                            "layoutStyle" : { },
+                                            "onVariableChange" : {
+                                              "client" : {
+                                                "@class" : "Script",
+                                                "content" : "import { DashboardUIState } from \"./dashboard/dashboardUIState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\nconst newState = Helpers.cloneDeep(Context.dashboardState.state) as DashboardUIState;\nconst role: InterventionRole = Context.actor.role;\nnewState.radio.roles[role] = Context.dashboardRadioRoleSelection;\nContext.dashboardState.setState(newState);",
+                                                "language" : "TypeScript"
+                                              },
+                                              "exposeVariableAs" : {
+                                                "@class" : "Script",
+                                                "content" : "\"dashboardRadioRoleSelection\"",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "script" : {
+                                              "@class" : "Script",
+                                              "content" : "import { InterventionRole } from \"./game/common/actors/actor\";\n    const role: InterventionRole = Context.actor.role;\n    !!Context.dashboardState.state.radio.roles[role];",
+                                              "language" : "TypeScript"
+                                            },
+                                            "style" : { },
+                                            "type" : "checkbox"
+                                          },
+                                          "type" : "Boolean"
+                                        } ],
+                                        "className" : "",
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "modal-matrix",
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : { },
+                                    "layoutClassName" : "noPadding modal-matrix-container",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "content-modal-matrix",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Matrix",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "className" : "modal-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardRadioMessage\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "rows" : 4,
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.radio.message;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Content",
+                            "style" : {
+                              "gap" : "10px"
+                            }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Cancel</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Send</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Buttons",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.radio.mode !== \"notif\";",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Notif",
+                        "style" : {
+                          "gap" : "25px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.dashboardState.state.teamRadioModal;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Team Radio | Notif",
                     "onExitActions" : { },
                     "style" : { }
                   },
@@ -1507,9 +2415,8 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { triggerDashboardTimeForward } from \"./dashboard/impacts\";\n  triggerDashboardTimeForward(3, Context.team.id);",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                        "language" : "TypeScript"
                                       }
                                     },
                                     "name" : "time forward",
@@ -1525,9 +2432,8 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { sendRadioMessage } from \"./dashboard/impacts\";\nimport { ActionType } from \"./game/common/actionType\";\n  sendRadioMessage('Helllooo', ActionType.CASU_RADIO, Context.team.id);",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                        "language" : "TypeScript"
                                       }
                                     },
                                     "name" : "walkie-talkie",
@@ -1719,6 +2625,11 @@
                                   "type" : "Button"
                                 } ],
                                 "className" : "",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "true;",
+                                  "language" : "typescript"
+                                },
                                 "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
@@ -1756,18 +2667,72 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "members-paragraph",
+                                    "layoutStyle" : { },
+                                    "name" : "Team member",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.player.name",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
                                 "className" : "",
+                                "exposeAs" : "player",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : " import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
-                                "name" : "",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>coucou</p>\"",
-                                  "language" : "TypeScript"
-                                }
+                                "name" : "Team Member",
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "For each"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "members-paragraph spy-text",
+                                    "icon" : "eye",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "Spy player",
+                                    "openUrl" : {
+                                      "url" : {
+                                        "@class" : "Script",
+                                        "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.team.id);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "exposeAs" : "player",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : " import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "Spy player",
+                                "style" : { }
+                              },
+                              "type" : "For each"
                             } ],
                             "className" : "",
                             "conditionnalClassNames" : [ {
@@ -1787,7 +2752,9 @@
                                 "language" : "typescript"
                               }
                             } ],
-                            "layout" : { },
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
                             "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "Members",

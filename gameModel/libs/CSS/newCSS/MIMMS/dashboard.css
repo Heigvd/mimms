@@ -323,7 +323,7 @@ div .button-closed {
   transition: height 0.3s ease-in-out;
 }
 
-.members-display p {
+.members-display .members-paragraph {
   margin: 10px 0 0 0;
   opacity: 100%;
   transition: opacity 0.3s ease-in-out;
@@ -334,7 +334,7 @@ div .button-closed {
   transition: height 0.3s ease-in-out;
 }
 
-.members-hide p {
+.members-hide .members-paragraph {
   /*display: none;*/
   margin: 10px 0 0 0;
   opacity: 0%;
@@ -354,7 +354,7 @@ div .button-closed {
   text-transform: uppercase;
 }
 
-.infos svg {
+.line svg {
   color: var(--grey_base);
 }
 
@@ -376,6 +376,7 @@ div .button-closed {
   width: 6.74vw;
   height: 15px;
   filter: invert(43%) sepia(15%) saturate(220%) hue-rotate(153deg) brightness(94%) contrast(87%);
+  cursor: pointer;
 }
 
 /* .line-locations {
@@ -386,6 +387,10 @@ div .button-closed {
   display: flex;
   justify-content: center;
   width: calc(6.74vw - 10px);
+}
+
+.spy-player-icon {
+
 }
 
 /* - - - -  M O D A L S - - - - */
@@ -440,6 +445,24 @@ div .button-closed {
   border: 1px solid rgba(0, 0, 0, 0);
 }
 
+.modal-dropdown {
+  width: 150px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  /* font-family: var(--mainFont);
+  color: #000;
+  background-color: #fff; */
+}
+
+/*.modal-dropdown:hover {
+  border: 1px solid #000;
+  background-color: #fff;
+}*/
+
+.modal-dropdown div {
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
 .content-dropdown div {
   border: 1px solid rgba(0, 0, 0, 0);
 }
@@ -484,20 +507,11 @@ div .button-closed {
   justify-content: center;
 }
 
-.modal-dropdown {
-  font-family: var(--mainFont);
-  font-size: var(--SM_text);
-  font-weight: var(--boldWeight);
-  color: #000;
-  background-color: #fff;
+.attention-please {
+  font-size: var(--S_text);
 }
 
-.modal-dropdown:hover {
-  border: 1px solid #000;
-  background-color: #fff;
-}
-
-.modal-time {
+/*.modal-time {
   font-family: var(--mainFont);
   font-size: var(--SM_text);
   background-color: #fff;
@@ -508,7 +522,7 @@ div .button-closed {
   color: var(--grey_base);
   border-radius: 5px;
   background-color: var(--grey_10);
-}
+} */
 
 /* - - t e x t a r e a - - */
 .modal-textarea {
@@ -520,6 +534,19 @@ div .button-closed {
 
 .modal-textarea::-webkit-scrollbar {
   display: none;
+}
+
+.time-textarea {
+  /*display: inline-block;
+  padding: 7px;
+  color: var(--grey_base);
+  border-radius: 5px;*/
+  border: 1px solid rgba(0, 0, 0, 0);
+  background-color: var(--grey_10);
+}
+
+.time-textarea-container {
+  width: 25px;
 }
 
 /* - - b u t t o n s -- */
