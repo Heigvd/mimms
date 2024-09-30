@@ -180,6 +180,12 @@
         "name" : "Main Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "11",
+        "name" : "Dashboard TeamMatrix",
+        "scenaristPage" : null,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {

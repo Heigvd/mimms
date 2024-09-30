@@ -178,7 +178,8 @@ export type EventPayload =
   | TimeForwardCancelEvent
   | ActionCreationEvent
   | ActionCancellationEvent
-  | DashboardRadioMessageEvent;
+  | DashboardRadioMessageEvent
+  | DashboardNotificationMessageEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -201,6 +202,12 @@ export type TimedEventPayload = TimedPayload & EventPayload;
 export interface DashboardRadioMessageEvent extends BaseEvent, TimedPayload {
   type: 'DashboardRadioMessageEvent';
   canal: ActionType;
+  message: string;
+}
+
+export interface DashboardNotificationMessageEvent extends BaseEvent, TimedPayload {
+  type: 'DashboardNotificationMessageEvent';
+  roles: InterventionRole[];
   message: string;
 }
 
