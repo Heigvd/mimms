@@ -35,7 +35,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { getTeamMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\n\nconst newState = Helpers.cloneDeep(Context.selectedTeam.state);\nnewState.id = Context.currentSelectedTeam;\nnewState.matrix = getTeamMultiplayerMatrix(Context.currentSelectedTeam);\n\nContext.selectedTeam.setState(newState);\n",
+                    "content" : "const newState = Helpers.cloneDeep(Context.selectedTeam.state);\nnewState.id = Number(Context.currentSelectedTeam);\n\nContext.selectedTeam.setState(newState);\n",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {

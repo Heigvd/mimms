@@ -222,8 +222,6 @@ export async function unregisterPlayer(playerId: number): Promise<void> {
 
 /**
  * Register self as all roles and mark ready (use only for scenarist)
- *
- * @returns {Promise<TeamMatrix[]>}
  */
 export async function registerSelfAllRolesAndReady(): Promise<void> {
   const playerId = self.getId();
