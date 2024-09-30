@@ -1,5 +1,3 @@
-import { InterventionRole } from '../game/common/actors/actor';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import {
   MainSimulationState,
   MainStateObject,
@@ -56,7 +54,7 @@ export async function updateLastState(
  * Dashboard fetch functions
  **************************************/
 
-type DashboardGameState = Record<number, DashboardTeamGameState>;
+export type DashboardGameState = Record<number, DashboardTeamGameState>;
 
 let loadedFirstTime = false;
 let stateCache: DashboardGameState = {};
@@ -112,18 +110,4 @@ export function getTypedState(
   teamId: number
 ): DashboardTeamGameState | undefined {
   return state[teamId];
-}
-
-export function getActorsLocation(
-  state: DashboardGameState,
-  teamId: number
-): Partial<Record<InterventionRole, LOCATION_ENUM>> {
-  const result: Partial<Record<InterventionRole, LOCATION_ENUM>> = {};
-  const tstate = getTypedState(state, teamId);
-  if (tstate) {
-    tstate.actors.forEach(act => {
-      result[act.Role] = act.Location;
-    });
-  }
-  return result;
 }

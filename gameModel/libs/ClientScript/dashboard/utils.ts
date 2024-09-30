@@ -1,4 +1,4 @@
-import { InterventionRole } from '../game/common/actors/actor';
+
 import { EventPayload } from '../game/common/events/eventTypes';
 import { getSendEventServerScript } from '../game/common/events/eventUtils';
 
@@ -31,21 +31,6 @@ export function getTeam(teamId: number): STeam | undefined {
 }
 
 /**
- * Ordered list of roles to be displayed
- */
-export function getRolesArray(): InterventionRole[] {
-  return ['AL', 'ACS', 'MCS', 'LEADPMA', 'EVASAN'];
-}
-
-export function getRolesContext(): {
-  id: InterventionRole;
-  role: InterventionRole;
-  name: string;
-}[] {
-  return getRolesArray().map(r => ({ id: r, role: r, name: r + '' }));
-}
-
-/**
  * Send events for multiple teams
  * Each payload matches one team
  */
@@ -71,3 +56,4 @@ export function sendEventAllTeams(payload: EventPayload): Promise<IManagedRespon
     .join('');
   return APIMethods.runScript(script, {});
 }
+
