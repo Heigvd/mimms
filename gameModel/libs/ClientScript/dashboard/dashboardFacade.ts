@@ -19,6 +19,7 @@ import { DashboardGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
+import { mainSimLogger } from '../tools/logger';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -196,6 +197,91 @@ export function getTimeChoices(): { label: string; value: string }[] {
       value: 'set',
     },
   ];
+}
+
+export enum GameState {
+  NOT_INITIATED = 'NOT_INITIATED',
+  RUNNING = 'RUNNING',
+  PAUSED = 'PAUSED',
+}
+
+/**
+ * Get the gameState value for the given teamId
+ *
+ * @params {number} teamId - Id of given team
+ */
+export async function getGameStateStatus(teamId: number): Promise<GameState> {
+  const script = `CustomDashboard.getGameState(${teamId})`;
+  let response: IManagedResponse;
+
+  try {
+    response = await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+
+  return response!.updatedEntities[0] as GameState;
+}
+
+/**
+ * Set the gameState value for the given teamId
+ *
+ * @params {number} teamId - Id of given team
+ * @params {GameState} gameState - Target gameState
+ */
+export async function setGameStateStatus(teamId: number, gameState: GameState) {
+  const script = `CustomDashboard.setGameState(${teamId}, "${gameState}")`;
+
+  try {
+    await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Toggle the gameState of given team
+ *
+ * @params {number} teamId - Id of given team
+ */
+export async function togglePlay(teamId: number) {
+  try {
+    const gameState = await getGameStateStatus(teamId);
+    switch (gameState) {
+      case GameState.NOT_INITIATED:
+        return;
+      case GameState.RUNNING:
+        setGameStateStatus(teamId, GameState.PAUSED);
+        break;
+      case GameState.PAUSED:
+        setGameStateStatus(teamId, GameState.RUNNING);
+        break;
+    }
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Set the gameState for all teams
+ *
+ * @params {GameState} gameState - Target gameState
+ */
+export async function setAllTeamsGameState(gameState: GameState) {
+  if (gameState === GameState.NOT_INITIATED) return;
+
+  const teamIds = teams.map(team => team.getEntity().id);
+  const scripts = [];
+
+  for (let teamId of teamIds) {
+    scripts.push(`CustomDashboard.setGameState(${teamId}, "${gameState}")`);
+  }
+
+  try {
+    await APIMethods.runScript(scripts.join(','), {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
 }
 
 // -------------------------------------------------------------------------------------------------

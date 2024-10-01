@@ -23,9 +23,23 @@ CustomDashboard = (function () {
     return getInstances('currentState');
   }
 
+  function getGameState(teamId) {
+    var player = inferPlayer(teamId);
+
+    return Variable.find(gameModel, 'gameState').getValue(player);
+  }
+
+  function setGameState(teamId, value) {
+    var player = inferPlayer(teamId);
+
+    Variable.find(gameModel, 'gameState').setAllowedValue(player, value);
+  }
+
   return {
     getInstances: getInstances,
     getEventsByTeam: getEventsByTeam,
     getStoredStatesByTeam: getStoredStatesByTeam,
+    getGameState: getGameState,
+    setGameState: setGameState,
   };
 })();
