@@ -61,7 +61,7 @@ let stateCache: DashboardGameState = {};
 // dummy state without event => same for all teams
 let initialState: DashboardTeamGameState;
 
-async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> {
+export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> {
   if (safety && loadedFirstTime) {
     dashboardLogger.debug('Loaded already, returning cached result');
     return stateCache;
@@ -92,14 +92,15 @@ async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> 
 export async function fetchAndUpdateTeamsGameState(
   updateFunc: (stateByTeam: DashboardGameState) => void,
   safety: boolean
-): Promise<void> {
+): Promise<DashboardGameState | undefined> {
   if (safety && loadedFirstTime) {
-    return;
+    return undefined;
   }
 
   const currentStates = await fetchAllTeamsState(safety);
   dashboardLogger.debug('Calling update function...');
   updateFunc(currentStates);
+  return currentStates;
 }
 
 /**
