@@ -251,10 +251,10 @@ export async function togglePlay(teamId: number) {
       case GameState.NOT_INITIATED:
         return;
       case GameState.RUNNING:
-        setGameStateStatus(teamId, GameState.PAUSED);
+        await setGameStateStatus(teamId, GameState.PAUSED);
         break;
       case GameState.PAUSED:
-        setGameStateStatus(teamId, GameState.RUNNING);
+        await setGameStateStatus(teamId, GameState.RUNNING);
         break;
     }
   } catch (error) {
@@ -273,7 +273,7 @@ export async function setAllTeamsGameState(gameState: GameState) {
   const teamIds = teams.map(team => team.getEntity().id);
   const scripts = [];
 
-  for (let teamId of teamIds) {
+  for (const teamId of teamIds) {
     scripts.push(`CustomDashboard.setGameState(${teamId}, "${gameState}")`);
   }
 
