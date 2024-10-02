@@ -1,3 +1,9 @@
+/* - - - - D A S H B O A R D - - - - */
+.dashboard {
+  font-family: var(--mainFont);
+}
+
+
 /* - - - - A C C O R D I O N - - - - */
 .accordion-state * {
   padding: 0;
@@ -62,6 +68,10 @@ div .button-closed {
   transform: rotate(180deg);
 }
 
+#team {
+  width: calc(13.48vw - 10px);
+}
+
 .state-container{
   width: 13.48vw;
   margin: 24px 0 0 0;
@@ -115,6 +125,7 @@ div .button-closed {
 
 /* - - - - H E A D E R - - - - */
 .header {
+  height: 35px;
   align-items: center;
 }
 
@@ -146,6 +157,7 @@ div .button-closed {
 }
 
 .letters-container, .words-container {
+  position: absolute;
   padding: 0;
 }
 
@@ -399,14 +411,15 @@ div .button-closed {
   margin: 10px 0 0 0 !important; 
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
-  color: var(--primary_base);
+  color: var(--grey_base);
   text-decoration: underline;
   background-color: rgba(0, 0, 0, 0);
   opacity: 100%;
   transition: opacity 0.3s ease-in-out;
 }
 
-.tertiary-button:hover {
+.line:hover .tertiary-button {
+  color: var(--primary_base);
   background-color: rgba(0, 0, 0, 0);
 }
 
@@ -467,12 +480,19 @@ div .button-closed {
   border: 1px solid rgba(0, 0, 0, 0);
 }
 
+.title-dropdown span {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.title-dropdown span div:hover {
+  border: 1px solid black !important;
+}
+
 .modal-dropdown {
   width: 150px;
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
-  /* font-family: var(--mainFont);
-  color: #000;
+  /* color: #000;
   background-color: #fff; */
 }
 
@@ -485,8 +505,16 @@ div .button-closed {
   border: 1px solid rgba(0, 0, 0, 0);
 }
 
+.modal-dropdown span {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 .content-dropdown div {
   border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.content-dropdown span {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /* - - c o n t e n t - - */
@@ -498,7 +526,6 @@ div .button-closed {
 }
 
 .content-title {
-  font-family: var(--mainFont);
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
 }
@@ -533,8 +560,11 @@ div .button-closed {
   font-size: var(--S_text);
 }
 
+.modal-player-name {
+  font-size: var(--S_text);
+}
+
 /*.modal-time {
-  font-family: var(--mainFont);
   font-size: var(--SM_text);
   background-color: #fff;
 }
@@ -545,6 +575,11 @@ div .button-closed {
   border-radius: 5px;
   background-color: var(--grey_10);
 } */
+
+/* - - s p a c e s - - */
+.width100 {
+  width: 100%;
+}
 
 /* - - t e x t a r e a - - */
 .modal-textarea {
@@ -567,8 +602,10 @@ div .button-closed {
   background-color: var(--grey_10);
 }
 
-.time-textarea-container {
+.time-textarea-container input {
+  display: inline-block;
   width: 25px;
+  min-width: 25px;
 }
 
 /* - - b u t t o n s -- */

@@ -20,7 +20,7 @@ export interface DashboardUIState {
   selectedTeam: number;
   time: {
     mode: 'add' | 'set';
-    add: string;
+    add: number;
     setHour: string;
     setMinute: string;
   };
@@ -53,7 +53,7 @@ export function getInitialDashboardUIState(): DashboardUIState {
     selectedTeam: 0,
     time: {
       mode: 'add',
-      add: '',
+      add: 0,
       setHour: '',
       setMinute: '',
     },

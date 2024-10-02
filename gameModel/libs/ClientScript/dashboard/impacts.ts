@@ -89,14 +89,17 @@ export async function sendRadioMessageGame(
  ****************/
 function buildNotificationMessageEvent(
   message: string,
-  roles: InterventionRole[]
+  roles: Partial<Record<InterventionRole, boolean>>
 ): DashboardNotificationMessageEvent {
+  const rolesArray = Object.entries(roles)
+    .filter(([_, value]) => value === true)
+    .map(([k, _]) => k as InterventionRole);
   return {
     type: 'DashboardNotificationMessageEvent',
     emitterCharacterId: TRAINER_NAME,
     emitterPlayerId: String(self.getId()), // TODO ok ?
     triggerTime: 0, // will be ignored
-    roles: roles,
+    roles: rolesArray,
     message: message,
     dashboardForced: true,
   };
@@ -104,7 +107,7 @@ function buildNotificationMessageEvent(
 
 export async function sendNotification(
   message: string,
-  roles: InterventionRole[],
+  roles: Partial<Record<InterventionRole, boolean>>,
   teamId: number
 ): Promise<IManagedResponse | undefined> {
   const notifEvent = buildNotificationMessageEvent(message, roles);
@@ -114,7 +117,7 @@ export async function sendNotification(
 
 export async function sendNotificationGame(
   message: string,
-  roles: InterventionRole[]
+  roles: Partial<Record<InterventionRole, boolean>>
 ): Promise<IManagedResponse | undefined> {
   const notifEvent = buildNotificationMessageEvent(message, roles);
   return sendEventAllTeams(notifEvent);
