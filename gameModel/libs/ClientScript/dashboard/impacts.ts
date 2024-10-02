@@ -173,17 +173,3 @@ export async function sendNotificationGame(
   const notifEvent = buildNotificationMessageEvent(message, roles);
   return sendEventAllTeams(notifEvent);
 }
-
-// TODO implement
-// seems reasonable to use a Wegas variable here
-/*
-export async function togglePause(pause: boolean, teamId: number): Promise<IManagedResponse | undefined> {
-  //
-}
-*/
-
-/*
-export async function togglePauseGame(pause: boolean, teamId: number): Promise<IManagedResponse | undefined> {
-  //
-}
-*/

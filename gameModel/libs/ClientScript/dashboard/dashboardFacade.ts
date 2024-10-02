@@ -55,7 +55,7 @@ export function getMethaneStatus(state: DashboardGameState, teamId: number): boo
       teamState.actions.find(
         act =>
           'casuMessagePayload' in act &&
-          (act as CasuMessageAction)['casuMessagePayload'].messageType !== 'R'
+          (act as unknown as CasuMessageAction)['casuMessagePayload'].messageType !== 'R'
       ) != undefined
     );
   }
@@ -204,9 +204,11 @@ export function getTimeChoices(): { label: string; value: string }[] {
 }
 
 /**
- * Fetches fresh data and
+ * Fetches fresh time values and computes the earliest absolute
+ * time at which all the teams could forwarded
+ * that is, the time of the team that is the latest in the game
  */
-export async function getEarliestValidTimeForwardAbsoluteTime(
+export async function getMinimumValidTimeForwardValue(
   updateFunc: (stateByTeam: DashboardGameState) => void
 ): Promise<Date> {
   const dstate = await fetchAndUpdateTeamsGameState(updateFunc, false);
@@ -221,6 +223,3 @@ export async function getEarliestValidTimeForwardAbsoluteTime(
   }
   return min;
 }
-// -------------------------------------------------------------------------------------------------
-// spy part
-// -------------------------------------------------------------------------------------------------
