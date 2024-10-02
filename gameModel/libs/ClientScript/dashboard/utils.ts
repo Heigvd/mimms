@@ -1,4 +1,3 @@
-
 import { EventPayload } from '../game/common/events/eventTypes';
 import { getSendEventServerScript } from '../game/common/events/eventUtils';
 
@@ -30,6 +29,10 @@ export function getTeam(teamId: number): STeam | undefined {
   return teams.find(t => t.getId() === teamId);
 }
 
+export function getSelectedTeamName(): string {
+  return getTeam(Context.dashboardState.state.selectedTeam)?.getName() || 'Team not found.';
+}
+
 /**
  * Send events for multiple teams
  * Each payload matches one team
@@ -56,4 +59,3 @@ export function sendEventAllTeams(payload: EventPayload): Promise<IManagedRespon
     .join('');
   return APIMethods.runScript(script, {});
 }
-

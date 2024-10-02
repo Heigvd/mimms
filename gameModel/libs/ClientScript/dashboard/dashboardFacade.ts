@@ -175,11 +175,11 @@ export function getRadioChannelChoices(): { label: string; value: string }[] {
 export function getRadioModeChoices(): { label: string; value: string }[] {
   return [
     {
-      label: 'Radio message',
+      label: getTranslation('mainSim-dashboard', 'radio-message'),
       value: 'radio',
     },
     {
-      label: 'Notification',
+      label: getTranslation('mainSim-interface', 'notifications'),
       value: 'notif',
     },
   ];

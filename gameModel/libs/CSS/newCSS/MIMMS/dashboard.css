@@ -303,6 +303,15 @@ div .button-closed {
   background-color: var(--primary_10);
 }
 
+/* changer la couleur des icônes au hover */
+.line:hover svg {
+  color: var(--primary_base);
+}
+
+.line:hover img {
+  filter: invert(53%) sepia(87%) saturate(4999%) hue-rotate(172deg) brightness(97%) contrast(84%);
+}
+
 .line-open {
   margin-bottom: 10px;
   padding: 10px;
@@ -318,7 +327,8 @@ div .button-closed {
 } */
 
 .members-display {
-  height: 35px;
+  /*height: 35px;*/
+  height: 100%;
   display: flex;
   transition: height 0.3s ease-in-out;
 }
@@ -379,18 +389,30 @@ div .button-closed {
   cursor: pointer;
 }
 
-/* .line-locations {
-  width: 47.18vw;
-} */
-
 .spy-text {
   display: flex;
   justify-content: center;
   width: calc(6.74vw - 10px);
 }
 
-.spy-player-icon {
+.tertiary-button {
+  margin: 10px 0 0 0 !important; 
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0);
+  opacity: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
 
+.tertiary-button:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.members-hide .tertiary-button {
+  opacity: 0%;
+  transition: opacity 0.3s ease-in-out;
 }
 
 /* - - - -  M O D A L S - - - - */

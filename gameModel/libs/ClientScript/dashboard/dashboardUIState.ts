@@ -16,13 +16,15 @@ export interface DashboardUIState {
     message: string;
     roles: Partial<Record<InterventionRole, boolean>>;
   };
-  line: boolean;
+  openTeams: Record<number, boolean>;
+  selectedTeam: number;
   time: {
     mode: 'add' | 'set';
     add: string;
     setHour: string;
     setMinute: string;
   };
+  configureRoles: boolean;
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -47,12 +49,26 @@ export function getInitialDashboardUIState(): DashboardUIState {
         EVASAN: false,
       },
     },
-    line: false,
+    openTeams: {},
+    selectedTeam: 0,
     time: {
       mode: 'add',
       add: '',
       setHour: '',
       setMinute: '',
     },
+    configureRoles: false,
   };
+}
+
+export function resetModals(): void {
+  const newState = Helpers.cloneDeep(Context.dashboardState.state);
+
+  newState.radio.message = '';
+  newState.teamTimeModal = false;
+  newState.allTeamsTimeModal = false;
+  newState.teamRadioModal = false;
+  newState.allTeamsRadioModal = false;
+
+  Context.dashboardState.setState(newState);
 }
