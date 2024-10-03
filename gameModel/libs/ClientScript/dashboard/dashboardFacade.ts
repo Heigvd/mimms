@@ -15,7 +15,7 @@ import {
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { formatTime, getStartTime } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
-import { DashboardGameState, getTypedState } from './dashboardState';
+import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
@@ -25,17 +25,22 @@ import { getTranslation } from '../tools/translation';
 // -------------------------------------------------------------------------------------------------
 
 export function getTime(state: DashboardGameState, teamId: number): string {
+  // TODO a global condition on a line
+  if (state) {
+    return formatTime(getRawTime(state, teamId));
+  } else {
+    return '...loading';
+  }
+}
+
+export function getRawTime(state: DashboardGameState, teamId: number): Date {
   const teamState = getTypedState(state, teamId);
 
-  // TODO a global condition on a line
-  if (!teamState) {
-    return 'loading...';
-  }
-
   const currentDateTime = getStartTime();
-  currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTime * 1000);
-
-  return formatTime(currentDateTime);
+  if (teamState) {
+    currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTime * 1000);
+  }
+  return currentDateTime;
 }
 
 /**
@@ -50,7 +55,7 @@ export function getMethaneStatus(state: DashboardGameState, teamId: number): boo
       teamState.actions.find(
         act =>
           'casuMessagePayload' in act &&
-          (act as CasuMessageAction)['casuMessagePayload'].messageType !== 'R'
+          (act as unknown as CasuMessageAction)['casuMessagePayload'].messageType !== 'R'
       ) != undefined
     );
   }
@@ -198,6 +203,23 @@ export function getTimeChoices(): { label: string; value: string }[] {
   ];
 }
 
-// -------------------------------------------------------------------------------------------------
-// spy part
-// -------------------------------------------------------------------------------------------------
+/**
+ * Fetches fresh time values and computes the earliest absolute
+ * time at which all the teams could forwarded
+ * that is, the time of the team that is the latest in the game
+ */
+export async function getMinimumValidTimeForwardValue(
+  updateFunc: (stateByTeam: DashboardGameState) => void
+): Promise<Date> {
+  const dstate = await fetchAndUpdateTeamsGameState(updateFunc, false);
+  let min = getStartTime();
+  if (dstate) {
+    Object.keys(dstate).forEach(tid => {
+      const t = getRawTime(dstate, Number(tid));
+      if (t > min) {
+        min = t;
+      }
+    });
+  }
+  return min;
+}
