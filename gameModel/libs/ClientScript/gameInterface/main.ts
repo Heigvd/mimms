@@ -130,11 +130,7 @@ export function getStartTime(): Date {
   const hours = 16;
   const minutes = 0;
 
-  const dateTime = new Date();
-  dateTime.setHours(hours);
-  dateTime.setMinutes(minutes);
-
-  return dateTime;
+  return new Date(0, 0, 0, hours, minutes);
 }
 
 /**
