@@ -17,10 +17,13 @@ import { sendEventAllTeams, sendEventPerTeam } from './utils';
  ***************/
 function buildTimeForwardEvent(seconds: number): TimeForwardEvent {
   const sec = Math.round(seconds);
-  if (sec % TimeSliceDuration <= 0) {
-    dashboardLogger.warn(
+  if (sec % TimeSliceDuration !== 0) {
+    dashboardLogger.error(
       'Unexpected value for time forward, should be a multiple of ' + TimeSliceDuration,
       sec
+    );
+    throw new Error(
+      `Invalid value for TimeForwardEvent : ${sec}, has to be a multiple of ${TimeSliceDuration}`
     );
   }
   const tf: TimeForwardEvent = {
