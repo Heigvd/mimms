@@ -11,7 +11,7 @@
 
 div .button-closed {
   width: 6.74vw;
-  min-width: 115px;
+  min-width: 140px;
   transition: width 0.3s ease-in-out;
 }
 
@@ -215,6 +215,15 @@ div .button-closed {
 
 .play-pause:active {
   background-color: var(--primary_100);
+}
+
+.play-pause-icon:hover svg {
+  filter: brightness(65%);
+  cursor: pointer;
+}
+
+.play-pause-icon:active svg {
+  filter: brightness(25%);
 }
 
 #play {

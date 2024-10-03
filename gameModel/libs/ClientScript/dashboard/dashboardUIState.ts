@@ -65,6 +65,7 @@ export function resetModals(): void {
   const newState = Helpers.cloneDeep(Context.dashboardState.state);
 
   newState.radio.message = '';
+  newState.time.add = 0;
   newState.teamTimeModal = false;
   newState.allTeamsTimeModal = false;
   newState.teamRadioModal = false;
