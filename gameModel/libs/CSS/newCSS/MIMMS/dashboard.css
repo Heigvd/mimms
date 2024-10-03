@@ -561,6 +561,10 @@ div .button-closed {
   font-weight: var(--boldWeight);
 }
 
+.modal-matrix-text button {
+  padding: 0;
+}
+
 .modal-matrix-checkbox {
   justify-content: center;
 }

@@ -70,6 +70,7 @@ export function resetModals(): void {
   newState.allTeamsTimeModal = false;
   newState.teamRadioModal = false;
   newState.allTeamsRadioModal = false;
+  newState.configureRoles = false;
 
   Context.dashboardState.setState(newState);
 }

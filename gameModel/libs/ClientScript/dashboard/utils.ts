@@ -4,15 +4,8 @@ import { getSendEventServerScript } from '../game/common/events/eventUtils';
 // TODO for now we just pick the first player of the team
 // but we might want a per player choice
 
-export function buildSpyUrl(teamId: number): string {
-  const team = getTeam(teamId);
-  if (team) {
-    const p1 = team.getPlayers().pop();
-    if (p1) {
-      return 'player.html?id=' + p1.getId();
-    }
-  }
-  return 'not_found'; // TODO
+export function buildSpyUrl(playerId: number): string {
+  return 'player.html?id=' + playerId;
 }
 
 export function getDashboardTeams(): STeam[] {
