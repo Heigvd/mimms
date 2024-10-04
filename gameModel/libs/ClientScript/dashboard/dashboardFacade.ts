@@ -19,7 +19,7 @@ import { DashboardGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
-import { mainSimLogger } from '../tools/logger';
+import { dashboardLogger } from '../tools/logger';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -205,22 +205,42 @@ export enum GameState {
   PAUSED = 'PAUSED',
 }
 
+export interface TeamGameStateStatus {
+  id: number;
+  gameState: GameState;
+}
+
+export let teamsGameStateStatuses: TeamGameStateStatus[] = [];
+
 /**
- * Get the gameState value for the given teamId
- *
- * @params {number} teamId - Id of given team
+ * Get the gameState values for all teams
  */
-export async function getGameStateStatus(teamId: number): Promise<GameState> {
-  const script = `CustomDashboard.getGameState(${teamId})`;
+export async function getAllTeamGameStateStatus(): Promise<TeamGameStateStatus[]> {
+  const script = 'CustomDashboard.getGameStateByTeam()';
   let response: IManagedResponse;
 
   try {
     response = await APIMethods.runScript(script, {});
   } catch (error) {
-    mainSimLogger.error(error);
+    dashboardLogger.error(error);
   }
 
-  return response!.updatedEntities[0] as GameState;
+  teamsGameStateStatuses = response!.updatedEntities as TeamGameStateStatus[];
+
+  return teamsGameStateStatuses;
+}
+
+/**
+ * Get the gameState value for the given teamId
+ *
+ * @params {number} teamId - Id of given team
+ */
+export function getGameStateStatus(teamId: number): GameState | undefined {
+  if (teamsGameStateStatuses.length === 0) {
+    return undefined;
+  } else {
+    return teamsGameStateStatuses.find(team => team.id === teamId)!.gameState;
+  }
 }
 
 /**
@@ -235,7 +255,7 @@ export async function setGameStateStatus(teamId: number, gameState: GameState) {
   try {
     await APIMethods.runScript(script, {});
   } catch (error) {
-    mainSimLogger.error(error);
+    dashboardLogger.error(error);
   }
 }
 
@@ -258,7 +278,7 @@ export async function togglePlay(teamId: number) {
         break;
     }
   } catch (error) {
-    mainSimLogger.error(error);
+    dashboardLogger.error(error);
   }
 }
 
@@ -279,8 +299,9 @@ export async function setAllTeamsGameState(gameState: GameState) {
 
   try {
     await APIMethods.runScript(scripts.join(','), {});
+    await getAllTeamGameStateStatus();
   } catch (error) {
-    mainSimLogger.error(error);
+    dashboardLogger.error(error);
   }
 }
 

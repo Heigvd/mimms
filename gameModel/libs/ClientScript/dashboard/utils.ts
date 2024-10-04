@@ -1,4 +1,3 @@
-
 import { EventPayload } from '../game/common/events/eventTypes';
 import { getSendEventServerScript } from '../game/common/events/eventUtils';
 
@@ -56,4 +55,3 @@ export function sendEventAllTeams(payload: EventPayload): Promise<IManagedRespon
     .join('');
   return APIMethods.runScript(script, {});
 }
-

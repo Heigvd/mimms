@@ -23,6 +23,26 @@ CustomDashboard = (function () {
     return getInstances('currentState');
   }
 
+  function getGameStateByTeam() {
+    var gameStates = getInstances('gameState');
+
+    var byTeamGameState = [];
+    gameStates
+      .entrySet()
+      .stream()
+      .forEach(function (entry) {
+        var teamId = entry.getKey();
+        var gameStateVar = entry.getValue();
+        var teamGameState = {
+          id: teamId,
+          gameState: gameStateVar.getValue(),
+        };
+        byTeamGameState.push(teamGameState);
+      });
+
+    return byTeamGameState;
+  }
+
   function getGameState(teamId) {
     var player = inferPlayer(teamId);
 
@@ -39,6 +59,7 @@ CustomDashboard = (function () {
     getInstances: getInstances,
     getEventsByTeam: getEventsByTeam,
     getStoredStatesByTeam: getStoredStatesByTeam,
+    getGameStateByTeam: getGameStateByTeam,
     getGameState: getGameState,
     setGameState: setGameState,
   };
