@@ -19,6 +19,13 @@ import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from 
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
+import { getTeam } from './utils';
+import {
+  getAllTeamsMultiplayerMatrix,
+  getEmptyPlayerMatrix,
+  getTeamMultiplayerMatrix,
+  MultiplayerMatrix,
+} from '../multiplayer/multiplayerManager';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -222,4 +229,31 @@ export async function getMinimumValidTimeForwardValue(
     });
   }
   return min;
+}
+
+/**
+ * Builds a multiplayer matrix that has an entry for each player in the team
+ * Players that are not yet registered in the simulation get an empty matrix
+ */
+export async function getTeamPlayersAndRoles(
+  teamId: number,
+  refresh?: boolean
+): Promise<MultiplayerMatrix> {
+  if (refresh) {
+    await getAllTeamsMultiplayerMatrix();
+  }
+  const multiMatrix: MultiplayerMatrix = [];
+  const team = getTeam(teamId);
+
+  if (team) {
+    const players = team.getPlayers();
+    const teamMatrix = getTeamMultiplayerMatrix(teamId);
+    if (teamMatrix) {
+      players.forEach(p => {
+        const pm = teamMatrix.find(m => m.id === p.getId());
+        multiMatrix.push(pm || getEmptyPlayerMatrix(p));
+      });
+    }
+  }
+  return multiMatrix;
 }

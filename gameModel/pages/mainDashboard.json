@@ -32,7 +32,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n    fetchAndUpdateTeamsGameState(Context.state.setState, false);",
+                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\nimport { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n  getAllTeamsMultiplayerMatrix();\n    fetchAndUpdateTeamsGameState(Context.state.setState, false);",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
@@ -1857,7 +1857,7 @@
                                 "exposeAs" : "actor",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                  "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\ngetRolesContext();",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -1911,7 +1911,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Context.player.id, Context.actor.role);\n",
+                                                    "content" : "import { toggleInterventionRole } from \"./dashboard/dashboardUIState\";\n\ntoggleInterventionRole(Context.player.id, Context.actor.role)",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -1945,7 +1945,7 @@
                                         "exposeAs" : "actor",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                          "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\ngetRolesContext();",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "id",
@@ -1969,7 +1969,7 @@
                                 "exposeAs" : "player",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : " import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                                  "content" : "  Context.dashboardState.state.roleConfig;",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -2015,8 +2015,9 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\n\nresetModals();",
-                                "language" : "TypeScript"
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nresetModals();\n  update;",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
                               }
                             },
                             "name" : "Confirm",
@@ -2789,7 +2790,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\nnewState.selectedTeam = Context.team.id;\n\nContext.dashboardState.setState(newState);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -3216,8 +3217,9 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.configureRoles = !newState.configureRoles;\n\nContext.dashboardState.setState(newState);",
-                                        "language" : "TypeScript"
+                                        "content" : "import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\n\nnewState.configureRoles = !newState.configureRoles;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRoles(Context.team.id, true);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
                                       }
                                     },
                                     "name" : "Configure roles",

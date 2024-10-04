@@ -1,5 +1,6 @@
 import { ActionType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
+import { MultiplayerMatrix } from '../multiplayer/multiplayerManager';
 
 export interface DashboardUIState {
   state: boolean;
@@ -25,6 +26,8 @@ export interface DashboardUIState {
     setMinute: number;
   };
   configureRoles: boolean;
+  /** local state for the role selection modal */
+  roleConfig: MultiplayerMatrix;
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -58,6 +61,7 @@ export function getInitialDashboardUIState(): DashboardUIState {
       setMinute: 0,
     },
     configureRoles: false,
+    roleConfig: [],
   };
 }
 
@@ -74,5 +78,13 @@ export function resetModals(): void {
   newState.allTeamsRadioModal = false;
   newState.configureRoles = false;
 
+  Context.dashboardState.setState(newState);
+}
+
+export function toggleInterventionRole(playerId: number, role: InterventionRole): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+  const playerMat = newState.roleConfig.find(pm => pm.id === playerId)!;
+  const value = playerMat?.roles[role];
+  playerMat.roles[role] = !value;
   Context.dashboardState.setState(newState);
 }
