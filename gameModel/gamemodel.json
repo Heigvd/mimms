@@ -6703,7 +6703,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "XGO MIMMS refactoring MIM-238 testing",
+  "name" : "MIMMS main sim",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

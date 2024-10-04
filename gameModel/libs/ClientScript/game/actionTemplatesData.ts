@@ -69,6 +69,14 @@ export function initActionTemplates(): {
     [],
     [SimFlag.PCFRONT_BUILT]
   );
+
+  const moveActor = new MoveActorActionTemplate(
+    'move-actor-title',
+    'move-actor-desc',
+    TimeSliceDuration,
+    'move-actor-feedback'
+  );
+
   const getInfo = new DisplayMessageActionTemplate(
     'basic-info-title',
     'basic-info-desc',
@@ -118,104 +126,6 @@ export function initActionTemplates(): {
     ActionType.CASU_RADIO,
     true,
     ActionType.CASU_RADIO
-  );
-
-  const moveActor = new MoveActorActionTemplate(
-    'move-actor-title',
-    'move-actor-desc',
-    TimeSliceDuration,
-    'move-actor-feedback'
-  );
-
-  const placeAccessRegress = new SelectionFixedMapEntityTemplate(
-    'define-accreg-title',
-    'define-accreg-desc',
-    TimeSliceDuration * 3,
-    'define-accreg-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'Accreg',
-      LOCATION_ENUM.AccReg,
-      [],
-      new MultiLineStringGeometricalShape([
-        [
-          [
-            [2500052.6133020874, 1118449.2968644362],
-            [2500087.3369474486, 1118503.6293053096],
-          ],
-          [
-            [2500060.952470149, 1118523.9098080816],
-            [2500029.950508212, 1118486.1465293542],
-          ],
-        ],
-        [
-          [
-            [2500113.647301364, 1118575.704815885],
-            [2500096.7293570912, 1118534.8226090078],
-          ],
-          [
-            [2500060.952470149, 1118523.9098080816],
-            [2500029.950508212, 1118486.1465293542],
-          ],
-        ],
-        [
-          [
-            [2500040.187860512, 1118562.59843714],
-            [2500065.949428312, 1118543.3339090333],
-          ],
-          [
-            [2500109.5966483564, 1118490.3921636103],
-            [2500134.8148273816, 1118469.6649961546],
-          ],
-        ],
-      ]),
-      BuildingStatus.selection,
-      'right-arrow',
-      {
-        Actors: false,
-        Resources: false,
-        Patients: false,
-      }
-    )
-  );
-
-  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
-    'define-acsMscArrival-title',
-    'define-acsMscArrival-desc',
-    TimeSliceDuration,
-    'define-acsMscArrival-feedback',
-    false,
-    [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
-    [SimFlag.ACS_MCS_ANNOUNCED],
-    ['ACS', 'MCS'],
-    ActionType.CASU_RADIO,
-    true
-  );
-
-  const appointEVASAN = new AppointActorActionTemplate(
-    'appoint-EVASAN-title',
-    'appoint-EVASAN-desc',
-    TimeSliceDuration,
-    'appoint-EVASAN-feedback',
-    true,
-    'appoint-EVASAN-no-resource-feedback',
-    'EVASAN',
-    ['ambulancier'],
-    [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
-    [SimFlag.EVASAN_ARRIVED]
-  );
-
-  const appointLeadPMA = new AppointActorActionTemplate(
-    'appoint-LeadPMA-title',
-    'appoint-LeadPMA-desc',
-    TimeSliceDuration,
-    'appoint-LeadPMA-feedback',
-    true,
-    'appoint-LeadPMA-no-resource-feedback',
-    'LEADPMA',
-    ['infirmier', 'ambulancier'],
-    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
-    [SimFlag.LEADPMA_ARRIVED]
   );
 
   const placePMA = new SelectionFixedMapEntityTemplate(
@@ -279,19 +189,6 @@ export function initActionTemplates(): {
     [SimFlag.PMA_BUILT]
   );
 
-  const openPMA = new DisplayMessageActionTemplate(
-    'open-PMA-title',
-    'open-PMA-desc',
-    TimeSliceDuration,
-    'open-PMA-feedback',
-    false,
-    [SimFlag.PMA_BUILT],
-    [SimFlag.PMA_OPEN],
-    ['LEADPMA'],
-    ActionType.RESOURCES_RADIO,
-    true
-  );
-
   const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
@@ -332,6 +229,58 @@ export function initActionTemplates(): {
       ]),
       BuildingStatus.selection,
       'Nest'
+    )
+  );
+
+  const placeAccessRegress = new SelectionFixedMapEntityTemplate(
+    'define-accreg-title',
+    'define-accreg-desc',
+    TimeSliceDuration * 3,
+    'define-accreg-feedback',
+    new GeometryBasedFixedMapEntity(
+      0,
+      'Accreg',
+      LOCATION_ENUM.AccReg,
+      [],
+      new MultiLineStringGeometricalShape([
+        [
+          [
+            [2500052.6133020874, 1118449.2968644362],
+            [2500087.3369474486, 1118503.6293053096],
+          ],
+          [
+            [2500060.952470149, 1118523.9098080816],
+            [2500029.950508212, 1118486.1465293542],
+          ],
+        ],
+        [
+          [
+            [2500113.647301364, 1118575.704815885],
+            [2500096.7293570912, 1118534.8226090078],
+          ],
+          [
+            [2500060.952470149, 1118523.9098080816],
+            [2500029.950508212, 1118486.1465293542],
+          ],
+        ],
+        [
+          [
+            [2500040.187860512, 1118562.59843714],
+            [2500065.949428312, 1118543.3339090333],
+          ],
+          [
+            [2500109.5966483564, 1118490.3921636103],
+            [2500134.8148273816, 1118469.6649961546],
+          ],
+        ],
+      ]),
+      BuildingStatus.selection,
+      'right-arrow',
+      {
+        Actors: false,
+        Resources: false,
+        Patients: false,
+      }
     )
   );
 
@@ -393,6 +342,32 @@ export function initActionTemplates(): {
     [SimFlag.HELICOPTER_PARK_BUILT]
   );
 
+  const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-title',
+    'open-PMA-desc',
+    TimeSliceDuration,
+    'open-PMA-feedback',
+    false,
+    [SimFlag.PMA_BUILT],
+    [SimFlag.PMA_OPEN],
+    ['LEADPMA'],
+    ActionType.RESOURCES_RADIO,
+    true
+  );
+
+  const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-acsMscArrival-title',
+    'define-acsMscArrival-desc',
+    TimeSliceDuration,
+    'define-acsMscArrival-feedback',
+    false,
+    [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.ACS_MCS_ANNOUNCED],
+    ['ACS', 'MCS'],
+    ActionType.CASU_RADIO,
+    true
+  );
+
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
@@ -405,21 +380,38 @@ export function initActionTemplates(): {
     true
   );
 
+  const appointEVASAN = new AppointActorActionTemplate(
+    'appoint-EVASAN-title',
+    'appoint-EVASAN-desc',
+    TimeSliceDuration,
+    'appoint-EVASAN-feedback',
+    true,
+    'appoint-EVASAN-no-resource-feedback',
+    'EVASAN',
+    ['ambulancier'],
+    [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.EVASAN_ARRIVED]
+  );
+
+  const appointLeadPMA = new AppointActorActionTemplate(
+    'appoint-LeadPMA-title',
+    'appoint-LeadPMA-desc',
+    TimeSliceDuration,
+    'appoint-LeadPMA-feedback',
+    true,
+    'appoint-LeadPMA-no-resource-feedback',
+    'LEADPMA',
+    ['infirmier', 'ambulancier'],
+    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
+    [SimFlag.LEADPMA_ARRIVED]
+  );
+
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
     'move-res-task-title',
     'move-res-task-desc',
     TimeSliceDuration,
     'move-res-task-feedback',
     'move-res-task-refused',
-    true
-  );
-
-  const pretriageReport = new PretriageReportTemplate(
-    'pretriage-report-task-title',
-    'pretriage-report-task-desc',
-    TimeSliceDuration,
-    'pretriage-report-task-feedback-started',
-    'pretriage-report-task-feedback-report',
     true
   );
 
@@ -431,6 +423,15 @@ export function initActionTemplates(): {
     'evacuate-task-started',
     'evacuate-feedback-return',
     'evacuate-task-abort',
+    true
+  );
+
+  const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-title',
+    'pretriage-report-task-desc',
+    TimeSliceDuration,
+    'pretriage-report-task-feedback-started',
+    'pretriage-report-task-feedback-report',
     true
   );
 
@@ -458,6 +459,8 @@ export function initActionTemplates(): {
   templates[allocateResources.Uid] = allocateResources;
   templates[evacuate.Uid] = evacuate;
   templates[pretriageReport.Uid] = pretriageReport;
+
+  // Beware that the order of the actions of the standard list depends on the creation order
 
   return {
     actionTemplates: templates,

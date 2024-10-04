@@ -167,9 +167,9 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (Context.action instanceof SelectionFixedMapEntityTemplate) {
+  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
     return '48';
-  } else if (Context.action instanceof MoveActorActionTemplate) {
+  } else if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
   }
   return '';

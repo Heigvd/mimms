@@ -77,7 +77,7 @@ export function uniqueActionTemplates(): IUniqueActionTemplates {
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
  *
- * @param actionTemplateId The template to instanciate
+ * @param actionTemplate The template to instanciate
  * @param selectedActor The actor the plans the action and will be its owner
  * @param params The additional optional parameters, related to the chosen action template
  * @returns a promise
@@ -93,8 +93,8 @@ export async function planAction(
 // TODO Maybe ensure only owning actor can cancel actions
 /**
  *
- * @param actionId The action to cancel
  * @param selectedActor The actor that cancels the action
+ * @param templateId The template of the action to cancel
  * @returns
  */
 export async function cancelAction(

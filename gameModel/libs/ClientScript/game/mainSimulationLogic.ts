@@ -290,7 +290,7 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         // find corresponding creation template
         const actionTemplate = actionTemplates[event.payload.templateUid];
         if (!actionTemplate) {
-          mainSimLogger.error('no template was found for ref ', event.payload.templateUid);
+          mainSimLogger.error('no template was found for UID ', event.payload.templateUid);
         } else {
           if (
             actionTemplate.canConcurrencyWiseBePlayed(
@@ -423,7 +423,7 @@ export async function buildAndLaunchActionFromTemplate(
     const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
     return await sendEvent(evt);
   } else {
-    mainSimLogger.error('Undefined template or actor', selectedActor);
+    mainSimLogger.error('Undefined template or actor', actTemplate, selectedActor);
   }
 }
 
