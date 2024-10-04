@@ -76,6 +76,7 @@ function computeForwardDeltaSeconds(
 ): number {
   const teamTime = getRawTime(state, teamId);
   const delta = Math.ceil(targetTime.getTime() - teamTime.getTime());
+  wlog(delta);
   if (delta < 0) {
     dashboardLogger.error(
       'Invalid time forward for team ' + teamId + ' current time : ' + teamTime
@@ -90,6 +91,8 @@ export async function triggerAbsoluteTimeForwardGame(
   const dstate = await fetchAllTeamsState(false);
   const events: TimeForwardEvent[] = [];
   const teams: number[] = [];
+  wlog(targetTime);
+  wlog
   Object.keys(dstate).map((tid: string) => {
     const teamId = Number(tid);
     const delta = computeForwardDeltaSeconds(dstate, targetTime, teamId);

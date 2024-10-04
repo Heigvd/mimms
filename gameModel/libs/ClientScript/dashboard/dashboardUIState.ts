@@ -21,8 +21,8 @@ export interface DashboardUIState {
   time: {
     mode: 'add' | 'set';
     add: number;
-    setHour: string;
-    setMinute: string;
+    setHour: number;
+    setMinute: number;
   };
   configureRoles: boolean;
 }
@@ -54,8 +54,8 @@ export function getInitialDashboardUIState(): DashboardUIState {
     time: {
       mode: 'add',
       add: 0,
-      setHour: '',
-      setMinute: '',
+      setHour: 0,
+      setMinute: 0,
     },
     configureRoles: false,
   };
@@ -66,6 +66,8 @@ export function resetModals(): void {
 
   newState.radio.message = '';
   newState.time.add = 0;
+  newState.time.setHour = 0;
+  newState.time.setMinute = 0;
   newState.teamTimeModal = false;
   newState.allTeamsTimeModal = false;
   newState.teamRadioModal = false;

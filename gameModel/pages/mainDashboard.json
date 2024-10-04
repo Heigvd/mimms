@@ -32,7 +32,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n  fetchAndUpdateTeamsGameState(Context.state.setState, false);",
+                    "content" : "import { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n    fetchAndUpdateTeamsGameState(Context.state.setState, false);",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
@@ -118,7 +118,7 @@
                               "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
                               "language" : "typescript"
                             },
-                            "className" : "modal-dropdown",
+                            "className" : "modal-dropdown-time",
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "Dropdown",
@@ -177,7 +177,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
-                                "className" : "",
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "Min",
                                 "style" : { },
@@ -236,6 +236,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "H",
                                 "style" : { },
@@ -279,6 +280,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "Min",
                                 "style" : { },
@@ -370,6 +372,28 @@
                               }
                             },
                             "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Confirm setTime</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { triggerAbsoluteTimeForwardGame } from \"./dashboard/impacts\";\n  const { setHour, setMinute } = Context.dashboardState.state.time;\n\n  // const now = new Date();\n  const targetDate = new Date(0, 0, 0, setHour, setMinute, 0);\n\n  wlog(\"Creating date with:\", { setHour, setMinute });\n  wlog(\"Target date:\", targetDate);\n\n  // Calculate delta in seconds\n  // const deltaSeconds = Math.floor((targetDate.getTime() - now.getTime()) / 1000);\n\n  // Ensure delta is valid\n  // if (deltaSeconds < 0 || deltaSeconds % 60 !== 0) {\n  //   wlog(\"Invalid delta value:\", deltaSeconds);\n  // }\n\n  const timeSet = triggerAbsoluteTimeForwardGame(targetDate);\n  resetModals();\n  timeSet;",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "Confirm setTime",
                             "style" : { }
                           },
                           "type" : "Button"
@@ -474,7 +498,7 @@
                               "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
                               "language" : "typescript"
                             },
-                            "className" : "modal-dropdown",
+                            "className" : "modal-dropdown-time",
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "Dropdown",
@@ -533,7 +557,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
-                                "className" : "",
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "Min",
                                 "style" : { },
@@ -592,6 +616,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "H",
                                 "style" : { },
@@ -635,6 +660,7 @@
                               "type" : "Number input"
                             }, {
                               "props" : {
+                                "className" : "time-text",
                                 "layoutStyle" : { },
                                 "name" : "Min",
                                 "style" : { },
@@ -929,6 +955,11 @@
                                     "language" : "TypeScript"
                                   }
                                 },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Type your message here\"",
+                                  "language" : "TypeScript"
+                                },
                                 "rows" : 4,
                                 "script" : {
                                   "@class" : "Script",
@@ -1137,6 +1168,11 @@
                                     "content" : "\"dashboardRadioMessage\"",
                                     "language" : "TypeScript"
                                   }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Type your message here\"",
+                                  "language" : "TypeScript"
                                 },
                                 "rows" : 4,
                                 "script" : {
@@ -3266,7 +3302,7 @@
                 "layoutStyle" : {
                   "flexDirection" : "column"
                 },
-                "localState" : false,
+                "localState" : true,
                 "name" : "accordionState",
                 "style" : { }
               },
