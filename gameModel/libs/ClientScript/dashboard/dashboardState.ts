@@ -4,7 +4,9 @@ import {
 } from '../game/common/simulationState/mainSimulationState';
 import { PatientState } from '../game/common/simulationState/patientState';
 import { buildStartingMainState } from '../game/mainSimulationLogic';
+import { getAllTeamsMultiplayerMatrix } from '../multiplayer/multiplayerManager';
 import { dashboardLogger } from '../tools/logger';
+import { getAllTeamGameStateStatus } from './dashboardFacade';
 
 type PatientReducedState = Omit<PatientState, 'humanBody'>;
 
@@ -100,6 +102,23 @@ export async function fetchAndUpdateTeamsGameState(
   const currentStates = await fetchAllTeamsState(safety);
   dashboardLogger.debug('Calling update function...');
   updateFunc(currentStates);
+}
+
+export async function afterUpdate(): Promise<void> {
+  try {
+    // Values retrieved from server
+    await getAllTeamGameStateStatus();
+    await getAllTeamsMultiplayerMatrix();
+    // Values retrieved from players
+    let calls = 0;
+    const interval = setInterval(() => {
+      calls += 1;
+      fetchAllTeamsState(false);
+      if (calls === 3) clearInterval(interval);
+    }, 2000);
+  } catch (error) {
+    dashboardLogger.error(error);
+  }
 }
 
 /**
