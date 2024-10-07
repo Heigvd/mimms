@@ -55,8 +55,8 @@ healing-pma-yellow-title	Yellow patients care	Soins des patients jaunes
 healing-pma-yellow-desc	Yellow patients care	Soins des patients jaunes	
 healing-pma-green-title	Green patients care	Soins des patients verts	
 healing-pma-green-desc	Green patients care	Soins des patients verts	
-send-radio-title	Sends radio message	Envoyer message radio	
-send-radio-desc	Sends a radio message	Envoyer un message radio	
+send-radio-title	Send a radio message	Envoyer un message radio	
+send-radio-desc	Send a radio message	Envoyer un message radio	
 send-radio-feedback	A radio message was sent	Un message radio a été envoyé	
 define-pcFront-title	Position your ambulance	Positionner votre ambulance	
 define-pcFront-desc	Choose a position for your ambulance. This location will be the forward command post.	Choisir un emplacement pour votre ambulance. Ce lieu sera le poste de commandement au front.	

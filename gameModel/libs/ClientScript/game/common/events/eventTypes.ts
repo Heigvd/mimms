@@ -8,12 +8,12 @@ import { FullEvent } from './eventUtils';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
 import {
+  ActionTemplateId,
   ActorId,
   SimDuration,
   SimTime,
   TaskId,
   TemplateId,
-  TemplateRef,
   TranslationKey,
 } from '../baseTypes';
 import { ResourceTypeAndNumber } from '../resources/resourceType';
@@ -194,7 +194,7 @@ export type TimedEventPayload = TimedPayload & EventPayload;
 
 export interface ActionCreationEvent extends BaseEvent, TimedPayload {
   type: 'ActionCreationEvent';
-  templateRef: TemplateRef;
+  templateUid: ActionTemplateId;
 }
 
 export interface ActionCancellationEvent extends BaseEvent, TimedPayload {

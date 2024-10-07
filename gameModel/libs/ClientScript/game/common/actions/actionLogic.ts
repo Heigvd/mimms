@@ -1,16 +1,20 @@
-import { getAvailableActions } from '../../../UIfacade/actionFacade';
-import { ActionType } from '../actionType';
-import { ActionTemplateBase, ActivateRadioSchemaActionTemplate } from './actionTemplateBase';
+/**
+ * All logic related to actions should live here.
+ */
 
-export function getRadioChannelsActivationTemplate(): ActionTemplateBase | undefined {
-  const matchingActions = getAvailableActions(
-    Context.interfaceState.state.currentActorUid,
-    ActionType.ACTIVATE_RADIO_CHANNELS
-  ).filter(action => action instanceof ActivateRadioSchemaActionTemplate);
+import { getUniqueActionTemplates } from '../../mainSimulationLogic';
+import { ActionType, RadioType } from '../actionType';
+import { ActionTemplateBase } from './actionTemplateBase';
 
-  if (matchingActions.length === 1) {
-    return matchingActions[0];
+export function getSendRadioMessageTemplate(
+  radioChannel: RadioType
+): ActionTemplateBase | undefined {
+  switch (radioChannel) {
+    case ActionType.CASU_RADIO:
+      return getUniqueActionTemplates().CasuSendRadioMessageTemplate;
+    case ActionType.ACTORS_RADIO:
+      return getUniqueActionTemplates().ActorSendRadioMessageTemplate;
+    default:
+      return undefined;
   }
-
-  return undefined;
 }

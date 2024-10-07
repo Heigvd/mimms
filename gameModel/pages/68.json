@@ -7,7 +7,7 @@
             "className" : "rectangleButton",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
               "language" : "typescript"
             },
             "id" : "",
@@ -34,7 +34,7 @@
             "className" : "rectangleButton",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.PRETRIAGE_REPORT)[0]?.Uid);",
+              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
               "language" : "typescript"
             },
             "id" : "",
@@ -177,7 +177,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.PRETRIAGE_REPORT);\n\nrunActionButton(actions[0]);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates().PretriageReportTemplate);",
                     "language" : "TypeScript"
                   }
                 },
@@ -219,7 +219,7 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction())return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
         "language" : "typescript"
       }
     } ],

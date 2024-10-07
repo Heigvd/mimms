@@ -1,5 +1,5 @@
 import { ActionBase } from '../actions/actionBase';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { MainSimulationState } from './mainSimulationState';
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,

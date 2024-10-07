@@ -1,0 +1,113 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "calc(100% - 10px)"
+            },
+            "onCancel" : { },
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.radioMessageInput[Context.currentRadio.state.channel] = Context.text;\nContext.interfaceState.setState(newState);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"text\"",
+                "language" : "TypeScript"
+              }
+            },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+              "language" : "TypeScript"
+            },
+            "readOnlyIf" : {
+              "@class" : "Script",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+              "language" : "typescript"
+            },
+            "rows" : 6,
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
+              "language" : "TypeScript"
+            },
+            "style" : {
+              "border" : "none",
+              "resize" : "none",
+              "width" : "100%"
+            }
+          },
+          "type" : "String input"
+        }, {
+          "props" : {
+            "className" : "button-S button-secondaryColor",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "disabled",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nif (canPlanAction()) return false;\n!isPlannedAction(action!.Uid);",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "abort",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nisPlannedAction(action!.Uid);",
+                "language" : "typescript"
+              }
+            } ],
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : {
+              "align-self" : "flex-end",
+              "bottom" : "5px",
+              "justify-content" : "flex-end",
+              "right" : "5px"
+            },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nrunActionButton(action);",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
+        "onAbsoluteClick" : { },
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
+      },
+      "type" : "AbsoluteLayout"
+    } ],
+    "className" : "noPadding",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding freeMessageInput-container",
+    "layoutStyle" : {
+      "width" : "100%"
+    },
+    "style" : {
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

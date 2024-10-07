@@ -2,7 +2,7 @@ import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { entries } from '../../../tools/helper';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
 import { getCurrentState } from '../../mainSimulationLogic';
-import { ActionType } from '../actionType';
+import { ActionType, RadioType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import {
@@ -1311,6 +1311,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
+    private radioChannel: RadioType,
     private radioMessagePayload: RadioMessagePayload
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
@@ -1330,7 +1331,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
         this.radioMessagePayload.actorId,
         state.getActorById(this.radioMessagePayload.actorId)?.FullName || '',
         this.radioMessagePayload.message,
-        this.radioMessagePayload.channel,
+        this.radioChannel,
         true,
         true
       )
@@ -1347,7 +1348,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   }
 
   public getChannel(): ActionType {
-    return this.radioMessagePayload.channel;
+    return this.radioChannel;
   }
 
   public getMessage(): string {

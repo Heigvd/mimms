@@ -438,7 +438,7 @@
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -451,7 +451,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES);\n\nrunActionButton(actions[0]);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                     "language" : "TypeScript"
                   }
                 },
@@ -493,13 +493,13 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction())return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
         "language" : "typescript"
       }
     } ],
     "disableIf" : {
       "@class" : "Script",
-      "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+      "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
       "language" : "typescript"
     },
     "layout" : {
