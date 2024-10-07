@@ -960,7 +960,7 @@
                                   "content" : "\"Type your message here\"",
                                   "language" : "TypeScript"
                                 },
-                                "rows" : 4,
+                                "rows" : 6,
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "  Context.dashboardState.state.radio.message;",
@@ -1440,7 +1440,7 @@
                                     "language" : "TypeScript"
                                   }
                                 },
-                                "rows" : 4,
+                                "rows" : 6,
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "  Context.dashboardState.state.radio.message;",
@@ -1973,7 +1973,9 @@
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
-                                "layout" : { },
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
                                 "layoutClassName" : "noPadding width100",
                                 "layoutStyle" : { },
                                 "name" : "Player",
@@ -2003,6 +2005,27 @@
                     }, {
                       "props" : {
                         "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\n\nresetModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
                           "props" : {
                             "className" : "button-S button-secondaryColor",
                             "label" : {

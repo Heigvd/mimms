@@ -92,7 +92,6 @@ export async function triggerAbsoluteTimeForwardGame(
   const events: TimeForwardEvent[] = [];
   const teams: number[] = [];
   wlog(targetTime);
-  wlog
   Object.keys(dstate).map((tid: string) => {
     const teamId = Number(tid);
     const delta = computeForwardDeltaSeconds(dstate, targetTime, teamId);

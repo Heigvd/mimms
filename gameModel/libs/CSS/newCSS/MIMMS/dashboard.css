@@ -446,7 +446,7 @@ div .button-closed {
 }
 
 .dashboard-modal > :first-child {
-  gap: 15px;
+  gap: 5px;
 }
 
 .dashboard-modal p {
@@ -511,10 +511,20 @@ div .button-closed {
   font-weight: var(--boldWeight);
 }
 
-/*.modal-dropdown:hover {
-  border: 1px solid #000;
-  background-color: #fff;
+/*.title-dropdown div:first-of-type,
+.modal-dropdown div:first-of-type, 
+.modal-dropdown-time  div:first-of-type,
+.content-dropdown div:first-of-type {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  min-height: 30px;
 }*/
+
+.modal-dropdown:hover span div:first-of-type, 
+.modal-dropdown-time:hover span div:first-of-type {
+  border: 1px solid #000;
+}
 
 .modal-dropdown div, .modal-dropdown-time div {
   border: 1px solid rgba(0, 0, 0, 0);
