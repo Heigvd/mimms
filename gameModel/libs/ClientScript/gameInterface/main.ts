@@ -119,18 +119,23 @@ export function actionChangeHandler() {
 }
 
 /**
- * Return Date object with start time
- *
+ * Return Date object with the start time of the simulation
  * @return Date timeStamp for simulation start time
  */
 export function getStartTime(): Date {
-  // const hours = Variable.find(gameModel, 'startHours').getValue(self);
-  // const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
-  // Hardcoded in demo
+  // Hardcoded in demo => could be in variables
   const hours = 16;
   const minutes = 0;
 
-  return new Date(0, 0, 0, hours, minutes);
+  return getSimDateTime(hours, minutes);
+}
+
+/**
+ * Builds a date time reference date object starting January 1st 2000
+ * (for debug readability reasons)
+ */
+export function getSimDateTime(hours: number = 0, minutes: number = 0): Date {
+  return new Date(2000, 0, 1, hours, minutes);
 }
 
 /**

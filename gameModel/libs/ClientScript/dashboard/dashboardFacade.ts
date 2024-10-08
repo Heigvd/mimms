@@ -13,7 +13,7 @@ import {
   getLocationShortTranslation,
 } from '../game/common/location/locationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { formatTime, getStartTime } from '../gameInterface/main';
+import { formatTime, getSimDateTime, getStartTime } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
@@ -26,6 +26,13 @@ import {
   getTeamMultiplayerMatrix,
   MultiplayerMatrix,
 } from '../multiplayer/multiplayerManager';
+import { TimeForwardDashboardParams } from './dashboardUIState';
+import {
+  triggerAbsoluteTimeForward,
+  triggerAbsoluteTimeForwardGame,
+  triggerDashboardTimeForward,
+  triggerDashboardTimeForwardGame,
+} from './impacts';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -229,6 +236,42 @@ export async function getMinimumValidTimeForwardValue(
     });
   }
   return min;
+}
+
+const MAXTIME_FORWARD_SECONDS = 60 * 60 * 4;
+
+/**
+ * @params params trainer filled form parameters
+ */
+export async function processTimeForward(
+  params: TimeForwardDashboardParams,
+  teamId: number = 0
+): Promise<IManagedResponse | undefined> {
+  if (params.mode === 'add') {
+    const seconds = params.addMinute * 60;
+    if (seconds > MAXTIME_FORWARD_SECONDS) {
+      throw new Error(
+        `Time forward too large, ${seconds}, max value is ${MAXTIME_FORWARD_SECONDS}`
+      );
+    }
+    if (teamId) {
+      return await triggerDashboardTimeForward(seconds, teamId);
+    } else {
+      return await triggerDashboardTimeForwardGame(seconds);
+    }
+  } else if (params.mode === 'set') {
+    if (params.setHour > 23 || params.setMinute > 59) {
+      throw new Error(
+        `Malfored HH:mm parameters ${params.setHour}:${params.setMinute} is not valid`
+      );
+    }
+    const targetTime = getSimDateTime(params.setHour, params.setMinute);
+    if (teamId) {
+      return await triggerAbsoluteTimeForward(targetTime, teamId);
+    } else {
+      return await triggerAbsoluteTimeForwardGame(targetTime);
+    }
+  }
 }
 
 /**

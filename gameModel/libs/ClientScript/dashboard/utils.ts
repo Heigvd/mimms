@@ -33,16 +33,17 @@ export function getSelectedTeamName(): string {
 export async function sendEventPerTeam(
   payloads: EventPayload[],
   teamIds: number[]
-): Promise<IManagedResponse | void> {
-  if (payloads.length === 0) {
+): Promise<IManagedResponse | undefined> {
+  if (payloads.length !== 0) {
     if (payloads.length !== teamIds.length) {
       throw new RangeError('The payloads count has to match the count of the team ids');
     }
     const script = payloads
       .map((payload, i) => getSendEventServerScript(payload, teamIds[i]))
       .join('');
-    await APIMethods.runScript(script, {});
+    return await APIMethods.runScript(script, {});
   }
+  return undefined;
 }
 
 /**

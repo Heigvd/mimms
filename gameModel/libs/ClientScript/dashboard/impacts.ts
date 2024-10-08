@@ -60,12 +60,15 @@ export async function triggerDashboardTimeForwardGame(
  * Time forward a given team to a given time
  * @param targetTime
  */
-export async function triggerAbsoluteTimeForward(targetTime: Date, teamId: number): Promise<void> {
+export async function triggerAbsoluteTimeForward(
+  targetTime: Date,
+  teamId: number
+): Promise<IManagedResponse | undefined> {
   const dstate = await fetchAllTeamsState(false);
   const delta = computeForwardDeltaSeconds(dstate, targetTime, teamId);
 
   if (delta > 0) {
-    await triggerDashboardTimeForward(delta, teamId);
+    return await triggerDashboardTimeForward(delta, teamId);
   }
 }
 
@@ -76,7 +79,6 @@ function computeForwardDeltaSeconds(
 ): number {
   const teamTime = getRawTime(state, teamId);
   const delta = Math.ceil(targetTime.getTime() - teamTime.getTime());
-  wlog(delta);
   if (delta < 0) {
     dashboardLogger.error(
       'Invalid time forward for team ' + teamId + ' current time : ' + teamTime
@@ -87,11 +89,10 @@ function computeForwardDeltaSeconds(
 
 export async function triggerAbsoluteTimeForwardGame(
   targetTime: Date
-): Promise<IManagedResponse | void> {
+): Promise<IManagedResponse | undefined> {
   const dstate = await fetchAllTeamsState(false);
   const events: TimeForwardEvent[] = [];
   const teams: number[] = [];
-  wlog(targetTime);
   Object.keys(dstate).map((tid: string) => {
     const teamId = Number(tid);
     const delta = computeForwardDeltaSeconds(dstate, targetTime, teamId);
@@ -101,7 +102,7 @@ export async function triggerAbsoluteTimeForwardGame(
     }
   });
 
-  return sendEventPerTeam(events, teams);
+  return await sendEventPerTeam(events, teams);
 }
 
 /*****************
