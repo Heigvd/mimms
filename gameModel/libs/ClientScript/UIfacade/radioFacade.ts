@@ -98,6 +98,15 @@ export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioM
 }
 
 /**
+ * Get radio messages for given channel + pending message
+ */
+export function getRadioMessagesToDisplayForChannel(channel: ActionType): RadioMessage[] {
+  return getAvailableRadioMessagesForChannel(channel).concat(
+    getOngoingRadioMessagesOnChannelAsRadioMessages(channel)
+  );
+}
+
+/**
  * Is the given messageUid the most recent for given channel
  */
 export function isLastRadioMessageForChannel(channel: ActionType, messageUid: number): boolean {

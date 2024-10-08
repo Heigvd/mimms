@@ -4,6 +4,11 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\n  /* trick to prevent displaying messages of the previously selected channel */\nContext.currentRadio.state.channel !== getTypedInterfaceState().selectedRadioChannel;",
+              "language" : "typescript"
+            },
             "layoutStyle" : {
               "width" : "calc(100% - 10px)"
             },
@@ -33,7 +38,7 @@
             "rows" : 6,
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
+              "content" : "  Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
               "language" : "TypeScript"
             },
             "style" : {
