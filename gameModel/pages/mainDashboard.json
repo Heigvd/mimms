@@ -1154,7 +1154,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nresetModals();\nupdate;",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nupdate.then((_) => resetModals());\nupdate;",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -2287,7 +2287,7 @@
                                     "exposeAs" : "player",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : " import { getPlayersAndRoles } from \"./multiplayer/multiplayerManager\";\n  getPlayersAndRoles();",
+                                      "content" : " import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\n  getTeamPlayersAndRoles(Context.team.id);",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "id",
@@ -2310,7 +2310,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState, ModalState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\nnewState.modalState = ModalState.RolesConfiguration;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRoles(Context.team.id, true);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
+                                        "content" : "import { getTeamPlayersAndRolesAsync } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState, ModalState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\nnewState.modalState = ModalState.RolesConfiguration;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRolesAsync(Context.team.id);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
                                         "language" : "TypeScript",
                                         "returnType" : "Promise<unknown> | undefined"
                                       }

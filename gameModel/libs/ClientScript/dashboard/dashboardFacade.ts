@@ -282,14 +282,18 @@ export async function processTimeForward(
 /**
  * Builds a multiplayer matrix that has an entry for each player in the team
  * Players that are not yet registered in the simulation get an empty matrix
+ * Remark : All teams multiplayer matrices are refreshed
  */
-export async function getTeamPlayersAndRoles(
-  teamId: number,
-  refresh?: boolean
-): Promise<MultiplayerMatrix> {
-  if (refresh) {
-    await getAllTeamsMultiplayerMatrix();
-  }
+export async function getTeamPlayersAndRolesAsync(teamId: number): Promise<MultiplayerMatrix> {
+  await getAllTeamsMultiplayerMatrix();
+  return getTeamPlayersAndRoles(teamId);
+}
+
+/**
+ * Builds a multiplayer matrix that has an entry for each player in the team
+ * Players that are not yet registered in the simulation get an empty matrix
+ */
+export function getTeamPlayersAndRoles(teamId: number): MultiplayerMatrix {
   const multiMatrix: MultiplayerMatrix = [];
   const team = getTeam(teamId);
 
