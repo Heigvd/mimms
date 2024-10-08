@@ -9,13 +9,18 @@ export interface TimeForwardDashboardParams {
   setMinute: number;
 }
 
+export enum ModalState {
+  None,
+  TimeImpact,
+  RadioNotifImpact,
+  RolesConfiguration,
+}
+
 export interface DashboardUIState {
   state: boolean;
   roles: boolean;
   impacts: boolean;
   locations: boolean;
-  timeModal: boolean;
-  radioModal: boolean;
   radio: {
     mode: 'radio' | 'notif';
     channel: ActionType;
@@ -25,9 +30,9 @@ export interface DashboardUIState {
   openTeams: Record<number, boolean>;
   selectedTeam: number;
   time: TimeForwardDashboardParams;
-  configureRoles: boolean;
   /** local state for the role selection modal */
   roleConfig: MultiplayerMatrix;
+  modalState: ModalState;
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -36,8 +41,6 @@ export function getInitialDashboardUIState(): DashboardUIState {
     roles: true,
     impacts: true,
     locations: false,
-    timeModal: false,
-    radioModal: false,
     radio: {
       mode: 'radio',
       channel: ActionType.CASU_RADIO,
@@ -58,8 +61,8 @@ export function getInitialDashboardUIState(): DashboardUIState {
       setHour: 0,
       setMinute: 0,
     },
-    configureRoles: false,
     roleConfig: [],
+    modalState: ModalState.None,
   };
 }
 
@@ -67,13 +70,34 @@ export function resetModals(): void {
   const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
 
   newState.radio.message = '';
+  newState.radio.channel = ActionType.CASU_RADIO;
+  newState.radio.mode = 'radio';
+  newState.radio.roles = {
+    AL: true,
+    LEADPMA: false,
+    ACS: false,
+    MCS: false,
+    EVASAN: false,
+  };
+  newState.roleConfig = [];
   newState.time.addMinute = 0;
   newState.time.setHour = 0;
   newState.time.setMinute = 0;
-  newState.timeModal = false;
-  newState.radioModal = false;
-  newState.configureRoles = false;
 
+  newState.modalState = ModalState.None;
+  newState.selectedTeam = 0;
+
+  Context.dashboardState.setState(newState);
+}
+
+export function hideModals(): void {
+  setModalState(ModalState.None, false);
+}
+
+export function setModalState(modalType: ModalState, selectTeam: boolean): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+  newState.modalState = modalType;
+  newState.selectedTeam = selectTeam ? Context.team?.id : 0;
   Context.dashboardState.setState(newState);
 }
 

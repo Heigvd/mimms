@@ -19,14 +19,19 @@ import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from 
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
-import { getTeam } from './utils';
+import { getSelectedTeamName, getTeam } from './utils';
 import {
   getAllTeamsMultiplayerMatrix,
   getEmptyPlayerMatrix,
   getTeamMultiplayerMatrix,
   MultiplayerMatrix,
 } from '../multiplayer/multiplayerManager';
-import { TimeForwardDashboardParams } from './dashboardUIState';
+import {
+  getTypedDashboardUIState,
+  hasSelectedTeam,
+  ModalState,
+  TimeForwardDashboardParams,
+} from './dashboardUIState';
 import {
   triggerAbsoluteTimeForward,
   triggerAbsoluteTimeForwardGame,
@@ -299,4 +304,21 @@ export async function getTeamPlayersAndRoles(
     }
   }
   return multiMatrix;
+}
+
+export function getModalHeaderTitle(): string {
+  switch (getTypedDashboardUIState().modalState) {
+    case ModalState.RadioNotifImpact:
+    case ModalState.TimeImpact: {
+      if (hasSelectedTeam()) {
+        return getSelectedTeamName();
+      } else {
+        return getTranslation('mainSim-dashboard', 'all-teams');
+      }
+    }
+    case ModalState.RolesConfiguration:
+      return `${getTranslation('mainSim-dashboard', 'roles')} (${getSelectedTeamName()})`;
+    default:
+      return 'None';
+  }
 }

@@ -80,7 +80,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
                                 "language" : "TypeScript"
                               }
                             },
@@ -106,7 +106,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'all-teams')}`",
+                              "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
                               "language" : "TypeScript"
                             }
                           },
@@ -345,365 +345,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "Cancel",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "className" : "button-S button-secondaryColor",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { processTimeForward } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const timeAdd = processTimeForward(Context.dashboardState.state.time);\n  resetModals();\n  timeAdd;",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
-                              }
-                            },
-                            "name" : "Confirm",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "className" : "modal-buttons",
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "Buttons",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "className" : "dashboard-modal",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "!Context.dashboardState.state.allTeamsTimeModal;",
-                      "language" : "typescript"
-                    },
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "name" : "All Teams Time",
-                    "onExitActions" : { },
-                    "style" : { }
-                  },
-                  "type" : "Modal"
-                }, {
-                  "props" : {
-                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "modal-icon",
-                            "icon" : "clock",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        }, {
-                          "props" : {
-                            "className" : "modal-title",
-                            "id" : "",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'time')}`",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "icon" : "times",
-                            "id" : "",
-                            "layoutClassName" : "noPadding close-modal-icon",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "",
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        } ],
-                        "className" : "modal-icon-title",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "Title",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "content-title",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getSelectedTeamName } from \"./dashboard/utils\";\ngetSelectedTeamName();",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "choices" : {
-                              "@class" : "Script",
-                              "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
-                              "language" : "typescript"
-                            },
-                            "className" : "modal-dropdown-time",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Dropdown",
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.mode = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"dashboardTime\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "  Context.dashboardState.state.time.mode || 'add';",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Select input"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "time-textarea",
-                                "layoutClassName" : "noPadding time-textarea-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.addMinute = Context.dashboardTimeAdd;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardTimeAdd\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.addMinute;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "className" : "time-text",
-                                "layoutStyle" : { },
-                                "name" : "Min",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-short')}`",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "Context.dashboardState.state.time.mode !== \"add\";",
-                              "language" : "typescript"
-                            },
-                            "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Add",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "time-textarea",
-                                "layoutClassName" : "noPadding time-textarea-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setHour = Context.dashboardTimeSetHour;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardTimeSetHour\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.setHour;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "className" : "time-text",
-                                "layoutStyle" : { },
-                                "name" : "H",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'hour-short')}`",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "time-textarea",
-                                "layoutClassName" : "noPadding time-textarea-container",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardTimeSetMinute\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"0\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.setMinute;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "className" : "time-text",
-                                "layoutStyle" : { },
-                                "name" : "Min",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-short')}`",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "Context.dashboardState.state.time.mode !== \"set\";",
-                              "language" : "typescript"
-                            },
-                            "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Set",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "modal-content",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "Content",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "className" : "attention-please",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.dashboardState.state.time.mode !== \"set\";",
-                          "language" : "typescript"
-                        },
-                        "layoutStyle" : { },
-                        "name" : "Set",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'attention-please')}`",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "button-S cancel-button",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
                                 "language" : "TypeScript"
                               }
                             },
@@ -746,7 +388,7 @@
                     "className" : "dashboard-modal",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.dashboardState.state.teamTimeModal;",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.TimeImpact;",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -809,25 +451,6 @@
                           "type" : "Select input"
                         }, {
                           "props" : {
-                            "className" : "modal-title",
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "true;",
-                              "language" : "typescript"
-                            },
-                            "id" : "",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "\"<p>Radio message</p>\"",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
                             "icon" : "times",
                             "id" : "",
                             "layoutClassName" : "noPadding close-modal-icon",
@@ -835,7 +458,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
                                 "language" : "TypeScript"
                               }
                             },
@@ -866,492 +489,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'all-teams')}`",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "choices" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getRadioChannelChoices } from \"./dashboard/dashboardFacade\";\ngetRadioChannelChoices();",
-                                      "language" : "typescript"
-                                    },
-                                    "className" : "content-dropdown",
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "name" : "Dropdown",
-                                    "onVariableChange" : {
-                                      "client" : {
-                                        "@class" : "Script",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.channel = Context.dashboardRadioChannel;\n\nContext.dashboardState.setState(newState);",
-                                        "language" : "TypeScript"
-                                      },
-                                      "exposeVariableAs" : {
-                                        "@class" : "Script",
-                                        "content" : "\"dashboardRadioChannel\"",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "script" : {
-                                      "@class" : "Script",
-                                      "content" : "  Context.dashboardState.state.radio.channel;",
-                                      "language" : "TypeScript"
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Select input"
-                                } ],
-                                "className" : "",
-                                "layout" : {
-                                  "alignItems" : "center"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "Dropdown",
-                                "style" : {
-                                  "gap" : " 15px"
-                                }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "className" : "modal-textarea",
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardRadioMessage\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Type your message here\"",
-                                  "language" : "TypeScript"
-                                },
-                                "rows" : 6,
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.radio.message;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "String input"
-                            } ],
-                            "className" : "",
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Content",
-                            "style" : {
-                              "gap" : "15px"
-                            }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "button-S cancel-button",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "Cancel",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "button-S button-secondaryColor",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { sendRadioMessageGame } from \"./dashboard/impacts\";\n  const radioMessage = sendRadioMessageGame(Context.dashboardState.state.radio.message, Context.dashboardState.state.radio.channel);\n  resetModals();\n  radioMessage;",
-                                    "language" : "TypeScript",
-                                    "returnType" : "Promise<unknown> | undefined"
-                                  }
-                                },
-                                "name" : "Confirm",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "modal-buttons",
-                            "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Buttons",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.dashboardState.state.radio.mode !== \"radio\";",
-                          "language" : "typescript"
-                        },
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "Radio",
-                        "style" : {
-                          "gap" : "25px"
-                        }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "content-title",
-                                    "id" : "",
-                                    "layoutClassName" : "noPadding notif-content-title",
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'all-teams')}`",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "className" : "",
-                                            "layoutClassName" : "noPadding modal-matrix-text",
-                                            "layoutStyle" : { },
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "  Context.actor.shortName;",
-                                              "language" : "TypeScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        }, {
-                                          "props" : {
-                                            "className" : "",
-                                            "layoutClassName" : "noPadding modal-matrix-checkbox",
-                                            "layoutStyle" : { },
-                                            "onVariableChange" : {
-                                              "client" : {
-                                                "@class" : "Script",
-                                                "content" : "import { DashboardUIState } from \"./dashboard/dashboardUIState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\nconst newState = Helpers.cloneDeep(Context.dashboardState.state) as DashboardUIState;\nconst role: InterventionRole = Context.actor.role;\nnewState.radio.roles[role] = Context.dashboardRadioRoleSelection;\nContext.dashboardState.setState(newState);",
-                                                "language" : "TypeScript"
-                                              },
-                                              "exposeVariableAs" : {
-                                                "@class" : "Script",
-                                                "content" : "\"dashboardRadioRoleSelection\"",
-                                                "language" : "TypeScript"
-                                              }
-                                            },
-                                            "script" : {
-                                              "@class" : "Script",
-                                              "content" : "import { InterventionRole } from \"./game/common/actors/actor\";\n    const role: InterventionRole = Context.actor.role;\n    !!Context.dashboardState.state.radio.roles[role];",
-                                              "language" : "TypeScript"
-                                            },
-                                            "style" : { },
-                                            "type" : "checkbox"
-                                          },
-                                          "type" : "Boolean"
-                                        } ],
-                                        "className" : "",
-                                        "layout" : {
-                                          "flexDirection" : "column"
-                                        },
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "style" : { }
-                                      },
-                                      "type" : "FlexList"
-                                    } ],
-                                    "className" : "modal-matrix",
-                                    "exposeAs" : "actor",
-                                    "getItemsFn" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
-                                      "language" : "TypeScript"
-                                    },
-                                    "itemKey" : "id",
-                                    "layout" : { },
-                                    "layoutClassName" : "noPadding modal-matrix-container",
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "For each"
-                                } ],
-                                "className" : "content-modal-matrix",
-                                "layout" : { },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "Matrix",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "className" : "modal-textarea",
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "onCancel" : { },
-                                "onVariableChange" : {
-                                  "client" : {
-                                    "@class" : "Script",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  },
-                                  "exposeVariableAs" : {
-                                    "@class" : "Script",
-                                    "content" : "\"dashboardRadioMessage\"",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"Type your message here\"",
-                                  "language" : "TypeScript"
-                                },
-                                "rows" : 4,
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.radio.message;",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "String input"
-                            } ],
-                            "className" : "",
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Content",
-                            "style" : {
-                              "gap" : "10px"
-                            }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "button-S cancel-button",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "Cancel",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "button-S button-secondaryColor",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { sendNotificationGame } from \"./dashboard/impacts\";\n  const notificationMessage = sendNotificationGame(Context.dashboardState.state.radio.message, Context.dashboardState.state.radio.roles);\n  resetModals();\n  notificationMessage;",
-                                    "language" : "TypeScript",
-                                    "returnType" : "Promise<unknown> | undefined"
-                                  }
-                                },
-                                "name" : "Confirm",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "className" : "modal-buttons",
-                            "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Buttons",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        } ],
-                        "className" : "",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.dashboardState.state.radio.mode !== \"notif\";",
-                          "language" : "typescript"
-                        },
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "Notif",
-                        "style" : {
-                          "gap" : "25px"
-                        }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "className" : "dashboard-modal",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "!Context.dashboardState.state.allTeamsRadioModal;",
-                      "language" : "typescript"
-                    },
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "name" : "All Teams Radio | Notif",
-                    "onExitActions" : { },
-                    "style" : { }
-                  },
-                  "type" : "Modal"
-                }, {
-                  "props" : {
-                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "modal-icon",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "\"/walkie-talkie-solid.svg\"",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Image"
-                        }, {
-                          "props" : {
-                            "choices" : {
-                              "@class" : "Script",
-                              "content" : "import { getRadioModeChoices } from \"./dashboard/dashboardFacade\";\ngetRadioModeChoices();",
-                              "language" : "typescript"
-                            },
-                            "className" : "title-dropdown",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.mode = Context.dashboardRadioModel;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"dashboardRadioModel\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "  Context.dashboardState.state.radio.mode;",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Select input"
-                        }, {
-                          "props" : {
-                            "icon" : "times",
-                            "id" : "",
-                            "layoutClassName" : "noPadding close-modal-icon",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "",
-                            "style" : { }
-                          },
-                          "type" : "Icon"
-                        } ],
-                        "className" : "modal-icon-title",
-                        "layout" : { },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "Title",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "content-title",
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "style" : { },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getSelectedTeamName } from \"./dashboard/utils\";\ngetSelectedTeamName();",
+                                      "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -1455,7 +593,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                    "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -1664,7 +802,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                    "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -1725,7 +863,7 @@
                     "className" : "dashboard-modal",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.dashboardState.state.teamRadioModal;",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RadioNotifImpact;",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -1752,7 +890,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'roles')}`",
+                              "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
                               "language" : "TypeScript"
                             }
                           },
@@ -2016,7 +1154,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nresetModals();\n  update;",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nresetModals();\nupdate;",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -2038,7 +1176,7 @@
                     "className" : "dashboard-modal",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.dashboardState.state.configureRoles;",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RolesConfiguration;",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -2398,7 +1536,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsTimeModal = !newState.allTeamsTimeModal;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.TimeImpact, false);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -2419,7 +1557,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.allTeamsRadioModal = !newState.allTeamsRadioModal;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.RadioNotifImpact, false);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -2791,7 +1929,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamTimeModal = !newState.teamTimeModal;\nnewState.selectedTeam = Context.team.id;\n\nContext.dashboardState.setState(newState);",
+                                        "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.TimeImpact, true);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -2808,7 +1946,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.teamRadioModal = !newState.teamRadioModal;\nnewState.selectedTeam = Context.team.id;\n\nContext.dashboardState.setState(newState);",
+                                        "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.RadioNotifImpact, true);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -3172,7 +2310,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\n\nnewState.configureRoles = !newState.configureRoles;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRoles(Context.team.id, true);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
+                                        "content" : "import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState, ModalState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\nnewState.modalState = ModalState.RolesConfiguration;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRoles(Context.team.id, true);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
                                         "language" : "TypeScript",
                                         "returnType" : "Promise<unknown> | undefined"
                                       }
