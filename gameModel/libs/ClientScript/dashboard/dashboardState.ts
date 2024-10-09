@@ -4,9 +4,7 @@ import {
 } from '../game/common/simulationState/mainSimulationState';
 import { PatientState } from '../game/common/simulationState/patientState';
 import { buildStartingMainState } from '../game/mainSimulationLogic';
-import { getAllTeamsMultiplayerMatrix } from '../multiplayer/multiplayerManager';
 import { dashboardLogger } from '../tools/logger';
-import { getAllTeamGameStateStatus } from './dashboardFacade';
 
 type PatientReducedState = Omit<PatientState, 'humanBody'>;
 
@@ -104,20 +102,51 @@ export async function fetchAndUpdateTeamsGameState(
   updateFunc(currentStates);
 }
 
-export async function afterUpdate(): Promise<void> {
+const INTERVAL_DURATION: number = 2000;
+const MAX_RETRIES: number = 3;
+let retries: number = 0;
+
+/**
+ * Fetch teams game state and update after a game state impact (do not call on page load!)
+ *
+ * @params {(DashboardGameState) => void} - setState function for dashboard game state
+ * @params {boolean} poll - Should the function poll for updates after impact
+ */
+export async function fetchAndUpdateTeamsGameStateAfterImpact(
+  updateFunc: (stateByTeam: DashboardGameState) => void,
+  poll: boolean = false
+) {
+  if (retries > 0) {
+    dashboardLogger.warn('Polling already ongoing, remaining tries: ', retries);
+    return;
+  }
+
+  const pollFunc = async () => {
+    if (retries > 0) {
+      retries--;
+
+      try {
+        const currenStates = await fetchAllTeamsState(false);
+        updateFunc(currenStates);
+        setTimeout(pollFunc, INTERVAL_DURATION);
+      } catch (error) {
+        dashboardLogger.error(error);
+        retries = 0;
+      }
+    }
+  };
+
   try {
-    // Values retrieved from server
-    await getAllTeamGameStateStatus();
-    await getAllTeamsMultiplayerMatrix();
-    // Values retrieved from players
-    let calls = 0;
-    const interval = setInterval(() => {
-      calls += 1;
-      fetchAllTeamsState(false);
-      if (calls === 3) clearInterval(interval);
-    }, 2000);
+    if (poll) {
+      retries = MAX_RETRIES;
+      await pollFunc();
+    } else {
+      const currenStates = await fetchAllTeamsState(false);
+      updateFunc(currenStates);
+    }
   } catch (error) {
     dashboardLogger.error(error);
+    retries = 0;
   }
 }
 
