@@ -115,7 +115,7 @@ let retries: number = 0;
 export async function fetchAndUpdateTeamsGameStateAfterImpact(
   updateFunc: (stateByTeam: DashboardGameState) => void,
   poll: boolean = false
-) {
+): Promise<void> {
   if (retries > 0) {
     dashboardLogger.warn('Polling already ongoing, remaining tries: ', retries);
     return;
