@@ -93,7 +93,9 @@
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "Title",
-                        "style" : { }
+                        "style" : {
+                          "gap" : "10px"
+                        }
                       },
                       "type" : "FlexList"
                     }, {
@@ -164,7 +166,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"0\"",
+                                  "content" : "\"00\"",
                                   "language" : "TypeScript"
                                 },
                                 "script" : {
@@ -223,7 +225,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"0\"",
+                                  "content" : "\"00\"",
                                   "language" : "TypeScript"
                                 },
                                 "script" : {
@@ -267,7 +269,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"0\"",
+                                  "content" : "\"00\"",
                                   "language" : "TypeScript"
                                 },
                                 "script" : {
@@ -309,7 +311,9 @@
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "Content",
-                        "style" : { }
+                        "style" : {
+                          "gap" : "15px"
+                        }
                       },
                       "type" : "FlexList"
                     }, {
@@ -385,7 +389,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal",
+                    "className" : "dashboard-modal-time",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.TimeImpact;",
@@ -426,9 +430,11 @@
                               "content" : "import { getRadioModeChoices } from \"./dashboard/dashboardFacade\";\ngetRadioModeChoices();",
                               "language" : "typescript"
                             },
-                            "className" : "title-dropdown",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
+                            "className" : "title-dropdown dropdown-height",
+                            "layoutClassName" : "noPadding dropdown-height",
+                            "layoutStyle" : {
+                              "" : ""
+                            },
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
@@ -472,7 +478,9 @@
                         "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "Title",
-                        "style" : { }
+                        "style" : {
+                          "gap" : "5px"
+                        }
                       },
                       "type" : "FlexList"
                     }, {
@@ -555,6 +563,11 @@
                                     "content" : "\"dashboardRadioMessage\"",
                                     "language" : "TypeScript"
                                   }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Type your message here\"",
+                                  "language" : "TypeScript"
                                 },
                                 "rows" : 6,
                                 "script" : {
@@ -765,6 +778,11 @@
                                     "language" : "TypeScript"
                                   }
                                 },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Type your message here\"",
+                                  "language" : "TypeScript"
+                                },
                                 "rows" : 4,
                                 "script" : {
                                   "@class" : "Script",
@@ -855,7 +873,8 @@
                         "layoutStyle" : { },
                         "name" : "Notif",
                         "style" : {
-                          "gap" : "25px"
+                          "gap" : "25px",
+                          "margin-top" : "10px"
                         }
                       },
                       "type" : "FlexList"
@@ -873,7 +892,9 @@
                     "layoutStyle" : { },
                     "name" : "Team Radio | Notif",
                     "onExitActions" : { },
-                    "style" : { }
+                    "style" : {
+                      "gap" : "15px"
+                    }
                   },
                   "type" : "Modal"
                 }, {
@@ -928,7 +949,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "content-title",
+                                "className" : "modal-matrix-title",
                                 "layoutClassName" : "noPadding notif-content-title",
                                 "layoutStyle" : { },
                                 "name" : "Team",
@@ -1115,7 +1136,9 @@
                         "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "Content",
-                        "style" : { }
+                        "style" : {
+                          "gap" : "10px"
+                        }
                       },
                       "type" : "FlexList"
                     }, {
@@ -1173,7 +1196,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal",
+                    "className" : "dashboard-modal-configureroles",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RolesConfiguration;",
@@ -1210,7 +1233,7 @@
                           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'state')}`",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "state-container noPadding",
+                        "layoutClassName" : "state-container accordion-container noPadding",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -1243,7 +1266,7 @@
                           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'roles')}`",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "roles-container noPadding",
+                        "layoutClassName" : "roles-container accordion-container noPadding",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -1276,7 +1299,7 @@
                           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'impacts')}`",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "impacts-container noPadding",
+                        "layoutClassName" : "impacts-container accordion-container noPadding",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -1309,7 +1332,7 @@
                           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'locations')}`",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "locations-container noPadding",
+                        "layoutClassName" : "locations-container accordion-container noPadding",
                         "layoutStyle" : { },
                         "localScriptEval" : {
                           "script" : {
@@ -1332,7 +1355,7 @@
                           "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'spy')}`",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "spy-container noPadding",
+                        "layoutClassName" : "spy-container accordion-container noPadding",
                         "layoutStyle" : { },
                         "name" : "spy",
                         "prefixedLabel" : false,
