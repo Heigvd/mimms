@@ -389,7 +389,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal-time",
+                    "className" : "dashboard-modal dashboard-modal-time",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.TimeImpact;",
@@ -430,8 +430,8 @@
                               "content" : "import { getRadioModeChoices } from \"./dashboard/dashboardFacade\";\ngetRadioModeChoices();",
                               "language" : "typescript"
                             },
-                            "className" : "title-dropdown dropdown-height",
-                            "layoutClassName" : "noPadding dropdown-height",
+                            "className" : "title-dropdown",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : {
                               "" : ""
                             },
@@ -879,7 +879,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal",
+                    "className" : "dashboard-modal dashboard-modal-radionotif",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RadioNotifImpact;",
@@ -1196,7 +1196,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal-configureroles",
+                    "className" : "dashboard-modal dashboard-modal-configureroles",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RolesConfiguration;",
