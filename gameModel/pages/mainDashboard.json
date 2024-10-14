@@ -566,7 +566,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"Type your message here\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'radio-notif-placeholder')",
                                   "language" : "TypeScript"
                                 },
                                 "rows" : 6,
@@ -780,7 +780,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"Type your message here\"",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'radio-notif-placeholder')",
                                   "language" : "TypeScript"
                                 },
                                 "rows" : 4,
