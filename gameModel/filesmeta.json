@@ -721,7 +721,7 @@
   },
   "/translations/mainSim-dashboard.tsv" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "text/tab-separated-values",
     "note" : "",
     "visibility" : "PRIVATE"
   },
