@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1728406559160,
+  "createdTime" : 1728899638882,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4842,9 +4842,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49486:epfRL6",
-            "value" : 0.0
+            "value" : 16.0
           },
-          "defaultValue" : 0.0,
+          "defaultValue" : 16.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",
