@@ -22,20 +22,16 @@ export class LocalEventManager {
 
   public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
     let safeguard = 0;
-    let pending: LocalEventBase[] = [];
     let newState = state;
 
-    pending = this.getPendingEvents(newState.getSimTime());
-
-    while (pending.length > 0 && safeguard <= 10) {
-      // we might as well apply event by event and store each single change
-      newState = newState.applyEvents(pending, eventId);
-      this.processedEvents.push(...pending);
-      pending = this.getPendingEvents(newState.getSimTime());
+    while (this.hasPendingEvent(newState.getSimTime()) && safeguard <= 200) {
+      const nextEvent = this.pendingEvents.extract()!;
+      newState = newState.applyEvent(nextEvent, eventId);
+      this.processedEvents.push(nextEvent);
       safeguard++;
     }
 
-    if (safeguard >= 10) {
+    if (safeguard >= 200) {
       this.logger.error(
         'Too much event generations, might be an infinite event generation. Stopping'
       );
@@ -44,19 +40,11 @@ export class LocalEventManager {
     return newState;
   }
 
-  private getPendingEvents(currentTime: SimTime): LocalEventBase[] {
-    const events: LocalEventBase[] = [];
-    while (this.pendingEvents.peek() && this.pendingEvents.peek()!.simTimeStamp <= currentTime) {
-      const e = this.pendingEvents.extract()!;
-      if (e.simTimeStamp < currentTime) {
-        this.logger.error(
-          `Current time = ${currentTime}, this event happened in the past, ignoring`,
-          e
-        );
-      }
-      events.push(e);
+  private hasPendingEvent(currentTime: SimTime): boolean {
+    if (this.pendingEvents.peek()) {
+      return this.pendingEvents.peek()!.simTimeStamp <= currentTime;
     }
-    return events;
+    return false;
   }
 
   public getProcessedEvents(): Readonly<LocalEventBase[]> {

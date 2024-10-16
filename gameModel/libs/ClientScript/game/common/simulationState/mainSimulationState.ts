@@ -72,13 +72,11 @@ export class MainSimulationState implements IClonable {
    * @param events events to be applied
    * @returns a new state
    */
-  public applyEvents(events: LocalEventBase[], lastEventId: number): MainSimulationState {
+  public applyEvent(event: LocalEventBase, lastEventId: number): MainSimulationState {
     const newState = this.clone();
     newState.lastEventId = lastEventId;
 
-    events.forEach(ev => {
-      ev.applyStateUpdate(newState);
-    });
+    event.applyStateUpdate(newState);
 
     return newState;
   }
