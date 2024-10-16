@@ -99,6 +99,9 @@ export async function triggerAbsoluteTimeForwardGame(
     if (delta > 0) {
       events.push(buildTimeForwardEvent(delta));
       teams.push(teamId);
+    } else if (delta < 0) {
+      // some team is already in the future
+      // TODO see if we want to cancel the whole operation or just ignore this team
     }
   });
 

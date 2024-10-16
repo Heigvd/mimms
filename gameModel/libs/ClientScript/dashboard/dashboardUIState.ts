@@ -1,12 +1,13 @@
 import { ActionType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
+import { getSimStartDateTime } from '../gameInterface/main';
 import { MultiplayerMatrix } from '../multiplayer/multiplayerManager';
 
 export interface TimeForwardDashboardParams {
   mode: 'add' | 'set';
-  addMinute: number;
-  setHour: number;
-  setMinute: number;
+  addMinute: number | undefined;
+  setHour: number | undefined;
+  setMinute: number | undefined;
 }
 
 export enum ModalState {
@@ -30,6 +31,7 @@ export interface DashboardUIState {
   openTeams: Record<number, boolean>;
   selectedTeam: number;
   time: TimeForwardDashboardParams;
+  minForwardTime: Date;
   /** local state for the role selection modal */
   roleConfig: MultiplayerMatrix;
   modalState: ModalState;
@@ -57,10 +59,11 @@ export function getInitialDashboardUIState(): DashboardUIState {
     selectedTeam: 0,
     time: {
       mode: 'add',
-      addMinute: 0,
-      setHour: 0,
-      setMinute: 0,
+      addMinute: undefined,
+      setHour: undefined,
+      setMinute: undefined,
     },
+    minForwardTime: getSimStartDateTime(),
     roleConfig: [],
     modalState: ModalState.None,
   };
@@ -80,9 +83,10 @@ export function resetModals(): void {
     EVASAN: false,
   };
   newState.roleConfig = [];
-  newState.time.addMinute = 0;
-  newState.time.setHour = 0;
-  newState.time.setMinute = 0;
+  newState.time.addMinute = undefined;
+  newState.time.setHour = undefined;
+  newState.time.setMinute = undefined;
+  newState.minForwardTime = getSimStartDateTime();
 
   newState.modalState = ModalState.None;
   newState.selectedTeam = 0;
@@ -94,10 +98,19 @@ export function hideModals(): void {
   setModalState(ModalState.None, false);
 }
 
-export function setModalState(modalType: ModalState, selectTeam: boolean): void {
+export function setModalState(
+  modalType: ModalState,
+  selectTeam: boolean,
+  minTimeUpdate: Date | undefined = undefined
+): void {
   const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
   newState.modalState = modalType;
   newState.selectedTeam = selectTeam ? Context.team?.id : 0;
+  if (minTimeUpdate) {
+    newState.minForwardTime = minTimeUpdate;
+    newState.time.setHour = minTimeUpdate.getHours();
+    newState.time.setMinute = minTimeUpdate.getMinutes();
+  }
   Context.dashboardState.setState(newState);
 }
 
@@ -110,7 +123,7 @@ export function toggleInterventionRole(playerId: number, role: InterventionRole)
 }
 
 export function getTypedDashboardUIState(): DashboardUIState {
-  return Context.dashboardState.state as DashboardUIState;
+  return Context?.dashboardState?.state as DashboardUIState;
 }
 
 export function hasSelectedTeam(): boolean {

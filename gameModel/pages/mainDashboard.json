@@ -171,7 +171,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.addMinute;",
+                                  "content" : "  Context.dashboardState.state.time.addMinute || '';",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -230,7 +230,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.setHour;",
+                                  "content" : "  Context.dashboardState.state.time.setHour || '';",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -274,7 +274,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.dashboardState.state.time.setMinute;",
+                                  "content" : "  Context.dashboardState.state.time.setMinute || '';",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -329,7 +329,25 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'attention-please')}`",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n  const time = Context.dashboardState.state.minForwardTime;\n  const timeString = time.toLocaleTimeString([], {hour12: false, hour: '2-digit', minute: '2-digit'});\ngetTranslation('mainSim-dashboard', 'attention-please', true, [timeString]);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "attention-please",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { checkEnteredTimeValidity } from \"./dashboard/dashboardFacade\";\nimport { getTypedDashboardUIState } from \"./dashboard/dashboardUIState\";\ngetTypedDashboardUIState().time.mode !== \"set\" || checkEnteredTimeValidity();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "invalid time",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getMaxTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { getTimeString } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst minTime = getTimeString(Context.dashboardState.state.minForwardTime);\n  const maxTime = getTimeString(getMaxTimeForwardValue(Context.dashboardState.state.minForwardTime));\ngetTranslation('mainSim-dashboard', 'invalidTime', true, [minTime, maxTime]);",
                           "language" : "TypeScript"
                         }
                       },
@@ -360,6 +378,11 @@
                         }, {
                           "props" : {
                             "className" : "button-S button-secondaryColor",
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { checkEnteredTimeValidity } from \"./dashboard/dashboardFacade\";\nimport { getTypedDashboardUIState } from \"./dashboard/dashboardUIState\";\ngetTypedDashboardUIState().time.mode === \"set\" && !checkEnteredTimeValidity();",
+                              "language" : "typescript"
+                            },
                             "label" : {
                               "@class" : "Script",
                               "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
@@ -1559,8 +1582,9 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.TimeImpact, false);",
-                                "language" : "TypeScript"
+                                "content" : "import { updateMinimumValidTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\nupdateMinimumValidTimeForwardValue((minDate) => {\n    setModalState(ModalState.TimeImpact, false, minDate);\n  });",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
                               }
                             },
                             "name" : "time forward",
@@ -1952,8 +1976,9 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.TimeImpact, true);",
-                                        "language" : "TypeScript"
+                                        "content" : "import { updateMinimumValidTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\nupdateMinimumValidTimeForwardValue((minDate) => {\n    setModalState(ModalState.TimeImpact, true, minDate);\n  }, Context.team.id);",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
                                       }
                                     },
                                     "name" : "time forward",

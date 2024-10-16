@@ -4844,9 +4844,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49486:epfRL6",
-            "value" : 0.0
+            "value" : 16.0
           },
-          "defaultValue" : 0.0,
+          "defaultValue" : 16.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",

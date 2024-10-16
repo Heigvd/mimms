@@ -98,8 +98,10 @@ export async function fetchAndUpdateTeamsGameState(
   }
 
   const currentStates = await fetchAllTeamsState(safety);
-  dashboardLogger.debug('Calling update function...');
-  updateFunc(currentStates);
+  if (updateFunc) {
+    dashboardLogger.debug('Calling update function...');
+    updateFunc(currentStates);
+  }
   return currentStates;
 }
 

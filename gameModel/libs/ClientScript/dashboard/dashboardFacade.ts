@@ -13,7 +13,7 @@ import {
   getLocationShortTranslation,
 } from '../game/common/location/locationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { formatTime, getSimDateTime, getStartTime } from '../gameInterface/main';
+import { formatTime, buildValidSimDateTime, getSimStartDateTime } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
@@ -55,7 +55,7 @@ export function getTime(state: DashboardGameState, teamId: number): string {
 export function getRawTime(state: DashboardGameState, teamId: number): Date {
   const teamState = getTypedState(state, teamId);
 
-  const currentDateTime = getStartTime();
+  const currentDateTime = getSimStartDateTime();
   if (teamState) {
     currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTime * 1000);
   }
@@ -224,36 +224,68 @@ export function getTimeChoices(): { label: string; value: string }[] {
 
 /**
  * Fetches fresh time values and computes the earliest absolute
- * time at which all the teams could forwarded
- * that is, the time of the team that is the latest in the game
+ * time at which a given team or all the teams could time forwarded
+ * @param teamId target team or among all teams if undefined
  */
-export async function getMinimumValidTimeForwardValue(
-  updateFunc: (stateByTeam: DashboardGameState) => void
-): Promise<Date> {
-  const dstate = await fetchAndUpdateTeamsGameState(updateFunc, false);
-  let min = getStartTime();
-  if (dstate) {
-    Object.keys(dstate).forEach(tid => {
-      const t = getRawTime(dstate, Number(tid));
-      if (t > min) {
-        min = t;
+export async function updateMinimumValidTimeForwardValue(
+  updateFunc: (minDate: Date) => void,
+  teamId: number | undefined = undefined
+): Promise<void> {
+  function computeMinTimeAndUpdate(dstate: DashboardGameState) {
+    let min = 0;
+    if (dstate) {
+      if (teamId) {
+        if (dstate[teamId]) {
+          min = dstate[teamId]?.simulationTime || 0;
+        }
+      } else {
+        // among all teams
+        Object.keys(dstate).forEach(tid => {
+          const t = dstate[Number(tid)]?.simulationTime || 0;
+          if (t > min) {
+            min = t;
+          }
+        });
       }
-    });
+    }
+    const minDateTime = getSimStartDateTime();
+    minDateTime.setSeconds(minDateTime.getSeconds() + min);
+    updateFunc(minDateTime);
   }
-  return min;
+  await fetchAndUpdateTeamsGameState(computeMinTimeAndUpdate, false);
 }
 
-const MAXTIME_FORWARD_SECONDS = 60 * 60 * 4;
+const MAXTIME_FORWARD_SECONDS = 60 * 60 * 8;
+
+export function getMaxTimeForwardValue(minFwdTime: Date): Date {
+  const absoluteMax = getSimStartDateTime();
+  absoluteMax.setDate(absoluteMax.getDate() + 1);
+  const maxTimeFwd = new Date((minFwdTime || getSimStartDateTime()).getTime());
+  maxTimeFwd.setSeconds(maxTimeFwd.getSeconds() + MAXTIME_FORWARD_SECONDS);
+  return maxTimeFwd > absoluteMax ? absoluteMax : maxTimeFwd;
+}
 
 /**
- * @params params trainer filled form parameters
+ * @return true if the currently entered time is within a valid range, defined as later
+ * than minForwardTime but not more than MAXTIME_FORWARD_SECONDS later
+ */
+export function checkEnteredTimeValidity(): boolean {
+  const state = getTypedDashboardUIState();
+  const max = getMaxTimeForwardValue(state.minForwardTime);
+  const enteredTime = buildValidSimDateTime(state.time?.setHour || 0, state.time?.setMinute || 0);
+  return enteredTime <= max && enteredTime >= state.minForwardTime;
+}
+
+/**
+ * @param params trainer filled form parameters
+ * @param teamId the target team id, if 0 or undefined => all teams
  */
 export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
 ): Promise<IManagedResponse | undefined> {
   if (params.mode === 'add') {
-    const seconds = params.addMinute * 60;
+    const seconds = (params.addMinute || 0) * 60;
     if (seconds > MAXTIME_FORWARD_SECONDS) {
       throw new Error(
         `Time forward too large, ${seconds}, max value is ${MAXTIME_FORWARD_SECONDS}`
@@ -265,12 +297,9 @@ export async function processTimeForward(
       return await triggerDashboardTimeForwardGame(seconds);
     }
   } else if (params.mode === 'set') {
-    if (params.setHour > 23 || params.setMinute > 59) {
-      throw new Error(
-        `Malfored HH:mm parameters ${params.setHour}:${params.setMinute} is not valid`
-      );
-    }
-    const targetTime = getSimDateTime(params.setHour, params.setMinute);
+    const hour = params.setHour || 0;
+    const minute = params.setMinute || 0;
+    const targetTime = buildValidSimDateTime(hour, minute);
     if (teamId) {
       return await triggerAbsoluteTimeForward(targetTime, teamId);
     } else {
