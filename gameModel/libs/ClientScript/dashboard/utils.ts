@@ -33,17 +33,19 @@ export function getTeam(teamId: number): STeam | undefined {
  * Send events for multiple teams
  * Each payload matches one team
  */
-export function sendEventPerTeam(
+export async function sendEventPerTeam(
   payloads: EventPayload[],
   teamIds: number[]
-): Promise<IManagedResponse> {
-  if (payloads.length !== teamIds.length) {
-    throw new RangeError('The payloads count has to match the count of the team ids');
+): Promise<IManagedResponse | void> {
+  if (payloads.length === 0) {
+    if (payloads.length !== teamIds.length) {
+      throw new RangeError('The payloads count has to match the count of the team ids');
+    }
+    const script = payloads
+      .map((payload, i) => getSendEventServerScript(payload, teamIds[i]))
+      .join('');
+    await APIMethods.runScript(script, {});
   }
-  const script = payloads
-    .map((payload, i) => getSendEventServerScript(payload, teamIds[i]))
-    .join('');
-  return APIMethods.runScript(script, {});
 }
 
 /**
