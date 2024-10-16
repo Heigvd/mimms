@@ -774,18 +774,30 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
       break;
     case 'TimeForwardEvent':
       {
-        // if event is forced, take all actors regardless
-        const involved = event.payload.dashboardForced
-          ? currentSimulationState.getAllActors().map(a => a.Uid)
-          : event.payload.involvedActors;
+        const timeJump = event.payload.timeJump;
 
-        const timefwdEvent = new TimeForwardLocalEvent(
-          event.id,
-          event.payload.triggerTime,
-          involved,
-          event.payload.timeJump
-        );
-        localEventManager.queueLocalEvent(timefwdEvent);
+        if (timeJump % TimeSliceDuration !== 0) {
+          mainSimLogger.error(
+            'time jump is not divisble by time slice duration',
+            timeJump,
+            TimeSliceDuration
+          );
+        } else {
+          // if event is forced, take all actors regardless
+          const involved = event.payload.dashboardForced
+            ? currentSimulationState.getAllActors().map(a => a.Uid)
+            : event.payload.involvedActors;
+
+          for (let i = 0; i < timeJump / TimeSliceDuration; i++) {
+            const timefwdEvent = new TimeForwardLocalEvent(
+              event.id,
+              event.payload.triggerTime + TimeSliceDuration * i,
+              involved,
+              TimeSliceDuration
+            );
+            localEventManager.queueLocalEvent(timefwdEvent);
+          }
+        }
       }
       break;
     case 'TimeForwardCancelEvent':
