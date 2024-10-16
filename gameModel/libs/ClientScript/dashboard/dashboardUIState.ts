@@ -1,28 +1,40 @@
 import { ActionType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
+import { getSimStartDateTime } from '../gameInterface/main';
+import { MultiplayerMatrix } from '../multiplayer/multiplayerManager';
+
+export interface TimeForwardDashboardParams {
+  mode: 'add' | 'set';
+  addMinute: number | undefined;
+  setHour: number | undefined;
+  setMinute: number | undefined;
+}
+
+export enum ModalState {
+  None,
+  TimeImpact,
+  RadioNotifImpact,
+  RolesConfiguration,
+}
 
 export interface DashboardUIState {
   state: boolean;
   roles: boolean;
   impacts: boolean;
   locations: boolean;
-  teamTimeModal: boolean;
-  allTeamsTimeModal: boolean;
-  teamRadioModal: boolean;
-  allTeamsRadioModal: boolean;
   radio: {
     mode: 'radio' | 'notif';
     channel: ActionType;
     message: string;
     roles: Partial<Record<InterventionRole, boolean>>;
   };
-  line: boolean;
-  time: {
-    mode: 'add' | 'set';
-    add: string;
-    setHour: string;
-    setMinute: string;
-  };
+  openTeams: Record<number, boolean>;
+  selectedTeam: number;
+  time: TimeForwardDashboardParams;
+  minForwardTime: Date;
+  /** local state for the role selection modal */
+  roleConfig: MultiplayerMatrix;
+  modalState: ModalState;
 }
 
 export function getInitialDashboardUIState(): DashboardUIState {
@@ -31,10 +43,6 @@ export function getInitialDashboardUIState(): DashboardUIState {
     roles: true,
     impacts: true,
     locations: false,
-    teamTimeModal: false,
-    allTeamsTimeModal: false,
-    teamRadioModal: false,
-    allTeamsRadioModal: false,
     radio: {
       mode: 'radio',
       channel: ActionType.CASU_RADIO,
@@ -47,12 +55,77 @@ export function getInitialDashboardUIState(): DashboardUIState {
         EVASAN: false,
       },
     },
-    line: false,
+    openTeams: {},
+    selectedTeam: 0,
     time: {
       mode: 'add',
-      add: '',
-      setHour: '',
-      setMinute: '',
+      addMinute: undefined,
+      setHour: undefined,
+      setMinute: undefined,
     },
+    minForwardTime: getSimStartDateTime(),
+    roleConfig: [],
+    modalState: ModalState.None,
   };
+}
+
+export function resetModals(): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+
+  newState.radio.message = '';
+  newState.radio.channel = ActionType.CASU_RADIO;
+  newState.radio.mode = 'radio';
+  newState.radio.roles = {
+    AL: true,
+    LEADPMA: false,
+    ACS: false,
+    MCS: false,
+    EVASAN: false,
+  };
+  newState.roleConfig = [];
+  newState.time.addMinute = undefined;
+  newState.time.setHour = undefined;
+  newState.time.setMinute = undefined;
+  newState.minForwardTime = getSimStartDateTime();
+
+  newState.modalState = ModalState.None;
+  newState.selectedTeam = 0;
+
+  Context.dashboardState.setState(newState);
+}
+
+export function hideModals(): void {
+  setModalState(ModalState.None, false);
+}
+
+export function setModalState(
+  modalType: ModalState,
+  selectTeam: boolean,
+  minTimeUpdate: Date | undefined = undefined
+): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+  newState.modalState = modalType;
+  newState.selectedTeam = selectTeam ? Context.team?.id : 0;
+  if (minTimeUpdate) {
+    newState.minForwardTime = minTimeUpdate;
+    newState.time.setHour = minTimeUpdate.getHours();
+    newState.time.setMinute = minTimeUpdate.getMinutes();
+  }
+  Context.dashboardState.setState(newState);
+}
+
+export function toggleInterventionRole(playerId: number, role: InterventionRole): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+  const playerMat = newState.roleConfig.find(pm => pm.id === playerId)!;
+  const value = playerMat?.roles[role];
+  playerMat.roles[role] = !value;
+  Context.dashboardState.setState(newState);
+}
+
+export function getTypedDashboardUIState(): DashboardUIState {
+  return Context?.dashboardState?.state as DashboardUIState;
+}
+
+export function hasSelectedTeam(): boolean {
+  return getTypedDashboardUIState()?.selectedTeam !== 0;
 }

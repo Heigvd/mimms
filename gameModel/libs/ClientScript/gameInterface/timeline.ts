@@ -1,5 +1,5 @@
 import { StartEndAction } from '../game/common/actions/actionBase';
-import { formatTime, getStartTime } from './main';
+import { formatTime, getSimStartDateTime } from './main';
 import { getTranslation } from '../tools/translation';
 import { getAllActions } from '../UIfacade/actionFacade';
 import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
@@ -63,7 +63,7 @@ function createGridTimes(maxTime: number, currentTime: number): string {
   let columnIndex = 1;
   let steps = maxTime / 60;
   let timer = 0;
-  let dateTime = getStartTime();
+  let dateTime = getSimStartDateTime();
   let output = '';
 
   for (let i = 0; i < steps; i++) {

@@ -13,12 +13,31 @@ import {
   getLocationShortTranslation,
 } from '../game/common/location/locationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { formatTime, getStartTime } from '../gameInterface/main';
+import { formatTime, buildValidSimDateTime, getSimStartDateTime } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
+import { getSelectedTeamName, getTeam } from './utils';
+import {
+  getAllTeamsMultiplayerMatrix,
+  getEmptyPlayerMatrix,
+  getTeamMultiplayerMatrix,
+  MultiplayerMatrix,
+} from '../multiplayer/multiplayerManager';
+import {
+  getTypedDashboardUIState,
+  hasSelectedTeam,
+  ModalState,
+  TimeForwardDashboardParams,
+} from './dashboardUIState';
+import {
+  triggerAbsoluteTimeForward,
+  triggerAbsoluteTimeForwardGame,
+  triggerDashboardTimeForward,
+  triggerDashboardTimeForwardGame,
+} from './impacts';
 import { dashboardLogger } from '../tools/logger';
 
 // -------------------------------------------------------------------------------------------------
@@ -37,7 +56,7 @@ export function getTime(state: DashboardGameState, teamId: number): string {
 export function getRawTime(state: DashboardGameState, teamId: number): Date {
   const teamState = getTypedState(state, teamId);
 
-  const currentDateTime = getStartTime();
+  const currentDateTime = getSimStartDateTime();
   if (teamState) {
     currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTime * 1000);
   }
@@ -181,11 +200,11 @@ export function getRadioChannelChoices(): { label: string; value: string }[] {
 export function getRadioModeChoices(): { label: string; value: string }[] {
   return [
     {
-      label: 'Radio message',
+      label: getTranslation('mainSim-dashboard', 'radio-message'),
       value: 'radio',
     },
     {
-      label: 'Notification',
+      label: getTranslation('mainSim-interface', 'notifications'),
       value: 'notif',
     },
   ];
@@ -312,21 +331,134 @@ export async function setAllTeamsGameState(gameState: GameState) {
 
 /**
  * Fetches fresh time values and computes the earliest absolute
- * time at which all the teams could forwarded
- * that is, the time of the team that is the latest in the game
+ * time at which a given team or all the teams could time forwarded
+ * @param teamId target team or among all teams if undefined
  */
-export async function getMinimumValidTimeForwardValue(
-  updateFunc: (stateByTeam: DashboardGameState) => void
-): Promise<Date> {
-  const dstate = await fetchAndUpdateTeamsGameState(updateFunc, false);
-  let min = getStartTime();
-  if (dstate) {
-    Object.keys(dstate).forEach(tid => {
-      const t = getRawTime(dstate, Number(tid));
-      if (t > min) {
-        min = t;
+export async function updateMinimumValidTimeForwardValue(
+  updateFunc: (minDate: Date) => void,
+  teamId: number | undefined = undefined
+): Promise<void> {
+  function computeMinTimeAndUpdate(dstate: DashboardGameState) {
+    let min = 0;
+    if (dstate) {
+      if (teamId) {
+        if (dstate[teamId]) {
+          min = dstate[teamId]?.simulationTime || 0;
+        }
+      } else {
+        // among all teams
+        Object.keys(dstate).forEach(tid => {
+          const t = dstate[Number(tid)]?.simulationTime || 0;
+          if (t > min) {
+            min = t;
+          }
+        });
       }
-    });
+    }
+    const minDateTime = getSimStartDateTime();
+    minDateTime.setSeconds(minDateTime.getSeconds() + min);
+    updateFunc(minDateTime);
   }
-  return min;
+  await fetchAndUpdateTeamsGameState(computeMinTimeAndUpdate, false);
+}
+
+const MAXTIME_FORWARD_SECONDS = 60 * 60 * 8;
+
+export function getMaxTimeForwardValue(minFwdTime: Date): Date {
+  const absoluteMax = getSimStartDateTime();
+  absoluteMax.setDate(absoluteMax.getDate() + 1);
+  const maxTimeFwd = new Date((minFwdTime || getSimStartDateTime()).getTime());
+  maxTimeFwd.setSeconds(maxTimeFwd.getSeconds() + MAXTIME_FORWARD_SECONDS);
+  return maxTimeFwd > absoluteMax ? absoluteMax : maxTimeFwd;
+}
+
+/**
+ * @return true if the currently entered time is within a valid range, defined as later
+ * than minForwardTime but not more than MAXTIME_FORWARD_SECONDS later
+ */
+export function checkEnteredTimeValidity(): boolean {
+  const state = getTypedDashboardUIState();
+  const max = getMaxTimeForwardValue(state.minForwardTime);
+  const enteredTime = buildValidSimDateTime(state.time?.setHour || 0, state.time?.setMinute || 0);
+  return enteredTime <= max && enteredTime >= state.minForwardTime;
+}
+
+/**
+ * @param params trainer filled form parameters
+ * @param teamId the target team id, if 0 or undefined => all teams
+ */
+export async function processTimeForward(
+  params: TimeForwardDashboardParams,
+  teamId: number = 0
+): Promise<IManagedResponse | undefined> {
+  if (params.mode === 'add') {
+    const seconds = (params.addMinute || 0) * 60;
+    if (seconds > MAXTIME_FORWARD_SECONDS) {
+      throw new Error(
+        `Time forward too large, ${seconds}, max value is ${MAXTIME_FORWARD_SECONDS}`
+      );
+    }
+    if (teamId) {
+      return await triggerDashboardTimeForward(seconds, teamId);
+    } else {
+      return await triggerDashboardTimeForwardGame(seconds);
+    }
+  } else if (params.mode === 'set') {
+    const hour = params.setHour || 0;
+    const minute = params.setMinute || 0;
+    const targetTime = buildValidSimDateTime(hour, minute);
+    if (teamId) {
+      return await triggerAbsoluteTimeForward(targetTime, teamId);
+    } else {
+      return await triggerAbsoluteTimeForwardGame(targetTime);
+    }
+  }
+}
+
+/**
+ * Builds a multiplayer matrix that has an entry for each player in the team
+ * Players that are not yet registered in the simulation get an empty matrix
+ * Remark : All teams multiplayer matrices are refreshed
+ */
+export async function getTeamPlayersAndRolesAsync(teamId: number): Promise<MultiplayerMatrix> {
+  await getAllTeamsMultiplayerMatrix();
+  return getTeamPlayersAndRoles(teamId);
+}
+
+/**
+ * Builds a multiplayer matrix that has an entry for each player in the team
+ * Players that are not yet registered in the simulation get an empty matrix
+ */
+export function getTeamPlayersAndRoles(teamId: number): MultiplayerMatrix {
+  const multiMatrix: MultiplayerMatrix = [];
+  const team = getTeam(teamId);
+
+  if (team) {
+    const players = team.getPlayers();
+    const teamMatrix = getTeamMultiplayerMatrix(teamId);
+    if (teamMatrix) {
+      players.forEach(p => {
+        const pm = teamMatrix.find(m => m.id === p.getId());
+        multiMatrix.push(pm || getEmptyPlayerMatrix(p));
+      });
+    }
+  }
+  return multiMatrix;
+}
+
+export function getModalHeaderTitle(): string {
+  switch (getTypedDashboardUIState().modalState) {
+    case ModalState.RadioNotifImpact:
+    case ModalState.TimeImpact: {
+      if (hasSelectedTeam()) {
+        return getSelectedTeamName();
+      } else {
+        return getTranslation('mainSim-dashboard', 'all-teams');
+      }
+    }
+    case ModalState.RolesConfiguration:
+      return `${getTranslation('mainSim-dashboard', 'roles')} (${getSelectedTeamName()})`;
+    default:
+      return 'None';
+  }
 }

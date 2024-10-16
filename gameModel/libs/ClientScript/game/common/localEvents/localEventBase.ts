@@ -55,6 +55,7 @@ export interface LocalEvent {
   type: string;
   parentEventId: GlobalEventId;
   simTimeStamp: SimTime;
+  priority: number;
 }
 
 export abstract class LocalEventBase implements LocalEvent {
@@ -68,7 +69,8 @@ export abstract class LocalEventBase implements LocalEvent {
   protected constructor(
     readonly parentEventId: GlobalEventId,
     readonly type: string,
-    readonly simTimeStamp: number
+    readonly simTimeStamp: number,
+    readonly priority: number = 0
   ) {
     this.eventNumber = LocalEventBase.eventCounter++;
   }
@@ -84,11 +86,15 @@ export abstract class LocalEventBase implements LocalEvent {
  * @param e1
  * @param e2
  * @returns true if e1 precedes e2, ordering by timestamps (trigger time)
- * if equal creation order (eventCounter) is used instead
+ * if equal timestamps priority is used instead
+ * if equal priority order (eventCounter) is used instead
  */
 export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): boolean {
   if (e1.simTimeStamp === e2.simTimeStamp) {
-    return e1.eventNumber < e2.eventNumber;
+    if (e1.priority === e2.priority) {
+      return e1.eventNumber < e2.eventNumber;
+    }
+    return e1.priority < e2.priority;
   }
   return e1.simTimeStamp < e2.simTimeStamp;
 }
@@ -161,9 +167,10 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
     parentEventId: GlobalEventId,
     type: string,
     readonly actors: ActorId[],
-    timeStamp: SimTime
+    timeStamp: SimTime,
+    override priority: number = 1
   ) {
-    super(parentEventId, type, timeStamp);
+    super(parentEventId, type, timeStamp, priority);
   }
 
   protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {

@@ -1,7 +1,7 @@
 import { InterventionRole } from '../game/common/actors/actor';
 import { mainSimLogger } from '../tools/logger';
 
-interface MultiplayerMatrix extends Array<PlayerMatrix> {}
+export interface MultiplayerMatrix extends Array<PlayerMatrix> {}
 
 interface PlayerMatrix {
   id: number;
@@ -366,6 +366,50 @@ async function updatePlayerMatrix(
   } catch (error) {
     mainSimLogger.error(error);
   }
+}
+
+/**
+ * Update multiplayerMatrix variable for a given team, fetch update when done
+ *
+ * @params {number} teamId - Id of team to update
+ * @params {MultiplayerMatrix} matrix - Team matrix being replaced
+ */
+export async function updateTeamMatrix(
+  teamId: number,
+  teamMatrix: MultiplayerMatrix
+): Promise<void> {
+  const scripts: string[] = [];
+
+  for (let matrix of teamMatrix) {
+    const payload = JSON.stringify(JSON.stringify(matrix));
+
+    scripts.push(`MultiplayerHelper.updatePlayerMatrix(${teamId}, ${matrix.id}, ${payload})`);
+  }
+
+  try {
+    await APIMethods.runScript(scripts.join(','), {});
+    await getAllTeamsMultiplayerMatrix();
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Returns the initial player matrix configuration (no role selected)
+ */
+export function getEmptyPlayerMatrix(player: SPlayer): PlayerMatrix {
+  return {
+    id: player.getId() || 0,
+    name: player.getName() || '',
+    ready: false,
+    roles: {
+      AL: false,
+      ACS: false,
+      MCS: false,
+      EVASAN: false,
+      LEADPMA: false,
+    },
+  };
 }
 
 if (APP_CONTEXT !== 'Player') {

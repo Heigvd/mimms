@@ -118,19 +118,40 @@ export function actionChangeHandler() {
   }
 }
 
+function getDayZero(): Date {
+  return new Date(2000, 0, 1);
+}
 /**
- * Return Date object with start time
- *
+ * Return Date object representing the start time of the simulation
  * @return Date timeStamp for simulation start time
  */
-export function getStartTime(): Date {
-  // const hours = Variable.find(gameModel, 'startHours').getValue(self);
-  // const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
-  // Hardcoded in demo
-  const hours = 16;
-  const minutes = 0;
+export function getSimStartDateTime(): Date {
+  const hours = Variable.find(gameModel, 'startHours').getValue(self);
+  const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
 
-  return new Date(0, 0, 0, hours, minutes);
+  const startDateTime = getDayZero();
+  startDateTime.setHours(hours, minutes);
+  return startDateTime;
+}
+
+/**
+ * Builds a DateTime object with the given hour an minutes
+ * Valid is defined as being in the future with regard to the start time of the simulation
+ * Assumption : the simulation will not go beyond 24 hours
+ */
+export function buildValidSimDateTime(hours: number, minutes: number): Date {
+  if (hours < 0 || minutes < 0 || hours > 23 || minutes > 59) {
+    throw new Error(`Unexpected time value ${hours}:${minutes} is not a valid hour`);
+  }
+  const simStart = getSimStartDateTime();
+  const result = getDayZero();
+  result.setHours(hours, minutes);
+  if (simStart > result) {
+    // if before sim start, add a day
+    // add one day (yes it works)
+    result.setDate(result.getDate() + 1);
+  }
+  return result;
 }
 
 /**
@@ -140,7 +161,7 @@ export function getStartTime(): Date {
  * @returns string Notification time adjusted to sim time
  */
 export function getNotificationTime(notificationTime: number): string {
-  const startTime = getStartTime();
+  const startTime = getSimStartDateTime();
   startTime.setSeconds(notificationTime + startTime.getSeconds());
 
   return formatTime(startTime);
