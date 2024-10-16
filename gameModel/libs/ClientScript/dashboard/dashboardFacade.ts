@@ -38,6 +38,7 @@ import {
   triggerDashboardTimeForward,
   triggerDashboardTimeForwardGame,
 } from './impacts';
+import { dashboardLogger } from '../tools/logger';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -220,6 +221,112 @@ export function getTimeChoices(): { label: string; value: string }[] {
       value: 'set',
     },
   ];
+}
+
+export enum GameState {
+  NOT_INITIATED = 'NOT_INITIATED',
+  RUNNING = 'RUNNING',
+  PAUSED = 'PAUSED',
+}
+
+export interface TeamGameStateStatus {
+  id: number;
+  gameState: GameState;
+}
+
+export let teamsGameStateStatuses: TeamGameStateStatus[] = [];
+
+/**
+ * Get the gameState values for all teams
+ */
+export async function getAllTeamGameStateStatus(): Promise<TeamGameStateStatus[]> {
+  const script = 'CustomDashboard.getGameStateByTeam()';
+  let response: IManagedResponse;
+
+  try {
+    response = await APIMethods.runScript(script, {});
+  } catch (error) {
+    dashboardLogger.error(error);
+  }
+
+  teamsGameStateStatuses = response!.updatedEntities as TeamGameStateStatus[];
+
+  return teamsGameStateStatuses;
+}
+
+/**
+ * Get the gameState value for the given teamId
+ *
+ * @params {number} teamId - Id of given team
+ */
+export function getGameStateStatus(teamId: number): GameState | undefined {
+  if (teamsGameStateStatuses.length === 0) {
+    return undefined;
+  } else {
+    return teamsGameStateStatuses.find(team => team.id === teamId)!.gameState;
+  }
+}
+
+/**
+ * Set the gameState value for the given teamId
+ *
+ * @params {number} teamId - Id of given team
+ * @params {GameState} gameState - Target gameState
+ */
+export async function setGameStateStatus(teamId: number, gameState: GameState) {
+  const script = `CustomDashboard.setGameState(${teamId}, "${gameState}")`;
+
+  try {
+    await APIMethods.runScript(script, {});
+  } catch (error) {
+    dashboardLogger.error(error);
+  }
+}
+
+/**
+ * Toggle the gameState of given team
+ *
+ * @params {number} teamId - Id of given team
+ */
+export async function togglePlay(teamId: number) {
+  try {
+    const gameState = await getGameStateStatus(teamId);
+    switch (gameState) {
+      case GameState.NOT_INITIATED:
+        return;
+      case GameState.RUNNING:
+        await setGameStateStatus(teamId, GameState.PAUSED);
+        break;
+      case GameState.PAUSED:
+        await setGameStateStatus(teamId, GameState.RUNNING);
+        break;
+    }
+  } catch (error) {
+    dashboardLogger.error(error);
+  }
+}
+
+/**
+ * Set the gameState for all teams
+ *
+ * @params {GameState} gameState - Target gameState
+ */
+export async function setAllTeamsGameState(gameState: GameState) {
+  if (gameState === GameState.NOT_INITIATED) return;
+
+  const teamIds = teams.map(team => team.getEntity().id);
+  const scripts = [];
+
+  for (const teamId of teamIds) {
+    scripts.push(`CustomDashboard.setGameState(${teamId}, "${gameState}")`);
+  }
+
+  try {
+    await APIMethods.runScript(scripts.join(','), {});
+    await getAllTeamGameStateStatus();
+  } catch (error) {
+    dashboardLogger.error(error);
+  }
 }
 
 /**

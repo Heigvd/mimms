@@ -105,6 +105,54 @@ export async function fetchAndUpdateTeamsGameState(
   return currentStates;
 }
 
+const INTERVAL_DURATION: number = 2000;
+const MAX_RETRIES: number = 3;
+let retries: number = 0;
+
+/**
+ * Fetch teams game state and update after a game state impact (do not call on page load!)
+ *
+ * @params {(DashboardGameState) => void} - setState function for dashboard game state
+ * @params {boolean} poll - Should the function poll for updates after impact
+ */
+export async function fetchAndUpdateTeamsGameStateAfterImpact(
+  updateFunc: (stateByTeam: DashboardGameState) => void,
+  poll: boolean = false
+): Promise<void> {
+  if (retries > 0) {
+    dashboardLogger.warn('Polling already ongoing, remaining tries: ', retries);
+    return;
+  }
+
+  const pollFunc = async () => {
+    if (retries > 0) {
+      retries--;
+
+      try {
+        const currenStates = await fetchAllTeamsState(false);
+        updateFunc(currenStates);
+        setTimeout(pollFunc, INTERVAL_DURATION);
+      } catch (error) {
+        dashboardLogger.error(error);
+        retries = 0;
+      }
+    }
+  };
+
+  try {
+    if (poll) {
+      retries = MAX_RETRIES;
+      await pollFunc();
+    } else {
+      const currenStates = await fetchAllTeamsState(false);
+      updateFunc(currenStates);
+    }
+  } catch (error) {
+    dashboardLogger.error(error);
+    retries = 0;
+  }
+}
+
 /**
  * Just to type the context properly
  */
