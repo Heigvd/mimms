@@ -22,11 +22,11 @@ export class LocalEventManager {
 
   public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
     let safeguard = 0;
-    let newState = state;
+    let newState = state.clone();
 
     while (this.hasPendingEvent(newState.getSimTime()) && safeguard <= 200) {
       const nextEvent = this.pendingEvents.extract()!;
-      newState = newState.applyEvent(nextEvent, eventId);
+      newState.applyEvent(nextEvent, eventId);
       this.processedEvents.push(nextEvent);
       safeguard++;
     }
