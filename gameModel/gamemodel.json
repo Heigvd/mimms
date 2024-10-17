@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1728900170345,
+  "createdTime" : 1729158901033,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4429,6 +4429,8 @@
           "minute-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "minute-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"min(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"min(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "pause" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pause\"},\"FR\":{\"status\":\"\",\"translation\":\"pause\",\"lang\":\"FR\"}},\"version\":0}",
+          "pause-modal-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the trainer has paused the game. Please wait until the session resumes.\"},\"FR\":{\"status\":\"\",\"translation\":\"le·la maître·sse de jeu a mis la partie en pause. Veuillez patienter jusqu'à ce que la partie reprenne.\",\"lang\":\"FR\"}},\"version\":0}",
+          "pause-modal-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the game is paused\"},\"FR\":{\"status\":\"\",\"translation\":\"le jeu est en pause\",\"lang\":\"FR\"}},\"version\":0}",
           "play" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"play\"},\"FR\":{\"status\":\"\",\"translation\":\"play\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-notif" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio  Notif\"},\"FR\":{\"status\":\"\",\"translation\":\"radio  Notif\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6908,7 +6910,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-346 (4)",
+  "name" : "MIMMS - MIM-356",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

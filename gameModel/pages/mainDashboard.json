@@ -1541,6 +1541,14 @@
                                 },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.RUNNING);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
                                 "name" : "play",
                                 "style" : { }
                               },
@@ -1556,6 +1564,14 @@
                                 },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.PAUSED);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
                                 "name" : "pause",
                                 "style" : { }
                               },
@@ -1935,6 +1951,14 @@
                                         },
                                         "layoutClassName" : "",
                                         "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING);",
+                                            "language" : "TypeScript",
+                                            "returnType" : "Promise<unknown> | undefined"
+                                          }
+                                        },
                                         "name" : "play",
                                         "style" : { }
                                       },
@@ -1950,6 +1974,14 @@
                                         },
                                         "layoutClassName" : "",
                                         "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED);",
+                                            "language" : "TypeScript",
+                                            "returnType" : "Promise<unknown> | undefined"
+                                          }
+                                        },
                                         "name" : "pause",
                                         "style" : { }
                                       },

@@ -13,7 +13,12 @@ import {
   getLocationShortTranslation,
 } from '../game/common/location/locationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { formatTime, buildValidSimDateTime, getSimStartDateTime } from '../gameInterface/main';
+import {
+  formatTime,
+  buildValidSimDateTime,
+  getSimStartDateTime,
+  GameState,
+} from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
 import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
@@ -221,12 +226,6 @@ export function getTimeChoices(): { label: string; value: string }[] {
       value: 'set',
     },
   ];
-}
-
-export enum GameState {
-  NOT_INITIATED = 'NOT_INITIATED',
-  RUNNING = 'RUNNING',
-  PAUSED = 'PAUSED',
 }
 
 export interface TeamGameStateStatus {

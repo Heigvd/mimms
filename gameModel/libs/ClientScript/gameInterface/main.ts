@@ -16,13 +16,24 @@ import {
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 
-type gameStateStatus = 'NOT_INITIATED' | 'RUNNING' | 'PAUSED';
+export enum GameState {
+  NOT_INITIATED = 'NOT_INITIATED',
+  RUNNING = 'RUNNING',
+  PAUSED = 'PAUSED',
+}
 
 /**
  * Get the current gameStateStatus
  */
-export function getGameStateStatus(): gameStateStatus {
-  return Variable.find(gameModel, 'gameState').getValue(self) as gameStateStatus;
+export function getGameStateStatus(): GameState {
+  return Variable.find(gameModel, 'gameState').getValue(self) as GameState;
+}
+
+/**
+ * Is the game currently paused ?
+ */
+export function isGameRunning(): boolean {
+  return getGameStateStatus() !== GameState.PAUSED;
 }
 
 /**
