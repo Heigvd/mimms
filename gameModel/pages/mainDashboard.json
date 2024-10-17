@@ -1544,7 +1544,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { GameState, setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\n  setAllTeamsGameState(GameState.RUNNING);",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.RUNNING);",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -1567,7 +1567,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { GameState, setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\n  setAllTeamsGameState(GameState.PAUSED);",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.PAUSED);",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -1954,7 +1954,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { GameState, setGameStateStatus } from \"./dashboard/dashboardFacade\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING);",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING);",
                                             "language" : "TypeScript",
                                             "returnType" : "Promise<unknown> | undefined"
                                           }
@@ -1977,7 +1977,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { GameState, setGameStateStatus } from \"./dashboard/dashboardFacade\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED);",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED);",
                                             "language" : "TypeScript",
                                             "returnType" : "Promise<unknown> | undefined"
                                           }

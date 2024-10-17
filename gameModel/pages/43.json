@@ -1447,7 +1447,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { GameState } from \"./dashboard/dashboardFacade\";\n    if(APP_CONTEXT === \"Player\") {\n      return Variable.find(gameModel, 'gameState').getValue(self) !== GameState.PAUSED;\n    }\n    true;",
+                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return true;\n  }\n  isGameRunning();",
                               "language" : "typescript"
                             },
                             "layout" : {
