@@ -7,7 +7,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./UIfacade/debugFacade\";\n'EVENTS ' + JSON.stringify(getAllEvents())",
+          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n'EVENTS ' + JSON.stringify(getAllEvents())",
           "language" : "TypeScript"
         }
       },

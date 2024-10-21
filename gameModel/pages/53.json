@@ -98,7 +98,7 @@
             "exposeAs" : "event",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getAllLocalEvents } from \"./UIfacade/debugFacade\";\ngetAllLocalEvents();",
+              "content" : "import { getAllLocalEvents } from \"./UIfacade/mainStateFacade\";\ngetAllLocalEvents();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",

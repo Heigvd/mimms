@@ -7,7 +7,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>(Trigger event loop hack)</p>\"",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\ntriggerEventLoop();\n\"<p>(Trigger event loop hack)</p>\"",
           "language" : "TypeScript"
         }
       },
@@ -25,7 +25,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\n\ntriggerEventLoop();",
+                "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\n\ntriggerEventLoop();",
                 "language" : "TypeScript"
               }
             },
