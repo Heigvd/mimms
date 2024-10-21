@@ -30,11 +30,15 @@ import {
   getEmptyPlayerMatrix,
   getTeamMultiplayerMatrix,
   MultiplayerMatrix,
+  updateTeamMatrix,
 } from '../multiplayer/multiplayerManager';
 import {
+  DashboardUIStateCtx,
+  DashboardUIState,
   getTypedDashboardUIState,
   hasSelectedTeam,
   ModalState,
+  resetModalCustom,
   TimeForwardDashboardParams,
 } from './dashboardUIState';
 import {
@@ -272,11 +276,16 @@ export function getGameStateStatus(teamId: number): GameState | undefined {
  * @params {number} teamId - Id of given team
  * @params {GameState} gameState - Target gameState
  */
-export async function setGameStateStatus(teamId: number, gameState: GameState) {
+export async function setGameStateStatus(
+  teamId: number,
+  gameState: GameState,
+  ctx: DashboardUIStateCtx
+) {
   const script = `CustomDashboard.setGameState(${teamId}, "${gameState}")`;
 
   try {
     await APIMethods.runScript(script, {});
+    ctx.setState(Helpers.cloneDeep(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -287,17 +296,17 @@ export async function setGameStateStatus(teamId: number, gameState: GameState) {
  *
  * @params {number} teamId - Id of given team
  */
-export async function togglePlay(teamId: number) {
+export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
   try {
     const gameState = await getGameStateStatus(teamId);
     switch (gameState) {
       case GameState.NOT_INITIATED:
         return;
       case GameState.RUNNING:
-        await setGameStateStatus(teamId, GameState.PAUSED);
+        await setGameStateStatus(teamId, GameState.PAUSED, ctx);
         break;
       case GameState.PAUSED:
-        await setGameStateStatus(teamId, GameState.RUNNING);
+        await setGameStateStatus(teamId, GameState.RUNNING, ctx);
         break;
     }
   } catch (error) {
@@ -310,7 +319,7 @@ export async function togglePlay(teamId: number) {
  *
  * @params {GameState} gameState - Target gameState
  */
-export async function setAllTeamsGameState(gameState: GameState) {
+export async function setAllTeamsGameState(gameState: GameState, ctx: DashboardUIStateCtx) {
   if (gameState === GameState.NOT_INITIATED) return;
 
   const teamIds = teams.map(team => team.getEntity().id);
@@ -321,8 +330,9 @@ export async function setAllTeamsGameState(gameState: GameState) {
   }
 
   try {
-    await APIMethods.runScript(scripts.join(','), {});
+    await APIMethods.runScript(scripts.join(';'), {});
     await getAllTeamGameStateStatus();
+    ctx.setState(Helpers.cloneDeep<DashboardUIState>(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -460,4 +470,26 @@ export function getModalHeaderTitle(): string {
     default:
       return 'None';
   }
+}
+
+/**
+ * Updates the current player x role assignation and opens the configuration modal
+ */
+export async function openRoleSetupModal(state: DashboardUIState): Promise<void> {
+  const newState = Helpers.cloneDeep(state);
+  newState.modalState = ModalState.RolesConfiguration;
+  newState.selectedTeam = Context.team.id;
+  newState.roleConfig = await getTeamPlayersAndRolesAsync(Context.team.id);
+  Context.dashboardState.setState(newState);
+}
+
+/**
+ * Confirm button for roles setup
+ */
+export async function updateRolesSetupAndClose(
+  dasboardStateCtx: DashboardUIStateCtx
+): Promise<void> {
+  const state = dasboardStateCtx.state;
+  await updateTeamMatrix(state.selectedTeam, state.roleConfig);
+  resetModalCustom(dasboardStateCtx);
 }

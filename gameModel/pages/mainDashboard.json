@@ -166,7 +166,7 @@
                                 },
                                 "placeholder" : {
                                   "@class" : "Script",
-                                  "content" : "\"00\"",
+                                  "content" : "\"0\"",
                                   "language" : "TypeScript"
                                 },
                                 "script" : {
@@ -1200,7 +1200,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { updateTeamMatrix } from \"./multiplayer/multiplayerManager\";\nconst update = updateTeamMatrix(Context.dashboardState.state.selectedTeam, Context.dashboardState.state.roleConfig);\nupdate.then((_) => resetModals());\nupdate;",
+                                "content" : "import { updateRolesSetupAndClose } from \"./dashboard/dashboardFacade\";\n  updateRolesSetupAndClose(Context.dashboardState);",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -1544,7 +1544,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.RUNNING);",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.RUNNING, Context.dashboardState);",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -1567,7 +1567,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.PAUSED);",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.PAUSED, Context.dashboardState);",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -1954,7 +1954,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING);",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING, Context.dashboardState);",
                                             "language" : "TypeScript",
                                             "returnType" : "Promise<unknown> | undefined"
                                           }
@@ -1977,7 +1977,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED);",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED, Context.dashboardState);",
                                             "language" : "TypeScript",
                                             "returnType" : "Promise<unknown> | undefined"
                                           }
@@ -2371,7 +2371,9 @@
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "id",
-                                    "layout" : { },
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
                                     "layoutClassName" : "",
                                     "layoutStyle" : { },
                                     "name" : "Team Member",
@@ -2390,7 +2392,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { getTeamPlayersAndRolesAsync } from \"./dashboard/dashboardFacade\";\nimport { DashboardUIState, ModalState } from \"./dashboard/dashboardUIState\";\n\nconst newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);\nnewState.modalState = ModalState.RolesConfiguration;\nnewState.selectedTeam = Context.team.id;\n  const promise = getTeamPlayersAndRolesAsync(Context.team.id);\n  promise.then(value => {\n    newState.roleConfig = value;\n    Context.dashboardState.setState(newState);\n  });\n\npromise;",
+                                        "content" : "import { openRoleSetupModal } from \"./dashboard/dashboardFacade\";\nopenRoleSetupModal(Context.dashboardState.state);",
                                         "language" : "TypeScript",
                                         "returnType" : "Promise<unknown> | undefined"
                                       }
