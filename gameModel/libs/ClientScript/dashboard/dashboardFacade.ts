@@ -294,6 +294,7 @@ export async function setGameStateStatus(
 
   try {
     await APIMethods.runScript(script, {});
+    await getAllTeamGameStateStatus();
     ctx.setState(Helpers.cloneDeep(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
