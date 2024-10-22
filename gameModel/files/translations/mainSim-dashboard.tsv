@@ -6,7 +6,7 @@ hour-long	Hour(s)	Heure(s)
 hour-short	H(s)	H(s)
 minute-long	Minute(s)	Minute(s)
 minute-short	Min(s)	Min(s)
-attention-please	Keep in mind you can only go further to a time equal to or greater than the first team at {0}.	Gardez à l'esprit que vous ne pouvez aller qu'à un temps égal ou supérieur à celui de la première équipe à {0}.
+attention-please	The chosen time has to be later than the most advanced team at {0}.	L'heure choisie doit être ultérieure à l'équipe la plus avancée {0}.
 all-teams	All Teams	Toutes les équipes
 radio-message	Radio message	Message radio
 state	State	État
@@ -22,4 +22,5 @@ radio-notif	Radio  Notif	Radio  Notif
 radio-notif-placeholder	Type your message here	Écrivez votre message ici
 invalidTime	The target time has to be after {0} and before {1}.	Temps incorrect: doit se situer après {0} et avant {1}.
 pause-modal-title	The game is paused	Le jeu est en pause
-pause-modal-text	The trainer has paused the game. Please wait until the session resumes.	Le·la maître·sse de jeu a mis la partie en pause. Veuillez patienter jusqu'à ce que la partie reprenne.
+pause-modal-text	The trainer has paused the game.	Le formateur a mis la partie en pause.
+update	Update	Mettre à jour

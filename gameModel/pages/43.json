@@ -1447,7 +1447,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return true;\n  }\n  isGameRunning();",
+                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return false;\n  }\n  isGameRunning();",
                               "language" : "typescript"
                             },
                             "layout" : {
