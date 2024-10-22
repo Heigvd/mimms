@@ -20,11 +20,11 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "noPadding reload",
+                "className" : "reload header-button",
                 "icon" : "redo",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"\"",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'update')",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "reload-container",
@@ -91,7 +91,9 @@
                         } ],
                         "className" : "modal-icon-title",
                         "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "margin-bottom" : "25px"
+                        },
                         "name" : "Title",
                         "style" : {
                           "gap" : "10px"
@@ -185,7 +187,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-short')}`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-long')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -244,7 +246,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'hour-short')}`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'hour-long')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -288,7 +290,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-short')}`",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-long')}`",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -309,7 +311,9 @@
                         } ],
                         "className" : "modal-content",
                         "layout" : { },
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "margin-bottom" : "15px"
+                        },
                         "name" : "Content",
                         "style" : {
                           "gap" : "15px"
@@ -344,7 +348,9 @@
                         },
                         "layoutStyle" : { },
                         "name" : "invalid time",
-                        "style" : { },
+                        "style" : {
+                          "font-weight" : "bold"
+                        },
                         "text" : {
                           "@class" : "Script",
                           "content" : "import { getMaxTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { getTimeString } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst minTime = getTimeString(Context.dashboardState.state.minForwardTime);\n  const maxTime = getTimeString(getMaxTimeForwardValue(Context.dashboardState.state.minForwardTime));\ngetTranslation('mainSim-dashboard', 'invalidTime', true, [minTime, maxTime]);",
@@ -406,13 +412,15 @@
                         "className" : "modal-buttons",
                         "layout" : { },
                         "layoutClassName" : "",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "margin-top" : "25px"
+                        },
                         "name" : "Buttons",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "dashboard-modal dashboard-modal-time",
+                    "className" : "dashboard-modal",
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.TimeImpact;",
@@ -423,7 +431,7 @@
                     },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
-                    "name" : "Team Time",
+                    "name" : "Time",
                     "onExitActions" : { },
                     "style" : { }
                   },
@@ -913,7 +921,7 @@
                     },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
-                    "name" : "Team Radio | Notif",
+                    "name" : "Radio | Notif",
                     "onExitActions" : { },
                     "style" : {
                       "gap" : "15px"
@@ -1532,7 +1540,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "play-pause",
+                                "className" : "header-button",
                                 "id" : "play",
                                 "label" : {
                                   "@class" : "Script",
@@ -1555,7 +1563,7 @@
                               "type" : "Button"
                             }, {
                               "props" : {
-                                "className" : "play-pause",
+                                "className" : "header-button",
                                 "id" : "pause",
                                 "label" : {
                                   "@class" : "Script",
@@ -1612,7 +1620,7 @@
                             "className" : "header-button",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"<p>Radio | Notif</p>\"",
+                              "content" : "\"<p>Radio &amp; Notif</p>\"",
                               "language" : "TypeScript"
                             },
                             "layoutClassName" : "header-text-container",
@@ -1943,6 +1951,15 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "play-pause-icon",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "play-pause-icon-focus",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.RUNNING;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "icon" : "play",
                                         "label" : {
                                           "@class" : "Script",
@@ -1966,6 +1983,15 @@
                                     }, {
                                       "props" : {
                                         "className" : "play-pause-icon",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "play-pause-icon-focus",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) !== GameState.RUNNING;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
                                         "icon" : "pause",
                                         "label" : {
                                           "@class" : "Script",
@@ -2377,7 +2403,9 @@
                                     "layoutClassName" : "",
                                     "layoutStyle" : { },
                                     "name" : "Team Member",
-                                    "style" : { }
+                                    "style" : {
+                                      "flex-direction" : "column"
+                                    }
                                   },
                                   "type" : "For each"
                                 }, {
