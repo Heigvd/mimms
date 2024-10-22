@@ -9,7 +9,12 @@ import {
 import { sendEvent } from '../game/common/events/eventUtils';
 import { dashboardLogger } from '../tools/logger';
 import { getRawTime } from './dashboardFacade';
-import { DashboardGameState, fetchAllTeamsState } from './dashboardState';
+import {
+  DashboardGameState,
+  fetchAllTeamsState,
+  fetchAndUpdateTeamsGameStateAfterImpact,
+  UpdateStateFunc,
+} from './dashboardState';
 import { sendEventAllTeams, sendEventPerTeam } from './utils';
 
 /***************
@@ -40,20 +45,24 @@ function buildTimeForwardEvent(seconds: number): TimeForwardEvent {
 
 export async function triggerDashboardTimeForward(
   seconds: number,
-  teamId: number
-): Promise<IManagedResponse | undefined> {
+  teamId: number,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const tf: TimeForwardEvent = buildTimeForwardEvent(seconds);
   dashboardLogger.debug('Sending time forward event to team', tf, teamId);
-  return await sendEvent(tf, teamId);
+  await sendEvent(tf, teamId);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /**
  * Time forward of a given amount of time for all teams
  */
 export async function triggerDashboardTimeForwardGame(
-  seconds: number
-): Promise<IManagedResponse | undefined> {
-  return sendEventAllTeams(buildTimeForwardEvent(seconds));
+  seconds: number,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
+  await sendEventAllTeams(buildTimeForwardEvent(seconds));
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /**
@@ -62,13 +71,14 @@ export async function triggerDashboardTimeForwardGame(
  */
 export async function triggerAbsoluteTimeForward(
   targetTime: Date,
-  teamId: number
-): Promise<IManagedResponse | undefined> {
+  teamId: number,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const dstate = await fetchAllTeamsState(false);
   const delta = computeForwardDeltaSeconds(dstate, targetTime, teamId);
 
   if (delta > 0) {
-    return await triggerDashboardTimeForward(delta, teamId);
+    await triggerDashboardTimeForward(delta, teamId, updateFunc);
   }
 }
 
@@ -88,8 +98,9 @@ function computeForwardDeltaSeconds(
 }
 
 export async function triggerAbsoluteTimeForwardGame(
-  targetTime: Date
-): Promise<IManagedResponse | undefined> {
+  targetTime: Date,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const dstate = await fetchAllTeamsState(false);
   const events: TimeForwardEvent[] = [];
   const teams: number[] = [];
@@ -105,7 +116,8 @@ export async function triggerAbsoluteTimeForwardGame(
     }
   });
 
-  return await sendEventPerTeam(events, teams);
+  await sendEventPerTeam(events, teams);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /*****************
@@ -129,11 +141,13 @@ function buildRadioMessageEvent(message: string, canal: ActionType): DashboardRa
 export async function sendRadioMessage(
   message: string,
   canal: ActionType,
-  teamId: number
-): Promise<IManagedResponse | undefined> {
+  teamId: number,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const radioMsgEvent = buildRadioMessageEvent(message, canal);
   dashboardLogger.debug('Sending radio message event to team', teamId, radioMsgEvent);
-  return sendEvent(radioMsgEvent, teamId);
+  await sendEvent(radioMsgEvent, teamId);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /**
@@ -141,10 +155,12 @@ export async function sendRadioMessage(
  */
 export async function sendRadioMessageGame(
   message: string,
-  canal: ActionType
-): Promise<IManagedResponse | undefined> {
+  canal: ActionType,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const rme = buildRadioMessageEvent(message, canal);
-  return sendEventAllTeams(rme);
+  await sendEventAllTeams(rme);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /****************
@@ -171,17 +187,21 @@ function buildNotificationMessageEvent(
 export async function sendNotification(
   message: string,
   roles: Partial<Record<InterventionRole, boolean>>,
-  teamId: number
-): Promise<IManagedResponse | undefined> {
+  teamId: number,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const notifEvent = buildNotificationMessageEvent(message, roles);
   dashboardLogger.debug('Sending notification message event to team', teamId, notifEvent);
-  return sendEvent(notifEvent, teamId);
+  await sendEvent(notifEvent, teamId);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 export async function sendNotificationGame(
   message: string,
-  roles: Partial<Record<InterventionRole, boolean>>
-): Promise<IManagedResponse | undefined> {
+  roles: Partial<Record<InterventionRole, boolean>>,
+  updateFunc: UpdateStateFunc
+): Promise<void> {
   const notifEvent = buildNotificationMessageEvent(message, roles);
-  return sendEventAllTeams(notifEvent);
+  await sendEventAllTeams(notifEvent);
+  await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }

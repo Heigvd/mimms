@@ -461,12 +461,12 @@
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.mode = Context.dashboardRadioModel;\n\nContext.dashboardState.setState(newState);",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.mode = Context.mode;\n\nContext.dashboardState.setState(newState);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
                                 "@class" : "Script",
-                                "content" : "\"dashboardRadioModel\"",
+                                "content" : "\"mode\"",
                                 "language" : "TypeScript"
                               }
                             },
@@ -650,7 +650,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { sendRadioMessage } from \"./dashboard/impacts\";\n  const radioMessage = sendRadioMessage(Context.dashboardState.state.radio.message, Context.dashboardState.state.radio.channel, Context.dashboardState.state.selectedTeam);\n  resetModals();\n  radioMessage;",
+                                    "content" : "import { processMessage } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const radioMessage = processMessage(Context.dashboardState.state);\n  resetModals();\n  radioMessage;",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -701,7 +701,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getSelectedTeamName } from \"./dashboard/utils\";\ngetSelectedTeamName();",
+                                      "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -864,7 +864,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\nimport { sendNotification } from \"./dashboard/impacts\";\n  const notificationMessage = sendNotification(Context.dashboardState.state.radio.message, Context.dashboardState.state.radio.roles, Context.dashboardState.state.selectedTeam);\n  resetModals();\n  notificationMessage;",
+                                    "content" : "import { processMessage } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const notificationMessage = processMessage(Context.dashboardState.state);\n  resetModals();\n  notificationMessage;",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }

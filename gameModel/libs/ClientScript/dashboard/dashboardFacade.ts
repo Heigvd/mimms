@@ -20,7 +20,12 @@ import {
   GameState,
 } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
-import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
+import {
+  DashboardGameState,
+  fetchAndUpdateTeamsGameState,
+  getTypedState,
+  UpdateStateFunc,
+} from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
@@ -42,6 +47,10 @@ import {
   TimeForwardDashboardParams,
 } from './dashboardUIState';
 import {
+  sendNotification,
+  sendNotificationGame,
+  sendRadioMessage,
+  sendRadioMessageGame,
   triggerAbsoluteTimeForward,
   triggerAbsoluteTimeForwardGame,
   triggerDashboardTimeForward,
@@ -399,7 +408,8 @@ export function checkEnteredTimeValidity(): boolean {
 export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
-): Promise<IManagedResponse | undefined> {
+): Promise<void> {
+  const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
     const seconds = (params.addMinute || 0) * 60;
     if (seconds > MAXTIME_FORWARD_SECONDS) {
@@ -408,18 +418,41 @@ export async function processTimeForward(
       );
     }
     if (teamId) {
-      return await triggerDashboardTimeForward(seconds, teamId);
+      await triggerDashboardTimeForward(seconds, teamId, setStateFunc);
     } else {
-      return await triggerDashboardTimeForwardGame(seconds);
+      await triggerDashboardTimeForwardGame(seconds, setStateFunc);
     }
   } else if (params.mode === 'set') {
     const hour = params.setHour || 0;
     const minute = params.setMinute || 0;
     const targetTime = buildValidSimDateTime(hour, minute);
     if (teamId) {
-      return await triggerAbsoluteTimeForward(targetTime, teamId);
+      await triggerAbsoluteTimeForward(targetTime, teamId, setStateFunc);
     } else {
-      return await triggerAbsoluteTimeForwardGame(targetTime);
+      await triggerAbsoluteTimeForwardGame(targetTime, setStateFunc);
+    }
+  }
+}
+
+/**
+ * extracts radio messages and notifications parameters and sends events, by team or game wise
+ */
+export async function processMessage(state: DashboardUIState): Promise<void> {
+  const teamId = state.selectedTeam;
+  const message = state.radio.message;
+  const updateFunc: UpdateStateFunc = Context.state.updateState;
+
+  if (state.radio.mode === 'notif') {
+    if (teamId) {
+      await sendNotification(message, state.radio.roles, teamId, updateFunc);
+    } else {
+      await sendNotificationGame(message, state.radio.roles, updateFunc);
+    }
+  } else if (state.radio.mode === 'radio') {
+    if (teamId) {
+      await sendRadioMessage(message, state.radio.channel, teamId, updateFunc);
+    } else {
+      await sendRadioMessageGame(message, state.radio.channel, updateFunc);
     }
   }
 }
