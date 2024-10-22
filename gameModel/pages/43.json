@@ -5,11 +5,11 @@
         "layoutStyle" : {
           "display" : "none"
         },
-        "name" : "eventLoop cheat",
+        "name" : "eventLoop trigger",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>(Trigger event loop hack)</p>\"",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\ntriggerEventLoop();\n\"\";",
           "language" : "TypeScript"
         }
       },

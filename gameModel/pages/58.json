@@ -33,7 +33,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getAllActionTemplates } from \"./UIfacade/debugFacade\";\n'ACTION TEMPLATES ' + JSON.stringify(getAllActionTemplates());",
+          "content" : "import { debugGetAllActionTemplates } from \"./game/mainSimulationLogic\";\n'ACTION TEMPLATES ' + JSON.stringify(debugGetAllActionTemplates());",
           "language" : "TypeScript"
         }
       },

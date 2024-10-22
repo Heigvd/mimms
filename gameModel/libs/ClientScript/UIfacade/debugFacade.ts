@@ -1,13 +1,7 @@
 import * as mainLogic from '../game/mainSimulationLogic';
-import * as eventUtils from '../game/common/events/eventUtils';
-import { localEventManager } from '../game/common/localEvents/localEventManager';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getStateHistory } from '../game/mainSimulationLogic';
+import { getCurrentState, getStateHistory } from '../game/mainSimulationLogic';
 import { debugFacadeLogger } from '../tools/logger';
-
-export function getCurrentState() {
-  return mainLogic.getCurrentState();
-}
 
 export async function debugStoreCurrentState() {
   const stateId = mainLogic.getCurrentState().stateCount;
@@ -23,25 +17,6 @@ export async function debugRestoreSavedState() {
   } else {
     await mainLogic.setCurrentStateDebug(storedStateId);
   }
-}
-
-export function getAllActionTemplates() {
-  return mainLogic.debugGetAllActionTemplates();
-}
-
-export function getAllEvents() {
-  return eventUtils.getAllEvents();
-}
-
-export function triggerEventLoop() {
-  mainLogic.runUpdateLoop();
-  // Force scroll after interface rerender
-  setTimeout(() => {
-    Helpers.scrollIntoView('#current-time', { behavior: 'smooth', inline: 'center' });
-    Helpers.scrollIntoView('.aMessage-animation', { behavior: 'smooth', block: 'start' });
-    Helpers.scrollIntoView('.radio-message-last', { behavior: 'smooth', block: 'start' });
-    Helpers.scrollIntoView('.pending', { behavior: 'smooth', block: 'start' });
-  }, 1);
 }
 
 export function recomputeLocalState() {
@@ -85,13 +60,6 @@ export function getAllResources() {
     });
   });
   return response;
-}
-
-export function getAllLocalEvents() {
-  let counter = 0;
-  return localEventManager.getProcessedEvents().map(pe => {
-    return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
-  });
 }
 
 export function getTimeFrameHistory() {
