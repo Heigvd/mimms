@@ -20,7 +20,12 @@ import {
   GameState,
 } from '../gameInterface/main';
 import { getLetterRepresentationOfIndex } from '../tools/helper';
-import { DashboardGameState, fetchAndUpdateTeamsGameState, getTypedState } from './dashboardState';
+import {
+  DashboardGameState,
+  fetchAndUpdateTeamsGameState,
+  getTypedState,
+  UpdateStateFunc,
+} from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
@@ -30,14 +35,22 @@ import {
   getEmptyPlayerMatrix,
   getTeamMultiplayerMatrix,
   MultiplayerMatrix,
+  updateTeamMatrix,
 } from '../multiplayer/multiplayerManager';
 import {
+  DashboardUIStateCtx,
+  DashboardUIState,
   getTypedDashboardUIState,
   hasSelectedTeam,
   ModalState,
+  resetModalCustom,
   TimeForwardDashboardParams,
 } from './dashboardUIState';
 import {
+  sendNotification,
+  sendNotificationGame,
+  sendRadioMessage,
+  sendRadioMessageGame,
   triggerAbsoluteTimeForward,
   triggerAbsoluteTimeForwardGame,
   triggerDashboardTimeForward,
@@ -272,11 +285,17 @@ export function getGameStateStatus(teamId: number): GameState | undefined {
  * @params {number} teamId - Id of given team
  * @params {GameState} gameState - Target gameState
  */
-export async function setGameStateStatus(teamId: number, gameState: GameState) {
+export async function setGameStateStatus(
+  teamId: number,
+  gameState: GameState,
+  ctx: DashboardUIStateCtx
+) {
   const script = `CustomDashboard.setGameState(${teamId}, "${gameState}")`;
 
   try {
     await APIMethods.runScript(script, {});
+    await getAllTeamGameStateStatus();
+    ctx.setState(Helpers.cloneDeep(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -287,17 +306,17 @@ export async function setGameStateStatus(teamId: number, gameState: GameState) {
  *
  * @params {number} teamId - Id of given team
  */
-export async function togglePlay(teamId: number) {
+export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
   try {
     const gameState = await getGameStateStatus(teamId);
     switch (gameState) {
       case GameState.NOT_INITIATED:
         return;
       case GameState.RUNNING:
-        await setGameStateStatus(teamId, GameState.PAUSED);
+        await setGameStateStatus(teamId, GameState.PAUSED, ctx);
         break;
       case GameState.PAUSED:
-        await setGameStateStatus(teamId, GameState.RUNNING);
+        await setGameStateStatus(teamId, GameState.RUNNING, ctx);
         break;
     }
   } catch (error) {
@@ -310,7 +329,7 @@ export async function togglePlay(teamId: number) {
  *
  * @params {GameState} gameState - Target gameState
  */
-export async function setAllTeamsGameState(gameState: GameState) {
+export async function setAllTeamsGameState(gameState: GameState, ctx: DashboardUIStateCtx) {
   if (gameState === GameState.NOT_INITIATED) return;
 
   const teamIds = teams.map(team => team.getEntity().id);
@@ -321,8 +340,9 @@ export async function setAllTeamsGameState(gameState: GameState) {
   }
 
   try {
-    await APIMethods.runScript(scripts.join(','), {});
+    await APIMethods.runScript(scripts.join(';'), {});
     await getAllTeamGameStateStatus();
+    ctx.setState(Helpers.cloneDeep<DashboardUIState>(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -389,7 +409,8 @@ export function checkEnteredTimeValidity(): boolean {
 export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
-): Promise<IManagedResponse | undefined> {
+): Promise<void> {
+  const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
     const seconds = (params.addMinute || 0) * 60;
     if (seconds > MAXTIME_FORWARD_SECONDS) {
@@ -398,18 +419,41 @@ export async function processTimeForward(
       );
     }
     if (teamId) {
-      return await triggerDashboardTimeForward(seconds, teamId);
+      await triggerDashboardTimeForward(seconds, teamId, setStateFunc);
     } else {
-      return await triggerDashboardTimeForwardGame(seconds);
+      await triggerDashboardTimeForwardGame(seconds, setStateFunc);
     }
   } else if (params.mode === 'set') {
     const hour = params.setHour || 0;
     const minute = params.setMinute || 0;
     const targetTime = buildValidSimDateTime(hour, minute);
     if (teamId) {
-      return await triggerAbsoluteTimeForward(targetTime, teamId);
+      await triggerAbsoluteTimeForward(targetTime, teamId, setStateFunc);
     } else {
-      return await triggerAbsoluteTimeForwardGame(targetTime);
+      await triggerAbsoluteTimeForwardGame(targetTime, setStateFunc);
+    }
+  }
+}
+
+/**
+ * extracts radio messages and notifications parameters and sends events, by team or game wise
+ */
+export async function processMessage(state: DashboardUIState): Promise<void> {
+  const teamId = state.selectedTeam;
+  const message = state.radio.message;
+  const updateFunc: UpdateStateFunc = Context.state.updateState;
+
+  if (state.radio.mode === 'notif') {
+    if (teamId) {
+      await sendNotification(message, state.radio.roles, teamId, updateFunc);
+    } else {
+      await sendNotificationGame(message, state.radio.roles, updateFunc);
+    }
+  } else if (state.radio.mode === 'radio') {
+    if (teamId) {
+      await sendRadioMessage(message, state.radio.channel, teamId, updateFunc);
+    } else {
+      await sendRadioMessageGame(message, state.radio.channel, updateFunc);
     }
   }
 }
@@ -460,4 +504,26 @@ export function getModalHeaderTitle(): string {
     default:
       return 'None';
   }
+}
+
+/**
+ * Updates the current player x role assignation and opens the configuration modal
+ */
+export async function openRoleSetupModal(state: DashboardUIState): Promise<void> {
+  const newState = Helpers.cloneDeep(state);
+  newState.modalState = ModalState.RolesConfiguration;
+  newState.selectedTeam = Context.team.id;
+  newState.roleConfig = await getTeamPlayersAndRolesAsync(Context.team.id);
+  Context.dashboardState.setState(newState);
+}
+
+/**
+ * Confirm button for roles setup
+ */
+export async function updateRolesSetupAndClose(
+  dasboardStateCtx: DashboardUIStateCtx
+): Promise<void> {
+  const state = dasboardStateCtx.state;
+  await updateTeamMatrix(state.selectedTeam, state.roleConfig);
+  resetModalCustom(dasboardStateCtx);
 }

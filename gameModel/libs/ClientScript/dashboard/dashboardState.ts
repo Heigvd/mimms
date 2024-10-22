@@ -18,6 +18,8 @@ export type DashboardTeamGameState = Omit<MainStateObject, 'patients'> & {
   patients: PatientReducedState[];
 };
 
+export type UpdateStateFunc = (newState: DashboardGameState) => void;
+
 let localStateCount = -1;
 /**
  * Stores the current state of a game in a 'per team' variable
@@ -60,6 +62,9 @@ let loadedFirstTime = false;
 let stateCache: DashboardGameState = {};
 // dummy state without event => same for all teams
 let initialState: DashboardTeamGameState;
+function cacheUpdate(freshState: DashboardGameState): void {
+  stateCache = freshState;
+}
 
 export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> {
   if (safety && loadedFirstTime) {
@@ -85,7 +90,7 @@ export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGame
       result[tid] = initialState;
     }
   });
-  stateCache = result;
+  cacheUpdate(result);
   return result;
 }
 
@@ -116,8 +121,8 @@ let retries: number = 0;
  * @params {boolean} poll - Should the function poll for updates after impact
  */
 export async function fetchAndUpdateTeamsGameStateAfterImpact(
-  updateFunc: (stateByTeam: DashboardGameState) => void,
-  poll: boolean = false
+  poll: boolean = false,
+  updateFunc: (stateByTeam: DashboardGameState) => void = _ => {}
 ): Promise<void> {
   if (retries > 0) {
     dashboardLogger.warn('Polling already ongoing, remaining tries: ', retries);
@@ -130,6 +135,7 @@ export async function fetchAndUpdateTeamsGameStateAfterImpact(
 
       try {
         const currenStates = await fetchAllTeamsState(false);
+        cacheUpdate(currenStates);
         updateFunc(currenStates);
         setTimeout(pollFunc, INTERVAL_DURATION);
       } catch (error) {
@@ -145,6 +151,7 @@ export async function fetchAndUpdateTeamsGameStateAfterImpact(
       await pollFunc();
     } else {
       const currenStates = await fetchAllTeamsState(false);
+      cacheUpdate(currenStates);
       updateFunc(currenStates);
     }
   } catch (error) {
