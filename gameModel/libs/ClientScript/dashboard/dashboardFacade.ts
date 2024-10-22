@@ -257,11 +257,10 @@ export async function getAllTeamGameStateStatus(): Promise<TeamGameStateStatus[]
 
   try {
     response = await APIMethods.runScript(script, {});
+    teamsGameStateStatuses = response.updatedEntities as TeamGameStateStatus[];
   } catch (error) {
     dashboardLogger.error(error);
   }
-
-  teamsGameStateStatuses = response!.updatedEntities as TeamGameStateStatus[];
 
   return teamsGameStateStatuses;
 }
@@ -290,6 +289,11 @@ export async function setGameStateStatus(
   gameState: GameState,
   ctx: DashboardUIStateCtx
 ) {
+  await getAllTeamGameStateStatus();
+  const current = getGameStateStatus(teamId) || GameState.NOT_INITIATED;
+
+  if (current === GameState.NOT_INITIATED || current === gameState) return;
+
   const script = `CustomDashboard.setGameState(${teamId}, "${gameState}")`;
 
   try {
@@ -330,7 +334,10 @@ export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
  * @params {GameState} gameState - Target gameState
  */
 export async function setAllTeamsGameState(gameState: GameState, ctx: DashboardUIStateCtx) {
-  if (gameState === GameState.NOT_INITIATED) return;
+  const current = await getAllTeamGameStateStatus();
+
+  // prevent setting PAUSE or RUNNING if any team is not done with the "welcome" page
+  if (current.some(gs => gs.gameState === GameState.NOT_INITIATED)) return;
 
   const teamIds = teams.map(team => team.getEntity().id);
   const scripts = [];
