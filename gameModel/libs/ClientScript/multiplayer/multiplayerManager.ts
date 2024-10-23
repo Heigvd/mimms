@@ -1,3 +1,4 @@
+import { getPlayer } from '../dashboard/utils';
 import { InterventionRole } from '../game/common/actors/actor';
 import { mainSimLogger } from '../tools/logger';
 
@@ -290,7 +291,8 @@ export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix {
   if (multiPlayerMatrixes === undefined || multiPlayerMatrixes.length === 0) {
     return [];
   } else {
-    return multiPlayerMatrixes.find(matrix => matrix.id === teamId)!.matrix;
+    const multi = multiPlayerMatrixes.find(matrix => matrix.id === teamId);
+    return multi ? multi.matrix : [];
   }
 }
 
@@ -303,7 +305,13 @@ export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix {
  */
 function getPlayerMatrix(teamId: number, playerId: number): PlayerMatrix {
   const teamMatrix = multiPlayerMatrixes.find(teamMatrixes => teamMatrixes.id === teamId);
-  return teamMatrix!.matrix.find(m => m.id === playerId)!;
+  if (teamMatrix && teamMatrix!.matrix.find(m => m.id === playerId)) {
+    return teamMatrix.matrix.find(m => m.id === playerId)!;
+  } else {
+    // build an empty instance
+    const player = getPlayer(teamId, playerId);
+    return getEmptyPlayerMatrix(player!);
+  }
 }
 
 /**
@@ -387,7 +395,7 @@ export async function updateTeamMatrix(
   }
 
   try {
-    await APIMethods.runScript(scripts.join(','), {});
+    await APIMethods.runScript(scripts.join(';'), {});
     await getAllTeamsMultiplayerMatrix();
   } catch (error) {
     mainSimLogger.error(error);

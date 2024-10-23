@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1729583594878,
+  "createdTime" : 1729695298614,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6911,13 +6911,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-354",
+  "name" : "MIMMS - Dashboard Demo",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,

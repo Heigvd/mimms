@@ -10,6 +10,11 @@ export interface TimeForwardDashboardParams {
   setMinute: number | undefined;
 }
 
+export interface DashboardUIStateCtx {
+  state: DashboardUIState;
+  setState: (s: DashboardUIState) => void;
+}
+
 export enum ModalState {
   None,
   TimeImpact,
@@ -70,7 +75,11 @@ export function getInitialDashboardUIState(): DashboardUIState {
 }
 
 export function resetModals(): void {
-  const newState = Helpers.cloneDeep<DashboardUIState>(Context.dashboardState.state);
+  resetModalCustom(Context.dashboardState);
+}
+
+export function resetModalCustom(dashboardState: DashboardUIStateCtx): void {
+  const newState = Helpers.cloneDeep<DashboardUIState>(dashboardState.state);
 
   newState.radio.message = '';
   newState.radio.channel = ActionType.CASU_RADIO;
@@ -91,7 +100,7 @@ export function resetModals(): void {
   newState.modalState = ModalState.None;
   newState.selectedTeam = 0;
 
-  Context.dashboardState.setState(newState);
+  dashboardState.setState(newState);
 }
 
 export function hideModals(): void {

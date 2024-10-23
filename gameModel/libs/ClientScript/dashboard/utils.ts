@@ -26,6 +26,11 @@ export function getSelectedTeamName(): string {
   return getTeam(Context.dashboardState.state.selectedTeam)?.getName() || 'Team not found.';
 }
 
+export function getPlayer(teamId: number, playerId: number): SPlayer | undefined {
+  const team = getTeam(teamId);
+  return team ? team.getPlayers().find(p => p.getId() === playerId) : undefined;
+}
+
 /**
  * Send events for multiple teams
  * Each payload matches one team
