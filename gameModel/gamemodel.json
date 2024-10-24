@@ -6911,7 +6911,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dashboard-dev XGO",
+  "name" : "MIMMS - Dashboard Demo",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

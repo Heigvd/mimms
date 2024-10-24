@@ -53,11 +53,19 @@ div .button-closed {
   transition: width 0.3s ease-in-out;
 }
 
-.button-closed button {
+div .button-closed-locations {
+  width: 6vw;
+  min-width: 140px;
+  transition: width 0.3s ease-in-out;
+}
+
+.button-closed button,
+.button-closed-locations button {
   justify-content: space-between;
 }
 
-.button-closed div svg {
+.button-closed div svg,
+.button-closed-locations div svg {
   transform: initial;
 }
 
@@ -157,6 +165,7 @@ div .button-closed {
 .header-button:hover {
   color: var(--primary_70);
   border: 1px solid var(--primary_70);
+  background-color: transparent;
 }
 
 .play-pause-icon:hover svg {
