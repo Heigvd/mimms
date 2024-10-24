@@ -165,6 +165,7 @@
           "mainSim-resources": SObjectDescriptor;
           "mainSim-radio": SObjectDescriptor;
           "mainSim-summary": SObjectDescriptor;
+          "mainSim-dashboard": SObjectDescriptor;
           "mainSim-locations": SObjectDescriptor;
 
           "trainer": SListDescriptor;
@@ -195,6 +196,8 @@
           "startMenuPageLoader": SNumberDescriptor;
           'display_debug_button': SBooleanDescriptor;
           "readRadioMessagesByChannel": SObjectDescriptor;
+          "currentStateCount": SNumberDescriptor;
+          "currentState": SObjectDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(

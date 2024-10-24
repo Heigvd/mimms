@@ -1,4 +1,31 @@
 /* eslint-disable no-var */
+
+// Functions also used by MultiplayerHelper
+var Long = Java.type('java.lang.Long');
+
+function inferPlayer(teamId) {
+  var player = undefined;
+  if (teamId) {
+    var team = findTeamById(teamId);
+    if (team) {
+      player = team.getAnyLivePlayer();
+    }
+  }
+  return player || self;
+}
+
+function findTeamById(id) {
+  var teams = self.getGame().getTeams();
+  //teams.stream().forEach(function(t) {if(t.getId().equals(new Long(1087156))){team = t;}});
+  return teams
+    .stream()
+    .filter(function (t) {
+      return t.getId().equals(new Long(id));
+    })
+    .findFirst()
+    .get();
+}
+
 /**
  * Server-side event manager
  */
@@ -10,15 +37,17 @@ var EventManager = (function () {
     RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
   }
 
-  function sendEvent(payload, time, player) {
-    lock();
-    var thePlayer = player || self;
-    var realTime = getEventTime(time, thePlayer);
+  function sendEvent(payload, time, teamId) {
+    var player = inferPlayer(teamId);
+
+    lock(player);
+
+    var realTime = getEventTime(time, player);
 
     var events = Variable.find(gameModel, 'events');
-    var instance = events.getInstance(thePlayer);
+    var instance = events.getInstance(player);
 
-    lastEventI = Variable.find(gameModel, 'lastEventId').getInstance(thePlayer);
+    lastEventI = Variable.find(gameModel, 'lastEventId').getInstance(player);
     lastId = lastEventI.getValue();
 
     var event = {
@@ -26,7 +55,7 @@ var EventManager = (function () {
       payload: payload,
     };
 
-    var newEvent = instance.sendMessage(thePlayer.getName(), '' + lastId, JSON.stringify(event));
+    var newEvent = instance.sendMessage(player.getName(), '' + lastId, JSON.stringify(event));
     // print ("NewEvent ID" + newEvent.getId());
     // Make sure newEvent got an Id
     // hack: commit request to force state machine evaluation
@@ -41,13 +70,15 @@ var EventManager = (function () {
   /**
    * New implementation using new EventBox dedicated type
    */
-  function sendNewEvent(payload, time, player) {
-    lock();
-    var thePlayer = player || self;
-    var realTime = getEventTime(time, thePlayer);
+  function sendNewEvent(payload, time, teamId) {
+    var player = inferPlayer(teamId);
+
+    lock(player);
+
+    var realTime = getEventTime(time, player);
 
     var events = Variable.find(gameModel, 'newEvents');
-    var instance = events.getInstance(thePlayer);
+    var instance = events.getInstance(player);
 
     var event = {
       time: realTime,
@@ -214,11 +245,7 @@ var EventManager = (function () {
       instantiateCharacter(profileId, bagId, true);
     },
     runScenario: runScenario,
-    postEvent: function (payload, time) {
-      sendEvent(payload, time);
-    },
-    postNewEvent: function (payload, time) {
-      sendNewEvent(payload, time);
-    },
+    postEvent: sendEvent,
+    postNewEvent: sendNewEvent,
   };
 })();

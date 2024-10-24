@@ -14,6 +14,7 @@ import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
+import { DashboardTeamGameState, makeReducedState } from '../../../dashboard/dashboardState';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -66,20 +67,12 @@ export class MainSimulationState implements IClonable {
   }
 
   /**
-   * computes a new state with the applied events.
-   * the current instance is not modified
-   * @param events events to be applied
-   * @returns a new state
+   * applies the event to the current state
+   * @param event event to be applied
    */
-  public applyEvents(events: LocalEventBase[], lastEventId: number): MainSimulationState {
-    const newState = this.clone();
-    newState.lastEventId = lastEventId;
-
-    events.forEach(ev => {
-      ev.applyStateUpdate(newState);
-    });
-
-    return newState;
+  public applyEvent(event: LocalEventBase, lastEventId: number): void {
+    this.lastEventId = lastEventId;
+    event.applyStateUpdate(this);
   }
 
   /**
@@ -109,6 +102,17 @@ export class MainSimulationState implements IClonable {
 
   public getCurrentTimeFrame(): TimeFrame {
     return this.forwardTimeFrame;
+  }
+
+  public getReducedState(): DashboardTeamGameState {
+    const { patients, ...clone } = Helpers.cloneDeep(this.internalState);
+    const reducedState: DashboardTeamGameState = {
+      ...clone,
+      patients: patients.map(p => makeReducedState(p)),
+      simulationTime: this.simulationTimeSec,
+    };
+
+    return reducedState;
   }
 
   /************ IMMUTABLE GETTERS ***************/
@@ -194,7 +198,7 @@ export class MainSimulationState implements IClonable {
   }
 }
 
-interface MainStateObject {
+export interface MainStateObject {
   /**
    * All actions that have been created
    */

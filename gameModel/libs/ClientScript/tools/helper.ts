@@ -222,6 +222,17 @@ export function toHoursMinutesSecondsIso(seconds: number): string {
   return output;
 }
 
+/**
+ * Date to HH:mm(:ss) format
+ */
+export function getTimeString(date: Date, includeSeconds: boolean = false): string {
+  const options: any = { hour12: false, hour: '2-digit', minute: '2-digit' };
+  if (includeSeconds) {
+    options.second = '2-digits';
+  }
+  return date.toLocaleTimeString([], options);
+}
+
 // better typing for Object decomposition functions
 export const entries = Object.entries as <T>(obj: T) => Array<[keyof T, T[keyof T]]>;
 export const keys = Object.keys as <T>(obj: T) => Array<keyof T>;
@@ -229,4 +240,8 @@ export const values = Object.values as <T>(obj: T) => Array<T[keyof T]>;
 
 export function getRawString(value: string) {
   return value;
+}
+
+export function getLetterRepresentationOfIndex(index: number): string {
+  return (index + 10).toString(36).toUpperCase();
 }

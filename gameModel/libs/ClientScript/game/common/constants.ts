@@ -19,6 +19,11 @@ export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
 export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;
 
 /**
+ * Trainer identifier
+ */
+export const TRAINER_NAME = 'Game Master';
+
+/**
  * Slow down factor of patient evolution when it is in PMA (to simulate, it is being taken care of)
  */
 export const PatientEvolutionPMATimeModifier = 0.5;

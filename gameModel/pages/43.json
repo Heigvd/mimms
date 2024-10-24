@@ -1413,6 +1413,61 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
+                                "className" : "mimms_h2title",
+                                "layoutClassName" : "",
+                                "layoutStyle" : {
+                                  "margin" : "auto"
+                                },
+                                "name" : "titre",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'pause-modal-title')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "texte",
+                                "style" : {
+                                  "margin" : "auto",
+                                  "maxWidth" : "25rem",
+                                  "paddingTop" : "1rem",
+                                  "textAlign" : "center"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'pause-modal-text')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return true;\n  }\n  isGameRunning();",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "PlayPause",
+                            "onExitActions" : { },
+                            "style" : {
+                              "padding" : "3rem",
+                              "width" : "40rem"
+                            }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
                                 "layoutStyle" : { },
                                 "script" : {
                                   "@class" : "Script",

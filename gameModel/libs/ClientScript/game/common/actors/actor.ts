@@ -1,7 +1,7 @@
-import { getTranslation } from '../../../tools/translation';
-import { ActorId, TranslationKey } from '../baseTypes';
+import { ActorId } from '../baseTypes';
 import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { getRoleLongTranslation, getRoleShortTranslation } from './actorLogic';
 
 export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
 
@@ -65,17 +65,14 @@ export class Actor {
   //responsible for this location
   private readonly symbolicLocation: LOCATION_ENUM;
 
-  private readonly translationVar: keyof VariableClasses = 'mainSim-actors';
-
   constructor(
     role: InterventionRole,
     symbolicLocation: LOCATION_ENUM = symbolicLocationMatrix[role]
   ) {
     this.Uid = ++Actor.idProvider;
     this.Role = role;
-    const tkey: TranslationKey = `actor-${role.toLowerCase()}`;
-    this.ShortName = getTranslation(this.translationVar, tkey);
-    this.FullName = getTranslation(this.translationVar, tkey + '-long');
+    this.ShortName = getRoleShortTranslation(role);
+    this.FullName = getRoleLongTranslation(role);
     this.symbolicLocation = symbolicLocation;
     // actor location is the symbolic location at the beginning
     this.Location = symbolicLocation;

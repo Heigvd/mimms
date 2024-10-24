@@ -30,5 +30,7 @@ export const taskLogger = Helpers.getLogger('task');
 export const resourceLogger = Helpers.getLogger('resource');
 export const timeLogger = Helpers.getLogger('time');
 export const debugFacadeLogger = Helpers.getLogger('debug');
+export const dashboardLogger = Helpers.getLogger('dashboard');
+dashboardLogger.setLevel('DEBUG');
 mainSimLogger.setLevel('INFO');
 mainSimStateLogger.setLevel('DEBUG');

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1729504644346,
+  "createdTime" : 1729611696052,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4203,18 +4203,26 @@
         "name" : "mainSim-locations",
         "properties" : {
           "location-access" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access\"},\"FR\":{\"status\":\"\",\"translation\":\"accès\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-accreg" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access and egress\"},\"FR\":{\"status\":\"\",\"translation\":\"accès et évacuation\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-accreg-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"a & E\"},\"FR\":{\"status\":\"\",\"translation\":\"a & E\",\"lang\":\"FR\"}},\"version\":0}",
           "location-ambulancepark" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance park\"},\"FR\":{\"status\":\"\",\"translation\":\"parc ambulance\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-ambulancepark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aP\"},\"FR\":{\"status\":\"\",\"translation\":\"pA\",\"lang\":\"FR\"}},\"version\":0}",
           "location-chantier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"incident\"},\"FR\":{\"status\":\"\",\"translation\":\"chantier\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-chantier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"i\"},\"FR\":{\"status\":\"\",\"translation\":\"c\",\"lang\":\"FR\"}},\"version\":0}",
           "location-helicopterpark" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"helicopter park\"},\"FR\":{\"status\":\"\",\"translation\":\"parc hélicoptère\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-helicopterpark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hP\"},\"FR\":{\"status\":\"\",\"translation\":\"pH\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-niddeblesses-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid blessés\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-niddeblesses-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sRC\"},\"FR\":{\"status\":\"\",\"translation\":\"nB\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical command post\"},\"FR\":{\"status\":\"\",\"translation\":\"poste de commandement sanitaire\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-pc-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical CP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC SAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-pc-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC SAN\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pcfront" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"forward CP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC front\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-pcfront-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"fCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pCF\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"advanced medical post\"},\"FR\":{\"status\":\"\",\"translation\":\"poste médical avancé\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pma-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aMP\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-regress" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"regress\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-regress" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"egress\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "location-remote" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"remotely\"},\"FR\":{\"status\":\"\",\"translation\":\"à distance\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-remote-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"r\"},\"FR\":{\"status\":\"\",\"translation\":\"aD\",\"lang\":\"FR\"}},\"version\":0}",
+          "locations" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"locations\"},\"FR\":{\"status\":\"\",\"translation\":\"lieux\",\"lang\":\"FR\"}},\"version\":0}",
           "missinglocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"missing {0}, resource {1} has no valid destination\"},\"FR\":{\"status\":\"\",\"translation\":\"pas de {0}, la ressource {1} n'a pas de destination\",\"lang\":\"FR\"}},\"version\":0}",
           "sourcelocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"lieu\",\"lang\":\"FR\"}},\"version\":0}",
           "targetlocation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"destination\"},\"FR\":{\"status\":\"\",\"translation\":\"destination\",\"lang\":\"FR\"}},\"version\":0}"
@@ -4379,6 +4387,63 @@
           "summary-resource-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de la resource\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:582621:U3Go86",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:1189502:Badtxm"
+        },
+        "description" : "",
+        "editorTag" : "localization",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1189503:q1I5P9",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1189503:q1I5P9::FR",
+              "status" : "",
+              "translation" : "mainSim-dashboard"
+            }
+          }
+        },
+        "name" : "mainSim-dashboard",
+        "properties" : {
+          "add-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"add\"},\"FR\":{\"status\":\"\",\"translation\":\"ajouter\",\"lang\":\"FR\"}},\"version\":0}",
+          "all-teams" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all Teams\"},\"FR\":{\"status\":\"\",\"translation\":\"toutes les équipes\",\"lang\":\"FR\"}},\"version\":0}",
+          "attention-please" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the chosen time has to be later than the most advanced team at {0}.\"},\"FR\":{\"status\":\"\",\"translation\":\"l'heure choisie doit être ultérieure à l'équipe la plus avancée {0}.\",\"lang\":\"FR\"}},\"version\":0}",
+          "hour-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hour(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "hour-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"h(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"h(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "impacts" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impacts\"},\"FR\":{\"status\":\"\",\"translation\":\"impacts\",\"lang\":\"FR\"}},\"version\":0}",
+          "invalidtime" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the target time has to be after {0} and before {1}.\"},\"FR\":{\"status\":\"\",\"translation\":\"temps incorrect: doit se situer après {0} et avant {1}.\",\"lang\":\"FR\"}},\"version\":0}",
+          "locations" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"locations\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacements\",\"lang\":\"FR\"}},\"version\":0}",
+          "methane" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"methane\"},\"FR\":{\"status\":\"\",\"translation\":\"methane\",\"lang\":\"FR\"}},\"version\":0}",
+          "minute-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "minute-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"min(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"min(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "pause" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pause\"},\"FR\":{\"status\":\"\",\"translation\":\"pause\",\"lang\":\"FR\"}},\"version\":0}",
+          "pause-modal-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the trainer has paused the game.\"},\"FR\":{\"status\":\"\",\"translation\":\"le formateur a mis la partie en pause.\",\"lang\":\"FR\"}},\"version\":0}",
+          "pause-modal-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the game is paused\"},\"FR\":{\"status\":\"\",\"translation\":\"le jeu est en pause\",\"lang\":\"FR\"}},\"version\":0}",
+          "play" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"play\"},\"FR\":{\"status\":\"\",\"translation\":\"play\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"message radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-notif" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"radio  Notif\"},\"FR\":{\"status\":\"\",\"translation\":\"radio  Notif\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-notif-placeholder" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"type your message here\"},\"FR\":{\"status\":\"\",\"translation\":\"écrivez votre message ici\",\"lang\":\"FR\"}},\"version\":0}",
+          "roles" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"roles\"},\"FR\":{\"status\":\"\",\"translation\":\"rôles\",\"lang\":\"FR\"}},\"version\":0}",
+          "set-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"set\"},\"FR\":{\"status\":\"\",\"translation\":\"fixer à\",\"lang\":\"FR\"}},\"version\":0}",
+          "spy" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"spy\"},\"FR\":{\"status\":\"\",\"translation\":\"espionner\",\"lang\":\"FR\"}},\"version\":0}",
+          "state" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"state\"},\"FR\":{\"status\":\"\",\"translation\":\"état\",\"lang\":\"FR\"}},\"version\":0}",
+          "teams" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"team(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"équipe(s)\",\"lang\":\"FR\"}},\"version\":0}",
+          "time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"time\"},\"FR\":{\"status\":\"\",\"translation\":\"temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "update" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"update\"},\"FR\":{\"status\":\"\",\"translation\":\"mettre à jour\",\"lang\":\"FR\"}},\"version\":0}"
+        },
+        "refId" : "ObjectDescriptor:1189501:ZTwe9B",
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -4782,9 +4847,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49486:epfRL6",
-            "value" : 0.0
+            "value" : 16.0
           },
-          "defaultValue" : 0.0,
+          "defaultValue" : 16.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",
@@ -5154,6 +5219,86 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:1087352:URRCKc"
+    },
+    "editorTag" : "dashboard",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "Contains the last computed state of the team's main simulation",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:1087303:DPBrfZ"
+      },
+      "description" : "",
+      "editorTag" : "currentState",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1087304:OjFNkp",
+        "translations" : { }
+      },
+      "name" : "currentState",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:1087302:mzXlDQ",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "Contains the last computed state id",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1087357:5G3oPN",
+        "value" : -1.0
+      },
+      "defaultValue" : -1.0,
+      "editorTag" : "currentStateCount",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1087358:8seO4W",
+        "translations" : { }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "currentStateCount",
+      "refId" : "NumberDescriptor:1087356:MPzI0g",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:1087353:tlRWj7",
+      "translations" : {
+        "EN" : {
+          "@class" : "Translation",
+          "lang" : "EN",
+          "refId" : "TranslatableContent:1087353:tlRWj7::EN",
+          "status" : "",
+          "translation" : "dashboard"
+        }
+      }
+    },
+    "name" : "dashboard",
+    "refId" : "ListDescriptor:1087351:Wdjfbp",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -5175,10 +5320,46 @@
   "libraries" : [ {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "dashboard/dashboardFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:752151:wqsXY7",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/dashboardState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1107414:ZsKPmB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/dashboardUIState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1181601:5ANYKP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "dashboard/exportation",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#54:64EhfL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/impacts",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1087301:4BmFap",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5197,6 +5378,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:208752:bWHbOU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "dashboard/utils",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1092401:IMNt4H",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5458,6 +5648,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#76:ISxqrN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/location/locationLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:752204:U4ZtDo",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6354,6 +6553,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/dashboard",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1174013:wQfVhP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/evasanFrom",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6642,6 +6850,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "CustomDashboard",
+    "contentType" : "application/javascript",
+    "libraryType" : "ServerScript",
+    "refId" : "GameModelContent:1087230:VYn2cq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "Dashboard",
     "contentType" : "application/javascript",
     "libraryType" : "ServerScript",
@@ -6712,13 +6929,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS main sim",
+  "name" : "MIMMS - Dashboard Demo",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,

@@ -1,6 +1,7 @@
 /**
  * Setup function
  */
+import { updateLastState } from '../dashboard/dashboardState';
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
@@ -10,8 +11,8 @@ import { ActionBase } from './common/actions/actionBase';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
+import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { ActorId, TemplateId } from './common/baseTypes';
-import { TimeSliceDuration } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
   BuildingStatus,
@@ -56,7 +57,7 @@ let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 let uniqueActionTemplates: IUniqueActionTemplates;
 
 Helpers.registerEffect(() => {
-  currentSimulationState = initMainState();
+  currentSimulationState = buildStartingMainState();
   stateHistory = [currentSimulationState];
 
   actionTemplates = {};
@@ -75,7 +76,7 @@ function queueAutomaticEvents() {
   // empty for now
 }
 
-function initMainState(): MainSimulationState {
+export function buildStartingMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
 
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
@@ -252,8 +253,6 @@ export function runUpdateLoop(): void {
   const ignored = getOmittedEvents();
   const unprocessed = globalEvents.filter(e => !processedEvents[e.id] && !ignored[e.id]);
 
-  // state restoration debug : filter out ignored events
-
   const sorted = unprocessed.sort(compareTimedEvents);
 
   // process all candidate events
@@ -261,6 +260,9 @@ export function runUpdateLoop(): void {
     mainSimLogger.info('Processing event ', event);
     processEvent(event);
   });
+
+  // update last state variable for dashboard
+  updateLastState(currentSimulationState);
 }
 
 /**
@@ -268,20 +270,25 @@ export function runUpdateLoop(): void {
  * The new state is appended to the history
  * The event is ignored if it doesn't match with the current simulation time
  * @param event the global event to process
- * @returns the resulting simulation state
  */
-function processEvent(event: FullEvent<TimedEventPayload>) {
+function processEvent(event: FullEvent<TimedEventPayload>): void {
   const now = currentSimulationState.getSimTime();
-  if (event.payload.triggerTime < now) {
-    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-    mainSimLogger.warn(
-      'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
-    );
-    return;
-  } else if (event.payload.triggerTime > now) {
-    mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-    mainSimLogger.warn('This event will be processed later');
-    return;
+  if (!event.payload.dashboardForced) {
+    if (event.payload.triggerTime < now) {
+      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+      mainSimLogger.warn(
+        'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
+      );
+      return;
+    } else if (event.payload.triggerTime > now) {
+      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
+      mainSimLogger.warn('This event will be processed later');
+      return;
+    }
+  } else {
+    // from trainer
+    mainSimLogger.info('Trainer event', event);
+    event.payload.triggerTime = now;
   }
 
   switch (event.payload.type) {
@@ -349,13 +356,30 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
       break;
     case 'TimeForwardEvent':
       {
-        const timefwdEvent = new TimeForwardLocalEvent(
-          event.id,
-          event.payload.triggerTime,
-          event.payload.involvedActors,
-          event.payload.timeJump
-        );
-        localEventManager.queueLocalEvent(timefwdEvent);
+        const timeJump = event.payload.timeJump;
+
+        if (timeJump % TimeSliceDuration !== 0) {
+          mainSimLogger.error(
+            'time jump is not divisble by time slice duration',
+            timeJump,
+            TimeSliceDuration
+          );
+        } else {
+          // if event is forced, take all actors regardless
+          const involved = event.payload.dashboardForced
+            ? currentSimulationState.getAllActors().map(a => a.Uid)
+            : event.payload.involvedActors;
+
+          for (let i = 0; i < timeJump / TimeSliceDuration; i++) {
+            const timefwdEvent = new TimeForwardLocalEvent(
+              event.id,
+              event.payload.triggerTime + TimeSliceDuration * i,
+              involved,
+              TimeSliceDuration
+            );
+            localEventManager.queueLocalEvent(timefwdEvent);
+          }
+        }
       }
       break;
     case 'TimeForwardCancelEvent':
@@ -368,6 +392,42 @@ function processEvent(event: FullEvent<TimedEventPayload>) {
         localEventManager.queueLocalEvent(timefwdEvent);
       }
       break;
+    case 'DashboardRadioMessageEvent': {
+      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
+      const radioMessageEvent = new AddRadioMessageLocalEvent(
+        event.id,
+        event.payload.triggerTime,
+        0,
+        trainerName,
+        event.payload.message,
+        event.payload.canal,
+        true,
+        true
+      );
+      localEventManager.queueLocalEvent(radioMessageEvent);
+      break;
+    }
+    case 'DashboardNotificationMessageEvent': {
+      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
+      const payload = event.payload;
+      payload.roles.forEach(role => {
+        const actorId = currentSimulationState.getAllActors().find(a => a.Role === role)?.Uid;
+        if (actorId) {
+          const notificationMessageEvent = new AddRadioMessageLocalEvent(
+            event.id,
+            payload.triggerTime,
+            actorId,
+            trainerName,
+            payload.message,
+            ActionType.ACTION,
+            false,
+            true
+          );
+          localEventManager.queueLocalEvent(notificationMessageEvent);
+        }
+      });
+      break;
+    }
     default:
       if (isLegacyGlobalEvent(event)) {
         mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
@@ -500,7 +560,7 @@ export function recomputeState() {
   Resource.resetIdSeed();
   ResourceContainerResetIdSeed();
 
-  currentSimulationState = initMainState();
+  currentSimulationState = buildStartingMainState();
   stateHistory = [currentSimulationState];
 
   ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());

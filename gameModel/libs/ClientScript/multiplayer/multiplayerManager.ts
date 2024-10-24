@@ -1,7 +1,8 @@
+import { getPlayer } from '../dashboard/utils';
 import { InterventionRole } from '../game/common/actors/actor';
 import { mainSimLogger } from '../tools/logger';
 
-interface MultiplayerMatrix extends Array<PlayerMatrix> {}
+export interface MultiplayerMatrix extends Array<PlayerMatrix> {}
 
 interface PlayerMatrix {
   id: number;
@@ -15,16 +16,25 @@ type PlayerRoles = Partial<Record<InterventionRole, boolean>>;
 // Throttle resquests to server
 let hasRegisteredOnce = false;
 
-export async function clearMultiplayerMatrix() {
+/**
+ * Clear all values for in matrix for current team (players and roles)
+ */
+export async function clearMultiplayerMatrix(): Promise<void> {
   hasRegisteredOnce = false;
 
-  await APIMethods.runScript(
-    `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).clearProperties()`,
-    {}
-  );
+  try {
+    await APIMethods.runScript(
+      `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).clearProperties()`,
+      {}
+    );
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
 }
 
-// Register current player (self) in matrix
+/**
+ * Register current player (self) in matrix
+ */
 export async function registerSelf(): Promise<void> {
   if (hasRegisteredOnce) return;
   const currentPlayerId = self.getId();
@@ -50,6 +60,7 @@ export async function registerSelf(): Promise<void> {
     const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${currentPlayerId.toString()}, ${JSON.stringify(
       JSON.stringify(playerMatrix)
     )})`;
+
     try {
       await APIMethods.runScript(script, {});
       hasRegisteredOnce = true;
@@ -61,6 +72,8 @@ export async function registerSelf(): Promise<void> {
 
 /**
  * Is the current player allowed to update the target player ?
+ *
+ * @params {number} targetPlayerId - Id of target player
  */
 function canUpdateRole(targetPlayerId: number): boolean {
   const currentPlayerId = self.getId();
@@ -72,6 +85,9 @@ function canUpdateRole(targetPlayerId: number): boolean {
 
 /**
  * Update role of given player
+ *
+ * @params {number} playerId - Id of player to update
+ * @params {InterventionRole} role - Role to be updated
  */
 export async function updateRole(playerId: number, role: InterventionRole): Promise<void> {
   if (!canUpdateRole(playerId)) return;
@@ -92,8 +108,10 @@ export async function updateRole(playerId: number, role: InterventionRole): Prom
 
 /**
  * Update ready status of given player
+ *
+ * @params {number} playerId - Id of player to update
  */
-export async function updateReady(playerId: number) {
+export async function updateReady(playerId: number): Promise<void> {
   if (!canUpdateRole(playerId)) return;
 
   const playerMatrix = getPlayersAndRoles().find(p => p.id === playerId)!;
@@ -112,6 +130,8 @@ export async function updateReady(playerId: number) {
 
 /**
  * Get and convert multiplayerMatrix to workable format
+ *
+ * @returns {MultiplayerMatrix}
  */
 export function getPlayersAndRoles(): MultiplayerMatrix {
   return Object.entries(
@@ -126,6 +146,8 @@ export function getPlayersAndRoles(): MultiplayerMatrix {
 
 /**
  * Get the available roles for the current player
+ *
+ * @returns {PlayerRoles}
  */
 export function getPlayerRolesSelf(): PlayerRoles {
   const currentPlayerId = self.getId();
@@ -175,6 +197,8 @@ export function checkAllPlayersReady(): boolean {
 
 /**
  * Unregister given player from playerMatrix
+ *
+ * @params {number} playerId - Id of player to unregister
  */
 export async function unregisterPlayer(playerId: number): Promise<void> {
   // Players aren't allowed to unregister others
@@ -218,4 +242,184 @@ export async function registerSelfAllRolesAndReady(): Promise<void> {
   } catch (error) {
     mainSimLogger.error(error);
   }
+}
+
+interface TeamMatrix {
+  id: number;
+  matrix: MultiplayerMatrix;
+}
+
+/**
+ * Script variable in which we store matrixes for each team
+ */
+export let multiPlayerMatrixes: TeamMatrix[] = [];
+
+/**
+ * Retrieve matrix for all teams
+ *
+ * @returns {Promise<TeamMatrix[]>}
+ */
+export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
+  const script = 'MultiplayerHelper.getMultiplayerMatrix()';
+
+  let response: IManagedResponse;
+
+  try {
+    response = await APIMethods.runScript(script, {});
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+
+  const teams = response!.updatedEntities[0] as any;
+
+  const teamMatrixes = Object.keys(teams).map(key => ({
+    id: Number(key),
+    matrix: Object.values(teams[key].properties).map(m =>
+      JSON.parse(String(m))
+    ) as MultiplayerMatrix,
+  }));
+  multiPlayerMatrixes = teamMatrixes;
+  return teamMatrixes;
+}
+
+/**
+ * Get team matrix of given team
+ *
+ * @params {string} teamId - Id of team to retrieve
+ */
+export function getTeamMultiplayerMatrix(teamId: number): MultiplayerMatrix {
+  if (multiPlayerMatrixes === undefined || multiPlayerMatrixes.length === 0) {
+    return [];
+  } else {
+    const multi = multiPlayerMatrixes.find(matrix => matrix.id === teamId);
+    return multi ? multi.matrix : [];
+  }
+}
+
+/**
+ * Retrieve and parse a player matrix
+ *
+ * @params {string} - Id of team to retrieve
+ * @params {number} - Id of player to retrieve
+ * @returns {PlayerMatrix}
+ */
+function getPlayerMatrix(teamId: number, playerId: number): PlayerMatrix {
+  const teamMatrix = multiPlayerMatrixes.find(teamMatrixes => teamMatrixes.id === teamId);
+  if (teamMatrix && teamMatrix!.matrix.find(m => m.id === playerId)) {
+    return teamMatrix.matrix.find(m => m.id === playerId)!;
+  } else {
+    // build an empty instance
+    const player = getPlayer(teamId, playerId);
+    return getEmptyPlayerMatrix(player!);
+  }
+}
+
+/**
+ * Update role of given player in team
+ *
+ * @params {string} teamId - Id of team to update
+ * @params {number} playerId - Id of player to update
+ * @params {InterventionRole} role - Role to update
+ */
+export async function updatePlayerRole(
+  teamId: number,
+  playerId: number,
+  role: InterventionRole
+): Promise<void> {
+  const playerMatrix: PlayerMatrix = getPlayerMatrix(teamId, playerId);
+
+  playerMatrix.roles[role] = !playerMatrix.roles[role];
+  try {
+    await updatePlayerMatrix(teamId, playerId, playerMatrix);
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Update ready of given player in team
+ *
+ * @params {string} teamId - Id of team to update
+ * @params {number} playerId - Id of player to update
+ */
+export async function updatePlayerReady(teamId: number, playerId: number): Promise<void> {
+  const playerMatrix = getPlayerMatrix(teamId, playerId);
+
+  playerMatrix.ready = !playerMatrix.ready;
+  try {
+    await updatePlayerMatrix(teamId, playerId, playerMatrix);
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Update multiplayerMatrix variable for given team and player, fetch update when done
+ *
+ * @params {string} teamId - Id of team to update
+ * @params {number} playerId - Id of player to update
+ * @params {PlayerMatrix} matrix - Matrix being replaced in variable
+ */
+async function updatePlayerMatrix(
+  teamId: number,
+  playerId: number,
+  matrix: PlayerMatrix
+): Promise<void> {
+  const payload = JSON.stringify(JSON.stringify(matrix));
+
+  const script = `MultiplayerHelper.updatePlayerMatrix(${teamId}, ${playerId}, ${payload})`;
+  try {
+    await APIMethods.runScript(script, {});
+    await getAllTeamsMultiplayerMatrix();
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Update multiplayerMatrix variable for a given team, fetch update when done
+ *
+ * @params {number} teamId - Id of team to update
+ * @params {MultiplayerMatrix} matrix - Team matrix being replaced
+ */
+export async function updateTeamMatrix(
+  teamId: number,
+  teamMatrix: MultiplayerMatrix
+): Promise<void> {
+  const scripts: string[] = [];
+
+  for (let matrix of teamMatrix) {
+    const payload = JSON.stringify(JSON.stringify(matrix));
+
+    scripts.push(`MultiplayerHelper.updatePlayerMatrix(${teamId}, ${matrix.id}, ${payload})`);
+  }
+
+  try {
+    await APIMethods.runScript(scripts.join(';'), {});
+    await getAllTeamsMultiplayerMatrix();
+  } catch (error) {
+    mainSimLogger.error(error);
+  }
+}
+
+/**
+ * Returns the initial player matrix configuration (no role selected)
+ */
+export function getEmptyPlayerMatrix(player: SPlayer): PlayerMatrix {
+  return {
+    id: player.getId() || 0,
+    name: player.getName() || '',
+    ready: false,
+    roles: {
+      AL: false,
+      ACS: false,
+      MCS: false,
+      EVASAN: false,
+      LEADPMA: false,
+    },
+  };
+}
+
+if (APP_CONTEXT !== 'Player') {
+  getAllTeamsMultiplayerMatrix();
 }

@@ -1,0 +1,2554 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : {
+              "display" : "none"
+            },
+            "name" : "first loading",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n  fetchAndUpdateTeamsGameState(Context.state.setState, true);\n  '';",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "reload header-button",
+                "icon" : "redo",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'update')",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "reload-container",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\nimport { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n  getAllTeamsMultiplayerMatrix();\n    fetchAndUpdateTeamsGameState(Context.state.setState, false);",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "update",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "icon" : "clock",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        }, {
+                          "props" : {
+                            "className" : "modal-title",
+                            "id" : "",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'time')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "margin-bottom" : "25px"
+                        },
+                        "name" : "Title",
+                        "style" : {
+                          "gap" : "10px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "content-title",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getTimeChoices } from \"./dashboard/dashboardFacade\";\ngetTimeChoices();",
+                              "language" : "typescript"
+                            },
+                            "className" : "modal-dropdown-time",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Dropdown",
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.mode = Context.dashboardTime;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"dashboardTime\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.dashboardState.state.time.mode || 'add';",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding time-textarea-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.addMinute = Context.dashboardTimeAdd;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeAdd\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"0\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.addMinute || '';",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
+                                "className" : "time-text",
+                                "layoutStyle" : { },
+                                "name" : "Min",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-long')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"add\";",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Add",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding time-textarea-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setHour = Context.dashboardTimeSetHour;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetHour\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"00\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setHour || '';",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
+                                "className" : "time-text",
+                                "layoutStyle" : { },
+                                "name" : "H",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'hour-long')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "time-textarea",
+                                "layoutClassName" : "noPadding time-textarea-container",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.time.setMinute = Context.dashboardTimeSetMinute;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardTimeSetMinute\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"00\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.time.setMinute || '';",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
+                                "className" : "time-text",
+                                "layoutStyle" : { },
+                                "name" : "Min",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'minute-long')}`",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Set",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "modal-content",
+                        "layout" : { },
+                        "layoutStyle" : {
+                          "margin-bottom" : "15px"
+                        },
+                        "name" : "Content",
+                        "style" : {
+                          "gap" : "15px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "className" : "attention-please",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.time.mode !== \"set\";",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "Set",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n  const time = Context.dashboardState.state.minForwardTime;\n  const timeString = time.toLocaleTimeString([], {hour12: false, hour: '2-digit', minute: '2-digit'});\ngetTranslation('mainSim-dashboard', 'attention-please', true, [timeString]);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "attention-please",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { checkEnteredTimeValidity } from \"./dashboard/dashboardFacade\";\nimport { getTypedDashboardUIState } from \"./dashboard/dashboardUIState\";\ngetTypedDashboardUIState().time.mode !== \"set\" || checkEnteredTimeValidity();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "invalid time",
+                        "style" : {
+                          "font-weight" : "bold"
+                        },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getMaxTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { getTimeString } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\nconst minTime = getTimeString(Context.dashboardState.state.minForwardTime);\n  const maxTime = getTimeString(getMaxTimeForwardValue(Context.dashboardState.state.minForwardTime));\ngetTranslation('mainSim-dashboard', 'invalidTime', true, [minTime, maxTime]);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "disableIf" : {
+                              "@class" : "Script",
+                              "content" : "import { checkEnteredTimeValidity } from \"./dashboard/dashboardFacade\";\nimport { getTypedDashboardUIState } from \"./dashboard/dashboardUIState\";\ngetTypedDashboardUIState().time.mode === \"set\" && !checkEnteredTimeValidity();",
+                              "language" : "typescript"
+                            },
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { processTimeForward } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const timeAdd = processTimeForward(Context.dashboardState.state.time, Context.dashboardState.state.selectedTeam);\n  resetModals();\n  timeAdd;",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "margin-top" : "25px"
+                        },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.TimeImpact;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Time",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-icon",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "\"/walkie-talkie-solid.svg\"",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Image"
+                        }, {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "import { getRadioModeChoices } from \"./dashboard/dashboardFacade\";\ngetRadioModeChoices();",
+                              "language" : "typescript"
+                            },
+                            "className" : "title-dropdown",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : {
+                              "" : ""
+                            },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.mode = Context.mode;\n\nContext.dashboardState.setState(newState);",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"mode\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.dashboardState.state.radio.mode;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : {
+                          "gap" : "5px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "content-title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "choices" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getRadioChannelChoices } from \"./dashboard/dashboardFacade\";\ngetRadioChannelChoices();",
+                                      "language" : "typescript"
+                                    },
+                                    "className" : "content-dropdown",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "Dropdown",
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.channel = Context.dashboardRadioChannel;\n\nContext.dashboardState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"dashboardRadioChannel\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.dashboardState.state.radio.channel;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Select input"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "alignItems" : "center"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Dropdown",
+                                "style" : {
+                                  "gap" : " 15px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "className" : "modal-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardRadioMessage\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'radio-notif-placeholder')",
+                                  "language" : "TypeScript"
+                                },
+                                "rows" : 6,
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.radio.message;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Content",
+                            "style" : {
+                              "gap" : "15px"
+                            }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { processMessage } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const radioMessage = processMessage(Context.dashboardState.state);\n  resetModals();\n  radioMessage;",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Buttons",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.radio.mode !== \"radio\";",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Radio",
+                        "style" : {
+                          "gap" : "25px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "content-title",
+                                    "id" : "",
+                                    "layoutClassName" : "noPadding notif-content-title",
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutClassName" : "noPadding modal-matrix-text",
+                                            "layoutStyle" : { },
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "  Context.actor.shortName;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutClassName" : "noPadding modal-matrix-checkbox",
+                                            "layoutStyle" : { },
+                                            "onVariableChange" : {
+                                              "client" : {
+                                                "@class" : "Script",
+                                                "content" : "import { DashboardUIState } from \"./dashboard/dashboardUIState\";\nimport { InterventionRole } from \"./game/common/actors/actor\";\nconst newState = Helpers.cloneDeep(Context.dashboardState.state) as DashboardUIState;\nconst role: InterventionRole = Context.actor.role;\nnewState.radio.roles[role] = Context.dashboardRadioRoleSelection;\nContext.dashboardState.setState(newState);",
+                                                "language" : "TypeScript"
+                                              },
+                                              "exposeVariableAs" : {
+                                                "@class" : "Script",
+                                                "content" : "\"dashboardRadioRoleSelection\"",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "script" : {
+                                              "@class" : "Script",
+                                              "content" : "import { InterventionRole } from \"./game/common/actors/actor\";\n    const role: InterventionRole = Context.actor.role;\n    !!Context.dashboardState.state.radio.roles[role];",
+                                              "language" : "TypeScript"
+                                            },
+                                            "style" : { },
+                                            "type" : "checkbox"
+                                          },
+                                          "type" : "Boolean"
+                                        } ],
+                                        "className" : "",
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "modal-matrix",
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : { },
+                                    "layoutClassName" : "noPadding modal-matrix-container",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "content-modal-matrix",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Matrix",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "className" : "modal-textarea",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.radio.message = Context.dashboardRadioMessage;\n\nContext.dashboardState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"dashboardRadioMessage\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'radio-notif-placeholder')",
+                                  "language" : "TypeScript"
+                                },
+                                "rows" : 4,
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.radio.message;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            } ],
+                            "className" : "",
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Content",
+                            "style" : {
+                              "gap" : "10px"
+                            }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "button-S cancel-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { hideModals } from \"./dashboard/dashboardUIState\";\n\nhideModals();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "Cancel",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "button-S button-secondaryColor",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { processMessage } from \"./dashboard/dashboardFacade\";\nimport { resetModals } from \"./dashboard/dashboardUIState\";\n  const notificationMessage = processMessage(Context.dashboardState.state);\n  resetModals();\n  notificationMessage;",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "Confirm",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "modal-buttons",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Buttons",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.dashboardState.state.radio.mode !== \"notif\";",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Notif",
+                        "style" : {
+                          "gap" : "25px",
+                          "margin-top" : "10px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal dashboard-modal-radionotif",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RadioNotifImpact;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Radio | Notif",
+                    "onExitActions" : { },
+                    "style" : {
+                      "gap" : "15px"
+                    }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "modal-title",
+                            "id" : "",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getModalHeaderTitle } from \"./dashboard/dashboardFacade\";\ngetModalHeaderTitle();",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "",
+                            "icon" : "times",
+                            "id" : "",
+                            "layoutClassName" : "noPadding close-modal-icon",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\n\nresetModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        } ],
+                        "className" : "modal-icon-title",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "modal-matrix-title",
+                                "layoutClassName" : "noPadding notif-content-title",
+                                "layoutStyle" : { },
+                                "name" : "Team",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'player-name')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "layoutClassName" : "noPadding modal-matrix-text",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.actor.shortName;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "width100",
+                                    "layout" : {
+                                      "justifyContent" : "center"
+                                    },
+                                    "layoutClassName" : "noPadding width100",
+                                    "layoutStyle" : { },
+                                    "name" : "",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "width100",
+                                "exposeAs" : "actor",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\ngetRolesContext();",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : {
+                                  "justifyContent" : "space-between"
+                                },
+                                "layoutClassName" : "noPadding width100",
+                                "layoutStyle" : { },
+                                "name" : "actor",
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            } ],
+                            "className" : "width100",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding width100",
+                            "layoutStyle" : { },
+                            "name" : "Header",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "modal-player-name",
+                                        "layoutClassName" : "noPadding notif-content-title",
+                                        "layoutStyle" : { },
+                                        "name" : "Player",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.player.name",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "className" : "",
+                                                "layoutClassName" : "noPadding modal-matrix-text",
+                                                "layoutStyle" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { toggleInterventionRole } from \"./dashboard/dashboardUIState\";\n\ntoggleInterventionRole(Context.player.id, Context.actor.role)",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"value\"",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "Context.player.roles[Context.actor.role];",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "style" : { },
+                                                "type" : "checkbox"
+                                              },
+                                              "type" : "Boolean"
+                                            } ],
+                                            "className" : "width100",
+                                            "layout" : {
+                                              "alignItems" : "center",
+                                              "justifyContent" : "center"
+                                            },
+                                            "layoutClassName" : "noPadding width100",
+                                            "layoutStyle" : { },
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "className" : "width100 modal-matrix",
+                                        "exposeAs" : "actor",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\ngetRolesContext();",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "id",
+                                        "layout" : { },
+                                        "layoutClassName" : "noPadding width100",
+                                        "layoutStyle" : { },
+                                        "name" : "actor",
+                                        "style" : { }
+                                      },
+                                      "type" : "For each"
+                                    } ],
+                                    "className" : "width100",
+                                    "layout" : { },
+                                    "layoutClassName" : "noPadding width100",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "width100",
+                                "exposeAs" : "player",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.dashboardState.state.roleConfig;",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "id",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "noPadding width100",
+                                "layoutStyle" : { },
+                                "name" : "Player",
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            } ],
+                            "className" : "width100 modal-matrix",
+                            "layout" : { },
+                            "layoutClassName" : "noPadding width100",
+                            "layoutStyle" : { },
+                            "name" : "Roles & checkboxes",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "modal-content",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Content",
+                        "style" : {
+                          "gap" : "10px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "button-S cancel-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { resetModals } from \"./dashboard/dashboardUIState\";\n\nresetModals();",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Cancel",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "button-S button-secondaryColor",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { updateRolesSetupAndClose } from \"./dashboard/dashboardFacade\";\n  updateRolesSetupAndClose(Context.dashboardState);",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "Confirm",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "modal-buttons",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "dashboard-modal dashboard-modal-configureroles",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { ModalState } from \"./dashboard/dashboardUIState\";\nContext.dashboardState.state.modalState !== ModalState.RolesConfiguration;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Configure Roles",
+                    "onExitActions" : { },
+                    "style" : { }
+                  },
+                  "type" : "Modal"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "state",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'state')}`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "state-container accordion-container noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.state = !newState.state;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "state",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "roles",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'roles')}`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "roles-container accordion-container noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.roles = !newState.roles;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "roles",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "impacts",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'impacts')}`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "impacts-container accordion-container noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.impacts = !newState.impacts;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "impacts",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "button-closed-locations",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "play",
+                        "id" : "locations",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'locations')}`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "locations-container accordion-container noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.locations = !newState.locations;\n\nContext.dashboardState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "locations",
+                        "prefixedLabel" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "accordion-header",
+                        "id" : "spy",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'spy')}`",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "spy-container accordion-container noPadding",
+                        "layoutStyle" : { },
+                        "name" : "spy",
+                        "prefixedLabel" : false,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "noPadding accordion",
+                    "layout" : { },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "accordion",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "header-text ",
+                        "id" : "teams",
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "teams",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'teams')}`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "header-text-container",
+                            "layoutStyle" : { },
+                            "name" : "time",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'time')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "header-text-container",
+                            "layoutStyle" : { },
+                            "name" : "methane",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'methane')}`",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "header-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "state",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "header-text",
+                                "layoutClassName" : "header-text-container",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.actor.shortName;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "className" : "",
+                            "exposeAs" : "actor",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "actors",
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "header-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "roles",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "header-button",
+                                "id" : "play",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'play')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.RUNNING, Context.dashboardState);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "play",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button",
+                                "id" : "pause",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'pause')}`",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { setAllTeamsGameState } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setAllTeamsGameState(GameState.PAUSED, Context.dashboardState);",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "pause",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "header-text-container",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "play/pause",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "header-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'time')}`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "header-text-container",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { updateMinimumValidTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\nupdateMinimumValidTimeForwardValue((minDate) => {\n    setModalState(ModalState.TimeImpact, false, minDate);\n  });",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "time forward",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "header-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Radio &amp; Notif</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "header-text-container",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.RadioNotifImpact, false);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "radio message",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "header-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "impacts",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "letters",
+                                    "layoutClassName" : "letters-container",
+                                    "layoutStyle" : { },
+                                    "name" : "Default",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.location.shortName;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "words",
+                                    "layoutClassName" : "words-container",
+                                    "layoutStyle" : { },
+                                    "name" : "On Hover",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.location.longName;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "pastille",
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "exposeAs" : "location",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getLocationsContext } from \"./dashboard/dashboardFacade\";\n    getLocationsContext();",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        } ],
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "header-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "locations",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "header",
+                    "layout" : { },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "team",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  const id = Context.team.id;\n  `${Context.team.name} (${id})`;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "className" : "line-team-button",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Outside",
+                                      "className" : "line-team-button-closed",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "!Context.dashboardState.state.openTeams[Context.team.id];",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
+                                    "icon" : "caret-down",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.dashboardState.state);\n\nnewState.openTeams[Context.team.id] = !newState.openTeams[Context.team.id];\n\nContext.dashboardState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "Arrow",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "team-text",
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "team",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "line-text",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "sim time",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTime } from \"./dashboard/dashboardFacade\";\n  getTime(Context.state.state, Context.team.id);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getMethaneStatus } from \"./dashboard/dashboardFacade\";\n!getMethaneStatus(Context.state.state, Context.team.id);",
+                                          "language" : "typescript"
+                                        },
+                                        "icon" : "check",
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "name" : "METHANE",
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "className" : "line-text",
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-closed",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.dashboardState.state.state;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-open",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.dashboardState.state.state;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "state",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "line-text",
+                                        "layoutClassName" : "header-text-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getActorsLocation } from \"./dashboard/dashboardFacade\";\n  getActorsLocation(Context.state.state, Context.team.id, Context.actor.role);",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "className" : "",
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : { },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "actors",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-closed",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.dashboardState.state.roles;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-open",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.dashboardState.state.roles;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "roles",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "play-pause-icon",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "play-pause-icon-focus",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.RUNNING;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "icon" : "play",
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutClassName" : "",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.RUNNING, Context.dashboardState);",
+                                            "language" : "TypeScript",
+                                            "returnType" : "Promise<unknown> | undefined"
+                                          }
+                                        },
+                                        "name" : "play",
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    }, {
+                                      "props" : {
+                                        "className" : "play-pause-icon",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "play-pause-icon-focus",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) !== GameState.RUNNING;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "icon" : "pause",
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutClassName" : "",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  setGameStateStatus(Context.team.id, GameState.PAUSED, Context.dashboardState);",
+                                            "language" : "TypeScript",
+                                            "returnType" : "Promise<unknown> | undefined"
+                                          }
+                                        },
+                                        "name" : "pause",
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "className" : "line-text",
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "play/pause",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "className" : "line-text",
+                                    "icon" : "clock",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { updateMinimumValidTimeForwardValue } from \"./dashboard/dashboardFacade\";\nimport { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\nupdateMinimumValidTimeForwardValue((minDate) => {\n    setModalState(ModalState.TimeImpact, true, minDate);\n  }, Context.team.id);",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
+                                      }
+                                    },
+                                    "name" : "time forward",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                }, {
+                                  "props" : {
+                                    "className" : "walkie-talkie",
+                                    "id" : "",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { ModalState, setModalState } from \"./dashboard/dashboardUIState\";\n\nsetModalState(ModalState.RadioNotifImpact, true);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "walkie-talkie",
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "\"/walkie-talkie-solid.svg\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Image"
+                                } ],
+                                "className" : "",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-closed",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.dashboardState.state.impacts;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-open",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.dashboardState.state.impacts;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "impacts",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : { },
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getLocationChoice } from \"./dashboard/dashboardFacade\";\n  getLocationChoice(Context.state.state, Context.team.id, Context.location.location);",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "door-closed",
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : { },
+                                            "name" : "Door Closed",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { showAsOpened } from \"./dashboard/dashboardFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nContext.location.id !== LOCATION_ENUM.PMA || ! showAsOpened(Context.state.state, Context.team.id, Context.location.location);",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "door-open",
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : { },
+                                            "name" : "Door Open",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        } ],
+                                        "className" : "line-text",
+                                        "layout" : { },
+                                        "layoutClassName" : "header-text-container",
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "",
+                                    "exposeAs" : "location",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocationsContext } from \"./dashboard/dashboardFacade\";\n    getLocationsContext();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : { },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "line-locations",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-closed",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "!Context.dashboardState.state.locations;",
+                                    "language" : "typescript"
+                                  }
+                                }, {
+                                  "applyOn" : "Inside",
+                                  "className" : "header-open",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Context.dashboardState.state.locations;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "name" : "locations",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "infos",
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "Infos",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "className" : "members-paragraph",
+                                                "layoutStyle" : { },
+                                                "name" : "Team member",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  Context.player.name",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ],
+                                            "id" : "team",
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "team",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-closed",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.dashboardState.state.state;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "id" : "state",
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "state",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "members-paragraph",
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "!Context.player.roles[Context.actor.role];",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "check",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "\"\"",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutStyle" : { },
+                                                        "name" : "Roles",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "className" : "header-text-container",
+                                                    "layout" : { },
+                                                    "layoutStyle" : { },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "exposeAs" : "actor",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getRolesContext } from \"./dashboard/dashboardFacade\";\n  getRolesContext();",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "itemKey" : "id",
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "For each"
+                                            } ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-closed",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.dashboardState.state.roles;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "header-open",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.dashboardState.state.roles;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "header-closed",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.dashboardState.state.roles;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "id" : "roles",
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "roles",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-closed",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.dashboardState.state.impacts;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "id" : "impacts",
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "impacts",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ ],
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-closed-locations",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "!Context.dashboardState.state.locations;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "id" : "locations",
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "locations",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "className" : "members-paragraph spy-text",
+                                            "icon" : "eye",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "\"\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutStyle" : { },
+                                            "name" : "Spy player",
+                                            "openUrl" : {
+                                              "url" : {
+                                                "@class" : "Script",
+                                                "content" : "import { buildSpyUrl } from \"./dashboard/utils\";\nbuildSpyUrl(Context.player.id);",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ]
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "",
+                                    "exposeAs" : "player",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : " import { getTeamPlayersAndRoles } from \"./dashboard/dashboardFacade\";\n  getTeamPlayersAndRoles(Context.team.id);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "Team Member",
+                                    "style" : {
+                                      "flex-direction" : "column"
+                                    }
+                                  },
+                                  "type" : "For each"
+                                }, {
+                                  "props" : {
+                                    "className" : "tertiary-button",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'roles')}`",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { openRoleSetupModal } from \"./dashboard/dashboardFacade\";\nopenRoleSetupModal(Context.dashboardState.state);",
+                                        "language" : "TypeScript",
+                                        "returnType" : "Promise<unknown> | undefined"
+                                      }
+                                    },
+                                    "name" : "Configure roles",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "Players",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "members-hide",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.dashboardState.state.openTeams[Context.team.id];",
+                                "language" : "typescript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "members-display",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.dashboardState.state.openTeams[Context.team.id];",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : {
+                              "justifyContent" : "space-between"
+                            },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "Players",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "line",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "line-container",
+                        "layoutStyle" : { },
+                        "name" : "Line",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "",
+                    "exposeAs" : "team",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getTeamsContext } from \"./dashboard/utils\";\n  getTeamsContext()",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Teams",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "className" : "",
+                "exposeAs" : "dashboardState",
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getInitialDashboardUIState } from \"./dashboard/dashboardUIState\";\ngetInitialDashboardUIState();",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding accordion-state",
+                "layoutStyle" : {
+                  "flexDirection" : "column"
+                },
+                "localState" : true,
+                "name" : "accordionState",
+                "style" : { }
+              },
+              "type" : "State"
+            } ],
+            "className" : "",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "",
+        "exposeAs" : "state",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "({});",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "localState" : true,
+        "name" : "State",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "className" : "",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding dashboard",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
