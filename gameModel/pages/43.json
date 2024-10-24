@@ -5,11 +5,11 @@
         "layoutStyle" : {
           "display" : "none"
         },
-        "name" : "eventLoop cheat",
+        "name" : "eventLoop trigger",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { triggerEventLoop } from \"./UIfacade/debugFacade\";\ntriggerEventLoop()\n\"<p>(Trigger event loop hack)</p>\"",
+          "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\ntriggerEventLoop();\n\"\";",
           "language" : "TypeScript"
         }
       },
@@ -1061,13 +1061,13 @@
                                   "className" : "unauthorizedAction",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                    "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                                     "language" : "typescript"
                                   }
                                 } ],
                                 "disableIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions, isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n  if(isPCFrontBuilt() === false){\n    return true\n  }else if (canPlanAction()) return false;\n  !isPlannedAction(getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ALLOCATE_RESOURCES)[0]?.Uid);",
+                                  "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",

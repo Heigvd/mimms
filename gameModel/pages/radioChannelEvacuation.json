@@ -1101,18 +1101,18 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "\nimport { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n  const action = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\nisPlannedAction(action.Uid);",
+                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates().EvacuationActionTemplate);",
                     "language" : "typescript"
                   }
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (!canPlanAction()) {\n\treturn false;\n}\n  const availableAction = getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0];\n  if (availableAction == null) {\n    return true;\n  }\n\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
+                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nif(!isAvailable(uniqueActionTemplates().EvacuationActionTemplate)) return true;\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nif (canPlanAction()) return false;\n!isPlannedAction( getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO)[0].Uid);",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().EvacuationActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -1125,7 +1125,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.EVASAN_RADIO);\nrunActionButton(actions[0]);",
+                    "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(uniqueActionTemplates().EvacuationActionTemplate);",
                     "language" : "TypeScript"
                   }
                 },

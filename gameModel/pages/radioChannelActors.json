@@ -6,216 +6,138 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "emitter-text-header-layout",
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "emitter-text-body-layout",
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            } ],
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Outside",
-              "className" : "radio-message-others tri-right left-top",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Outside",
-              "className" : "radio-message-myself tri-right right-top",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Outside",
-              "className" : "pending",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "Context.item.pending;",
-                "language" : "typescript"
-              }
-            }, {
-              "applyOn" : "Outside",
-              "className" : "radio-message-last",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.ACTORS_RADIO, Context.item.uid);",
-                "language" : "typescript"
-              }
-            } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.ACTORS_RADIO;",
-              "language" : "typescript"
-            },
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "name" : "message",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "className" : "messageArea",
-        "exposeAs" : "item",
-        "getItemsFn" : {
-          "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.ACTORS_RADIO));",
-          "language" : "TypeScript"
-        },
-        "itemKey" : "uid",
-        "layout" : {
-          "flexDirection" : "column"
-        },
-        "layoutClassName" : "messageArea-container",
-        "layoutStyle" : { },
-        "name" : "output message",
-        "style" : { }
-      },
-      "type" : "For each"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "onCancel" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.channelText.actors = Context.actors;\nContext.interfaceState.setState(newState);",
-                    "language" : "TypeScript"
+                "children" : [ {
+                  "props" : {
+                    "className" : "emitter-text-header-layout",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
+                      "language" : "TypeScript"
+                    }
                   },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"actors\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
-                  "language" : "TypeScript"
-                },
-                "readOnlyIf" : {
-                  "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\n!canPlanAction();",
-                  "language" : "typescript"
-                },
-                "rows" : 6,
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.interfaceState.state.channelText.actors;",
-                  "language" : "TypeScript"
-                },
-                "style" : {
-                  "border" : "none",
-                  "resize" : "none",
-                  "width" : "100%"
-                }
-              },
-              "type" : "String input"
-            }, {
-              "props" : {
-                "className" : "button-S button-secondaryColor",
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "emitter-text-body-layout",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n    return`<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
                 "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "disabled",
+                  "applyOn" : "Outside",
+                  "className" : "radio-message-others tri-right left-top",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nif (canPlanAction()) return false;\n!isPlannedAction(action[0].Uid);",
+                    "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
                     "language" : "typescript"
                   }
                 }, {
-                  "applyOn" : "Inside",
-                  "className" : "abort",
+                  "applyOn" : "Outside",
+                  "className" : "radio-message-myself tri-right right-top",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Outside",
+                  "className" : "pending",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.item.pending;",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Outside",
+                  "className" : "radio-message-last",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.ACTORS_RADIO, Context.item.uid);",
                     "language" : "typescript"
                   }
                 } ],
-                "disableIf" : {
+                "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+                  "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.ACTORS_RADIO;",
                   "language" : "typescript"
                 },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nconst isPlanned = action && action.length > 0 && isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
-                  "language" : "TypeScript"
+                "layout" : {
+                  "flexDirection" : "column"
                 },
-                "layoutStyle" : {
-                  "bottom" : "5px",
-                  "right" : "5px"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);\nrunActionButton(action[0]);",
-                    "language" : "TypeScript"
-                  }
-                },
+                "layoutStyle" : { },
+                "name" : "message",
                 "style" : { }
               },
-              "type" : "Button"
+              "type" : "FlexList"
             } ],
-            "disableIf" : {
+            "className" : "messageArea",
+            "exposeAs" : "item",
+            "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isChannelNewActivityDisabled } from \"./UIfacade/radioFacade\";\n  isChannelNewActivityDisabled(Context.interfaceState.state.currentActorUid, ActionType.ACTORS_RADIO);",
+              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.ACTORS_RADIO));",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "uid",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "messageArea-container",
+            "layoutStyle" : { },
+            "name" : "output message",
+            "style" : { }
+          },
+          "type" : "For each"
+        }, {
+          "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"radioMessageInput\"",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "width" : "100%"
             },
-            "onAbsoluteClick" : { },
+            "name" : "radio message input",
             "style" : {
               "width" : "100%"
             }
           },
-          "type" : "AbsoluteLayout"
+          "type" : "PageLoader"
         } ],
-        "layout" : { },
-        "layoutClassName" : "freeMessageInput-container",
-        "layoutStyle" : { },
-        "name" : "input message",
-        "style" : { }
+        "className" : "noPadding",
+        "exposeAs" : "currentRadio",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { ActionType } from \"./game/common/actionType\";\n({ channel: ActionType.ACTORS_RADIO })",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "flex-direction" : "column",
+          "width" : "100%"
+        },
+        "localState" : false,
+        "style" : {
+          "width" : "100%"
+        }
       },
-      "type" : "FlexList"
+      "type" : "State"
     } ],
-    "className" : "noPadding noMargin",
+    "className" : "noPadding",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding noMargin",
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "width" : "100%"

@@ -1,55 +1,58 @@
 import {
-  CasuMessagePayload,
-  HospitalRequestPayload,
-  MethaneMessagePayload,
-} from '../game/common/events/casuMessageEvent';
-import {
+  isAvailable,
   isCasuMessageActionTemplate,
+  isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
-  isRadioActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
-  isEvacuationActionTemplate,
   isPretriageReportTemplate,
+  isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
-import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
-import { actionClickHandler, canPlanAction } from './main';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../game/common/events/casuMessageEvent';
+import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { ResourceTypeAndNumber, ResourcesArray } from '../game/common/resources/resourceType';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { clearMapState, startMapSelect } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
   getEmptyEvacuationInterfaceState,
   getEmptyResourceRequest,
+  getTypedInterfaceState,
   setInterfaceState,
 } from './interfaceState';
-import { ActionType } from '../game/common/actionType';
-import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { actionClickHandler, canPlanAction } from './main';
 
 /**
- * Performs logic whenever a template is initiated in interface
+ * Plans an action with a given template and the current interface state
  *
  * @params ActionTemplateBase action being launched
  */
 // used in several pages
-export function runActionButton(action: ActionTemplateBase | undefined = undefined) {
-  if (action != undefined) {
-    Context.action = action;
+export function runActionButton(action: ActionTemplateBase): void {
+  if (!isAvailable(action)) {
+    actionLogger.debug('action not available ' + JSON.stringify(action?.getTitle()));
+    return;
   }
-
-  const actionRefUid = Context.action.Uid;
+  actionLogger.debug('run action button for ' + JSON.stringify(action?.getTitle()));
 
   let params = {};
 
-  if (isFixedMapEntityTemplate(actionRefUid)) {
+  if (isFixedMapEntityTemplate(action)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
       startMapSelect();
@@ -57,21 +60,23 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
       params = fetchSelectMapObjectValues()!;
       clearMapState();
     }
-  } else if (isMoveResourcesAssignTaskActionTemplate(actionRefUid)) {
+  } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
     params = fetchMoveResourcesAssignTaskValues();
-  } else if (isCasuMessageActionTemplate(actionRefUid)) {
+  } else if (isCasuMessageActionTemplate(action)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(actionRefUid)) {
+  } else if (isRadioActionTemplate(action, ActionType.CASU_RADIO)) {
+    params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
+  } else if (isRadioActionTemplate(action, ActionType.ACTORS_RADIO)) {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
-  } else if (isMoveActorActionTemplate(actionRefUid)) {
+  } else if (isMoveActorActionTemplate(action)) {
     params = fetchMoveActorLocation();
-  } else if (isEvacuationActionTemplate(actionRefUid)) {
+  } else if (isEvacuationActionTemplate(action)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actionRefUid)) {
+  } else if (isPretriageReportTemplate(action)) {
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(Context.action.Uid, Context.action.category, params);
+  actionClickHandler(action, params);
 }
 
 /**
@@ -79,7 +84,7 @@ export function runActionButton(action: ActionTemplateBase | undefined = undefin
  *
  * @returns SelectMapObjectPayload
  */
-function fetchSelectMapObjectValues() {
+function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
   // TODO Add type
 
   const mapState = Context.mapState.state;
@@ -205,20 +210,14 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
  * @returns RadioMessagePayload
  */
 function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
-  let res: RadioMessagePayload;
-  if (channel == ActionType.ACTORS_RADIO)
-    res = {
-      channel: channel,
-      message: Context.interfaceState.state.channelText.actors,
-      actorId: Context.interfaceState.state.currentActorUid,
-    };
-  else {
-    res = { channel: channel, message: '', actorId: Context.interfaceState.state.currentActorUid };
-  }
+  const res = {
+    message: getTypedInterfaceState().radioMessageInput[channel] ?? '',
+    actorId: getTypedInterfaceState().currentActorUid!,
+  };
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.channelText.actors = '';
+  newState.radioMessageInput[channel] = '';
   Context.interfaceState.setState(newState);
 
   return res;

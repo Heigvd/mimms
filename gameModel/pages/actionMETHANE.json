@@ -613,20 +613,20 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst actions =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nisPlannedAction(actions[0].Uid);",
+                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates().CasuMessageTemplate);",
                     "language" : "typescript"
                   }
                 } ],
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nconst isPlanned = isPlannedAction(action[0].Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+                  "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates().CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getAvailableActions } from \"./UIfacade/actionFacade\";\n\nconst action =  getAvailableActions(Context.interfaceState.state.currentActorUid, ActionType.CASU_RADIO);\nrunActionButton(action[0]);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates().CasuMessageTemplate);",
                     "language" : "TypeScript"
                   }
                 },

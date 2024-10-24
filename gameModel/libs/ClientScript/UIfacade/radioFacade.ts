@@ -12,9 +12,8 @@ import {
   getTypedInterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction, canPlanAction, isPlannedAction } from '../gameInterface/main';
+import { canCancelOnGoingAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getAvailableActions } from './actionFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
 
@@ -67,6 +66,8 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
     return 'actionMETHANE';
   } else if (action === 'channelsActivation') {
     return 'actionRadioChannelActivation';
+  } else if (action === 'freeMessage') {
+    return 'radioMessageInput';
   }
   return '';
 }
@@ -241,16 +242,4 @@ export function isChannelBusy(channel: ActionType): boolean {
     return !canCancelOnGoingAction();
   }
   return false;
-}
-
-export function isChannelNewActivityDisabled(
-  currentActorUid: number,
-  channel: ActionType
-): boolean {
-  if (isChannelBusy(channel)) return true;
-  if (canPlanAction()) return false;
-  const action = getAvailableActions(currentActorUid, channel);
-  const actionId = action[0]?.Uid;
-
-  return actionId ? !isPlannedAction(actionId) : true;
 }

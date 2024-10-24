@@ -3,13 +3,12 @@ import {
   MoveActorActionTemplate,
   SelectionFixedMapEntityTemplate,
 } from '../game/common/actions/actionTemplateBase';
-import { ActionType } from '../game/common/actionType';
+import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapSelect } from '../gameMap/main';
 import {
   cancelAction,
-  getActionTemplate,
   getAllActions,
   isFixedMapEntityTemplate,
   planAction,
@@ -82,7 +81,7 @@ export function canCancelOnGoingAction() {
  * @params number uid of the action
  * @returns boolean whether action uid is currently planned one
  */
-export function isPlannedAction(id: number) {
+export function isPlannedAction(id: ActionTemplateId) {
   const actorUid = Context.interfaceState.state.currentActorUid;
   const actions = getAllActions()[actorUid];
 
@@ -99,18 +98,16 @@ export function isPlannedAction(id: number) {
 /**
  * Handle when an action is planned
  *
- * @params number uid of the action
- * @params ActionType actionType of the action
+ * @params template of action
  * @params any payload the action creation
  */
-export function actionClickHandler(id: number, actionType: ActionType, params: any): void {
-  const template = getActionTemplate(id, actionType)!;
+export function actionClickHandler(template: ActionTemplateBase, params: any): void {
   const uid = Context.interfaceState.state.currentActorUid;
 
   if (canPlanAction()) {
-    planAction(template.getTemplateRef(), uid, params);
-  } else if (isPlannedAction(id)) {
-    cancelAction(uid, id);
+    planAction(template, uid, params);
+  } else if (isPlannedAction(template.Uid)) {
+    cancelAction(uid, template.Uid);
   }
 }
 
@@ -123,8 +120,10 @@ export function actionChangeHandler() {
     currentActionUid: Context.action.Uid,
   });
   endMapAction();
+
+  const action = Context.action as ActionTemplateBase;
   // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(Context.action.Uid) && canPlanAction()) {
+  if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();
   }
 }
@@ -196,9 +195,9 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (Context.action instanceof SelectionFixedMapEntityTemplate) {
+  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
     return '48';
-  } else if (Context.action instanceof MoveActorActionTemplate) {
+  } else if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
   }
   return '';
