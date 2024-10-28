@@ -168,12 +168,10 @@ div .button-closed-locations {
   background-color: transparent;
 }
 
-header-button .disabled {
-  color: var(--grey_30);
-}
-
 .header-button.disabled {
   color: var(--grey_30);
+  border: 1px solid var(--grey_30);
+  background-color: transparent;
   pointer-events: none;
 }
 
@@ -206,6 +204,16 @@ header-button .disabled {
 #play:active, #pause:active {
   color: var(--primary_100);
   border: 1px solid var(--primary_100);
+}
+
+#play.disabled {
+  border: 1px solid var(--grey_30);
+  border-right: 0.5px solid var(--grey_30);
+}
+
+#pause.disabled {
+  border: 1px solid var(--grey_30);
+  border-left: 0.5px solid var(--grey_30);
 }
 
 /* - - l o c a t i o n s   a n i m a t i o n s - - */
