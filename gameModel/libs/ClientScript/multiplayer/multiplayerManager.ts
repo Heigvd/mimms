@@ -1,4 +1,4 @@
-import { getPlayer } from '../dashboard/utils';
+import { getGameModelType, getPlayer, getTestTeamId } from '../dashboard/utils';
 import { InterventionRole } from '../game/common/actors/actor';
 import { mainSimLogger } from '../tools/logger';
 
@@ -272,13 +272,19 @@ export async function getAllTeamsMultiplayerMatrix(): Promise<TeamMatrix[]> {
 
   const teams = response!.updatedEntities[0] as any;
 
-  const teamMatrixes = Object.keys(teams).map(key => ({
+  let teamMatrixes = Object.keys(teams).map(key => ({
     id: Number(key),
     matrix: Object.values(teams[key].properties).map(m =>
       JSON.parse(String(m))
     ) as MultiplayerMatrix,
   }));
+
+  // Filter out 'Test team' unless in SCENARIO mode
+  teamMatrixes = teamMatrixes.filter(
+    t => t.id !== getTestTeamId() || getGameModelType() === 'SCENARIO'
+  );
   multiPlayerMatrixes = teamMatrixes;
+
   return teamMatrixes;
 }
 

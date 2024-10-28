@@ -168,6 +168,15 @@ div .button-closed-locations {
   background-color: transparent;
 }
 
+header-button .disabled {
+  color: var(--grey_30);
+}
+
+.header-button.disabled {
+  color: var(--grey_30);
+  pointer-events: none;
+}
+
 .play-pause-icon:hover svg {
   cursor: pointer;
 }
@@ -304,6 +313,23 @@ div .button-closed-locations {
 
 .line-team-button-closed {
   transform: rotate(180deg);
+}
+
+/* disabled */
+.line .disabled {
+  pointer-events: none;
+}
+
+.line .disabled svg {
+  color: var(--grey_30);
+}
+
+.line .disabled img {
+  filter: invert(82%) sepia(5%) saturate(167%) hue-rotate(156deg) brightness(89%) contrast(88%);
+}
+
+.line:hover .disabled svg {
+  color: var(--grey_30);
 }
 
 /* - - t e a m s - - */

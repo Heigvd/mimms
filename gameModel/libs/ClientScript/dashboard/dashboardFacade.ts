@@ -29,7 +29,7 @@ import {
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
-import { getSelectedTeamName, getTeam } from './utils';
+import { getGameModelType, getSelectedTeamName, getTeam, getTestTeamId } from './utils';
 import {
   getAllTeamsMultiplayerMatrix,
   getEmptyPlayerMatrix,
@@ -257,7 +257,11 @@ export async function getAllTeamGameStateStatus(): Promise<TeamGameStateStatus[]
 
   try {
     response = await APIMethods.runScript(script, {});
-    teamsGameStateStatuses = response.updatedEntities as TeamGameStateStatus[];
+    const allTeamsGameStateStatus = response.updatedEntities as TeamGameStateStatus[];
+    // Filter out 'Test team' unless in SCENARIO mode
+    teamsGameStateStatuses = allTeamsGameStateStatus.filter(
+      t => t.id !== getTestTeamId() || getGameModelType() === 'SCENARIO'
+    );
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -302,6 +306,17 @@ export async function setGameStateStatus(
     ctx.setState(Helpers.cloneDeep(ctx.state));
   } catch (error) {
     dashboardLogger.error(error);
+  }
+}
+
+/**
+ * Are some gameStateStatuses still set to NOT_INITIATED ?
+ */
+export function someGameStateStatusNotInitiated() {
+  if (teamsGameStateStatuses.length === 0) {
+    return true;
+  } else {
+    return teamsGameStateStatuses.some(t => t.gameState === GameState.NOT_INITIATED);
   }
 }
 
