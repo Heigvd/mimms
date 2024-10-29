@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730124805793,
+  "createdTime" : 1730197338699,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6929,7 +6929,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-360",
+  "name" : "MIMMS - Dashboard Demo",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
