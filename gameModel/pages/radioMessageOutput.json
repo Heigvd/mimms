@@ -11,7 +11,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif (Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
+                  "content" : "import { getNotificationTime } from \"./UIfacade/radioFacade\";\nimport { getTranslation } from \"./tools/translation\";\nif (Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
                   "language" : "TypeScript"
                 }
               },
