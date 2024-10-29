@@ -2000,7 +2000,7 @@
                                           "className" : "disabled",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED;",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -2040,7 +2040,7 @@
                                           "className" : "disabled",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED;",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -2080,7 +2080,7 @@
                                       "className" : "disabled",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED;",
+                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                         "language" : "typescript"
                                       }
                                     } ],
@@ -2112,7 +2112,7 @@
                                       "className" : "disabled",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED;",
+                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                         "language" : "typescript"
                                       }
                                     } ],
@@ -2442,7 +2442,7 @@
                                               "className" : "disabled",
                                               "condition" : {
                                                 "@class" : "Script",
-                                                "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED;",
+                                                "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                                 "language" : "typescript"
                                               }
                                             } ],
