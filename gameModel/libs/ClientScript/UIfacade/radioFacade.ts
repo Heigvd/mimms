@@ -38,14 +38,14 @@ export function isChannelHidden(channel: ActionType): boolean {
 /**
  * Get the current channel
  */
-export function getSelectedChannel(): string {
+export function getSelectedChannel(): ActionType {
   return getTypedInterfaceState().selectedRadioChannel;
 }
 
 /**
  * Set the channel type to know which is the current
  */
-export function setSelectedChannel(channel: string) {
+export function setSelectedChannel(channel: ActionType) {
   setInterfaceState({ selectedRadioChannel: channel });
 }
 

@@ -50,7 +50,7 @@
               "className" : "radio-message-last",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getCurrentRadioContext, isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(getCurrentRadioContext().channel, Context.item.uid);",
+                "content" : "import { getSelectedChannel, isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(getSelectedChannel(), Context.item.uid);",
                 "language" : "typescript"
               }
             }, {
@@ -64,7 +64,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getCurrentRadioContext } from \"./UIfacade/radioFacade\";\nContext.item.channel !== getCurrentRadioContext().channel;",
+              "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\nContext.item.channel !== getSelectedChannel();",
               "language" : "typescript"
             },
             "layout" : {
@@ -79,7 +79,7 @@
         "exposeAs" : "item",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllRadioMessages, getCurrentRadioContext, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(getCurrentRadioContext().channel));",
+          "content" : "import { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages, getSelectedChannel } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(getSelectedChannel()));",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
