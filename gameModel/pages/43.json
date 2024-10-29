@@ -187,7 +187,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);",
+                                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { canViewLocation, openOverlayItem } from \"./gameMap/mapEntities\";\n\nif (isGodView()) {\n  openOverlayItem(Context.overlayItem.id);\n} else if (canViewLocation(Context.overlayItem.id)) {\n  openOverlayItem(Context.overlayItem.id);\n}",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -275,11 +275,6 @@
                                                   },
                                                   "type" : "Button"
                                                 } ],
-                                                "hideIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n!canViewResources(Context.overlayItem.id);",
-                                                  "language" : "typescript"
-                                                },
                                                 "layout" : { },
                                                 "layoutStyle" : { },
                                                 "name" : "humanRsrcBtn",
@@ -317,7 +312,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\n  if (Context.overlayItem.ambulances.length < 1) return true;\nContext.overlayItem.ambulances.length < 1 && !canViewResources(Context.overlayItem.id);",
+                                                  "content" : "if (Context.overlayItem.ambulances.length < 1) return true;\n  false;",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -357,7 +352,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { canViewResources } from \"./gameMap/mapEntities\";\nif (Context.overlayItem.helicopters.length < 1) return true;\nContext.overlayItem.helicopters.length < 1 && !canViewResources(Context.overlayItem.id);",
+                                                  "content" : "if (Context.overlayItem.helicopters.length < 1) return true;\n  false;",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -382,7 +377,7 @@
                                                     } ],
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
+                                                      "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors();\n  !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : {
@@ -431,7 +426,7 @@
                                             } ],
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
+                                              "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n  !isOverlayItemOpen(Context.overlayItem.id);",
                                               "language" : "typescript"
                                             },
                                             "layout" : { },
@@ -455,7 +450,7 @@
                                           "className" : "closedFixedMapEntity",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n  !isOverlayItemOpen(Context.overlayItem.id);",
+                                            "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n    !isOverlayItemOpen(Context.overlayItem.id);",
                                             "language" : "typescript"
                                           }
                                         } ],

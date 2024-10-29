@@ -42,22 +42,29 @@ export function getOverlayItems() {
     });
   }
 
-  const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
+  // Close entities if role view enabled
+  if (!isGodView()) {
+    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
+    newState.overlayState = newState.overlayState.filter((l: LOCATION_ENUM) => canViewLocation(l));
+    Context.mapState.setState(newState);
+  } else {
+    const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
 
-  // Sort overlayItem according order and open/close
-  overlayItems.sort((a, b) => {
-    const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
-    const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
+    // Sort overlayItem according to order and open/close
+    overlayItems.sort((a, b) => {
+      const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
+      const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
 
-    // Closed fixedEntities cases
-    if (indexA === -1) {
-      return 1;
-    } else if (indexB === -1) {
-      return -1;
-    }
+      // Closed fixedEntities cases
+      if (indexA === -1) {
+        return 1;
+      } else if (indexB === -1) {
+        return -1;
+      }
 
-    return indexA - indexB;
-  });
+      return indexA - indexB;
+    });
+  }
 
   return overlayItems;
 }
@@ -111,7 +118,7 @@ export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
 /**
  * Should ressource be visible to current actor at location
  */
-export function canViewResources(location: LOCATION_ENUM): boolean {
+export function canViewLocation(location: LOCATION_ENUM): boolean {
   if (!isGodView()) {
     return isCurrentActorAtLocation(location);
   }
