@@ -79,12 +79,12 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
 /**
  * Get notification time in HH:MM format
  *
- * @params notificationTime number
+ * @params notificationTime delta in seconds
  * @returns string Notification time adjusted to sim time
  */
 export function getNotificationTime(notificationTime: number): string {
   const startTime = getSimStartDateTime();
-  startTime.setSeconds(notificationTime + startTime.getSeconds());
+  startTime.setTime(notificationTime * 1000 + startTime.getTime());
 
   return formatTime(startTime);
 }
