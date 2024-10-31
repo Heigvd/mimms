@@ -278,7 +278,7 @@ export function getGameStateStatus(teamId: number): GameState | undefined {
   if (teamsGameStateStatuses.length === 0) {
     return undefined;
   } else {
-    return teamsGameStateStatuses.find(team => team.id === teamId)!.gameState;
+    return teamsGameStateStatuses.find(team => team.id === teamId)?.gameState;
   }
 }
 
