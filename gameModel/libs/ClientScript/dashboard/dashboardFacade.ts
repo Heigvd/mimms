@@ -349,10 +349,10 @@ export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
  * @params {GameState} gameState - Target gameState
  */
 export async function setAllTeamsGameState(gameState: GameState, ctx: DashboardUIStateCtx) {
-  const current = await getAllTeamGameStateStatus();
+  await getAllTeamGameStateStatus();
 
   // prevent setting PAUSE or RUNNING if any team is not done with the "welcome" page
-  if (current.some(gs => gs.gameState === GameState.NOT_INITIATED)) return;
+  if (someGameStateStatusNotInitiated()) return;
 
   const teamIds = teams.map(team => team.getEntity().id);
   const scripts = [];
@@ -425,6 +425,17 @@ export function checkEnteredTimeValidity(): boolean {
 }
 
 /**
+ * @return true if the impact should be ignored because the team/any team has not yet started
+ */
+async function shouldIgnoreImpact(teamId: number): Promise<boolean> {
+  const current = await getAllTeamGameStateStatus();
+
+  return teamId
+    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || false
+    : current.some(t => t.gameState === GameState.NOT_INITIATED);
+}
+
+/**
  * @param params trainer filled form parameters
  * @param teamId the target team id, if 0 or undefined => all teams
  */
@@ -432,14 +443,7 @@ export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
 ): Promise<void> {
-  const current = await getAllTeamGameStateStatus();
-
-  // prevent time forward if team(s) is not done with the "welcome" page
-  const shouldSkipTimeForward = teamId
-    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || undefined
-    : current.some(t => t.gameState === GameState.NOT_INITIATED);
-
-  if (shouldSkipTimeForward) return;
+  if (await shouldIgnoreImpact(teamId)) return;
 
   const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
@@ -471,17 +475,10 @@ export async function processTimeForward(
  */
 export async function processMessage(state: DashboardUIState): Promise<void> {
   const teamId = state.selectedTeam;
+  if (await shouldIgnoreImpact(teamId)) return;
+
   const message = state.radio.message;
   const updateFunc: UpdateStateFunc = Context.state.updateState;
-
-  const current = await getAllTeamGameStateStatus();
-
-  // prevent time forward if team(s) is not done with the "welcome" page
-  const shouldSkipTimeForward = teamId
-    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || undefined
-    : current.some(t => t.gameState === GameState.NOT_INITIATED);
-
-  if (shouldSkipTimeForward) return;
 
   if (state.radio.mode === 'notif') {
     if (teamId) {
