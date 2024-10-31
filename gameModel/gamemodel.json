@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730209298829,
+  "createdTime" : 1730387730213,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5144,7 +5144,7 @@
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -5197,7 +5197,7 @@
       },
       "name" : "trainer_Zix3IY",
       "refId" : "ListDescriptor:243642:ynaItH",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
