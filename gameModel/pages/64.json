@@ -17,7 +17,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getNotificationTime } from \"./gameInterface/main\";\ngetNotificationTime(Context.item.timeStamp);",
+                          "content" : "import { getNotificationTime } from \"./UIfacade/radioFacade\";\ngetNotificationTime(Context.item.timeStamp);",
                           "language" : "TypeScript"
                         }
                       },

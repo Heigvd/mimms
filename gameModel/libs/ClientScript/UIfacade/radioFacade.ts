@@ -12,7 +12,7 @@ import {
   getTypedInterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction } from '../gameInterface/main';
+import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
@@ -38,14 +38,14 @@ export function isChannelHidden(channel: ActionType): boolean {
 /**
  * Get the current channel
  */
-export function getSelectedChannel(): string {
+export function getSelectedChannel(): ActionType {
   return getTypedInterfaceState().selectedRadioChannel;
 }
 
 /**
  * Set the channel type to know which is the current
  */
-export function setSelectedChannel(channel: string) {
+export function setSelectedChannel(channel: ActionType) {
   setInterfaceState({ selectedRadioChannel: channel });
 }
 
@@ -70,6 +70,23 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
     return 'radioMessageInput';
   }
   return '';
+}
+
+// -------------------------------------------------------------------------------------------------
+// message display
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Get notification time in HH:MM format
+ *
+ * @params notificationTime delta in seconds
+ * @returns string Notification time adjusted to sim time
+ */
+export function getNotificationTime(notificationTime: number): string {
+  const startTime = getSimStartDateTime();
+  startTime.setTime(notificationTime * 1000 + startTime.getTime());
+
+  return formatTime(startTime);
 }
 
 // -------------------------------------------------------------------------------------------------

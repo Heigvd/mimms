@@ -382,7 +382,7 @@ export async function updateMinimumValidTimeForwardValue(
       }
     }
     const minDateTime = getSimStartDateTime();
-    minDateTime.setSeconds(minDateTime.getSeconds() + min);
+    minDateTime.setTime(minDateTime.getTime() + min * 1000);
     updateFunc(minDateTime);
   }
   await fetchAndUpdateTeamsGameState(computeMinTimeAndUpdate, false);
@@ -394,7 +394,7 @@ export function getMaxTimeForwardValue(minFwdTime: Date): Date {
   const absoluteMax = getSimStartDateTime();
   absoluteMax.setDate(absoluteMax.getDate() + 1);
   const maxTimeFwd = new Date((minFwdTime || getSimStartDateTime()).getTime());
-  maxTimeFwd.setSeconds(maxTimeFwd.getSeconds() + MAXTIME_FORWARD_SECONDS);
+  maxTimeFwd.setTime(maxTimeFwd.getTime() + MAXTIME_FORWARD_SECONDS * 1000);
   return maxTimeFwd > absoluteMax ? absoluteMax : maxTimeFwd;
 }
 

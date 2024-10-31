@@ -11,7 +11,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.radioMessageInput[Context.currentRadio.state.channel] = Context.text;\nContext.interfaceState.setState(newState);",
+                "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.radioMessageInput[getSelectedChannel()] = Context.text;\nContext.interfaceState.setState(newState);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -33,7 +33,7 @@
             "rows" : 6,
             "script" : {
               "@class" : "Script",
-              "content" : "Context.interfaceState.state.radioMessageInput[Context.currentRadio.state.channel] || '';",
+              "content" : "import { getSelectedChannel } from \"./UIfacade/radioFacade\";\nContext.interfaceState.state.radioMessageInput[getSelectedChannel()] || '';",
               "language" : "TypeScript"
             },
             "style" : {
@@ -51,7 +51,7 @@
               "className" : "disabled",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nif (canPlanAction()) return false;\n!isPlannedAction(action!.Uid);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/actionType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nconst action = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nif (canPlanAction()) return false;\n!isPlannedAction(action!.Uid);",
                 "language" : "typescript"
               }
             }, {
@@ -59,13 +59,13 @@
               "className" : "abort",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nisPlannedAction(action!.Uid);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nconst action = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nisPlannedAction(action!.Uid);",
                 "language" : "typescript"
               }
             } ],
             "label" : {
               "@class" : "Script",
-              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
+              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/actionType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nconst action = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nconst isPlanned = action && !!action && isPlannedAction(action.Uid)\nisPlanned ? \"Cancel\" : getTranslation(`mainSim-interface`, `send-one-minute`);",
               "language" : "TypeScript"
             },
             "layoutStyle" : {
@@ -77,7 +77,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\n\nconst action = getSendRadioMessageTemplate(Context.currentRadio.state.channel);\nrunActionButton(action);",
+                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/actionType\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\n\nconst action = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nrunActionButton(action!);",
                 "language" : "TypeScript"
               }
             },
