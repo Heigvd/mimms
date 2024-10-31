@@ -327,7 +327,7 @@ export function someGameStateStatusNotInitiated() {
  */
 export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
   try {
-    const gameState = await getGameStateStatus(teamId);
+    const gameState = getGameStateStatus(teamId);
     switch (gameState) {
       case GameState.NOT_INITIATED:
         return;
@@ -432,6 +432,15 @@ export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
 ): Promise<void> {
+  const current = await getAllTeamGameStateStatus();
+
+  // prevent time forward if team(s) is not done with the "welcome" page
+  const shouldSkipTimeForward = teamId
+    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || undefined
+    : current.some(t => t.gameState === GameState.NOT_INITIATED);
+
+  if (shouldSkipTimeForward) return;
+
   const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
     const seconds = (params.addMinute || 0) * 60;
@@ -464,6 +473,15 @@ export async function processMessage(state: DashboardUIState): Promise<void> {
   const teamId = state.selectedTeam;
   const message = state.radio.message;
   const updateFunc: UpdateStateFunc = Context.state.updateState;
+
+  const current = await getAllTeamGameStateStatus();
+
+  // prevent time forward if team(s) is not done with the "welcome" page
+  const shouldSkipTimeForward = teamId
+    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || undefined
+    : current.some(t => t.gameState === GameState.NOT_INITIATED);
+
+  if (shouldSkipTimeForward) return;
 
   if (state.radio.mode === 'notif') {
     if (teamId) {
