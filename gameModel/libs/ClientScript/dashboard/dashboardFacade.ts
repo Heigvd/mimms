@@ -29,7 +29,7 @@ import {
 import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
-import { getSelectedTeamName, getTeam } from './utils';
+import { getGameModelType, getSelectedTeamName, getTeam, getTestTeamId } from './utils';
 import {
   getAllTeamsMultiplayerMatrix,
   getEmptyPlayerMatrix,
@@ -257,7 +257,11 @@ export async function getAllTeamGameStateStatus(): Promise<TeamGameStateStatus[]
 
   try {
     response = await APIMethods.runScript(script, {});
-    teamsGameStateStatuses = response.updatedEntities as TeamGameStateStatus[];
+    const allTeamsGameStateStatus = response.updatedEntities as TeamGameStateStatus[];
+    // Filter out 'Test team' unless in SCENARIO mode
+    teamsGameStateStatuses = allTeamsGameStateStatus.filter(
+      t => t.id !== getTestTeamId() || getGameModelType() === 'SCENARIO'
+    );
   } catch (error) {
     dashboardLogger.error(error);
   }
@@ -274,7 +278,7 @@ export function getGameStateStatus(teamId: number): GameState | undefined {
   if (teamsGameStateStatuses.length === 0) {
     return undefined;
   } else {
-    return teamsGameStateStatuses.find(team => team.id === teamId)!.gameState;
+    return teamsGameStateStatuses.find(team => team.id === teamId)?.gameState;
   }
 }
 
@@ -306,13 +310,24 @@ export async function setGameStateStatus(
 }
 
 /**
+ * Are some gameStateStatuses still set to NOT_INITIATED ?
+ */
+export function someGameStateStatusNotInitiated() {
+  if (teamsGameStateStatuses.length === 0) {
+    return true;
+  } else {
+    return teamsGameStateStatuses.some(t => t.gameState === GameState.NOT_INITIATED);
+  }
+}
+
+/**
  * Toggle the gameState of given team
  *
  * @params {number} teamId - Id of given team
  */
 export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
   try {
-    const gameState = await getGameStateStatus(teamId);
+    const gameState = getGameStateStatus(teamId);
     switch (gameState) {
       case GameState.NOT_INITIATED:
         return;
@@ -334,10 +349,10 @@ export async function togglePlay(teamId: number, ctx: DashboardUIStateCtx) {
  * @params {GameState} gameState - Target gameState
  */
 export async function setAllTeamsGameState(gameState: GameState, ctx: DashboardUIStateCtx) {
-  const current = await getAllTeamGameStateStatus();
+  await getAllTeamGameStateStatus();
 
   // prevent setting PAUSE or RUNNING if any team is not done with the "welcome" page
-  if (current.some(gs => gs.gameState === GameState.NOT_INITIATED)) return;
+  if (someGameStateStatusNotInitiated()) return;
 
   const teamIds = teams.map(team => team.getEntity().id);
   const scripts = [];
@@ -410,6 +425,17 @@ export function checkEnteredTimeValidity(): boolean {
 }
 
 /**
+ * @return true if the impact should be ignored because the team/any team has not yet started
+ */
+async function shouldIgnoreImpact(teamId: number): Promise<boolean> {
+  const current = await getAllTeamGameStateStatus();
+
+  return teamId
+    ? current.find(t => t.id)?.gameState === GameState.NOT_INITIATED || false
+    : current.some(t => t.gameState === GameState.NOT_INITIATED);
+}
+
+/**
  * @param params trainer filled form parameters
  * @param teamId the target team id, if 0 or undefined => all teams
  */
@@ -417,6 +443,8 @@ export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
 ): Promise<void> {
+  if (await shouldIgnoreImpact(teamId)) return;
+
   const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
     const seconds = (params.addMinute || 0) * 60;
@@ -447,6 +475,8 @@ export async function processTimeForward(
  */
 export async function processMessage(state: DashboardUIState): Promise<void> {
   const teamId = state.selectedTeam;
+  if (await shouldIgnoreImpact(teamId)) return;
+
   const message = state.radio.message;
   const updateFunc: UpdateStateFunc = Context.state.updateState;
 

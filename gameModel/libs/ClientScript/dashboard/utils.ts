@@ -4,13 +4,20 @@ import { getSendEventServerScript } from '../game/common/events/eventUtils';
 // TODO for now we just pick the first player of the team
 // but we might want a per player choice
 
+// Returns SCENARIO or PLAY
+export function getGameModelType(): string {
+  return (CurrentGame as any).gameModel.type;
+}
+
 export function buildSpyUrl(playerId: number): string {
   return 'player.html?id=' + playerId;
 }
 
 export function getDashboardTeams(): STeam[] {
   return teams.filter(
-    t => t.getId() !== undefined && (t.getName() !== 'Test team' || APP_CONTEXT === 'Editor')
+    t =>
+      t.getId() !== undefined &&
+      (t.getName() !== 'Test team' || APP_CONTEXT === 'Editor' || getGameModelType() === 'SCENARIO')
   );
 }
 
@@ -24,6 +31,10 @@ export function getTeam(teamId: number): STeam | undefined {
 
 export function getSelectedTeamName(): string {
   return getTeam(Context.dashboardState.state.selectedTeam)?.getName() || 'Team not found.';
+}
+
+export function getTestTeamId(): number | undefined {
+  return teams.find(t => t.getName() === 'Test team')?.getId();
 }
 
 export function getPlayer(teamId: number, playerId: number): SPlayer | undefined {

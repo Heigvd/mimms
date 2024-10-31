@@ -168,6 +168,13 @@ div .button-closed-locations {
   background-color: transparent;
 }
 
+.header-button.disabled {
+  color: var(--grey_30);
+  border: 1px solid var(--grey_30);
+  background-color: transparent;
+  pointer-events: none;
+}
+
 .play-pause-icon:hover svg {
   cursor: pointer;
 }
@@ -197,6 +204,16 @@ div .button-closed-locations {
 #play:active, #pause:active {
   color: var(--primary_100);
   border: 1px solid var(--primary_100);
+}
+
+#play.disabled {
+  border: 1px solid var(--grey_30);
+  border-right: 0.5px solid var(--grey_30);
+}
+
+#pause.disabled {
+  border: 1px solid var(--grey_30);
+  border-left: 0.5px solid var(--grey_30);
 }
 
 /* - - l o c a t i o n s   a n i m a t i o n s - - */
@@ -304,6 +321,23 @@ div .button-closed-locations {
 
 .line-team-button-closed {
   transform: rotate(180deg);
+}
+
+/* disabled */
+.line .disabled {
+  pointer-events: none;
+}
+
+.line .disabled svg {
+  color: var(--grey_30);
+}
+
+.line .disabled img {
+  filter: invert(82%) sepia(5%) saturate(167%) hue-rotate(156deg) brightness(89%) contrast(88%);
+}
+
+.line:hover .disabled svg {
+  color: var(--grey_30);
 }
 
 /* - - t e a m s - - */
