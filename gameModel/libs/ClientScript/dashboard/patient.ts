@@ -18,15 +18,19 @@ type PatientDashboard = Record<PatientId, PatientSummary>;
 
 let dashboard: PatientDashboard = {};
 
-let loading = false;
+let firstLoadDone = false;
 
-export function updatePatientDashboard() {
+export function updatePatientDashboard(force: boolean) {
+  if(!force && firstLoadDone)
+    return;
+
 	const ctx = Context;
 	APIMethods.runScript("PatientDashboard.overview();", {}).then(response => {
+    firstLoadDone = true;
 		dashboard = response.updatedEntities[0] as PatientDashboard;
-		loading = false;
-		ctx.patientDashboardState.setState(s => ({ toggle: !s.toggle }));
-	})
+    // force render
+		ctx.patientDashboardState.setState((s : {toggle: boolean}) => ({ toggle: !s.toggle }));
+	});
 }
 
 const onChangeRef = 'no-op';
@@ -43,7 +47,6 @@ export function getMatrix(): MatrixConfig<CatId, PatientId, CellConfig> {
 				return preset.indexOf(k) > -1;
 			});
 		}
-
 		return {
 			y: filteredDashboard.sort(([k1, _], [k2, __]) => compare(k1,k2))
 				.map(([patientId, _]) => {
@@ -74,10 +77,7 @@ export function getMatrix(): MatrixConfig<CatId, PatientId, CellConfig> {
 			onChangeRefName: onChangeRef,
 		};
 	} else {
-		if (!loading) {
-			updatePatientDashboard();
-			loading = true;
-		}
+		updatePatientDashboard(false);
 		return {
 			x: [],
 			y: [],

@@ -11,6 +11,7 @@ var EventManager = ((function () {
 		RequestManager.lock("NewEvent-" + thePlayer.getTeamId());
 	}
 
+  /** DEPRECATED use sendNewEvent*/
 	function sendEvent(payload, time, player) {
 		lock();
 		var thePlayer = player || self;
@@ -58,8 +59,8 @@ var EventManager = ((function () {
 		instance.sendEvent(JSON.stringify(event));
 		// Make sure newEvent got an Id
 		// hack: commit request to force state machine evaluation
-		//       This will flush all pending changes to DB
-		//       newEvent got an ID
+		// This will flush all pending changes to DB
+		// => the newEvent gets an ID
 		RequestManager.commit();
 	}
 
@@ -213,7 +214,8 @@ var EventManager = ((function () {
 			instantiateCharacter(profileId, bagId, true);
 		},
 		runScenario: runScenario,
-		postEvent: function (payload, time) {
+    /*** DEPRECATED use postNewEvent */
+		postEvent: function (payload, time) { 
 			sendEvent(payload, time);
 		},
 		postNewEvent:  function(payload, time) {

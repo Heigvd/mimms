@@ -9,8 +9,6 @@ var PatientDashboard = ((function () {
 		return keys;
 	}
 
-
-
 	function overview() {
 		var patientKeys = getPatientIds();
 		var patients = {};
@@ -21,7 +19,7 @@ var PatientDashboard = ((function () {
 		}
 
 		// get all events for all teams
-		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "events"));
+		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, eventsVarName));
 
 		// process each team events
 		allEventsByTeamId.entrySet().stream().forEach(function (entry) {
@@ -68,7 +66,7 @@ var PatientDashboard = ((function () {
 
 	function patientInfo() {
 
-		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, "events"));
+		var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, eventsVarName));
 
 		var allEvents = [];
 		// process each team events

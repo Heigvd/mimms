@@ -20,7 +20,7 @@
         "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -150,7 +150,7 @@
         "@class" : "Page",
         "id" : "28",
         "name" : "drillDashboard",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : true
       }, {
         "@class" : "Folder",
