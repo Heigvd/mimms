@@ -1468,6 +1468,96 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "noMargin",
+                                    "icon" : "ambulance",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "color" : "var(--primary_base)"
+                                    }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "className" : "mimms_h2title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : {
+                                      "margin" : "0px"
+                                    },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-title')",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "alignItems" : "center",
+                                  "justifyContent" : "center"
+                                },
+                                "layoutClassName" : "",
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "gap" : "10px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "paddingTop" : "1rem",
+                                  "textAlign" : "center"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-text')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "noPadding ontheroad-radio",
+                                "exposePageSizeAs" : "",
+                                "initialSelectedPageId" : {
+                                  "@class" : "Script",
+                                  "content" : "\"radioMessageOutput\";",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "output messages",
+                                "style" : {
+                                  "paddingTop" : "2rem"
+                                }
+                              },
+                              "type" : "PageLoader"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "OnTheRoad",
+                            "onExitActions" : { },
+                            "style" : {
+                              "padding" : "3rem",
+                              "width" : "40rem"
+                            }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
                                 "layoutStyle" : { },
                                 "script" : {
                                   "@class" : "Script",

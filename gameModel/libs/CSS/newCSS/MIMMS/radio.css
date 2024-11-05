@@ -78,6 +78,12 @@
   overflow-y: auto;
 }
 
+/* radio output on the road modal */
+.ontheroad-radio .messageArea-container {
+  border-radius: var(--XXS_borderRadius);
+  overflow-x: hidden;
+}
+
 /* D418 */
 .freeMessageInput-container {
   border: 1px solid var(--grey_30);
