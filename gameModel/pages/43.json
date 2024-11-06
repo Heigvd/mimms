@@ -1413,11 +1413,9 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
-                                "className" : "mimms_h2title",
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "margin" : "auto"
-                                },
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
+                                "layoutStyle" : { },
                                 "name" : "titre",
                                 "style" : { },
                                 "text" : {
@@ -1429,14 +1427,11 @@
                               "type" : "Text"
                             }, {
                               "props" : {
+                                "className" : "modal-text",
+                                "layoutClassName" : "modal-text-container",
                                 "layoutStyle" : { },
                                 "name" : "texte",
-                                "style" : {
-                                  "margin" : "auto",
-                                  "maxWidth" : "25rem",
-                                  "paddingTop" : "1rem",
-                                  "textAlign" : "center"
-                                },
+                                "style" : { },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'pause-modal-text')",
@@ -1445,21 +1440,17 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return true;\n  }\n  isGameRunning();",
                               "language" : "typescript"
                             },
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
+                            "layout" : { },
                             "layoutStyle" : { },
                             "name" : "PlayPause",
                             "onExitActions" : { },
-                            "style" : {
-                              "padding" : "3rem",
-                              "width" : "40rem"
-                            }
+                            "style" : { }
                           },
                           "type" : "Modal"
                         }, {
@@ -1468,6 +1459,87 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'situation-update-title')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "modal-text",
+                                "layoutClassName" : "modal-text-container",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'situation-update-text')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "button-S button-primaryColor",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>ACS</p>\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                }, {
+                                  "props" : {
+                                    "className" : "button-S button-primaryColor",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>MCS</p>\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "modal-buttons-container",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "buttons",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "modal",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "false;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "pointDeSituation",
+                            "onExitActions" : { },
+                            "style" : { }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "modal-image",
                                 "layoutStyle" : { },
                                 "script" : {
                                   "@class" : "Script",
@@ -1475,19 +1547,17 @@
                                   "language" : "TypeScript"
                                 },
                                 "style" : {
-                                  "margin" : "auto",
-                                  "width" : "25rem"
+                                  "paddingBottom" : "2rem"
                                 }
                               },
                               "type" : "Image"
                             }, {
                               "props" : {
-                                "className" : "mimms_h2title",
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
                                 "layoutStyle" : { },
-                                "style" : {
-                                  "margin" : "auto",
-                                  "paddingTop" : "1rem"
-                                },
+                                "name" : "",
+                                "style" : { },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'youre-not-here')}`",
@@ -1497,13 +1567,10 @@
                               "type" : "Text"
                             }, {
                               "props" : {
+                                "className" : "modal-text",
+                                "layoutClassName" : "modal-text-container",
                                 "layoutStyle" : { },
-                                "style" : {
-                                  "margin" : "auto",
-                                  "maxWidth" : "25rem",
-                                  "paddingTop" : "1rem",
-                                  "textAlign" : "center"
-                                },
+                                "style" : { },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n\n`${getTranslation('mainSim-interface', 'when-youre-here')}`",
@@ -1512,21 +1579,17 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "import { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerOnsiteActorCount() > 0;",
                               "language" : "typescript"
                             },
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
+                            "layout" : { },
                             "layoutStyle" : { },
                             "name" : "waitingToPlay",
                             "onExitActions" : { },
-                            "style" : {
-                              "padding" : "3rem",
-                              "width" : "40rem"
-                            }
+                            "style" : { }
                           },
                           "type" : "Modal"
                         }, {
@@ -1535,11 +1598,13 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
-                                "className" : "mimms_h1title",
-                                "layoutStyle" : {
-                                  "margin" : "auto"
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
+                                "layoutStyle" : { },
+                                "name" : "",
+                                "style" : {
+                                  "paddingBottom" : "1rem"
                                 },
-                                "style" : { },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'waiting-player')}`",
@@ -1553,7 +1618,8 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "simpleText",
+                                        "className" : "simpleText modal-text",
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "role",
                                         "style" : { },
@@ -1566,7 +1632,8 @@
                                       "type" : "Text"
                                     }, {
                                       "props" : {
-                                        "className" : "simpleText",
+                                        "className" : "simpleText modal-text",
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "status",
                                         "style" : { },
@@ -1580,7 +1647,6 @@
                                     } ],
                                     "className" : "noPadding noMargin",
                                     "layout" : {
-                                      "alignItems" : "center",
                                       "flexDirection" : "row"
                                     },
                                     "layoutClassName" : "noPadding noMargin",
@@ -1609,8 +1675,13 @@
                               "type" : "For each"
                             }, {
                               "props" : {
+                                "className" : "modal-text",
+                                "layoutClassName" : "modal-text-container",
                                 "layoutStyle" : { },
-                                "style" : { },
+                                "name" : "",
+                                "style" : {
+                                  "paddingTop" : "2rem"
+                                },
                                 "text" : {
                                   "@class" : "Script",
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'game-will-proceed')}`",
@@ -1626,6 +1697,7 @@
                                   "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
                                   "language" : "TypeScript"
                                 },
+                                "layoutClassName" : "modal-buttons-container",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -1635,23 +1707,18 @@
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
                                 },
-                                "style" : {
-                                  "margin" : "1rem auto "
-                                }
+                                "style" : { }
                               },
                               "type" : "Button"
                             } ],
+                            "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "import { showWaitingModal } from \"./UIfacade/timeFacade\";\n!showWaitingModal()",
                               "language" : "typescript"
                             },
-                            "layout" : {
-                              "flexDirection" : "column"
-                            },
-                            "layoutStyle" : {
-                              "flexDirection" : "column"
-                            },
+                            "layout" : { },
+                            "layoutStyle" : { },
                             "name" : "nextMinuteAwaiting",
                             "onExitActions" : { },
                             "style" : { }

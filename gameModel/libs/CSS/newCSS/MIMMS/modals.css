@@ -1,0 +1,40 @@
+.modal {
+  width: 40rem;
+  padding: 3rem;
+}
+
+.modal > div {
+  flex-direction: column;
+}
+
+.modal-title-container {
+  justify-content: center;
+}
+
+.modal-title {
+  margin: 0;
+  font-family: var(--mainFont);
+  font-weight: var(--boldWeight);
+  color: var(--grey_90);
+}
+
+.modal-text-container {
+  justify-content: center;
+}
+
+.modal-text {
+  padding-top: 1rem;
+  font-family: var(--mainFont);
+  text-align: center;
+}
+
+.modal-image {
+  width: 25rem;
+  margin: auto;
+}
+
+.modal-buttons-container {
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 2rem;
+}

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730197338699,
+  "createdTime" : 1730890089348,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3943,6 +3943,8 @@
           "not-all-ready" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all players need to be marked as ready!\"},\"FR\":{\"status\":\"\",\"translation\":\"tous les joueurs doivent confirmer être prêts!\",\"lang\":\"FR\"}},\"version\":0}",
           "notification-concurrent-stop" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your action is rejected as it conflicts with the action executed by another actor.\"},\"FR\":{\"status\":\"\",\"translation\":\"votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.\",\"lang\":\"FR\"}},\"version\":0}",
           "notifications" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"notifications\"},\"FR\":{\"status\":\"\",\"translation\":\"notifications\",\"lang\":\"FR\"}},\"version\":0}",
+          "on-the-road-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are on your way. You’ll be able to start playing as soon as you arrive on site. In the meantime, follow the radio feed to stay updated on the situation.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes en chemin. Vous pourrez commencer à jouer dès votre arrivée sur place. En attendant, suivez le flux radio pour rester informé de la situation.\",\"lang\":\"FR\"}},\"version\":0}",
+          "on-the-road-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"on the way to the accident site\"},\"FR\":{\"status\":\"\",\"translation\":\"en route vers le site de l'accident\",\"lang\":\"FR\"}},\"version\":0}",
           "patientdetails" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patient's details\"},\"FR\":{\"status\":\"\",\"translation\":\"détails patient\",\"lang\":\"FR\"}},\"version\":0}",
           "player-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"player ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD du joueur\",\"lang\":\"FR\"}},\"version\":0}",
           "player-name" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"name\"},\"FR\":{\"status\":\"\",\"translation\":\"nom\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3956,6 +3958,9 @@
           "send" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"confirm\"},\"FR\":{\"status\":\"\",\"translation\":\"valider\",\"lang\":\"FR\"}},\"version\":0}",
           "send-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
           "send-request-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send request (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer la demande (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the selected role is currently in a situation update. To continue the simulation, please choose another role from the available options below.\"},\"FR\":{\"status\":\"\",\"translation\":\"le rôle sélectionné est actuellement en point de situation. Pour continuer la simulation, veuillez choisir un autre rôle parmi ceux disponibles ci-dessous.\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-text-singleactor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are currently in a situation update. The simulation will automatically resume once the update is complete.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes actuellement en point de situation. La simulation reprendra automatiquement une fois le point de situation terminé.\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6625,6 +6630,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/modals",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1240759:qS02gU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/notifications",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6929,7 +6943,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dashboard Demo",
+  "name" : "MIMMS - MIM-358",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
