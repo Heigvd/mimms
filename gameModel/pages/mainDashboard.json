@@ -2005,6 +2005,7 @@
                                           }
                                         } ],
                                         "icon" : "play",
+                                        "id" : "play-icon",
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "\"\"",
@@ -2045,6 +2046,7 @@
                                           }
                                         } ],
                                         "icon" : "pause",
+                                        "id" : "pause-icon",
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "\"\"",
@@ -2106,6 +2108,7 @@
                                   "type" : "Button"
                                 }, {
                                   "props" : {
+                                    "alignSelf" : "center",
                                     "className" : "walkie-talkie",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
