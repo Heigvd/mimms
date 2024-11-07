@@ -32,7 +32,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\nimport { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\n  getAllTeamsMultiplayerMatrix();\n    fetchAndUpdateTeamsGameState(Context.state.setState, false);",
+                    "content" : "import { getAllTeamsMultiplayerMatrix } from \"./multiplayer/multiplayerManager\";\nimport { fetchAndUpdateTeamsGameState } from \"./dashboard/dashboardState\";\nimport { getAllTeamGameStateStatus } from \"./dashboard/dashboardFacade\";\n  getAllTeamsMultiplayerMatrix();\n  getAllTeamGameStateStatus();\n  fetchAndUpdateTeamsGameState(Context.state.setState, false);",
                     "language" : "TypeScript",
                     "returnType" : "Promise<unknown> | undefined"
                   }
@@ -1541,6 +1541,15 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "header-button",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "disabled",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "id" : "play",
                                 "label" : {
                                   "@class" : "Script",
@@ -1564,6 +1573,15 @@
                             }, {
                               "props" : {
                                 "className" : "header-button",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Inside",
+                                  "className" : "disabled",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
+                                    "language" : "typescript"
+                                  }
+                                } ],
                                 "id" : "pause",
                                 "label" : {
                                   "@class" : "Script",
@@ -1596,6 +1614,15 @@
                         }, {
                           "props" : {
                             "className" : "header-button",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "disabled",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated()",
+                                "language" : "typescript"
+                              }
+                            } ],
                             "label" : {
                               "@class" : "Script",
                               "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-dashboard', 'time')}`",
@@ -1618,6 +1645,15 @@
                         }, {
                           "props" : {
                             "className" : "header-button",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "disabled",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
+                                "language" : "typescript"
+                              }
+                            } ],
                             "label" : {
                               "@class" : "Script",
                               "content" : "\"<p>Radio &amp; Notif</p>\"",
@@ -1959,8 +1995,17 @@
                                             "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.RUNNING;",
                                             "language" : "typescript"
                                           }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "disabled",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
+                                            "language" : "typescript"
+                                          }
                                         } ],
                                         "icon" : "play",
+                                        "id" : "play-icon",
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "\"\"",
@@ -1988,11 +2033,20 @@
                                           "className" : "play-pause-icon-focus",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) !== GameState.RUNNING;",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.PAUSED;",
+                                            "language" : "typescript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "disabled",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
                                             "language" : "typescript"
                                           }
                                         } ],
                                         "icon" : "pause",
+                                        "id" : "pause-icon",
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "\"\"",
@@ -2023,6 +2077,15 @@
                                 }, {
                                   "props" : {
                                     "className" : "line-text",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "disabled",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
                                     "icon" : "clock",
                                     "label" : {
                                       "@class" : "Script",
@@ -2045,7 +2108,17 @@
                                   "type" : "Button"
                                 }, {
                                   "props" : {
+                                    "alignSelf" : "center",
                                     "className" : "walkie-talkie",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Outside",
+                                      "className" : "disabled",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
                                     "id" : "",
                                     "layoutClassName" : "",
                                     "layoutStyle" : { },
@@ -2367,6 +2440,15 @@
                                         }, {
                                           "props" : {
                                             "className" : "members-paragraph spy-text",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Inside",
+                                              "className" : "disabled",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getGameStateStatus } from \"./dashboard/dashboardFacade\";\nimport { GameState } from \"./gameInterface/main\";\n  getGameStateStatus(Context.team.id) === GameState.NOT_INITIATED ||\n    getGameStateStatus(Context.team.id) === undefined;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
                                             "icon" : "eye",
                                             "label" : {
                                               "@class" : "Script",

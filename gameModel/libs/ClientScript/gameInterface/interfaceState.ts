@@ -32,7 +32,7 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
-  selectedRadioChannel: string;
+  selectedRadioChannel: ActionType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<ActionType, string>>;
   selectedCASUChannelAction: CasuChannelAction;

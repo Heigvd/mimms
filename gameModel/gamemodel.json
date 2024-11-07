@@ -6929,7 +6929,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO MIM-359",
+  "name" : "MIMMS - MIM-369",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

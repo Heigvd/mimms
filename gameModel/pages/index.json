@@ -451,7 +451,13 @@
         }, {
           "@class" : "Page",
           "id" : "radioMessageInput",
-          "name" : "radioMessageInput",
+          "name" : "radio message input",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "radioMessageOutput",
+          "name" : "radio message output",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],

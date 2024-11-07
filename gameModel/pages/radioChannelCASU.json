@@ -4,96 +4,19 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "emitter-text-header-layout",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getNotificationTime } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(Context.item.pending){\n    const translation = getTranslation('mainSim-interface', 'msg-now');\n      return translation;\n  }\n getNotificationTime(Context.item.timeStamp);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "emitter-text-body-layout",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid)\n  return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n  getTranslation('mainSim-interface', 'incoming-message');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Outside",
-                  "className" : "radio-message-others tri-right left-top",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Context.item.recipientId != Context.interfaceState.state.currentActorUid;",
-                    "language" : "typescript"
-                  }
-                }, {
-                  "applyOn" : "Outside",
-                  "className" : "radio-message-myself tri-right right-top",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Context.item.recipientId == Context.interfaceState.state.currentActorUid;",
-                    "language" : "typescript"
-                  }
-                }, {
-                  "applyOn" : "Inside",
-                  "className" : "radio-message-last",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { isLastRadioMessageForChannel } from \"./UIfacade/radioFacade\";\nisLastRadioMessageForChannel(ActionType.CASU_RADIO, Context.item.uid);",
-                    "language" : "typescript"
-                  }
-                }, {
-                  "applyOn" : "Outside",
-                  "className" : "pending",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Context.item.pending",
-                    "language" : "typescript"
-                  }
-                } ],
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { ActionType } from \"./game/common/actionType\";\nContext.item.channel != ActionType.CASU_RADIO;",
-                  "language" : "typescript"
-                },
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "className" : "messageArea",
-            "exposeAs" : "item",
-            "getItemsFn" : {
+            "className" : "noPadding",
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getAllRadioMessages, getOngoingRadioMessagesOnChannelAsRadioMessages } from \"./UIfacade/radioFacade\";\ngetAllRadioMessages().concat(getOngoingRadioMessagesOnChannelAsRadioMessages(ActionType.CASU_RADIO));",
-              "language" : "TypeScript"
+              "content" : "\"radioMessageOutput\";",
+              "language" : "typescript"
             },
-            "itemKey" : "uid",
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "messageArea-container",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "messages output",
+            "name" : "output messages",
             "style" : { }
           },
-          "type" : "For each"
+          "type" : "PageLoader"
         }, {
           "props" : {
             "className" : "mimms_h2title",

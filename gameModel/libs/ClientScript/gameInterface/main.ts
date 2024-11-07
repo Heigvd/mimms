@@ -165,19 +165,6 @@ export function buildValidSimDateTime(hours: number, minutes: number): Date {
 }
 
 /**
- * Get notification time in HH:MM format
- *
- * @params notificationTime number
- * @returns string Notification time adjusted to sim time
- */
-export function getNotificationTime(notificationTime: number): string {
-  const startTime = getSimStartDateTime();
-  startTime.setSeconds(notificationTime + startTime.getSeconds());
-
-  return formatTime(startTime);
-}
-
-/**
  * Return given dateTime in HH:MM format
  *
  * @params dateTime Date
