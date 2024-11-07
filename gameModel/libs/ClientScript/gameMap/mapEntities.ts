@@ -8,6 +8,9 @@ import * as ResourceState from '../game/common/simulationState/resourceStateAcce
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
+import { mainSimMapLogger } from '../tools/logger';
+
+let wasGodView = true;
 
 // used in page 43
 export function getOverlayItems() {
@@ -42,29 +45,37 @@ export function getOverlayItems() {
     });
   }
 
-  // Close entities if role view enabled
-  if (!isGodView()) {
-    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState = newState.overlayState.filter((l: LOCATION_ENUM) => canViewLocation(l));
-    Context.mapState.setState(newState);
-  } else {
-    const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
-
-    // Sort overlayItem according to order and open/close
-    overlayItems.sort((a, b) => {
-      const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
-      const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
-
-      // Closed fixedEntities cases
-      if (indexA === -1) {
-        return 1;
-      } else if (indexB === -1) {
-        return -1;
-      }
-
-      return indexA - indexB;
-    });
+  // detect change of view mode
+  if (wasGodView !== isGodView()) {
+    wasGodView = isGodView();
+    // Force close entities if role view enabled
+    if (!isGodView()) {
+      const newState: MapState = Helpers.cloneDeep<MapState>(Context.mapState.state);
+      newState.overlayState = newState.overlayState.filter((l: LOCATION_ENUM) =>
+        canViewLocation(l)
+      );
+      mainSimMapLogger.info('Role view map toggle', newState.overlayState);
+      Context.mapState.setState(newState);
+    }
   }
+
+  const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
+
+  // Sort overlayItem according to order and open/close
+  overlayItems.sort((a, b) => {
+    const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
+
+    // Closed fixedEntities cases => after opened ones
+    if (indexA === -1) {
+      return 1;
+    }
+    const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
+    if (indexB === -1) {
+      return -1;
+    }
+
+    return indexA - indexB;
+  });
 
   return overlayItems;
 }
@@ -73,10 +84,10 @@ export function getOverlayItems() {
  * Bring the given overlayItem to the front
  */
 export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
-  const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-  const index = newState.overlayState.indexOf(itemId);
+  const index = Context.mapState.state.overlayState.indexOf(itemId);
 
   if (index > -1) {
+    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
     newState.overlayState.splice(index, 1);
     newState.overlayState.unshift(itemId);
     Context.mapState.setState(newState);

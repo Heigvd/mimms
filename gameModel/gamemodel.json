@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730387730213,
+  "createdTime" : 1730998754543,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5154,8 +5154,8 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "Toggle between godView and roleView",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Toggle between godView and roleView (defaults to god view)",
         "defaultInstance" : {
           "@class" : "BooleanInstance",
           "refId" : "BooleanInstance:243648:yuIwVm",
@@ -5178,7 +5178,7 @@
         },
         "name" : "godView",
         "refId" : "BooleanDescriptor:243647:JqP12B",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -6929,7 +6929,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dashboard Demo",
+  "name" : "MIMMS - dev XGO MIM-359",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
