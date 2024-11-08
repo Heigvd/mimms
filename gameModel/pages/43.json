@@ -923,6 +923,7 @@
                               "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\ngetInterfaceConfiguration().leftPanel.hidden;",
                               "language" : "typescript"
                             },
+                            "id" : "",
                             "layout" : {
                               "flexDirection" : "column"
                             },
@@ -1472,47 +1473,96 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "modal-text",
-                                "layoutClassName" : "modal-text-container",
-                                "layoutStyle" : { },
-                                "style" : { },
-                                "text" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "modal-text",
+                                        "layoutClassName" : "modal-text-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'situation-update-text-singleactor')",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ]
+                                  },
+                                  "type" : "PlayerIf"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "modal-text",
+                                        "layoutClassName" : "modal-text-container",
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'situation-update-text')",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ]
+                                  },
+                                  "type" : "PlayerElse"
+                                } ],
+                                "ifCondition" : {
                                   "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'situation-update-text')",
-                                  "language" : "TypeScript"
-                                }
+                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "language" : "typescript"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "If Else"
                             }, {
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "button-S button-primaryColor",
-                                    "label" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "button-S button-primaryColor",
+                                        "confirm" : false,
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.actor.Role;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "\"<p>ACS</p>\"",
+                                      "content" : "import { getPlayerActorsCurrentlyNotInSituationUpdate } from \"./UIfacade/actionFacade\";\ngetPlayerActorsCurrentlyNotInSituationUpdate();",
                                       "language" : "TypeScript"
                                     },
-                                    "layoutClassName" : "noPadding",
+                                    "itemKey" : "Uid",
+                                    "layout" : { },
                                     "layoutStyle" : { },
                                     "style" : { }
                                   },
-                                  "type" : "Button"
-                                }, {
-                                  "props" : {
-                                    "className" : "button-S button-primaryColor",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"<p>MCS</p>\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
+                                  "type" : "For each"
                                 } ],
                                 "className" : "modal-buttons-container",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "language" : "typescript"
+                                },
                                 "layout" : { },
                                 "layoutStyle" : { },
                                 "name" : "buttons",
@@ -1523,7 +1573,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "true;",
+                              "content" : "import { isCurrentActorCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\n!isCurrentActorCurrentlyInSituationUpdate();",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -1834,7 +1884,7 @@
       "type" : "If Else"
     } ],
     "className" : "mainSimulationPage",
-    "id" : "",
+    "id" : "mainSimulationPageId",
     "layout" : {
       "flexDirection" : "column"
     },
