@@ -392,6 +392,12 @@
           "name" : "move actor action",
           "scenaristPage" : false,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "actionSituationUpdateParam",
+          "name" : "situation update action",
+          "scenaristPage" : false,
+          "trainerPage" : null
         } ],
         "name" : "action"
       }, {

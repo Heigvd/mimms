@@ -1523,7 +1523,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "false;",
+                              "content" : "true;",
                               "language" : "typescript"
                             },
                             "layout" : { },

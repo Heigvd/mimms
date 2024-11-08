@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730890089348,
+  "createdTime" : 1731084297460,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3965,6 +3965,7 @@
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "variable-duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"variable duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée variable\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
           "when-youre-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you may start playing when the role(s) you selected arrives on site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4127,6 +4128,9 @@
           "send-radio-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"a radio message was sent\"},\"FR\":{\"status\":\"\",\"translation\":\"un message radio a été envoyé\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you go out to make a situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous absentez pour faire un point de situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "targetactivity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"target Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité à destination\",\"lang\":\"FR\"}},\"version\":0}",
           "vector" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"vector\"},\"FR\":{\"status\":\"\",\"translation\":\"vecteur\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"available\"},\"FR\":{\"status\":\"\",\"translation\":\"a disposition\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5833,6 +5837,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1037079:hWsFTK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/situationUpdate/situationUpdate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1110520:BS59uI",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

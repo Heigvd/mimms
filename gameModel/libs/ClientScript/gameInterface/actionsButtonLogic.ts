@@ -1,4 +1,5 @@
 import {
+  getDefaultSituationUpdateDuration,
   isAvailable,
   isCasuMessageActionTemplate,
   isEvacuationActionTemplate,
@@ -7,6 +8,7 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
   isRadioActionTemplate,
+  isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { ActionType } from '../game/common/actionType';
@@ -70,6 +72,8 @@ export function runActionButton(action: ActionTemplateBase): void {
     params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
   } else if (isMoveActorActionTemplate(action)) {
     params = fetchMoveActorLocation();
+  } else if (isSituationUpdateActionTemplate(action)) {
+    params = fetchSituationUpdateValues();
   } else if (isEvacuationActionTemplate(action)) {
     params = fetchEvacuationActionValues();
   } else if (isPretriageReportTemplate(action)) {
@@ -232,6 +236,13 @@ function fetchMoveActorLocation() {
   const location = Context.interfaceState.state.moveActorChosenLocation;
   setInterfaceState({ moveActorChosenLocation: undefined });
   return location;
+}
+
+function fetchSituationUpdateValues() {
+  const params = { duration: +getTypedInterfaceState().situationUpdateDuration };
+  // Reset interfaceState
+  setInterfaceState({ situationUpdateDuration: getDefaultSituationUpdateDuration() });
+  return params;
 }
 
 function fetchEvacuationActionValues() {

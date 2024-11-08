@@ -37,36 +37,80 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutStyle" : { },
-                        "name" : "taskDuration",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "`${Context.action.duration / 60}`;",
-                          "language" : "TypeScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "taskDuration",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "`${Context.action.duration / 60}`;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "minutes",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'minutes', false);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "duration",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
                       },
-                      "type" : "Text"
+                      "type" : "PlayerIf"
                     }, {
                       "props" : {
-                        "layoutStyle" : { },
-                        "name" : "minutes",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'minutes', false);",
-                          "language" : "TypeScript"
-                        }
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "name" : "variable",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'variable-duration', false);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : { },
+                            "name" : "duration",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ]
                       },
-                      "type" : "Text"
+                      "type" : "PlayerElse"
                     } ],
-                    "layout" : { },
-                    "layoutClassName" : "noPadding noMargin",
+                    "ifCondition" : {
+                      "@class" : "Script",
+                      "content" : "!!Context.action.duration",
+                      "language" : "typescript"
+                    },
                     "layoutStyle" : { },
-                    "name" : "duration",
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "If Else"
                 } ],
                 "className" : "actionHeader",
                 "conditionnalClassNames" : [ {
