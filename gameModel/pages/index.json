@@ -242,12 +242,6 @@
         "trainerPage" : false
       }, {
         "@class" : "Page",
-        "id" : "7",
-        "name" : "spy",
-        "scenaristPage" : true,
-        "trainerPage" : false
-      }, {
-        "@class" : "Page",
         "id" : "14",
         "name" : "debug_matrix",
         "scenaristPage" : false,
