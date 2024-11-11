@@ -15,9 +15,9 @@
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
-                    "@class" : "Script",
-                    "content" : "import { updatePatientDashboard } from \"./dashboard/patient\";\n\nupdatePatientDashboard();",
-                    "language" : "typescript"
+                    "@class" : "ClientScript",
+                    "content" : "import { updatePatientDashboard } from \"./dashboard/patient\";\n\nupdatePatientDashboard(true);",
+                    "language" : "TypeScript"
                   }
                 },
                 "style" : { }

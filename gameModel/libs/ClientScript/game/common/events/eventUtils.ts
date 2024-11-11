@@ -27,6 +27,7 @@ If this value is changed:
 - Close the simulation windows (main sim, etc.)
 - Restart the game
 - Reload the page
+WARNING : Also make sure to check the server scripts if you change!
 */
 export const eventBoxImplementation : EventBoxImpl = 'NEWEVENTBOX';
 
