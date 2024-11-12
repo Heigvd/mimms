@@ -1410,8 +1410,8 @@
                           "type" : "FlexList"
                         }, {
                           "props" : {
-                            "attachToMostDistant" : ".wegas-pageloader",
-                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "attachToMostDistant" : "",
+                            "attachedToId" : "mainSimulationPageId",
                             "children" : [ {
                               "props" : {
                                 "className" : "modal-title",
@@ -1444,7 +1444,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  if (APP_CONTEXT !== 'Player') {\n    return true;\n  }\n  isGameRunning();",
+                              "content" : "import { isGameRunning } from \"./gameInterface/main\";\n  isGameRunning();",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -1456,8 +1456,8 @@
                           "type" : "Modal"
                         }, {
                           "props" : {
-                            "attachToMostDistant" : ".wegas-pageloader",
-                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "attachToMostDistant" : "",
+                            "attachedToId" : "mainSimulationPageId",
                             "children" : [ {
                               "props" : {
                                 "className" : "modal-title",
@@ -1585,8 +1585,8 @@
                           "type" : "Modal"
                         }, {
                           "props" : {
-                            "attachToMostDistant" : ".wegas-pageloader",
-                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "attachToMostDistant" : "",
+                            "attachedToId" : "mainSimulationPageId",
                             "children" : [ {
                               "props" : {
                                 "className" : "modal-image",
@@ -1644,8 +1644,8 @@
                           "type" : "Modal"
                         }, {
                           "props" : {
-                            "attachToMostDistant" : ".wegas-pageloader",
-                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "attachToMostDistant" : "",
+                            "attachedToId" : "mainSimulationPageId",
                             "children" : [ {
                               "props" : {
                                 "className" : "modal-title",
@@ -1776,8 +1776,8 @@
                           "type" : "Modal"
                         }, {
                           "props" : {
-                            "attachToMostDistant" : ".wegas-pageloader",
-                            "attachedToId" : "",
+                            "attachToMostDistant" : "",
+                            "attachedToId" : "mainSimulationPageId",
                             "children" : [ {
                               "props" : {
                                 "exposePageSizeAs" : "",
