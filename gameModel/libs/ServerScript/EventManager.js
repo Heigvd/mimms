@@ -37,6 +37,7 @@ var EventManager = (function () {
     RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
   }
 
+  /** DEPRECATED use sendNewEvent*/
   function sendEvent(payload, time, teamId) {
     var player = inferPlayer(teamId);
 
@@ -245,6 +246,7 @@ var EventManager = (function () {
       instantiateCharacter(profileId, bagId, true);
     },
     runScenario: runScenario,
+    /*** DEPRECATED use postNewEvent */
     postEvent: sendEvent,
     postNewEvent: sendNewEvent,
   };
