@@ -1,7 +1,9 @@
 import { getCurrentPlayerActorIds } from '../../../UIfacade/actorFacade';
 import { timeLogger } from '../../../tools/logger';
 import { ActorId } from '../baseTypes';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { MainSimulationState } from './mainSimulationState';
+import { isOngoingAndStartedAction } from './actionStateAccess';
+import { SituationUpdateAction } from '../actions/actionBase';
 
 /**
  * Data structure used to handle time forward for multiplayer.
@@ -9,6 +11,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
  * have been set ready to time forward.
  * An actor is set ready when a player controlling it
  * clicks on the time forward button.
+ * An actor is considered to be ready if it is in a situation update.
  */
 export interface TimeFrame {
   currentTime: Readonly<number>;
@@ -20,8 +23,18 @@ export function buildNewTimeFrame(state: MainSimulationState): TimeFrame {
     currentTime: state.getSimTime(),
     waitingTimeForward: state
       .getOnSiteActors()
-      .reduce<Record<ActorId, number>>((acc, actor) => ((acc[actor.Uid] = 0), acc), {}),
+      .reduce<Record<ActorId, number>>(
+        (acc, actor) => ((acc[actor.Uid] = getInitialTimeForwardStatus(state, actor.Uid)), acc),
+        {}
+      ),
   };
+}
+
+function getInitialTimeForwardStatus(state: MainSimulationState, actorUid: ActorId): number {
+  if (isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)) {
+    return 1;
+  }
+  return 0;
 }
 
 /**
@@ -38,10 +51,21 @@ export function isTimeForwardReady(state: MainSimulationState): boolean {
  */
 export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>): boolean {
   const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
+
   if (actorIds?.length < 1) {
     // the player has no active actor to play, thus not waiting
     return false;
   }
+
+  if (
+    actorIds.every((actorUid: ActorId) =>
+      isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)
+    )
+  ) {
+    // all player's actors are in a situation update, thus not waiting
+    return false;
+  }
+
   const timeFrame = state.getCurrentTimeFrame();
   return actorIds.every(a => (timeFrame.waitingTimeForward[a] || 0) > 0);
 }

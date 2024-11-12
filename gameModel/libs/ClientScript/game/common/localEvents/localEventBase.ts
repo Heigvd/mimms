@@ -208,6 +208,8 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       this.updateTasks(state);
 
       registerOpenSelectedActorPanelAfterMove();
+
+      state.setForwardTimeFrame();
     }
   }
 

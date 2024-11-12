@@ -96,6 +96,12 @@ export class MainSimulationState implements IClonable {
    */
   public incrementSimulationTime(jump: SimDuration): void {
     this.simulationTimeSec += jump;
+  }
+
+  /**
+   * Only use when applying events
+   */
+  public setForwardTimeFrame(): void {
     // init a new time frame forward
     this.forwardTimeFrame = buildNewTimeFrame(this);
   }
