@@ -8,25 +8,38 @@ interface Data {
 */
 
 // type PerTarget = Record<string, FullEvent<CategorizeEvent>>;
+var useNewBox = true;
+var eventsVarName = useNewBox ? 'newEvents' : 'events';
 
-function getEvents(inboxInstance /*: SInboxInstance*/) /*: FullEvent<EventPayload>[] */ {
-  var rawMessages = Java.from(inboxInstance.getMessages());
+/**
+ * parses the events in an inbox or event inbox
+ * @return the deserialized events payloads FullEvent<EventPayload>[]
+ */
+function getEvents(inboxInstance /*: SInboxInstance | SEventInboxInstance */) {
   var events = [];
-  for (var i in rawMessages) {
-    var message = rawMessages[i];
-    var json = I18n.t(message.getBody());
-    var event = JSON.parse(json);
+  if (useNewBox) {
+    var rawEvents = inboxInstance.getEvents();
+    for (var i in rawEvents) {
+      events.push(JSON.parse(rawEvents[i].payload));
+    }
+  } else {
+    var rawMessages = Java.from(inboxInstance.getMessages());
+    for (var i in rawMessages) {
+      var message = rawMessages[i];
+      var json = I18n.t(message.getBody());
+      var event = JSON.parse(json);
 
-    event.id = message.getId();
-    event.timestamp = message.getTime();
+      event.id = message.getId();
+      event.timestamp = message.getTime();
 
-    events.push(event);
+      events.push(event);
+    }
   }
   return events;
 }
 
 function getDashboard() {
-  var events = getEvents(Variable.find(gameModel, 'events').getInstance(self));
+  var events = getEvents(Variable.find(gameModel, eventsVarName).getInstance(self));
   return getPretriage(events);
 }
 
@@ -129,7 +142,7 @@ if (drillType === 'LIKERT') {
   // teamId => {correct: number, etc.}
   var catCache = {};
 
-  WegasDashboard.registerVariable('events', {
+  WegasDashboard.registerVariable(eventsVarName, {
     label: 'Not categorized',
     section: 'Pre-Triage',
     id: 'not_categorized',
@@ -145,7 +158,7 @@ if (drillType === 'LIKERT') {
     sortable: true,
   });
 
-  WegasDashboard.registerVariable('events', {
+  WegasDashboard.registerVariable(eventsVarName, {
     label: 'Correct',
     section: 'Pre-Triage',
     id: 'correct',
@@ -161,7 +174,7 @@ if (drillType === 'LIKERT') {
     sortable: true,
   });
 
-  WegasDashboard.registerVariable('events', {
+  WegasDashboard.registerVariable(eventsVarName, {
     label: 'Over categorized',
     section: 'Pre-Triage',
     id: 'Overcategorized',
@@ -177,7 +190,7 @@ if (drillType === 'LIKERT') {
     sortable: true,
   });
 
-  WegasDashboard.registerVariable('events', {
+  WegasDashboard.registerVariable(eventsVarName, {
     label: 'Under categorized',
     section: 'Pre-Triage',
     id: 'undercategorized',
@@ -193,11 +206,7 @@ if (drillType === 'LIKERT') {
     sortable: true,
   });
 
-  //inSim_ref
-  //getCurrentTime
-
   WegasDashboard.registerVariable('inSim_ref', {
-    //section: 'time',
     label: 'End time',
     id: 'time at end',
     formatter: function (seconds) {
@@ -215,21 +224,4 @@ if (drillType === 'LIKERT') {
 
     sortable: true,
   });
-
-  /*
-	WegasDashboard.registerVariable('epoch_ref', {
-		section: 'truc'
-	});
-
-	WegasDashboard.registerVariable('epoch_ref', {
-		id: "trutrucucuc",
-		section: 'truc'
-	});
-	*/
-
-  WegasDashboard.setSectionLabel('Chose', 'truc');
-
-  WegasDashboard.registerVariable('running');
-
-  WegasDashboard.registerVariable('keepalive');
 }

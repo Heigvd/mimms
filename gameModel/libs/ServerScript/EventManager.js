@@ -88,8 +88,8 @@ var EventManager = (function () {
     instance.sendEvent(JSON.stringify(event));
     // Make sure newEvent got an Id
     // hack: commit request to force state machine evaluation
-    //       This will flush all pending changes to DB
-    //       newEvent got an ID
+    // This will flush all pending changes to DB
+    // => the newEvent gets an ID
     RequestManager.commit();
   }
 
