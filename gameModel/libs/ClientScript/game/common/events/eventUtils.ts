@@ -26,20 +26,29 @@ If this value is changed:
 - Close the simulation windows (main sim, etc.)
 - Restart the game
 - Reload the page
+WARNING : Also make sure to check the server scripts if you change!
 */
 export const eventBoxImplementation: EventBoxImpl = 'NEWEVENTBOX';
 
-export function getSendEventServerScript(payload: EventPayload, teamId?: number) {
+export function getSendEventServerScript(payload: EventPayload, time?: number, teamId?: number) {
   const verb = eventBoxImplementation === 'NEWEVENTBOX' ? 'postNewEvent' : 'postEvent';
-  return `EventManager.${verb}(${JSON.stringify(payload)}, undefined, ${teamId});`;
+  return `EventManager.${verb}(${JSON.stringify(payload)}, ${time}, ${teamId});`;
 }
 
-export function sendEvent(payload: EventPayload, teamId?: number): Promise<IManagedResponse> {
-  return APIMethods.runScript(getSendEventServerScript(payload, teamId), {});
+export function sendEvent(
+  payload: EventPayload,
+  time?: number,
+  teamId?: number
+): Promise<IManagedResponse> {
+  return APIMethods.runScript(getSendEventServerScript(payload, time, teamId), {});
 }
 
-export function sendEvents(payloads: EventPayload[], teamId?: number): Promise<IManagedResponse> {
-  const script = payloads.map(payload => getSendEventServerScript(payload, teamId)).join('');
+export function sendEvents(
+  payloads: EventPayload[],
+  time?: number,
+  teamId?: number
+): Promise<IManagedResponse> {
+  const script = payloads.map(payload => getSendEventServerScript(payload, time, teamId)).join('');
   return APIMethods.runScript(script, {});
 }
 
