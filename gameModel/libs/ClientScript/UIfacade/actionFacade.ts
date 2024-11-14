@@ -30,8 +30,7 @@ import {
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { getTranslation } from '../tools/translation';
-import { TimeSliceDuration } from '../game/common/constants';
-import { situationUpdateDurations } from '../game/common/situationUpdate/situationUpdate';
+import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import { Actor } from '../game/common/actors/actor';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1731084297460,
+  "createdTime" : 1731572876524,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5842,15 +5842,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/situationUpdate/situationUpdate",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1110520:BS59uI",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/tasks/subTask",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6956,7 +6947,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-358",
+  "name" : "MIMMS - dev XGO MIM-358",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

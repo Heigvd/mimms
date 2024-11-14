@@ -72,9 +72,9 @@ export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>
 
 /**
  * Fetches the current timeframe and updates its time forward readiness for the given actors.
- * used to apply a time forward event.
+ * used to apply a time forward or time forward cancel event.
  * If the expected time stamp (i.e. the timeforward event time stamp), doesn't match the current time frame's
- * timestamp, no changes are applied.
+ * timestamp, no changes are applied, that can happen if auto forward applies during a situation update.
  */
 export function updateCurrentTimeFrame(
   state: MainSimulationState,
@@ -85,7 +85,8 @@ export function updateCurrentTimeFrame(
   const timeFrame = state.getCurrentTimeFrame();
   if (timeFrame.currentTime !== expectedTimeStamp) {
     timeLogger.warn(`Current simulation time doesn't match the expected time. time frame update cancelled.
-      (current time ${timeFrame.currentTime})(event ts ${expectedTimeStamp})`);
+      (current time ${timeFrame.currentTime})(event ts ${expectedTimeStamp}). 
+      This warning can safely be ignored if the trainer has furthered the time while a situation update was occurring`);
   } else {
     actors.forEach(actorId => {
       const v = timeFrame.waitingTimeForward[actorId] || 0;
