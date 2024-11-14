@@ -1187,27 +1187,8 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
   StandardActionEvent,
   SituationUpdatePayload
 > {
-  constructor(
-    title: TranslationKey,
-    description: TranslationKey,
-    message: TranslationKey,
-    duration: SimDuration = 0,
-    replayable: boolean = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
-    availableToRoles?: InterventionRole[]
-  ) {
-    super(
-      title,
-      description,
-      duration,
-      message,
-      replayable,
-      ActionType.ACTION,
-      flags,
-      provideFlagsToState,
-      availableToRoles
-    );
+  constructor(title: TranslationKey, description: TranslationKey, message: TranslationKey) {
+    super(title, description, 0, message, true, ActionType.ACTION);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
@@ -1220,8 +1201,7 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
       this.title,
       this.message,
       ownerId,
-      this.Uid,
-      this.provideFlagsToState
+      this.Uid
     );
   }
 

@@ -369,7 +369,7 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
           const involved = event.payload.dashboardForced
             ? currentSimulationState.getAllActors().map(a => a.Uid)
             : event.payload.involvedActors;
-          for (let i = 0; i < timeJump; i += 60) {
+          for (let i = 0; i < timeJump; i += TimeSliceDuration) {
             const timefwdEvent = new TimeForwardLocalEvent(
               event.id,
               event.payload.triggerTime + i,
