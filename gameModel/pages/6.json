@@ -2,8 +2,8 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "attachToMostDistant" : ".wegas-pageloader",
-        "attachedToId" : "",
+        "attachToMostDistant" : "",
+        "attachedToId" : "zoomMedicalCarePageId",
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -1875,7 +1875,7 @@
       },
       "type" : "State"
     } ],
-    "id" : "",
+    "id" : "zoomMedicalCarePageId",
     "layout" : {
       "flexDirection" : "column"
     },
