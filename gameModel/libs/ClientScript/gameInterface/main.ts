@@ -2,6 +2,7 @@ import {
   ActionTemplateBase,
   MoveActorActionTemplate,
   SelectionFixedMapEntityTemplate,
+  SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
@@ -186,6 +187,8 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
     return '48';
   } else if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
+  } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
+    return 'actionSituationUpdateParam';
   }
   return '';
 }

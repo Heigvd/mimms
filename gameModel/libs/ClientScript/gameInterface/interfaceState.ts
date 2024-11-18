@@ -13,6 +13,7 @@ import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuatio
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
+import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
@@ -25,6 +26,7 @@ export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
+  situationUpdateDuration: number;
   getHospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: PatientId | undefined;
@@ -101,6 +103,7 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
+    situationUpdateDuration: getDefaultSituationUpdateDuration(),
     getHospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: undefined,

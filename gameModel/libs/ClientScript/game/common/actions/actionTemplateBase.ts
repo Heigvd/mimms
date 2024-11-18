@@ -48,6 +48,7 @@ import {
   SelectionPCFrontAction,
   SelectionParkAction,
   SendRadioMessageAction,
+  SituationUpdateAction,
 } from './actionBase';
 
 export enum SimFlag {
@@ -1163,6 +1164,56 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     _actor: Readonly<Actor>
   ): boolean {
     return state.getAllActors().every(act => act.Role !== this.actorRole);
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+}
+
+/**
+ * Book a moment for a situation update (point de situation)
+ */
+export interface SituationUpdatePayload {
+  duration: SimDuration;
+}
+
+export class SituationUpdateActionTemplate extends StartEndTemplate<
+  SituationUpdateAction,
+  StandardActionEvent,
+  SituationUpdatePayload
+> {
+  constructor(title: TranslationKey, description: TranslationKey, message: TranslationKey) {
+    super(title, description, 0, message, true, ActionType.ACTION);
+  }
+
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+    return new SituationUpdateAction(
+      payload.triggerTime,
+      payload.durationSec,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: SimTime,
+    initiator: Readonly<Actor>,
+    params: SituationUpdatePayload
+  ): StandardActionEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: params.duration, // the duration is sent as a payload
+    };
   }
 
   public getDescription(): string {
