@@ -202,7 +202,22 @@ export function buildStartingMainState(): MainSimulationState {
     []
   );
 
-  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
+  const taskWaiting = new WaitingTask(
+    'waiting-title',
+    'waiting-task-desc',
+    1,
+    10000,
+    'AL',
+    [
+      LOCATION_ENUM.chantier,
+      LOCATION_ENUM.PMA,
+      LOCATION_ENUM.pcFront,
+      LOCATION_ENUM.PC,
+      LOCATION_ENUM.ambulancePark,
+      LOCATION_ENUM.helicopterPark,
+    ],
+    []
+  );
 
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, taskWaiting.Uid)];
 
