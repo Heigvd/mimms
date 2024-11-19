@@ -118,7 +118,15 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Context.interfaceState.state.currentActionUid === Context.action.Uid;",
+                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.Uid);",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderDisabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.Uid);",
                     "language" : "typescript"
                   }
                 } ],
@@ -227,7 +235,7 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.currentActionUid !== Context.action.Uid;",
+                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\n  !isActiveAction(Context.action.Uid);",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -241,15 +249,6 @@
               },
               "type" : "FlexList"
             } ],
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Outside",
-              "className" : "not-planned",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.Uid);",
-                "language" : "typescript"
-              }
-            } ],
             "layout" : {
               "flexDirection" : "column"
             },
@@ -260,7 +259,7 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "/*allDisplay-container*/",
+        "className" : "",
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
@@ -272,7 +271,7 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "/*allDisplay-container*/",
+        "layoutClassName" : "",
         "layoutStyle" : {
           "marginTop" : "0px",
           "paddingTop" : "0px"

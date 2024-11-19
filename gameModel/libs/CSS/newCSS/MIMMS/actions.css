@@ -8,10 +8,6 @@
 	animation-duration: 2s ease-out;
 }
 
-.action-container.not-planned{
-	opacity: 50%;
-}
-
 .actionHeader{
 	background-color: var(--grey_10);
 	padding: 5px 10px ;
@@ -20,10 +16,16 @@
 	cursor: pointer;
 }
 
+.actionHeaderDisabled{
+  opacity: 50%;
+  cursor: default;
+}
+
+
 .actionHeaderActive{
 	font-weight: var(--boldWeight);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
-
+  cursor: default;
 }
 
 .actionHeader > div{
