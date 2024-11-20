@@ -6,7 +6,7 @@
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionType, RadioType } from '../game/common/actionType';
-import { ActionBase } from '../game/common/actions/actionBase';
+import { ActionBase, SituationUpdateAction } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
@@ -17,6 +17,7 @@ import {
   SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
+  SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActorId, TemplateId } from '../game/common/baseTypes';
 import {
@@ -28,6 +29,11 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
+import { getTranslation } from '../tools/translation';
+import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
+import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
+import { Actor } from '../game/common/actors/actor';
+import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -115,6 +121,48 @@ export function getAllCancelledActions(): Readonly<ActionBase[]> {
   return getCurrentState().getAllCancelledActions();
 }
 
+export function getDefaultSituationUpdateDuration(): number {
+  return TimeSliceDuration * situationUpdateDurations[0]!;
+}
+
+export function getDurationChoicesForSituationUpdateAction(): { label: string; value: string }[] {
+  return situationUpdateDurations.map((nbMinutes: number) => {
+    return {
+      label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
+      value: `${TimeSliceDuration * nbMinutes}`,
+    };
+  });
+}
+
+export function isCurrentActorCurrentlyInSituationUpdate(): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  const state = getCurrentState();
+
+  if (currentActorUid) {
+    return isOngoingAndStartedAction(state, currentActorUid, SituationUpdateAction);
+  }
+
+  return false;
+}
+
+export function getPlayerActorsCurrentlyNotInSituationUpdate(): Actor[] {
+  const state = getCurrentState();
+  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
+
+  return playerActors.filter(
+    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, SituationUpdateAction)
+  );
+}
+
+export function areAllPlayerActorsCurrentlyInSituationUpdate(): boolean {
+  const state = getCurrentState();
+  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
+
+  return playerActors.every((actor: Actor) =>
+    isOngoingAndStartedAction(state, actor.Uid, SituationUpdateAction)
+  );
+}
+
 export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof SelectionFixedMapEntityTemplate;
 }
@@ -138,6 +186,10 @@ export function isMoveResourcesAssignTaskActionTemplate(
 
 export function isMoveActorActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof MoveActorActionTemplate;
+}
+
+export function isSituationUpdateActionTemplate(template: ActionTemplateBase | undefined): boolean {
+  return template instanceof SituationUpdateActionTemplate;
 }
 
 export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {

@@ -19,7 +19,7 @@ import {
   TemplateId,
   TranslationKey,
 } from '../baseTypes';
-import { FailedRessourceArrivalDelay } from '../constants';
+import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
 import { getHospitalsByProximity } from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
@@ -105,7 +105,6 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-// TODO move in own file
 // immutable
 /**
  * Creates an action to be inserted in the timeline and inits it
@@ -160,8 +159,6 @@ export class CancelActionLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-/////////// TODO in own file
-
 export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
@@ -195,7 +192,6 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   applyStateUpdate(state: MainSimulationState): void {
     this.updateCurrentTimeFrame(state, 1);
     if (isTimeForwardReady(state)) {
-      // TODO dynamic time progression (continue advancing until something relevant happens)
       state.incrementSimulationTime(this.timeJump);
 
       // update patients
@@ -208,6 +204,19 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       this.updateTasks(state);
 
       registerOpenSelectedActorPanelAfterMove();
+
+      state.updateForwardTimeFrame();
+
+      // auto-continue if all actors are still awaiting
+      if (isTimeForwardReady(state)) {
+        const tfw = new TimeForwardLocalEvent(
+          this.parentEventId,
+          state.getSimTime(),
+          [],
+          TimeSliceDuration
+        );
+        localEventManager.queueLocalEvent(tfw);
+      }
     }
   }
 

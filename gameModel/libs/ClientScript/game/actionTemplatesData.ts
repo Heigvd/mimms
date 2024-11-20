@@ -14,6 +14,7 @@ import {
   SelectionPCTemplate,
   SendRadioMessageTemplate,
   SimFlag,
+  SituationUpdateActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { TimeSliceDuration } from './common/constants';
 import {
@@ -39,6 +40,7 @@ export interface IUniqueActionTemplates {
   readonly EvacuationActionTemplate: EvacuationActionTemplate;
   readonly ActorSendRadioMessageTemplate: SendRadioMessageTemplate;
   readonly CasuSendRadioMessageTemplate: SendRadioMessageTemplate;
+  readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
 export function initActionTemplates(): {
@@ -435,6 +437,12 @@ export function initActionTemplates(): {
     true
   );
 
+  const situationUpdate = new SituationUpdateActionTemplate(
+    'situation-update-title',
+    'situation-update-desc',
+    'situation-update-feedback'
+  );
+
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placePCFront.Uid] = placePCFront;
   templates[moveActor.Uid] = moveActor;
@@ -459,6 +467,7 @@ export function initActionTemplates(): {
   templates[allocateResources.Uid] = allocateResources;
   templates[evacuate.Uid] = evacuate;
   templates[pretriageReport.Uid] = pretriageReport;
+  templates[situationUpdate.Uid] = situationUpdate;
 
   // Beware that the order of the actions of the standard list depends on the creation order
 
@@ -477,6 +486,7 @@ export function initActionTemplates(): {
       EvacuationActionTemplate: evacuate,
       ActorSendRadioMessageTemplate: actorFreeRadioMessage,
       CasuSendRadioMessageTemplate: casuFreeRadioMessage,
+      SituationUpdateActionTemplate: situationUpdate,
     },
   };
 }

@@ -254,12 +254,6 @@
         "trainerPage" : false
       }, {
         "@class" : "Page",
-        "id" : "7",
-        "name" : "spy",
-        "scenaristPage" : false,
-        "trainerPage" : false
-      }, {
-        "@class" : "Page",
         "id" : "14",
         "name" : "debug_matrix",
         "scenaristPage" : false,
@@ -396,6 +390,12 @@
           "@class" : "Page",
           "id" : "66",
           "name" : "move actor action",
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "actionSituationUpdateParam",
+          "name" : "situation update action",
           "scenaristPage" : false,
           "trainerPage" : null
         } ],

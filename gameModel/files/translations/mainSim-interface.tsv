@@ -37,6 +37,12 @@ msg-now	Now	Maintenant
 notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.
 youre-not-here	You haven't arrived on site yet	Vous n'êtes pas encore sur site
 when-youre-here	You may start playing when the role(s) you selected arrives on site	Vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.
+on-the-road-title	On the way to the accident site	En route vers le site de l'accident
+on-the-road-text	You are on your way. You’ll be able to start playing as soon as you arrive on site. In the meantime, follow the radio feed to stay updated on the situation.	Vous êtes en chemin. Vous pourrez commencer à jouer dès votre arrivée sur place. En attendant, suivez le flux radio pour rester informé de la situation.
+situation-update-title	Situation update	Point de situation
+situation-update-text	The selected role is currently in a situation update. To continue the simulation, please choose another role from the available options below.	Le rôle sélectionné est actuellement en point de situation. Pour continuer la simulation, veuillez choisir un autre rôle parmi ceux disponibles ci-dessous.
+situation-update-text-singleActor	You are currently in a situation update. The simulation will automatically resume once the update is complete.	Vous êtes actuellement en point de situation. La simulation reprendra automatiquement une fois le point de situation terminé.
+variable-duration	Variable duration	Durée variable
 not-all-ready	All players need to be marked as ready!	Tous les joueurs doivent confirmer être prêts!
 minimum-one-per-role	A minimum of one player per role is required !	Un joueur par rôle est requis au minimum
 player-id	Player ID	ID du joueur
