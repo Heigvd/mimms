@@ -180,6 +180,12 @@
         "name" : "Main Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "11",
+        "name" : "mainSim Setup",
+        "scenaristPage" : true,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {

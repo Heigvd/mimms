@@ -5153,7 +5153,7 @@
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -5163,8 +5163,8 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "Toggle between godView and roleView",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Toggle between godView and roleView (defaults to god view)",
         "defaultInstance" : {
           "@class" : "BooleanInstance",
           "refId" : "BooleanInstance:243648:yuIwVm",
@@ -5187,7 +5187,7 @@
         },
         "name" : "godView",
         "refId" : "BooleanDescriptor:243647:JqP12B",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -5206,7 +5206,7 @@
       },
       "name" : "trainer_Zix3IY",
       "refId" : "ListDescriptor:243642:ynaItH",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],

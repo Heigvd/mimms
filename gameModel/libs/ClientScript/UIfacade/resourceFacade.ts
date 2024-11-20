@@ -6,8 +6,10 @@ import {
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
+import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { canViewLocation } from '../gameMap/mapEntities';
 import { getSelectedActorLocation } from './actorFacade';
 import { getIdleTaskUid } from './taskFacade';
 
@@ -22,7 +24,11 @@ export function countAvailableResourcesToAllocate(
   taskId: number | undefined,
   resourceType: ResourceType
 ) {
-  if (location == undefined || taskId == undefined) {
+  if (
+    location == undefined ||
+    taskId == undefined ||
+    (!isGodView() && !canViewLocation(location))
+  ) {
     return '0';
   } else {
     return getFreeResourcesByTypeLocationAndTask(
