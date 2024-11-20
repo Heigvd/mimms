@@ -306,6 +306,25 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
     event.payload.triggerTime = now;
   }
 
+  try {
+    convertToLocalEventAndQueue(event);
+    const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
+    if (newState.stateCount !== currentSimulationState?.stateCount) {
+      mainSimLogger.info('updating current state', newState.stateCount);
+      currentSimulationState = newState;
+      stateHistory.push(newState);
+    }
+  } catch (error) {
+    mainSimLogger.error('Error while processing event', event, error);
+  }
+
+  processedEvents[event.id] = event;
+}
+/**
+ * converts a global event to local events and enqueue them for later evaluation
+ * @param event a received global event
+ */
+function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void {
   switch (event.payload.type) {
     case 'ActionCreationEvent':
       {
@@ -449,17 +468,6 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
         mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
       }
       break;
-  }
-
-  processedEvents[event.id] = event;
-
-  // process all generated events
-  const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
-
-  if (newState.stateCount !== currentSimulationState.stateCount) {
-    mainSimLogger.info('updating current state', newState.stateCount);
-    currentSimulationState = newState;
-    stateHistory.push(newState);
   }
 }
 
