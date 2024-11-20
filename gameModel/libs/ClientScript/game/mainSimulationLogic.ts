@@ -307,7 +307,7 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
 }
 /**
  * converts a global event to local events and enqueue them for later evaluation
- * @param a received global event
+ * @param event a received global event
  */
 function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void {
   switch (event.payload.type) {
