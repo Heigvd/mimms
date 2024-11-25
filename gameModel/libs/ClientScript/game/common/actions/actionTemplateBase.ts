@@ -62,8 +62,10 @@ export enum SimFlag {
   ACS_MCS_ANNOUNCED = 'ACS_MCS_ANNOUNCED',
   RADIO_SCHEMA_ACTIVATED = 'RADIO_SCHEMA_ACTIVATED',
   EVASAN_ARRIVED = 'EVASAN_ARRIVED',
+  EVASAN_ANNOUNCED = 'EVASAN_ANNOUNCED',
   PMA_BUILT = 'PMA_BUILT',
   LEADPMA_ARRIVED = 'LEADPMA_ARRIVED',
+  LEADPMA_ANNOUNCED = 'LEADPMA_ANNOUNCED',
   PMA_OPEN = 'PMA_OPEN',
 }
 
@@ -1139,7 +1141,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.message,
       ownerId,
       this.Uid,
-      [],
+      this.provideFlagsToState,
       this.actorRole,
       this.typeOfResource,
       this.wentWrongMessageKey
