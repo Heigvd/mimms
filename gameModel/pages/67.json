@@ -37,7 +37,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getResourceMapLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceMapLocationChoices();",
+                  "content" : "import { getResourceSourceLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceSourceLocationChoices();",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",
@@ -98,12 +98,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoices } from \"./UIfacade/taskFacade\";\n    const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n\tgetSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio);",
-                  "language" : "typescript"
-                },
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport { getSourceTaskChoicesCount } from \"./UIfacade/taskFacade\";\n  const isRadio = Context.interfaceState.state.selectedPanel === SelectedPanel.radios;\n  getSourceTaskChoicesCount(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation(), isRadio) < 2;",
+                  "content" : "import { getAllocateResourcesCurrentLocation } from \"./UIfacade/resourceFacade\";\nimport * as TaskFacade from \"./UIfacade/taskFacade\";\n\tTaskFacade.getResourceManagementSourceTaskChoices(Context.interfaceState.state.currentActorUid, getAllocateResourcesCurrentLocation());",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",
@@ -327,7 +322,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getResourceMapLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceMapLocationChoices();",
+                  "content" : "import { getResourceTargetLocationChoices } from \"./UIfacade/locationFacade\";\ngetResourceTargetLocationChoices(Context.interfaceState.state.currentActorUid);",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",
@@ -381,7 +376,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nimport { getTargetTaskChoices } from \"./UIfacade/taskFacade\";\n  const key = getStateKeyForResource();\ngetTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources[key].targetLocation);",
+                  "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nimport { getResourceManagementTargetTaskChoices } from \"./UIfacade/taskFacade\";\n  const key = getStateKeyForResource();\ngetResourceManagementTargetTaskChoices(Context.interfaceState.state.currentActorUid, Context.interfaceState.state.resources[key].targetLocation);",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",

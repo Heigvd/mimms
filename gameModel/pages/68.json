@@ -106,7 +106,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { PreTriageTask } from \"./game/common/tasks/taskBasePretriage\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getLocationsByTaskClassFacade } from \"./UIfacade/taskFacade\";\n\ngetLocationsByTaskClassFacade(PreTriageTask).map((location) => {return {label: getTranslation('mainSim-locations', location.name), value: location.id}});",
+                  "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\n\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",

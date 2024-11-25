@@ -1,21 +1,23 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
+import { Category } from '../../pretri/triage';
+import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { SubTask } from './subTask';
-import { Resource } from '../resources/resource';
-import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
-import { localEventManager } from '../localEvents/localEventManager';
 import {
   AddRadioMessageLocalEvent,
   ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
-import { ActionType } from '../actionType';
-import { Category } from '../../pretri/triage';
+import { localEventManager } from '../localEvents/localEventManager';
+import { Resource } from '../resources/resource';
+import * as ResourceReachLogic from '../resources/resourceReachLogic';
+import { CommMedia } from '../resources/resourceReachLogic';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import * as ResourceState from '../simulationState/resourceStateAccess';
+import * as TaskState from '../simulationState/taskStateAccess';
+import { SubTask } from './subTask';
 
 export enum TaskType {
   Waiting = 'Waiting',
@@ -125,18 +127,31 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return true;
   }
 
-  /** Is the task ready for an actor to allocate resources to start it. */
+  /** Is the task at some location ready for some actor to allocate resources on it. */
   public isAvailable(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>,
     location: Readonly<LOCATION_ENUM>,
-    checkStandardAssignation: boolean
+    mustCheckStandardAssignation: boolean
   ): boolean {
     return (
       this.isRoleWiseAvailable(actor.Role) &&
       this.isLocationWiseAvailable(location) &&
       this.isAvailableCustom(state, actor, location) &&
-      (!checkStandardAssignation || this.isStandardAssignation)
+      (this.isStandardAssignation || !mustCheckStandardAssignation)
+    );
+  }
+
+  /** Define if a resource at some location doing this task can be reached by a communication media. */
+  public isReachable(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>,
+    location: Readonly<LOCATION_ENUM>,
+    commMedia: CommMedia
+  ): boolean {
+    return (
+      this.isAvailable(state, actor, location, false) &&
+      ResourceReachLogic.isReachable(location, this.taskType, commMedia)
     );
   }
 

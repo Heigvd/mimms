@@ -5,6 +5,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
 import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
+import * as TaskFacade from './taskFacade';
 
 /**
  * @returns All currently present actors
@@ -15,11 +16,16 @@ export function getAllActors(): Readonly<Actor[]> {
 
 // used in page 43
 export function selectActor(id: ActorId) {
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActorUid: id,
-  });
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.currentActorUid = id;
+  newState.resources.allocateResources.currentTaskId =
+    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location);
+  Context.interfaceState.setState(newState);
+}
 
+// used in page 43
+export function selectActorAndOpenMapLocation(id: ActorId) {
+  selectActor(id);
   openOverlayItem(getActorLocation(id)!);
 }
 

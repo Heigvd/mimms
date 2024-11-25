@@ -11,7 +11,6 @@ import { SelectedPanel } from './selectedPanel';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
-import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
 
@@ -41,7 +40,7 @@ export interface InterfaceState {
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
-      currentTaskId: TaskId;
+      currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
@@ -138,7 +137,7 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   const resources = getEmptyResources();
 
   return {
-    currentTaskId: getIdleTaskUid(),
+    currentTaskId: undefined,
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,
