@@ -32,6 +32,8 @@ export interface IUniqueActionTemplates {
   readonly SelectionPCSanTemplate: SelectionPCTemplate;
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
+  readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
+  readonly LeadpmaArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
   readonly CasuMessageTemplate: CasuMessageTemplate;
   readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate;
@@ -370,6 +372,32 @@ export function initActionTemplates(): {
     true
   );
 
+  const evasanArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-evasanArrival-title',
+    'define-evasanArrival-desc',
+    TimeSliceDuration,
+    'define-evasanArrival-feedback',
+    false,
+    [SimFlag.EVASAN_ARRIVED],
+    [SimFlag.EVASAN_ANNOUNCED],
+    ['EVASAN'],
+    ActionType.EVASAN_RADIO,
+    true
+  );
+
+  const leadpmaArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-leadpmaArrival-title',
+    'define-leadpmaArrival-desc',
+    TimeSliceDuration,
+    'define-leadpmaArrival-feedback',
+    false,
+    [SimFlag.LEADPMA_ARRIVED],
+    [SimFlag.LEADPMA_ANNOUNCED],
+    ['LEADPMA'],
+    ActionType.ACTORS_RADIO,
+    true
+  );
+
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
@@ -458,6 +486,8 @@ export function initActionTemplates(): {
   templates[placeHelicopterPark.Uid] = placeHelicopterPark;
   templates[openPMA.Uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.Uid] = acsMcsArrivalAnnouncement;
+  templates[evasanArrivalAnnouncement.Uid] = evasanArrivalAnnouncement;
+  templates[leadpmaArrivalAnnouncement.Uid] = leadpmaArrivalAnnouncement;
   templates[activateRadioSchema.Uid] = activateRadioSchema;
   templates[casuMessage.Uid] = casuMessage;
   templates[actorFreeRadioMessage.Uid] = actorFreeRadioMessage;
@@ -478,6 +508,8 @@ export function initActionTemplates(): {
       SelectionPCSanTemplate: placePC,
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
+      EvasanArrivalAnnouncement: evasanArrivalAnnouncement,
+      LeadpmaArrivalAnnouncement: leadpmaArrivalAnnouncement,
       OpenPmaActionTemplate: openPMA,
       CasuMessageTemplate: casuMessage,
       ActivateRadioSchemaActionTemplate: activateRadioSchema,

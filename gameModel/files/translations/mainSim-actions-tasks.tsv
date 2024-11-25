@@ -88,6 +88,12 @@ activate-radio-schema-reply-unauthorized	Refused. The request must be made by th
 define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
+define-evasanArrival-title	Assume EVASAN duties	Prise de fonction EVASAN	
+define-evasanArrival-desc	Announcing the assumption of EVASAN functions	Annoncer la prise des fonctions EVASAN	
+define-evasanArrival-feedback	Assumption of EVASAN functions announced	La prise des fonctions EVASAN est annoncée	
+define-leadpmaArrival-title	Assume Lead PMA duties	Prise de fonction Chef PMA	
+define-leadpmaArrival-desc	Announcing the assumption of Lead PMA functions	Annoncer la prise des fonctions Chef PMA	
+define-leadpmaArrival-feedback	Assumption of Lead PMA functions announced	La prise des fonctions Chef PMA est annoncée	
 waiting-title	Available	A disposition	
 currentActivity	Current Activity	Activité en cours	
 targetActivity	Target Activity	Activité à destination	
