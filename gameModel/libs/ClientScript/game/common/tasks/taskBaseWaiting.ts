@@ -2,7 +2,7 @@ import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 
 /**
  * Pseudo-task when the resource is waiting for another task
@@ -18,6 +18,7 @@ export class WaitingTask extends TaskBase {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      TaskType.Waiting,
       title,
       description,
       nbMinResources,

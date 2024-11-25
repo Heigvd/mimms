@@ -1,7 +1,6 @@
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { WaitingTask } from './taskBaseWaiting';
 import { EvacuationTask } from './taskBaseEvacuation';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 import { TaskId } from '../baseTypes';
 
 export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
@@ -11,11 +10,11 @@ export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
 export function getIdleTask(state: Readonly<MainSimulationState>): TaskBase {
   return state
     .getInternalStateObject()
-    .tasks.find((task: TaskBase) => task instanceof WaitingTask)!;
+    .tasks.find((task: TaskBase) => task.taskType ===  TaskType.Waiting)!;
 }
 
 export function getEvacuationTask(state: MainSimulationState): EvacuationTask {
   return state
     .getInternalStateObject()
-    .tasks.find((task: TaskBase) => task instanceof EvacuationTask)! as EvacuationTask;
+    .tasks.find((task: TaskBase) => task.taskType === TaskType.Evacuation)! as EvacuationTask;
 }

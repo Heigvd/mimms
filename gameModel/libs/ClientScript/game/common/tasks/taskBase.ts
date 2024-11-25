@@ -17,6 +17,14 @@ import {
 import { ActionType } from '../actionType';
 import { Category } from '../../pretri/triage';
 
+export enum TaskType {
+  Waiting = 'Waiting',
+  Pretriage = 'Pretriage',
+  Porter = 'Porter',
+  Healing = 'Healing',
+  Evacuation = 'Evacuation',
+}
+
 /** The statuses represent the steps of a task evolution */
 export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
 
@@ -45,6 +53,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   public subTasks: Record<SubTaskId, SubTaskType>;
 
   protected constructor(
+    readonly taskType: TaskType,
     readonly title: TranslationKey,
     readonly description: TranslationKey, // currently not used
     readonly nbMinResources: number,
@@ -338,6 +347,7 @@ export class HealingTask extends TaskBase {
     readonly patientPriority?: Category<string>['priority']
   ) {
     super(
+      TaskType.Healing,
       title,
       description,
       nbMinResources,
