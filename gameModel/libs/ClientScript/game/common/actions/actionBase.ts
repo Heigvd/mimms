@@ -1136,31 +1136,12 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       )
     );
 
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
     if (!this.compliantWithHierarchy) {
-      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       // Resources refused the order due to hierarchy conflict
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-refused'
-        )
-      );
+      this.sendMessage(state, 'move-res-task-refused');
     } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-no-location'
-        )
-      );
+      this.sendMessage(state, 'move-res-task-no-location');
     } else {
       if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
@@ -1202,40 +1183,34 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
 
       if (this.involvedResourcesId.length === 0) {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            'move-res-task-no-resource'
-          )
-        );
+        this.sendMessage(state, 'move-res-task-no-resource');
       } else if (!isEnoughResources) {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            'move-res-task-not-enough-resources'
-          )
-        );
+        this.sendMessage(state, 'move-res-task-not-enough-resources');
       } else {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            this.messageKey
-          )
-        );
+        this.sendMessage(state, this.messageKey);
       }
     }
+  }
+
+  private sendMessage(state: Readonly<MainSimulationState>, messageKey: string) {
+    const actionOwnerActor = state.getActorById(this.ownerId)!;
+    const channel: ActionType | undefined =
+      this.commMedia === CommMedia.Radio ? ActionType.RESOURCES_RADIO : undefined;
+    const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
+
+    // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        actionOwnerActor.Role as unknown as TranslationKey,
+        messageKey,
+        channel,
+        isRadioMessage
+      )
+    );
   }
 
   protected cancelInternal(state: MainSimulationState): void {
