@@ -58,7 +58,12 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import {
+  HumanResourceType,
+  ResourceType,
+  ResourceTypeAndNumber,
+  VehicleType,
+} from '../resources/resourceType';
 import {
   canMoveToLocation,
   getMapLocationById,
@@ -66,7 +71,7 @@ import {
 } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import { getEvacuationTask } from '../tasks/taskLogic';
+import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
 import { CommMedia } from '../resources/resourceReachLogic';
 
@@ -1037,7 +1042,7 @@ export class SituationUpdateAction extends StartEndAction {
 /**
  * Action to send resources to a location and assign a task
  */
-export class MoveResourcesAssignTaskAction extends StartEndAction {
+export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
   public readonly commMedia: CommMedia;
@@ -1126,6 +1131,21 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
+    if (this.commMedia === CommMedia.Radio) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.getRecipient(),
+          this.getEmitter(),
+          this.getMessage(),
+          this.getChannel(),
+          true,
+          true
+        )
+      );
+    }
+
     // we free the resources so that they are available again
     // ! but we free them only when everything is done !
     localEventManager.queueLocalEvent(
@@ -1213,6 +1233,40 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     );
   }
 
+  public getChannel(): ActionType {
+    return this.commMedia === CommMedia.Radio
+      ? ActionType.RESOURCES_RADIO
+      : ActionType.ACTION /* fake just to test*/;
+  }
+
+  public getMessage(): string {
+    let arg0: string = '';
+    for (const res in this.sentResources) {
+      arg0 += this.sentResources[res as ResourceType];
+      arg0 += ' ';
+      arg0 += getTranslation('mainSim-resources', '' + res);
+      arg0 += ', ';
+    }
+    const arg1: string = getTranslation('mainSim-locations', 'location-' + this.sourceLocation);
+    const arg2: string = TaskLogic.getTaskTitle(this.sourceTaskId);
+    const arg3: string = getTranslation('mainSim-locations', 'location-' + this.targetLocation);
+    const arg4: string = TaskLogic.getTaskTitle(this.targetTaskId);
+    return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
+      arg0,
+      arg1,
+      arg2,
+      arg3,
+      arg4,
+    ]);
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)!.Role as unknown as TranslationKey;
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
+  }
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
     localEventManager.queueLocalEvent(
@@ -1493,7 +1547,7 @@ export class EvacuationAction extends RadioDrivenAction {
     } else {
       const travelTime = computeTravelTime(this.hospitalId, this.transportSquad);
 
-      const evacuationTask = getEvacuationTask(state);
+      const evacuationTask = TaskLogic.getEvacuationTask(state);
 
       localEventManager.queueLocalEvent(
         new AssignResourcesToTaskLocalEvent(
