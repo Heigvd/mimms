@@ -7,15 +7,7 @@ import { Channel, Phone, Radio } from '../../legacy/communication';
 import { FullEvent } from './eventUtils';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
-import {
-  ActionTemplateId,
-  ActorId,
-  SimDuration,
-  SimTime,
-  TaskId,
-  TemplateId,
-  TranslationKey,
-} from '../baseTypes';
+import { ActionTemplateId, ActorId, SimDuration, SimTime, TaskId, TemplateId } from '../baseTypes';
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
@@ -229,7 +221,6 @@ export interface StandardActionEvent extends ActionCreationEvent {
 
 export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  failMessage: TranslationKey;
   sourceLocation: LOCATION_ENUM;
   targetLocation: LOCATION_ENUM;
   sentResources: ResourceTypeAndNumber;

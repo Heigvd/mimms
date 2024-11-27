@@ -413,7 +413,6 @@ export function initActionTemplates(): {
     'move-res-task-desc',
     TimeSliceDuration,
     'move-res-task-feedback',
-    'move-res-task-refused',
     true
   );
 

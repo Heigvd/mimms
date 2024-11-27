@@ -1039,8 +1039,6 @@ export class SituationUpdateAction extends StartEndAction {
 export class MoveResourcesAssignTaskAction extends StartEndAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
-  public readonly failMessageKey: TranslationKey;
-
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
@@ -1056,7 +1054,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
-    failMessageKey: TranslationKey,
     actionNameKey: TranslationKey,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
@@ -1076,7 +1073,6 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       ownerId,
       uuidTemplate
     );
-    this.failMessageKey = failMessageKey;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
     this.sentResources = sentResources;
