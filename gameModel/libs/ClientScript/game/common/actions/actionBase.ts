@@ -68,6 +68,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getEvacuationTask } from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
+import { CommMedia } from '../resources/resourceReachLogic';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -1039,6 +1040,7 @@ export class SituationUpdateAction extends StartEndAction {
 export class MoveResourcesAssignTaskAction extends StartEndAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
+  public readonly commMedia: CommMedia;
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
@@ -1058,6 +1060,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     globalEventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
+    commMedia: CommMedia,
     sourceLocation: LOCATION_ENUM,
     targetLocation: LOCATION_ENUM,
     sentResources: ResourceTypeAndNumber,
@@ -1073,6 +1076,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       ownerId,
       uuidTemplate
     );
+    this.commMedia = commMedia;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
     this.sentResources = sentResources;

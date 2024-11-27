@@ -50,6 +50,7 @@ import {
   SendRadioMessageAction,
   SituationUpdateAction,
 } from './actionBase';
+import { CommMedia } from '../resources/resourceReachLogic';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',
@@ -848,6 +849,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
 // -------------------------------------------------------------------------------------------------
 
 export type MoveResourcesAssignTaskActionInput = {
+  commMedia: CommMedia;
   sourceLocation: LOCATION_ENUM;
   targetLocation: LOCATION_ENUM;
   sentResources: ResourceTypeAndNumber;
@@ -902,6 +904,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
+      commMedia: params.commMedia,
       sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
@@ -924,11 +927,12 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       event.id,
       ownerId,
       this.Uid,
-      event.payload.sourceLocation,
-      event.payload.targetLocation,
-      event.payload.sentResources,
-      event.payload.sourceTaskId,
-      event.payload.targetTaskId
+      payload.commMedia,
+      payload.sourceLocation,
+      payload.targetLocation,
+      payload.sentResources,
+      payload.sourceTaskId,
+      payload.targetTaskId
     );
   }
 }

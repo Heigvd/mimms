@@ -12,6 +12,7 @@ import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
 import { ActionType } from '../actionType';
+import { CommMedia } from '../resources/resourceReachLogic';
 
 /**
  * Walk, drive, fly to destination
@@ -221,6 +222,7 @@ export interface StandardActionEvent extends ActionCreationEvent {
 
 export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
   durationSec: SimDuration;
+  commMedia: CommMedia;
   sourceLocation: LOCATION_ENUM;
   targetLocation: LOCATION_ENUM;
   sentResources: ResourceTypeAndNumber;
