@@ -18,6 +18,38 @@
         "type" : "toggler"
       },
       "type" : "Boolean"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Respect Hierarchy\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { updateRespectHierarchyOption } from \"./dashboard/impacts\";\n\nupdateRespectHierarchyOption();",
+            "language" : "TypeScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'respectHierarchy')",
+          "language" : "TypeScript"
+        },
+        "style" : { },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
     } ],
     "layout" : {
       "flexDirection" : "column"

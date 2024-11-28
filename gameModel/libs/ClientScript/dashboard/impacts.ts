@@ -4,9 +4,11 @@ import { TimeSliceDuration, TRAINER_NAME } from '../game/common/constants';
 import {
   DashboardNotificationMessageEvent,
   DashboardRadioMessageEvent,
+  GameOptionsEvent,
   TimeForwardEvent,
 } from '../game/common/events/eventTypes';
 import { sendEvent } from '../game/common/events/eventUtils';
+import { GameOptions, getCurrentGameOptions } from '../game/common/gameOptions';
 import { dashboardLogger } from '../tools/logger';
 import { getRawTime } from './dashboardFacade';
 import {
@@ -204,4 +206,36 @@ export async function sendNotificationGame(
   const notifEvent = buildNotificationMessageEvent(message, roles);
   await sendEventAllTeams(notifEvent);
   await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
+}
+
+/***************
+ * GAME OPTIONS
+ ***************/
+
+function buildGameOptionsEvent(options: GameOptions): GameOptionsEvent {
+  // Any validation needed ?
+  const event: GameOptionsEvent = {
+    type: 'GameOptionsEvent',
+    emitterCharacterId: TRAINER_NAME,
+    emitterPlayerId: String(self.getId()),
+    triggerTime: 0, // will be ignored
+    dashboardForced: true,
+    options: options,
+  };
+
+  return event;
+}
+
+export function updateRespectHierarchyOption() {
+  const options = getCurrentGameOptions();
+  options.respectHierarchy = !options.respectHierarchy;
+
+  const script = `Variable.find(gameModel, "respectHierarchy").setValue(self, ${options.respectHierarchy});`;
+  const event: GameOptionsEvent = buildGameOptionsEvent(options);
+
+  APIMethods.runScript(script, {})
+    .then(_r => sendEventAllTeams(event))
+    .catch(error => {
+      dashboardLogger.error(`Could not respect hierarchy options, ${error}`);
+    });
 }

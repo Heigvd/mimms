@@ -198,6 +198,8 @@
           "readRadioMessagesByChannel": SObjectDescriptor;
           "currentStateCount": SNumberDescriptor;
           "currentState": SObjectDescriptor;
+
+          "respectHierarchy": SBooleanDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(

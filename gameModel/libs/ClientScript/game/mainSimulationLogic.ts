@@ -22,6 +22,7 @@ import {
 import {
   ActionCancellationEvent,
   ActionCreationEvent,
+  GameOptionsEvent,
   isLegacyGlobalEvent,
   TimedEventPayload,
   TimeForwardCancelEvent,
@@ -47,6 +48,7 @@ import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { getDefaultGameOptions, getCurrentGameOptions } from './common/gameOptions';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -55,6 +57,8 @@ let actionTemplates: Record<string, ActionTemplateBase>;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
 let uniqueActionTemplates: IUniqueActionTemplates;
+
+export let gameOptions = getDefaultGameOptions();
 
 Helpers.registerEffect(() => {
   currentSimulationState = buildStartingMainState();
@@ -78,6 +82,7 @@ function queueAutomaticEvents() {
 
 export function buildStartingMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
+  gameOptions = getCurrentGameOptions();
 
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
@@ -461,6 +466,11 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       });
       break;
     }
+    case 'GameOptionsEvent': {
+      const options = event.payload.options;
+      gameOptions = options;
+      break;
+    }
     default:
       if (isLegacyGlobalEvent(event)) {
         mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
@@ -564,6 +574,22 @@ export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
   };
 
   return await sendEvent(tfc);
+}
+
+/**
+ *  Set the games options (triggered when players start the simulation)
+ */
+export async function initGameOptions(): Promise<IManagedResponse> {
+  const options = getCurrentGameOptions();
+
+  const go: GameOptionsEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    options: options,
+    type: 'GameOptionsEvent',
+  };
+
+  return await sendEvent(go);
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {
