@@ -10,7 +10,7 @@ import {
   isRadioActionTemplate,
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
@@ -38,6 +38,8 @@ import {
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
+import { Actor } from '../game/common/actors/actor';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -115,16 +117,13 @@ function fetchMoveResourcesAssignTaskValues() {
   const sentResources: ResourceTypeAndNumber = {};
 
   let paramKey = '';
-  let getEmptyFunc = function () {};
   let currentLoc: LOCATION_ENUM | undefined;
   const panel = Context.interfaceState.state.selectedPanel;
   if (panel === SelectedPanel.resources) {
     paramKey = 'allocateResources';
-    getEmptyFunc = getEmptyAllocateResources;
     currentLoc = getSelectedActorLocation();
   } else if (panel === SelectedPanel.radios) {
     paramKey = 'allocateResourcesRadio';
-    getEmptyFunc = getEmptyAllocateResourcesRadio;
     currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
   }
 
@@ -145,9 +144,27 @@ function fetchMoveResourcesAssignTaskValues() {
   };
 
   // Reset interfaceState
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources[paramKey] = getEmptyFunc();
-  Context.interfaceState.setState(newState);
+  if (panel === SelectedPanel.resources) {
+    const currentActorUid: number | undefined = getTypedInterfaceState().currentActorUid;
+    const currentActor: Readonly<Actor> | undefined = currentActorUid
+      ? getActor(currentActorUid)
+      : undefined;
+
+    const newState = Helpers.cloneDeep(Context.interfaceState.state);
+    newState.resources[paramKey] = getEmptyAllocateResources();
+    if (currentActor) {
+      newState.resources[paramKey].currentTaskId = initResourceManagementCurrentTaskId(
+        currentActor.Uid,
+        currentActor.Location
+      );
+    }
+    Context.interfaceState.setState(newState);
+  } else if (panel === SelectedPanel.radios) {
+    const newState = Helpers.cloneDeep(Context.interfaceState.state);
+    newState.resources[paramKey] = getEmptyAllocateResourcesRadio();
+    Context.interfaceState.setState(newState);
+  }
+
   return payload;
 }
 

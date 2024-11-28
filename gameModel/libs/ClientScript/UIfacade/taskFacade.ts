@@ -16,13 +16,14 @@ export function getCommMedia() {
 
 // used in page 67
 export function getResourceManagementSourceTaskChoices(
-  actorId: ActorId,
+  actorId: ActorId | undefined,
   location: LOCATION_ENUM | undefined,
   commMedia?: CommMedia
 ): { label: string; value: string }[] {
-  if (location === undefined) {
+  if (actorId === undefined || location === undefined) {
     return [];
   }
+
   const effectiveCommMedia = commMedia ?? getCommMedia();
 
   return TaskState.fetchReachableTasks(
@@ -36,7 +37,7 @@ export function getResourceManagementSourceTaskChoices(
 }
 
 export function initResourceManagementCurrentTaskId(
-  actorId: ActorId,
+  actorId: ActorId | undefined,
   location: LOCATION_ENUM | undefined,
   commMedia?: CommMedia
 ): TaskId | undefined {

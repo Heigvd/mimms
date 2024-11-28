@@ -13,6 +13,7 @@ import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuatio
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
+import { Actor } from '../game/common/actors/actor';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
@@ -84,7 +85,7 @@ interface CasuMessage {
 // used in page 43
 export function getInitialInterfaceState(): InterfaceState {
   return {
-    currentActorUid: getCurrentPlayerActors()[0]?.Uid,
+    currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: 0,
     casuMessage: {
       messageType: '',
@@ -119,6 +120,10 @@ export function getInitialInterfaceState(): InterfaceState {
       activityType: ResourcesManagementActivityType.assignTask,
     },
   };
+}
+
+function getCurrentPlayerDefaultActor(): Actor | undefined {
+  return getCurrentPlayerActors()[0];
 }
 
 export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
