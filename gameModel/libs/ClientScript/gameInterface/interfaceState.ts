@@ -144,7 +144,11 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   const resources = getEmptyResources();
 
   return {
-    currentTaskId: initResourceManagementCurrentTaskId(getCurrentPlayerDefaultActor()?.Uid, getCurrentPlayerDefaultActor()?.Location, CommMedia.Direct),
+    currentTaskId: initResourceManagementCurrentTaskId(
+      getCurrentPlayerDefaultActor()?.Uid,
+      getCurrentPlayerDefaultActor()?.Location,
+      CommMedia.Direct
+    ),
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,
