@@ -14,6 +14,8 @@ import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDe
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
 import { Actor } from '../game/common/actors/actor';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
@@ -142,7 +144,7 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   const resources = getEmptyResources();
 
   return {
-    currentTaskId: undefined,
+    currentTaskId: initResourceManagementCurrentTaskId(getCurrentPlayerDefaultActor()?.Uid, getCurrentPlayerDefaultActor()?.Location, CommMedia.Direct),
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,
