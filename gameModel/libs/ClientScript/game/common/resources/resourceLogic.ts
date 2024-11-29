@@ -64,7 +64,7 @@ export function doesOrderRespectHierarchy(
   sourceLocation: LOCATION_ENUM
 ): boolean {
   // Bypass logic if hierarchy option is disabled
-  if (gameOptions.respectHierarchy !== undefined && gameOptions.respectHierarchy === false)
+  if (gameOptions?.respectHierarchy !== undefined && gameOptions.respectHierarchy === false)
     return true;
 
   const actor = state.getActorById(actorUid)!;

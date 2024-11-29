@@ -2,14 +2,6 @@ export interface GameOptions {
   respectHierarchy: boolean;
 }
 
-let defaultGameOptions: GameOptions = {
-  respectHierarchy: true,
-};
-
-export function getDefaultGameOptions(): GameOptions {
-  return defaultGameOptions;
-}
-
 export function getCurrentGameOptions(): GameOptions {
   return {
     respectHierarchy: getHierarchyOption(),

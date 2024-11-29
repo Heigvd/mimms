@@ -48,7 +48,7 @@ import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
-import { getDefaultGameOptions, getCurrentGameOptions } from './common/gameOptions';
+import { getCurrentGameOptions, GameOptions } from './common/gameOptions';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -58,7 +58,7 @@ let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
 let uniqueActionTemplates: IUniqueActionTemplates;
 
-export let gameOptions = getDefaultGameOptions();
+export let gameOptions: GameOptions;
 
 Helpers.registerEffect(() => {
   currentSimulationState = buildStartingMainState();
@@ -445,6 +445,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       localEventManager.queueLocalEvent(radioMessageEvent);
       break;
     }
+
     case 'DashboardNotificationMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const payload = event.payload;
