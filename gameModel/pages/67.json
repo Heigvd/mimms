@@ -216,6 +216,11 @@
                                     "language" : "typescript"
                                   }
                                 } ],
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\n!isGodView();",
+                                  "language" : "typescript"
+                                },
                                 "layoutClassName" : "selectableRessources ",
                                 "layoutStyle" : {
                                   "paddingTop" : "0px"
