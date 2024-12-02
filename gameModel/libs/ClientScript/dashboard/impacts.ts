@@ -52,7 +52,7 @@ export async function triggerDashboardTimeForward(
 ): Promise<void> {
   const tf: TimeForwardEvent = buildTimeForwardEvent(seconds);
   dashboardLogger.debug('Sending time forward event to team', tf, teamId);
-  await sendEvent(tf, teamId);
+  await sendEvent(tf, 0, teamId);
   await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
@@ -148,7 +148,7 @@ export async function sendRadioMessage(
 ): Promise<void> {
   const radioMsgEvent = buildRadioMessageEvent(message, canal);
   dashboardLogger.debug('Sending radio message event to team', teamId, radioMsgEvent);
-  await sendEvent(radioMsgEvent, teamId);
+  await sendEvent(radioMsgEvent, 0, teamId);
   await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
@@ -194,7 +194,7 @@ export async function sendNotification(
 ): Promise<void> {
   const notifEvent = buildNotificationMessageEvent(message, roles);
   dashboardLogger.debug('Sending notification message event to team', teamId, notifEvent);
-  await sendEvent(notifEvent, teamId);
+  await sendEvent(notifEvent, 0, teamId);
   await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
