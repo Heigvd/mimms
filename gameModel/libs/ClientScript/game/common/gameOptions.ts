@@ -8,7 +8,6 @@ export function getCurrentGameOptions(): GameOptions {
   };
 }
 
-// Should we have a generic function ? Should it live elsewhere as a util ?
 function getHierarchyOption(): boolean {
   return Variable.find(gameModel, 'respectHierarchy').getValue(self);
 }
