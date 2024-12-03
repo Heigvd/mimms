@@ -3,6 +3,7 @@ import { EvacuationTask } from './taskBaseEvacuation';
 import { TaskBase } from './taskBase';
 import { TaskId } from '../baseTypes';
 import { WaitingTask } from './taskBaseWaiting';
+import { getCurrentState } from '../../mainSimulationLogic';
 
 export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
   return getIdleTask(state).Uid;
@@ -18,4 +19,13 @@ export function getEvacuationTask(state: MainSimulationState): EvacuationTask {
   return state
     .getInternalStateObject()
     .tasks.find((task: TaskBase) => task instanceof EvacuationTask)! as EvacuationTask;
+}
+
+export function getTaskTitle(taskId: TaskId): string {
+  return (
+    getCurrentState() // it is accurate enough. no need to have the state as a parameter
+      .getInternalStateObject()
+      .tasks.find(t => t.Uid == taskId)
+      ?.getTitle() || '' + taskId
+  );
 }

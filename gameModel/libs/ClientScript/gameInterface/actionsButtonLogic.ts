@@ -24,7 +24,7 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { ResourceTypeAndNumber, ResourcesArray } from '../game/common/resources/resourceType';
+import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { clearMapState, startMapSelect } from '../gameMap/main';
@@ -40,6 +40,7 @@ import {
 import { actionClickHandler, canPlanAction } from './main';
 import { Actor } from '../game/common/actors/actor';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -118,13 +119,16 @@ function fetchMoveResourcesAssignTaskValues() {
 
   let paramKey = '';
   let currentLoc: LOCATION_ENUM | undefined;
+  let commMedia: CommMedia;
   const panel = Context.interfaceState.state.selectedPanel;
   if (panel === SelectedPanel.resources) {
     paramKey = 'allocateResources';
     currentLoc = getSelectedActorLocation();
-  } else if (panel === SelectedPanel.radios) {
+    commMedia = CommMedia.Direct;
+  } else {
     paramKey = 'allocateResourcesRadio';
     currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
+    commMedia = CommMedia.Radio;
   }
 
   ResourcesArray.forEach(resourceType => {
@@ -135,6 +139,7 @@ function fetchMoveResourcesAssignTaskValues() {
   });
 
   const payload = {
+    commMedia: commMedia,
     // source fetched from drop down if radio, or actor location if location panel
     sourceLocation: currentLoc,
     targetLocation: Context.interfaceState.state.resources[paramKey]?.targetLocation,
