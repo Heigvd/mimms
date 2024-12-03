@@ -46,7 +46,7 @@ import {
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
-  MoveFreeWaitingResourcesByLocationLocalEvent,
+  MoveFreeHumanResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
   PretriageReportResponseLocalEvent,
@@ -776,9 +776,9 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
         new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
       );
     }
-    // Move resources to PC (resources can only be idle at PC Front)
+    // Move human resources to PC
     localEventManager.queueLocalEvent(
-      new MoveFreeWaitingResourcesByLocationLocalEvent(
+      new MoveFreeHumanResourcesByLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.ownerId,

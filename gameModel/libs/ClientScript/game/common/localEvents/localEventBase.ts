@@ -725,7 +725,7 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   }
 }
 
-export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
+export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentId: GlobalEventId,
     timeStamp: SimTime,
@@ -735,7 +735,7 @@ export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesL
   ) {
     super(
       parentId,
-      'MoveFreeWaitingResourcesByLocationLocalEvent',
+      'MoveFreeHumanResourcesByLocationLocalEvent',
       timeStamp,
       ownerUid,
       targetLocation

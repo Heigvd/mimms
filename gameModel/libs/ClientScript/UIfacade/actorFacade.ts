@@ -1,5 +1,6 @@
 import { Actor, InterventionRole } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
@@ -19,7 +20,7 @@ export function selectActor(id: ActorId) {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.currentActorUid = id;
   newState.resources.allocateResources.currentTaskId =
-    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location);
+    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
   Context.interfaceState.setState(newState);
 }
 

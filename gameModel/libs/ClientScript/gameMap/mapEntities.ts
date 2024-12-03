@@ -9,11 +9,13 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
 import { mainSimMapLogger } from '../tools/logger';
+import * as ResourceLogic from '../game/common/resources/resourceLogic';
+import { ActorId } from '../game/common/baseTypes';
 
 let wasGodView = true;
 
 // used in page 43
-export function getOverlayItems() {
+export function getOverlayItems(actorId: ActorId | undefined) {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapEntities = getAvailableMapLocations(getCurrentState(), 'anyKind');
   const overlayItems: OverlayItem[] = [];
@@ -30,7 +32,11 @@ export function getOverlayItems() {
         name: mapEntity.name,
         icon: mapEntity.icon,
         actors: getActorsByLocation(mapEntity.id),
-        resources: ResourceState.getFreeHumanResourcesByLocation(getCurrentState(), mapEntity.id),
+        resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
+          getCurrentState(),
+          actorId,
+          mapEntity.id
+        ),
         ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
           getCurrentState(),
           'ambulance',

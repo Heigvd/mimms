@@ -7,6 +7,7 @@ import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
 import { CommMedia } from '../resources/resourceReachLogic';
+import { Actor } from '../actors/actor';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -32,14 +33,32 @@ export function fetchReachableTasks(
   location: LOCATION_ENUM,
   commMedia: CommMedia
 ): Readonly<TaskBase>[] {
-  const actor = state.getActorById(actorId);
-  if (actor) {
-    return Object.values(getAllTasks(state)).filter(ta =>
-      ta.isReachable(state, actor, location, commMedia)
-    );
+  return Object.values(getAllTasks(state)).filter(task =>
+    isReachable(state, actorId, location, task.Uid, commMedia)
+  );
+}
+
+export function isReachable(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId | undefined,
+  location: LOCATION_ENUM,
+  taskId: TaskId,
+  commMedia: CommMedia
+): boolean {
+  const task: TaskBase = internallyGetTask(state, taskId);
+  const actor: Readonly<Actor> | undefined = actorId ? state.getActorById(actorId) : undefined;
+  if (task && actor) {
+    return task.isReachable(state, actor, location, commMedia);
   } else {
-    taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is reachable');
-    return [];
+    if (!task) {
+      taskLogger.warn('Task not found. id = ' + taskId + '. And so no task not reachable');
+    }
+
+    if (!actor) {
+      taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task not reachable');
+    }
+
+    return false;
   }
 }
 

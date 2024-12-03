@@ -3,8 +3,12 @@ import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
 import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
+import * as ResourceState from '../simulationState/resourceStateAccess';
+import * as TaskState from '../simulationState/taskStateAccess';
 import { ResourceContainerType } from './resourceContainer';
 import { isHuman, ResourceType } from './resourceType';
+import { Resource } from './resource';
+import { CommMedia } from './resourceReachLogic';
 
 /**
  * Resolves which location new resources should be sent to
@@ -87,4 +91,21 @@ export function formatResourceTypesAndNumber(
     });
 
   return resourcesAsText;
+}
+
+export function getFreeDirectReachableHumanResourcesByLocation(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId | undefined,
+  location: LOCATION_ENUM
+): Resource[] {
+  return ResourceState.getFreeHumanResourcesByLocation(state, location).filter(
+    (resource: Resource) =>
+      TaskState.isReachable(
+        state,
+        actorId,
+        resource.currentLocation,
+        resource.currentActivity!,
+        CommMedia.Direct
+      )
+  );
 }
