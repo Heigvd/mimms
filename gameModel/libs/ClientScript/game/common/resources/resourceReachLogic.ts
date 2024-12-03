@@ -53,11 +53,11 @@ const communicationMatrix: Record<
     // no other task at PC San
   },
   ambulancePark: {
-    Waiting: AvailabilityCommMedia.Radio,
+    Waiting: AvailabilityCommMedia.Both,
     // no other task at ambulance park
   },
   helicopterPark: {
-    Waiting: AvailabilityCommMedia.Radio,
+    Waiting: AvailabilityCommMedia.Both,
     // no other task at helicopter park
   },
   remote: {
