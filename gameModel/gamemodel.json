@@ -4435,11 +4435,14 @@
           "add-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"add\"},\"FR\":{\"status\":\"\",\"translation\":\"ajouter\",\"lang\":\"FR\"}},\"version\":0}",
           "all-teams" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all Teams\"},\"FR\":{\"status\":\"\",\"translation\":\"toutes les équipes\",\"lang\":\"FR\"}},\"version\":0}",
           "attention-please" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the chosen time has to be later than the most advanced team at {0}.\"},\"FR\":{\"status\":\"\",\"translation\":\"l'heure choisie doit être ultérieure à l'équipe la plus avancée {0}.\",\"lang\":\"FR\"}},\"version\":0}",
+          "godview-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"when enabled, all actors and places are visible. When disabled, only the place of the selected actor's place is displayed.\"},\"FR\":{\"status\":\"\",\"translation\":\"visibilité de tous les lieux et acteurs pour tous les joueurs. Si désactivé, la vue est limitée à l'acteur sélectionné.\",\"lang\":\"FR\"}},\"version\":0}",
+          "hierarchy-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources refuse orders that break hierarchy rules. When disabled, the resources will accept any orders.\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources refusent les ordres qui enfreignent la hiérarchie. Si désactivé, tous les ordres sont acceptés.\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hour(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"h(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"h(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "impacts" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impacts\"},\"FR\":{\"status\":\"\",\"translation\":\"impacts\",\"lang\":\"FR\"}},\"version\":0}",
           "invalidtime" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the target time has to be after {0} and before {1}.\"},\"FR\":{\"status\":\"\",\"translation\":\"temps incorrect: doit se situer après {0} et avant {1}.\",\"lang\":\"FR\"}},\"version\":0}",
           "locations" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"locations\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacements\",\"lang\":\"FR\"}},\"version\":0}",
+          "message-time-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"time limit of the visibility of radio messages and notifications in minutes.\"},\"FR\":{\"status\":\"\",\"translation\":\"limite de temps en minutes après laquelle les messages radio et notifications disparaissent.\",\"lang\":\"FR\"}},\"version\":0}",
           "methane" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"methane\"},\"FR\":{\"status\":\"\",\"translation\":\"methane\",\"lang\":\"FR\"}},\"version\":0}",
           "minute-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "minute-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"min(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"min(s)\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5204,9 +5207,9 @@
           "@class" : "NumberInstance",
           "history" : [ ],
           "refId" : "NumberInstance:1277585:GMVJV0",
-          "value" : 2.0
+          "value" : 5.0
         },
-        "defaultValue" : 2.0,
+        "defaultValue" : 5.0,
         "editorTag" : "messagesLifeLength",
         "historySize" : 20,
         "isolation" : "OPEN",
@@ -5224,9 +5227,13 @@
           }
         },
         "maxValue" : 10.0,
-        "minValue" : 0.0,
+        "minValue" : -1.0,
         "name" : "messagesLifeLength",
         "refId" : "NumberDescriptor:1277584:rHraWv",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
         "@class" : "BooleanDescriptor",
         "broadcastScope" : "GameModelScope",
         "comments" : "Should game logic respect MIMMS hierarchy (default to respecting hierarchy)",
@@ -7013,7 +7020,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-362",
+  "name" : "MIMMS - MIM-374",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
