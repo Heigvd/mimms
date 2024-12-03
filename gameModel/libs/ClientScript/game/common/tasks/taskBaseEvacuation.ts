@@ -10,7 +10,7 @@ import {
 } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 import { EvacuationSubTask } from './subTask';
 import { localEventManager } from '../localEvents/localEventManager';
 import {
@@ -41,6 +41,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      TaskType.Evacuation,
       title,
       description,
       nbMinResources,

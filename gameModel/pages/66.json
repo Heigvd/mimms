@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getActorMapLocationChoices } from \"./UIfacade/locationFacade\";\n  getActorMapLocationChoices();",
+          "content" : "import { getActorTargetLocationChoices } from \"./UIfacade/locationFacade\";\n  getActorTargetLocationChoices();",
           "language" : "typescript"
         },
         "layoutStyle" : { },

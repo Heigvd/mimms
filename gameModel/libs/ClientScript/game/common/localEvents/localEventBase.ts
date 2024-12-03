@@ -41,13 +41,9 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
-import {
-  getTaskByLocationAndClass,
-  getTaskCurrentStatus,
-} from '../simulationState/taskStateAccess';
+import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
-import { TaskStatus } from '../tasks/taskBase';
-import { PreTriageTask } from '../tasks/taskBasePretriage';
+import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { localEventManager } from './localEventManager';
 
@@ -729,7 +725,7 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   }
 }
 
-export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
+export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentId: GlobalEventId,
     timeStamp: SimTime,
@@ -739,7 +735,7 @@ export class MoveFreeWaitingResourcesByLocationLocalEvent extends MoveResourcesL
   ) {
     super(
       parentId,
-      'MoveFreeWaitingResourcesByLocationLocalEvent',
+      'MoveFreeHumanResourcesByLocationLocalEvent',
       timeStamp,
       ownerUid,
       targetLocation
@@ -958,7 +954,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     const taskStatus: TaskStatus = getTaskCurrentStatus(
       state,
-      getTaskByLocationAndClass(state, PreTriageTask, this.pretriageLocation).Uid
+      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.pretriageLocation).Uid
     );
 
     localEventManager.queueLocalEvent(

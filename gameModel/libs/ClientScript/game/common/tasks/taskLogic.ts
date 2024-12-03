@@ -1,8 +1,8 @@
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { WaitingTask } from './taskBaseWaiting';
 import { EvacuationTask } from './taskBaseEvacuation';
 import { TaskBase } from './taskBase';
 import { TaskId } from '../baseTypes';
+import { WaitingTask } from './taskBaseWaiting';
 
 export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
   return getIdleTask(state).Uid;
