@@ -198,7 +198,7 @@
           "readRadioMessagesByChannel": SObjectDescriptor;
           "currentStateCount": SNumberDescriptor;
           "currentState": SObjectDescriptor;
-
+          "messagesLifeLength": SNumberDescriptor;
           "respectHierarchy": SBooleanDescriptor;
         }
 

@@ -2,6 +2,24 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "layoutStyle" : { },
+        "onCancel" : { },
+        "onVariableChange" : { },
+        "placeholder" : {
+          "@class" : "Script",
+          "content" : "\"\"",
+          "language" : "TypeScript"
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'messagesLifeLength')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Number input"
+    }, {
+      "props" : {
         "label" : {
           "@class" : "Script",
           "content" : "\"Role View / God View\"",
