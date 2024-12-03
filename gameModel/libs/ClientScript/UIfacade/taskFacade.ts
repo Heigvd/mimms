@@ -1,12 +1,12 @@
 import { ActorId, TaskId } from '../game/common/baseTypes';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { TaskType } from '../game/common/tasks/taskBase';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
-import { getTranslation } from '../tools/translation';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { getTranslation } from '../tools/translation';
 
 export function getCommMedia() {
   return getTypedInterfaceState().selectedPanel === SelectedPanel.radios

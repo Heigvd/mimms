@@ -1,5 +1,7 @@
 import { getActorsByLocation, isCurrentActorAtLocation } from '../UIfacade/actorFacade';
 import { Actor } from '../game/common/actors/actor';
+import { ActorId } from '../game/common/baseTypes';
+import * as ResourceLogic from '../game/common/resources/resourceLogic';
 import {
   getAvailableMapLocations,
   LOCATION_ENUM,
@@ -9,8 +11,6 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
 import { mainSimMapLogger } from '../tools/logger';
-import * as ResourceLogic from '../game/common/resources/resourceLogic';
-import { ActorId } from '../game/common/baseTypes';
 
 let wasGodView = true;
 

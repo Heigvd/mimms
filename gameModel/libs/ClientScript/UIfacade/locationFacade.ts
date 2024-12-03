@@ -26,13 +26,15 @@ export function getResourceSourceLocationChoices(): { label: string; value: stri
       getCurrentState(),
       'Resources'
     ).filter(
+      // Check that there is at least one task that can be selected
       (mapEntity: FixedMapEntity) =>
         TaskFacade.getResourceManagementSourceTaskChoices(currentActorId, mapEntity.id).length > 0
     );
     return getLocationChoicesData(locations);
+  } else {
+    // if no selected actor, no choice
+    return [];
   }
-
-  return [];
 }
 
 // used in page 67
@@ -41,6 +43,7 @@ export function getResourceTargetLocationChoices(
 ): { label: string; value: string }[] {
   const locations = getAvailableMapLocations(getCurrentState(), 'Resources').filter(
     (mapEntity: FixedMapEntity) =>
+      // Check that there is at least one task that can be selected
       TaskFacade.getResourceManagementTargetTaskChoices(actorId, mapEntity.id).length > 0
   );
   return getLocationChoicesData(locations);

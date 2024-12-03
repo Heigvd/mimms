@@ -58,6 +58,7 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
+import { CommMedia } from '../resources/resourceReachLogic';
 import {
   HumanResourceType,
   ResourceType,
@@ -73,7 +74,6 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
-import { CommMedia } from '../resources/resourceReachLogic';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -257,7 +257,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
     return this.eventId;
   }
 
-  public abstract getChannel(): ActionType;
+  public abstract getChannel(): ActionType | undefined;
 
   public abstract getMessage(): string;
 
@@ -1233,10 +1233,10 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     );
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): ActionType | undefined {
     return this.commMedia === CommMedia.Radio
       ? ActionType.RESOURCES_RADIO
-      : ActionType.ACTION /* fake just to test*/;
+      : undefined /* no message to send */;
   }
 
   public getMessage(): string {

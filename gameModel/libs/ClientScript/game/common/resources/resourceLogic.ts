@@ -6,10 +6,10 @@ import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationSt
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
-import { ResourceContainerType } from './resourceContainer';
-import { isHuman, ResourceType } from './resourceType';
 import { Resource } from './resource';
+import { ResourceContainerType } from './resourceContainer';
 import { CommMedia } from './resourceReachLogic';
+import { isHuman, ResourceType } from './resourceType';
 
 /**
  * Resolves which location new resources should be sent to

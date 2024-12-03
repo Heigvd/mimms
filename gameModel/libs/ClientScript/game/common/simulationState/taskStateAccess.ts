@@ -1,13 +1,13 @@
 import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { Actor } from '../actors/actor';
 import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { ActorId, TaskId } from '../baseTypes';
+import { CommMedia } from '../resources/resourceReachLogic';
 import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
 import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
-import { CommMedia } from '../resources/resourceReachLogic';
-import { Actor } from '../actors/actor';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -51,11 +51,11 @@ export function isReachable(
     return task.isReachable(state, actor, location, commMedia);
   } else {
     if (!task) {
-      taskLogger.warn('Task not found. id = ' + taskId + '. And so no task not reachable');
+      taskLogger.warn('Task not found. id = ' + taskId + '. And so task not reachable');
     }
 
     if (!actor) {
-      taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task not reachable');
+      taskLogger.warn('Actor not found. id = ' + actorId + '. And so task not reachable');
     }
 
     return false;

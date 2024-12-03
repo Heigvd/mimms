@@ -149,7 +149,7 @@
                               "className" : "presentResources",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                                "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
                                 "language" : "typescript"
                               }
                             } ],
@@ -212,7 +212,7 @@
                                   "className" : "presentResources",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                                    "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -232,7 +232,7 @@
                                 },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
+                                  "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
                                   "language" : "TypeScript"
                                 }
                               },

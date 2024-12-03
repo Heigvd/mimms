@@ -16,6 +16,7 @@ import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import { Actor } from '../game/common/actors/actor';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -24,11 +25,13 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -38,9 +41,6 @@ import {
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
-import { Actor } from '../game/common/actors/actor';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 
 /**
  * Plans an action with a given template and the current interface state

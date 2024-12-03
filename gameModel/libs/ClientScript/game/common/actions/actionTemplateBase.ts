@@ -28,6 +28,7 @@ import {
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
+import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -50,7 +51,6 @@ import {
   SendRadioMessageAction,
   SituationUpdateAction,
 } from './actionBase';
-import { CommMedia } from '../resources/resourceReachLogic';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',

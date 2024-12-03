@@ -1,3 +1,4 @@
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
@@ -10,10 +11,9 @@ import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { canViewLocation } from '../gameMap/mapEntities';
+import { isPCFrontBuilt } from './actionFacade';
 import { getSelectedActorLocation, isCurrentActorAtLocation } from './actorFacade';
 import * as TaskFacade from './taskFacade';
-import { isPCFrontBuilt } from './actionFacade';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -147,6 +147,8 @@ export function isPretriageReportRequestDisabled(): boolean {
   );
 }
 
+// used in page 43
+/** Open the panel to talk to resources directly (without radio) */
 export function openDirectResourceManagement(location: LOCATION_ENUM): void {
   if (isPCFrontBuilt() && isCurrentActorAtLocation(location)) {
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
