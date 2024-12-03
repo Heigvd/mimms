@@ -5227,6 +5227,10 @@
         "minValue" : 0.0,
         "name" : "messagesLifeLength",
         "refId" : "NumberDescriptor:1277584:rHraWv",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
         "@class" : "BooleanDescriptor",
         "broadcastScope" : "GameModelScope",
         "comments" : "Should game logic respect MIMMS hierarchy (default to respecting hierarchy)",
