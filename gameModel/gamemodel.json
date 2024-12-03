@@ -5227,6 +5227,23 @@
         "minValue" : 0.0,
         "name" : "messagesLifeLength",
         "refId" : "NumberDescriptor:1277584:rHraWv",
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Should game logic respect MIMMS hierarchy (default to respecting hierarchy)",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:488123:f1Mhlf",
+          "value" : true
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:488124:MsDf2u",
+          "translations" : { }
+        },
+        "name" : "respectHierarchy",
+        "refId" : "BooleanDescriptor:488122:ENNDTx",
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -5670,6 +5687,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:840055:rFkKLI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/gameOptions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:488129:IrNds0",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

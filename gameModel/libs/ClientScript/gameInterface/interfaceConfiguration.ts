@@ -25,7 +25,7 @@ interface InterfaceConfiguration {
 }
 
 /**
- * Are player in godView mode
+ * Are players in godView mode
  */
 export function isGodView() {
   return Variable.find(gameModel, 'godView').getInstance(self).getValue();

@@ -55,7 +55,7 @@ export async function sendEventPerTeam(
       throw new RangeError('The payloads count has to match the count of the team ids');
     }
     const script = payloads
-      .map((payload, i) => getSendEventServerScript(payload, teamIds[i]))
+      .map((payload, i) => getSendEventServerScript(payload, 0, teamIds[i]))
       .join('');
     return await APIMethods.runScript(script, {});
   }
@@ -67,7 +67,7 @@ export async function sendEventPerTeam(
  */
 export function sendEventAllTeams(payload: EventPayload): Promise<IManagedResponse> {
   const script = getDashboardTeams()
-    .map(team => getSendEventServerScript(payload, team.getId()))
+    .map(team => getSendEventServerScript(payload, 0, team.getId()))
     .join('');
   return APIMethods.runScript(script, {});
 }
