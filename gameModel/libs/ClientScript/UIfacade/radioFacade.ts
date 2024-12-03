@@ -97,7 +97,12 @@ export function getNotificationTime(notificationTime: number): string {
  * All radio messages currently in state
  */
 export function getAllRadioMessages(): RadioMessage[] {
-  return getCurrentState().getRadioMessages();
+  const currentTime = getSimTime();
+  const messagesLifeLength = Variable.find(gameModel, 'messagesLifeLength').getValue(self);
+  const messagesLifeLengthInSeconds = messagesLifeLength * 60;
+  return getCurrentState()
+    .getRadioMessages()
+    .filter(m => currentTime - m.timeStamp <= messagesLifeLengthInSeconds);
 }
 
 /**
@@ -216,7 +221,9 @@ export function getUnreadNotificationsCount(): number {
     Context.interfaceState.state.currentActorUid
   );
   const readCount = +(readMsgsProperties[actorChannelName] || '0');
-  return getNotifications(Context.interfaceState.state.currentActorUid).length - readCount;
+  const unreadCount =
+    getNotifications(Context.interfaceState.state.currentActorUid).length - readCount;
+  return Math.max(0, unreadCount);
 }
 
 export function getOngoingRadioMessagesForActorOnChannel(

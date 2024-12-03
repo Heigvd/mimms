@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1732541515511,
+  "createdTime" : 1733156982744,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5196,6 +5196,40 @@
         "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:1277585:GMVJV0",
+          "value" : 2.0
+        },
+        "defaultValue" : 2.0,
+        "editorTag" : "messagesLifeLength",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1277586:bSkSlJ",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1277586:bSkSlJ::FR",
+              "status" : "",
+              "translation" : "messagesLifeLength"
+            }
+          }
+        },
+        "maxValue" : 10.0,
+        "minValue" : 0.0,
+        "name" : "messagesLifeLength",
+        "refId" : "NumberDescriptor:1277584:rHraWv",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -6953,7 +6987,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO MIM-358",
+  "name" : "MIMMS - MIM-362",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
