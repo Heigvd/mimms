@@ -353,6 +353,11 @@
                   },
                   "type" : "FlexList"
                 } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Context.buildingDetails === undefined;",
+                  "language" : "typescript"
+                },
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -368,7 +373,7 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
-            "localState" : false,
+            "localState" : true,
             "style" : { }
           },
           "type" : "State"
