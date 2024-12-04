@@ -100,9 +100,14 @@ export function getAllRadioMessages(): RadioMessage[] {
   const currentTime = getSimTime();
   const messagesLifeLength = Variable.find(gameModel, 'messagesLifeLength').getValue(self);
   const messagesLifeLengthInSeconds = messagesLifeLength * 60;
-  return getCurrentState()
-    .getRadioMessages()
-    .filter(m => currentTime - m.timeStamp <= messagesLifeLengthInSeconds);
+
+  if (messagesLifeLength <= 0) {
+    return getCurrentState().getRadioMessages();
+  } else {
+    return getCurrentState()
+      .getRadioMessages()
+      .filter(m => currentTime - m.timeStamp <= messagesLifeLengthInSeconds);
+  }
 }
 
 /**

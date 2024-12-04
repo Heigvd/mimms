@@ -24,3 +24,6 @@ invalidTime	The target time has to be after {0} and before {1}.	Temps incorrect:
 pause-modal-title	The game is paused	Le jeu est en pause
 pause-modal-text	The trainer has paused the game.	Le formateur a mis la partie en pause.
 update	Update	Mettre à jour
+godview-param	When enabled, all actors and places are visible. When disabled, only the place of the selected actor's place is displayed.	Visibilité de tous les lieux et acteurs pour tous les joueurs. Si désactivé, la vue est limitée à l'acteur sélectionné.
+hierarchy-param	Resources refuse orders that break hierarchy rules. When disabled, the resources will accept any orders.	Les ressources refusent les ordres qui enfreignent la hiérarchie. Si désactivé, tous les ordres sont acceptés.
+message-time-param	Time limit of the visibility of radio messages and notifications in minutes.	Limite de temps en minutes après laquelle les messages radio et notifications disparaissent.
