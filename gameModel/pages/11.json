@@ -138,6 +138,7 @@
     },
     "layoutStyle" : {
       "height" : "100%",
+      "maxWidth" : "fit-content",
       "overflow" : "auto",
       "width" : "100%"
     }
