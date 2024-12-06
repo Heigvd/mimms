@@ -25,7 +25,7 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
 }
 
 /**
- * Fetch the tasks whose resources can be reached by an actor, at a location, via a communication media
+ * Fetch the tasks which resources can be reached by an actor, at a location, via a communication media
  */
 export function fetchReachableTasks(
   state: Readonly<MainSimulationState>,

@@ -36,9 +36,7 @@ export function getAvailableMapLocations(
 ): FixedMapEntity[] {
   return (
     Object.values(LOCATION_ENUM)
-      .map((location: LOCATION_ENUM) => {
-        return getMapLocationById(state, location);
-      })
+.map((location: LOCATION_ENUM) => getMapLocationById(state, location))
       .filter(mapLocation => mapLocation != null) as FixedMapEntity[]
   ).filter((mapLocation: FixedMapEntity) => mapLocation.isBuiltAndAccessible(kind));
 }

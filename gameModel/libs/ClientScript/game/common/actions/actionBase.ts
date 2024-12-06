@@ -1247,21 +1247,17 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       arg0 += getTranslation('mainSim-resources', '' + res);
       arg0 += ', ';
     }
-    const arg1: string = getTranslation('mainSim-locations', 'location-' + this.sourceLocation);
-    const arg2: string = TaskLogic.getTaskTitle(this.sourceTaskId);
-    const arg3: string = getTranslation('mainSim-locations', 'location-' + this.targetLocation);
-    const arg4: string = TaskLogic.getTaskTitle(this.targetTaskId);
     return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
       arg0,
-      arg1,
-      arg2,
-      arg3,
-      arg4,
+      getTranslation('mainSim-locations', 'location-' + this.sourceLocation),
+      TaskLogic.getTaskTitle(this.sourceTaskId),
+      getTranslation('mainSim-locations', 'location-' + this.targetLocation),
+      TaskLogic.getTaskTitle(this.targetTaskId),
     ]);
   }
 
   public getEmitter(): string {
-    return getCurrentState().getActorById(this.ownerId)!.Role as unknown as TranslationKey;
+    return getCurrentState().getActorById(this.ownerId)?.Role as unknown as TranslationKey;
   }
 
   public getRecipient(): number {
