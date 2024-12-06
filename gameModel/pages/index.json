@@ -145,13 +145,13 @@
         "id" : "4",
         "name" : "setup",
         "scenaristPage" : true,
-        "trainerPage" : true
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "28",
         "name" : "drillDashboard",
         "scenaristPage" : null,
-        "trainerPage" : true
+        "trainerPage" : false
       }, {
         "@class" : "Folder",
         "items" : [ {
@@ -179,13 +179,13 @@
         "id" : "mainDashboard",
         "name" : "Main Dashboard",
         "scenaristPage" : true,
-        "trainerPage" : true
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "11",
         "name" : "mainSim Setup",
         "scenaristPage" : true,
-        "trainerPage" : true
+        "trainerPage" : false
       } ],
       "name" : "TrainerPages"
     }, {
@@ -231,6 +231,18 @@
         "id" : "29",
         "name" : "patientPresets",
         "scenaristPage" : false,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "7",
+        "name" : "mainConfig",
+        "scenaristPage" : null,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "42",
+        "name" : "dashboardConfig",
+        "scenaristPage" : null,
         "trainerPage" : true
       } ],
       "name" : "Scenarist"

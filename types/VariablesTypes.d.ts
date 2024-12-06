@@ -200,6 +200,7 @@
           "currentState": SObjectDescriptor;
           "messagesLifeLength": SNumberDescriptor;
           "respectHierarchy": SBooleanDescriptor;
+          "gameMode": SStringDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
