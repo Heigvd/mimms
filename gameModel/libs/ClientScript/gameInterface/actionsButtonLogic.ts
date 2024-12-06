@@ -149,13 +149,13 @@ function fetchMoveResourcesAssignTaskValues() {
   };
 
   // Reset interfaceState
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
   if (panel === SelectedPanel.resources) {
     const currentActorUid: number | undefined = getTypedInterfaceState().currentActorUid;
     const currentActor: Readonly<Actor> | undefined = currentActorUid
       ? getActor(currentActorUid)
       : undefined;
 
-    const newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.resources[paramKey] = getEmptyAllocateResources();
     if (currentActor) {
       newState.resources[paramKey].currentTaskId = initResourceManagementCurrentTaskId(
@@ -163,12 +163,10 @@ function fetchMoveResourcesAssignTaskValues() {
         currentActor.Location
       );
     }
-    Context.interfaceState.setState(newState);
   } else if (panel === SelectedPanel.radios) {
-    const newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.resources[paramKey] = getEmptyAllocateResourcesRadio();
-    Context.interfaceState.setState(newState);
   }
+  Context.interfaceState.setState(newState);
 
   return payload;
 }

@@ -1240,13 +1240,14 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   }
 
   public getMessage(): string {
-    let arg0: string = '';
-    for (const res in this.sentResources) {
-      arg0 += this.sentResources[res as ResourceType];
-      arg0 += ' ';
-      arg0 += getTranslation('mainSim-resources', '' + res);
-      arg0 += ', ';
-    }
+    const arg0 = Object.keys(this.sentResources)
+      .map(
+        res =>
+          this.sentResources[res as ResourceType] +
+          ' ' +
+          getTranslation('mainSim-resources', '' + res)
+      )
+      .join(', ');
     return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
       arg0,
       getTranslation('mainSim-locations', 'location-' + this.sourceLocation),

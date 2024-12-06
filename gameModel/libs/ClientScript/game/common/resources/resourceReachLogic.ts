@@ -13,19 +13,17 @@ export enum CommMedia {
  * Which communication media can be used to reach a resource
  */
 enum AvailabilityCommMedia {
-  None = 'None',
   Direct = 'Direct',
   Radio = 'Radio',
   Both = 'Both',
 }
 
+type Availability = `${AvailabilityCommMedia}` | undefined;
+
 /**
  * Define how a resource at some location doing some task can be reached
  */
-const communicationMatrix: Record<
-  LOCATION_ENUM,
-  Partial<Record<TaskType, AvailabilityCommMedia>>
-> = {
+const communicationMatrix: Record<LOCATION_ENUM, Partial<Record<TaskType, Availability>>> = {
   chantier: {
     Waiting: AvailabilityCommMedia.Direct,
     Pretriage: AvailabilityCommMedia.Radio,
@@ -70,22 +68,6 @@ const communicationMatrix: Record<
 };
 
 export function isReachable(location: LOCATION_ENUM, taskType: TaskType, commMedia: CommMedia) {
-  const commMediaAvailable: AvailabilityCommMedia | undefined =
-    communicationMatrix[location][taskType];
-
-  if (commMediaAvailable) {
-    if (commMedia === CommMedia.Direct) {
-      return (
-        commMediaAvailable === AvailabilityCommMedia.Direct ||
-        commMediaAvailable === AvailabilityCommMedia.Both
-      );
-    } else if (commMedia === CommMedia.Radio) {
-      return (
-        commMediaAvailable === AvailabilityCommMedia.Radio ||
-        commMediaAvailable === AvailabilityCommMedia.Both
-      );
-    }
-  }
-
-  return false;
+  const commMediaAvailable: Availability = communicationMatrix[location][taskType];
+  return commMediaAvailable === 'Both' || commMediaAvailable === commMedia;
 }
