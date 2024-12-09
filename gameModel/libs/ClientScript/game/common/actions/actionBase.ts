@@ -842,7 +842,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// Move actor
+// Actors
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
@@ -990,6 +990,46 @@ export class AppointActorAction extends StartEndAction {
         ])
       );
     }
+  }
+}
+
+/**
+ * Action book a moment for situation update (point de situation)
+ */
+export class SituationUpdateAction extends StartEndAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[] = []
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+  }
+
+  protected dispatchInitEvents(_state: MainSimulationState): void {
+    // nothing to do
+  }
+
+  protected dispatchEndedEvents(state: MainSimulationState): void {
+    // nothing to do
+  }
+
+  protected cancelInternal(_state: MainSimulationState): void {
+    // nothing to do
+    return;
   }
 }
 

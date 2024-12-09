@@ -1,0 +1,147 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "modal-title",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Role View / God View\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'godView')",
+          "language" : "TypeScript"
+        },
+        "style" : {
+          "margin-bottom" : "16px",
+          "margin-top" : "16px"
+        },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "className" : "attention-please",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'godview-param');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "modal-title",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Respect Hierarchy\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { updateRespectHierarchyOption } from \"./dashboard/impacts\";\n\nupdateRespectHierarchyOption();",
+            "language" : "TypeScript"
+          }
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'respectHierarchy')",
+          "language" : "TypeScript"
+        },
+        "style" : {
+          "margin-bottom" : "16px",
+          "margin-top" : "16px"
+        },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "className" : "attention-please",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'hierarchy-param');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "",
+        "layoutClassName" : "modal-title",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"<p>Messages Life Length</p>\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "choices" : [ {
+          "label" : "∞",
+          "value" : "-1"
+        }, {
+          "label" : "1",
+          "value" : "1"
+        }, {
+          "label" : "5",
+          "value" : "5"
+        }, {
+          "label" : "10",
+          "value" : "10"
+        } ],
+        "layoutStyle" : { },
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'messagesLifeLength')",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    }, {
+      "props" : {
+        "className" : "attention-please",
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'message-time-param');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "maxWidth" : "fit-content",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

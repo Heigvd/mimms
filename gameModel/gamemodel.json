@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1730820053007,
+  "createdTime" : 1730197338699,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3958,10 +3958,14 @@
           "send" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"confirm\"},\"FR\":{\"status\":\"\",\"translation\":\"valider\",\"lang\":\"FR\"}},\"version\":0}",
           "send-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
           "send-request-one-minute" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send request (1 min)\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer la demande (1 min)\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the selected role is currently in a situation update. To continue the simulation, please choose another role from the available options below.\"},\"FR\":{\"status\":\"\",\"translation\":\"le rôle sélectionné est actuellement en point de situation. Pour continuer la simulation, veuillez choisir un autre rôle parmi ceux disponibles ci-dessous.\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-text-singleactor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are currently in a situation update. The simulation will automatically resume once the update is complete.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes actuellement en point de situation. La simulation reprendra automatiquement une fois le point de situation terminé.\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
+          "variable-duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"variable duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée variable\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
           "when-youre-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you may start playing when the role(s) you selected arrives on site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4046,9 +4050,15 @@
           "define-ambulance-park-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"choose a position for the ambulance park\"},\"FR\":{\"status\":\"\",\"translation\":\"choisir l'emplacement du parc ambulances\",\"lang\":\"FR\"}},\"version\":0}",
           "define-ambulance-park-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the ambulance park is now ready\"},\"FR\":{\"status\":\"\",\"translation\":\"le parc ambulance est maintenant prêt\",\"lang\":\"FR\"}},\"version\":0}",
           "define-ambulance-park-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define ambulance park location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le parc ambulance\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-evasanarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"announcing the assumption of EVASAN functions\"},\"FR\":{\"status\":\"\",\"translation\":\"annoncer la prise des fonctions EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-evasanarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assumption of EVASAN functions announced\"},\"FR\":{\"status\":\"\",\"translation\":\"la prise des fonctions EVASAN est annoncée\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-evasanarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume EVASAN duties\"},\"FR\":{\"status\":\"\",\"translation\":\"prise de fonction EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "define-helicopter-park-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"choose a position for the helicopter park\"},\"FR\":{\"status\":\"\",\"translation\":\"choisir l'emplacement du parc hélicoptères\",\"lang\":\"FR\"}},\"version\":0}",
           "define-helicopter-park-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the helicopter park is now ready\"},\"FR\":{\"status\":\"\",\"translation\":\"le parc hélicoptère est maintenant prêt\",\"lang\":\"FR\"}},\"version\":0}",
           "define-helicopter-park-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"define helicopter park location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le parc hélicoptère\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-leadpmaarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"announcing the assumption of Lead PMA functions\"},\"FR\":{\"status\":\"\",\"translation\":\"annoncer la prise des fonctions Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-leadpmaarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assumption of Lead PMA functions announced\"},\"FR\":{\"status\":\"\",\"translation\":\"la prise des fonctions Chef PMA est annoncée\",\"lang\":\"FR\"}},\"version\":0}",
+          "define-leadpmaarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume Lead PMA duties\"},\"FR\":{\"status\":\"\",\"translation\":\"prise de fonction Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "define-nest-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"choose a position for the survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"choisir l'emplacement du nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
           "define-nest-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the survivor reception center is now defined\"},\"FR\":{\"status\":\"\",\"translation\":\"le nid de blessés est maintenant placé\",\"lang\":\"FR\"}},\"version\":0}",
           "define-nest-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"positioning survivor reception center location\"},\"FR\":{\"status\":\"\",\"translation\":\"placer le nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4124,6 +4134,9 @@
           "send-radio-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message radio\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"a radio message was sent\"},\"FR\":{\"status\":\"\",\"translation\":\"un message radio a été envoyé\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message radio\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you go out to make a situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous absentez pour faire un point de situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "targetactivity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"target Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité à destination\",\"lang\":\"FR\"}},\"version\":0}",
           "vector" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"vector\"},\"FR\":{\"status\":\"\",\"translation\":\"vecteur\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"available\"},\"FR\":{\"status\":\"\",\"translation\":\"a disposition\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4422,11 +4435,14 @@
           "add-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"add\"},\"FR\":{\"status\":\"\",\"translation\":\"ajouter\",\"lang\":\"FR\"}},\"version\":0}",
           "all-teams" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all Teams\"},\"FR\":{\"status\":\"\",\"translation\":\"toutes les équipes\",\"lang\":\"FR\"}},\"version\":0}",
           "attention-please" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the chosen time has to be later than the most advanced team at {0}.\"},\"FR\":{\"status\":\"\",\"translation\":\"l'heure choisie doit être ultérieure à l'équipe la plus avancée {0}.\",\"lang\":\"FR\"}},\"version\":0}",
+          "godview-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"when enabled, all actors and places are visible. When disabled, only the place of the selected actor's place is displayed.\"},\"FR\":{\"status\":\"\",\"translation\":\"visibilité de tous les lieux et acteurs pour tous les joueurs. Si désactivé, la vue est limitée à l'acteur sélectionné.\",\"lang\":\"FR\"}},\"version\":0}",
+          "hierarchy-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources refuse orders that break hierarchy rules. When disabled, the resources will accept any orders.\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources refusent les ordres qui enfreignent la hiérarchie. Si désactivé, tous les ordres sont acceptés.\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hour(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"h(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"h(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "impacts" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impacts\"},\"FR\":{\"status\":\"\",\"translation\":\"impacts\",\"lang\":\"FR\"}},\"version\":0}",
           "invalidtime" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the target time has to be after {0} and before {1}.\"},\"FR\":{\"status\":\"\",\"translation\":\"temps incorrect: doit se situer après {0} et avant {1}.\",\"lang\":\"FR\"}},\"version\":0}",
           "locations" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"locations\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacements\",\"lang\":\"FR\"}},\"version\":0}",
+          "message-time-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"time limit of the visibility of radio messages and notifications in minutes.\"},\"FR\":{\"status\":\"\",\"translation\":\"limite de temps en minutes après laquelle les messages radio et notifications disparaissent.\",\"lang\":\"FR\"}},\"version\":0}",
           "methane" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"methane\"},\"FR\":{\"status\":\"\",\"translation\":\"methane\",\"lang\":\"FR\"}},\"version\":0}",
           "minute-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "minute-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"min(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"min(s)\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5146,7 +5162,7 @@
       "@class" : "ListDescriptor",
       "addShortcut" : "",
       "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
@@ -5156,8 +5172,8 @@
       "isolation" : "OPEN",
       "items" : [ {
         "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "Toggle between godView and roleView",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Toggle between godView and roleView (defaults to god view)",
         "defaultInstance" : {
           "@class" : "BooleanInstance",
           "refId" : "BooleanInstance:243648:yuIwVm",
@@ -5180,7 +5196,62 @@
         },
         "name" : "godView",
         "refId" : "BooleanDescriptor:243647:JqP12B",
-        "scopeType" : "TeamScope",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "NumberDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "NumberInstance",
+          "history" : [ ],
+          "refId" : "NumberInstance:1277585:GMVJV0",
+          "value" : 5.0
+        },
+        "defaultValue" : 5.0,
+        "editorTag" : "messagesLifeLength",
+        "historySize" : 20,
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1277586:bSkSlJ",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1277586:bSkSlJ::FR",
+              "status" : "",
+              "translation" : "messagesLifeLength"
+            }
+          }
+        },
+        "maxValue" : 10.0,
+        "minValue" : -1.0,
+        "name" : "messagesLifeLength",
+        "refId" : "NumberDescriptor:1277584:rHraWv",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      }, {
+        "@class" : "BooleanDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "Should game logic respect MIMMS hierarchy (default to respecting hierarchy)",
+        "defaultInstance" : {
+          "@class" : "BooleanInstance",
+          "refId" : "BooleanInstance:488123:f1Mhlf",
+          "value" : true
+        },
+        "editorTag" : "",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:488124:MsDf2u",
+          "translations" : { }
+        },
+        "name" : "respectHierarchy",
+        "refId" : "BooleanDescriptor:488122:ENNDTx",
+        "scopeType" : "GameModelScope",
         "version" : null,
         "visibility" : "PRIVATE"
       } ],
@@ -5199,7 +5270,7 @@
       },
       "name" : "trainer_Zix3IY",
       "refId" : "ListDescriptor:243642:ynaItH",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -5623,6 +5694,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:840055:rFkKLI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/gameOptions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:488129:IrNds0",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6627,6 +6707,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/modals",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1240759:qS02gU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/notifications",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6931,7 +7020,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-294",
+  "name" : "MIMMS - Dashboard Demo",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

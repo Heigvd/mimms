@@ -180,6 +180,12 @@
         "name" : "Main Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "11",
+        "name" : "mainSim Setup",
+        "scenaristPage" : true,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {
@@ -244,12 +250,6 @@
         "@class" : "Page",
         "id" : "1",
         "name" : "HUMAn for tests",
-        "scenaristPage" : false,
-        "trainerPage" : false
-      }, {
-        "@class" : "Page",
-        "id" : "7",
-        "name" : "spy",
         "scenaristPage" : false,
         "trainerPage" : false
       }, {
@@ -390,6 +390,12 @@
           "@class" : "Page",
           "id" : "66",
           "name" : "move actor action",
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "actionSituationUpdateParam",
+          "name" : "situation update action",
           "scenaristPage" : false,
           "trainerPage" : null
         } ],

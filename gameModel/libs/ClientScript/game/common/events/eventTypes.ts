@@ -20,6 +20,7 @@ import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
 import { ActionType } from '../actionType';
+import { GameOptions } from '../gameOptions';
 
 /**
  * Walk, drive, fly to destination
@@ -179,7 +180,9 @@ export type EventPayload =
   | ActionCreationEvent
   | ActionCancellationEvent
   | DashboardRadioMessageEvent
-  | DashboardNotificationMessageEvent;
+  | DashboardNotificationMessageEvent
+  // TRAINER EVENT
+  | GameOptionsEvent;
 
 export type EventType = EventPayload['type'];
 
@@ -221,6 +224,11 @@ export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
   templateId: TemplateId;
   actorId: ActorId;
   timeStamp: SimTime;
+}
+
+export interface GameOptionsEvent extends BaseEvent, TimedPayload {
+  type: 'GameOptionsEvent';
+  options: GameOptions;
 }
 
 export interface StandardActionEvent extends ActionCreationEvent {

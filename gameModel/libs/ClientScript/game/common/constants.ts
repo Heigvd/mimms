@@ -37,3 +37,8 @@ export const PatientEvolutionEVACTimeModifier = 0;
  * Pretriage report delay
  */
 export const PretriageReportResponseDelay = OneMinuteDuration * 2;
+
+/**
+ * in minutes
+ */
+export const situationUpdateDurations: number[] = [3, 5, 10];

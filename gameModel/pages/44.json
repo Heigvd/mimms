@@ -46,6 +46,14 @@
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { initGameOptions } from \"./game/mainSimulationLogic\";\n  initGameOptions();",
+            "language" : "TypeScript",
+            "returnType" : "Promise<unknown> | undefined"
+          }
+        },
         "name" : "start",
         "style" : { }
       },

@@ -14,6 +14,7 @@ import {
   SelectionPCTemplate,
   SendRadioMessageTemplate,
   SimFlag,
+  SituationUpdateActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { TimeSliceDuration } from './common/constants';
 import {
@@ -31,6 +32,8 @@ export interface IUniqueActionTemplates {
   readonly SelectionPCSanTemplate: SelectionPCTemplate;
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
+  readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
+  readonly LeadpmaArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
   readonly CasuMessageTemplate: CasuMessageTemplate;
   readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate;
@@ -39,6 +42,7 @@ export interface IUniqueActionTemplates {
   readonly EvacuationActionTemplate: EvacuationActionTemplate;
   readonly ActorSendRadioMessageTemplate: SendRadioMessageTemplate;
   readonly CasuSendRadioMessageTemplate: SendRadioMessageTemplate;
+  readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
 export function initActionTemplates(): {
@@ -368,6 +372,32 @@ export function initActionTemplates(): {
     true
   );
 
+  const evasanArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-evasanArrival-title',
+    'define-evasanArrival-desc',
+    TimeSliceDuration,
+    'define-evasanArrival-feedback',
+    false,
+    [SimFlag.EVASAN_ARRIVED],
+    [SimFlag.EVASAN_ANNOUNCED],
+    ['EVASAN'],
+    ActionType.EVASAN_RADIO,
+    true
+  );
+
+  const leadpmaArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-leadpmaArrival-title',
+    'define-leadpmaArrival-desc',
+    TimeSliceDuration,
+    'define-leadpmaArrival-feedback',
+    false,
+    [SimFlag.LEADPMA_ARRIVED],
+    [SimFlag.LEADPMA_ANNOUNCED],
+    ['LEADPMA'],
+    ActionType.ACTORS_RADIO,
+    true
+  );
+
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
@@ -435,6 +465,12 @@ export function initActionTemplates(): {
     true
   );
 
+  const situationUpdate = new SituationUpdateActionTemplate(
+    'situation-update-title',
+    'situation-update-desc',
+    'situation-update-feedback'
+  );
+
   const templates: Record<string, ActionTemplateBase> = {};
   templates[placePCFront.Uid] = placePCFront;
   templates[moveActor.Uid] = moveActor;
@@ -450,6 +486,8 @@ export function initActionTemplates(): {
   templates[placeHelicopterPark.Uid] = placeHelicopterPark;
   templates[openPMA.Uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.Uid] = acsMcsArrivalAnnouncement;
+  templates[evasanArrivalAnnouncement.Uid] = evasanArrivalAnnouncement;
+  templates[leadpmaArrivalAnnouncement.Uid] = leadpmaArrivalAnnouncement;
   templates[activateRadioSchema.Uid] = activateRadioSchema;
   templates[casuMessage.Uid] = casuMessage;
   templates[actorFreeRadioMessage.Uid] = actorFreeRadioMessage;
@@ -459,6 +497,7 @@ export function initActionTemplates(): {
   templates[allocateResources.Uid] = allocateResources;
   templates[evacuate.Uid] = evacuate;
   templates[pretriageReport.Uid] = pretriageReport;
+  templates[situationUpdate.Uid] = situationUpdate;
 
   // Beware that the order of the actions of the standard list depends on the creation order
 
@@ -469,6 +508,8 @@ export function initActionTemplates(): {
       SelectionPCSanTemplate: placePC,
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
+      EvasanArrivalAnnouncement: evasanArrivalAnnouncement,
+      LeadpmaArrivalAnnouncement: leadpmaArrivalAnnouncement,
       OpenPmaActionTemplate: openPMA,
       CasuMessageTemplate: casuMessage,
       ActivateRadioSchemaActionTemplate: activateRadioSchema,
@@ -477,6 +518,7 @@ export function initActionTemplates(): {
       EvacuationActionTemplate: evacuate,
       ActorSendRadioMessageTemplate: actorFreeRadioMessage,
       CasuSendRadioMessageTemplate: casuFreeRadioMessage,
+      SituationUpdateActionTemplate: situationUpdate,
     },
   };
 }

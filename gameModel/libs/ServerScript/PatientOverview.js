@@ -18,7 +18,7 @@ var PatientDashboard = (function () {
     }
 
     // get all events for all teams
-    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, 'events'));
+    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, eventsVarName));
 
     // process each team events
     allEventsByTeamId
@@ -70,7 +70,7 @@ var PatientDashboard = (function () {
   }
 
   function patientInfo() {
-    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, 'events'));
+    var allEventsByTeamId = Variable.getInstancesByKeyId(Variable.find(gameModel, eventsVarName));
 
     var allEvents = [];
     // process each team events

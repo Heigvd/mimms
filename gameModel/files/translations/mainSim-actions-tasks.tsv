@@ -73,6 +73,9 @@ appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA
 appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA	
 appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé	
 appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous	
+situation-update-title	Situation update	Point de situation	
+situation-update-desc	You go out to make a situation update	Vous vous absentez pour faire un point de situation	
+situation-update-feedback	Situation update	Point de situation	
 open-PMA-title	Open the advanced medical post	Ouvrir le poste médical avancé (PMA)	
 open-PMA-desc	Open the medical post to patients	Ouvrir le poste médical avancé aux patients	
 open-PMA-feedback	The advanced medical post has been opened	Le poste médical avancé a été ouvert	
@@ -85,6 +88,12 @@ activate-radio-schema-reply-unauthorized	Refused. The request must be made by th
 define-acsMscArrival-title	Assume ACS/MCS duties	Prise de fonction ACS/MCS	
 define-acsMscArrival-desc	Announcing the assumption of ACS and MCS functions	Annoncer la prise des fonctions ACS et MCS	
 define-acsMscArrival-feedback	Assumption of ACS and MCS functions announced	La prise des fonctions ACS et MCS est annoncée	
+define-evasanArrival-title	Assume EVASAN duties	Prise de fonction EVASAN	
+define-evasanArrival-desc	Announcing the assumption of EVASAN functions	Annoncer la prise des fonctions EVASAN	
+define-evasanArrival-feedback	Assumption of EVASAN functions announced	La prise des fonctions EVASAN est annoncée	
+define-leadpmaArrival-title	Assume Lead PMA duties	Prise de fonction Chef PMA	
+define-leadpmaArrival-desc	Announcing the assumption of Lead PMA functions	Annoncer la prise des fonctions Chef PMA	
+define-leadpmaArrival-feedback	Assumption of Lead PMA functions announced	La prise des fonctions Chef PMA est annoncée	
 waiting-title	Available	A disposition	
 currentActivity	Current Activity	Activité en cours	
 targetActivity	Target Activity	Activité à destination	

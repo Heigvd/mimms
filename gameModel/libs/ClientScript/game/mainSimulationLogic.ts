@@ -22,6 +22,7 @@ import {
 import {
   ActionCancellationEvent,
   ActionCreationEvent,
+  GameOptionsEvent,
   isLegacyGlobalEvent,
   TimedEventPayload,
   TimeForwardCancelEvent,
@@ -47,6 +48,7 @@ import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { getCurrentGameOptions, GameOptions } from './common/gameOptions';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -55,6 +57,8 @@ let actionTemplates: Record<string, ActionTemplateBase>;
 let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
 let uniqueActionTemplates: IUniqueActionTemplates;
+
+export let gameOptions: GameOptions;
 
 Helpers.registerEffect(() => {
   currentSimulationState = buildStartingMainState();
@@ -78,6 +82,7 @@ function queueAutomaticEvents() {
 
 export function buildStartingMainState(): MainSimulationState {
   // TODO read all simulation parameters to build start state and initialize the whole simulation
+  gameOptions = getCurrentGameOptions();
 
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
@@ -202,7 +207,22 @@ export function buildStartingMainState(): MainSimulationState {
     []
   );
 
-  const taskWaiting = new WaitingTask('waiting-title', 'waiting-task-desc', 1, 10000, 'AL', [], []);
+  const taskWaiting = new WaitingTask(
+    'waiting-title',
+    'waiting-task-desc',
+    1,
+    10000,
+    'AL',
+    [
+      LOCATION_ENUM.chantier,
+      LOCATION_ENUM.PMA,
+      LOCATION_ENUM.pcFront,
+      LOCATION_ENUM.PC,
+      LOCATION_ENUM.ambulancePark,
+      LOCATION_ENUM.helicopterPark,
+    ],
+    []
+  );
 
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, taskWaiting.Uid)];
 
@@ -291,6 +311,25 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
     event.payload.triggerTime = now;
   }
 
+  try {
+    convertToLocalEventAndQueue(event);
+    const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
+    if (newState.stateCount !== currentSimulationState?.stateCount) {
+      mainSimLogger.info('updating current state', newState.stateCount);
+      currentSimulationState = newState;
+      stateHistory.push(newState);
+    }
+  } catch (error) {
+    mainSimLogger.error('Error while processing event', event, error);
+  }
+
+  processedEvents[event.id] = event;
+}
+/**
+ * converts a global event to local events and enqueue them for later evaluation
+ * @param event a received global event
+ */
+function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void {
   switch (event.payload.type) {
     case 'ActionCreationEvent':
       {
@@ -369,11 +408,10 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
           const involved = event.payload.dashboardForced
             ? currentSimulationState.getAllActors().map(a => a.Uid)
             : event.payload.involvedActors;
-
-          for (let i = 0; i < timeJump / TimeSliceDuration; i++) {
+          for (let i = 0; i < timeJump; i += TimeSliceDuration) {
             const timefwdEvent = new TimeForwardLocalEvent(
               event.id,
-              event.payload.triggerTime + TimeSliceDuration * i,
+              event.payload.triggerTime + i,
               involved,
               TimeSliceDuration
             );
@@ -407,6 +445,7 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
       localEventManager.queueLocalEvent(radioMessageEvent);
       break;
     }
+
     case 'DashboardNotificationMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const payload = event.payload;
@@ -428,6 +467,11 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
       });
       break;
     }
+    case 'GameOptionsEvent': {
+      const options = event.payload.options;
+      gameOptions = options;
+      break;
+    }
     default:
       if (isLegacyGlobalEvent(event)) {
         mainSimLogger.warn('Legacy event ignored', event.payload.type, event);
@@ -435,17 +479,6 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
         mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
       }
       break;
-  }
-
-  processedEvents[event.id] = event;
-
-  // process all generated events
-  const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
-
-  if (newState.stateCount !== currentSimulationState.stateCount) {
-    mainSimLogger.info('updating current state', newState.stateCount);
-    currentSimulationState = newState;
-    stateHistory.push(newState);
   }
 }
 
@@ -542,6 +575,22 @@ export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
   };
 
   return await sendEvent(tfc);
+}
+
+/**
+ *  Set the games options (triggered when players start the simulation)
+ */
+export async function initGameOptions(): Promise<IManagedResponse> {
+  const options = getCurrentGameOptions();
+
+  const go: GameOptionsEvent = {
+    ...initBaseEvent(0),
+    triggerTime: currentSimulationState.getSimTime(),
+    options: options,
+    type: 'GameOptionsEvent',
+  };
+
+  return await sendEvent(go);
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {

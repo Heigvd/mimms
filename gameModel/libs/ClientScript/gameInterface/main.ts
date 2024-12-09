@@ -2,6 +2,7 @@ import {
   ActionTemplateBase,
   MoveActorActionTemplate,
   SelectionFixedMapEntityTemplate,
+  SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
@@ -114,7 +115,8 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 /**
  * Update state whenever user changes action
  */
-export function actionChangeHandler() {
+export function actionChangeHandler(): void {
+  if (!canPlanAction()) return;
   Context.interfaceState.setState({
     ...Context.interfaceState.state,
     currentActionUid: Context.action.Uid,
@@ -186,6 +188,18 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
     return '48';
   } else if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
+  } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
+    return 'actionSituationUpdateParam';
   }
   return '';
+}
+
+/**
+ * Returns true if the action is planned for the current actor or selected
+ */
+export function isActiveAction(templateUid: number): boolean {
+  if (canPlanAction()) {
+    return Context.interfaceState.state.currentActionUid == templateUid;
+  }
+  return isPlannedAction(templateUid);
 }
