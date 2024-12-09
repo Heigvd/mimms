@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1733156982744,
+  "createdTime" : 1733759931247,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7099,7 +7099,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-376 & 377",
+  "name" : "MIMMS - MainSimulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

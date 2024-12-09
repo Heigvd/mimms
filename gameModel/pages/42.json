@@ -2,7 +2,9 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "zIndex" : "11"
+        },
         "onVariableChange" : { },
         "script" : {
           "@class" : "Script",

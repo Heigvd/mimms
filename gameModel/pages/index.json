@@ -144,7 +144,7 @@
         "@class" : "Page",
         "id" : "4",
         "name" : "setup",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
@@ -178,14 +178,26 @@
         "@class" : "Page",
         "id" : "mainDashboard",
         "name" : "Main Dashboard",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "11",
         "name" : "mainSim Setup",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "7",
+        "name" : "mainConfig",
+        "scenaristPage" : true,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "42",
+        "name" : "dashboardConfig",
+        "scenaristPage" : true,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {
@@ -231,18 +243,6 @@
         "id" : "29",
         "name" : "patientPresets",
         "scenaristPage" : false,
-        "trainerPage" : true
-      }, {
-        "@class" : "Page",
-        "id" : "7",
-        "name" : "mainConfig",
-        "scenaristPage" : null,
-        "trainerPage" : true
-      }, {
-        "@class" : "Page",
-        "id" : "42",
-        "name" : "dashboardConfig",
-        "scenaristPage" : null,
         "trainerPage" : true
       } ],
       "name" : "Scenarist"
