@@ -7020,7 +7020,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dashboard Demo",
+  "name" : "MIMMS - MIM-294 (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

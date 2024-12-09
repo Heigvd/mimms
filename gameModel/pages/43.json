@@ -1584,45 +1584,17 @@
                             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
                             "children" : [ {
                               "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "noMargin",
-                                    "icon" : "ambulance",
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "style" : {
-                                      "color" : "var(--primary_base)"
-                                    }
-                                  },
-                                  "type" : "Icon"
-                                }, {
-                                  "props" : {
-                                    "className" : "mimms_h2title",
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : { },
-                                    "style" : {
-                                      "margin" : "0px"
-                                    },
-                                    "text" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-title')",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Text"
-                                } ],
-                                "className" : "",
-                                "layout" : {
-                                  "alignItems" : "center",
-                                  "justifyContent" : "center"
-                                },
-                                "layoutClassName" : "",
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
                                 "layoutStyle" : { },
-                                "style" : {
-                                  "gap" : "10px"
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-title')",
+                                  "language" : "TypeScript"
                                 }
                               },
-                              "type" : "FlexList"
+                              "type" : "Text"
                             }, {
                               "props" : {
                                 "layoutStyle" : { },
@@ -1655,7 +1627,62 @@
                                 }
                               },
                               "type" : "PageLoader"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "button-S button-primaryColor",
+                                        "confirm" : false,
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.actor.Role;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "exposeAs" : "actor",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getActorsNotOnTheRoad } from \"./UIfacade/actionFacade\";\ngetActorsNotOnTheRoad();",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "Uid",
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "modal-buttons-container",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { areAllActorsOnTheRoad } from \"./UIfacade/actionFacade\";\nareAllActorsOnTheRoad();",
+                                  "language" : "typescript"
+                                },
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "buttons",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
                             } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isOnTheRoad } from \"./UIfacade/actionFacade\";\n!isOnTheRoad();",
+                              "language" : "typescript"
+                            },
                             "layout" : {
                               "flexDirection" : "column"
                             },

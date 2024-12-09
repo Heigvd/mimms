@@ -6,7 +6,11 @@
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionType, RadioType } from '../game/common/actionType';
-import { ActionBase, SituationUpdateAction } from '../game/common/actions/actionBase';
+import {
+  ActionBase,
+  OnTheRoadAction,
+  SituationUpdateAction,
+} from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
@@ -145,6 +149,17 @@ export function isCurrentActorCurrentlyInSituationUpdate(): boolean {
   return false;
 }
 
+export function isOnTheRoad(): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  const state = getCurrentState();
+
+  if (currentActorUid) {
+    return isOngoingAndStartedAction(state, currentActorUid, OnTheRoadAction);
+  }
+
+  return false;
+}
+
 export function getPlayerActorsCurrentlyNotInSituationUpdate(): Actor[] {
   const state = getCurrentState();
   const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
@@ -154,12 +169,30 @@ export function getPlayerActorsCurrentlyNotInSituationUpdate(): Actor[] {
   );
 }
 
+export function getActorsNotOnTheRoad(): Actor[] {
+  const state = getCurrentState();
+  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
+
+  return playerActors.filter(
+    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, OnTheRoadAction)
+  );
+}
+
 export function areAllPlayerActorsCurrentlyInSituationUpdate(): boolean {
   const state = getCurrentState();
   const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
 
   return playerActors.every((actor: Actor) =>
     isOngoingAndStartedAction(state, actor.Uid, SituationUpdateAction)
+  );
+}
+
+export function areAllActorsOnTheRoad(): boolean {
+  const state = getCurrentState();
+  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
+
+  return playerActors.every((actor: Actor) =>
+    isOngoingAndStartedAction(state, actor.Uid, OnTheRoadAction)
   );
 }
 
