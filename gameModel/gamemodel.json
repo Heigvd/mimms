@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1733156982744,
+  "createdTime" : 1733759931247,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5353,6 +5353,85 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298439:l9wYBt",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298439:l9wYBt::FR",
+              "status" : "",
+              "translation" : "Drill pré-tri"
+            }
+          }
+        },
+        "name" : "setupPage",
+        "refId" : "EnumItem:1298438:uvY2Nu"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298441:4F8nyn",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298441:4F8nyn::FR",
+              "status" : "",
+              "translation" : "Simulation principale"
+            }
+          }
+        },
+        "name" : "mainSimSetupPage",
+        "refId" : "EnumItem:1298440:ztiP5m"
+      } ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:1298435:dh2lNJ",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298436:BVfOMu",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298436:BVfOMu::FR",
+              "status" : "",
+              "translation" : "mainSimSetupPage"
+            }
+          }
+        }
+      },
+      "editorTag" : "gameMode",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1298437:wAgutq",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1298437:wAgutq::FR",
+            "status" : "",
+            "translation" : "gameMode"
+          }
+        }
+      },
+      "maxSelectable" : 1,
+      "name" : "gameMode",
+      "refId" : "StringDescriptor:1298434:YwTCff",
+      "scopeType" : "TeamScope",
+      "sortable" : false,
+      "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -7020,7 +7099,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-374",
+  "name" : "MIMMS - MainSimulation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
