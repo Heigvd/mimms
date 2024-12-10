@@ -103,3 +103,19 @@
 .presentResources{
   font-weight: var(--boldWeight);
 }
+
+.resourcesManagement {
+  gap: 10px;
+}
+
+.resourcesManagement-container {
+  width: 100%;
+}
+
+.resourcesSelectionAssignment {
+  gap: 5px;
+}
+
+.resourcesSelectionAssignment-container {
+  padding: 0 10px 10px 10px;
+}

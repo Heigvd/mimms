@@ -28,6 +28,7 @@ import {
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
+import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -850,6 +851,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
 // -------------------------------------------------------------------------------------------------
 
 export type MoveResourcesAssignTaskActionInput = {
+  commMedia: CommMedia;
   sourceLocation: LOCATION_ENUM;
   targetLocation: LOCATION_ENUM;
   sentResources: ResourceTypeAndNumber;
@@ -865,14 +867,11 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   MoveResourcesAssignTaskEvent,
   MoveResourcesAssignTaskActionInput
 > {
-  public readonly failMessage: TranslationKey;
-
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    failMessage: TranslationKey,
     replayable = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -889,7 +888,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       provideFlagsToState,
       availableToRoles
     );
-    this.failMessage = failMessage;
   }
 
   public getTitle(): string {
@@ -908,7 +906,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      failMessage: this.failMessage,
+      commMedia: params.commMedia,
       sourceLocation: params.sourceLocation,
       targetLocation: params.targetLocation,
       sentResources: params.sentResources,
@@ -927,16 +925,16 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       payload.triggerTime,
       this.duration,
       this.message,
-      this.failMessage,
       this.title,
       event.id,
       ownerId,
       this.Uid,
-      event.payload.sourceLocation,
-      event.payload.targetLocation,
-      event.payload.sentResources,
-      event.payload.sourceTaskId,
-      event.payload.targetTaskId
+      payload.commMedia,
+      payload.sourceLocation,
+      payload.targetLocation,
+      payload.sentResources,
+      payload.sourceTaskId,
+      payload.targetTaskId
     );
   }
 }

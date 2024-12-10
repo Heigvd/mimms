@@ -1,10 +1,12 @@
-import { Actor, InterventionRole } from '../game/common/actors/actor';
+import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
 import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
+import * as TaskFacade from './taskFacade';
 
 /**
  * @returns All currently present actors
@@ -15,11 +17,16 @@ export function getAllActors(): Readonly<Actor[]> {
 
 // used in page 43
 export function selectActor(id: ActorId) {
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActorUid: id,
-  });
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.currentActorUid = id;
+  newState.resources.allocateResources.currentTaskId =
+    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
+  Context.interfaceState.setState(newState);
+}
 
+// used in page 43
+export function selectActorAndOpenMapLocation(id: ActorId) {
+  selectActor(id);
   openOverlayItem(getActorLocation(id)!);
 }
 
@@ -27,14 +34,10 @@ export function selectActor(id: ActorId) {
  * @returns All actors available to the current player
  */
 export function getCurrentPlayerActors(): Readonly<Actor[]> {
-  const actors = getCurrentState().getAllActors();
-  const currentPlayerRoles = getPlayerRolesSelf();
-
-  const currentPlayerRolesKeys = Object.keys(currentPlayerRoles).filter(
-    key => currentPlayerRoles[key as InterventionRole]
-  );
-
-  return actors.filter(actor => currentPlayerRolesKeys.includes(actor.Role));
+  const playerRoles = getPlayerRolesSelf();
+  return getCurrentState()
+    .getAllActors()
+    .filter(actor => playerRoles[actor.Role]);
 }
 
 /**

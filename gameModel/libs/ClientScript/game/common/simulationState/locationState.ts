@@ -26,15 +26,19 @@ export function getMapLocationById(
 }
 
 /**
- * All defined and ready places where actors / resources / patients can be
+ * All defined and ready places where actors / resources / patients can be.
+ * <p>
+ * Ordered like LOCATION_ENUM
  */
 export function getAvailableMapLocations(
   state: Readonly<MainSimulationState>,
   kind: LocationAccessibilityKind | 'anyKind'
 ): FixedMapEntity[] {
-  return state
-    .getInternalStateObject()
-    .mapLocations.filter((mapLocation: FixedMapEntity) => mapLocation.isBuiltAndAccessible(kind));
+  return (
+    Object.values(LOCATION_ENUM)
+      .map((location: LOCATION_ENUM) => getMapLocationById(state, location))
+      .filter(mapLocation => mapLocation != null) as FixedMapEntity[]
+  ).filter((mapLocation: FixedMapEntity) => mapLocation.isBuiltAndAccessible(kind));
 }
 
 /**

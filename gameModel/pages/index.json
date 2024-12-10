@@ -144,14 +144,14 @@
         "@class" : "Page",
         "id" : "4",
         "name" : "setup",
-        "scenaristPage" : true,
-        "trainerPage" : true
+        "scenaristPage" : false,
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "28",
         "name" : "drillDashboard",
         "scenaristPage" : null,
-        "trainerPage" : true
+        "trainerPage" : false
       }, {
         "@class" : "Folder",
         "items" : [ {
@@ -178,12 +178,24 @@
         "@class" : "Page",
         "id" : "mainDashboard",
         "name" : "Main Dashboard",
-        "scenaristPage" : true,
-        "trainerPage" : true
+        "scenaristPage" : false,
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "11",
         "name" : "mainSim Setup",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "7",
+        "name" : "mainConfig",
+        "scenaristPage" : true,
+        "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "42",
+        "name" : "dashboardConfig",
         "scenaristPage" : true,
         "trainerPage" : true
       } ],

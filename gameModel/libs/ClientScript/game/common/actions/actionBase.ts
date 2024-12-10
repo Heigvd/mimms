@@ -46,7 +46,7 @@ import {
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
-  MoveFreeWaitingResourcesByLocationLocalEvent,
+  MoveFreeHumanResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
   PretriageReportResponseLocalEvent,
@@ -58,7 +58,13 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { CommMedia } from '../resources/resourceReachLogic';
+import {
+  HumanResourceType,
+  ResourceType,
+  ResourceTypeAndNumber,
+  VehicleType,
+} from '../resources/resourceType';
 import {
   canMoveToLocation,
   getMapLocationById,
@@ -66,7 +72,7 @@ import {
 } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import { getEvacuationTask } from '../tasks/taskLogic';
+import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
@@ -251,7 +257,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
     return this.eventId;
   }
 
-  public abstract getChannel(): ActionType;
+  public abstract getChannel(): ActionType | undefined;
 
   public abstract getMessage(): string;
 
@@ -776,9 +782,9 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
         new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
       );
     }
-    // Move resources to PC (resources can only be idle at PC Front)
+    // Move human resources to PC
     localEventManager.queueLocalEvent(
-      new MoveFreeWaitingResourcesByLocationLocalEvent(
+      new MoveFreeHumanResourcesByLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.ownerId,
@@ -1036,11 +1042,10 @@ export class SituationUpdateAction extends StartEndAction {
 /**
  * Action to send resources to a location and assign a task
  */
-export class MoveResourcesAssignTaskAction extends StartEndAction {
+export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
-  public readonly failMessageKey: TranslationKey;
-
+  public readonly commMedia: CommMedia;
   public readonly sourceLocation: LOCATION_ENUM;
   public readonly targetLocation: LOCATION_ENUM;
   public readonly sentResources: ResourceTypeAndNumber;
@@ -1056,11 +1061,11 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     messageKey: TranslationKey,
-    failMessageKey: TranslationKey,
     actionNameKey: TranslationKey,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
+    commMedia: CommMedia,
     sourceLocation: LOCATION_ENUM,
     targetLocation: LOCATION_ENUM,
     sentResources: ResourceTypeAndNumber,
@@ -1076,7 +1081,7 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       ownerId,
       uuidTemplate
     );
-    this.failMessageKey = failMessageKey;
+    this.commMedia = commMedia;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
     this.sentResources = sentResources;
@@ -1126,6 +1131,21 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
+    if (this.commMedia === CommMedia.Radio) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.getRecipient(),
+          this.getEmitter(),
+          this.getMessage(),
+          this.getChannel(),
+          true,
+          true
+        )
+      );
+    }
+
     // we free the resources so that they are available again
     // ! but we free them only when everything is done !
     localEventManager.queueLocalEvent(
@@ -1136,31 +1156,12 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       )
     );
 
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-
     if (!this.compliantWithHierarchy) {
-      // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
       // Resources refused the order due to hierarchy conflict
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-refused'
-        )
-      );
+      this.sendMessage(state, 'move-res-task-refused');
     } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
-      localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.ownerId,
-          actionOwnerActor.Role as unknown as TranslationKey,
-          'move-res-task-no-location'
-        )
-      );
+      this.sendMessage(state, 'move-res-task-no-location');
     } else {
       if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
@@ -1202,42 +1203,67 @@ export class MoveResourcesAssignTaskAction extends StartEndAction {
       const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
 
       if (this.involvedResourcesId.length === 0) {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            'move-res-task-no-resource'
-          )
-        );
+        this.sendMessage(state, 'move-res-task-no-resource');
       } else if (!isEnoughResources) {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            'move-res-task-not-enough-resources'
-          )
-        );
+        this.sendMessage(state, 'move-res-task-not-enough-resources');
       } else {
-        // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
-        localEventManager.queueLocalEvent(
-          new AddRadioMessageLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            actionOwnerActor.Role as unknown as TranslationKey,
-            this.messageKey
-          )
-        );
+        this.sendMessage(state, this.messageKey);
       }
     }
   }
 
+  private sendMessage(state: Readonly<MainSimulationState>, messageKey: string) {
+    const actionOwnerActor = state.getActorById(this.ownerId)!;
+    const channel: ActionType | undefined =
+      this.commMedia === CommMedia.Radio ? ActionType.RESOURCES_RADIO : undefined;
+    const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
+
+    // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
+
+    localEventManager.queueLocalEvent(
+      new AddRadioMessageLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.ownerId,
+        actionOwnerActor.Role as unknown as TranslationKey,
+        messageKey,
+        channel,
+        isRadioMessage
+      )
+    );
+  }
+
+  public getChannel(): ActionType | undefined {
+    return this.commMedia === CommMedia.Radio
+      ? ActionType.RESOURCES_RADIO
+      : undefined /* no message to send */;
+  }
+
+  public getMessage(): string {
+    const arg0 = Object.keys(this.sentResources)
+      .map(
+        res =>
+          this.sentResources[res as ResourceType] +
+          ' ' +
+          getTranslation('mainSim-resources', '' + res)
+      )
+      .join(', ');
+    return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
+      arg0,
+      getTranslation('mainSim-locations', 'location-' + this.sourceLocation),
+      TaskLogic.getTaskTitle(this.sourceTaskId),
+      getTranslation('mainSim-locations', 'location-' + this.targetLocation),
+      TaskLogic.getTaskTitle(this.targetTaskId),
+    ]);
+  }
+
+  public getEmitter(): string {
+    return getCurrentState().getActorById(this.ownerId)?.Role as unknown as TranslationKey;
+  }
+
+  public getRecipient(): number {
+    return this.ownerId;
+  }
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
     localEventManager.queueLocalEvent(
@@ -1518,7 +1544,7 @@ export class EvacuationAction extends RadioDrivenAction {
     } else {
       const travelTime = computeTravelTime(this.hospitalId, this.transportSquad);
 
-      const evacuationTask = getEvacuationTask(state);
+      const evacuationTask = TaskLogic.getEvacuationTask(state);
 
       localEventManager.queueLocalEvent(
         new AssignResourcesToTaskLocalEvent(

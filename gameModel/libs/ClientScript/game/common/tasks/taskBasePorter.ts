@@ -17,7 +17,7 @@ import {
 } from '../simulationState/patientState';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 import { SimFlag } from '../actions/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      TaskType.Porter,
       title,
       description,
       nbMinResources,

@@ -267,7 +267,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { getIdleTaskUid } from \"./game/common/tasks/taskLogic\";\nimport { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\n\nconst currentLocation = Context.overlayItem.id;\n\nif (isPCFrontBuilt() && isCurrentActorAtLocation(currentLocation)) {\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.resources;\n  newState.resources.allocateResources.currentTaskId = getIdleTaskUid(getCurrentState());\n  newState.resources.allocateResources.currentLocation = currentLocation;\n  Context.interfaceState.setState(newState);\n}",
+                                                        "content" : "import * as ResourceFacade from \"./UIfacade/resourceFacade\";\n\nconst currentLocation = Context.overlayItem.id;\nResourceFacade.openDirectResourceManagement(currentLocation);\n",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -394,7 +394,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "Context.interfaceState.setState({\n\t...Context.interfaceState.state,\n\tcurrentActorUid: Context.actor.Uid,\n});",
+                                                        "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -510,7 +510,7 @@
                                     },
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
+                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState().currentActorUid);",
                                       "language" : "TypeScript"
                                     },
                                     "hideIf" : {
@@ -1168,7 +1168,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
+                                            "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -1531,7 +1531,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
+                                            "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
                                             "language" : "TypeScript"
                                           }
                                         },

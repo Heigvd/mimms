@@ -126,7 +126,7 @@ export class MainSimulationState implements IClonable {
     return this.simulationTimeSec;
   }
 
-  public getActorById(actorId: ActorId): Readonly<Actor | undefined> {
+  public getActorById(actorId: ActorId | undefined): Readonly<Actor | undefined> {
     // don't do ===, typescript seems to play tricks between string and number with records
     return this.internalState.actors.find(a => a.Uid == actorId);
   }
