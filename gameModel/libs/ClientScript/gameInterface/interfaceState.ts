@@ -1,4 +1,5 @@
 import { ActionType } from '../game/common/actionType';
+import { Actor } from '../game/common/actors/actor';
 import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
 import {
   ResourceContainerType,
@@ -8,12 +9,13 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { SelectedPanel } from './selectedPanel';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
-import { getIdleTaskUid } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
@@ -41,7 +43,7 @@ export interface InterfaceState {
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
-      currentTaskId: TaskId;
+      currentTaskId: TaskId | undefined;
       targetLocation: LOCATION_ENUM | undefined;
       targetTaskId: TaskId | undefined;
     } & Partial<Record<ResourceType, number>>;
@@ -85,7 +87,7 @@ interface CasuMessage {
 // used in page 43
 export function getInitialInterfaceState(): InterfaceState {
   return {
-    currentActorUid: getCurrentPlayerActors()[0]?.Uid,
+    currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: 0,
     casuMessage: {
       messageType: '',
@@ -122,6 +124,10 @@ export function getInitialInterfaceState(): InterfaceState {
   };
 }
 
+function getCurrentPlayerDefaultActor(): Actor | undefined {
+  return getCurrentPlayerActors()[0];
+}
+
 export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
   const resources = getEmptyResources();
 
@@ -138,7 +144,11 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   const resources = getEmptyResources();
 
   return {
-    currentTaskId: getIdleTaskUid(),
+    currentTaskId: initResourceManagementCurrentTaskId(
+      getCurrentPlayerDefaultActor()?.Uid,
+      getCurrentPlayerDefaultActor()?.Location,
+      CommMedia.Direct
+    ),
     targetLocation: undefined,
     targetTaskId: undefined,
     ...resources,

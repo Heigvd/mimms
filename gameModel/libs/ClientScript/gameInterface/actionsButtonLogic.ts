@@ -10,12 +10,13 @@ import {
   isRadioActionTemplate,
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import { Actor } from '../game/common/actors/actor';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -24,11 +25,13 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { ResourceTypeAndNumber, ResourcesArray } from '../game/common/resources/resourceType';
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
+import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -115,17 +118,17 @@ function fetchMoveResourcesAssignTaskValues() {
   const sentResources: ResourceTypeAndNumber = {};
 
   let paramKey = '';
-  let getEmptyFunc = function () {};
   let currentLoc: LOCATION_ENUM | undefined;
+  let commMedia: CommMedia;
   const panel = Context.interfaceState.state.selectedPanel;
   if (panel === SelectedPanel.resources) {
     paramKey = 'allocateResources';
-    getEmptyFunc = getEmptyAllocateResources;
     currentLoc = getSelectedActorLocation();
-  } else if (panel === SelectedPanel.radios) {
+    commMedia = CommMedia.Direct;
+  } else {
     paramKey = 'allocateResourcesRadio';
-    getEmptyFunc = getEmptyAllocateResourcesRadio;
     currentLoc = Context.interfaceState.state.resources[paramKey]?.currentLocation;
+    commMedia = CommMedia.Radio;
   }
 
   ResourcesArray.forEach(resourceType => {
@@ -136,6 +139,7 @@ function fetchMoveResourcesAssignTaskValues() {
   });
 
   const payload = {
+    commMedia: commMedia,
     // source fetched from drop down if radio, or actor location if location panel
     sourceLocation: currentLoc,
     targetLocation: Context.interfaceState.state.resources[paramKey]?.targetLocation,
@@ -146,8 +150,24 @@ function fetchMoveResourcesAssignTaskValues() {
 
   // Reset interfaceState
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resources[paramKey] = getEmptyFunc();
+  if (panel === SelectedPanel.resources) {
+    const currentActorUid: number | undefined = getTypedInterfaceState().currentActorUid;
+    const currentActor: Readonly<Actor> | undefined = currentActorUid
+      ? getActor(currentActorUid)
+      : undefined;
+
+    newState.resources[paramKey] = getEmptyAllocateResources();
+    if (currentActor) {
+      newState.resources[paramKey].currentTaskId = initResourceManagementCurrentTaskId(
+        currentActor.Uid,
+        currentActor.Location
+      );
+    }
+  } else if (panel === SelectedPanel.radios) {
+    newState.resources[paramKey] = getEmptyAllocateResourcesRadio();
+  }
   Context.interfaceState.setState(newState);
+
   return payload;
 }
 

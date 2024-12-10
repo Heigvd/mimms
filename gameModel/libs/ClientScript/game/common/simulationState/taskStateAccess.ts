@@ -1,12 +1,13 @@
 import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
+import { Actor } from '../actors/actor';
 import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { ActorId, TaskId } from '../baseTypes';
-import { TaskBase, TaskStatus } from '../tasks/taskBase';
+import { CommMedia } from '../resources/resourceReachLogic';
+import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
 import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
-import { getIdleTask } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -24,24 +25,47 @@ export function getAllTasks(state: Readonly<MainSimulationState>): Readonly<Task
 }
 
 /**
- * Temporary filtering implementation of local communication restrictions on incident site
+ * Fetch the tasks which resources can be reached by an actor, at a location, via a communication media
  */
-const restrictedDirectCommAreas: Partial<Record<LOCATION_ENUM, boolean>> = { chantier: true };
-
-export function fetchTaskChoicesForActorAndLocation(
+export function fetchReachableTasks(
   state: Readonly<MainSimulationState>,
   actorId: ActorId,
   location: LOCATION_ENUM,
-  radioComm: boolean
+  commMedia: CommMedia
 ): Readonly<TaskBase>[] {
-  if (!radioComm && restrictedDirectCommAreas[location]) {
-    return [getIdleTask(state)];
+  return Object.values(getAllTasks(state)).filter(task =>
+    isReachable(state, actorId, location, task.Uid, commMedia)
+  );
+}
+
+export function isReachable(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId | undefined,
+  location: LOCATION_ENUM,
+  taskId: TaskId,
+  commMedia: CommMedia
+): boolean {
+  const task: TaskBase = internallyGetTask(state, taskId);
+  const actor: Readonly<Actor> | undefined = state.getActorById(actorId);
+  if (task && actor) {
+    return task.isReachable(state, actor, location, commMedia);
   } else {
-    return fetchAvailableStandardTasksForActorAndLocation(state, actorId, location);
+    if (!task) {
+      taskLogger.warn('Task not found. id = ' + taskId + '. And so task not reachable');
+    }
+
+    if (!actor) {
+      taskLogger.warn('Actor not found. id = ' + actorId + '. And so task not reachable');
+    }
+
+    return false;
   }
 }
 
-export function fetchAvailableStandardTasksForActorAndLocation(
+/**
+ * Fetch the tasks at a location to which resources can be assigned by an actor
+ */
+export function fetchAvailableStandardTasks(
   state: Readonly<MainSimulationState>,
   actorId: ActorId,
   location: LOCATION_ENUM
@@ -62,7 +86,7 @@ export function isBrancardageTaskForTargetLocation(
   targetLocation: LOCATION_ENUM
 ): boolean {
   return Object.values(getAllTasks(state))
-    .filter(ta => ta instanceof PorterTask)
+    .filter(ta => ta.taskType === TaskType.Porter)
     .flatMap(ta => Object.values((ta as PorterTask).subTasks))
     .some(st => st.targetLocation === targetLocation);
 }
@@ -140,23 +164,23 @@ export function getTaskCurrentStatus(
   return internallyGetTask(state, taskId).getStatus();
 }
 
-export function getTaskByLocationAndClass<T extends TaskBase>(
+export function getTaskByTypeAndLocation(
   state: Readonly<MainSimulationState>,
-  taskClass: { new (...args: any[]): T },
+  taskType: TaskType,
   location: LOCATION_ENUM
 ): TaskBase {
   return state
     .getInternalStateObject()
-    .tasks.find(task => task instanceof taskClass && task.availableToLocations.includes(location))!;
+    .tasks.find(
+      task => task.taskType === taskType && task.availableToLocations.includes(location)
+    )!;
 }
 
-export function getLocationsByTaskClass<T extends TaskBase>(
+export function getLocationsByTaskType(
   state: Readonly<MainSimulationState>,
-  taskClass: { new (...args: any[]): T }
+  taskType: TaskType
 ): LOCATION_ENUM[] {
-  return state
-    .getInternalStateObject()
-    .tasks.filter(task => task instanceof taskClass)
-    .flatMap(task => task.availableToLocations)
-    .filter((enumValue, index, array) => array.indexOf(enumValue) === index);
+  return getAllTasks(state)
+    .filter(task => task.taskType === taskType)
+    .flatMap(task => task.availableToLocations);
 }

@@ -38,11 +38,11 @@ casu-message-title-R	Request for hospital information	Demande d'informations sur
 casu-message-desc	Send a radio message to CASU 	Envoyer un message radio à CASU	
 actor-arrival	You have arrived at the incident site	Vous êtes arrivé sur les lieux de l'accident	
 on-the-road	On the way	En route	
-pre-tri-title	Pre-triage	Pré-triage	
+pre-tri-title	Pretriage	Prétriage	
 brancardage-title	Brancardage	Brancardage	
 request-hospital-info	Request hospital information	Demander informations sur hôpitaux	
 request-resources	Request for resources	Demande de ressources	
-pretriage-task-completed	Pre-triage done	Pré-triage terminé	
+pretriage-task-completed	Pretriage done	Prétriage terminé	
 porters-task-no-target-location	Not possible to evacuate patients, we don't know where to take them	Pas possible de brancarder, on ne sait pas où les amener	
 porters-task-completed	Patients evacuation done	Brancardage terminé	 
 porters-task-chantier-completed	Patients evacuation done from the incident	Brancardage depuis le chantier terminé	 
@@ -95,8 +95,12 @@ define-leadpmaArrival-title	Assume Lead PMA duties	Prise de fonction Chef PMA
 define-leadpmaArrival-desc	Announcing the assumption of Lead PMA functions	Annoncer la prise des fonctions Chef PMA	
 define-leadpmaArrival-feedback	Assumption of Lead PMA functions announced	La prise des fonctions Chef PMA est annoncée	
 waiting-title	Available	A disposition	
-currentActivity	Current Activity	Activité en cours	
-targetActivity	Target Activity	Activité à destination	
+select-resources	Select resources	Sélectionner des ressources	
+assign-task-to-selected-resources	Command selected resources 	Ordonner aux ressources sélectionnées	
+currentActivity	Current activity	Tâche courante	
+targetActivity	Target activity	Tâche assignée	
+currentLocation	Current location	Lieu courant	
+targetLocation	Target location	Lieu de destination	
 move-res-task-title	Assign resource	Assigner ressource	
 move-res-task-desc	Send resources	Envoyer des ressources	
 move-res-task-feedback	The resources have been successfully assigned	Les ressources ont été assignées avec succès	
@@ -126,15 +130,15 @@ no-patient-selected	Select a patient to know more about him	Sélectionner un pat
 place	Place	Lieu	
 vector	Vector	Vecteur	
 incoming-resources	Arrival of {0}	Arrivée de {0}	
-pretriage-report-task-feedback-started	Requested pretriage status for location {0}	Demande status pretriage pour {0}	
-pretriage-report-task-feedback-reportIntro	Current pretriage status for location {0}:	Etat courant du pretriage pour {0}:  	
-pretriage-report-task-feedback-reportNonPretriaged	Some patients have not been pretriaged yet.	Des patients n'ont pas été pretriés.	
-pretriage-report-task-feedback-reportReport	pretriaged by category:	pretriés par catégorie:	
-assign-task	Move and assign task	Deplacer et assigner tâche	
-request-reports	Request pretriage status	Rapport état pretriage	
-pretriage-report-task-title	Pretriage status	Pretriage status	
+pretriage-report-task-feedback-started	Requested pretriage status for location {0}	Demande status prétriage pour {0}	
+pretriage-report-task-feedback-reportIntro	Current pretriage status for location {0}:	Etat courant du prétriage pour {0}:  	
+pretriage-report-task-feedback-reportNonPretriaged	Some patients have not been pretriaged yet.	Des patients n'ont pas été prétriés.	
+pretriage-report-task-feedback-reportReport	pretriaged by category:	prétriés par catégorie:	
+assign-task	Move and assign task	Déplacer et assigner tâche	
+request-reports	Request pretriage status	Rapport état prétriage	
+pretriage-report-task-title	Pretriage status	Prétriage status	
 pretriage-category-dead	black	noir	
 pretriage-category-immediate	red	rouge	
 pretriage-category-urgent	yellow	jaune	
 pretriage-category-non_urgent	green	vert	
-pretriage-task-notStarted	Pretriage for location {0} not started.	Le pretriage pour {0} n'est pas en cours.	
+pretriage-task-notStarted	Pretriage for location {0} not started.	Le prétriage pour {0} n'est pas en cours.	

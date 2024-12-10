@@ -1,3 +1,4 @@
+import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
@@ -10,8 +11,9 @@ import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { canViewLocation } from '../gameMap/mapEntities';
-import { getSelectedActorLocation } from './actorFacade';
-import { getIdleTaskUid } from './taskFacade';
+import { isPCFrontBuilt } from './actionFacade';
+import { getSelectedActorLocation, isCurrentActorAtLocation } from './actorFacade';
+import * as TaskFacade from './taskFacade';
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -51,7 +53,10 @@ export function updateCurrentLocation(value: string): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.resources[paramKey]['currentLocation'] = value;
-  newState.resources[paramKey]['currentTaskId'] = getIdleTaskUid();
+  newState.resources[paramKey]['currentTaskId'] = TaskFacade.initResourceManagementCurrentTaskId(
+    Context.interfaceState.state.currentActorUid,
+    newState.resources[paramKey]['currentLocation']
+  ); // reset task
   Context.interfaceState.setState(newState);
 }
 
@@ -59,7 +64,10 @@ export function updateTargetDestination(value: string): void {
   const paramKey = getStateKeyForResource();
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.resources[paramKey]['targetLocation'] = value;
-  newState.resources[paramKey]['targetTaskId'] = undefined; // reset task
+  newState.resources[paramKey]['targetTaskId'] = TaskFacade.initResourceManagementTargetTaskId(
+    Context.interfaceState.state.currentActorUid,
+    newState.resources[paramKey]['targetLocation']
+  );
   Context.interfaceState.setState(newState);
 }
 
@@ -137,4 +145,21 @@ export function isPretriageReportRequestDisabled(): boolean {
   return (
     Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation === undefined
   );
+}
+
+// used in page 43
+/** Open the panel to talk to resources directly (without radio) */
+export function openDirectResourceManagement(location: LOCATION_ENUM): void {
+  if (isPCFrontBuilt() && isCurrentActorAtLocation(location)) {
+    const newState = Helpers.cloneDeep(Context.interfaceState.state);
+    newState.selectedPanel = SelectedPanel.resources;
+    newState.resources.allocateResources.currentLocation = location;
+    newState.resources.allocateResources.currentTaskId =
+      TaskFacade.initResourceManagementCurrentTaskId(
+        Context.interfaceState.state.currentActorUid,
+        location,
+        CommMedia.Direct
+      );
+    Context.interfaceState.setState(newState);
+  }
 }

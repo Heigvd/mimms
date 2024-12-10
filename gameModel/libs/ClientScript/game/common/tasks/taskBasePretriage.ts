@@ -23,7 +23,7 @@ import {
 } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getTaskCurrentStatus } from '../simulationState/taskStateAccess';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 
 /**
  * Default behaviour of a task
@@ -40,6 +40,7 @@ export class PreTriageTask extends TaskBase {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      TaskType.Pretriage,
       title,
       description,
       nbMinResources,
