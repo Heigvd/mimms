@@ -46,7 +46,7 @@ export function isReachable(
   commMedia: CommMedia
 ): boolean {
   const task: TaskBase = internallyGetTask(state, taskId);
-  const actor: Readonly<Actor> | undefined = actorId ? state.getActorById(actorId) : undefined;
+  const actor: Readonly<Actor> | undefined = state.getActorById(actorId);
   if (task && actor) {
     return task.isReachable(state, actor, location, commMedia);
   } else {

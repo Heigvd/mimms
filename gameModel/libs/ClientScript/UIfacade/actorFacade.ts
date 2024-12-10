@@ -1,4 +1,4 @@
-import { Actor, InterventionRole } from '../game/common/actors/actor';
+import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
@@ -34,14 +34,10 @@ export function selectActorAndOpenMapLocation(id: ActorId) {
  * @returns All actors available to the current player
  */
 export function getCurrentPlayerActors(): Readonly<Actor[]> {
-  const actors = getCurrentState().getAllActors();
-  const currentPlayerRoles = getPlayerRolesSelf();
-
-  const currentPlayerRolesKeys = Object.keys(currentPlayerRoles).filter(
-    key => currentPlayerRoles[key as InterventionRole]
-  );
-
-  return actors.filter(actor => currentPlayerRolesKeys.includes(actor.Role));
+  const playerRoles = getPlayerRolesSelf();
+  return getCurrentState()
+    .getAllActors()
+    .filter(actor => playerRoles[actor.Role]);
 }
 
 /**
