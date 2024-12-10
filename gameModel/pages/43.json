@@ -1507,7 +1507,7 @@
                                 } ],
                                 "ifCondition" : {
                                   "@class" : "Script",
-                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : { },
@@ -1542,7 +1542,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getPlayerActorsCurrentlyNotInSituationUpdate } from \"./UIfacade/actionFacade\";\ngetPlayerActorsCurrentlyNotInSituationUpdate();",
+                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(SituationUpdateAction);",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",
@@ -1555,7 +1555,7 @@
                                 "className" : "modal-buttons-container",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -1568,7 +1568,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isCurrentActorCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\n!isCurrentActorCurrentlyInSituationUpdate();",
+                              "content" : "import { SituationUpdateAction } from './game/common/actions/actionBase';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(SituationUpdateAction);",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -1655,7 +1655,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getActorsNotOnTheRoad } from \"./UIfacade/actionFacade\";\ngetActorsNotOnTheRoad();",
+                                      "content" : "import { OnTheRoadAction } from \"./game/common/actions/actionBase\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(OnTheRoadAction);",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",
@@ -1668,7 +1668,7 @@
                                 "className" : "modal-buttons-container",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { areAllActorsOnTheRoad } from \"./UIfacade/actionFacade\";\nareAllActorsOnTheRoad();",
+                                  "content" : "import { OnTheRoadAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(OnTheRoadAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -1680,7 +1680,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isOnTheRoad } from \"./UIfacade/actionFacade\";\n!isOnTheRoad();",
+                              "content" : "import { OnTheRoadAction } from './game/common/actions/actionBase';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(OnTheRoadAction);",
                               "language" : "typescript"
                             },
                             "layout" : {
