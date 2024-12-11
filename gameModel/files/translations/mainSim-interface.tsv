@@ -35,8 +35,8 @@ player-ready	Ready	Prêt
 player-unready	Unready	En jeu
 msg-now	Now	Maintenant
 notification-concurrent-stop	Your action is rejected as it conflicts with the action executed by another actor.	Votre action est rejetée parce qu’elle est en conflit avec l’action exécutée par un autre joueur.
-youre-not-here	You haven't arrived on site yet	Vous n'êtes pas encore sur site
-when-youre-here	You may start playing when the role(s) you selected arrives on site	Vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.
+youre-not-here	You are not enlisted yet	Vous n'êtes pas encore mobilisé
+when-youre-here	You may start playing when the role(s) you chose becomes available in the game	Vous pourrez commencer à jouer lorsqu’un rôle que vous avez choisi sera disponible dans la partie.
 on-the-road-title	On the way to the accident site	En route vers le site de l'accident
 on-the-road-text	You are on your way. You’ll be able to start playing as soon as you arrive on site. In the meantime, follow the radio feed to stay updated on the situation.	Vous êtes en chemin. Vous pourrez commencer à jouer dès votre arrivée sur place. En attendant, suivez le flux radio pour rester informé de la situation.
 situation-update-title	Situation update	Point de situation
