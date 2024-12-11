@@ -1113,7 +1113,7 @@
                                 "className" : "nextActionBtn",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() < 0;",
+                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
                                   "language" : "typescript"
                                 },
                                 "label" : {
@@ -1627,60 +1627,10 @@
                                 }
                               },
                               "type" : "PageLoader"
-                            }, {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
-                                        "className" : "button-S button-primaryColor",
-                                        "confirm" : false,
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.actor.Role;",
-                                          "language" : "TypeScript"
-                                        },
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);\n",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
-                                        "style" : { }
-                                      },
-                                      "type" : "Button"
-                                    } ],
-                                    "exposeAs" : "actor",
-                                    "getItemsFn" : {
-                                      "@class" : "Script",
-                                      "content" : "import { OnTheRoadAction } from \"./game/common/actions/actionBase\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(OnTheRoadAction);",
-                                      "language" : "TypeScript"
-                                    },
-                                    "itemKey" : "Uid",
-                                    "layout" : { },
-                                    "layoutStyle" : { },
-                                    "style" : { }
-                                  },
-                                  "type" : "For each"
-                                } ],
-                                "className" : "modal-buttons-container",
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { OnTheRoadAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(OnTheRoadAction);",
-                                  "language" : "typescript"
-                                },
-                                "layout" : { },
-                                "layoutStyle" : { },
-                                "name" : "buttons",
-                                "style" : { }
-                              },
-                              "type" : "FlexList"
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { OnTheRoadAction } from './game/common/actions/actionBase';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(OnTheRoadAction);",
+                              "content" : "import { OnTheRoadAction } from './game/common/actions/actionBase';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
                               "language" : "typescript"
                             },
                             "layout" : {
@@ -1744,7 +1694,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerOnsiteActorCount() > 0;",
+                              "content" : "import { getCurrentPlayerPlayableActorsCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerPlayableActorsCount() > 0;",
                               "language" : "typescript"
                             },
                             "layout" : { },
