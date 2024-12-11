@@ -7,7 +7,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n'STATE ' + JSON.stringify(getCurrentState());",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'STATE ' + JSON.stringify(getCurrentState());",
           "language" : "TypeScript"
         }
       },
