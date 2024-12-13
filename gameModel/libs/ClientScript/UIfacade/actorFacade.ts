@@ -7,6 +7,8 @@ import { getInterfaceConfiguration } from '../gameInterface/interfaceConfigurati
 import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
+import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
+import { OnTheRoadAction } from '../game/common/actions/actionBase';
 
 /**
  * @returns All currently present actors
@@ -58,10 +60,20 @@ export function getCurrentPlayerActorIds(actors: Readonly<Actor[]>): ActorId[] {
 }
 
 /**
- * Returns the number of actors playable by the current player
+ * Returns the number of actors on site by the current player
  */
 export function getCurrentPlayerOnsiteActorCount(): number {
   return getCurrentPlayerActors().filter(a => a.isOnSite()).length;
+}
+
+/**
+ * Returns the number of actors playable by the current player
+ */
+export function getCurrentPlayerPlayableActorsCount(): number {
+  const state = getCurrentState();
+  return getCurrentPlayerActors().filter(
+    actor => actor.isOnSite() || isOngoingAndStartedAction(state, actor.Uid, OnTheRoadAction)
+  ).length;
 }
 
 /**

@@ -6,7 +6,7 @@
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionType, RadioType } from '../game/common/actionType';
-import { ActionBase, SituationUpdateAction } from '../game/common/actions/actionBase';
+import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
@@ -133,33 +133,38 @@ export function getDurationChoicesForSituationUpdateAction(): { label: string; v
     };
   });
 }
-
-export function isCurrentActorCurrentlyInSituationUpdate(): boolean {
+export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
+  new (...args: any[]): T;
+}): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   const state = getCurrentState();
 
   if (currentActorUid) {
-    return isOngoingAndStartedAction(state, currentActorUid, SituationUpdateAction);
+    return isOngoingAndStartedAction(state, currentActorUid, actionClass);
   }
 
   return false;
 }
 
-export function getPlayerActorsCurrentlyNotInSituationUpdate(): Actor[] {
-  const state = getCurrentState();
-  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
-
-  return playerActors.filter(
-    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, SituationUpdateAction)
-  );
-}
-
-export function areAllPlayerActorsCurrentlyInSituationUpdate(): boolean {
+export function areAllActorsDoing<T extends ActionBase>(actionClass: {
+  new (...args: any[]): T;
+}): boolean {
   const state = getCurrentState();
   const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
 
   return playerActors.every((actor: Actor) =>
-    isOngoingAndStartedAction(state, actor.Uid, SituationUpdateAction)
+    isOngoingAndStartedAction(state, actor.Uid, actionClass)
+  );
+}
+
+export function getActorsNotDoing<T extends ActionBase>(actionClass: {
+  new (...args: any[]): T;
+}): Actor[] {
+  const state = getCurrentState();
+  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
+
+  return playerActors.filter(
+    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, actionClass)
   );
 }
 

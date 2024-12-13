@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1733759931247,
+  "createdTime" : 1733156982744,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3968,10 +3968,10 @@
           "variable-duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"variable duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée variable\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waiting for other players\"},\"FR\":{\"status\":\"\",\"translation\":\"en attente des autres joueurs\",\"lang\":\"FR\"}},\"version\":0}",
           "welcome" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"welcome to MIMMS\"},\"FR\":{\"status\":\"\",\"translation\":\"bienvenue dans MIMMS\",\"lang\":\"FR\"}},\"version\":0}",
-          "when-youre-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you may start playing when the role(s) you selected arrives on site\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez commencer à jouer lorsque le rôle que vous avez sélectionné sera disponible dans la partie.\",\"lang\":\"FR\"}},\"version\":0}",
+          "when-youre-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you may start playing when the role(s) you chose becomes available in the game\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez commencer à jouer lorsqu’un rôle que vous avez choisi sera disponible dans la partie.\",\"lang\":\"FR\"}},\"version\":0}",
           "your-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your message\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message\",\"lang\":\"FR\"}},\"version\":0}",
           "your-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your text\"},\"FR\":{\"status\":\"\",\"translation\":\"votre texte\",\"lang\":\"FR\"}},\"version\":0}",
-          "youre-not-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you haven't arrived on site yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'êtes pas encore sur site\",\"lang\":\"FR\"}},\"version\":0}"
+          "youre-not-here" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are not enlisted yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous n'êtes pas encore mobilisé\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:49462:KdFc2a",
         "scopeType" : "GameModelScope",

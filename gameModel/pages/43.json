@@ -1113,7 +1113,7 @@
                                 "className" : "nextActionBtn",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() < 0;",
+                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
                                   "language" : "typescript"
                                 },
                                 "label" : {
@@ -1507,7 +1507,7 @@
                                 } ],
                                 "ifCondition" : {
                                   "@class" : "Script",
-                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : { },
@@ -1542,7 +1542,7 @@
                                     "exposeAs" : "actor",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getPlayerActorsCurrentlyNotInSituationUpdate } from \"./UIfacade/actionFacade\";\ngetPlayerActorsCurrentlyNotInSituationUpdate();",
+                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(SituationUpdateAction);",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "Uid",
@@ -1555,7 +1555,7 @@
                                 "className" : "modal-buttons-container",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { areAllPlayerActorsCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\nareAllPlayerActorsCurrentlyInSituationUpdate();",
+                                  "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -1568,7 +1568,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { isCurrentActorCurrentlyInSituationUpdate } from \"./UIfacade/actionFacade\";\n!isCurrentActorCurrentlyInSituationUpdate();",
+                              "content" : "import { SituationUpdateAction } from './game/common/actions/actionBase';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(SituationUpdateAction);",
                               "language" : "typescript"
                             },
                             "layout" : { },
@@ -1576,6 +1576,73 @@
                             "name" : "pointDeSituation",
                             "onExitActions" : { },
                             "style" : { }
+                          },
+                          "type" : "Modal"
+                        }, {
+                          "props" : {
+                            "attachToMostDistant" : ".wegas-pageloader",
+                            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "modal-title",
+                                "layoutClassName" : "modal-title-container",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-title')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutStyle" : { },
+                                "style" : {
+                                  "margin" : "auto",
+                                  "paddingTop" : "1rem",
+                                  "textAlign" : "center"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'on-the-road-text')",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "noPadding ontheroad-radio",
+                                "exposePageSizeAs" : "",
+                                "initialSelectedPageId" : {
+                                  "@class" : "Script",
+                                  "content" : "\"radioMessageOutput\";",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "output messages",
+                                "style" : {
+                                  "paddingTop" : "2rem"
+                                }
+                              },
+                              "type" : "PageLoader"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { OnTheRoadAction } from './game/common/actions/actionBase';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
+                              "language" : "typescript"
+                            },
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "OnTheRoad",
+                            "onExitActions" : { },
+                            "style" : {
+                              "padding" : "3rem",
+                              "width" : "40rem"
+                            }
                           },
                           "type" : "Modal"
                         }, {
@@ -1627,7 +1694,7 @@
                             "className" : "modal",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerOnsiteActorCount() > 0;",
+                              "content" : "import { getCurrentPlayerPlayableActorsCount } from \"./UIfacade/actorFacade\";\n  getCurrentPlayerPlayableActorsCount() > 0;",
                               "language" : "typescript"
                             },
                             "layout" : { },
