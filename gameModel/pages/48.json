@@ -368,7 +368,7 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
-            "localState" : false,
+            "localState" : true,
             "style" : { }
           },
           "type" : "State"
