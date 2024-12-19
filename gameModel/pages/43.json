@@ -878,7 +878,9 @@
                                     "layoutClassName" : "interfaceMenuLoader-container",
                                     "layoutStyle" : { },
                                     "name" : "interfaceMenuLoader",
-                                    "style" : { }
+                                    "style" : {
+                                      "height" : "100%"
+                                    }
                                   },
                                   "type" : "PageLoader"
                                 } ],
@@ -908,7 +910,9 @@
                                   "pointerEvent" : "auto"
                                 },
                                 "name" : "leftPanel",
-                                "style" : { }
+                                "style" : {
+                                  "height" : "100%"
+                                }
                               },
                               "type" : "FlexList"
                             } ],
@@ -925,7 +929,10 @@
                             "layoutClassName" : "noPadding noMargin leftPanel-container",
                             "layoutStyle" : { },
                             "name" : "leftPanel",
-                            "style" : { }
+                            "style" : {
+                              "height" : "100%",
+                              "width" : "100%"
+                            }
                           },
                           "type" : "FlexList"
                         }, {

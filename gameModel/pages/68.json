@@ -172,7 +172,7 @@
                   "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {

@@ -4,7 +4,10 @@
       "props" : {
         "className" : "mimms_h2title",
         "layoutClassName" : "",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flex-shrink" : "0",
+          "height" : "auto"
+        },
         "name" : "Title",
         "style" : { },
         "text" : {
@@ -75,7 +78,10 @@
         "itemKey" : "type",
         "layout" : { },
         "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flex-shrink" : "0",
+          "height" : "auto"
+        },
         "name" : "Channel choice",
         "style" : { }
       },
@@ -91,9 +97,14 @@
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flex-grow" : "1",
+          "height" : "100%"
+        },
         "name" : "Channel page loader",
-        "style" : { }
+        "style" : {
+          "height" : "100%"
+        }
       },
       "type" : "PageLoader"
     } ],
@@ -102,7 +113,9 @@
     },
     "layoutClassName" : "leftSubPanel-container",
     "layoutStyle" : { },
-    "style" : { }
+    "style" : {
+      "height" : "100%"
+    }
   },
   "type" : "FlexList"
 }

@@ -89,7 +89,9 @@
         "layoutClassName" : "messageArea-container",
         "layoutStyle" : { },
         "name" : "output message",
-        "style" : { }
+        "style" : {
+          "height" : "100%"
+        }
       },
       "type" : "For each"
     } ],
@@ -103,7 +105,9 @@
       "overflow" : "auto",
       "width" : "100%"
     },
-    "style" : { }
+    "style" : {
+      "height" : "100%"
+    }
   },
   "type" : "FlexList"
 }

@@ -12,7 +12,10 @@
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flex-grow" : "1",
+              "overflow-y" : "auto"
+            },
             "name" : "output messages",
             "style" : { }
           },
@@ -20,7 +23,10 @@
         }, {
           "props" : {
             "className" : "mimms_h2title",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flex-shrink" : "0",
+              "height" : "auto"
+            },
             "name" : "modalTitle",
             "style" : {
               "width" : "100%"
@@ -232,6 +238,8 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
+              "flex-shrink" : "0",
+              "height" : "auto",
               "maxWidth" : "25vw"
             },
             "name" : "buttons",
@@ -253,7 +261,10 @@
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "flex-shrink" : "0",
+              "height" : "auto"
+            },
             "name" : "action page loader",
             "style" : { }
           },
@@ -269,10 +280,12 @@
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "flex-direction" : "column",
+          "height" : "100%",
           "width" : "100%"
         },
         "localState" : false,
         "style" : {
+          "height" : "100%",
           "width" : "100%"
         }
       },
@@ -287,7 +300,9 @@
       "height" : "100%",
       "width" : "100%"
     },
-    "style" : { }
+    "style" : {
+      "height" : "100%"
+    }
   },
   "type" : "FlexList"
 }
