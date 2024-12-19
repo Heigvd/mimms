@@ -60,9 +60,7 @@
         "className" : "noPadding noMargin",
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : {
-          "maxWidth" : "25vw"
-        },
+        "layoutStyle" : { },
         "name" : "tasksButtons",
         "style" : { }
       },

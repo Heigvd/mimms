@@ -134,9 +134,7 @@
                 "className" : "noPadding",
                 "layout" : { },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "maxWidth" : "25vw"
-                },
+                "layoutStyle" : { },
                 "name" : "METHANE buttons",
                 "style" : { }
               },
