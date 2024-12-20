@@ -449,9 +449,11 @@ export function initActionTemplates(): {
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
+    'evacuate-task-request',
     'evacuate-task-started',
     'evacuate-feedback-return',
     'evacuate-task-abort',
+    'evacuate-task-refused',
     true
   );
 

@@ -1029,7 +1029,7 @@ export class SituationUpdateAction extends StartEndAction {
     // nothing to do
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(_state: MainSimulationState): void {
     // nothing to do
   }
 
@@ -1446,6 +1446,7 @@ export class EvacuationAction extends RadioDrivenAction {
   private readonly transportSquad: EvacuationSquadType;
   private readonly doResourcesComeBack: boolean;
 
+  private compliantWithHierarchy: boolean;
   private isEnoughResources: boolean;
   private involvedResourcesId: ResourceId[];
 
@@ -1455,9 +1456,11 @@ export class EvacuationAction extends RadioDrivenAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
     messageKey: TranslationKey,
+    readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenStarted: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
+    readonly msgEvacuationRefused: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     readonly evacuationActionPayload: EvacuationActionPayload,
@@ -1479,6 +1482,7 @@ export class EvacuationAction extends RadioDrivenAction {
     this.transportSquad = evacuationActionPayload.transportSquad;
     this.doResourcesComeBack = !!evacuationActionPayload.doResourcesComeBack;
 
+    this.compliantWithHierarchy = false;
     this.isEnoughResources = false;
     this.involvedResourcesId = [];
   }
@@ -1486,26 +1490,27 @@ export class EvacuationAction extends RadioDrivenAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     this.logger.info('start event EvacuationAction');
 
+    const squadDef = getSquadDef(this.transportSquad);
+    const sourceLocation = squadDef.location;
+
+    this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, sourceLocation);
+
     this.isEnoughResources = EvacuationLogic.isEvacSquadAvailable(state, this.transportSquad);
 
-    if (this.isEnoughResources) {
-      this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
-        state,
-        this.transportSquad
-      ).map((resource: Resource) => resource.Uid);
+    this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
+      state,
+      this.transportSquad
+    ).map((resource: Resource) => resource.Uid);
 
-      // we reserve the resources for this action so that they cannot be used by anything else
-      localEventManager.queueLocalEvent(
-        new ReserveResourcesLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.involvedResourcesId,
-          this.Uid
-        )
-      );
-    } else {
-      this.involvedResourcesId = [];
-    }
+    // we reserve the resources for this action so that they cannot be used by anything else
+    localEventManager.queueLocalEvent(
+      new ReserveResourcesLocalEvent(
+        this.eventId,
+        state.getSimTime(),
+        this.involvedResourcesId,
+        this.Uid
+      )
+    );
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
@@ -1529,7 +1534,20 @@ export class EvacuationAction extends RadioDrivenAction {
       )
     );
 
-    if (!this.isEnoughResources) {
+    if (!this.compliantWithHierarchy) {
+      // Resources refused the order due to hierarchy conflict
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0,
+          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          this.msgEvacuationRefused,
+          this.getChannel(),
+          true
+        )
+      );
+    } else if (!this.isEnoughResources) {
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
@@ -1567,6 +1585,18 @@ export class EvacuationAction extends RadioDrivenAction {
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
       );
+
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          0,
+          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          this.feedbackWhenStarted,
+          this.getChannel(),
+          true
+        )
+      );
     }
   }
 
@@ -1577,7 +1607,7 @@ export class EvacuationAction extends RadioDrivenAction {
     );
   }
 
-  private formatStartFeedbackMessage(payload: EvacuationActionPayload) {
+  private formatRequestMessage(payload: EvacuationActionPayload) {
     const currentLanguage = getCurrentLanguageCode().toLowerCase() as knownLanguages;
 
     const patientId: string = payload.patientId;
@@ -1596,7 +1626,7 @@ export class EvacuationAction extends RadioDrivenAction {
       false
     );
 
-    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+    return getTranslation('mainSim-actions-tasks', this.msgTaskRequest, true, [
       patientId,
       toHospital,
       byVector,
@@ -1609,7 +1639,7 @@ export class EvacuationAction extends RadioDrivenAction {
   }
 
   public getMessage(): string {
-    return this.formatStartFeedbackMessage(this.evacuationActionPayload);
+    return this.formatRequestMessage(this.evacuationActionPayload);
   }
 
   public getEmitter(): string {
