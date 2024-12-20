@@ -143,7 +143,7 @@
       "items" : [ {
         "@class" : "Page",
         "id" : "4",
-        "name" : "setup",
+        "name" : "Drill setup",
         "scenaristPage" : false,
         "trainerPage" : false
       }, {
@@ -189,13 +189,13 @@
       }, {
         "@class" : "Page",
         "id" : "7",
-        "name" : "mainConfig",
+        "name" : "Parameters",
         "scenaristPage" : true,
         "trainerPage" : true
       }, {
         "@class" : "Page",
         "id" : "42",
-        "name" : "dashboardConfig",
+        "name" : "Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
       } ],
@@ -243,7 +243,7 @@
         "id" : "29",
         "name" : "patientPresets",
         "scenaristPage" : false,
-        "trainerPage" : true
+        "trainerPage" : false
       } ],
       "name" : "Scenarist"
     }, {
@@ -371,7 +371,7 @@
         "id" : "49",
         "name" : "setup env",
         "scenaristPage" : null,
-        "trainerPage" : true
+        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "44",
