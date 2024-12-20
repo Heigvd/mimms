@@ -51,6 +51,7 @@ import {
   SendRadioMessageAction,
   SituationUpdateAction,
 } from './actionBase';
+import * as ActionLogic from './actionLogic';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',
@@ -656,33 +657,18 @@ export class SelectionFixedMapEntityTemplate<
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  // Has the template already been played by another player ?
-  private hasBeenPlayedByOtherActor(
-    state: Readonly<MainSimulationState>,
-    actorUid: ActorId
-  ): boolean {
-    return (
-      getOngoingActions(state).filter(
-        a =>
-          a instanceof SelectionFixedMapEntityAction &&
-          a.getTemplateId() === this.Uid &&
-          a.ownerId !== actorUid
-      ).length === 0
-    );
-  }
-
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>
   ): boolean {
-    return this.hasBeenPlayedByOtherActor(state, actor.Uid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
-    return this.hasBeenPlayedByOtherActor(state, actorUid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
   }
 }
 
@@ -1157,13 +1143,17 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     };
   }
 
-  // only available if no such role is present
+  // available if no such role is present
   // might change if multiple AL can be summoned
+  // cannot be planned more than once at the same time
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    _actor: Readonly<Actor>
+    actor: Readonly<Actor>
   ): boolean {
-    return state.getAllActors().every(act => act.Role !== this.actorRole);
+    return (
+      state.getAllActors().every(act => act.Role !== this.actorRole) &&
+      !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid)
+    );
   }
 
   public getDescription(): string {
