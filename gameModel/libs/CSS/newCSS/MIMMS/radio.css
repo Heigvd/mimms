@@ -102,13 +102,6 @@
 	animation: popping 1s linear;
 }
 
-/* used in page 64 */
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
-}
-
 .sender{
 		font-weight: var(--boldWeight);
 }
@@ -178,7 +171,7 @@
   border-color: var(--primary_10) transparent transparent transparent;
 }
 
-.emitter-text-header-layout {
+.radio-message-header-layout {
   font-family: var(--mainFont);
   font-size: 14px;
   font-weight: var(--boldWeight);
@@ -189,7 +182,21 @@
   margin-top: 10px;
 }
 
-.emitter-text-body-layout {
+.radio-message-header-time {
+  font-size: 14px;
+  font-weight: var(--boldWeight);
+}
+
+.radio-message-header-sender-actor {
+  font-size: 14px;
+  font-weight: var(--boldWeight);
+}
+
+.radio-message-header-sender-name {
+  font-style: italic;
+}
+
+.radio-message-body-layout {
   font-family: var(--mainFont);
   font-size: 12px;
   line-height: 15px;
@@ -198,7 +205,7 @@
   margin-left: 15px;
 }
 
-.emitter-text-body-layout > p {
+.radio-message-body-layout > p {
   margin-top: 0px;
   max-width: 10rem;
   word-wrap: break-word;

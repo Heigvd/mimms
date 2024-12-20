@@ -169,11 +169,11 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         new AddRadioMessageLocalEvent(
           subTask.parentEventId,
           state.getSimTime(),
-          0,
-          '0',
+          undefined,
+          undefined,
+          undefined,
           subTask.feedbackWhenReturning,
           ActionType.CASU_RADIO,
-          true,
           false,
           [
             getTranslation(

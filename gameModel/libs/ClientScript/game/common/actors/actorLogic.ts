@@ -3,8 +3,13 @@ import { ActorId, TranslationKey } from '../baseTypes';
 import { isOnSite, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Actor, hierarchyLevels, InterventionRole, sortByHierarchyLevel } from './actor';
+import { getAllActors } from '../../../UIfacade/actorFacade';
 
 const translationCategory: keyof VariableClasses = 'mainSim-actors';
+
+export function getCasuActorId(): ActorId | undefined {
+  return getAllActors().find(actor => actor.Role === 'CASU')?.Uid;
+}
 
 export function getRoleShortTranslation(role: InterventionRole): string {
   const key: TranslationKey = `actor-${role.toLowerCase()}`;

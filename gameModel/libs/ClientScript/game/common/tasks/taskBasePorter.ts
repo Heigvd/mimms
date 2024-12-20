@@ -6,6 +6,7 @@ import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
 import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -190,11 +191,11 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         new AddRadioMessageLocalEvent(
           0,
           state.getSimTime(),
-          0,
-          'resources',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          undefined,
           this.getFeedbackIfNoTargetLocation(),
           ActionType.RESOURCES_RADIO,
-          true,
           true
         )
       );

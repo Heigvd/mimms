@@ -23,6 +23,7 @@ import {
 } from './resourceContainer';
 import { ResourceType } from './resourceType';
 import { ActionType } from '../actionType';
+import { getCasuActorId } from '../actors/actorLogic';
 
 const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
@@ -259,7 +260,6 @@ export function resolveResourceRequest(
         const evt = new ResourceMobilizationEvent(
           globalEventId,
           now,
-          senderId,
           departureTime,
           c.travelTime,
           definition.uid,
@@ -298,11 +298,11 @@ function queueResourceDepartureRadioMessageEvents(
     const evt = new AddRadioMessageLocalEvent(
       globalEventId,
       dtime,
+      getCasuActorId(),
+      undefined,
       senderId,
-      'CASU',
       msgs.join('\n'),
       ActionType.CASU_RADIO,
-      true,
       true
     );
     localEventManager.queueLocalEvent(evt);

@@ -11,7 +11,7 @@ import { ActionTemplateId, ActorId, SimDuration, SimTime, TaskId, TemplateId } f
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { InterventionRole } from '../actors/actor';
-import { ActionType } from '../actionType';
+import { RadioType } from '../actionType';
 import { GameOptions } from '../gameOptions';
 import { CommMedia } from '../resources/resourceReachLogic';
 
@@ -197,7 +197,7 @@ export type TimedEventPayload = TimedPayload & EventPayload;
 
 export interface DashboardRadioMessageEvent extends BaseEvent, TimedPayload {
   type: 'DashboardRadioMessageEvent';
-  canal: ActionType;
+  canal: RadioType;
   message: string;
 }
 

@@ -30,6 +30,7 @@ import {
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import {
+  AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
@@ -352,14 +353,13 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
             // notify!
             const ownerId = event.payload.emitterCharacterId as ActorId;
             localEventManager.queueLocalEvent(
-              new AddRadioMessageLocalEvent(
+              new AddNotificationLocalEvent(
                 event.id,
                 getCurrentState().getSimTime(),
+                undefined,
+                undefined,
                 ownerId,
-                'SYSTEM',
                 getTranslation('mainSim-interface', 'notification-concurrent-stop'),
-                ActionType.ACTION,
-                false,
                 true
               )
             );
@@ -435,11 +435,11 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       const radioMessageEvent = new AddRadioMessageLocalEvent(
         event.id,
         event.payload.triggerTime,
-        0,
+        undefined,
         trainerName,
+        undefined,
         event.payload.message,
         event.payload.canal,
-        true,
         true
       );
       localEventManager.queueLocalEvent(radioMessageEvent);
@@ -452,14 +452,13 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       payload.roles.forEach(role => {
         const actorId = currentSimulationState.getAllActors().find(a => a.Role === role)?.Uid;
         if (actorId) {
-          const notificationMessageEvent = new AddRadioMessageLocalEvent(
+          const notificationMessageEvent = new AddNotificationLocalEvent(
             event.id,
             payload.triggerTime,
-            actorId,
+            undefined,
             trainerName,
+            actorId,
             payload.message,
-            ActionType.ACTION,
-            false,
             true
           );
           localEventManager.queueLocalEvent(notificationMessageEvent);

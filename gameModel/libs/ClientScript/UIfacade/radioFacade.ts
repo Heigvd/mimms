@@ -76,6 +76,28 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
 // message display
 // -------------------------------------------------------------------------------------------------
 
+export function getSender(message: RadioMessage): string | undefined {
+  if (Context.item.senderId === getTypedInterfaceState().currentActorUid) {
+    return undefined;
+  }
+
+  const sender = getCurrentState().getActorById(message.senderId);
+  if (sender) {
+    return sender.ShortName;
+  }
+
+  return undefined;
+}
+
+export function getRecipient(message: RadioMessage): string | undefined {
+  const recipient = getCurrentState().getActorById(message.recipientId);
+  if (recipient) {
+    return recipient.ShortName;
+  }
+
+  return undefined;
+}
+
 /**
  * Get notification time in HH:MM format
  *
@@ -113,8 +135,8 @@ export function getAllRadioMessages(): RadioMessage[] {
 /**
  * Get notifications for given recipientId
  */
-export function getNotifications(id: number): RadioMessage[] {
-  return getAllRadioMessages().filter(m => m.recipientId === id && !m.isRadioMessage);
+export function getNotifications(actorId: number): RadioMessage[] {
+  return getAllRadioMessages().filter(m => m.recipientId === actorId && !m.isRadioMessage);
 }
 
 /**
@@ -252,9 +274,10 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
   channel: ActionType
 ): RadioMessage[] {
   return getOngoingRadioMessagesOnChannel(channel).map(rm => ({
-    recipientId: rm.getRecipient(),
+    senderId: rm.getSenderId(),
+    senderName: undefined /* TODO see if we use that */,
+    recipientId: rm.getRecipientId(),
     timeStamp: getCurrentState().getSimTime(),
-    emitter: rm.getEmitter(),
     message: rm.getMessage(),
     uid: rm.getEventId(),
     channel: rm.getChannel(),

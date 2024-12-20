@@ -38,14 +38,6 @@
                       "type" : "Text"
                     } ],
                     "className" : "aNotification",
-                    "computedAttributes" : [ {
-                      "attrName" : "sender-role",
-                      "attrValue" : {
-                        "@class" : "Script",
-                        "content" : "Context.item.emitter;",
-                        "language" : "TypeScript"
-                      }
-                    } ],
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Outside",
                       "className" : "aMessage-animation",

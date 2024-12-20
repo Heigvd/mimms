@@ -14,6 +14,7 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { doPatientAutomaticTriage } from '../patients/pretriage';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -104,8 +105,9 @@ export class PreTriageTask extends TaskBase {
         new AddRadioMessageLocalEvent(
           0,
           state.getSimTime(),
-          0,
-          'resources',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          undefined,
           formatStandardPretriageReport(
             state,
             this.locationSource,
@@ -114,7 +116,6 @@ export class PreTriageTask extends TaskBase {
             false
           ),
           ActionType.RESOURCES_RADIO,
-          false,
           true
         )
       );

@@ -33,3 +33,7 @@ export function getRadioChannels(): Record<RadioType, RadioChannel> {
     },
   };
 }
+
+export function getResourceAsSenderName(): string {
+  return getRadioTranslation('radio-sender-resource');
+}

@@ -1,4 +1,4 @@
-import { ActionType } from '../game/common/actionType';
+import { ActionType, RadioType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
 import { getSimStartDateTime } from '../gameInterface/main';
 import { MultiplayerMatrix } from '../multiplayer/multiplayerManager';
@@ -29,7 +29,7 @@ export interface DashboardUIState {
   locations: boolean;
   radio: {
     mode: 'radio' | 'notif';
-    channel: ActionType;
+    channel: RadioType;
     message: string;
     roles: Partial<Record<InterventionRole, boolean>>;
   };
