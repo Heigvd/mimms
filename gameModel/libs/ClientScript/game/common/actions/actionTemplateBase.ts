@@ -1094,7 +1094,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    readonly wentWrongMessageKey: TranslationKey,
+    readonly noResourceFailureMessageKey: TranslationKey,
+    readonly refusalFailureMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
     readonly typeOfResource: HumanResourceType[],
     flags?: SimFlag[],
@@ -1128,7 +1129,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.provideFlagsToState,
       this.actorRole,
       this.typeOfResource,
-      this.wentWrongMessageKey
+      this.noResourceFailureMessageKey,
+      this.refusalFailureMessageKey
     );
   }
 

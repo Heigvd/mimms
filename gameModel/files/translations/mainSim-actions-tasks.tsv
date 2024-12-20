@@ -73,6 +73,7 @@ appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA
 appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA	
 appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé	
 appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous	
+appoint-refusal-feedback	The resource has refused your orders	La resource a refusé votre ordre	
 situation-update-title	Situation update	Point de situation	
 situation-update-desc	You go out to make a situation update	Vous vous absentez pour faire un point de situation	
 situation-update-feedback	Situation update	Point de situation	

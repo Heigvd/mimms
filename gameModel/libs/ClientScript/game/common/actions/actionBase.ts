@@ -911,8 +911,9 @@ export class MoveActorAction extends StartEndAction {
 }
 
 export class AppointActorAction extends StartEndAction {
-  private location: LOCATION_ENUM | undefined = undefined;
-  private involvedResourceId: ResourceId | undefined = undefined;
+  private location: LOCATION_ENUM | undefined;
+  private compliantWithHierarchy: boolean;
+  private involvedResourceId: ResourceId | undefined;
 
   constructor(
     startTimeSec: SimTime,
@@ -925,7 +926,8 @@ export class AppointActorAction extends StartEndAction {
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
     readonly requiredResourceType: HumanResourceType[],
-    readonly failureMessageKey: TranslationKey
+    readonly noResourceFailureMessageKey: TranslationKey,
+    readonly refusalFailureMessageKey: TranslationKey
   ) {
     super(
       startTimeSec,
@@ -937,10 +939,16 @@ export class AppointActorAction extends StartEndAction {
       uuidTemplate,
       provideFlagsToState
     );
+
+    this.location = undefined;
+    this.compliantWithHierarchy = false;
+    this.involvedResourceId = undefined;
   }
 
   protected dispatchInitEvents(state: MainSimulationState): void {
     this.location = state.getActorById(this.ownerId)!.Location;
+
+    this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
 
     const matchingResources = ResourceState.getFreeWaitingResourcesByTypeAndLocation(
       state,
@@ -961,28 +969,51 @@ export class AppointActorAction extends StartEndAction {
         )
       );
     } else {
+      // if no resource is available, send directly a notification
       localEventManager.queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
           this.ownerId,
           state.getActorById(this.ownerId)?.ShortName || '',
-          this.failureMessageKey
+          this.noResourceFailureMessageKey
         )
       );
     }
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
-    if (this.involvedResourceId != undefined) {
-      localEventManager.queueLocalEvent(
-        new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
-      );
+    if (this.compliantWithHierarchy) {
+      if (this.involvedResourceId != undefined) {
+        localEventManager.queueLocalEvent(
+          new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
+        );
 
-      // no need to free the resource as long as it will be deleted
+        // no need to free the resource as long as it will be deleted
 
+        localEventManager.queueLocalEvent(
+          new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
+        );
+      }
+    } else {
+      // we free the resources so that they are available for other actions
+      if (this.involvedResourceId != undefined) {
+        localEventManager.queueLocalEvent(
+          new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
+            this.involvedResourceId,
+          ])
+        );
+      }
+
+      // Resources refused the order due to hierarchy conflict
       localEventManager.queueLocalEvent(
-        new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          this.ownerId,
+          getCurrentState().getActorById(this.ownerId)?.ShortName || '',
+          this.refusalFailureMessageKey
+        )
       );
     }
   }
