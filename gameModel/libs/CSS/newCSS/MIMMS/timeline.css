@@ -2,6 +2,7 @@
 .timeline-container {
 	position: absolute;
 	height: auto;
+  max-width: calc(100% - 360px);
   padding: 0px;
 	bottom: 0px;
 	right: 0px;

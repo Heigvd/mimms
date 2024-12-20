@@ -60,9 +60,7 @@
         "className" : "noPadding noMargin",
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
-        "layoutStyle" : {
-          "maxWidth" : "25vw"
-        },
+        "layoutStyle" : { },
         "name" : "tasksButtons",
         "style" : { }
       },
@@ -172,7 +170,7 @@
                   "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {

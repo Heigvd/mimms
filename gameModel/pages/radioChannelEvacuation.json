@@ -10,9 +10,13 @@
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "height" : "100%"
+        },
         "name" : "output messages",
-        "style" : { }
+        "style" : {
+          "height" : "100%"
+        }
       },
       "type" : "PageLoader"
     }, {
@@ -1071,7 +1075,7 @@
         },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : {
-          "height" : "100%",
+          "height" : "auto",
           "width" : "100%"
         },
         "name" : "Evacuation form",
@@ -1089,7 +1093,9 @@
       "width" : "100%"
     },
     "name" : "messagePanel",
-    "style" : { }
+    "style" : {
+      "height" : "100%"
+    }
   },
   "type" : "FlexList"
 }
