@@ -39,7 +39,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -98,7 +98,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -157,7 +157,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -216,7 +216,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -275,7 +275,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -334,7 +334,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -432,7 +432,7 @@
                 "itemKey" : "type",
                 "layout" : { },
                 "layoutStyle" : {
-                  "marginTop" : "7px"
+                  "padding" : "0 5px 5px 5px"
                 },
                 "style" : {
                   "flexWrap" : "wrap",
@@ -514,7 +514,7 @@
                 "itemKey" : "type",
                 "layout" : { },
                 "layoutStyle" : {
-                  "marginTop" : "7px"
+                  "padding" : "0 5px 5px 5px"
                 },
                 "style" : {
                   "flexWrap" : "wrap",
@@ -541,7 +541,9 @@
               "props" : {
                 "className" : "mimms_h3title",
                 "layoutClassName" : "",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "padding" : "5px 0 5px 0"
+                },
                 "name" : "letterR",
                 "style" : { },
                 "text" : {
@@ -584,7 +586,9 @@
                 "itemKey" : "value",
                 "layout" : { },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "margin-left" : "-5px"
+                },
                 "style" : { }
               },
               "type" : "For each"
@@ -622,7 +626,10 @@
                   "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates().CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : { },
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "padding" : "5px 0 5px 0"
+                },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
@@ -645,9 +652,14 @@
               "justifyContent" : "flex-end"
             },
             "layoutClassName" : "",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "5px 0 0 0",
+              "width" : "100%"
+            },
             "name" : "button send",
-            "style" : { }
+            "style" : {
+              "width" : "100%"
+            }
           },
           "type" : "FlexList"
         } ],
@@ -656,7 +668,10 @@
           "flexDirection" : "column",
           "justifyContent" : "flex-start"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "5px 0 0 0"
+        },
         "name" : "",
         "style" : { }
       },

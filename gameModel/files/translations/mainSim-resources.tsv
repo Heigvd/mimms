@@ -38,3 +38,13 @@ resources	Resources	Ressources
 driver	Driver	Conducteur
 healer	Healer	Soignant(s)
 comeback	Come back to site after evacuation	Revenir sur site après transport
+select-current-location	Select your current location	Sélectionnez votre lieu actuel
+select-target-location	Choose a destination location	Choisissez un lieu de destination
+select-current-activity	Select your current task	Sélectionnez votre tâche actuelle
+select-target-activity	Choose a task	Choisissez une tâche
+select-target-activity-empty	Select a location before choosing a task	Sélectionnez un lieu avant de choisir une tâche
+select-evacuation-patient	Choose a patient	Choisissez un patient
+select-evacuation-patient-empty	Patients have to be at the AMP before evacuation	Les patients doivent être au PMA avant d'être évacués
+select-evacuation-destination-hospital	Choose a hospital	Choisissez un hôpital
+select-evacuation-destination-unit	Choose a unit	Choisissez un service
+select-evacuation-destination-unit-empty	Select a hospital before choosing a unit	Sélectionnez un hôpital avant de choisir un service

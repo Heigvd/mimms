@@ -25,8 +25,13 @@
 }
 
 .methane-letter-container{
+  padding: 5px 5px 5px 0;
 	font-weight: var(--boldWeight);
 	color: var(--primary_base);
+}
+
+.methane-letter-container p {
+  margin: 6px 0 4px 0;
 }
 
 .methane-letter-container > .methane-letter > p {
@@ -38,7 +43,7 @@
 }
 
 .methane-letter-input {
-	padding-left: 15px;
+	padding: 5px 0 5px 15px;
 	width: 100%;
 }
 

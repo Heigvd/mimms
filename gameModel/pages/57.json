@@ -217,11 +217,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

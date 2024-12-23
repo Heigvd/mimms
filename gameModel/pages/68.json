@@ -17,7 +17,9 @@
               "language" : "TypeScript"
             },
             "layoutClassName" : "rectangleButton-container",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "5px 5px 0 0"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -44,7 +46,9 @@
               "language" : "TypeScript"
             },
             "layoutClassName" : "rectangleButton-container",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "5px 0 0 5px"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -78,6 +82,7 @@
           "content" : "\"67\"",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "resources Management",
         "style" : { }
@@ -121,6 +126,11 @@
                     "content" : "\"pretriageReportRequestLocation\"",
                     "language" : "TypeScript"
                   }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-target-location')",
+                  "language" : "TypeScript"
                 },
                 "script" : {
                   "@class" : "Script",
@@ -187,6 +197,7 @@
             "layout" : {
               "justifyContent" : "flex-end"
             },
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "name" : "button",
             "style" : { }

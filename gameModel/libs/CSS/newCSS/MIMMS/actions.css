@@ -8,10 +8,16 @@
 	animation-duration: 2s ease-out;
 }
 
+.action-container {
+  height: auto;
+  padding: 5px 0 5px 0;
+  animation-duration: 2s ease-out;
+}
+
 .actionHeader{
 	background-color: var(--grey_10);
-	padding: 5px 10px ;
-	border-radius: var(--S_borderRadius);
+	padding: 10px 10px ;
+	border-radius: var(--XS_borderRadius);
 	font-size: var(--SM_text);
 	cursor: pointer;
 }

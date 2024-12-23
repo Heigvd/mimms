@@ -25,7 +25,8 @@
             "className" : "mimms_h2title",
             "layoutStyle" : {
               "flex-shrink" : "0",
-              "height" : "auto"
+              "height" : "auto",
+              "padding" : "5px 0"
             },
             "name" : "modalTitle",
             "style" : {
@@ -238,6 +239,7 @@
             "layoutStyle" : {
               "flex-shrink" : "0",
               "height" : "auto",
+              "margin" : "-5px -5px 0 -5px",
               "maxWidth" : "25vw"
             },
             "name" : "buttons",

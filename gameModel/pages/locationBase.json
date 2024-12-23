@@ -3,7 +3,7 @@
     "children" : [ {
       "props" : {
         "className" : "mimms_h2title",
-        "layoutClassName" : "",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "Panel title",
         "style" : { },
