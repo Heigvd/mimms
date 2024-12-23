@@ -1,10 +1,10 @@
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { entries } from '../../../tools/helper';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
-import { getCurrentState } from '../../mainSimulationLogic';
 import { ActionType, RadioType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
+import { getCasuActorId } from '../actors/actorLogic';
 import {
   ActionId,
   ActionTemplateId,
@@ -38,6 +38,8 @@ import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
   AddActorLocalEvent,
   AddFixedEntityLocalEvent,
+  AddMessageLocalEvent,
+  AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
@@ -56,6 +58,8 @@ import {
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import * as RadioLogic from '../radio/radioLogic';
+import { getResourceAsSenderName } from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
@@ -257,13 +261,13 @@ export abstract class RadioDrivenAction extends StartEndAction {
     return this.eventId;
   }
 
-  public abstract getChannel(): ActionType | undefined;
+  public abstract getChannel(): RadioType;
 
   public abstract getMessage(): string;
 
-  public abstract getEmitter(): string;
+  public abstract getSenderId(): ActorId | undefined;
 
-  public abstract getRecipient(): number;
+  public abstract getRecipientId(): ActorId | undefined;
 }
 
 /**
@@ -279,8 +283,7 @@ export class DisplayMessageAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState?: SimFlag[],
-    readonly channel?: ActionType | undefined,
-    readonly isRadioMessage?: boolean
+    readonly channel?: ActionType | undefined
   ) {
     super(
       startTimeSec,
@@ -303,14 +306,14 @@ export class DisplayMessageAction extends StartEndAction {
     this.logger.info('end event DisplayMessageAction');
 
     localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
+      new AddMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.ownerId,
-        state.getActorById(this.ownerId)?.ShortName || '',
+        undefined,
+        undefined,
         this.messageKey,
-        this.channel,
-        this.isRadioMessage
+        this.channel
       )
     );
   }
@@ -346,11 +349,12 @@ export class OnTheRoadAction extends StartEndAction {
     actor.setLocation(actor.getComputedSymbolicLocation(state));
 
     localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
+      new AddNotificationLocalEvent(
         this.eventId,
         state.getSimTime(),
+        undefined,
+        undefined,
         this.ownerId,
-        'ACS',
         this.messageKey
       )
     );
@@ -442,11 +446,11 @@ export class CasuMessageAction extends RadioDrivenAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         now,
-        this.getRecipient(),
-        this.getEmitter(),
+        this.getSenderId(),
+        undefined,
+        this.getRecipientId(),
         this.getMessage(),
         this.getChannel(),
-        true,
         true
       )
     );
@@ -455,7 +459,7 @@ export class CasuMessageAction extends RadioDrivenAction {
         new HospitalRequestUpdateLocalEvent(
           this.eventId,
           now,
-          this.getRecipient(),
+          this.ownerId,
           this.casuMessagePayload
         )
       );
@@ -464,7 +468,7 @@ export class CasuMessageAction extends RadioDrivenAction {
       const dispatchEvent = new ResourceRequestResolutionLocalEvent(
         this.eventId,
         now,
-        state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId,
+        this.ownerId,
         this.casuMessagePayload
       );
       localEventManager.queueLocalEvent(dispatchEvent);
@@ -477,11 +481,7 @@ export class CasuMessageAction extends RadioDrivenAction {
           'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
         );
         localEventManager.queueLocalEvent(
-          new AutoSendACSMCSLocalEvent(
-            this.eventId,
-            now + ACSMCSAutoRequestDelay,
-            state.getAllActors().find(actor => actor.Role == 'CASU')?.Uid || this.ownerId
-          )
+          new AutoSendACSMCSLocalEvent(this.eventId, now + ACSMCSAutoRequestDelay)
         );
       }
     }
@@ -495,7 +495,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): RadioType {
     return ActionType.CASU_RADIO;
   }
 
@@ -507,13 +507,12 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  public getEmitter(): string {
-    if (this.casuMessagePayload.messageType === 'R') return 'CASU';
-    else return getCurrentState().getActorById(this.ownerId)?.FullName || '';
+  public getSenderId(): ActorId | undefined {
+    return this.ownerId;
   }
 
-  public getRecipient(): number {
-    return this.ownerId;
+  public getRecipientId(): ActorId | undefined {
+    return getCasuActorId();
   }
 }
 
@@ -529,7 +528,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     readonly unauthorizedReplyMessage: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    readonly channel: ActionType,
+    readonly channel: RadioType,
     provideFlagsToState?: SimFlag[]
   ) {
     super(
@@ -556,11 +555,11 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.getRecipient(),
-        this.getEmitter(),
+        this.getSenderId(),
+        undefined,
+        this.getRecipientId(),
         this.getMessage(),
         this.getChannel(),
-        true,
         true
       )
     );
@@ -573,11 +572,11 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          0, //this.ownerId,
-          'CASU',
+          getCasuActorId(),
+          undefined,
+          this.ownerId,
           this.authorizedReplyMessage,
-          this.channel,
-          true
+          this.channel
         )
       );
     } else {
@@ -585,11 +584,11 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          0, // this.ownerId,
-          'CASU',
+          getCasuActorId(),
+          undefined,
+          this.ownerId,
           this.unauthorizedReplyMessage,
-          this.channel,
-          true
+          this.channel
         )
       );
     }
@@ -600,7 +599,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     return;
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): RadioType {
     return this.channel;
   }
 
@@ -608,12 +607,12 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     return getTranslation('mainSim-actions-tasks', this.requestMessage);
   }
 
-  public getEmitter(): string {
-    return getCurrentState().getActorById(this.ownerId)?.ShortName || '';
+  public getSenderId(): ActorId | undefined {
+    return this.ownerId;
   }
 
-  public getRecipient(): number {
-    return this.ownerId;
+  public getRecipientId(): ActorId | undefined {
+    return getCasuActorId();
   }
 }
 
@@ -671,11 +670,12 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
       )
     );
     localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
+      new AddNotificationLocalEvent(
         this.eventId,
         state.getSimTime(),
+        undefined,
+        undefined,
         this.ownerId,
-        'AL',
         this.messageKey
       )
     );
@@ -887,15 +887,13 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     if (!canMoveToLocation(state, 'Actors', this.location)) {
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
+        new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
-          this.ownerId,
-          'ACS',
-          'move-actor-no-location',
           undefined,
-          false,
-          false
+          undefined,
+          this.ownerId,
+          'move-actor-no-location'
         )
       );
     } else {
@@ -971,11 +969,12 @@ export class AppointActorAction extends StartEndAction {
     } else {
       // if no resource is available, send directly a notification
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
+        new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
           this.ownerId,
-          state.getActorById(this.ownerId)?.ShortName || '',
           this.noResourceFailureMessageKey
         )
       );
@@ -1007,11 +1006,12 @@ export class AppointActorAction extends StartEndAction {
 
       // Resources refused the order due to hierarchy conflict
       localEventManager.queueLocalEvent(
-        new AddRadioMessageLocalEvent(
+        new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
           this.ownerId,
-          getCurrentState().getActorById(this.ownerId)?.ShortName || '',
           this.refusalFailureMessageKey
         )
       );
@@ -1167,11 +1167,11 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          this.getRecipient(),
-          this.getEmitter(),
+          this.getSenderId(),
+          undefined,
+          this.getRecipientId(),
           this.getMessage(),
           this.getChannel(),
-          true,
           true
         )
       );
@@ -1189,10 +1189,10 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
     if (!this.compliantWithHierarchy) {
       // Resources refused the order due to hierarchy conflict
-      this.sendMessage(state, 'move-res-task-refused');
+      this.sendFeedbackMessage(state, 'move-res-task-refused');
     } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
-      this.sendMessage(state, 'move-res-task-no-location');
+      this.sendFeedbackMessage(state, 'move-res-task-no-location');
     } else {
       if (!this.isSameLocation) {
         localEventManager.queueLocalEvent(
@@ -1234,40 +1234,47 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
 
       if (this.involvedResourcesId.length === 0) {
-        this.sendMessage(state, 'move-res-task-no-resource');
+        this.sendFeedbackMessage(state, 'move-res-task-no-resource');
       } else if (!isEnoughResources) {
-        this.sendMessage(state, 'move-res-task-not-enough-resources');
+        this.sendFeedbackMessage(state, 'move-res-task-not-enough-resources');
       } else {
-        this.sendMessage(state, this.messageKey);
+        this.sendFeedbackMessage(state, this.messageKey);
       }
     }
   }
 
-  private sendMessage(state: Readonly<MainSimulationState>, messageKey: string) {
-    const actionOwnerActor = state.getActorById(this.ownerId)!;
-    const channel: ActionType | undefined =
-      this.commMedia === CommMedia.Radio ? ActionType.RESOURCES_RADIO : undefined;
-    const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
-
+  private sendFeedbackMessage(state: Readonly<MainSimulationState>, messageKey: string) {
     // TODO Improve the way messages are handled => messageKey should be the translation prefix and then handle as may as needed with suffixes
 
-    localEventManager.queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        actionOwnerActor.Role as unknown as TranslationKey,
-        messageKey,
-        channel,
-        isRadioMessage
-      )
-    );
+    const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
+    if (isRadioMessage) {
+      localEventManager.queueLocalEvent(
+        new AddRadioMessageLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          undefined,
+          getResourceAsSenderName(),
+          this.ownerId,
+          messageKey,
+          ActionType.RESOURCES_RADIO
+        )
+      );
+    } else {
+      localEventManager.queueLocalEvent(
+        new AddNotificationLocalEvent(
+          this.eventId,
+          state.getSimTime(),
+          undefined,
+          getResourceAsSenderName(),
+          this.ownerId,
+          messageKey
+        )
+      );
+    }
   }
 
-  public getChannel(): ActionType | undefined {
-    return this.commMedia === CommMedia.Radio
-      ? ActionType.RESOURCES_RADIO
-      : undefined /* no message to send */;
+  public getChannel(): RadioType {
+    return ActionType.RESOURCES_RADIO;
   }
 
   public getMessage(): string {
@@ -1288,13 +1295,14 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     ]);
   }
 
-  public getEmitter(): string {
-    return getCurrentState().getActorById(this.ownerId)?.Role as unknown as TranslationKey;
-  }
-
-  public getRecipient(): number {
+  public getSenderId(): ActorId | undefined {
     return this.ownerId;
   }
+
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
+  }
+
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
     localEventManager.queueLocalEvent(
@@ -1313,7 +1321,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
  * The result of the action is to request state of pretriage in a specific location
  */
 export class RequestPretriageReportAction extends RadioDrivenAction {
-  private channel = ActionType.RESOURCES_RADIO;
+  private channel: RadioType = ActionType.RESOURCES_RADIO;
 
   constructor(
     startTimeSec: SimTime,
@@ -1347,11 +1355,11 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.getRecipient(),
-        this.getEmitter(),
+        this.getSenderId(),
+        undefined,
+        this.getRecipientId(),
         this.getMessage(),
         this.getChannel(),
-        true,
         true
       )
     );
@@ -1360,8 +1368,8 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
       new PretriageReportResponseLocalEvent(
         this.eventId,
         state.getSimTime() + PretriageReportResponseDelay,
-        'D424',
-        0,
+        RadioLogic.getResourceAsSenderName(),
+        this.ownerId,
         this.pretriageLocation,
         this.feedbackWhenReport
       )
@@ -1379,7 +1387,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     ]);
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): RadioType {
     return this.channel;
   }
 
@@ -1387,12 +1395,12 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     return this.formatStartMessage();
   }
 
-  public getEmitter(): string {
-    return getCurrentState().getActorById(this.ownerId)!.FullName;
+  public getSenderId(): ActorId | undefined {
+    return this.ownerId;
   }
 
-  public getRecipient(): number {
-    return this.ownerId;
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
   }
 }
 
@@ -1425,11 +1433,11 @@ export class SendRadioMessageAction extends RadioDrivenAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.radioMessagePayload.actorId,
-        state.getActorById(this.radioMessagePayload.actorId)?.FullName || '',
-        this.radioMessagePayload.message,
-        this.radioChannel,
-        true,
+        this.getSenderId(),
+        undefined,
+        this.getRecipientId(),
+        this.getMessage(),
+        this.getChannel(),
         true
       )
     );
@@ -1444,7 +1452,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     return this.radioMessagePayload;
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): RadioType {
     return this.radioChannel;
   }
 
@@ -1452,12 +1460,12 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     return this.radioMessagePayload.message;
   }
 
-  public getEmitter(): string {
-    return getCurrentState().getActorById(this.radioMessagePayload.actorId)?.FullName || '';
+  public getSenderId(): ActorId | undefined {
+    return this.radioMessagePayload.actorId;
   }
 
-  public getRecipient(): number {
-    return this.radioMessagePayload.actorId;
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
   }
 }
 
@@ -1556,11 +1564,11 @@ export class EvacuationAction extends RadioDrivenAction {
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
-        this.getRecipient(),
-        this.getEmitter(),
+        this.getSenderId(),
+        undefined,
+        this.getRecipientId(),
         this.getMessage(),
         this.getChannel(),
-        true,
         true
       )
     );
@@ -1571,11 +1579,11 @@ export class EvacuationAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          0,
-          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          this.ownerId,
           this.msgEvacuationRefused,
-          this.getChannel(),
-          true
+          this.getChannel()
         )
       );
     } else if (!this.isEnoughResources) {
@@ -1583,11 +1591,11 @@ export class EvacuationAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          0,
-          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          this.ownerId,
           this.msgEvacuationAbort,
-          this.getChannel(),
-          true
+          this.getChannel()
         )
       );
     } else {
@@ -1621,11 +1629,11 @@ export class EvacuationAction extends RadioDrivenAction {
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
-          0,
-          getCurrentState().getActorById(this.ownerId)?.FullName || '',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          this.ownerId,
           this.feedbackWhenStarted,
-          this.getChannel(),
-          true
+          this.getChannel()
         )
       );
     }
@@ -1665,7 +1673,7 @@ export class EvacuationAction extends RadioDrivenAction {
     ]);
   }
 
-  public getChannel(): ActionType {
+  public getChannel(): RadioType {
     return ActionType.EVASAN_RADIO;
   }
 
@@ -1673,12 +1681,12 @@ export class EvacuationAction extends RadioDrivenAction {
     return this.formatRequestMessage(this.evacuationActionPayload);
   }
 
-  public getEmitter(): string {
-    return getCurrentState().getActorById(this.ownerId)?.FullName || '';
+  public getSenderId(): ActorId | undefined {
+    return this.ownerId;
   }
 
-  public getRecipient(): number {
-    return this.ownerId;
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
   }
 }
 

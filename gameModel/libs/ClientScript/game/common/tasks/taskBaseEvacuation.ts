@@ -1,4 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
+import { getTranslation } from '../../../tools/translation';
+import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import {
   ActorId,
@@ -8,11 +10,9 @@ import {
   ResourceId,
   TranslationKey,
 } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskBase, TaskType } from './taskBase';
-import { EvacuationSubTask } from './subTask';
-import { localEventManager } from '../localEvents/localEventManager';
+import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
+import { formatTravelTimeToMinutes } from '../evacuation/hospitalController';
+import { PatientUnitTypology } from '../evacuation/hospitalType';
 import {
   AddRadioMessageLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
@@ -20,11 +20,12 @@ import {
   MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
-import { PatientUnitTypology } from '../evacuation/hospitalType';
-import { ActionType } from '../actionType';
-import { getTranslation } from '../../../tools/translation';
-import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
-import { formatTravelTimeToMinutes } from '../evacuation/hospitalController';
+import { localEventManager } from '../localEvents/localEventManager';
+import * as RadioLogic from '../radio/radioLogic';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { EvacuationSubTask } from './subTask';
+import { TaskBase, TaskType } from './taskBase';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task
@@ -169,11 +170,11 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         new AddRadioMessageLocalEvent(
           subTask.parentEventId,
           state.getSimTime(),
-          0,
-          '0',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          undefined,
           subTask.feedbackWhenReturning,
           ActionType.CASU_RADIO,
-          true,
           false,
           [
             getTranslation(

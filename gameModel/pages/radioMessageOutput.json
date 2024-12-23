@@ -6,35 +6,63 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "emitter-text-header-layout",
+                "children" : [ {
+                  "props" : {
+                    "className" : "radio-message-time",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getNotificationTime } from \"./UIfacade/radioFacade\";\nimport { getTranslation } from \"./tools/translation\";\nif (Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "radio-message-recipient-sender",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getRecipientSenderInfo } from \"./UIfacade/radioFacade\";\n  getRecipientSenderInfo(Context.item);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "radio-message-header noPadding",
                 "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getNotificationTime } from \"./UIfacade/radioFacade\";\nimport { getTranslation } from \"./tools/translation\";\nif (Context.item.pending) {\n  const translation = getTranslation('mainSim-interface', 'msg-now');\n  return translation;\n}\ngetNotificationTime(Context.item.timeStamp);",
-                  "language" : "TypeScript"
-                }
+                "name" : "header",
+                "style" : { }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "emitter-text-body-layout",
+                "className" : "radio-message-body-layout",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.recipientId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n    }\n  getTranslation('mainSim-interface', 'incoming-message');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  if (!Context.item.pending || Context.item.pending && Context.item.senderId === Context.interfaceState.state.currentActorUid) {\n    return `<p>${Context.item.message.replace(/\\n/g, '<br/>')}</p>`;\n    }\n  getTranslation('mainSim-interface', 'incoming-message');",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             } ],
+            "className" : "",
             "conditionnalClassNames" : [ {
               "applyOn" : "Outside",
               "className" : "radio-message-others tri-right left-top",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nContext.item.recipientId !== getTypedInterfaceState().currentActorUid;",
+                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nContext.item.senderId !== getTypedInterfaceState().currentActorUid;",
                 "language" : "typescript"
               }
             }, {
@@ -42,7 +70,7 @@
               "className" : "radio-message-myself tri-right right-top",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nContext.item.recipientId === getTypedInterfaceState().currentActorUid;",
+                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nContext.item.senderId === getTypedInterfaceState().currentActorUid;",
                 "language" : "typescript"
               }
             }, {
@@ -70,6 +98,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "radio-message",
             "layoutStyle" : { },
             "style" : { }
           },

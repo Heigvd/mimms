@@ -1,11 +1,14 @@
+import { getTranslation } from '../../../tools/translation';
 import { ActionType, RadioType } from '../actionType';
 import { TranslationKey } from '../baseTypes';
-import { getTranslation } from '../../../tools/translation';
 
 const translationCategory: keyof VariableClasses = 'mainSim-radio';
 
-export function getRadioTranslation(translationKey: TranslationKey): string {
-  return getTranslation(translationCategory, translationKey);
+export function getRadioTranslation(
+  translationKey: TranslationKey,
+  upperCaseFirstLetter?: boolean
+): string {
+  return getTranslation(translationCategory, translationKey, upperCaseFirstLetter);
 }
 
 export interface RadioChannel {
@@ -32,4 +35,12 @@ export function getRadioChannels(): Record<RadioType, RadioChannel> {
       translationKey: 'radio-channel-evacuation',
     },
   };
+}
+
+export function getResourceAsSenderName(): string {
+  return getRadioTranslation('radio-sender-resources', false);
+}
+
+export function getResourceAsRecipientName(): string {
+  return getRadioTranslation('radio-recipient-resources', false);
 }

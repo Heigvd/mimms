@@ -10,6 +10,7 @@ import {
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import * as ResourceReachLogic from '../resources/resourceReachLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
@@ -312,10 +313,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       .map(subTask => subTask.patientId!);
   }
 
-  protected finaliseTask(
-    state: Readonly<MainSimulationState>,
-    feedbackRadioMessage: TranslationKey
-  ) {
+  protected finaliseTask(state: Readonly<MainSimulationState>, feedbackRadioMessage: string) {
     localEventManager.queueLocalEvent(
       new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
     );
@@ -329,11 +327,11 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       new AddRadioMessageLocalEvent(
         0,
         state.getSimTime(),
-        0,
-        'resources',
-        feedbackRadioMessage || 'TODO add task feedback',
-        ActionType.RESOURCES_RADIO,
         undefined,
+        RadioLogic.getResourceAsSenderName(),
+        undefined,
+        feedbackRadioMessage,
+        ActionType.RESOURCES_RADIO,
         true
       )
     );

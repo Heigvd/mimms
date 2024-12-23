@@ -1,8 +1,8 @@
-import { SimDuration } from '../baseTypes';
+import { ActorId, SimDuration } from '../baseTypes';
 import { ActionCreationEvent } from './eventTypes';
 
 export interface RadioMessagePayload {
-  actorId: number; // the emitter
+  actorId: ActorId | undefined; // the sender
   message: string;
 }
 

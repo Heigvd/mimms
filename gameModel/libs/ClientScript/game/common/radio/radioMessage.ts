@@ -3,9 +3,10 @@ import { ActorId, SimTime } from '../baseTypes';
 
 // immutable
 export interface RadioMessage {
-  recipientId: Readonly<ActorId>;
+  senderId: Readonly<ActorId> | undefined;
+  senderName: Readonly<string> | undefined;
+  recipientId: Readonly<ActorId> | undefined;
   timeStamp: Readonly<SimTime>;
-  emitter: Readonly<string>;
   message: Readonly<string>;
   uid: number;
   isRadioMessage: boolean;

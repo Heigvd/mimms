@@ -14,6 +14,7 @@ import {
 } from '../gameInterface/interfaceState';
 import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
+import { getTranslation } from '../tools/translation';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
 
@@ -76,6 +77,41 @@ export function showActionParamsPanel(action: CasuChannelAction): string {
 // message display
 // -------------------------------------------------------------------------------------------------
 
+export function getRecipientSenderInfo(message: RadioMessage): string | undefined {
+  const senderActor = getSender(message);
+  const senderName = message.senderName;
+  const sender = senderActor ?? senderName;
+
+  const recipient = getRecipient(message);
+
+  if (sender != undefined) {
+    return getTranslation('mainSim-radio', 'radio-recipient-from-sender', true, [
+      recipient ?? '',
+      sender,
+    ]);
+  } else {
+    return recipient;
+  }
+}
+
+function getSender(message: RadioMessage): string | undefined {
+  const sender = getCurrentState().getActorById(message.senderId);
+  if (sender) {
+    return sender.ShortName;
+  }
+
+  return undefined;
+}
+
+function getRecipient(message: RadioMessage): string | undefined {
+  const recipient = getCurrentState().getActorById(message.recipientId);
+  if (recipient) {
+    return recipient.ShortName;
+  }
+
+  return undefined;
+}
+
 /**
  * Get notification time in HH:MM format
  *
@@ -113,8 +149,8 @@ export function getAllRadioMessages(): RadioMessage[] {
 /**
  * Get notifications for given recipientId
  */
-export function getNotifications(id: number): RadioMessage[] {
-  return getAllRadioMessages().filter(m => m.recipientId === id && !m.isRadioMessage);
+export function getNotifications(actorId: number): RadioMessage[] {
+  return getAllRadioMessages().filter(m => m.recipientId === actorId && !m.isRadioMessage);
 }
 
 /**
@@ -252,9 +288,10 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
   channel: ActionType
 ): RadioMessage[] {
   return getOngoingRadioMessagesOnChannel(channel).map(rm => ({
-    recipientId: rm.getRecipient(),
+    senderId: rm.getSenderId(),
+    senderName: undefined,
+    recipientId: rm.getRecipientId(),
     timeStamp: getCurrentState().getSimTime(),
-    emitter: rm.getEmitter(),
     message: rm.getMessage(),
     uid: rm.getEventId(),
     channel: rm.getChannel(),
