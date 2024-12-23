@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1733156982744,
+  "createdTime" : 1734531768043,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7123,7 +7123,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MainSimulation",
+  "name" : "MIMMS v6.0.0 Release",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

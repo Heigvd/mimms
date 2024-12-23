@@ -372,7 +372,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "localState" : false,
+            "localState" : true,
             "style" : { }
           },
           "type" : "State"
