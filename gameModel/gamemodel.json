@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1734531768043,
+  "createdTime" : 1734969116403,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4992,10 +4992,10 @@
         "defaultInstance" : {
           "@class" : "ObjectInstance",
           "properties" : {
-            "ACTORS_RADIO" : "0",
-            "CASU_RADIO" : "0",
-            "EVASAN_RADIO" : "0",
-            "RESOURCES_RADIO" : "0"
+            "ACTORS" : "0",
+            "CASU" : "0",
+            "EVASAN" : "0",
+            "RESOURCES" : "0"
           },
           "refId" : "ObjectInstance:128841:CZFLIG"
         },
@@ -5857,6 +5857,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:210050:57L6Fo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/radio/communicationType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1274564:ljksPB",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7120,7 +7129,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS v6.0.0 Release",
+  "name" : "MIM-301-299 + communicationType",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

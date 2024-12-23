@@ -2,7 +2,6 @@ import { entries } from '../../../tools/helper';
 import { resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { SimFlag } from '../actions/actionTemplateBase';
-import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import { getCasuActorId } from '../actors/actorLogic';
 import {
@@ -16,6 +15,7 @@ import {
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   buildContainerDefinition,
@@ -302,7 +302,7 @@ function queueResourceDepartureRadioMessageEvents(
       undefined,
       senderId,
       msgs.join('\n'),
-      ActionType.CASU_RADIO,
+      RadioType.CASU,
       true
     );
     localEventManager.queueLocalEvent(evt);

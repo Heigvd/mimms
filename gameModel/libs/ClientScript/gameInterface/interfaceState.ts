@@ -1,21 +1,21 @@
-import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
+import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
+import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { mainSimLogger } from '../tools/logger';
-import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
-import { SelectedPanel } from './selectedPanel';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
-import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
-import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
-import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { mainSimLogger } from '../tools/logger';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
+import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
+import { applyPendingCallbacks } from './afterUpdateCallbacks';
+import { SelectedPanel } from './selectedPanel';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
@@ -36,9 +36,9 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
-  selectedRadioChannel: ActionType;
+  selectedRadioChannel: RadioType;
   updatedChannelMessagesAt: number;
-  radioMessageInput: Partial<Record<ActionType, string>>;
+  radioMessageInput: Partial<Record<RadioType, string>>;
   selectedCASUChannelAction: CasuChannelAction;
   casuMessage: CasuMessage;
   resources: {
@@ -114,7 +114,7 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
-    selectedRadioChannel: ActionType.CASU_RADIO,
+    selectedRadioChannel: RadioType.CASU,
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
     selectedCASUChannelAction: undefined,

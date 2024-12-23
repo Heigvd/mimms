@@ -3,7 +3,6 @@ import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
-import { ActionType } from '../actionType';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
@@ -29,6 +28,7 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
@@ -388,7 +388,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
     public readonly senderName: string | undefined,
     public readonly recipientId: ActorId | undefined,
     public readonly message: TranslationKey,
-    public readonly channel: ActionType | undefined = undefined,
+    public readonly channel: RadioType | undefined = undefined,
     public readonly omitTranslation: boolean = false,
     public readonly messageValues: (string | number)[] = []
   ) {
@@ -422,7 +422,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
     public override readonly senderName: string | undefined,
     public override readonly recipientId: ActorId | undefined,
     public override readonly message: TranslationKey,
-    public override readonly channel: ActionType,
+    public override readonly channel: RadioType,
     public override readonly omitTranslation: boolean = false,
     public override readonly messageValues: (string | number)[] = []
   ) {
@@ -673,7 +673,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       this.squadName,
       undefined,
       message,
-      ActionType.CASU_RADIO,
+      RadioType.CASU,
       true
     );
   }
@@ -978,7 +978,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       undefined,
       this.senderId,
       this.formatHospitalResponse(this.hospitalRequestPayload),
-      ActionType.CASU_RADIO,
+      RadioType.CASU,
       true
     );
     localEventManager.queueLocalEvent(evt);
@@ -989,7 +989,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
 Pretriage Report calculations and radio response
 */
 export class PretriageReportResponseLocalEvent extends LocalEventBase {
-  private channel: ActionType = ActionType.RESOURCES_RADIO;
+  private channel: RadioType = RadioType.RESOURCES;
 
   constructor(
     parentEventId: GlobalEventId,

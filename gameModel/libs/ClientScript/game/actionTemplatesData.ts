@@ -25,6 +25,7 @@ import {
   PointGeometricalShape,
   PolygonGeometricalShape,
 } from './common/events/defineMapObjectEvent';
+import { RadioType } from './common/radio/communicationType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 
 export interface IUniqueActionTemplates {
@@ -117,7 +118,7 @@ export function initActionTemplates(): {
     'send-radio-desc',
     TimeSliceDuration,
     'send-radio-feedback',
-    ActionType.ACTORS_RADIO,
+    RadioType.ACTORS,
     true,
     ActionType.ACTORS_RADIO
   );
@@ -127,7 +128,7 @@ export function initActionTemplates(): {
     'send-radio-desc',
     TimeSliceDuration,
     'send-radio-feedback',
-    ActionType.CASU_RADIO,
+    RadioType.CASU,
     true,
     ActionType.CASU_RADIO
   );
@@ -355,7 +356,7 @@ export function initActionTemplates(): {
     [SimFlag.PMA_BUILT],
     [SimFlag.PMA_OPEN],
     ['LEADPMA'],
-    ActionType.RESOURCES_RADIO
+    RadioType.RESOURCES
   );
 
   const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
@@ -367,7 +368,7 @@ export function initActionTemplates(): {
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.ACS_MCS_ANNOUNCED],
     ['ACS', 'MCS'],
-    ActionType.CASU_RADIO
+    RadioType.CASU
   );
 
   const evasanArrivalAnnouncement = new DisplayMessageActionTemplate(
@@ -379,7 +380,7 @@ export function initActionTemplates(): {
     [SimFlag.EVASAN_ARRIVED],
     [SimFlag.EVASAN_ANNOUNCED],
     ['EVASAN'],
-    ActionType.EVASAN_RADIO
+    RadioType.EVASAN
   );
 
   const leadpmaArrivalAnnouncement = new DisplayMessageActionTemplate(
@@ -391,7 +392,7 @@ export function initActionTemplates(): {
     [SimFlag.LEADPMA_ARRIVED],
     [SimFlag.LEADPMA_ANNOUNCED],
     ['LEADPMA'],
-    ActionType.ACTORS_RADIO
+    RadioType.ACTORS
   );
 
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
@@ -402,7 +403,7 @@ export function initActionTemplates(): {
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
-    ActionType.CASU_RADIO,
+    RadioType.CASU,
     true
   );
 

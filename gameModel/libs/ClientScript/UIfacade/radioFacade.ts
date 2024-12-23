@@ -1,5 +1,5 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
-import { ActionType } from '../game/common/actionType';
+import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
 import { getRadioChannels as getInternalRadioChannels } from '../game/common/radio/radioLogic';
 import { RadioMessage } from '../game/common/radio/radioMessage';
 import {
@@ -26,8 +26,8 @@ export function getRadioChannels() {
   return getInternalRadioChannels();
 }
 
-export function isChannelHidden(channel: ActionType): boolean {
-  if (channel === ActionType.CASU_RADIO) {
+export function isChannelHidden(channel: RadioType): boolean {
+  if (channel === RadioType.CASU) {
     // never hide the CASU channel
     return false;
   }
@@ -39,14 +39,14 @@ export function isChannelHidden(channel: ActionType): boolean {
 /**
  * Get the current channel
  */
-export function getSelectedChannel(): ActionType {
+export function getSelectedChannel(): RadioType {
   return getTypedInterfaceState().selectedRadioChannel;
 }
 
 /**
  * Set the channel type to know which is the current
  */
-export function setSelectedChannel(channel: ActionType) {
+export function setSelectedChannel(channel: RadioType) {
   setInterfaceState({ selectedRadioChannel: channel });
 }
 
@@ -156,14 +156,14 @@ export function getNotifications(actorId: number): RadioMessage[] {
 /**
  * Get radio messages for given channel
  */
-export function getAvailableRadioMessagesForChannel(channel: ActionType): RadioMessage[] {
+export function getAvailableRadioMessagesForChannel(channel: RadioType): RadioMessage[] {
   return getAllRadioMessages().filter(m => m.channel === channel);
 }
 
 /**
  * Is the given messageUid the most recent for given channel
  */
-export function isLastRadioMessageForChannel(channel: ActionType, messageUid: number): boolean {
+export function isLastRadioMessageForChannel(channel: RadioType, messageUid: number): boolean {
   return getAvailableRadioMessagesForChannel(channel).slice(-1)[0]?.uid === messageUid;
 }
 
@@ -171,10 +171,10 @@ export function isLastRadioMessageForChannel(channel: ActionType, messageUid: nu
  * Update variable containing all radio messages that are read, by channel. Variable is readRadioMessagesByChannel
  */
 export async function updateReadMessages(
-  channel: ActionType,
+  channel: CommType,
   amount: number = 1
 ): Promise<IManagedResponse> {
-  const key = channel === ActionType.ACTION ? getActorNotificationChannelName() : String(channel);
+  const key = channel === NotifType.NOTIF ? getActorNotificationChannelName() : String(channel);
   return await APIMethods.runScript(
     `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${key}','${amount}');`,
     {}
@@ -185,15 +185,13 @@ export async function updateReadMessages(
  * In the case of notifications, each actor has his own personal 'channel'
  */
 function getActorNotificationChannelName(actorId: number | undefined = undefined): string {
-  return (
-    ActionType.ACTION + '-' + (actorId ? actorId : Context.interfaceState.state.currentActorUid)
-  );
+  return NotifType.NOTIF + (actorId ? actorId : Context.interfaceState.state.currentActorUid);
 }
 
 /**
  * Get unread radio messages, by channel
  */
-function getUnreadMessagesCount(channel: ActionType): number {
+function getUnreadMessagesCount(channel: RadioType): number {
   const readCount = +(
     Variable.find(gameModel, 'readRadioMessagesByChannel').getInstance(self).getProperties()[
       channel
@@ -214,15 +212,12 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
   if (Context.interfaceState.state.selectedPanel !== SelectedPanel.radios) {
     totalAmount = Object.entries(readMsgsProperties)
       .filter(([k, _]) =>
-        [
-          ActionType.ACTORS_RADIO,
-          ActionType.CASU_RADIO,
-          ActionType.EVASAN_RADIO,
-          ActionType.RESOURCES_RADIO,
-        ].includes(k as ActionType)
+        [RadioType.CASU, RadioType.ACTORS, RadioType.RESOURCES, RadioType.EVASAN].includes(
+          k as RadioType
+        )
       )
       .reduce((prev, [k, v]) => {
-        return prev + getAvailableRadioMessagesForChannel(String(k) as ActionType).length - +v;
+        return prev + getAvailableRadioMessagesForChannel(String(k) as RadioType).length - +v;
       }, 0);
   }
 
@@ -235,7 +230,7 @@ export function getAllUnreadMessagesCountBullet(): number | undefined {
 //hack, if ui is already displaying a channel, then we have to update immediately the count of read messages
 //but it is refreshed multiple times, so try to limit the amount of concurrent requests to the server with boolean global variable
 let updatingReadChannelRadioMessages = false;
-export function getUnreadMessagesCountBullet(channel: ActionType): number | undefined {
+export function getUnreadMessagesCountBullet(channel: RadioType): number | undefined {
   const unreadMsgs = getUnreadMessagesCount(channel);
   if (getSelectedChannel() !== channel) {
     return unreadMsgs > 0 ? unreadMsgs : undefined;
@@ -269,7 +264,7 @@ export function getUnreadNotificationsCount(): number {
 
 export function getOngoingRadioMessagesForActorOnChannel(
   actorUid: number,
-  channel: ActionType
+  channel: RadioType
 ): RadioDrivenAction[] {
   const rm: ActionBase[] = getOngoingActionsForActor(getCurrentState(), actorUid).filter(
     a => a instanceof RadioDrivenAction && (a as RadioDrivenAction).getChannel() === channel
@@ -277,7 +272,7 @@ export function getOngoingRadioMessagesForActorOnChannel(
   return rm as RadioDrivenAction[];
 }
 
-export function getOngoingRadioMessagesOnChannel(channel: ActionType): RadioDrivenAction[] {
+export function getOngoingRadioMessagesOnChannel(channel: RadioType): RadioDrivenAction[] {
   const rm: ActionBase[] = getOngoingActions(getCurrentState()).filter(
     a => a instanceof RadioDrivenAction && (a as RadioDrivenAction).getChannel() === channel
   );
@@ -285,7 +280,7 @@ export function getOngoingRadioMessagesOnChannel(channel: ActionType): RadioDriv
 }
 
 export function getOngoingRadioMessagesOnChannelAsRadioMessages(
-  channel: ActionType
+  channel: RadioType
 ): RadioMessage[] {
   return getOngoingRadioMessagesOnChannel(channel).map(rm => ({
     senderId: rm.getSenderId(),
@@ -300,7 +295,7 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
   }));
 }
 
-export function isChannelBusy(channel: ActionType): boolean {
+export function isChannelBusy(channel: RadioType): boolean {
   if (
     getOngoingRadioMessagesForActorOnChannel(Context.interfaceState.state.currentActorUid, channel)
       .length > 0

@@ -1,6 +1,5 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
-import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import {
   ActorId,
@@ -21,6 +20,7 @@ import {
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -174,7 +174,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
           RadioLogic.getResourceAsSenderName(),
           undefined,
           subTask.feedbackWhenReturning,
-          ActionType.CASU_RADIO,
+          RadioType.CASU,
           false,
           [
             getTranslation(

@@ -3,7 +3,6 @@
 // -------------------------------------------------------------------------------------------------
 
 import { taskLogger } from '../../../tools/logger';
-import { ActionType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
@@ -14,6 +13,7 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { doPatientAutomaticTriage } from '../patients/pretriage';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -115,7 +115,7 @@ export class PreTriageTask extends TaskBase {
             true,
             false
           ),
-          ActionType.RESOURCES_RADIO,
+          RadioType.RESOURCES,
           true
         )
       );

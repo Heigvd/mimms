@@ -1,7 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { Category } from '../../pretri/triage';
-import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
 import {
@@ -10,6 +9,7 @@ import {
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import * as ResourceReachLogic from '../resources/resourceReachLogic';
@@ -331,7 +331,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         RadioLogic.getResourceAsSenderName(),
         undefined,
         feedbackRadioMessage,
-        ActionType.RESOURCES_RADIO,
+        RadioType.RESOURCES,
         true
       )
     );

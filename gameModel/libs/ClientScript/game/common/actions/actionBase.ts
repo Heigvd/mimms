@@ -1,7 +1,6 @@
 import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { entries } from '../../../tools/helper';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
-import { ActionType, RadioType } from '../actionType';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -58,6 +57,7 @@ import {
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { getResourceAsSenderName } from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
@@ -283,7 +283,7 @@ export class DisplayMessageAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState?: SimFlag[],
-    readonly channel?: ActionType | undefined
+    readonly channel?: RadioType | undefined
   ) {
     super(
       startTimeSec,
@@ -496,7 +496,7 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   public getChannel(): RadioType {
-    return ActionType.CASU_RADIO;
+    return RadioType.CASU;
   }
 
   public getMessage(): string {
@@ -1256,7 +1256,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
           getResourceAsSenderName(),
           this.ownerId,
           messageKey,
-          ActionType.RESOURCES_RADIO
+          RadioType.RESOURCES
         )
       );
     } else {
@@ -1274,7 +1274,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   }
 
   public getChannel(): RadioType {
-    return ActionType.RESOURCES_RADIO;
+    return RadioType.RESOURCES;
   }
 
   public getMessage(): string {
@@ -1321,7 +1321,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
  * The result of the action is to request state of pretriage in a specific location
  */
 export class RequestPretriageReportAction extends RadioDrivenAction {
-  private channel: RadioType = ActionType.RESOURCES_RADIO;
+  private channel: RadioType = RadioType.RESOURCES;
 
   constructor(
     startTimeSec: SimTime,
@@ -1674,7 +1674,7 @@ export class EvacuationAction extends RadioDrivenAction {
   }
 
   public getChannel(): RadioType {
-    return ActionType.EVASAN_RADIO;
+    return RadioType.EVASAN;
   }
 
   public getMessage(): string {

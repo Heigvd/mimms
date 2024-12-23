@@ -11,7 +11,7 @@ import {
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
-import { ActionType } from '../game/common/actionType';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
@@ -25,13 +25,12 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -41,6 +40,7 @@ import {
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
+import { SelectedPanel } from './selectedPanel';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -69,10 +69,10 @@ export function runActionButton(action: ActionTemplateBase): void {
     params = fetchMoveResourcesAssignTaskValues();
   } else if (isCasuMessageActionTemplate(action)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(action, ActionType.CASU_RADIO)) {
-    params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
-  } else if (isRadioActionTemplate(action, ActionType.ACTORS_RADIO)) {
-    params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
+  } else if (isRadioActionTemplate(action, RadioType.CASU)) {
+    params = fetchRadioMessageRequestValues(RadioType.CASU);
+  } else if (isRadioActionTemplate(action, RadioType.ACTORS)) {
+    params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(action)) {
     params = fetchMoveActorLocation();
   } else if (isSituationUpdateActionTemplate(action)) {
@@ -233,7 +233,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
  *
  * @returns RadioMessagePayload
  */
-function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
+function fetchRadioMessageRequestValues(channel: RadioType): RadioMessagePayload {
   const res = {
     message: getTypedInterfaceState().radioMessageInput[channel] ?? '',
     actorId: getTypedInterfaceState().currentActorUid!,

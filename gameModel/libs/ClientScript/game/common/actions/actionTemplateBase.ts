@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { ActionType, RadioType } from '../actionType';
+import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActionTemplateId,
@@ -28,6 +28,7 @@ import {
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
+import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
@@ -288,7 +289,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    readonly channel?: ActionType | undefined
+    readonly channel?: RadioType | undefined
   ) {
     super(
       title,
@@ -407,7 +408,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.CASU_RADIO &&
+          (a as RadioDrivenAction).getChannel() === RadioType.CASU &&
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
@@ -493,7 +494,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
-          (a as RadioDrivenAction).getChannel() === ActionType.RESOURCES_RADIO &&
+          (a as RadioDrivenAction).getChannel() === RadioType.RESOURCES &&
           (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
