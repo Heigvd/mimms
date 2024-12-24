@@ -109,7 +109,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\n\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
+                  "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "resourcesDropdowns",
@@ -118,7 +118,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "\n const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.resourcesManagement.pretriageReportRequestLocation = Context.pretriageReportRequestLocation;\n Context.interfaceState.setState(newState);",
+                    "content" : "import { setReportLocationRequest } from \"./UIfacade/resourceFacade\";\n\nsetReportLocationRequest(Context.pretriageReportRequestLocation);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -134,7 +134,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation || '';",
+                  "content" : "import { getReportLocationRequest } from \"./UIfacade/resourceFacade\";\ngetReportLocationRequest() || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -185,7 +185,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates().PretriageReportTemplate);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n\nrunActionButton(uniqueActionTemplates().PretriageReportTemplate);",
                     "language" : "TypeScript"
                   }
                 },
@@ -204,7 +204,7 @@
           },
           "type" : "FlexList"
         } ],
-        "className" : "noPadding noMargin",
+        "className" : "",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nContext.interfaceState.state.resourcesManagement.activityType !== ResourcesManagementActivityType.requestReport;",
@@ -213,7 +213,7 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "width" : "100%"
         },

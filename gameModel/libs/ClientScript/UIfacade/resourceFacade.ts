@@ -8,6 +8,7 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
+import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { canViewLocation } from '../gameMap/mapEntities';
@@ -137,14 +138,25 @@ export function isOrderValidationDisabled(): boolean {
   return nbResourcesRequested === 0;
 }
 
+// used in page 68
+export function setReportLocationRequest(location: LOCATION_ENUM | undefined): void {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resourcesManagement.pretriageReportRequestLocation = location;
+  Context.interfaceState.setState(newState);
+}
+
+// used in page 68
+export function getReportLocationRequest(): LOCATION_ENUM | undefined {
+  return getTypedInterfaceState().resourcesManagement.pretriageReportRequestLocation;
+}
+
+// used in page 68
 export function isPretriageReportRequestDisabled(): boolean {
   if (!canPlanAction()) {
     // to be able to cancel the action
     return false;
   }
-  return (
-    Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation === undefined
-  );
+  return getReportLocationRequest() === undefined;
 }
 
 // used in page 43
