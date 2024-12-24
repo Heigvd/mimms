@@ -53,7 +53,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n/*selected !== \"METHANE\" && selected !== \"MET\";*/\n!selected.startsWith('MET');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().startsWith('MET');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -112,7 +112,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().startsWith('MET');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -171,7 +171,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.startsWith('MET');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().startsWith('MET');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -230,7 +230,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('HANE');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -289,7 +289,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('HANE');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -348,7 +348,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('HANE');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('HANE');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -525,7 +525,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('E');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('E');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -595,7 +595,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const selected = Context.interfaceState.state.casuMessage.messageType;\n!selected.endsWith('R');",
+              "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('R');",
               "language" : "typescript"
             },
             "layout" : {

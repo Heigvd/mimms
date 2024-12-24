@@ -215,7 +215,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.resources.requestedResources = getEmptyResourceRequest();
     newState.casuMessage = {
-      messageType: '',
+      messageType: newState.casuMessage.messageType,
       major: '',
       exact: '',
       incidentType: '',

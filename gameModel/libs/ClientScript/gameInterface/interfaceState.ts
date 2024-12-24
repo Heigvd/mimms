@@ -22,7 +22,7 @@ export enum ResourcesManagementActivityType {
   requestReport = 'requestReport',
 }
 
-export type CasuChannelAction = 'CASUMessage' | 'channelsActivation' | 'freeMessage' | undefined;
+export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | undefined;
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
@@ -39,7 +39,7 @@ export interface InterfaceState {
   selectedRadioChannel: ActionType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<ActionType, string>>;
-  selectedCASUChannelAction: CasuChannelAction;
+  selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -118,7 +118,7 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedRadioChannel: ActionType.CASU_RADIO,
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
-    selectedCASUChannelAction: undefined,
+    selectedCasuAction: undefined,
     resourcesManagement: {
       activityType: undefined,
       pretriageReportRequestLocation: undefined,

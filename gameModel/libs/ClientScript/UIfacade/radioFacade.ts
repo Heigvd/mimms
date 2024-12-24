@@ -8,8 +8,9 @@ import {
 } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
-  CasuChannelAction,
+  CasuAction,
   getTypedInterfaceState,
+  InterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
 import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
@@ -53,16 +54,42 @@ export function setSelectedChannel(channel: ActionType) {
 // CASU channel
 // -------------------------------------------------------------------------------------------------
 
-export function getSelectedCASUChannelAction(): CasuChannelAction {
-  return getTypedInterfaceState().selectedCASUChannelAction;
+export function getSelectedCasuAction(): CasuAction {
+  return getTypedInterfaceState().selectedCasuAction;
 }
 
-export function setSelectedCASUChannelAction(action: CasuChannelAction) {
-  setInterfaceState({ selectedCASUChannelAction: action });
+export function getSelectedCasuMessageType(): string {
+  return getTypedInterfaceState().casuMessage.messageType;
 }
 
-export function showActionParamsPanel(action: CasuChannelAction): string {
-  if (action === 'CASUMessage') {
+export function setSelectedCasuActionAndType(action: CasuAction, messageType: string = '') {
+  const newState: InterfaceState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.selectedCasuAction = action;
+  newState.casuMessage.messageType = messageType;
+  Context.interfaceState.setState(newState);
+}
+
+/**
+ * If not yet selected, select it.
+ * If already selected, unselect it.
+ */
+// used in page 68
+export function toggleSelectedCasuActionAndType(action: CasuAction, messageType?: string): void {
+  let newAction: CasuAction = action;
+  let newMessageType: string = messageType ?? '';
+
+  // if already selected, unselect it.
+  if (getSelectedCasuAction() === newAction && getSelectedCasuMessageType() === newMessageType) {
+    newAction = undefined;
+    newMessageType = '';
+  }
+
+  setSelectedCasuActionAndType(newAction, newMessageType);
+}
+
+// used in radioChannelCASU page
+export function showActionParamsPanel(action: CasuAction): string {
+  if (action === 'CasuMessage') {
     return 'actionMETHANE';
   } else if (action === 'channelsActivation') {
     return 'actionRadioChannelActivation';
