@@ -56,6 +56,7 @@ import {
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { getProximityTranslation } from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
@@ -422,10 +423,10 @@ export class CasuMessageAction extends RadioDrivenAction {
 
   // TODO Add translation handling and better perhaps better formatting
   private formatHospitalRequest(message: HospitalRequestPayload): string {
+    const proximity = HospitalProximity[message.proximity];
     return (
       getTranslation('mainSim-actions-tasks', 'get-hospital-information-desc') +
-      ': ' +
-      HospitalProximity[message.proximity]
+      (proximity ? ': ' + getProximityTranslation(proximity!) : '')
     );
   }
 

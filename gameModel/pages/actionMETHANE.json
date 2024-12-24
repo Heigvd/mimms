@@ -558,6 +558,15 @@
                 "children" : [ {
                   "props" : {
                     "className" : "rectangleButton",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getSelectedProximity } from \"./UIfacade/radioFacade\";\ngetSelectedProximity() === Context.hospitalProximityEntry.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "label" : {
                       "@class" : "Script",
                       "content" : " Context.hospitalProximityEntry.label;",
@@ -568,7 +577,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.getHospitalInfoChosenProximity = Context.hospitalProximityEntry.value;\nContext.interfaceState.setState(newState);",
+                        "content" : "import { setSelectedProximity } from \"./UIfacade/radioFacade\";\n\nsetSelectedProximity(Context.hospitalProximityEntry.value);\n",
                         "language" : "TypeScript"
                       }
                     },
@@ -580,7 +589,7 @@
                 "exposeAs" : "hospitalProximityEntry",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { HospitalProximity } from \"./game/common/evacuation/hospitalType\";\n Object.entries(HospitalProximity).filter(entry => isNaN(parseInt(entry[0]))).map((entry) => ({\n label: entry[0],\n value: entry[1],\n }))",
+                  "content" : "import { getHospitalProximityChoices } from \"./UIfacade/radioFacade\";\n getHospitalProximityChoices();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
