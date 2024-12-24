@@ -201,7 +201,7 @@
 
 .nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
 
-  background: var(--secondary_50);
+  background: var(--secondary_60);
 	cursor: pointer;
 }
 
