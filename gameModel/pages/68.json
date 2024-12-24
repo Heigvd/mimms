@@ -5,6 +5,15 @@
         "children" : [ {
           "props" : {
             "className" : "rectangleButton",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.assignTask;",
+                "language" : "typescript"
+              }
+            } ],
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
@@ -23,7 +32,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\n\n const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.resourcesManagement.activityType = ResourcesManagementActivityType.assignTask\n Context.interfaceState.setState(newState);",
+                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { toggleSelectedActivityType } from \"./UIfacade/resourceFacade\";\n\ntoggleSelectedActivityType(ResourcesManagementActivityType.assignTask);",
                 "language" : "TypeScript"
               }
             },
@@ -34,6 +43,15 @@
         }, {
           "props" : {
             "className" : "rectangleButton",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.requestReport;",
+                "language" : "typescript"
+              }
+            } ],
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
@@ -52,7 +70,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.resourcesManagement.activityType = ResourcesManagementActivityType.requestReport;\nContext.interfaceState.setState(newState);",
+                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { toggleSelectedActivityType } from \"./UIfacade/resourceFacade\";\n\ntoggleSelectedActivityType(ResourcesManagementActivityType.requestReport);",
                 "language" : "TypeScript"
               }
             },
@@ -74,7 +92,7 @@
         "exposePageSizeAs" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nContext.interfaceState.state.resourcesManagement.activityType !== ResourcesManagementActivityType.assignTask;",
+          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() !== ResourcesManagementActivityType.assignTask;",
           "language" : "typescript"
         },
         "initialSelectedPageId" : {
@@ -142,11 +160,6 @@
               "type" : "Select input"
             } ],
             "className" : "",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
-              "language" : "typescript"
-            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -207,7 +220,7 @@
         "className" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nContext.interfaceState.state.resourcesManagement.activityType !== ResourcesManagementActivityType.requestReport;",
+          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() !== ResourcesManagementActivityType.requestReport;",
           "language" : "typescript"
         },
         "layout" : {

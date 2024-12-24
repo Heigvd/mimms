@@ -56,7 +56,7 @@ export interface InterfaceState {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   resourcesManagement: {
-    activityType: ResourcesManagementActivityType;
+    activityType: ResourcesManagementActivityType | undefined;
     pretriageReportRequestLocation: LOCATION_ENUM | undefined;
   };
   evacuation: {
@@ -120,7 +120,7 @@ export function getInitialInterfaceState(): InterfaceState {
     radioMessageInput: {},
     selectedCASUChannelAction: undefined,
     resourcesManagement: {
-      activityType: ResourcesManagementActivityType.assignTask,
+      activityType: undefined,
       pretriageReportRequestLocation: undefined,
     },
   };
