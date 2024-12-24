@@ -38,9 +38,10 @@ resources	Resources	Ressources
 driver	Driver	Conducteur
 healer	Healer	Soignant(s)
 comeback	Come back to site after evacuation	Revenir sur site après transport
-select-current-location	Select your current location	Sélectionnez votre lieu actuel
+select-current-location	Select the current location	Sélectionnez le lieu actuel
 select-target-location	Choose a destination location	Choisissez un lieu de destination
-select-current-activity	Select your current task	Sélectionnez votre tâche actuelle
+select-location	Choose a location	Choisissez un lieu
+select-current-activity	Select the current task	Sélectionnez la tâche actuelle
 select-target-activity	Choose a task	Choisissez une tâche
 select-target-activity-empty	Select a location before choosing a task	Sélectionnez un lieu avant de choisir une tâche
 select-evacuation-patient	Choose a patient	Choisissez un patient
