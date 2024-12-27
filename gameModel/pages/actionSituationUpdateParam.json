@@ -7,7 +7,10 @@
           "content" : "import { getDurationChoicesForSituationUpdateAction } from \"./UIfacade/actionFacade\";\n  getDurationChoicesForSituationUpdateAction();",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "5px 0 0 0"
+        },
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
@@ -32,11 +35,14 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
+      "padding" : "5px 0 0 0",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

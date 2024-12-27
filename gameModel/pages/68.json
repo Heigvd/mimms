@@ -17,7 +17,9 @@
               "language" : "TypeScript"
             },
             "layoutClassName" : "rectangleButton-container",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "5px 5px 0 0"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -44,7 +46,9 @@
               "language" : "TypeScript"
             },
             "layoutClassName" : "rectangleButton-container",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "5px 0 0 5px"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -78,6 +82,7 @@
           "content" : "\"67\"",
           "language" : "typescript"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "resources Management",
         "style" : { }
@@ -90,8 +95,10 @@
             "children" : [ {
               "props" : {
                 "className" : "mimms_h3title",
-                "layoutClassName" : "",
-                "layoutStyle" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "margin" : "15px 0 10px 0"
+                },
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
@@ -107,7 +114,7 @@
                   "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\n\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
                   "language" : "typescript"
                 },
-                "layoutClassName" : "resourcesDropdowns",
+                "layoutClassName" : "noPadding resourcesDropdowns",
                 "layoutStyle" : { },
                 "name" : "source location",
                 "onVariableChange" : {
@@ -121,6 +128,11 @@
                     "content" : "\"pretriageReportRequestLocation\"",
                     "language" : "TypeScript"
                   }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-location')",
+                  "language" : "TypeScript"
                 },
                 "script" : {
                   "@class" : "Script",
@@ -140,7 +152,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "pretriage report",
             "style" : { }
@@ -187,7 +199,10 @@
             "layout" : {
               "justifyContent" : "flex-end"
             },
-            "layoutStyle" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "20px 0 5px 0"
+            },
             "name" : "button",
             "style" : { }
           },

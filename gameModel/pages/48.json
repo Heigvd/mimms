@@ -7,7 +7,9 @@
           "content" : "import { FixedMapEntity } from \"./game/common/events/defineMapObjectEvent\";\nimport { getLetterRepresentationOfIndex } from \"./tools/helper\";\nconst choices: { label: string, value: string }[] = [];\n\nif (Context.mapState.state.selectionState && Context.mapState.state.selectionState instanceof FixedMapEntity) {\n\tconst selection = Context.mapState.state.selectionState.getGeometricalShape().availablePositions;\n\n\tif (selection) {\n\t\tselection.forEach((_f: string, i: number) => {\n\t\t\tchoices.push({ label: getLetterRepresentationOfIndex(i), value: String(i) });\n\t\t})\n\t}\n}\n\nchoices;",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "padding" : "10px 5px 0 0"
+        },
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
@@ -356,6 +358,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -367,6 +370,7 @@
               "content" : "import { getBuildingDetails } from \"./gameInterface/mock_data\";\n  getBuildingDetails(Context.mapState.state.selectionState.id);",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localState" : true,
             "style" : { }
@@ -379,7 +383,10 @@
           "language" : "typescript"
         },
         "layout" : { },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "5px 0 0 0"
+        },
         "style" : { }
       },
       "type" : "FlexList"
@@ -392,6 +399,7 @@
     "layout" : {
       "flexDirection" : "row"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

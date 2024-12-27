@@ -7,7 +7,10 @@
           "content" : "import { getActorTargetLocationChoices } from \"./UIfacade/locationFacade\";\n  getActorTargetLocationChoices();",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "5px 0 0 0"
+        },
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
@@ -19,6 +22,11 @@
             "content" : "\"moveActorChosenLocation\"",
             "language" : "TypeScript"
           }
+        },
+        "placeholder" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-target-location')",
+          "language" : "TypeScript"
         },
         "script" : {
           "@class" : "Script",
@@ -32,11 +40,14 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
+      "padding" : "5px 0 0 0",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
