@@ -1,0 +1,27 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "  if (Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimSetupPage') {\n    return \"43\";\n  }\n  \"12\";",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "Game Mode",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

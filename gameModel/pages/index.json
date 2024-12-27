@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "43",
+  "defaultPageId" : "47",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
@@ -135,6 +135,12 @@
         "id" : "37",
         "name" : "liveOverview",
         "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "47",
+        "name" : "playerMainPage",
+        "scenaristPage" : true,
         "trainerPage" : null
       } ],
       "name" : "playerPages"
