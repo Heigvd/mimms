@@ -182,12 +182,6 @@ Helpers.registerEffect(() => {
 		label: 'Move From/To (walk / drive)',
 		parameters: [moveableObjectSelector, locationParam('from'), locationParam('to'), optionalTime],
 		returns: undefined,
-	});
-
-	ServerMethods.registerGlobalMethod(['EventManager'], 'directCommunication', {
-		label: 'Speak in the wild',
-		parameters: [],
-		returns: undefined,
 	});*/
 });
 
