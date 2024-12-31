@@ -113,8 +113,10 @@
             "children" : [ {
               "props" : {
                 "className" : "mimms_h3title",
-                "layoutClassName" : "",
-                "layoutStyle" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "margin" : "15px 0 10px 0"
+                },
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
@@ -130,7 +132,7 @@
                   "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
                   "language" : "typescript"
                 },
-                "layoutClassName" : "resourcesDropdowns",
+                "layoutClassName" : "noPadding resourcesDropdowns",
                 "layoutStyle" : { },
                 "name" : "source location",
                 "onVariableChange" : {
@@ -147,7 +149,7 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-target-location')",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-location')",
                   "language" : "TypeScript"
                 },
                 "script" : {
@@ -163,7 +165,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "pretriage report",
             "style" : { }
@@ -211,7 +213,9 @@
               "justifyContent" : "flex-end"
             },
             "layoutClassName" : "",
-            "layoutStyle" : { },
+            "layoutStyle" : {
+              "padding" : "20px 0 5px 0"
+            },
             "name" : "button",
             "style" : { }
           },
