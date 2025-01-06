@@ -97,13 +97,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -116,6 +109,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin   choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "patientChoiceHeader",
                 "style" : { }
               },
@@ -311,13 +311,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -330,6 +323,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin  choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "destinationChoiceHeader",
                 "style" : { }
               },
@@ -561,13 +561,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -580,6 +573,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "vectorChoiceHeader",
                 "style" : { }
               },
