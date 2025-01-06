@@ -417,6 +417,7 @@ export function initActionTemplates(): {
     'appoint-EVASAN-feedback',
     true,
     'appoint-EVASAN-no-resource-feedback',
+    'appoint-refusal-feedback',
     'EVASAN',
     ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
@@ -430,6 +431,7 @@ export function initActionTemplates(): {
     'appoint-LeadPMA-feedback',
     true,
     'appoint-LeadPMA-no-resource-feedback',
+    'appoint-refusal-feedback',
     'LEADPMA',
     ['infirmier', 'ambulancier'],
     [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
@@ -449,9 +451,11 @@ export function initActionTemplates(): {
     'evacuate-desc',
     TimeSliceDuration,
     'evacuate-feedback',
+    'evacuate-task-request',
     'evacuate-task-started',
     'evacuate-feedback-return',
     'evacuate-task-abort',
+    'evacuate-task-refused',
     true
   );
 

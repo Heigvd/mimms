@@ -51,6 +51,7 @@ import {
   SendRadioMessageAction,
   SituationUpdateAction,
 } from './actionBase';
+import * as ActionLogic from './actionLogic';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',
@@ -656,33 +657,18 @@ export class SelectionFixedMapEntityTemplate<
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  // Has the template already been played by another player ?
-  private hasBeenPlayedByOtherActor(
-    state: Readonly<MainSimulationState>,
-    actorUid: ActorId
-  ): boolean {
-    return (
-      getOngoingActions(state).filter(
-        a =>
-          a instanceof SelectionFixedMapEntityAction &&
-          a.getTemplateId() === this.Uid &&
-          a.ownerId !== actorUid
-      ).length === 0
-    );
-  }
-
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>
   ): boolean {
-    return this.hasBeenPlayedByOtherActor(state, actor.Uid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
-    return this.hasBeenPlayedByOtherActor(state, actorUid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
   }
 }
 
@@ -1108,7 +1094,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    readonly wentWrongMessageKey: TranslationKey,
+    readonly noResourceFailureMessageKey: TranslationKey,
+    readonly refusalFailureMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
     readonly typeOfResource: HumanResourceType[],
     flags?: SimFlag[],
@@ -1142,7 +1129,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.provideFlagsToState,
       this.actorRole,
       this.typeOfResource,
-      this.wentWrongMessageKey
+      this.noResourceFailureMessageKey,
+      this.refusalFailureMessageKey
     );
   }
 
@@ -1157,13 +1145,17 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     };
   }
 
-  // only available if no such role is present
+  // available if no such role is present
   // might change if multiple AL can be summoned
+  // cannot be planned more than once at the same time
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    _actor: Readonly<Actor>
+    actor: Readonly<Actor>
   ): boolean {
-    return state.getAllActors().every(act => act.Role !== this.actorRole);
+    return (
+      state.getAllActors().every(act => act.Role !== this.actorRole) &&
+      !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid)
+    );
   }
 
   public getDescription(): string {
@@ -1244,9 +1236,11 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
+    readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenStarted: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
+    readonly msgEvacuationRefused: TranslationKey,
     replayable = true,
     flags?: SimFlag[],
     provideFlagsToState?: SimFlag[],
@@ -1282,9 +1276,11 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       this.message,
+      this.msgTaskRequest,
       this.feedbackWhenStarted,
       this.feedbackWhenReturning,
       this.msgEvacuationAbort,
+      this.msgEvacuationRefused,
       ownerId,
       this.Uid,
       payload.evacuationActionPayload,
