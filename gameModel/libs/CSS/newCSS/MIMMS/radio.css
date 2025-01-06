@@ -56,16 +56,6 @@
   background-color: var(--primary_40);
 }
 
-/* selected action */
-.rectangleButton.radio-action_selected {
-  background-color: var(--primary_base);
-	color: var(--grey_0);
-}
-
-.rectangleButton.radio-action_selected:hover {
-  background-color: var(--primary_50);
-}
-
 /*** text areas (input & output)***/
 
 .messageArea-container {

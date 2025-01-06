@@ -11,6 +11,8 @@ import {
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
+import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
@@ -28,10 +30,8 @@ import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { clearMapState, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   getEmptyAllocateResources,
   getEmptyAllocateResourcesRadio,
@@ -41,6 +41,7 @@ import {
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
+import { SelectedPanel } from './selectedPanel';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -214,7 +215,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.resources.requestedResources = getEmptyResourceRequest();
     newState.casuMessage = {
-      messageType: '',
+      messageType: newState.casuMessage.messageType,
       major: '',
       exact: '',
       incidentType: '',
@@ -278,14 +279,11 @@ function fetchEvacuationActionValues() {
 
 function fetchPretriageReportActionValues() {
   const res: PretriageReportActionPayload = {
-    pretriageLocation:
-      Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation,
+    pretriageLocation: getReportLocationRequest()!,
   };
 
   // Reset interface state
-  //const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  //newState.evacuation = getEmptyEvacuationInterfaceState();
-  //Context.interfaceState.setState(newState);
+  setReportLocationRequest(undefined);
 
   return res;
 }

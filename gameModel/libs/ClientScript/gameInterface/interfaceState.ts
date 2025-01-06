@@ -1,28 +1,28 @@
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
+import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
+import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { mainSimLogger } from '../tools/logger';
-import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
-import { SelectedPanel } from './selectedPanel';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
-import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
-import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
-import { applyPendingCallbacks } from '../gameInterface/afterUpdateCallbacks';
+import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { mainSimLogger } from '../tools/logger';
 import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
+import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
+import { applyPendingCallbacks } from './afterUpdateCallbacks';
+import { SelectedPanel } from './selectedPanel';
 
 export enum ResourcesManagementActivityType {
   assignTask = 'assignTask',
   requestReport = 'requestReport',
 }
 
-export type CasuChannelAction = 'CASUMessage' | 'channelsActivation' | 'freeMessage' | undefined;
+export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | undefined;
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
@@ -39,7 +39,7 @@ export interface InterfaceState {
   selectedRadioChannel: ActionType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<ActionType, string>>;
-  selectedCASUChannelAction: CasuChannelAction;
+  selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -56,7 +56,8 @@ export interface InterfaceState {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   resourcesManagement: {
-    activityType: ResourcesManagementActivityType;
+    activityType: ResourcesManagementActivityType | undefined;
+    pretriageReportRequestLocation: LOCATION_ENUM | undefined;
   };
   evacuation: {
     data: {
@@ -117,9 +118,10 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedRadioChannel: ActionType.CASU_RADIO,
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
-    selectedCASUChannelAction: undefined,
+    selectedCasuAction: undefined,
     resourcesManagement: {
-      activityType: ResourcesManagementActivityType.assignTask,
+      activityType: undefined,
+      pretriageReportRequestLocation: undefined,
     },
   };
 }
