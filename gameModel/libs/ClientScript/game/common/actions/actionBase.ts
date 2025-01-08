@@ -59,8 +59,7 @@ import {
 import { localEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
-import { getResourceAsSenderName } from '../radio/radioLogic';
-import { getProximityTranslation } from '../radio/radioLogic';
+import { getProximityTranslation, getResourceAsSenderName } from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';

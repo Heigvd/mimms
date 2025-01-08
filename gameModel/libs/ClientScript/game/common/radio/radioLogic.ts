@@ -1,7 +1,7 @@
 import { getTranslation } from '../../../tools/translation';
 import { TranslationKey } from '../baseTypes';
-import { RadioType } from './communicationType';
 import { HospitalProximity } from '../evacuation/hospitalType';
+import { RadioType } from './communicationType';
 
 const translationCategory: keyof VariableClasses = 'mainSim-radio';
 

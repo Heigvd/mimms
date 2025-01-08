@@ -1,9 +1,9 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
-import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
 import {
-  getProximityTranslation,
   getRadioChannels as getInternalRadioChannels,
+  getProximityTranslation,
 } from '../game/common/radio/radioLogic';
 import { RadioMessage } from '../game/common/radio/radioMessage';
 import {
