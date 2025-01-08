@@ -6,7 +6,8 @@
         "layoutClassName" : "",
         "layoutStyle" : {
           "flex-shrink" : "0",
-          "height" : "auto"
+          "height" : "auto",
+          "padding" : "0 0 5px 0"
         },
         "name" : "Title",
         "style" : { },

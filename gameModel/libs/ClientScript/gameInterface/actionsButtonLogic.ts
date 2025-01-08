@@ -11,6 +11,7 @@ import {
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
+import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   ActionTemplateBase,
@@ -214,7 +215,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.resources.requestedResources = getEmptyResourceRequest();
     newState.casuMessage = {
-      messageType: '',
+      messageType: newState.casuMessage.messageType,
       major: '',
       exact: '',
       incidentType: '',
@@ -278,14 +279,11 @@ function fetchEvacuationActionValues() {
 
 function fetchPretriageReportActionValues() {
   const res: PretriageReportActionPayload = {
-    pretriageLocation:
-      Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation,
+    pretriageLocation: getReportLocationRequest()!,
   };
 
   // Reset interface state
-  //const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  //newState.evacuation = getEmptyEvacuationInterfaceState();
-  //Context.interfaceState.setState(newState);
+  setReportLocationRequest(undefined);
 
   return res;
 }

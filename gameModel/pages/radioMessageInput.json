@@ -22,7 +22,7 @@
             },
             "placeholder" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'your-text');",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'type-your-message');",
               "language" : "TypeScript"
             },
             "readOnlyIf" : {

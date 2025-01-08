@@ -56,16 +56,6 @@
   background-color: var(--primary_40);
 }
 
-/* selected action */
-.rectangleButton.radio-action_selected {
-  background-color: var(--primary_base);
-	color: var(--grey_0);
-}
-
-.rectangleButton.radio-action_selected:hover {
-  background-color: var(--primary_50);
-}
-
 /*** text areas (input & output)***/
 
 .messageArea-container {
@@ -90,7 +80,7 @@
   border-radius: var(--XXS_borderRadius);
   height: 10rem;
   background-color: white;
-  margin: 10px 0 5px 0;
+  margin: 10px 0 0 0;
 }
 
 

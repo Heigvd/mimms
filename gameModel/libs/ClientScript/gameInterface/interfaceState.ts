@@ -22,7 +22,7 @@ export enum ResourcesManagementActivityType {
   requestReport = 'requestReport',
 }
 
-export type CasuChannelAction = 'CASUMessage' | 'channelsActivation' | 'freeMessage' | undefined;
+export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | undefined;
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
@@ -39,7 +39,7 @@ export interface InterfaceState {
   selectedRadioChannel: RadioType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<RadioType, string>>;
-  selectedCASUChannelAction: CasuChannelAction;
+  selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
   resources: {
     allocateResources: {
@@ -56,7 +56,8 @@ export interface InterfaceState {
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   resourcesManagement: {
-    activityType: ResourcesManagementActivityType;
+    activityType: ResourcesManagementActivityType | undefined;
+    pretriageReportRequestLocation: LOCATION_ENUM | undefined;
   };
   evacuation: {
     data: {
@@ -117,9 +118,10 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedRadioChannel: RadioType.CASU,
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
-    selectedCASUChannelAction: undefined,
+    selectedCasuAction: undefined,
     resourcesManagement: {
-      activityType: ResourcesManagementActivityType.assignTask,
+      activityType: undefined,
+      pretriageReportRequestLocation: undefined,
     },
   };
 }

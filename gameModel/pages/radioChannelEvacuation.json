@@ -24,7 +24,10 @@
         "children" : [ {
           "props" : {
             "className" : "mimms_h2title",
-            "layoutStyle" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "padding" : "5px 0 5px 0"
+            },
             "style" : { },
             "text" : {
               "@class" : "Script",
@@ -94,13 +97,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -113,6 +109,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin   choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenClosePatientChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenClosePatientChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "patientChoiceHeader",
                 "style" : { }
               },
@@ -129,8 +132,13 @@
                           "language" : "typescript"
                         },
                         "className" : "evacuationInputField",
-                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutClassName" : "noPadding evacuationInputField-container",
                         "layoutStyle" : { },
+                        "noOptionsMessage" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-evacuation-patient-empty')",
+                          "language" : "TypeScript"
+                        },
                         "onCancel" : { },
                         "onVariableChange" : {
                           "client" : {
@@ -143,6 +151,11 @@
                             "content" : "\"patientId\"",
                             "language" : "TypeScript"
                           }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-evacuation-patient')",
+                          "language" : "TypeScript"
                         },
                         "script" : {
                           "@class" : "Script",
@@ -298,13 +311,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -317,6 +323,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin  choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenCloseDestinationChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseDestinationChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "destinationChoiceHeader",
                 "style" : { }
               },
@@ -334,7 +347,9 @@
                         },
                         "className" : "evacuationInputField",
                         "layoutClassName" : "evacuationInputField-container",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "padding" : "0 0 5px 0"
+                        },
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
@@ -346,6 +361,11 @@
                             "content" : "\"hospitalId\"",
                             "language" : "TypeScript"
                           }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-evacuation-destination-hospital')",
+                          "language" : "TypeScript"
                         },
                         "script" : {
                           "@class" : "Script",
@@ -363,8 +383,13 @@
                           "language" : "typescript"
                         },
                         "className" : "evacuationInputField",
-                        "layoutClassName" : "evacuationInputField-container",
+                        "layoutClassName" : "noPadding evacuationInputField-container",
                         "layoutStyle" : { },
+                        "noOptionsMessage" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-evacuation-destination-unit-empty')",
+                          "language" : "TypeScript"
+                        },
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
@@ -376,6 +401,11 @@
                             "content" : "\"patientUnitAtHospital\"",
                             "language" : "TypeScript"
                           }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-evacuation-destination-unit')",
+                          "language" : "TypeScript"
                         },
                         "script" : {
                           "@class" : "Script",
@@ -531,13 +561,6 @@
                     "icon" : "caret-square-down",
                     "layoutClassName" : "choiceCloseIcon",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
-                        "language" : "TypeScript"
-                      }
-                    },
                     "style" : { }
                   },
                   "type" : "Icon"
@@ -550,6 +573,13 @@
                 },
                 "layoutClassName" : "noPadding noMargin choiceHeader-container",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleOpenCloseVectorChoice } from \"./UIfacade/evacuationFacade\";\n\ntoggleOpenCloseVectorChoice();",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "vectorChoiceHeader",
                 "style" : { }
               },
@@ -1001,6 +1031,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "vectorChoiceContent",
                 "style" : { }
@@ -1047,7 +1078,9 @@
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "padding" : "15px 0 5px 0"
+                },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
@@ -1063,6 +1096,7 @@
             "layout" : {
               "justifyContent" : "flex-end"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "button",
             "style" : { }

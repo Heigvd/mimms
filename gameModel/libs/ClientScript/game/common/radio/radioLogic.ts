@@ -1,6 +1,7 @@
 import { getTranslation } from '../../../tools/translation';
 import { TranslationKey } from '../baseTypes';
 import { RadioType } from './communicationType';
+import { HospitalProximity } from '../evacuation/hospitalType';
 
 const translationCategory: keyof VariableClasses = 'mainSim-radio';
 
@@ -9,6 +10,10 @@ export function getRadioTranslation(
   upperCaseFirstLetter?: boolean
 ): string {
   return getTranslation(translationCategory, translationKey, upperCaseFirstLetter);
+}
+
+export function getProximityTranslation(proximity: HospitalProximity | string): string {
+  return getRadioTranslation('radio-proximity-' + proximity);
 }
 
 export interface RadioChannel {
