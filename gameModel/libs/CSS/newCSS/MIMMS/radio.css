@@ -92,14 +92,17 @@
 	animation: popping 1s linear;
 }
 
-.sender{
-		font-weight: var(--boldWeight);
-}
 .radio-message {
   display: inline-block;
   position: relative;
   height: auto;
   border-radius: 15px;
+  margin-top: 10px;
+  font-family: var(--mainFont);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 /* message sent by oneself */
@@ -161,34 +164,19 @@
   border-color: var(--primary_10) transparent transparent transparent;
 }
 
-.radio-message-header {
-  font-family: var(--mainFont);
-  font-size: 14px;
-  font-weight: var(--boldWeight);
-  line-height: 17px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.radio-message-time {
-  /*font-style: italic;*/
+.radio-message-time-container {
+  font-style: italic;
+  text-align: right;
+  align-self: flex-end;
+  justify-self: flex-end;
 }
 
 .radio-message-recipient-sender {
   font-size: 12px;
 }
 
-.radio-message-body-layout {
-  margin-top: 10px;
-  font-family: var(--mainFont);
-  font-size: 12px;
-  line-height: 15px;
-  letter-spacing: 0em;
-  text-align: left;
-}
-
-.radio-message-body-layout > p {
-  margin-top: 0px;
+.radio-message p {
+  margin-top: 0;
   max-width: 10rem;
   word-wrap: break-word;
 }
