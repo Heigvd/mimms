@@ -419,7 +419,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
     parentId: GlobalEventId,
     timeStamp: SimTime,
     public override readonly senderId: ActorId | undefined,
-    public override readonly senderName: string | undefined,
+    public override readonly senderName: string | undefined, // in case there is no sending actor, free sender name
     public override readonly recipientId: ActorId | undefined,
     public override readonly message: TranslationKey,
     public override readonly channel: RadioType,

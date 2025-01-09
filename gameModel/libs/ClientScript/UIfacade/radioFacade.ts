@@ -127,11 +127,8 @@ export function setSelectedProximity(proximity: HospitalProximity): void {
 // -------------------------------------------------------------------------------------------------
 
 export function getRecipientSenderInfo(message: RadioMessage): string | undefined {
-  const senderActor = getSender(message);
-  const senderName = message.senderName;
-  const sender = senderActor ?? senderName;
-
-  const recipient = getRecipient(message);
+  const sender = getSenderName(message);
+  const recipient = getRecipientName(message);
 
   if (sender != undefined) {
     return getTranslation('mainSim-radio', 'radio-recipient-from-sender', true, [
@@ -143,16 +140,24 @@ export function getRecipientSenderInfo(message: RadioMessage): string | undefine
   }
 }
 
-function getSender(message: RadioMessage): string | undefined {
-  const sender = getCurrentState().getActorById(message.senderId);
-  if (sender) {
-    return sender.ShortName;
+/**
+ * The sender name is the first not null between
+ * - sender actor id (we return its short name)
+ * - free text sender name
+ */
+function getSenderName(message: RadioMessage): string | undefined {
+  const actorSender = getCurrentState().getActorById(message.senderId);
+  if (actorSender) {
+    return actorSender.ShortName;
   }
 
-  return undefined;
+  return message.senderName ?? undefined;
 }
 
-function getRecipient(message: RadioMessage): string | undefined {
+/**
+ * The recipient name is the recipient actor's short name
+ */
+function getRecipientName(message: RadioMessage): string | undefined {
   const recipient = getCurrentState().getActorById(message.recipientId);
   if (recipient) {
     return recipient.ShortName;
