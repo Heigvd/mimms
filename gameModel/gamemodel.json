@@ -4372,7 +4372,7 @@
           "radio-proximity-international" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"international\"},\"FR\":{\"status\":\"\",\"translation\":\"international\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-proximity-national" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"national\"},\"FR\":{\"status\":\"\",\"translation\":\"national\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-proximity-regional" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"regional\"},\"FR\":{\"status\":\"\",\"translation\":\"régional\",\"lang\":\"FR\"}},\"version\":0}",
-          "radio-recipient-from-sender" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} from {1}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} de {1}\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-recipient-from-sender" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0}, this is {1}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} de {1}\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-recipient-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-sender-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}"
         },
@@ -7144,7 +7144,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-301-299 + communicationType",
+  "name" : "MIMMS",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
