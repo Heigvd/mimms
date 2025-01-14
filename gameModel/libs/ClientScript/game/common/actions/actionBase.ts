@@ -309,9 +309,9 @@ export class DisplayMessageAction extends StartEndAction {
       new AddMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
+        undefined,
+        undefined,
         this.ownerId,
-        undefined,
-        undefined,
         this.messageKey,
         this.channel
       )
