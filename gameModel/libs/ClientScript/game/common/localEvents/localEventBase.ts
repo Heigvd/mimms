@@ -418,13 +418,13 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     parentId: GlobalEventId,
     timeStamp: SimTime,
-    public override readonly senderId: ActorId | undefined,
-    public override readonly senderName: string | undefined, // in case there is no sending actor, free sender name
-    public override readonly recipientId: ActorId | undefined,
-    public override readonly message: TranslationKey,
-    public override readonly channel: RadioType,
-    public override readonly omitTranslation: boolean = false,
-    public override readonly messageValues: (string | number)[] = []
+    senderId: ActorId | undefined,
+    senderName: string | undefined, // in case there is no sending actor, free sender name
+    recipientId: ActorId | undefined,
+    message: TranslationKey,
+    channel: RadioType,
+    omitTranslation: boolean = false,
+    messageValues: (string | number)[] = []
   ) {
     super(
       parentId,
@@ -444,12 +444,12 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     parentId: GlobalEventId,
     timeStamp: SimTime,
-    public override readonly senderId: ActorId | undefined,
-    public override readonly senderName: string | undefined,
-    public override readonly recipientId: ActorId,
-    public override readonly message: TranslationKey,
-    public override readonly omitTranslation: boolean = false,
-    public override readonly messageValues: (string | number)[] = []
+    senderId: ActorId | undefined,
+    senderName: string | undefined,
+    recipientId: ActorId,
+    message: TranslationKey,
+    omitTranslation: boolean = false,
+    messageValues: (string | number)[] = []
   ) {
     super(
       parentId,

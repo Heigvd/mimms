@@ -283,7 +283,7 @@ export class DisplayMessageAction extends StartEndAction {
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState?: SimFlag[],
-    readonly channel?: RadioType | undefined
+    readonly channel?: RadioType
   ) {
     super(
       startTimeSec,

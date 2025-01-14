@@ -1,4 +1,5 @@
 import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
+import { ActorId } from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
 import {
@@ -158,12 +159,7 @@ function getSenderName(message: RadioMessage): string | undefined {
  * The recipient name is the recipient actor's short name
  */
 function getRecipientName(message: RadioMessage): string | undefined {
-  const recipient = getCurrentState().getActorById(message.recipientId);
-  if (recipient) {
-    return recipient.ShortName;
-  }
-
-  return undefined;
+  return getCurrentState().getActorById(message.recipientId)?.ShortName;
 }
 
 /**
@@ -203,7 +199,7 @@ export function getAllRadioMessages(): RadioMessage[] {
 /**
  * Get notifications for given recipientId
  */
-export function getNotifications(actorId: number): RadioMessage[] {
+export function getNotifications(actorId: ActorId): RadioMessage[] {
   return getAllRadioMessages().filter(m => m.recipientId === actorId && !m.isRadioMessage);
 }
 
