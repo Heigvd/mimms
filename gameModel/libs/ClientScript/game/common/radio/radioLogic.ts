@@ -1,12 +1,15 @@
-import { ActionType, RadioType } from '../actionType';
-import { TranslationKey } from '../baseTypes';
 import { getTranslation } from '../../../tools/translation';
+import { TranslationKey } from '../baseTypes';
 import { HospitalProximity } from '../evacuation/hospitalType';
+import { RadioType } from './communicationType';
 
 const translationCategory: keyof VariableClasses = 'mainSim-radio';
 
-export function getRadioTranslation(translationKey: TranslationKey): string {
-  return getTranslation(translationCategory, translationKey);
+export function getRadioTranslation(
+  translationKey: TranslationKey,
+  upperCaseFirstLetter?: boolean
+): string {
+  return getTranslation(translationCategory, translationKey, upperCaseFirstLetter);
 }
 
 export function getProximityTranslation(proximity: HospitalProximity | string): string {
@@ -20,21 +23,29 @@ export interface RadioChannel {
 
 export function getRadioChannels(): Record<RadioType, RadioChannel> {
   return {
-    CASU_RADIO: {
-      type: ActionType.CASU_RADIO,
+    CASU: {
+      type: RadioType.CASU,
       translationKey: 'radio-channel-casu',
     },
-    ACTORS_RADIO: {
-      type: ActionType.ACTORS_RADIO,
+    ACTORS: {
+      type: RadioType.ACTORS,
       translationKey: 'radio-channel-actors',
     },
-    RESOURCES_RADIO: {
-      type: ActionType.RESOURCES_RADIO,
+    RESOURCES: {
+      type: RadioType.RESOURCES,
       translationKey: 'radio-channel-rh',
     },
-    EVASAN_RADIO: {
-      type: ActionType.EVASAN_RADIO,
+    EVASAN: {
+      type: RadioType.EVASAN,
       translationKey: 'radio-channel-evacuation',
     },
   };
+}
+
+export function getResourceAsSenderName(): string {
+  return getRadioTranslation('radio-sender-resources', false);
+}
+
+export function getResourceAsRecipientName(): string {
+  return getRadioTranslation('radio-recipient-resources', false);
 }

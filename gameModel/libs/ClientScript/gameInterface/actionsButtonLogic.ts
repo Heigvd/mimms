@@ -13,7 +13,6 @@ import {
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import { ActionType } from '../game/common/actionType';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
@@ -27,6 +26,7 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
+import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
@@ -70,10 +70,10 @@ export function runActionButton(action: ActionTemplateBase): void {
     params = fetchMoveResourcesAssignTaskValues();
   } else if (isCasuMessageActionTemplate(action)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(action, ActionType.CASU_RADIO)) {
-    params = fetchRadioMessageRequestValues(ActionType.CASU_RADIO);
-  } else if (isRadioActionTemplate(action, ActionType.ACTORS_RADIO)) {
-    params = fetchRadioMessageRequestValues(ActionType.ACTORS_RADIO);
+  } else if (isRadioActionTemplate(action, RadioType.CASU)) {
+    params = fetchRadioMessageRequestValues(RadioType.CASU);
+  } else if (isRadioActionTemplate(action, RadioType.ACTORS)) {
+    params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(action)) {
     params = fetchMoveActorLocation();
   } else if (isSituationUpdateActionTemplate(action)) {
@@ -234,7 +234,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
  *
  * @returns RadioMessagePayload
  */
-function fetchRadioMessageRequestValues(channel: ActionType): RadioMessagePayload {
+function fetchRadioMessageRequestValues(channel: RadioType): RadioMessagePayload {
   const res = {
     message: getTypedInterfaceState().radioMessageInput[channel] ?? '',
     actorId: getTypedInterfaceState().currentActorUid!,

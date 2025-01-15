@@ -5,7 +5,6 @@
  */
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
-import { ActionType, RadioType } from '../game/common/actionType';
 import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
@@ -19,7 +18,12 @@ import {
   SimFlag,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
+import { ActionType } from '../game/common/actionType';
+import { Actor } from '../game/common/actors/actor';
 import { ActorId, TemplateId } from '../game/common/baseTypes';
+import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
+import { RadioType } from '../game/common/radio/communicationType';
+import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
@@ -30,10 +34,7 @@ import {
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { getTranslation } from '../tools/translation';
-import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
-import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
-import { Actor } from '../game/common/actors/actor';
-import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
+import { getCurrentPlayerActors } from './actorFacade';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(

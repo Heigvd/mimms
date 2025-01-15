@@ -324,7 +324,7 @@
         "exposeAs" : "currentRadio",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\n({ channel: ActionType.CASU_RADIO })",
+          "content" : "import { RadioType } from \"./game/common/radio/communicationType\";\n({ channel: RadioType.CASU })",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding",

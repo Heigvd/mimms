@@ -92,40 +92,36 @@
 	animation: popping 1s linear;
 }
 
-/* used in page 64 */
-.sender-role{
-	border-radius: var(--S_borderRadius);
-	margin: .3em;
-	padding: 4px;
-}
-
-.sender{
-		font-weight: var(--boldWeight);
+.radio-message {
+  display: inline-block;
+  position: relative;
+  height: auto;
+  border-radius: 15px;
+  margin-top: 10px;
+  font-family: var(--mainFont);
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 /* message sent by oneself */
 .radio-message-myself {
   margin: 15px;
+  padding: 20px 10px 10px 25px;
   /*left: 30%;*/
   margin-left: auto;
-  display: inline-block;
-  position: relative;
   max-width: 13rem;
   min-width: 10rem;
-  height: auto;
   background-color: var(--primary_10);
-  border-radius: 15px;
 }
 
 .radio-message-others {
   margin: 10px;
+  padding: 20px 10px 10px 25px;
   left: 5px;
-  display: inline-block;
-  position: relative;
   width: 200px;
-  height: auto;
   background-color: var(--grey_10);
-  border-radius: 15px;
 }
 
 /* Right triangle placed top left flush. */
@@ -168,28 +164,19 @@
   border-color: var(--primary_10) transparent transparent transparent;
 }
 
-.emitter-text-header-layout {
-  font-family: var(--mainFont);
-  font-size: 14px;
-  font-weight: var(--boldWeight);
-  line-height: 17px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 15px;
-  margin-top: 10px;
+.radio-message-time-container {
+  font-style: italic;
+  text-align: right;
+  align-self: flex-end;
+  justify-self: flex-end;
 }
 
-.emitter-text-body-layout {
-  font-family: var(--mainFont);
+.radio-message-recipient-sender {
   font-size: 12px;
-  line-height: 15px;
-  letter-spacing: 0em;
-  text-align: left;
-  margin-left: 15px;
 }
 
-.emitter-text-body-layout > p {
-  margin-top: 0px;
+.radio-message p {
+  margin-top: 0;
   max-width: 10rem;
   word-wrap: break-word;
 }

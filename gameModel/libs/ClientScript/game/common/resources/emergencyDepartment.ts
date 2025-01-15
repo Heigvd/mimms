@@ -3,6 +3,7 @@ import { resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { SimFlag } from '../actions/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
+import { getCasuActorId } from '../actors/actorLogic';
 import {
   ActorId,
   GlobalEventId,
@@ -14,6 +15,7 @@ import {
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   buildContainerDefinition,
@@ -22,7 +24,6 @@ import {
   ResourceContainerType,
 } from './resourceContainer';
 import { ResourceType } from './resourceType';
-import { ActionType } from '../actionType';
 
 const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
@@ -212,7 +213,7 @@ export function hasContainerOfType(
 export function resolveResourceRequest(
   state: MainSimulationState,
   globalEventId: GlobalEventId,
-  senderId: ActorId,
+  senderId: ActorId | undefined,
   request: Record<ResourceContainerType, number>
 ) {
   const containers = state.getResourceContainersByType();
@@ -259,7 +260,6 @@ export function resolveResourceRequest(
         const evt = new ResourceMobilizationEvent(
           globalEventId,
           now,
-          senderId,
           departureTime,
           c.travelTime,
           definition.uid,
@@ -285,7 +285,7 @@ function queueResourceDepartureRadioMessageEvents(
     { name: string; def: ResourceContainerDefinition; travelTime: number }[]
   >,
   globalEventId: GlobalEventId,
-  senderId: ActorId
+  senderId: ActorId | undefined
 ): void {
   Object.entries(sentContainers).forEach(([depTime, sent]) => {
     const dtime = parseInt(depTime);
@@ -298,11 +298,11 @@ function queueResourceDepartureRadioMessageEvents(
     const evt = new AddRadioMessageLocalEvent(
       globalEventId,
       dtime,
+      getCasuActorId(),
+      undefined,
       senderId,
-      'CASU',
       msgs.join('\n'),
-      ActionType.CASU_RADIO,
-      true,
+      RadioType.CASU,
       true
     );
     localEventManager.queueLocalEvent(evt);

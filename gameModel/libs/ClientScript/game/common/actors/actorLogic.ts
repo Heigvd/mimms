@@ -1,10 +1,15 @@
 import { getTranslation } from '../../../tools/translation';
+import { getAllActors } from '../../../UIfacade/actorFacade';
 import { ActorId, TranslationKey } from '../baseTypes';
 import { isOnSite, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Actor, hierarchyLevels, InterventionRole, sortByHierarchyLevel } from './actor';
 
 const translationCategory: keyof VariableClasses = 'mainSim-actors';
+
+export function getCasuActorId(): ActorId | undefined {
+  return getAllActors().find(actor => actor.Role === 'CASU')?.Uid;
+}
 
 export function getRoleShortTranslation(role: InterventionRole): string {
   const key: TranslationKey = `actor-${role.toLowerCase()}`;

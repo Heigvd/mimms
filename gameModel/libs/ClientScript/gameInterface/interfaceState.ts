@@ -1,8 +1,8 @@
-import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
@@ -36,9 +36,9 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
-  selectedRadioChannel: ActionType;
+  selectedRadioChannel: RadioType;
   updatedChannelMessagesAt: number;
-  radioMessageInput: Partial<Record<ActionType, string>>;
+  radioMessageInput: Partial<Record<RadioType, string>>;
   selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
   resources: {
@@ -115,7 +115,7 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
-    selectedRadioChannel: ActionType.CASU_RADIO,
+    selectedRadioChannel: RadioType.CASU,
     updatedChannelMessagesAt: 0,
     radioMessageInput: {},
     selectedCasuAction: undefined,
