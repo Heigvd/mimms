@@ -35,15 +35,6 @@ import {
   whoAmI,
 } from '../../tools/WegasHelper';
 import { initEmitterIds, TargetedEvent } from '../common/events/baseEvent';
-import {
-  processPhoneCreation,
-  processDirectMessageEvent,
-  processRadioChannelUpdate,
-  processRadioCommunication,
-  processRadioCreationEvent,
-  processPhoneCommunication,
-  clearAllCommunicationState,
-} from './communication';
 import { calculateLOS, isPointInPolygon } from '../../map/lineOfSight';
 import { PathFinder } from '../../map/pathFinding';
 import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../../map/layersData';
@@ -63,7 +54,6 @@ import {
   CancelActionEvent,
   CategorizeEvent,
   DelayedAction,
-  DirectCommunicationEvent,
   EventPayload,
   EventType,
   FollowPathEvent,
@@ -74,11 +64,6 @@ import {
   HumanMeasureResultEvent,
   HumanTreatmentEvent,
   PathologyEvent,
-  PhoneCommunicationEvent,
-  PhoneCreationEvent,
-  RadioChannelUpdateEvent,
-  RadioCommunicationEvent,
-  RadioCreationEvent,
   TeleportEvent,
 } from '../common/events/eventTypes';
 import { Location, LocationState, PositionAtTime } from '../../map/locationTypes';
@@ -198,15 +183,6 @@ let delayedActions: DelayedAction[] = [];
 let processedEvent: Record<number, boolean> = {};
 
 let currentProcessedEvents: FullEvent<EventPayload>[] = [];
-
-// const eventStore: EventStore = {};
-
-//let fogType: FogType = 'NONE';
-
-// TODO: line of sight:
-export const lineOfSightRadius = 100;
-
-const sqRadius = lineOfSightRadius * lineOfSightRadius;
 
 ///////////////////////////////////////////////////////////////////////////
 // Helpers & Utils
@@ -1511,32 +1487,6 @@ function unreachable(x: never) {
   worldLogger.error('Unreachable ', x);
 }
 
-function processDirectCommunicationEvent(event: FullEvent<DirectCommunicationEvent>): void {
-  // sender always gets his own messages
-  //check distance between sender and player
-  //TODO perform for all players (supposing a change of player)
-  const time = event.time;
-
-  //could be performed with all characters if the player can change character live
-  const myHumanId = whoAmI();
-  const myId = { objectId: myHumanId, objectType: 'Human' };
-  const myPosition = getMostRecentSnapshot(locationsSnapshots, myId, time);
-
-  const senderId = { objectId: event.payload.sender, objectType: 'Human' };
-  const senderPosition = getMostRecentSnapshot(locationsSnapshots, senderId, time);
-
-  let distanceSquared = Infinity;
-
-  if (myPosition?.mostRecent?.state?.location && senderPosition?.mostRecent?.state?.location) {
-    const vec = sub(myPosition.mostRecent.state.location, senderPosition.mostRecent.state.location);
-    distanceSquared = lengthSquared(vec);
-  }
-
-  if (distanceSquared < sqRadius) {
-    processDirectMessageEvent(event, event.payload.sender);
-  }
-}
-
 function updateInventory(inventory: Inventory, from: Inventory) {
   const forceInfinity = infiniteBags();
 
@@ -1666,24 +1616,6 @@ function processEvent(
       break;
     case 'HumanLogMessage':
       processHumanLogMessageEvent(event as FullEvent<HumanLogMessageEvent>);
-      break;
-    case 'DirectCommunication':
-      processDirectCommunicationEvent(event as FullEvent<DirectCommunicationEvent>);
-      break;
-    case 'RadioCommunication':
-      processRadioCommunication(event as FullEvent<RadioCommunicationEvent>);
-      break;
-    case 'RadioChannelUpdate':
-      processRadioChannelUpdate(event as FullEvent<RadioChannelUpdateEvent>);
-      break;
-    case 'RadioCreation':
-      processRadioCreationEvent(event as FullEvent<RadioCreationEvent>);
-      break;
-    case 'PhoneCommunication':
-      processPhoneCommunication(event as FullEvent<PhoneCommunicationEvent>);
-      break;
-    case 'PhoneCreation':
-      processPhoneCreation(event as FullEvent<PhoneCreationEvent>);
       break;
     case 'GiveBag':
       processGiveBagEvent(event as FullEvent<GiveBagEvent>);
@@ -1960,7 +1892,6 @@ export function clearState() {
   inventoriesSnapshots = {};
   healths = {};
   delayedActions = [];
-  clearAllCommunicationState();
 }
 
 Helpers.registerEffect(() => {

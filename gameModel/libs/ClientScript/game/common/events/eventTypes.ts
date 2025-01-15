@@ -2,7 +2,6 @@ import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
 import { Location } from '../../../map/locationTypes';
-import { Channel, Phone, Radio } from '../../legacy/communication';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
 import { InterventionRole } from '../actors/actor';
@@ -109,45 +108,6 @@ export interface AgingEvent extends TargetedEvent {
   deltaSeconds: number;
 }
 
-// Communication events
-export type CommunicationEvent = BaseEvent & {
-  message: string;
-  sender: string; //player id
-};
-
-export type DirectCommunicationEvent = CommunicationEvent & {
-  type: 'DirectCommunication';
-};
-///// RADIO EVENTS /////////////////////////
-export type RadioChannelUpdateEvent = BaseEvent & {
-  type: 'RadioChannelUpdate';
-  targetRadio: number;
-  newChannel: Channel;
-};
-
-export type RadioCreationEvent = BaseEvent & {
-  type: 'RadioCreation';
-  radioTemplate: Radio;
-  //ownerId: string //the guy who will have it (TODO might be some other entity)
-};
-
-export type RadioCommunicationEvent = CommunicationEvent & {
-  type: 'RadioCommunication';
-  senderRadioId: number; //radio sending the message
-};
-
-//// PHONE EVENTS ////////////////
-export type PhoneCommunicationEvent = CommunicationEvent & {
-  type: 'PhoneCommunication';
-  senderPhoneId: number;
-  recipientPhoneId: number;
-};
-
-export type PhoneCreationEvent = BaseEvent & {
-  type: 'PhoneCreation';
-  phoneTemplate: Phone;
-};
-
 export type EventPayload =
   | FollowPathEvent
   | TeleportEvent
@@ -157,12 +117,6 @@ export type EventPayload =
   | HumanMeasureResultEvent
   | HumanLogMessageEvent
   | CategorizeEvent
-  | DirectCommunicationEvent
-  | RadioCommunicationEvent
-  | RadioChannelUpdateEvent
-  | RadioCreationEvent
-  | PhoneCommunicationEvent
-  | PhoneCreationEvent
   | GiveBagEvent
   | CancelActionEvent
   | FreezeEvent
@@ -277,12 +231,6 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
     case 'HumanMeasure':
     case 'Categorize':
     case 'HumanLogMessage':
-    case 'DirectCommunication':
-    case 'RadioCommunication':
-    case 'RadioChannelUpdate':
-    case 'RadioCreation':
-    case 'PhoneCommunication':
-    case 'PhoneCreation':
     case 'GiveBag':
     case 'CancelAction':
     case 'Freeze':
