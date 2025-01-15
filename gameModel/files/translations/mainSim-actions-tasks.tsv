@@ -73,6 +73,7 @@ appoint-LeadPMA-title	Appoint Lead PMA	Nommer Chef PMA
 appoint-LeadPMA-desc	You appoint a resource as EVASAN 	Nommer une ressource comme Chef PMA	
 appoint-LeadPMA-feedback	Lead PMA is appointed	Le Chef PMA est nommé	
 appoint-LeadPMA-no-resource-feedback	Impossible to nominate a Lead PMA because there is no matching resource next to you	Impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous	
+appoint-refusal-feedback	The resource has refused your orders	La resource a refusé votre ordre	
 situation-update-title	Situation update	Point de situation	
 situation-update-desc	You go out to make a situation update	Vous vous absentez pour faire un point de situation	
 situation-update-feedback	Situation update	Point de situation	
@@ -113,9 +114,11 @@ get-hospital-information-desc	Ask CASU for available hospital places 	Demander �
 evacuate-title	Evacuation	Evacuation	
 evacuate-desc	Evacuate a patient to a hospital	Evacuer un patient vers un hôpital	
 evacuate-feedback	Evacuation is in progress	L'évacuation est en cours	
-evacuate-task-started	Evacuation of patient {0} {1} {2} {3}	Évacuation du patient {0} {1} {2} {3}	
+evacuate-task-request	Evacuation order for patient {0} {1} {2} {3}	Ordre d’évacuation du patient {0} {1} {2} {3}	
+evacuate-task-started	Evacuation is in progress	L'évacuation est en cours	
 evacuate-feedback-return	{0} {1}: estimated return in {2} minute(s)	{0} {1} : retour dans environ {2} minute(s)	
 evacuate-task-abort	The evacuation is aborted because there are not enough resources	L'évacuation est annulée parce qu'il n'y a pas assez de ressources	
+evacuate-task-refused	The resources have refused your orders	Les ressources ont refusé votre ordre	
 by-ambulance	By ambulance	En ambulance	
 ambulance	Ambulance	Ambulance	
 by-helicopter	By helicopter	En hélicoptère	

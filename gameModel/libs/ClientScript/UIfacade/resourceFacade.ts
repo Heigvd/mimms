@@ -8,12 +8,43 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
+import {
+  getTypedInterfaceState,
+  ResourcesManagementActivityType,
+} from '../gameInterface/interfaceState';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { canViewLocation } from '../gameMap/mapEntities';
 import { isPCFrontBuilt } from './actionFacade';
 import { getSelectedActorLocation, isCurrentActorAtLocation } from './actorFacade';
 import * as TaskFacade from './taskFacade';
+
+// used in page 68
+export function getSelectedActivityType(): ResourcesManagementActivityType | undefined {
+  return getTypedInterfaceState().resourcesManagement.activityType;
+}
+
+export function setActivityType(activityType: ResourcesManagementActivityType | undefined): void {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resourcesManagement.activityType = activityType;
+  Context.interfaceState.setState(newState);
+}
+
+/**
+ * If not yet selected, select it.
+ * If already selected, unselect it.
+ */
+// used in page 68
+export function toggleSelectedActivityType(activityType: ResourcesManagementActivityType): void {
+  let newActivityType: ResourcesManagementActivityType | undefined = activityType;
+
+  // if already selected, unselect it.
+  if (getSelectedActivityType() === activityType) {
+    newActivityType = undefined;
+  }
+
+  setActivityType(newActivityType);
+}
 
 // used in page 67
 export function getHumanResourceTypes(): readonly ResourceType[] {
@@ -137,14 +168,25 @@ export function isOrderValidationDisabled(): boolean {
   return nbResourcesRequested === 0;
 }
 
+// used in page 68
+export function setReportLocationRequest(location: LOCATION_ENUM | undefined): void {
+  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  newState.resourcesManagement.pretriageReportRequestLocation = location;
+  Context.interfaceState.setState(newState);
+}
+
+// used in page 68
+export function getReportLocationRequest(): LOCATION_ENUM | undefined {
+  return getTypedInterfaceState().resourcesManagement.pretriageReportRequestLocation;
+}
+
+// used in page 68
 export function isPretriageReportRequestDisabled(): boolean {
   if (!canPlanAction()) {
     // to be able to cancel the action
     return false;
   }
-  return (
-    Context.interfaceState.state.resourcesManagement.pretriageReportRequestLocation === undefined
-  );
+  return getReportLocationRequest() === undefined;
 }
 
 // used in page 43

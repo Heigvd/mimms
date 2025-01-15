@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1734531768043,
+  "createdTime" : 1734969116403,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4021,6 +4021,7 @@
           "appoint-leadpma-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lead PMA is appointed\"},\"FR\":{\"status\":\"\",\"translation\":\"le Chef PMA est nommé\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-no-resource-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to nominate a Lead PMA because there is no matching resource next to you\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de nommer un Chef PMA car il n'y a aucune ressource correspondante à côté de vous\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint Lead PMA\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-refusal-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resource has refused your orders\"},\"FR\":{\"status\":\"\",\"translation\":\"la resource a refusé votre ordre\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
           "basic-info-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you take sometime to evaluate the situation\"},\"FR\":{\"status\":\"\",\"translation\":\"vous prenez le temps d'évaluer la situation\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4078,7 +4079,9 @@
           "evacuate-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation is in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-feedback-return" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} {1}: estimated return in {2} minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} {1} : retour dans environ {2} minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-task-abort" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the evacuation is aborted because there are not enough resources\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est annulée parce qu'il n'y a pas assez de ressources\",\"lang\":\"FR\"}},\"version\":0}",
-          "evacuate-task-started" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation of patient {0} {1} {2} {3}\"},\"FR\":{\"status\":\"\",\"translation\":\"évacuation du patient {0} {1} {2} {3}\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-task-refused" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the resources have refused your orders\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources ont refusé votre ordre\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-task-request" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation order for patient {0} {1} {2} {3}\"},\"FR\":{\"status\":\"\",\"translation\":\"ordre d’évacuation du patient {0} {1} {2} {3}\",\"lang\":\"FR\"}},\"version\":0}",
+          "evacuate-task-started" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation is in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuation\",\"lang\":\"FR\"}},\"version\":0}",
           "get-hospital-information-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ask CASU for available hospital places\"},\"FR\":{\"status\":\"\",\"translation\":\"demander à CASU les places hospitalières disponibles\",\"lang\":\"FR\"}},\"version\":0}",
           "healing-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"patients care\"},\"FR\":{\"status\":\"\",\"translation\":\"soins des patients\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4184,6 +4187,8 @@
           "actor-acs-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"chief Ambulance Man?\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier Chef des Secours\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-al" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"aL\"},\"FR\":{\"status\":\"\",\"translation\":\"aL\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-al-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"leader Ambulance Driver?\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier Leader\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-casu" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU\"},\"FR\":{\"status\":\"\",\"translation\":\"cASU\",\"lang\":\"FR\"}},\"version\":0}",
+          "actor-casu-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU\"},\"FR\":{\"status\":\"\",\"translation\":\"cASU\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-evasan" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-evasan-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN?\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-leadpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lAMP\"},\"FR\":{\"status\":\"\",\"translation\":\"cPMA\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4233,7 +4238,7 @@
           "location-helicopterpark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hP\"},\"FR\":{\"status\":\"\",\"translation\":\"pH\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sRC\"},\"FR\":{\"status\":\"\",\"translation\":\"nB\",\"lang\":\"FR\"}},\"version\":0}",
-          "location-pc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical command post\"},\"FR\":{\"status\":\"\",\"translation\":\"poste de commandement sanitaire\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-pc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical command post\"},\"FR\":{\"status\":\"\",\"translation\":\"pC sanitaire\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pc-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC SAN\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pcfront" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"forward CP\"},\"FR\":{\"status\":\"\",\"translation\":\"pC front\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pcfront-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"fCP\"},\"FR\":{\"status\":\"\",\"translation\":\"pCF\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4363,7 +4368,13 @@
           "radio-channel-actors" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d418\"},\"FR\":{\"status\":\"\",\"translation\":\"d418\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-casu" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"g679\"},\"FR\":{\"status\":\"\",\"translation\":\"g679\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d912\"},\"FR\":{\"status\":\"\",\"translation\":\"d912\",\"lang\":\"FR\"}},\"version\":0}",
-          "radio-channel-rh" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d424\"},\"FR\":{\"status\":\"\",\"translation\":\"d424\",\"lang\":\"FR\"}},\"version\":0}"
+          "radio-channel-rh" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"d424\"},\"FR\":{\"status\":\"\",\"translation\":\"d424\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-proximity-international" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"international\"},\"FR\":{\"status\":\"\",\"translation\":\"international\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-proximity-national" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"national\"},\"FR\":{\"status\":\"\",\"translation\":\"national\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-proximity-regional" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"regional\"},\"FR\":{\"status\":\"\",\"translation\":\"régional\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-recipient-from-sender" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0}, this is {1}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} de {1}\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-recipient-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "radio-sender-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:661339:Uj1yC9",
         "scopeType" : "GameModelScope",
@@ -4996,10 +5007,10 @@
         "defaultInstance" : {
           "@class" : "ObjectInstance",
           "properties" : {
-            "ACTORS_RADIO" : "0",
-            "CASU_RADIO" : "0",
-            "EVASAN_RADIO" : "0",
-            "RESOURCES_RADIO" : "0"
+            "ACTORS" : "0",
+            "CASU" : "0",
+            "EVASAN" : "0",
+            "RESOURCES" : "0"
           },
           "refId" : "ObjectInstance:128841:CZFLIG"
         },
@@ -5861,6 +5872,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:210050:57L6Fo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/radio/communicationType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1274564:ljksPB",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7124,7 +7144,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS v6.0.0 Release",
+  "name" : "MIMMS",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

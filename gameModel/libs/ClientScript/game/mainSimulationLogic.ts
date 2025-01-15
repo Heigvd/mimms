@@ -11,8 +11,8 @@ import { ActionBase } from './common/actions/actionBase';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { Actor } from './common/actors/actor';
-import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { ActorId, TemplateId } from './common/baseTypes';
+import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
   BuildingStatus,
@@ -29,7 +29,9 @@ import {
   TimeForwardEvent,
 } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
+import { GameOptions, getCurrentGameOptions } from './common/gameOptions';
 import {
+  AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
   TimeForwardCancelLocalEvent,
@@ -48,7 +50,6 @@ import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
-import { getCurrentGameOptions, GameOptions } from './common/gameOptions';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -352,14 +353,13 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
             // notify!
             const ownerId = event.payload.emitterCharacterId as ActorId;
             localEventManager.queueLocalEvent(
-              new AddRadioMessageLocalEvent(
+              new AddNotificationLocalEvent(
                 event.id,
                 getCurrentState().getSimTime(),
+                undefined,
+                undefined,
                 ownerId,
-                'SYSTEM',
                 getTranslation('mainSim-interface', 'notification-concurrent-stop'),
-                ActionType.ACTION,
-                false,
                 true
               )
             );
@@ -435,11 +435,11 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       const radioMessageEvent = new AddRadioMessageLocalEvent(
         event.id,
         event.payload.triggerTime,
-        0,
+        undefined,
         trainerName,
+        undefined,
         event.payload.message,
         event.payload.canal,
-        true,
         true
       );
       localEventManager.queueLocalEvent(radioMessageEvent);
@@ -452,14 +452,13 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       payload.roles.forEach(role => {
         const actorId = currentSimulationState.getAllActors().find(a => a.Role === role)?.Uid;
         if (actorId) {
-          const notificationMessageEvent = new AddRadioMessageLocalEvent(
+          const notificationMessageEvent = new AddNotificationLocalEvent(
             event.id,
             payload.triggerTime,
-            actorId,
+            undefined,
             trainerName,
+            actorId,
             payload.message,
-            ActionType.ACTION,
-            false,
             true
           );
           localEventManager.queueLocalEvent(notificationMessageEvent);

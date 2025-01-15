@@ -3,3 +3,9 @@ radio-channel-casu	G679	G679
 radio-channel-actors	D418	D418
 radio-channel-rh	D424	D424
 radio-channel-evacuation	D912	D912
+radio-recipient-resources	Resources	Ressources
+radio-sender-resources	Resources	Ressources
+radio-recipient-from-sender	{0}, this is {1}	{0} de {1}
+radio-proximity-regional	Regional	Régional
+radio-proximity-national	National	National
+radio-proximity-international	International	International

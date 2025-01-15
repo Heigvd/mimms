@@ -23,6 +23,11 @@
         }, {
           "props" : {
             "className" : "mimms_h2title",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
             "layoutStyle" : {
               "flex-shrink" : "0",
               "height" : "auto",
@@ -46,6 +51,15 @@
                 "children" : [ {
                   "props" : {
                     "className" : "rectangleButton",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'METHANE';",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -57,7 +71,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'METHANE';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'METHANE');",
                         "language" : "TypeScript"
                       }
                     },
@@ -68,6 +82,15 @@
                 }, {
                   "props" : {
                     "className" : "rectangleButton",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'MET';",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -79,7 +102,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'MET';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'MET');",
                         "language" : "TypeScript"
                       }
                     },
@@ -90,6 +113,15 @@
                 }, {
                   "props" : {
                     "className" : "rectangleButton",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'HANE';",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -101,7 +133,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "const newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.casuMessage.messageType = 'HANE';\n newState.selectedCASUChannelAction = 'CASUMessage';\nContext.interfaceState.setState(newState);",
+                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'HANE');",
                         "language" : "TypeScript"
                       }
                     },
@@ -112,6 +144,15 @@
                 }, {
                   "props" : {
                     "className" : "rectangleButton",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'E';",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "id" : "",
                     "label" : {
                       "@class" : "Script",
@@ -123,7 +164,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'E';\n newState.selectedCASUChannelAction = 'CASUMessage';\n Context.interfaceState.setState(newState);",
+                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'E');",
                         "language" : "TypeScript"
                       }
                     },
@@ -143,6 +184,15 @@
             }, {
               "props" : {
                 "className" : "rectangleButton",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'R';",
+                    "language" : "typescript"
+                  }
+                } ],
                 "id" : "",
                 "label" : {
                   "@class" : "Script",
@@ -154,7 +204,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = 'R';\n newState.selectedCASUChannelAction = 'CASUMessage';\n Context.interfaceState.setState(newState);",
+                    "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'R');",
                     "language" : "TypeScript"
                   }
                 },
@@ -167,10 +217,10 @@
                 "className" : "rectangleButton",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "radio-action_selected",
+                  "className" : "selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getSelectedCASUChannelAction } from \"./UIfacade/radioFacade\";\ngetSelectedCASUChannelAction() === 'channelsActivation';",
+                    "content" : "import { getSelectedCasuAction } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'channelsActivation';",
                     "language" : "typescript"
                   }
                 } ],
@@ -190,7 +240,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = '';\n newState.selectedCASUChannelAction = 'channelsActivation';\n Context.interfaceState.setState(newState);",
+                    "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('channelsActivation');",
                     "language" : "TypeScript"
                   }
                 },
@@ -203,10 +253,10 @@
                 "className" : "rectangleButton",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "radio-action_selected",
+                  "className" : "selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getSelectedCASUChannelAction } from \"./UIfacade/radioFacade\";\ngetSelectedCASUChannelAction() === 'freeMessage';",
+                    "content" : "import { getSelectedCasuAction } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'freeMessage';",
                     "language" : "typescript"
                   }
                 } ],
@@ -221,7 +271,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : " const newState = Helpers.cloneDeep(Context.interfaceState.state);\n newState.casuMessage.messageType = '';\n newState.selectedCASUChannelAction = 'freeMessage';\n Context.interfaceState.setState(newState);",
+                    "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('freeMessage');",
                     "language" : "TypeScript"
                   }
                 },
@@ -239,7 +289,7 @@
             "layoutStyle" : {
               "flex-shrink" : "0",
               "height" : "auto",
-              "margin" : "-5px -5px 0 -5px",
+              "margin" : "0 -5px",
               "maxWidth" : "25vw"
             },
             "name" : "buttons",
@@ -252,12 +302,12 @@
             "exposePageSizeAs" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCASUChannelAction) === '';",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCasuAction) === '';",
               "language" : "typescript"
             },
             "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCASUChannelAction);",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { showActionParamsPanel } from \"./UIfacade/radioFacade\";\nshowActionParamsPanel(getTypedInterfaceState().selectedCasuAction);",
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",
@@ -274,7 +324,7 @@
         "exposeAs" : "currentRadio",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { ActionType } from \"./game/common/actionType\";\n({ channel: ActionType.CASU_RADIO })",
+          "content" : "import { RadioType } from \"./game/common/radio/communicationType\";\n({ channel: RadioType.CASU })",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding",

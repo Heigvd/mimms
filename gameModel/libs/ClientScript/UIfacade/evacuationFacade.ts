@@ -101,6 +101,7 @@ export function selectPatientId(patientId: PatientId | undefined) {
 export function selectHospitalId(hospitalId: HospitalId | undefined) {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.evacuation.data.hospitalId = hospitalId;
+  newState.evacuation.data.patientUnitAtHospital = undefined;
   Context.interfaceState.setState(newState);
 }
 

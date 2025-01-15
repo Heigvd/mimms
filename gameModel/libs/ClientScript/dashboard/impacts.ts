@@ -1,4 +1,3 @@
-import { ActionType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
 import { TimeSliceDuration, TRAINER_NAME } from '../game/common/constants';
 import {
@@ -9,6 +8,7 @@ import {
 } from '../game/common/events/eventTypes';
 import { sendEvent } from '../game/common/events/eventUtils';
 import { GameOptions, getCurrentGameOptions } from '../game/common/gameOptions';
+import { RadioType } from '../game/common/radio/communicationType';
 import { dashboardLogger } from '../tools/logger';
 import { getRawTime } from './dashboardFacade';
 import {
@@ -125,7 +125,7 @@ export async function triggerAbsoluteTimeForwardGame(
 /*****************
  * RADIO MESSAGES
  *****************/
-function buildRadioMessageEvent(message: string, canal: ActionType): DashboardRadioMessageEvent {
+function buildRadioMessageEvent(message: string, canal: RadioType): DashboardRadioMessageEvent {
   return {
     type: 'DashboardRadioMessageEvent',
     emitterCharacterId: TRAINER_NAME,
@@ -142,7 +142,7 @@ function buildRadioMessageEvent(message: string, canal: ActionType): DashboardRa
  */
 export async function sendRadioMessage(
   message: string,
-  canal: ActionType,
+  canal: RadioType,
   teamId: number,
   updateFunc: UpdateStateFunc
 ): Promise<void> {
@@ -157,7 +157,7 @@ export async function sendRadioMessage(
  */
 export async function sendRadioMessageGame(
   message: string,
-  canal: ActionType,
+  canal: RadioType,
   updateFunc: UpdateStateFunc
 ): Promise<void> {
   const rme = buildRadioMessageEvent(message, canal);

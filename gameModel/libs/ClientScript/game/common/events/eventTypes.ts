@@ -2,17 +2,17 @@ import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
 import { Location } from '../../../map/locationTypes';
-import { BaseEvent, TargetedEvent } from './baseEvent';
-import { FullEvent } from './eventUtils';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
+import { InterventionRole } from '../actors/actor';
 import { ActionTemplateId, ActorId, SimDuration, SimTime, TaskId, TemplateId } from '../baseTypes';
+import { GameOptions } from '../gameOptions';
+import { RadioType } from '../radio/communicationType';
+import { CommMedia } from '../resources/resourceReachLogic';
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { InterventionRole } from '../actors/actor';
-import { ActionType } from '../actionType';
-import { GameOptions } from '../gameOptions';
-import { CommMedia } from '../resources/resourceReachLogic';
+import { BaseEvent, TargetedEvent } from './baseEvent';
+import { FullEvent } from './eventUtils';
 
 /**
  * Walk, drive, fly to destination
@@ -151,7 +151,7 @@ export type TimedEventPayload = TimedPayload & EventPayload;
 
 export interface DashboardRadioMessageEvent extends BaseEvent, TimedPayload {
   type: 'DashboardRadioMessageEvent';
-  canal: ActionType;
+  canal: RadioType;
   message: string;
 }
 

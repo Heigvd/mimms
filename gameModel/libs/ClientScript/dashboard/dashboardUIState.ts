@@ -1,5 +1,5 @@
-import { ActionType } from '../game/common/actionType';
 import { InterventionRole } from '../game/common/actors/actor';
+import { RadioType } from '../game/common/radio/communicationType';
 import { getSimStartDateTime } from '../gameInterface/main';
 import { MultiplayerMatrix } from '../multiplayer/multiplayerManager';
 
@@ -29,7 +29,7 @@ export interface DashboardUIState {
   locations: boolean;
   radio: {
     mode: 'radio' | 'notif';
-    channel: ActionType;
+    channel: RadioType;
     message: string;
     roles: Partial<Record<InterventionRole, boolean>>;
   };
@@ -50,7 +50,7 @@ export function getInitialDashboardUIState(): DashboardUIState {
     locations: false,
     radio: {
       mode: 'radio',
-      channel: ActionType.CASU_RADIO,
+      channel: RadioType.CASU,
       message: '',
       roles: {
         AL: true,
@@ -82,7 +82,7 @@ export function resetModalCustom(dashboardState: DashboardUIStateCtx): void {
   const newState = Helpers.cloneDeep<DashboardUIState>(dashboardState.state);
 
   newState.radio.message = '';
-  newState.radio.channel = ActionType.CASU_RADIO;
+  newState.radio.channel = RadioType.CASU;
   newState.radio.mode = 'radio';
   newState.radio.roles = {
     AL: true,

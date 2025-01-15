@@ -1,11 +1,13 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getPriorityByCategoryId } from '../../pretri/triage';
-import { ActionType } from '../actionType';
+import { SimFlag } from '../actions/actionTemplateBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
 import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { localEventManager } from '../localEvents/localEventManager';
+import { RadioType } from '../radio/communicationType';
+import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -18,7 +20,6 @@ import {
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
-import { SimFlag } from '../actions/actionTemplateBase';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task
@@ -190,11 +191,11 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         new AddRadioMessageLocalEvent(
           0,
           state.getSimTime(),
-          0,
-          'resources',
+          undefined,
+          RadioLogic.getResourceAsSenderName(),
+          undefined,
           this.getFeedbackIfNoTargetLocation(),
-          ActionType.RESOURCES_RADIO,
-          true,
+          RadioType.RESOURCES,
           true
         )
       );

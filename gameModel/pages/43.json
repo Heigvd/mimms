@@ -800,7 +800,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getActor } from \"./UIfacade/actorFacade\";\ngetActor(Context.interfaceState.state.currentActorUid)!.Role  + ' - ' +  getActor(Context.interfaceState.state.currentActorUid)!.Location;",
+                                          "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\nimport { getLocationLongTranslation } from \"./game/common/location/locationLogic\";\nimport { getActor } from \"./UIfacade/actorFacade\";\ngetRoleShortTranslation(getActor(Context.interfaceState.state.currentActorUid)!.Role) \n  + ' - ' \n  + getLocationLongTranslation(getActor(Context.interfaceState.state.currentActorUid)!.Location);",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -1000,7 +1000,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nnewState.casuMessage.messageType = '';\nContext.interfaceState.setState(newState);",
+                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -1147,7 +1147,7 @@
                                             },
                                             "label" : {
                                               "@class" : "Script",
-                                              "content" : "Context.actor.Role;",
+                                              "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
                                               "language" : "TypeScript"
                                             },
                                             "layoutStyle" : { },
@@ -1355,7 +1355,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { ActionType } from \"./game/common/actionType\";\nimport { getNotifications, updateReadMessages } from \"./UIfacade/radioFacade\";\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\nupdateReadMessages(ActionType.ACTION, getNotifications(Context.interfaceState.state.currentActorUid).length);",
+                                        "content" : "import { NotifType } from \"./game/common/radio/communicationType\";\nimport { getNotifications, updateReadMessages } from \"./UIfacade/radioFacade\";\nconst newState = Helpers.cloneDeep(Context.interfaceState.state);\nnewState.showNotificationsPanel = !newState.showNotificationsPanel;\nContext.interfaceState.setState(newState);\nupdateReadMessages(NotifType.NOTIF, getNotifications(Context.interfaceState.state.currentActorUid).length);",
                                         "language" : "TypeScript",
                                         "returnType" : "Promise<unknown> | undefined"
                                       }
