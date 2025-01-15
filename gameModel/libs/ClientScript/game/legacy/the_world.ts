@@ -184,15 +184,6 @@ let processedEvent: Record<number, boolean> = {};
 
 let currentProcessedEvents: FullEvent<EventPayload>[] = [];
 
-// const eventStore: EventStore = {};
-
-//let fogType: FogType = 'NONE';
-
-// TODO: line of sight:
-export const lineOfSightRadius = 100;
-
-//const sqRadius = lineOfSightRadius * lineOfSightRadius;
-
 ///////////////////////////////////////////////////////////////////////////
 // Helpers & Utils
 ///////////////////////////////////////////////////////////////////////////
