@@ -8,7 +8,11 @@
           "content" : "  if (Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimSetupPage') {\n    return \"43\";\n  }\n  \"12\";",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
         "name" : "Game Mode",
         "style" : { }
       },
@@ -17,6 +21,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
