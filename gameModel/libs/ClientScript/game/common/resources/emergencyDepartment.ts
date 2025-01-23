@@ -38,145 +38,125 @@ export function getAllContainerDefs(): Record<
   return containerDefinitions;
 }
 
-/**
- * Call this function when the resource.tsv file is updated (using Client Console)
- */
-export async function loadContainerConfigFile() {
-  const tsv = await Helpers.downloadFile(`resource/resource.tsv`, 'TEXT');
-  const s = `Variable.find(gameModel, 'containers_config').setProperty('config', ${JSON.stringify(
-    tsv
-  )})`;
-  await APIMethods.runScript(s, {}).then(response => {
-    wlog('script executed', response);
-  });
-}
-
 export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
   const containerConfigs: ResourceContainerConfig[] = [];
-  const tsv = Variable.find(gameModel, 'containers_config').getProperties()['config'];
+  const containers = Variable.find(gameModel, 'containers_config').getProperties();
 
-  if (!tsv) return containerConfigs;
-  if (!tsv.startsWith('<!DOCTYPE')) {
-    const emergencyAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-      'Ambulance',
-      'emergencyAmbulance',
-      {
-        ambulance: 1,
-        ambulancier: 2,
-      }
-    );
+  if (!containers) return containerConfigs;
 
-    const intermediateAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-      'Ambulance',
-      'intermediateAmbulance',
-      {
-        ambulance: 1,
-        technicienAmbulancier: 1,
-        ambulancier: 1,
-      }
-    );
+  const emergencyAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+    'Ambulance',
+    'emergencyAmbulance',
+    {
+      ambulance: 1,
+      ambulancier: 2,
+    }
+  );
 
-    const transfertAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-      'Ambulance',
-      'transferAmbulance',
-      {
-        ambulance: 1,
-        secouriste: 1,
-        technicienAmbulancier: 1,
-      }
-    );
-
-    const helicopter: ResourceContainerDefinitionId = addContainerDefinition(
-      'Helicopter',
-      'helicopter',
-      {
-        helicopter: 1,
-        ambulancier: 1,
-        medecinSenior: 1,
-      }
-    );
-
-    const smur: ResourceContainerDefinitionId = addContainerDefinition('SMUR', 'smur', {
+  const intermediateAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+    'Ambulance',
+    'intermediateAmbulance',
+    {
+      ambulance: 1,
+      technicienAmbulancier: 1,
       ambulancier: 1,
-      medecinJunior: 1,
+    }
+  );
+
+  const transfertAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+    'Ambulance',
+    'transferAmbulance',
+    {
+      ambulance: 1,
+      secouriste: 1,
+      technicienAmbulancier: 1,
+    }
+  );
+
+  const helicopter: ResourceContainerDefinitionId = addContainerDefinition(
+    'Helicopter',
+    'helicopter',
+    {
+      helicopter: 1,
+      ambulancier: 1,
+      medecinSenior: 1,
+    }
+  );
+
+  const smur: ResourceContainerDefinitionId = addContainerDefinition('SMUR', 'smur', {
+    ambulancier: 1,
+    medecinJunior: 1,
+  });
+
+  const acsMcs: ResourceContainerDefinitionId = addContainerDefinition(
+    'ACS-MCS',
+    'acs-mcs',
+    {},
+    ['ACS', 'MCS'],
+    [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]
+  );
+
+  const pma: ResourceContainerDefinitionId = addContainerDefinition('PMA', 'pma', {
+    secouriste: 4,
+  });
+
+  const pica: ResourceContainerDefinitionId = addContainerDefinition('PICA', 'pica', {
+    secouriste: 10,
+  });
+
+  const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
+    'PC-San',
+    'pc-san',
+    {},
+    [],
+    [SimFlag.PCS_ARRIVED]
+  );
+
+  Object.entries(containers).forEach(([key, value]) => {
+    const oneContainer = JSON.parse(value);
+    let definition = null;
+    switch (oneContainer['type']!) {
+      case 'AMB-U':
+        definition = emergencyAmbulance;
+        break;
+      case 'AMB-I':
+        definition = intermediateAmbulance;
+        break;
+      case 'AMB-T':
+        definition = transfertAmbulance;
+        break;
+      case 'SMUR':
+        definition = smur;
+        break;
+      case 'Helico':
+        definition = helicopter;
+        break;
+      case 'ACS-MCS':
+        definition = acsMcs;
+        break;
+      case 'PMA':
+        definition = pma;
+        break;
+      case 'PICA':
+        definition = pica;
+        break;
+      case 'PC':
+        definition = pcSanitaire;
+        break;
+      default:
+        definition = emergencyAmbulance;
+        resourceLogger.warn('malformed resource container type', oneContainer['type']);
+    }
+    containerConfigs.push({
+      templateId: definition,
+      name: key || 'UNNAMED',
+      availabilityTime: +oneContainer['availabilityTime']! * 60 || 0,
+      travelTime: +oneContainer['travelTime']! * 60 || 60,
+      amount: 1,
     });
+  });
 
-    const acsMcs: ResourceContainerDefinitionId = addContainerDefinition(
-      'ACS-MCS',
-      'acs-mcs',
-      {},
-      ['ACS', 'MCS'],
-      [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]
-    );
-
-    const pma: ResourceContainerDefinitionId = addContainerDefinition('PMA', 'pma', {
-      secouriste: 4,
-    });
-
-    const pica: ResourceContainerDefinitionId = addContainerDefinition('PICA', 'pica', {
-      secouriste: 10,
-    });
-
-    const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
-      'PC-San',
-      'pc-san',
-      {},
-      [],
-      [SimFlag.PCS_ARRIVED]
-    );
-
-    tsv
-      .split('\n')
-      .slice(1)
-      .forEach(line => {
-        const l = line.split('\t');
-        if (!l || l.length !== 4) {
-          resourceLogger.warn('Malformed resource container configuration', l);
-          return;
-        }
-        let definition = null;
-        switch (l[0]!) {
-          case 'AMB-U':
-            definition = emergencyAmbulance;
-            break;
-          case 'AMB-I':
-            definition = intermediateAmbulance;
-            break;
-          case 'AMB-T':
-            definition = transfertAmbulance;
-            break;
-          case 'SMUR':
-            definition = smur;
-            break;
-          case 'Helico':
-            definition = helicopter;
-            break;
-          case 'ACS-MCS':
-            definition = acsMcs;
-            break;
-          case 'PMA':
-            definition = pma;
-            break;
-          case 'PICA':
-            definition = pica;
-            break;
-          case 'PC':
-            definition = pcSanitaire;
-            break;
-          default:
-            definition = emergencyAmbulance;
-            resourceLogger.warn('malformed resource container configuration', l);
-        }
-        containerConfigs.push({
-          templateId: definition,
-          name: l[1]! || 'UNNAMED',
-          availabilityTime: +l[2]! * 60 || 0,
-          travelTime: +l[3]! * 60 || 60,
-          amount: 1,
-        });
-      });
-  }
-  resourceLogger.info('CONTAINER CONFIGS', containerConfigs);
+  resourceLogger.info('CONTAINERS CONFIG', containerConfigs);
   return containerConfigs;
 }
 
