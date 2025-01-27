@@ -693,7 +693,7 @@ Helpers.registerEffect(() => {
                   type: {
                     type: 'string',
                     view: {
-                      label: 'Type de container',
+                      label: 'Container type',
                       layout: 'fullWidth',
                       type: 'select',
                       choices: [
@@ -711,11 +711,11 @@ Helpers.registerEffect(() => {
                   },
                   availabilityTime: {
                     type: 'number',
-                    view: { label: 'Disponibilité (minutes)', layout: 'shortInline' },
+                    view: { label: 'Availability time (minutes from start)', layout: 'inline' },
                   },
                   travelTime: {
                     type: 'number',
-                    view: { label: 'Temps de trajet (minutes)', layout: 'shortInline' },
+                    view: { label: 'Travel time (minutes)', layout: 'inline' },
                   },
                 },
               },
