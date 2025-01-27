@@ -63,7 +63,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     }
   );
 
-  const transfertAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
+  const transferAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
     'Ambulance',
     'transferAmbulance',
     {
@@ -123,7 +123,7 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
         definition = intermediateAmbulance;
         break;
       case 'AMB-T':
-        definition = transfertAmbulance;
+        definition = transferAmbulance;
         break;
       case 'SMUR':
         definition = smur;
