@@ -953,7 +953,7 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -970,10 +970,42 @@
       },
       "name" : "containers_config",
       "properties" : {
-        "config" : "Type de moyen\tID\tDisponibilité (minutes)\tTrajet\r\nAMB-U\tGE-001\t0\t5\r\nAMB-U\tGE-002\t0\t5\r\nAMB-U\tGE-003\t0\t5\r\nAMB-U\tGE-004\t5\t5\r\nAMB-I\tGE-005\t5\t5\r\nAMB-U\tGE-006\t10\t5\r\nAMB-U\tGE-007\t15\t5\r\nAMB-I\tGE-008\t20\t5\r\nAMB-T\tGE-009\t20\t5\r\nAMB-U\tGE-010\t20\t5\r\nAMB-T\tGE-011\t25\t5\r\nAMB-I\tGE-012\t25\t5\r\nAMB-I\tGE-013\t25\t5\r\nAMB-U\tGE-014\t30\t5\r\nAMB-U\tVD-001\t15\t30\r\nAMB-U\tVD-002\t15\t30\r\nAMB-U\tVD-003\t15\t30\r\nAMB-U\tVD-004\t30\t30\r\nAMB-U\tVD-005\t30\t30\r\nSMUR\tSMUR-001\t5\t5\r\nSMUR\tSMUR-002\t20\t5\r\nSMUR\tSMUR-003\t30\t5\r\nSMUR\tSMUR-004\t50\t5\r\nSMUR\tSMUR-005\t60\t5\r\nHelico\tHeli-001\t0\t5\r\nHelico\tHeli-002\t0\t15\r\nHelico\tHeli-003\t15\t25\r\nHelico\tHeli-004\t40\t30\r\nHelico\tHeli-005\t50\t30\r\nPICA\tPICA-001\t0\t30\r\nPMA\tPMA-001\t0\t60\r\nPC\tPC-001\t0\t10\r\nACS-MCS\tACSMCS-001\t0\t5\n"
+        "ACSMCS-001" : "{\"type\":\"ACS-MCS\",\"availabilityTime\":0,\"travelTime\":5}",
+        "GE-001" : "{\"type\":\"AMB-U\",\"availabilityTime\":0,\"travelTime\":5}",
+        "GE-002" : "{\"type\":\"AMB-U\",\"availabilityTime\":0,\"travelTime\":5}",
+        "GE-003" : "{\"type\":\"AMB-U\",\"availabilityTime\":0,\"travelTime\":5}",
+        "GE-004" : "{\"type\":\"AMB-U\",\"availabilityTime\":5,\"travelTime\":5}",
+        "GE-005" : "{\"type\":\"AMB-I\",\"availabilityTime\":5,\"travelTime\":5}",
+        "GE-006" : "{\"type\":\"AMB-U\",\"availabilityTime\":10,\"travelTime\":5}",
+        "GE-007" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":5}",
+        "GE-008" : "{\"type\":\"AMB-I\",\"availabilityTime\":20,\"travelTime\":5}",
+        "GE-009" : "{\"type\":\"AMB-T\",\"availabilityTime\":20,\"travelTime\":5}",
+        "GE-010" : "{\"type\":\"AMB-U\",\"availabilityTime\":20,\"travelTime\":5}",
+        "GE-011" : "{\"type\":\"AMB-T\",\"availabilityTime\":25,\"travelTime\":5}",
+        "GE-012" : "{\"type\":\"AMB-I\",\"availabilityTime\":25,\"travelTime\":5}",
+        "GE-013" : "{\"type\":\"AMB-I\",\"availabilityTime\":25,\"travelTime\":5}",
+        "GE-014" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":5}",
+        "Heli-001" : "{\"type\":\"Helico\",\"availabilityTime\":0,\"travelTime\":5}",
+        "Heli-002" : "{\"type\":\"Helico\",\"availabilityTime\":0,\"travelTime\":15}",
+        "Heli-003" : "{\"type\":\"Helico\",\"availabilityTime\":15,\"travelTime\":25}",
+        "Heli-004" : "{\"type\":\"Helico\",\"availabilityTime\":40,\"travelTime\":30}",
+        "Heli-005" : "{\"type\":\"Helico\",\"availabilityTime\":50,\"travelTime\":30}",
+        "PC-001" : "{\"type\":\"PC\",\"availabilityTime\":0,\"travelTime\":10}",
+        "PICA-001" : "{\"type\":\"PICA\",\"availabilityTime\":0,\"travelTime\":30}",
+        "PMA-001" : "{\"type\":\"PMA\",\"availabilityTime\":0,\"travelTime\":60}",
+        "SMUR-001" : "{\"type\":\"SMUR\",\"availabilityTime\":5,\"travelTime\":5}",
+        "SMUR-002" : "{\"type\":\"SMUR\",\"availabilityTime\":20,\"travelTime\":5}",
+        "SMUR-003" : "{\"type\":\"SMUR\",\"availabilityTime\":30,\"travelTime\":5}",
+        "SMUR-004" : "{\"type\":\"SMUR\",\"availabilityTime\":50,\"travelTime\":5}",
+        "SMUR-005" : "{\"type\":\"SMUR\",\"availabilityTime\":60,\"travelTime\":5}",
+        "VD-001" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
+        "VD-002" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
+        "VD-003" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
+        "VD-004" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":30}",
+        "VD-005" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":30}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
-      "scopeType" : "TeamScope",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -6097,15 +6129,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#101:sHMfxz",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/communication",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#70:IWimDK",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

@@ -664,6 +664,65 @@ Helpers.registerEffect(() => {
           },
         };
         return newSchema;
+      } else if (od.editorTag === 'containers_config') {
+        const newSchema = Helpers.cloneDeep(schema);
+        hideProperty(newSchema, 'description');
+        hideProperty(newSchema, 'defaultInstance');
+
+        //hideProperty(newSchema, "label");
+        turnPropertyReadOnly(newSchema, 'editorTag');
+        newSchema.properties.properties.view = {
+          label: 'Containers',
+          type: 'dictionary',
+          value: {},
+          keySchema: {
+            type: 'string',
+            view: {
+              label: 'ID',
+              layout: 'shortInline',
+            },
+          },
+          valueSchema: {
+            type: 'string',
+            value: '{}',
+            view: {
+              type: 'serializer',
+              schema: {
+                type: 'object',
+                properties: {
+                  type: {
+                    type: 'string',
+                    view: {
+                      label: 'Container type',
+                      layout: 'fullWidth',
+                      type: 'select',
+                      choices: [
+                        { label: 'Ambulance urgence', value: 'AMB-U' },
+                        { label: 'Ambulance intermédiaire', value: 'AMB-I' },
+                        { label: 'Ambulance transfert', value: 'AMB-T' },
+                        { label: 'SMUR', value: 'SMUR' },
+                        { label: 'Hélicoptère', value: 'Helico' },
+                        { label: 'PICA', value: 'PICA' },
+                        { label: 'PMA', value: 'PMA' },
+                        { label: 'PC sanitaire', value: 'PC' },
+                        { label: 'ACS/MCS', value: 'ACS-MCS' },
+                      ],
+                    },
+                  },
+                  availabilityTime: {
+                    type: 'number',
+                    view: { label: 'Availability time (minutes from start)', layout: 'inline' },
+                  },
+                  travelTime: {
+                    type: 'number',
+                    view: { label: 'Travel time (minutes)', layout: 'inline' },
+                  },
+                },
+              },
+            },
+          },
+        };
+        return newSchema;
       }
     },
     'ObjectDescriptor'
