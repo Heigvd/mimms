@@ -805,6 +805,32 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
+      "comments" : "{\"burnt\":{\"index\":1,\"name\":{\"fr\":\"Grands brûlés\",\"en\":\"Full burnt\"}},\"trauma\":{\"index\":0,\"name\":{\"fr\":\"Traumaf\",\"en\":\"ETrauma\"}}}\n\n{\"HUG\":{\"index\":0,\"fullName\":\"Hôpitaux universitaires de Genève\",\"shortName\":\"HUG\",\"preposition\":{\"fr\":\"aux\",\"en\":\"to\"},\"distance\":2.6,\"proximity\":\"0\",\"units\":{\"burnt\":20,\"trauma\":4}},\"LA_TOUR\":{\"index\":1,\"fullName\":\"La Tour\",\"shortName\":\"LT\",\"preposition\":{\"fr\":\"à\",\"en\":\"to\"},\"distance\":8.4,\"proximity\":\"1\",\"units\":{\"burnt\":5,\"trauma\":1}}}",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:1618544:p6hSyQ"
+      },
+      "description" : "",
+      "editorTag" : "hospitals_config",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1618545:V6eqJ7",
+        "translations" : { }
+      },
+      "name" : "hospitals_config",
+      "properties" : {
+        "hospitals" : "{\"HUG\":{\"index\":0,\"fullName\":\"Hôpitaux universitaires de Genève\",\"shortName\":\"HUG\",\"preposition\":{\"fr\":\"aux\",\"en\":\"to\"},\"distance\":2.6,\"proximity\":\"0\",\"units\":{\"burnt\":20,\"trauma\":4}},\"LA_TOUR\":{\"index\":1,\"fullName\":\"La Tour\",\"shortName\":\"LT\",\"preposition\":{\"fr\":\"à\",\"en\":\"to\"},\"distance\":8.4,\"proximity\":\"1\",\"units\":{\"burnt\":5,\"trauma\":1}}}",
+        "patientUnits" : "{\"burnt\":{\"index\":1,\"name\":{\"fr\":\"Grands brûlés\",\"en\":\"Full burnt\"}},\"trauma\":{\"index\":0,\"name\":{\"fr\":\"Traumaf\",\"en\":\"ETrauma\"}}}"
+      },
+      "refId" : "ObjectDescriptor:1618543:nC9xke",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
@@ -6647,6 +6673,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/hospitalFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1618542:TO589J",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/locationFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7074,6 +7109,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:931960:ESoRSz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "tmpSam",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1619540:SZpfcV",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

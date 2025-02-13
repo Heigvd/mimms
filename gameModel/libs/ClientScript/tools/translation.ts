@@ -232,3 +232,7 @@ export function updateFromAllTsv(dryrun: boolean): void {
 export function getCurrentLanguageCode(): string {
   return I18n.currentLanguageCode;
 }
+
+export function getCurrentLanguageCodeAsKnownLanguage(): knownLanguages {
+  return I18n.currentLanguageCode.toLowerCase() as knownLanguages;
+}

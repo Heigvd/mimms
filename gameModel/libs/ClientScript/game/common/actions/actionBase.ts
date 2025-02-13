@@ -22,7 +22,7 @@ import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import {
-  HospitalDefinition,
+  HospitalDefinitionOld,
   HospitalProximity,
   PatientUnitTypology,
 } from '../evacuation/hospitalType';
@@ -369,7 +369,7 @@ export class OnTheRoadAction extends StartEndAction {
 export class CasuMessageAction extends RadioDrivenAction {
   hospitalRequestPayload: HospitalRequestPayload | undefined;
 
-  hospitals: HospitalDefinition[] | undefined;
+  hospitals: HospitalDefinitionOld[] | undefined;
 
   constructor(
     startTimeSec: SimTime,

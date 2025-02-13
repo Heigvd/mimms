@@ -31,3 +31,4 @@ export type ResourceId = number;
 export type PatientId = string;
 
 export type HospitalId = string;
+export type PatientUnitId = string;

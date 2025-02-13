@@ -1,0 +1,604 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  Variable.find(gameModel, 'hospitals_config').getProperties()['patientUnits'];",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  Variable.find(gameModel, 'hospitals_config').getProperties()['hospitals'];",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getHospitalProximityChoices } from \"./UIfacade/hospitalFacade\";\n  JSON.stringify(getHospitalProximityChoices());",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : {
+          "color" : "#8A0770"
+        },
+        "name" : "DEBUG",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><em>ID (not to display)</em></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><em>index (not to display)</em></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : {
+              "width" : "150px"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Name</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Short</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Préposition</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Distance</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Proximité</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "Context.patientUnit.id;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "`${Context.patientUnit.index}`;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.patientUnit.name[lang];",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "icon" : "trash",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { removePatientUnit } from \"./UIfacade/hospitalFacade\";\n\nremovePatientUnit(Context.patientUnit.id)",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "icon" : "arrow-left",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { movePatientUnitLeft } from \"./UIfacade/hospitalFacade\";\n\nmovePatientUnitLeft(Context.patientUnit.id)",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "icon" : "arrow-right",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { movePatientUnitRight } from \"./UIfacade/hospitalFacade\";\n\nmovePatientUnitRight(Context.patientUnit.id)",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { changePatientUnitName } from \"./UIfacade/hospitalFacade\";\n\nchangePatientUnitName(Context.patientUnit.id, Context.newName);",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"newName\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.patientUnit.name[lang];",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                } ],
+                "className" : "large-width",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "overflow" : "auto"
+                },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "exposeAs" : "patientUnit",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getAllPatientUnits } from \"./UIfacade/hospitalFacade\";\n  getAllPatientUnits();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "itemsOnly" : true,
+            "layout" : { },
+            "layoutStyle" : {
+              "gap" : "40px"
+            },
+            "style" : { }
+          },
+          "type" : "For each"
+        }, {
+          "props" : {
+            "icon" : "plus",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import {createPatientUnit } from \"./UIfacade/hospitalFacade\";\n\ncreatePatientUnit();",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Icon"
+        } ],
+        "layout" : {
+          "alignItems" : "flex-end"
+        },
+        "layoutStyle" : { },
+        "name" : "Titles",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.hospital.id;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "`${Context.hospital.index}`;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'fullName', Context.newValue);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.hospital.fullName;",
+                  "language" : "TypeScript"
+                },
+                "style" : {
+                  "width" : "150px"
+                }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'shortName', Context.newValue);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "Context.hospital.shortName;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { changeHospitalTranslatableData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalTranslatableData(Context.hospital.id, 'preposition', Context.newValue);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.hospital.preposition[lang];",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'distance', Context.newDistance);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newDistance\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.hospital.distance;",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "validator" : true
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getHospitalProximityChoices } from \"./UIfacade/hospitalFacade\";\ngetHospitalProximityChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'proximity', Context.newValue);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  `${Context.hospital.proximity || 0}`;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "onCancel" : { },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { changeHospitalUnitCapacity } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalUnitCapacity(Context.hospital.id, Context.patientUnit.id, Context.newValue);",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"newValue\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "Context.hospital.units[Context.patientUnit.id] || 0;",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Number input"
+                    } ],
+                    "className" : "large-width",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : {
+                      "overflow" : "auto"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "patientUnit",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getAllPatientUnits } from \"./UIfacade/hospitalFacade\";\n  getAllPatientUnits();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "itemsOnly" : true,
+                "layout" : { },
+                "layoutStyle" : {
+                  "gap" : "40px"
+                },
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "arrow-up",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { moveHospitalUp } from \"./UIfacade/hospitalFacade\";\n\nmoveHospitalUp(Context.hospital.id);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "icon" : "arrow-down",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { moveHospitalDown } from \"./UIfacade/hospitalFacade\";\n\nmoveHospitalDown(Context.hospital.id);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "icon" : "trash",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { removeHospital } from \"./UIfacade/hospitalFacade\";\n\nremoveHospital(Context.hospital.id)",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Icon"
+            } ]
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "hospital",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAllHospitals } from \"./UIfacade/hospitalFacade\";\n  getAllHospitals();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : {
+          "color" : "cobalt"
+        }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "icon" : "plus",
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { createHospital } from \"./UIfacade/hospitalFacade\";\n\ncreateHospital();",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Icon"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

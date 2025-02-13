@@ -1,25 +1,47 @@
-import { HospitalId } from '../baseTypes';
+import { HospitalId, PatientUnitId } from '../baseTypes';
 import { knownLanguages } from '../../../tools/translation';
 
 export enum HospitalProximity {
   Regional = 0,
-  National,
-  International,
+  National = 1,
+  International = 2,
 }
+
+export interface PatientUnitDefinition {
+  index: number;
+  name: Partial<Record<knownLanguages, string>>;
+}
+
+export interface HospitalDefinition {
+  index: number;
+  fullName: string;
+  shortName: string;
+  preposition: Record<knownLanguages, string>;
+  distance: number;
+  proximity: HospitalProximity;
+  units: Record<PatientUnitId, number> /* available capacity in each unit */;
+}
+
+export interface HospitalsConfigVariableDefinition {
+  hospitals: Record<HospitalId, HospitalDefinition>;
+  patientUnits: Record<PatientUnitId, PatientUnitDefinition>;
+}
+
+/* old ones */
 
 export type PatientUnitTypology = string;
 
-interface PatientUnitType {
+interface PatientUnitTypeOld {
   typology: PatientUnitTypology;
   description?: string;
 }
 
-interface PatientUnitDefinition {
-  placeType: PatientUnitType;
+interface PatientUnitDefinitionOld {
+  placeType: PatientUnitTypeOld;
   availableCapacity: number;
 }
 
-export interface HospitalDefinition {
+export interface HospitalDefinitionOld {
   hospitalId: HospitalId;
   fullName: string;
   shortName: string;
@@ -27,5 +49,5 @@ export interface HospitalDefinition {
   description?: string;
   proximity: HospitalProximity;
   distance: number;
-  units: PatientUnitDefinition[];
+  units: PatientUnitDefinitionOld[];
 }

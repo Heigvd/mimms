@@ -234,6 +234,12 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
+        "id" : "hospitalsConfig",
+        "name" : "hospitals config",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "15",
         "name" : "situationsConfig",
         "scenaristPage" : false,

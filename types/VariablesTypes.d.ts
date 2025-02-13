@@ -49,6 +49,7 @@
           'patients': SObjectDescriptor;
           'characters': SObjectDescriptor;
           'bagsDefinitions': SObjectDescriptor;
+          'hospitals_config': SObjectDescriptor;
           'situationsDefinitions': SObjectDescriptor;
           'skillsDefinitions': SObjectDescriptor;
           'drill_Presets': SObjectDescriptor;
