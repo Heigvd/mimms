@@ -19,7 +19,7 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import { getHospitalsByProximity } from '../evacuation/hospitalController';
+import { getHospitalsByProximityOld } from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -956,7 +956,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = getHospitalsByProximity(message.proximity);
+    const hospitals = getHospitalsByProximityOld(message.proximity);
 
     let casuMessage = '';
     for (const hospital of hospitals) {

@@ -1,3 +1,10 @@
+import { hospitalInfo } from '../../../gameInterface/mock_data';
+import { knownLanguages } from '../../../tools/translation';
+import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
+import { HospitalId, PatientUnitId } from '../baseTypes';
+import { OneMinuteDuration } from '../constants';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import {
   HospitalDefinition,
   HospitalDefinitionOld,
@@ -6,13 +13,6 @@ import {
   PatientUnitDefinition,
   PatientUnitTypology,
 } from './hospitalType';
-import { hospitalInfo } from '../../../gameInterface/mock_data';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { HospitalId, PatientUnitId } from '../baseTypes';
-import { OneMinuteDuration } from '../constants';
-import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
-import { knownLanguages } from '../../../tools/translation';
-import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 
 function getHospitalsConfigVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'hospitals_config');
@@ -257,6 +257,10 @@ export function updateHospitalUnitCapacity(
   });
 }
 
+export function getHospitalsByProximity(proximity: HospitalProximity): HospitalDefinition[] {
+  return getHospitals().filter(h => proximity.valueOf() >= h.proximity);
+}
+
 /* old */
 
 // -------------------------------------------------------------------------------------------------
@@ -267,7 +271,7 @@ export function getHospitalById(hospitalId: HospitalId): HospitalDefinitionOld {
   return hospitalInfo.find(hospital => hospital.hospitalId === hospitalId)!;
 }
 
-export function getHospitalsByProximity(proximity: HospitalProximity): HospitalDefinitionOld[] {
+export function getHospitalsByProximityOld(proximity: HospitalProximity): HospitalDefinitionOld[] {
   // Hardcoded, hospital data should be retrieved from scenarist inputs
   return hospitalInfo.filter(h => proximity.valueOf() >= h.proximity);
 }
@@ -279,7 +283,7 @@ export function getAllHospitals(): HospitalDefinitionOld[] {
 export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>) {
   const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
   if (proximityRequested) {
-    return getHospitalsByProximity(proximityRequested);
+    return getHospitalsByProximityOld(proximityRequested);
   }
 
   return [];

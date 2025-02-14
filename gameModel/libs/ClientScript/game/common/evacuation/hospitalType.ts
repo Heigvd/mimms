@@ -1,5 +1,5 @@
-import { HospitalId, PatientUnitId } from '../baseTypes';
 import { knownLanguages } from '../../../tools/translation';
+import { HospitalId, PatientUnitId } from '../baseTypes';
 
 export enum HospitalProximity {
   Regional = 0,
