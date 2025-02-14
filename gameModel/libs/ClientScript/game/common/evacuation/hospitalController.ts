@@ -30,6 +30,13 @@ export function getHospitals(): Record<HospitalId, HospitalDefinition> {
   return getHospitalsDefinition().hospitals;
 }
 
+export function getHospitalsInARaw(): HospitalDefinition[] {
+  return Object.entries(getHospitalsDefinition().hospitals).map(([hospitalId, hospital]) => ({
+    ...hospital,
+    id: hospitalId,
+  }));
+}
+
 export function getPatientUnits(): Record<PatientUnitId, PatientUnitDefinition> {
   return getHospitalsDefinition().patientUnits;
 }
@@ -257,10 +264,6 @@ export function updateHospitalUnitCapacity(
   });
 }
 
-export function getHospitalsByProximity(proximity: HospitalProximity): HospitalDefinition[] {
-  return getHospitals().filter(h => proximity.valueOf() >= h.proximity);
-}
-
 /* old */
 
 // -------------------------------------------------------------------------------------------------
@@ -271,9 +274,8 @@ export function getHospitalById(hospitalId: HospitalId): HospitalDefinitionOld {
   return hospitalInfo.find(hospital => hospital.hospitalId === hospitalId)!;
 }
 
-export function getHospitalsByProximityOld(proximity: HospitalProximity): HospitalDefinitionOld[] {
-  // Hardcoded, hospital data should be retrieved from scenarist inputs
-  return hospitalInfo.filter(h => proximity.valueOf() >= h.proximity);
+export function getHospitalsByProximity(proximity: HospitalProximity): HospitalDefinition[] {
+  return getHospitalsInARaw().filter(hosp => proximity.valueOf() >= hosp.proximity);
 }
 
 export function getAllHospitals(): HospitalDefinitionOld[] {
@@ -283,7 +285,7 @@ export function getAllHospitals(): HospitalDefinitionOld[] {
 export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>) {
   const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
   if (proximityRequested) {
-    return getHospitalsByProximityOld(proximityRequested);
+    return getHospitalsByProximity(proximityRequested);
   }
 
   return [];

@@ -45,6 +45,13 @@ export function getAllHospitals(): HospitalToDisplay[] {
 }
 
 /**
+ * Get the label for a hospital proximity
+ */
+export function getHospitalProximityLabel(proximity: HospitalProximity): string {
+  return getProximityTranslation(HospitalProximity[proximity]!);
+}
+
+/**
  * Get the choices for the proximity
  */
 export function getHospitalProximityChoices(): { label: string; value: string }[] {

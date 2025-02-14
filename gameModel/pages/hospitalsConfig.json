@@ -135,6 +135,18 @@
           "type" : "Text"
         }, {
           "props" : {
+            "className" : "medium-width",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Proximité</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
@@ -378,12 +390,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { changeHospitalTranslatableData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalTranslatableData(Context.hospital.id, 'preposition', Context.newValue);",
+                    "content" : "import { changeHospitalTranslatableData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalTranslatableData(Context.hospital.id, 'preposition', Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"newValue\"",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
@@ -449,6 +461,18 @@
                 "style" : { }
               },
               "type" : "Select input"
+            }, {
+              "props" : {
+                "className" : "medium-width",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getHospitalProximityLabel } from \"./UIfacade/hospitalFacade\";\ngetHospitalProximityLabel(Context.hospital.proximity || 0);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             }, {
               "props" : {
                 "children" : [ {

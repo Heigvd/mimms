@@ -2,7 +2,11 @@ import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
-import { getTranslation } from '../../../tools/translation';
+import {
+  getCurrentLanguageCodeAsKnownLanguage,
+  getTranslation,
+  knownLanguages,
+} from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
@@ -19,7 +23,7 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import { getHospitalsByProximityOld } from '../evacuation/hospitalController';
+import { getHospitalsByProximity, getPatientUnits } from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -956,14 +960,18 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = getHospitalsByProximityOld(message.proximity);
+    const hospitals = getHospitalsByProximity(message.proximity);
+    const patientUnits = getPatientUnits();
+    const lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();
 
     let casuMessage = '';
     for (const hospital of hospitals) {
       casuMessage += `${hospital.shortName}: \n`;
-      for (const unit of hospital.units) {
-        casuMessage += `${unit.availableCapacity}: ${unit.placeType.typology} \n`;
-      }
+      Object.entries(hospital.units).forEach(([unitId, qty]) => {
+        if (qty > 0) {
+          casuMessage += `${qty}: ${patientUnits[unitId]?.name[lang]} \n`;
+        }
+      });
       casuMessage += '\n';
     }
     return casuMessage;

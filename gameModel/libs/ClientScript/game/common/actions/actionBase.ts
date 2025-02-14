@@ -20,10 +20,7 @@ import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constan
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
-import {
-  HospitalProximity,
-  PatientUnitTypology,
-} from '../evacuation/hospitalType';
+import { HospitalProximity, PatientUnitTypology } from '../evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
