@@ -3,6 +3,7 @@ import {
   HistogramDistribution,
   IHistogram,
   NormalDistribution,
+  UniformDistribution,
 } from '../tools/distributionSampling';
 import { getSituationDefinition } from './GameModelerHelper';
 import { pickRandom } from '../tools/helper';
@@ -35,6 +36,7 @@ import { HumanTreatmentEvent, ScriptedEvent } from '../game/common/events/eventT
 
 /**
  * Add patients to the existing list
+ * DEPRECATED Remove
  */
 export function createPatients(n: number, namer?: string | ((n: number) => string) | undefined) {
   const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
@@ -57,6 +59,29 @@ export function createPatients(n: number, namer?: string | ((n: number) => strin
   setTestPatients(Object.values(patients));
   const patientDesc = Variable.find(gameModel, 'patients');
   saveToObjectDescriptor(patientDesc, patients);
+}
+
+function getUniqueName(existing: Record<string, BodyFactoryParam>, nameGen: () => string): string {
+  let name: string;
+  name = nameGen();
+  while (existing[name]) {
+    name = nameGen();
+  }
+  return name;
+}
+
+export function generateRandomPatient(patients: Record<string, BodyFactoryParam>): {
+  uid: string;
+  params: BodyFactoryParam;
+} {
+  const bodyParams = getHumanGenerator().generateOneHuman();
+  const maxPatho = Variable.find(gameModel, 'pathology_max_amount').getValue(self);
+  const nPatho = Math.floor(new UniformDistribution(1, maxPatho + 1).sample());
+  getHumanGenerator().addPathologies(bodyParams, nPatho);
+  return {
+    uid: getUniqueName(patients, makeOfficialUid),
+    params: bodyParams,
+  };
 }
 
 export function deleteAllPatients(): void {
@@ -368,7 +393,6 @@ export class HumanGenerator {
     if (!human.scriptedEvents) {
       human.scriptedEvents = [];
     }
-
     const pList = getAvailablePathologies();
     for (let i = 0; i < n; i++) {
       const def = pickRandom(pList);
@@ -417,7 +441,8 @@ export const getHumanGenerator = (() => {
   };
 })();
 
-export function generateOnePatient(sex?: Sex, nPathologies?: number): BodyFactoryParam {
+// DEPRECATED
+function generateOnePatient(sex?: Sex, nPathologies?: number): BodyFactoryParam {
   const h = getHumanGenerator().generateOneHuman(sex);
   return getHumanGenerator().addPathologies(h, nPathologies || 0);
 }

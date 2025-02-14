@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1734969116403,
+  "createdTime" : 1739535173846,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2925,7 +2925,7 @@
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "TeamScope",
-      "comments" : "",
+      "comments" : "TODO remove when patient generation is complete",
       "defaultInstance" : {
         "@class" : "NumberInstance",
         "history" : [ ],
@@ -2952,7 +2952,7 @@
       "@class" : "StringDescriptor",
       "allowedValues" : [ ],
       "broadcastScope" : "GameModelScope",
-      "comments" : "",
+      "comments" : "TODO remove when patient generation is complete",
       "defaultInstance" : {
         "@class" : "StringInstance",
         "refId" : "StringInstance:24056857:VXrFPu",
@@ -2975,6 +2975,74 @@
       "scopeType" : "GameModelScope",
       "sortable" : false,
       "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "Time elapsed for the patients in minutes. Defines the number of minutes elapsed between patients injury and first responders arrival.",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1580620:QZXCS4",
+        "value" : 15.0
+      },
+      "defaultValue" : 15.0,
+      "editorTag" : "patients-elapsed-minutes",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1580621:6FoF89",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1580621:6FoF89::FR",
+            "status" : "",
+            "translation" : "patients-elapsed-minutes"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "patients-elapsed-minutes",
+      "refId" : "NumberDescriptor:1580619:oyNw77",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "Maximum number of pathologies when generating a patient. Minimum is always 1",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:1580625:aEI1M5",
+        "value" : 2.0
+      },
+      "defaultValue" : 2.0,
+      "editorTag" : "pathology-max-amount",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1580626:Sykfj6",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1580626:Sykfj6::FR",
+            "status" : "",
+            "translation" : "pathology-max-amount"
+          }
+        }
+      },
+      "maxValue" : null,
+      "minValue" : null,
+      "name" : "pathology_max_amount",
+      "refId" : "NumberDescriptor:1580624:K0KwTV",
+      "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -6683,6 +6751,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/patientGenFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1580618:cy0rqR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/radioFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7167,7 +7244,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS",
+  "name" : "MIM-393",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

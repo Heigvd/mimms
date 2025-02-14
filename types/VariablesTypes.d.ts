@@ -201,6 +201,8 @@
           "messagesLifeLength": SNumberDescriptor;
           "respectHierarchy": SBooleanDescriptor;
           "gameMode": SStringDescriptor;
+          "patients-elapsed-minutes": SNumberDescriptor;
+          "pathology_max_amount": SNumberDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(

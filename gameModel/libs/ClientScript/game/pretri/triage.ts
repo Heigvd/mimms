@@ -59,7 +59,8 @@ type SAP2020_CATEGORY =
   | typeof INVOLVED
   | typeof SECONDARY_TRIAGE;
 
-export type STANDARD_CATEGORY = typeof DEAD | typeof IMMEDIATE | typeof URGENT | typeof NON_URGENT;
+export const STANDARD_CATEGORY_ARRAY = [DEAD, IMMEDIATE, URGENT, NON_URGENT] as const;
+export type STANDARD_CATEGORY = typeof STANDARD_CATEGORY_ARRAY[number]; //typeof DEAD | typeof IMMEDIATE | typeof URGENT | typeof NON_URGENT;
 
 type SACCO_CATEGORY =
   | 'zero'

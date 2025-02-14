@@ -6,7 +6,8 @@ import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from '../.
 
 export function doPatientAutomaticTriage(
   patient: HumanBody,
-  simTime: number = 0
+  simTime: number,
+  applyPretriageActions = true
 ): PreTriageResult<string> | undefined {
   const env = getEnv();
 
@@ -27,5 +28,5 @@ export function doPatientAutomaticTriage(
     console: [],
   };
 
-  return doAutomaticTriage_internal(data, true, simTime);
+  return doAutomaticTriage_internal(data, applyPretriageActions, simTime);
 }
