@@ -328,6 +328,12 @@
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
+      }, {
+        "@class" : "Page",
+        "id" : "patientGeneration",
+        "name" : "Patient Generation",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "debug_pages"
     }, {

@@ -14,17 +14,44 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { PatientState } from '../game/common/simulationState/patientState';
 import { STANDARD_CATEGORY } from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
-import { getEnv, getPatientsBodyFactoryParams } from '../tools/WegasHelper';
+import { makeAsync } from '../tools/helper';
+import { getEnv, getPatientsBodyFactoryParams, saveToObjectDescriptor } from '../tools/WegasHelper';
 
-export type InjuryStatistics = Record<STANDARD_CATEGORY, number>;
+export type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
+
+/**
+ * Maximum number of attempts to generate a patient that fits in the required statistics
+ */
 const MAX_RETRIES = 50;
+
+/**
+ * Number of samples after injury to compute for view
+ */
 const SAMPLES_NUMBER = 4;
+
+/**
+ * Time interval between each sample
+ */
 const SAMPLE_INTERVAL_SEC = TimeSliceDuration * 15;
 
 export type PatientSamples = Record<SimDuration, PatientState>;
-const patientsSamplesCache: Record<PatientId, PatientSamples> = {};
+let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 
-export function addPatients(targetStats: InjuryStatistics): Record<PatientId, BodyFactoryParam> {
+export function getPatientsSamples(): { id: string; value: PatientSamples }[] {
+  return Object.entries(patientsSamplesCache).map(([k, v]) => {
+    return { id: k, value: v };
+  });
+}
+
+export function getPatientSamples(
+  patient: PatientSamples
+): { id: string; patient: PatientState }[] {
+  return Object.entries(patient).map(([k, v]) => {
+    return { id: k, patient: v };
+  });
+}
+
+export function addPatients(targetStats: InjuryCategoryStats): Record<PatientId, BodyFactoryParam> {
   const t = Date.now();
   const total = Object.values(targetStats).reduce((acc, v) => acc + v);
 
@@ -40,9 +67,22 @@ export function addPatients(targetStats: InjuryStatistics): Record<PatientId, Bo
   return patients;
 }
 
+export function addPatientsAsync(
+  targetStats: InjuryCategoryStats
+): Promise<Record<PatientId, BodyFactoryParam>> {
+  patientsSamplesCache = {}; // TODO remove
+  const f = () => {
+    const updatedPatientSet = addPatients(targetStats);
+    const patientDesc = Variable.find(gameModel, 'patients');
+    saveToObjectDescriptor(patientDesc, updatedPatientSet);
+    return updatedPatientSet;
+  };
+  return makeAsync(f);
+}
+
 function bestEffortGenerate(
   patients: Record<PatientId, BodyFactoryParam>,
-  remaining: InjuryStatistics
+  remaining: InjuryCategoryStats
 ) {
   let { instance, bodyParams } = generateOnePatientAndTriage(patients);
 

@@ -245,3 +245,19 @@ export function getRawString(value: string) {
 export function getLetterRepresentationOfIndex(index: number): string {
   return (index + 10).toString(36).toUpperCase();
 }
+
+/**
+ * Fake async. Wraps a function in a promise to delay its execution to the next event loop.
+ */
+export function makeAsync<T>(func: () => T): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const result: T = func();
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    }, 100);
+  });
+}

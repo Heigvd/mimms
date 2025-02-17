@@ -1,0 +1,111 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>Gen Async</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { addPatientsAsync } from \"./UIfacade/patientGenFacade\";\naddPatientsAsync({dead: 5, immediate:15, non_urgent:15, urgent:5});",
+                "language" : "TypeScript",
+                "returnType" : "Promise<unknown> | undefined"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  Context.patient.id;",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\n  categoryToHtml(Context.sample.patient.preTriageResult.categoryId);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ]
+                  },
+                  "type" : "FlexList"
+                } ],
+                "exposeAs" : "sample",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getPatientSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientSamples(Context.patient.value);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "id",
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "entry",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "patient",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientsSamples();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
