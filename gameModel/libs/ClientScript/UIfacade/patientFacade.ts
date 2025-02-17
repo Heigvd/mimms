@@ -1,14 +1,8 @@
-import { PatientState } from '../game/common/simulationState/patientState';
-import { getCurrentState } from '../game/mainSimulationLogic';
-import {
-  Categorization,
-  getBackgroundColorByCategoryId,
-  getCategoryById,
-  PreTriageResult,
-} from '../game/pretri/triage';
+import { PatientId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getPatientsByLocation } from '../game/common/simulationState/patientState';
+import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
+import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   AfflictedBlockDetails,
   formatMetric,
@@ -17,7 +11,12 @@ import {
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
-import { PatientId } from '../game/common/baseTypes';
+import {
+  Categorization,
+  getBackgroundColorByCategoryId,
+  getCategoryById,
+  PreTriageResult,
+} from '../game/pretri/triage';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getTranslation } from '../tools/translation';
@@ -155,7 +154,7 @@ export function getPatientsSummary() {
       categorization: PreTriageResult<string> | undefined;
       location: string;
       effects: string[];
-      patientUnitAtHospital: string;
+      patientUnitId: string;
     };
     id: string;
   }[] = [];
@@ -174,8 +173,7 @@ export function getPatientsSummary() {
           categorization: patient.preTriageResult,
           location: patient.location.locationId,
           effects: effectsStringArray,
-          patientUnitAtHospital:
-            patient.location.kind === 'Hospital' ? patient.location.patientUnit : '',
+          patientUnitId: patient.location.kind === 'Hospital' ? patient.location.patientUnit : '',
         },
         id: patientId,
       });

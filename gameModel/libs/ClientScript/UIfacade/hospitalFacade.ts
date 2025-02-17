@@ -13,9 +13,34 @@ import {
   updatePatientUnitIndex,
   updatePatientUnitTranslatableData,
 } from '../game/common/evacuation/hospitalController';
-import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import {
+  HospitalDefinition,
+  HospitalProximity,
+  PatientUnitDefinition,
+} from '../game/common/evacuation/hospitalType';
 import { getProximityTranslation } from '../game/common/radio/radioLogic';
 import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from '../tools/translation';
+
+// -------------------------------------------------------------------------------------------------
+// UI state
+// -------------------------------------------------------------------------------------------------
+
+export interface HospitalUIState {
+  /** Can we edit the data or is it readonly */
+  edit: boolean;
+  /** Are all data of hospitals displayed */
+  hospitals: boolean;
+  /** Are all data of the patient units displayed */
+  services: boolean;
+}
+
+export function getInitialHospitalUIState(): HospitalUIState {
+  return {
+    edit: false,
+    hospitals: true,
+    services: true,
+  };
+}
 
 // -------------------------------------------------------------------------------------------------
 // hospitals
@@ -36,9 +61,9 @@ export interface HospitalToDisplay {
  * Get the list of hospitals
  */
 export function getAllHospitals(): HospitalToDisplay[] {
-  const hospitals = getHospitals();
+  const hospitals: Record<HospitalId, HospitalDefinition> = getHospitals();
   return Object.entries(hospitals)
-    .map(([hospitalId, hospital]) => ({ ...hospital, id: hospitalId }))
+    .map(([id, hospital]) => ({ ...hospital, id: id }))
     .sort((a, b) => {
       return a.index - b.index;
     });
@@ -54,20 +79,22 @@ export function getHospitalProximityLabel(proximity: HospitalProximity): string 
 /**
  * Get the choices for the proximity
  */
-export function getHospitalProximityChoices(): { label: string; value: string }[] {
-  const choices = Object.entries(HospitalProximity)
-    // hack to have all items from enum only once
-    .filter(entry => isNaN(parseInt(entry[0])));
-  return choices.map(entry => ({
-    label: getProximityTranslation(entry[0]),
-    value: JSON.stringify(entry[1] as HospitalProximity),
-  }));
+export function getHospitalProximityChoices(): { label: string; value: HospitalProximity }[] {
+  return (
+    Object.entries(HospitalProximity)
+      // hack to have all items from enum only once
+      .filter(entry => isNaN(parseInt(entry[0])))
+      .map(entry => ({
+        label: getProximityTranslation(entry[0]),
+        value: entry[1] as HospitalProximity,
+      }))
+  );
 }
 
 /**
  * Update a data of a hospital.
  * @param id       The id of the hospital
- * @param field    The name of the field (fullName, shortName or distance)
+ * @param field    The name of the field (fullName, shortName, distance or proximity)
  * @param newValue The new value to set
  */
 export function changeHospitalData(id: HospitalId, field: string, newValue: string | number) {
@@ -127,7 +154,7 @@ export interface PatientUnitToDisplay {
  * Get the list of patient units
  */
 export function getAllPatientUnits(): PatientUnitToDisplay[] {
-  const units = getPatientUnits();
+  const units: Record<PatientUnitId, PatientUnitDefinition> = getPatientUnits();
   return Object.entries(units)
     .map(([patientUnitId, patientUnit]) => ({ ...patientUnit, id: patientUnitId }))
     .sort((a, b) => {
@@ -175,6 +202,12 @@ export function createPatientUnit() {
 // hospital x patient unit
 // -------------------------------------------------------------------------------------------------
 
+/**
+ * Update a capacity of a patient unit in a hospital (units).
+ * @param hospitalId    The id of the hospital
+ * @param patientUnitId The id of the patient unit
+ * @param qty           The new value to set
+ */
 export function changeHospitalUnitCapacity(
   hospitalId: HospitalId,
   patientUnitId: PatientUnitId,

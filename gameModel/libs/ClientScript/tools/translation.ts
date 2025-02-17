@@ -1,7 +1,8 @@
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { translationLogger } from './logger';
 
-export type knownLanguages = 'en' | 'fr';
+const knownLanguagesArray: string[] = ['en', 'fr'];
+export type knownLanguages = typeof knownLanguagesArray[number];
 
 let cache: Record<string, SObjectDescriptor> = {};
 
@@ -235,4 +236,25 @@ export function getCurrentLanguageCode(): string {
 
 export function getCurrentLanguageCodeAsKnownLanguage(): knownLanguages {
   return I18n.currentLanguageCode.toLowerCase() as knownLanguages;
+}
+
+// TODO see if the logic is redundant to somewhere
+export function getText(translations: Partial<Record<knownLanguages, string>> | undefined) {
+  if (translations != undefined) {
+    const lang = getCurrentLanguageCodeAsKnownLanguage();
+    let translatedText = translations[lang];
+
+    if (translatedText != undefined) {
+      return translatedText;
+    }
+
+    for (const altLang in knownLanguagesArray) {
+      translatedText = translations[altLang];
+      if (translatedText != undefined) {
+        return translatedText;
+      }
+    }
+  }
+
+  return 'abracadabra';
 }

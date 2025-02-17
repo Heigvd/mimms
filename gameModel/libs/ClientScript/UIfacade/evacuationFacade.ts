@@ -1,17 +1,19 @@
-import {
-  getAllHospitals,
-  getHospitalById,
-  getPatientUnitByHospital,
-} from '../game/common/evacuation/hospitalController';
-import { HospitalId, PatientId } from '../game/common/baseTypes';
+import { HospitalId, PatientId, PatientUnitId } from '../game/common/baseTypes';
+import { isEvacSquadAvailable } from '../game/common/evacuation/evacuationLogic';
 import {
   EvacuationSquadDefinition,
   EvacuationSquadType,
   getAllSquadDefinitions,
 } from '../game/common/evacuation/evacuationSquadDef';
-import { isEvacSquadAvailable } from '../game/common/evacuation/evacuationLogic';
+import {
+  getHospitalById,
+  getHospitals,
+  getPatientUnitById,
+} from '../game/common/evacuation/hospitalController';
+import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { getText } from '../tools/translation';
 
 // used in radioChannelEvacuation page
 
@@ -19,19 +21,21 @@ import { PatientUnitTypology } from '../game/common/evacuation/hospitalType';
 
 export function getEvacHospitalsChoices(): { label: string; value: string }[] {
   // Note : if we would like to have only the hospital mentioned by CASU, use getHospitalsMentionedByCasu(getCurrentState())
-  return getAllHospitals().map(hospital => {
-    return { label: hospital.shortName, value: hospital.hospitalId };
+  const hospitals: Record<HospitalId, HospitalDefinition> = getHospitals();
+  return Object.entries(hospitals).map(([id, hospital]) => {
+    return { label: hospital.shortName, value: id };
   });
 }
 
-export function getPatientUnitAtHospitalChoices(
+export function getPatientUnitsChoices(
   hospitalId: HospitalId | undefined
 ): { label: string; value: string }[] {
   if (hospitalId == undefined) {
     return [];
   }
-  return getPatientUnitByHospital(hospitalId).map(patientUnit => {
-    return { label: patientUnit, value: patientUnit };
+
+  return Object.keys(getHospitalById(hospitalId).units).map(patientUnitId => {
+    return { label: getText(getPatientUnitById(patientUnitId).name), value: patientUnitId };
   });
 }
 
@@ -58,28 +62,36 @@ export function isEvacSquadEnabled(type: EvacuationSquadType): boolean {
 // get data
 
 export function getPatientId(): PatientId | undefined {
-  return Context.interfaceState.state.evacuation.data.patientId;
+  return getTypedInterfaceState().evacuation.data.patientId;
 }
 
 export function getHospitalId(): HospitalId | undefined {
-  return Context.interfaceState.state.evacuation.data.hospitalId;
+  return getTypedInterfaceState().evacuation.data.hospitalId;
 }
 
 export function getHospitalShortName(): string {
   const hospitalId = getHospitalId();
   if (hospitalId != undefined) {
-    return getHospitalById(hospitalId).shortName;
+    return getHospitalById(hospitalId).shortName || '';
   }
 
   return '';
 }
 
-export function getPatientUnitAtHospital(): PatientUnitTypology | undefined {
-  return Context.interfaceState.state.evacuation.data.patientUnitAtHospital;
+export function getPatientUnitId(): PatientUnitId | undefined {
+  return getTypedInterfaceState().evacuation.data.patientUnitId;
+}
+
+export function getPatientUnitName(): string {
+  const patientUnitId = getTypedInterfaceState().evacuation.data.patientUnitId;
+  if (patientUnitId) {
+    return getText(getPatientUnitById(patientUnitId).name);
+  }
+  return '';
 }
 
 export function getTransportSquad(): EvacuationSquadType | undefined {
-  return Context.interfaceState.state.evacuation.data.transportSquad;
+  return getTypedInterfaceState().evacuation.data.transportSquad;
 }
 
 export function isSelectedSquad(transportSquad: EvacuationSquadType): boolean {
@@ -87,40 +99,38 @@ export function isSelectedSquad(transportSquad: EvacuationSquadType): boolean {
 }
 
 export function isResourcesComeBack(): boolean {
-  return Context.interfaceState.state.evacuation.data.doResourcesComeBack;
+  return getTypedInterfaceState().evacuation.data.doResourcesComeBack;
 }
 
 // update data
 
 export function selectPatientId(patientId: PatientId | undefined) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.data.patientId = patientId;
   Context.interfaceState.setState(newState);
 }
 
 export function selectHospitalId(hospitalId: HospitalId | undefined) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.data.hospitalId = hospitalId;
-  newState.evacuation.data.patientUnitAtHospital = undefined;
+  newState.evacuation.data.patientUnitId = undefined;
   Context.interfaceState.setState(newState);
 }
 
-export function selectPatientUnitAtHospital(
-  patientUnitAtHospital: PatientUnitTypology | undefined
-) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.evacuation.data.patientUnitAtHospital = patientUnitAtHospital;
+export function selectPatientUnitId(patientUnitId: PatientUnitId | undefined) {
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
+  newState.evacuation.data.patientUnitId = patientUnitId;
   Context.interfaceState.setState(newState);
 }
 
 export function selectTransportSquad(transportSquad: EvacuationSquadType | undefined) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.data.transportSquad = transportSquad;
   Context.interfaceState.setState(newState);
 }
 
 export function selectDoResourcesComeBack(doResourcesComeBack: boolean) {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.data.doResourcesComeBack = doResourcesComeBack;
   Context.interfaceState.setState(newState);
 }
@@ -128,36 +138,36 @@ export function selectDoResourcesComeBack(doResourcesComeBack: boolean) {
 // Evacuation form
 
 export function toggleOpenClosePatientChoice() {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.form.showPatientChoice =
-    !Context.interfaceState.state.evacuation.form.showPatientChoice;
+    !getTypedInterfaceState().evacuation.form.showPatientChoice;
   Context.interfaceState.setState(newState);
 }
 
 export function toggleOpenCloseDestinationChoice() {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.form.showDestinationChoice =
-    !Context.interfaceState.state.evacuation.form.showDestinationChoice;
+    !getTypedInterfaceState().evacuation.form.showDestinationChoice;
   Context.interfaceState.setState(newState);
 }
 
 export function toggleOpenCloseVectorChoice() {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
+  const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.form.showVectorChoice =
-    !Context.interfaceState.state.evacuation.form.showVectorChoice;
+    !getTypedInterfaceState().evacuation.form.showVectorChoice;
   Context.interfaceState.setState(newState);
 }
 
 export function isPatientChoiceOpen() {
-  return Context.interfaceState.state.evacuation.form.showPatientChoice;
+  return getTypedInterfaceState().evacuation.form.showPatientChoice;
 }
 
 export function isDestinationChoiceOpen() {
-  return Context.interfaceState.state.evacuation.form.showDestinationChoice;
+  return getTypedInterfaceState().evacuation.form.showDestinationChoice;
 }
 
 export function isVectorChoiceOpen() {
-  return Context.interfaceState.state.evacuation.form.showVectorChoice;
+  return getTypedInterfaceState().evacuation.form.showVectorChoice;
 }
 
 export function isPatientChoiceClosedAndFilled() {
@@ -178,7 +188,7 @@ export function isPatientChoiceFilled() {
 }
 
 export function isDestinationChoiceFilled() {
-  return getHospitalId() != undefined && getPatientUnitAtHospital() != undefined;
+  return getHospitalId() != undefined && getPatientUnitId() != undefined;
 }
 
 export function isVectorChoiceFilled() {

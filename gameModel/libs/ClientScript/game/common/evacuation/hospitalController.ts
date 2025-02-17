@@ -1,4 +1,3 @@
-import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { knownLanguages } from '../../../tools/translation';
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { HospitalId, PatientUnitId } from '../baseTypes';
@@ -7,11 +6,9 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import {
   HospitalDefinition,
-  HospitalDefinitionOld,
   HospitalProximity,
   HospitalsConfigVariableDefinition,
   PatientUnitDefinition,
-  PatientUnitTypology,
 } from './hospitalType';
 
 function getHospitalsConfigVariable(): SObjectDescriptor {
@@ -30,15 +27,21 @@ export function getHospitals(): Record<HospitalId, HospitalDefinition> {
   return getHospitalsDefinition().hospitals;
 }
 
-export function getHospitalsInARaw(): HospitalDefinition[] {
-  return Object.entries(getHospitalsDefinition().hospitals).map(([hospitalId, hospital]) => ({
-    ...hospital,
-    id: hospitalId,
-  }));
-}
-
 export function getPatientUnits(): Record<PatientUnitId, PatientUnitDefinition> {
   return getHospitalsDefinition().patientUnits;
+}
+
+export function getPatientUnitIdsSorted(): PatientUnitId[] {
+  return Object.entries(getPatientUnits())
+    .map(([patientUnitId, patientUnit]) => ({ ...patientUnit, id: patientUnitId }))
+    .sort((a, b) => {
+      return a.index - b.index;
+    })
+    .map(pu => pu.id);
+}
+
+export function getPatientUnitById(id: PatientUnitId): PatientUnitDefinition {
+  return getHospitalsDefinition().patientUnits[id]!;
 }
 
 export function updatePatientUnitTranslatableData(
@@ -49,19 +52,6 @@ export function updatePatientUnitTranslatableData(
 ) {
   const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
   patientUnits[id]![field][lang] = newName; // TODO
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: getHospitalsDefinition().hospitals,
-  });
-}
-
-export function updatehangePatientUnitName(
-  id: PatientUnitId,
-  lang: knownLanguages,
-  newName: string
-) {
-  const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
-  patientUnits[id]!['name'][lang] = newName;
   saveToObjectDescriptor(getHospitalsConfigVariable(), {
     patientUnits: patientUnits,
     hospitals: getHospitalsDefinition().hospitals,
@@ -185,7 +175,7 @@ export function insertHospital() {
     index: Object.values(hospitals).length,
     fullName: '',
     shortName: '',
-    preposition: { fr: '', en: '' },
+    preposition: { fr: 'à', en: 'to' },
     distance: 0,
     proximity: 0,
     units: {},
@@ -264,31 +254,39 @@ export function updateHospitalUnitCapacity(
   });
 }
 
-/* old */
-
 // -------------------------------------------------------------------------------------------------
 // hospital
 // -------------------------------------------------------------------------------------------------
 
-export function getHospitalById(hospitalId: HospitalId): HospitalDefinitionOld {
-  return hospitalInfo.find(hospital => hospital.hospitalId === hospitalId)!;
+export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
+  return getHospitals()[hospitalId]!;
 }
 
-export function getHospitalsByProximity(proximity: HospitalProximity): HospitalDefinition[] {
-  return getHospitalsInARaw().filter(hosp => proximity.valueOf() >= hosp.proximity);
+export function getHospitalsByProximity(
+  proximity: HospitalProximity
+): Record<HospitalId, HospitalDefinition> {
+  const result = { ...getHospitals() };
+  const ids = Object.keys({ ...result });
+
+  ids.forEach(hospId => {
+    const hospProximity = result[hospId]?.proximity;
+    if (hospProximity == undefined || proximity.valueOf() < hospProximity) {
+      delete result[hospId];
+    }
+  });
+
+  return result;
 }
 
-export function getAllHospitals(): HospitalDefinitionOld[] {
-  return hospitalInfo;
-}
-
-export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>) {
+export function getHospitalsMentionedByCasu(
+  state: Readonly<MainSimulationState>
+): Record<HospitalId, HospitalDefinition> {
   const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
-  if (proximityRequested) {
+  if (proximityRequested !== undefined) {
     return getHospitalsByProximity(proximityRequested);
   }
 
-  return [];
+  return {};
 }
 
 /**
@@ -299,7 +297,7 @@ export function getHospitalsMentionedByCasu(state: Readonly<MainSimulationState>
  */
 export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
   const squad = getSquadDef(squadType);
-  const distance = getHospitalById(hospitalId).distance;
+  const distance = getHospitalById(hospitalId).distance ?? 0;
 
   return Math.ceil(
     (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
@@ -308,15 +306,6 @@ export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationS
 
 export function formatTravelTimeToMinutes(travelTime: number): number {
   return travelTime > 0 ? Math.ceil(travelTime / OneMinuteDuration) : 0;
-}
-
-// -------------------------------------------------------------------------------------------------
-// hospital patient unit typology
-// -------------------------------------------------------------------------------------------------
-
-export function getPatientUnitByHospital(hospitalId: HospitalId): PatientUnitTypology[] {
-  const hospital = getHospitalById(hospitalId);
-  return hospital.units.flatMap(unit => unit.placeType.typology);
 }
 
 // -------------------------------------------------------------------------------------------------

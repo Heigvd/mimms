@@ -1,7 +1,7 @@
 import { Actor } from '../game/common/actors/actor';
-import { HospitalId, PatientId, TaskId } from '../game/common/baseTypes';
+import { HospitalId, PatientId, PatientUnitId, TaskId } from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
-import { HospitalProximity, PatientUnitTypology } from '../game/common/evacuation/hospitalType';
+import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
@@ -63,7 +63,7 @@ export interface InterfaceState {
     data: {
       patientId: PatientId | undefined;
       hospitalId: HospitalId | undefined;
-      patientUnitAtHospital: PatientUnitTypology | undefined;
+      patientUnitId: PatientUnitId | undefined;
       transportSquad: EvacuationSquadType | undefined;
       doResourcesComeBack: boolean;
     };
@@ -178,7 +178,7 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
     data: {
       patientId: undefined,
       hospitalId: undefined,
-      patientUnitAtHospital: undefined,
+      patientUnitId: undefined,
       transportSquad: undefined,
       doResourcesComeBack: true,
     },

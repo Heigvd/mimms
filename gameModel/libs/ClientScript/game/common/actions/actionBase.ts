@@ -1,5 +1,5 @@
 import { entries } from '../../../tools/helper';
-import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
+import { getText, getTranslation } from '../../../tools/translation';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -10,6 +10,7 @@ import {
   GlobalEventId,
   HospitalId,
   PatientId,
+  PatientUnitId,
   ResourceId,
   SimDuration,
   SimTime,
@@ -20,7 +21,7 @@ import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constan
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
-import { HospitalProximity, PatientUnitTypology } from '../evacuation/hospitalType';
+import { HospitalProximity } from '../evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -1470,7 +1471,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
 export class EvacuationAction extends RadioDrivenAction {
   private readonly patientId: PatientId;
   private readonly hospitalId: HospitalId;
-  private readonly patientUnitAtHospital: PatientUnitTypology;
+  private readonly patientUnitId: PatientUnitId;
   private readonly transportSquad: EvacuationSquadType;
   private readonly doResourcesComeBack: boolean;
 
@@ -1506,7 +1507,7 @@ export class EvacuationAction extends RadioDrivenAction {
     );
     this.patientId = evacuationActionPayload.patientId;
     this.hospitalId = evacuationActionPayload.hospitalId;
-    this.patientUnitAtHospital = evacuationActionPayload.patientUnitAtHospital;
+    this.patientUnitId = evacuationActionPayload.patientUnitId;
     this.transportSquad = evacuationActionPayload.transportSquad;
     this.doResourcesComeBack = !!evacuationActionPayload.doResourcesComeBack;
 
@@ -1607,7 +1608,7 @@ export class EvacuationAction extends RadioDrivenAction {
         this.involvedResourcesId,
         this.patientId,
         this.hospitalId,
-        this.patientUnitAtHospital,
+        this.patientUnitId,
         this.doResourcesComeBack,
         travelTime,
         this.feedbackWhenReturning,
@@ -1636,12 +1637,10 @@ export class EvacuationAction extends RadioDrivenAction {
   }
 
   private formatRequestMessage(payload: EvacuationActionPayload) {
-    const currentLanguage = getCurrentLanguageCode().toLowerCase() as knownLanguages;
+    const hospital = getHospitalById(payload.hospitalId);
 
     const patientId: string = payload.patientId;
-    const toHospital: string = getHospitalById(payload.hospitalId).nameAsDestination[
-      currentLanguage
-    ];
+    const toHospital: string = `${getText(hospital.preposition)} ${hospital.shortName}`;
     const squadDef = getSquadDef(payload.transportSquad);
     const byVector: string = getTranslation(
       'mainSim-actions-tasks',

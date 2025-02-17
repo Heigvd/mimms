@@ -3,13 +3,13 @@ import {
   GlobalEventId,
   HospitalId,
   PatientId,
+  PatientUnitId,
   ResourceId,
   SubTaskId,
   TranslationKey,
 } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
-import { PatientUnitTypology } from '../evacuation/hospitalType';
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 
 const SUB_TASK_SEED_ID: SubTaskId = 5000;
 
@@ -58,7 +58,7 @@ type EvacuationSubTaskStatus = 'started' | 'way_to_hospital' | 'way_back' | 'com
 export class EvacuationSubTask extends SubTask {
   public status: EvacuationSubTaskStatus;
   public hospitalId: HospitalId;
-  public patientUnitAtHospital: PatientUnitTypology;
+  public patientUnitId: PatientUnitId;
   public doResourcesComeBack: boolean;
   public parentEventId: GlobalEventId;
   public ownerId: ActorId;
@@ -68,7 +68,7 @@ export class EvacuationSubTask extends SubTask {
     resources: ResourceId[],
     patientId: string,
     hospitalId: HospitalId,
-    patientUnitAtHospital: PatientUnitTypology,
+    patientUnitId: PatientUnitId,
     doResourcesComeBack: boolean,
     parentEventId: GlobalEventId,
     ownerId: ActorId,
@@ -78,7 +78,7 @@ export class EvacuationSubTask extends SubTask {
   ) {
     super(resources, patientId);
     this.hospitalId = hospitalId;
-    this.patientUnitAtHospital = patientUnitAtHospital;
+    this.patientUnitId = patientUnitId;
     this.doResourcesComeBack = doResourcesComeBack;
     this.parentEventId = parentEventId;
     this.ownerId = ownerId;

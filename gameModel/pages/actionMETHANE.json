@@ -589,7 +589,7 @@
                 "exposeAs" : "hospitalProximityEntry",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getHospitalProximityChoices } from \"./UIfacade/radioFacade\";\n getHospitalProximityChoices();",
+                  "content" : "import { getHospitalProximityChoices } from \"./UIfacade/hospitalFacade\";\n getHospitalProximityChoices();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",

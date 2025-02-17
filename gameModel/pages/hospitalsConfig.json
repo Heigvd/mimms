@@ -177,7 +177,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.patientUnit.name[lang];",
+                      "content" : "import { getText, knownLanguages } from \"./tools/translation\";\ngetText(Context.patientUnit.name);",
                       "language" : "TypeScript"
                     }
                   },
@@ -247,7 +247,7 @@
                     },
                     "script" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.patientUnit.name[lang];",
+                      "content" : "import { getText, knownLanguages } from \"./tools/translation\";\ngetText(Context.patientUnit.name);",
                       "language" : "TypeScript"
                     },
                     "style" : { }
@@ -401,7 +401,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from \"./tools/translation\";\nconst lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();\nContext.hospital.preposition[lang];",
+                  "content" : "import { getText, knownLanguages } from \"./tools/translation\";\ngetText(Context.hospital.preposition);",
                   "language" : "TypeScript"
                 },
                 "style" : { }
