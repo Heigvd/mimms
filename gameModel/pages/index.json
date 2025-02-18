@@ -210,6 +210,12 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
+        "id" : "patientGeneration",
+        "name" : "Patient Generation",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
@@ -328,12 +334,6 @@
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"
-      }, {
-        "@class" : "Page",
-        "id" : "patientGeneration",
-        "name" : "Patient Generation",
-        "scenaristPage" : null,
-        "trainerPage" : null
       } ],
       "name" : "debug_pages"
     }, {

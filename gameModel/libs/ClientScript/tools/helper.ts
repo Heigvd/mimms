@@ -247,17 +247,18 @@ export function getLetterRepresentationOfIndex(index: number): string {
 }
 
 /**
- * Fake async. Wraps a function in a promise to delay its execution to the next event loop.
+ * Fake async. Wraps a function in a promise and delays its execution to the next event loop.
  */
-export function makeAsync<T>(func: () => T): Promise<T> {
+export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 100): Promise<T> {
+  const context = ctx;
   return new Promise<T>((resolve, reject) => {
     setTimeout(() => {
       try {
-        const result: T = func();
+        const result: T = func(context);
         resolve(result);
       } catch (err) {
         reject(err);
       }
-    }, 100);
+    }, delay);
   });
 }
