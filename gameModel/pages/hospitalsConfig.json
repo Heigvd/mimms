@@ -444,7 +444,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'proximity', Context.newValue);",
+                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\n\nchangeHospitalData(Context.hospital.id, 'proximity', +(Context.newValue));",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -455,7 +455,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "  `${Context.hospital.proximity || 0}`;",
+                  "content" : "  `${Context.hospital.proximity || 1}`;",
                   "language" : "TypeScript"
                 },
                 "style" : { }

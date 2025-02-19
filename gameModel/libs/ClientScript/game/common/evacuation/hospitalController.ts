@@ -78,7 +78,7 @@ export function insertHospital() {
     shortName: '',
     preposition: { fr: 'à', en: 'to' },
     distance: 0,
-    proximity: 0,
+    proximity: 1,
     units: {},
   };
 
