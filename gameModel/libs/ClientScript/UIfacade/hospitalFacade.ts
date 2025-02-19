@@ -79,14 +79,14 @@ export function getHospitalProximityLabel(proximity: HospitalProximity): string 
 /**
  * Get the choices for the proximity
  */
-export function getHospitalProximityChoices(): { label: string; value: HospitalProximity }[] {
+export function getHospitalProximityChoices(): { label: string; value: string }[] {
   return (
     Object.entries(HospitalProximity)
       // hack to have all items from enum only once
       .filter(entry => isNaN(parseInt(entry[0])))
       .map(entry => ({
         label: getProximityTranslation(entry[0]),
-        value: entry[1] as HospitalProximity,
+        value: `${entry[1] as HospitalProximity}`,
       }))
   );
 }
@@ -97,7 +97,12 @@ export function getHospitalProximityChoices(): { label: string; value: HospitalP
  * @param field    The name of the field (fullName, shortName, distance or proximity)
  * @param newValue The new value to set
  */
-export function changeHospitalData(id: HospitalId, field: string, newValue: string | number) {
+//export function changeHospitalData(id: HospitalId, field: keyof HospitalDefinition, newValue: string | number) {
+export function changeHospitalData(
+  id: HospitalId,
+  field: 'fullName' | 'shortName' | 'distance' | 'proximity',
+  newValue: string | number
+) {
   updateHospitalData(id, field, newValue);
 }
 
@@ -107,7 +112,12 @@ export function changeHospitalData(id: HospitalId, field: string, newValue: stri
  * @param field    The name of the field (preposition)
  * @param newValue The new value to set
  */
-export function changeHospitalTranslatableData(id: HospitalId, field: string, newValue: string) {
+//export function changeHospitalTranslatableData(id: HospitalId, field: keyof HospitalDefinition, newValue: string) {
+export function changeHospitalTranslatableData(
+  id: HospitalId,
+  field: 'preposition',
+  newValue: string
+) {
   const lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();
   updateHospitalTranslatableData(id, field, lang, newValue);
 }

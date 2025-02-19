@@ -11,6 +11,8 @@ import {
   PatientUnitDefinition,
 } from './hospitalType';
 
+export type Direction = 'increment' | 'decrement';
+
 function getHospitalsConfigVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'hospitals_config');
 }
@@ -23,12 +25,199 @@ function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
   };
 }
 
+// -------------------------------------------------------------------------------------------------
+// Hospital
+// -------------------------------------------------------------------------------------------------
+
 export function getHospitals(): Record<HospitalId, HospitalDefinition> {
   return getHospitalsDefinition().hospitals;
 }
 
+export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
+  return getHospitals()[hospitalId]!;
+}
+
+export function getHospitalsByProximity(
+  proximity: HospitalProximity
+): Record<HospitalId, HospitalDefinition> {
+  const result = { ...getHospitals() };
+  const ids = Object.keys({ ...result });
+
+  ids.forEach(hospId => {
+    const hospProximity = result[hospId]?.proximity;
+    if (hospProximity == undefined || proximity.valueOf() < hospProximity) {
+      delete result[hospId];
+    }
+  });
+
+  return result;
+}
+
+// Could be used by evacuationFacade.getEvacHospitalsChoices()
+export function getHospitalsMentionedByCasu(
+  state: Readonly<MainSimulationState>
+): Record<HospitalId, HospitalDefinition> {
+  const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
+  if (proximityRequested !== undefined) {
+    return getHospitalsByProximity(proximityRequested);
+  }
+
+  return {};
+}
+
+export function insertHospital() {
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
+
+  const newId = generateNewId(6, Object.keys(hospitals));
+
+  hospitals[newId] = {
+    index: Object.values(hospitals).length + 1,
+    fullName: '',
+    shortName: '',
+    preposition: { fr: 'à', en: 'to' },
+    distance: 0,
+    proximity: 0,
+    units: {},
+  };
+
+  saveToObjectDescriptor(getHospitalsConfigVariable(), {
+    patientUnits: getHospitalsDefinition().patientUnits,
+    hospitals: hospitals,
+  });
+}
+
+export function updateHospitalData(
+  id: HospitalId,
+  field: keyof HospitalDefinition,
+  newData: string | number
+) {
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
+  if (hospitals[id] != undefined) {
+    // hospitals[id]![field] = newData; // does not compile
+    // So we put some conditions about typing
+    if ((field === 'distance' || field === 'proximity') && typeof newData === 'number') {
+      hospitals[id]![field] = newData;
+    } else if ((field === 'fullName' || field === 'shortName') && typeof newData === 'string') {
+      hospitals[id]![field] = newData;
+    }
+
+    saveToObjectDescriptor(getHospitalsConfigVariable(), {
+      patientUnits: getHospitalsDefinition().patientUnits,
+      hospitals: hospitals,
+    });
+  }
+}
+
+export function updateHospitalTranslatableData(
+  id: HospitalId,
+  field: keyof HospitalDefinition,
+  lang: knownLanguages,
+  newData: string
+) {
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
+
+  if (hospitals[id] != undefined) {
+    // hospitals[id]![field] = newData; // does not compile
+    if (field === 'preposition') {
+      hospitals[id]![field][lang] = newData;
+    }
+
+    saveToObjectDescriptor(getHospitalsConfigVariable(), {
+      patientUnits: getHospitalsDefinition().patientUnits,
+      hospitals: hospitals,
+    });
+  }
+}
+
+export function updateHospitalIndex(id: HospitalId, direction: Direction) {
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
+
+  if (hospitals[id] != undefined) {
+    const oldIndex = hospitals[id]!['index'];
+    let newIndex = 0;
+    if (direction === 'decrement') {
+      newIndex = oldIndex - 1;
+    } else {
+      newIndex = oldIndex + 1;
+    }
+
+    if (newIndex > 0 && newIndex < Object.values(hospitals).length + 1) {
+      const neighbourId: PatientUnitId | undefined = Object.keys(hospitals).find(
+        key => hospitals[key]!.index === newIndex
+      );
+      if (neighbourId) {
+        hospitals[neighbourId]!['index'] = oldIndex;
+      }
+      hospitals[id]!['index'] = newIndex;
+
+      saveToObjectDescriptor(getHospitalsConfigVariable(), {
+        patientUnits: getHospitalsDefinition().patientUnits,
+        hospitals: hospitals,
+      });
+    }
+  }
+}
+
+export function deleteHospital(id: HospitalId) {
+  const hospitals: Record<HospitalId, HospitalDefinition> = getHospitalsDefinition().hospitals;
+
+  if (hospitals[id] != undefined) {
+    const removedIndex: number = hospitals[id]!.index;
+
+    delete hospitals[id];
+
+    Object.values(hospitals).forEach(hosp => {
+      if (hosp.index > removedIndex) {
+        hosp.index--;
+      }
+    });
+
+    saveToObjectDescriptor(getHospitalsConfigVariable(), {
+      patientUnits: getHospitalsDefinition().patientUnits,
+      hospitals: hospitals,
+    });
+  }
+}
+
+export function updateHospitalUnitCapacity(
+  hospitalId: HospitalId,
+  patientUnitId: PatientUnitId,
+  qty: number
+) {
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
+
+  if (qty === 0) {
+    delete hospitals[hospitalId]!.units[patientUnitId];
+  } else {
+    hospitals[hospitalId]!.units[patientUnitId] = qty;
+  }
+
+  saveToObjectDescriptor(getHospitalsConfigVariable(), {
+    patientUnits: getHospitalsDefinition().patientUnits,
+    hospitals: hospitals,
+  });
+}
+
+// -------------------------------------------------------------------------------------------------
+// Patient unit
+// -------------------------------------------------------------------------------------------------
+
 export function getPatientUnits(): Record<PatientUnitId, PatientUnitDefinition> {
   return getHospitalsDefinition().patientUnits;
+}
+
+export function getPatientUnitById(patientUnitId: PatientUnitId): PatientUnitDefinition {
+  return getHospitalsDefinition().patientUnits[patientUnitId]!;
 }
 
 export function getPatientUnitIdsSorted(): PatientUnitId[] {
@@ -40,151 +229,135 @@ export function getPatientUnitIdsSorted(): PatientUnitId[] {
     .map(pu => pu.id);
 }
 
-export function getPatientUnitById(id: PatientUnitId): PatientUnitDefinition {
-  return getHospitalsDefinition().patientUnits[id]!;
+export function insertPatientUnit() {
+  const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().patientUnits
+  );
+
+  const newId = generateNewId(6, Object.keys(patientUnits));
+
+  patientUnits[newId] = {
+    index: Object.values(patientUnits).length + 1,
+    name: { fr: '', en: '' },
+  };
+
+  saveToObjectDescriptor(getHospitalsConfigVariable(), {
+    patientUnits: patientUnits,
+    hospitals: getHospitalsDefinition().hospitals,
+  });
 }
 
 export function updatePatientUnitTranslatableData(
   id: PatientUnitId,
-  field: string,
+  field: keyof PatientUnitDefinition,
   lang: knownLanguages,
   newName: string
 ) {
-  const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
-  patientUnits[id]![field][lang] = newName; // TODO
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: getHospitalsDefinition().hospitals,
-  });
-}
-
-export function deletePatientUnit(patientUnitId: PatientUnitId) {
-  const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-
-  const removedIndex: number = patientUnits[patientUnitId].index;
-
-  delete patientUnits[patientUnitId];
-
-  Object.values(patientUnits).forEach(patUni => {
-    if (patUni.index > removedIndex) {
-      patUni.index--;
-    }
-  });
-
-  Object.values(hospitals).forEach(hosp => {
-    delete hosp.units[patientUnitId];
-  });
-
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: hospitals,
-  });
-}
-
-export function insertPatientUnit() {
-  const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
-  const newId = generateNewId(6, Object.keys(patientUnits));
-  const newPatientUnit: PatientUnitDefinition = {
-    index: Object.values(patientUnits).length,
-    name: { fr: '', en: '' },
-  };
-  patientUnits[newId] = newPatientUnit;
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: getHospitalsDefinition().hospitals,
-  });
-}
-
-export type Direction = 'increment' | 'decrement';
-
-export function updateHospitalIndex(id: HospitalId, direction: Direction) {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-
-  const oldIndex = hospitals[id]!['index'];
-  let newIndex = 0;
-  if (direction === 'decrement') {
-    newIndex = oldIndex - 1;
-  } else {
-    newIndex = oldIndex + 1;
-  }
-
-  const neighbourId: PatientUnitId | undefined = Object.keys(hospitals).find(
-    key => hospitals[key]!.index === newIndex
+  const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().patientUnits
   );
-  if (neighbourId) {
-    hospitals[neighbourId]!['index'] = oldIndex;
-  }
-  hospitals[id]!['index'] = newIndex;
 
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
+  if (patientUnits[id] != undefined) {
+    // patientUnits[id]![field][lang] = newName; // does not compile
+    // So we put some conditions about typing
+    if (field === 'name') {
+      patientUnits[id]![field][lang] = newName;
+    }
+
+    saveToObjectDescriptor(getHospitalsConfigVariable(), {
+      patientUnits: patientUnits,
+      hospitals: getHospitalsDefinition().hospitals,
+    });
+  }
 }
 
 export function updatePatientUnitIndex(id: PatientUnitId, direction: Direction) {
-  const patientUnits = Helpers.cloneDeep(getHospitalsDefinition().patientUnits);
-
-  const oldIndex = patientUnits[id]!['index'];
-  let newIndex = 0;
-  if (direction === 'decrement') {
-    newIndex = oldIndex - 1;
-  } else {
-    newIndex = oldIndex + 1;
-  }
-
-  const neighbourId: PatientUnitId | undefined = Object.keys(patientUnits).find(
-    key => patientUnits[key]!.index === newIndex
+  const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().patientUnits
   );
-  if (neighbourId) {
-    patientUnits[neighbourId]!['index'] = oldIndex;
-  }
-  patientUnits[id]!['index'] = newIndex;
 
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: getHospitalsDefinition().hospitals,
-  });
-}
-
-export function deleteHospital(id: HospitalId) {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-
-  const removedIndex: number = hospitals[id].index;
-
-  delete hospitals[id];
-
-  Object.values(hospitals).forEach(hosp => {
-    if (hosp.index > removedIndex) {
-      hosp.index--;
+  if (patientUnits[id] != undefined) {
+    const oldIndex = patientUnits[id]!['index'];
+    let newIndex = 0;
+    if (direction === 'decrement') {
+      newIndex = oldIndex - 1;
+    } else {
+      newIndex = oldIndex + 1;
     }
-  });
 
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
+    if (newIndex > 0 && newIndex < Object.values(patientUnits).length + 1) {
+      const neighbourId: PatientUnitId | undefined = Object.keys(patientUnits).find(
+        key => patientUnits[key]!.index === newIndex
+      );
+      if (neighbourId) {
+        patientUnits[neighbourId]!['index'] = oldIndex;
+      }
+      patientUnits[id]!['index'] = newIndex;
+
+      saveToObjectDescriptor(getHospitalsConfigVariable(), {
+        patientUnits: patientUnits,
+        hospitals: getHospitalsDefinition().hospitals,
+      });
+    }
+  }
 }
 
-export function insertHospital() {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-  const newId = generateNewId(6, Object.keys(hospitals));
+export function deletePatientUnit(patientUnitId: PatientUnitId) {
+  const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().patientUnits
+  );
+  const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
+    getHospitalsDefinition().hospitals
+  );
 
-  hospitals[newId] = {
-    index: Object.values(hospitals).length,
-    fullName: '',
-    shortName: '',
-    preposition: { fr: 'à', en: 'to' },
-    distance: 0,
-    proximity: 0,
-    units: {},
-  };
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
+  if (patientUnits[patientUnitId]) {
+    const removedIndex: number = patientUnits[patientUnitId]!.index;
+
+    delete patientUnits[patientUnitId];
+
+    Object.values(patientUnits).forEach(patUni => {
+      if (patUni.index > removedIndex) {
+        patUni.index--;
+      }
+    });
+
+    Object.values(hospitals).forEach(hosp => {
+      delete hosp.units[patientUnitId];
+    });
+
+    saveToObjectDescriptor(getHospitalsConfigVariable(), {
+      patientUnits: patientUnits,
+      hospitals: hospitals,
+    });
+  }
 }
+
+// -------------------------------------------------------------------------------------------------
+// Travel time to hospital
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * @param hospitalId the hospital
+ * @param squadType the squad that go to the hospital
+ *
+ * @return The number of time slices needed to go to the hospital
+ */
+export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
+  const squad = getSquadDef(squadType);
+  const distance = getHospitalById(hospitalId).distance ?? 0;
+
+  return Math.ceil(
+    (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
+  );
+}
+
+export function formatTravelTimeToMinutes(travelTime: number): number {
+  return travelTime > 0 ? Math.ceil(travelTime / OneMinuteDuration) : 0;
+}
+
+// -------------------------------------------------------------------------------------------------
+//
+// -------------------------------------------------------------------------------------------------
 
 function generateNewId(length: number, existing: string[]): string {
   const maxTries = 6;
@@ -213,101 +386,3 @@ function generateId(length: number) {
 
   return id;
 }
-
-export function updateHospitalData(id: HospitalId, field: string, newData: any) {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-  hospitals[id]![field] = newData; // TODO
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
-}
-
-export function updateHospitalTranslatableData(
-  id: HospitalId,
-  field: string,
-  lang: knownLanguages,
-  newData: any
-) {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-  hospitals[id]![field][lang] = newData; // TODO
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
-}
-
-export function updateHospitalUnitCapacity(
-  hospitalId: HospitalId,
-  patientUnitId: PatientUnitId,
-  qty: number
-) {
-  const hospitals = Helpers.cloneDeep(getHospitalsDefinition().hospitals);
-  if (qty === 0) {
-    delete hospitals[hospitalId]!.units[patientUnitId];
-  } else {
-    hospitals[hospitalId]!.units[patientUnitId] = qty;
-  }
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
-}
-
-// -------------------------------------------------------------------------------------------------
-// hospital
-// -------------------------------------------------------------------------------------------------
-
-export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
-  return getHospitals()[hospitalId]!;
-}
-
-export function getHospitalsByProximity(
-  proximity: HospitalProximity
-): Record<HospitalId, HospitalDefinition> {
-  const result = { ...getHospitals() };
-  const ids = Object.keys({ ...result });
-
-  ids.forEach(hospId => {
-    const hospProximity = result[hospId]?.proximity;
-    if (hospProximity == undefined || proximity.valueOf() < hospProximity) {
-      delete result[hospId];
-    }
-  });
-
-  return result;
-}
-
-export function getHospitalsMentionedByCasu(
-  state: Readonly<MainSimulationState>
-): Record<HospitalId, HospitalDefinition> {
-  const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
-  if (proximityRequested !== undefined) {
-    return getHospitalsByProximity(proximityRequested);
-  }
-
-  return {};
-}
-
-/**
- * @param hospitalId the hospital
- * @param squadType the squad that go to the hospital
- *
- * @return The number of time slices needed to go to the hospital
- */
-export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
-  const squad = getSquadDef(squadType);
-  const distance = getHospitalById(hospitalId).distance ?? 0;
-
-  return Math.ceil(
-    (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
-  );
-}
-
-export function formatTravelTimeToMinutes(travelTime: number): number {
-  return travelTime > 0 ? Math.ceil(travelTime / OneMinuteDuration) : 0;
-}
-
-// -------------------------------------------------------------------------------------------------
-//
-// -------------------------------------------------------------------------------------------------
