@@ -12,18 +12,12 @@ import { AfflictedPathology, RevivedPathology, revivePathology } from '../../../
 import { getAct, getItem } from '../../../HUMAn/registries';
 import { PatientLocation, PatientState } from '../simulationState/patientState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getPresetByName } from '../../../edition/patientPreset';
 import { PatientEvolutionEVACTimeModifier, PatientEvolutionPMATimeModifier } from '../constants';
-
-const currentPatientPreset = 'CERN 12 Mai';
 
 export function loadPatients(): PatientState[] {
   const env = getEnv();
-  const preset = getPresetByName(currentPatientPreset);
 
   const humanBodies = getPatientsBodyFactoryParamsArray()
-    // TODO: temporarily filtering hardcoded preset, should be handled in UI
-    .filter(bodyFactoryParamWithId => preset!.patients[bodyFactoryParamWithId.id])
     .map(bodyFactoryParamWithId => {
       const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
       humanBody.id = bodyFactoryParamWithId.id;
@@ -230,4 +224,8 @@ export function computeNewPatientsState(
     body.state.time = from + timeJump;
     mainSimLogger.debug('FinalStateTime: ', patient.patientId, body.state.time);
   });
+}
+
+export function getInitialTimeJumpSeconds(): number {
+  return Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self) * 60;
 }

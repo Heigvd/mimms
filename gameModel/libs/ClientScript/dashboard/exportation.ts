@@ -17,9 +17,9 @@ import { BodyFactoryParam } from '../HUMAn/human';
 import { compare } from '../tools/helper';
 import { exportLogger } from '../tools/logger';
 import { resolveAction } from '../game/legacy/the_world';
+import { PatientId } from '../game/common/baseTypes';
 
 type PlayerId = string;
-type PatientId = string;
 type TreatmentData = { type: string; time: number; blocks: string[]; duration: number };
 type MeasureData = {
   name: string;

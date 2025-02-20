@@ -1,11 +1,11 @@
-import { PathologyId } from '../edition/GameModelerHelper';
 import { generateRandomPatient } from '../edition/patientGeneration';
-import { PatientId, SimDuration } from '../game/common/baseTypes';
+import { PathologyId, PatientId, SimDuration } from '../game/common/baseTypes';
 import { TimeSliceDuration } from '../game/common/constants';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
   computeNewPatientsState,
+  getInitialTimeJumpSeconds,
   reviveAfflictedPathologies,
 } from '../game/common/patients/handleState';
 import { doPatientAutomaticTriage } from '../game/common/patients/pretriage';
@@ -214,10 +214,6 @@ function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientS
   );
   wlog(patientState.preTriageResult);
   return patientState;
-}
-
-function getInitialTimeJumpSeconds(): number {
-  return Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self) * 60;
 }
 
 export function getSampleTimesSec(): number[] {

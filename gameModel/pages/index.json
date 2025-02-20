@@ -20,7 +20,7 @@
         "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
-        "scenaristPage" : false,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -240,22 +240,10 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "15",
-        "name" : "situationsConfig",
-        "scenaristPage" : false,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
         "id" : "16",
         "name" : "skills config",
         "scenaristPage" : false,
         "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "29",
-        "name" : "patientPresets",
-        "scenaristPage" : false,
-        "trainerPage" : false
       }, {
         "@class" : "Page",
         "id" : "PathologySelection",

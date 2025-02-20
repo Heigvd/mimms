@@ -29,5 +29,6 @@ export type ResourceContainerDefinitionId = number;
 export type ResourceId = number;
 
 export type PatientId = string;
+export type PathologyId = string;
 
 export type HospitalId = string;
