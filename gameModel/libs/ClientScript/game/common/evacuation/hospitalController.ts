@@ -88,22 +88,20 @@ export function insertHospital() {
   });
 }
 
-export function updateHospitalData(
+// builds a type which properties are only of the condition type
+type FilterConditionally<Source, Condition> = Pick<Source, {[K in keyof Source]: Source[K] extends Condition ? K : never}[keyof Source]>;
+
+export function updateHospitalData<T = number | string>(
   id: HospitalId,
-  field: keyof HospitalDefinition,
-  newData: string | number
+  field: keyof FilterConditionally<HospitalDefinition, T>,
+  newData: T,
 ) {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
     getHospitalsDefinition().hospitals
   );
-  if (hospitals[id] != undefined) {
-    // hospitals[id]![field] = newData; // does not compile
-    // So we put some conditions about typing
-    if ((field === 'distance' || field === 'proximity') && typeof newData === 'number') {
-      hospitals[id]![field] = newData;
-    } else if ((field === 'fullName' || field === 'shortName') && typeof newData === 'string') {
-      hospitals[id]![field] = newData;
-    }
+  const h = hospitals[id];
+  if (h != undefined) {
+    h[field] = newData as any;
 
     saveToObjectDescriptor(getHospitalsConfigVariable(), {
       patientUnits: getHospitalsDefinition().patientUnits,
