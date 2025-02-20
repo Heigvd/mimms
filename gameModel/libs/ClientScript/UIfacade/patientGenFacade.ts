@@ -1,3 +1,4 @@
+import { PathologyId } from '../edition/GameModelerHelper';
 import { generateRandomPatient } from '../edition/patientGeneration';
 import { PatientId, SimDuration } from '../game/common/baseTypes';
 import { TimeSliceDuration } from '../game/common/constants';
@@ -12,8 +13,14 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { PatientState } from '../game/common/simulationState/patientState';
 import { STANDARD_CATEGORY } from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
+import { getPathologies } from '../HUMAn/registries';
 import { entries, makeAsync } from '../tools/helper';
-import { getEnv, getPatientsBodyFactoryParams, saveToObjectDescriptor } from '../tools/WegasHelper';
+import {
+  getEnv,
+  getPatientsBodyFactoryParams,
+  parseObjectDescriptor,
+  saveToObjectDescriptor,
+} from '../tools/WegasHelper';
 
 export type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
@@ -99,6 +106,7 @@ export async function addPatientsAsync(
   targetStats: InjuryCategoryStats
 ): Promise<Record<PatientId, BodyFactoryParam>> {
   const t = Date.now();
+  const genCtx = getGenCtx();
   const total = Object.values(targetStats).reduce((acc, v) => acc + v, 0);
   generationCount = 0;
 
@@ -111,17 +119,18 @@ export async function addPatientsAsync(
     bestEffortGenerateAndStore(existingPatients, stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, getGenCtx(), 1));
+    tasks.push(makeAsync(genFunction, genCtx, 1));
   }
   await Promise.all(tasks);
 
   savePatients(existingPatients);
   wlog(Date.now() - t);
+  genCtx.setState(getDefaultGenerationState());
   return existingPatients;
 }
 
-export function initCache(): void {
-  if (cacheInitDone) return;
+export function initCache(force: boolean = false): void {
+  if (cacheInitDone && !force) return;
   const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
   for (const id in existingPatients) {
     const ps = instantiateAndPretriage(id, existingPatients[id]!);
@@ -197,12 +206,13 @@ function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientS
     preTriageResult: undefined,
     location: { kind: 'FixedMapEntity', locationId: LOCATION_ENUM.chantier },
   };
-  computeNewPatientsState([patientState], getInitialTimeJumpSeconds(), getEnv());
+  computeNewPatientsState([patientState], getInitialTimeJumpSeconds(), getEnv(), false);
   patientState.preTriageResult = doPatientAutomaticTriage(
     humanBody,
     getInitialTimeJumpSeconds(),
     false
   );
+  wlog(patientState.preTriageResult);
   return patientState;
 }
 
@@ -230,7 +240,7 @@ function updateCache(startInstance: PatientState): void {
   entry[t] = sampleInstance;
   for (let i = 1; i < SAMPLES_NUMBER; i++) {
     sampleInstance = Helpers.cloneDeep(sampleInstance);
-    computeNewPatientsState([sampleInstance], SAMPLE_INTERVAL_SEC, getEnv());
+    computeNewPatientsState([sampleInstance], SAMPLE_INTERVAL_SEC, getEnv(), false);
     t = sampleInstance.humanBody.state.time;
     sampleInstance.preTriageResult = doPatientAutomaticTriage(sampleInstance.humanBody, t, false);
     entry[t] = sampleInstance;
@@ -272,4 +282,22 @@ function getGenCtx(): GenerationCtx {
 function savePatients(patients: Record<PatientId, BodyFactoryParam>): void {
   const patientDesc = Variable.find(gameModel, 'patients');
   saveToObjectDescriptor(patientDesc, patients);
+}
+
+// PATHOLOGY =============================================================================
+
+export function getPathologiesChoices(): { id: PathologyId; selected: boolean; label: string }[] {
+  const saved = parseObjectDescriptor<boolean>(Variable.find(gameModel, 'selected_pathologies'));
+  return getPathologies().map(p => ({
+    id: p.value,
+    selected: saved[p.value] || false,
+    label: p.label,
+  }));
+}
+
+export function togglePathology(id: PathologyId): void {
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  const current = parseObjectDescriptor<boolean>(desc);
+  current[id] = !current[id];
+  saveToObjectDescriptor(desc, current);
 }

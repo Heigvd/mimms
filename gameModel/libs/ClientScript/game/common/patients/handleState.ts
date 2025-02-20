@@ -169,7 +169,8 @@ function computeVirtualElapsedTime(timeJump: number, location: PatientLocation):
 export function computeNewPatientsState(
   patients: PatientState[],
   timeJump: number,
-  env: Environnment
+  env: Environnment,
+  skipStable: boolean = true
 ): void {
   const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
   patients.forEach(patient => {
@@ -179,8 +180,9 @@ export function computeNewPatientsState(
     const virtualElapsed = computeVirtualElapsedTime(timeJump, patient.location);
 
     if (
-      virtualElapsed === 0 ||
-      (body.effects!.length === 0 && body.revivedPathologies!.length === 0)
+      skipStable &&
+      (virtualElapsed === 0 ||
+        (body.effects!.length === 0 && body.revivedPathologies!.length === 0))
     ) {
       // no need to compute state; Human is stable
       mainSimLogger.info('Skip Human');

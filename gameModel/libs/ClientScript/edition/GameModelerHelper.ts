@@ -196,7 +196,7 @@ export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> 
  */
 
 type SituationId = string;
-type PathologyId = string;
+export type PathologyId = string;
 
 type SituationMatrixCell = undefined | boolean;
 
@@ -246,7 +246,7 @@ onSituationChangeRef.current = (x, y, newData) => {
   APIMethods.runScript(script, {});
 };
 
-function getSituationsDefinitions() {
+export function getSituationsDefinitions() {
   return parseObjectDescriptor<SituationDefinition>(
     Variable.find(gameModel, 'situationsDefinitions')
   );

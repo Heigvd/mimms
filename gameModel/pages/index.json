@@ -212,7 +212,7 @@
         "@class" : "Page",
         "id" : "patientGeneration",
         "name" : "Patient Generation",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -229,7 +229,7 @@
       }, {
         "@class" : "Page",
         "id" : "9",
-        "name" : "patient generation",
+        "name" : "Patients details",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
@@ -256,6 +256,12 @@
         "name" : "patientPresets",
         "scenaristPage" : false,
         "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "PathologySelection",
+        "name" : "Pathology Selection",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

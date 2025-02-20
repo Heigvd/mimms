@@ -84,6 +84,7 @@ export function generateRandomPatient(patients: Record<string, BodyFactoryParam>
   };
 }
 
+// DEPRECATED remove
 export function deleteAllPatients(): void {
   if (!Editor.getFeatures().ADVANCED) {
     patientGenerationLogger.error('Cannot delete all patient if not in ADVANCED mode');
@@ -146,8 +147,9 @@ function makeOfficialUid(): string {
 
 /**
  * Todo: filter pathologies according to current situation
+ * DEPRECATED REMOVE
  */
-export function getAvailablePathologies(): { label: string; value: string }[] {
+export function getAvailablePathologiesOld(): { label: string; value: string }[] {
   const situId = Variable.find(gameModel, 'situation').getValue(self);
 
   if (!situId) {
@@ -163,6 +165,19 @@ export function getAvailablePathologies(): { label: string; value: string }[] {
         value: id,
       }));
     }
+  }
+}
+
+export function getAvailablePathologies(): { label: string; value: string }[] {
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  const current = parseObjectDescriptor<boolean>(desc);
+  if (!current) {
+    return getPathologies();
+  } else {
+    const pathoMap = getPathologiesMap();
+    return Object.entries(current)
+      .filter(([_, selected]) => selected)
+      .map(([id, _]) => ({ label: pathoMap[id] || '', value: id }));
   }
 }
 

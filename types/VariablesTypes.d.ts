@@ -203,6 +203,7 @@
           "gameMode": SStringDescriptor;
           "patients-elapsed-minutes": SNumberDescriptor;
           "pathology_max_amount": SNumberDescriptor;
+          "selected_pathologies": SObjectDescriptor;
         }
 
         type FindFN = <T extends keyof VariableClasses>(
