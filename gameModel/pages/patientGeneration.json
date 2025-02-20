@@ -40,7 +40,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { addPatientsAsync } from \"./UIfacade/patientGenFacade\";\naddPatientsAsync({dead: 2, immediate:2, non_urgent:0, urgent:0});",
+                        "content" : "import { addPatientsAsync } from \"./UIfacade/patientGenFacade\";\naddPatientsAsync({dead: 5, immediate:5, non_urgent:5, urgent:2});",
                         "language" : "TypeScript",
                         "returnType" : "Promise<unknown> | undefined"
                       }

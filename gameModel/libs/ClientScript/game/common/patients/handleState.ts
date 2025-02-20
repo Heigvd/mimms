@@ -4,7 +4,6 @@ import {
   computeState,
   createHumanBody,
   doActionOnHumanBody,
-  Environnment,
   HumanBody,
 } from '../../../HUMAn/human';
 import { mainSimLogger } from '../../../tools/logger';
@@ -33,7 +32,7 @@ export function loadPatients(): PatientState[] {
 
   mainSimLogger.info('Adding', humanBodies.length, 'patients');
 
-  return humanBodies.flatMap(humanBody => {
+  const patients: PatientState[] = humanBodies.map(humanBody => {
     return {
       patientId: humanBody.id!,
       humanBody: humanBody,
@@ -41,6 +40,8 @@ export function loadPatients(): PatientState[] {
       location: { kind: 'FixedMapEntity', locationId: LOCATION_ENUM.chantier },
     };
   });
+  computeNewPatientsState(patients, getInitialTimeJumpSeconds());
+  return patients;
 }
 
 export function computeInitialAfflictedPathologies(
@@ -163,10 +164,10 @@ function computeVirtualElapsedTime(timeJump: number, location: PatientLocation):
 export function computeNewPatientsState(
   patients: PatientState[],
   timeJump: number,
-  env: Environnment,
   skipStable: boolean = true
 ): void {
   const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
+  const env = getEnv();
   patients.forEach(patient => {
     const body = patient.humanBody;
     if (body.meta == null) throw `Unable to find meta for patient`;

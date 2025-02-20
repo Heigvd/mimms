@@ -1,5 +1,4 @@
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
-import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
@@ -219,7 +218,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
   private updatePatients(state: MainSimulationState, timeJump: number) {
     const patients = state.getInternalStateObject().patients;
-    computeNewPatientsState(patients, timeJump, getEnv());
+    computeNewPatientsState(patients, timeJump);
   }
 
   private updateActions(state: MainSimulationState) {

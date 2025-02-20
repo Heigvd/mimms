@@ -248,7 +248,7 @@
         "@class" : "Page",
         "id" : "PathologySelection",
         "name" : "Pathology Selection",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"
