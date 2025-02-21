@@ -24,15 +24,13 @@ import {
   saveToObjectDescriptor,
 } from '../tools/WegasHelper';
 
-export type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
-
 /**
  * Maximum number of attempts to generate a patient that fits in the required statistics
  */
 const MAX_RETRIES = 50;
 
 /**
- * Number of samples after injury to compute for view
+ * Number of samples after injury
  */
 const SAMPLES_NUMBER = 4;
 
@@ -41,23 +39,27 @@ const SAMPLES_NUMBER = 4;
  */
 const SAMPLE_INTERVAL_SEC = TimeSliceDuration * 15;
 
+type PatientSamples = Record<SimDuration, PatientState>;
 interface PatientEntry {
   id: PatientId;
   samples: PatientSamples;
+  params: BodyFactoryParam;
 }
+type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
-export type PatientSamples = Record<SimDuration, PatientState>;
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let cacheInitDone = false;
 
+
 /**
- * foreach mapping for all patients
+ * foreach adapter for all patients
  */
 export function getPatientsSamples(): PatientEntry[] {
-  const sortFunc = getGenCtx().state?.sort === 'id' ? sortById : sortByPriority;
+  const sortFunc = sortFunctions[getGenCtx().state.sort];
+  const params = getPatientsBodyFactoryParams();
   return Object.entries(patientsSamplesCache)
-    .map(([id, v]) => {
-      return { id: id, samples: v };
+    .map(([id, ps]) => {
+      return { id: id, samples: ps, params: params[id]! };
     })
     .sort(sortFunc);
 }
@@ -142,7 +144,7 @@ export async function addPatientsAsync(
     bestEffortGenerateAndStore(existingPatients, stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx, 1));
+    tasks.push(makeAsync(genFunction, genCtx));
   }
   await Promise.all(tasks);
 
@@ -187,6 +189,9 @@ function incrementGenerated(genState: GenerationCtx): void {
   genState.setState(clone);
 }
 
+/**
+ * Generates a random patients until one fits in the stats
+ */
 function bestEffortGenerate(
   patients: Record<PatientId, BodyFactoryParam>,
   remaining: InjuryCategoryStats,
@@ -216,6 +221,9 @@ function generateOnePatientAndTriage(patients: Record<PatientId, BodyFactoryPara
   };
 }
 
+/**
+ * Generates a random patient, updates it to T0, compute its pretriage
+ */
 function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientState {
   const humanBody = createHumanBody(params, getEnv());
   humanBody.id = id;
@@ -239,7 +247,8 @@ function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientS
 }
 
 /**
- * Instance is expected to be at T0 (after initial time interval elapsed)
+ * Builds snapshots of patients at required times
+ * startInstance is expected to be at T0 (after initial time interval elapsed)
  */
 function updateCache(startInstance: PatientState): void {
   const id: PatientId = startInstance.patientId;
@@ -257,22 +266,30 @@ function updateCache(startInstance: PatientState): void {
   patientsSamplesCache[id] = entry;
 }
 
+// INTERFACE STATE ============================================================
 interface PatientGenerationState {
   status: 'patient-list' | 'pathology-modal' | 'stats-modal' | 'patient-modal' | 'generating-modal';
-  sort: 'id' | 'priority';
+  sort: SortType;
   generation: {
     pending: number;
     generated: number;
+    target: InjuryCategoryStats;
   };
 }
 
-function getDefaultGenerationState(): PatientGenerationState {
+export function getDefaultGenerationState(): PatientGenerationState {
   return {
     status: 'patient-list',
     sort: 'priority',
     generation: {
       generated: 0,
       pending: 0,
+      target: {
+        dead: 0,
+        immediate: 0,
+        non_urgent: 0,
+        urgent: 0,
+      },
     },
   };
 }
@@ -295,7 +312,7 @@ function savePatients(patients: Record<PatientId, BodyFactoryParam>): void {
   saveToObjectDescriptor(patientDesc, patients);
 }
 
-// PATHOLOGY =============================================================================
+// PATHOLOGIES =================================================================
 
 export function getPathologiesChoices(): { id: PathologyId; selected: boolean; label: string }[] {
   const saved = parseObjectDescriptor<boolean>(Variable.find(gameModel, 'selected_pathologies'));
@@ -313,7 +330,15 @@ export function togglePathology(id: PathologyId): void {
   saveToObjectDescriptor(desc, current);
 }
 
-// SORTING
+// SORTING ====================================================================
+
+type SortType = 'id' | 'priority';
+type SortFunc = (a: PatientEntry, b: PatientEntry) => number;
+const sortFunctions: Record<SortType, SortFunc> = {
+  id: sortById,
+  priority: sortByPriority,
+};
+
 function sortById(a: PatientEntry, b: PatientEntry): number {
   return alphaNumericSort(a.id, b.id);
 }
@@ -321,12 +346,14 @@ function sortById(a: PatientEntry, b: PatientEntry): number {
 function sortByPriority(a: PatientEntry, b: PatientEntry): number {
   const t0 = getInitialTimeJumpSeconds();
   if (a.samples[t0] && b.samples[t0]) {
-    const catA = a.samples[t0]?.preTriageResult?.categoryId || 'dead';
-    const prioA = getPriorityByCategoryId(catA);
+    const catA = a.samples[t0]?.preTriageResult?.categoryId;
+    const prioA = getPriorityByCategoryId(catA || 'dead');
 
-    const catB = b.samples[t0]?.preTriageResult?.categoryId || 'dead';
-    const prioB = getPriorityByCategoryId(catB);
-    return prioA > prioB ? 1 : -1;
+    const catB = b.samples[t0]?.preTriageResult?.categoryId;
+    const prioB = getPriorityByCategoryId(catB || 'dead');
+    if (prioA !== prioB) {
+      return prioA > prioB ? 1 : -1;
+    }
   }
   return 0;
 }

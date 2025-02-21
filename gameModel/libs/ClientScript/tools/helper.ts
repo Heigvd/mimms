@@ -249,7 +249,7 @@ export function getLetterRepresentationOfIndex(index: number): string {
 /**
  * Fake async. Wraps a function in a promise and delays its execution to the next event loop.
  */
-export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 100): Promise<T> {
+export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 1): Promise<T> {
   const context = ctx;
   return new Promise<T>((resolve, reject) => {
     setTimeout(() => {
