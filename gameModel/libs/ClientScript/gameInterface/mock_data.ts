@@ -1,4 +1,4 @@
-import { HospitalDefinition, HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { HospitalDefinitionOld, HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 
 ////////////////////////////////////////////
@@ -34,7 +34,7 @@ export function getBuildingDetails(location: LOCATION_ENUM) {
 }
 
 // Hospital details
-export const hospitalInfo: HospitalDefinition[] = [
+export const hospitalInfo: HospitalDefinitionOld[] = [
   {
     hospitalId: 'CH-GE-HUG',
     fullName: 'Hôpitaux universitaires de Genève',

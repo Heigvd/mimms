@@ -1,0 +1,169 @@
+/* - - - -  H O S P I T A L S  - - - */
+
+/* hospitals accordion width */
+#hospitals,
+.hospitals-container {
+  width: 36vw;
+  /* min-width: 112.75px; */
+}
+
+/* header style */
+.hospital-header-container {
+  align-items: center;
+  min-height: 38.39px;
+  padding: 10px 0;
+}
+
+.hospital-header-container-edit {
+  padding: 6.7px 0;
+}
+
+.hospital-header-name {
+  width: calc(12vw - 5px);
+  margin-left: 5px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.hospital-header-text,
+.hospital-header-input input {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  text-align: center;
+  color: var(--grey_100);
+  word-break: break-word;
+}
+
+.hospital-header-input {
+  display: flex;
+  justify-content: center;
+  width: 6vw;
+  height: 25px;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.hospital-header-input input {
+  min-height: 0;
+  padding: 0 5px;
+}
+
+/* display line style */
+.hospitals .team-text {
+  margin-left: 10px;
+}
+
+.hospitals .line-text {
+  align-items: center;
+}
+
+.line-display {
+  width: fit-content;
+  padding: 0;
+}
+
+/* edit line style */
+.hospital-text-name-edit {
+  width: calc(12vw - 5px);
+  padding: 0 4px 0 0;
+  box-sizing: border-box;
+}
+
+.hospital-input-container {
+  width: 6vw;
+  /*height: 25px;*/
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.hospital-input-container input {
+  text-align: center;
+}
+
+.hospital-text-name-edit input,
+.hospital-input-container input,
+.hospitals .wegas-select__single-value {
+  height: 28px;
+  min-height: 0;
+  padding: 5px;
+  font-size: var(--SM_text);
+  font-weight: 900;
+  color: var(--grey_base);
+}
+
+.line:hover .hospital-text-name-edit input,
+.line:hover .hospital-input-container input,
+.line:hover .wegas-select__single-value {
+  color: var(--primary_base) !important;
+}
+
+.hospitals .wegas-select__control,
+.hospitals .wegas-select__control div {
+  align-items: center;
+  height: 28px;
+  min-height: 0;
+}
+
+.hospital-line-edit {
+  width: calc(100% - 6vw - 4px);
+  padding: 5px;
+}
+
+/* .line-dropdown {
+  display: block;
+  min-width: 0;
+} */
+
+/* hospitals' actions */
+.hospitals-actions {
+  justify-content: center;
+  gap: 8px;
+  width: 6vw;
+}
+
+.hospital-button-add {
+  width: 36vw;
+}
+
+/* - - - -  S E R V I C E S  - - - */
+
+/* different services accordion width depending on open/closed, display/edit */
+.services,
+.services-container {
+  width: 100%;
+  min-width: 105.5px;
+}
+
+.services-edit {
+  width: calc(100% - 6vw - 4px);
+}
+
+/* different line width depending on if services accordion is open/closed, display/edit */
+.services-edit-closed {
+  width: calc(36vw + 105.5px);
+}
+
+.services-hospital-edit-closed {
+  width: calc(6vw + 105.5px);
+}
+
+/* services' actions */
+.services-actions {
+  justify-content: center;
+  gap: 8px;
+  width: 6vw;
+}
+
+/* services' actions' icons */
+.service-icon svg {
+  color: var(--grey_base);
+}
+
+.service-icon-hovered svg {
+  color: var(--primary_base);
+}
+
+.service-icon:hover svg {
+  color: var(--primary_70);
+}

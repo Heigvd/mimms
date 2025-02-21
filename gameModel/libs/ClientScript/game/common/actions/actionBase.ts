@@ -1,4 +1,3 @@
-import { hospitalInfo } from '../../../gameInterface/mock_data';
 import { entries } from '../../../tools/helper';
 import { getCurrentLanguageCode, getTranslation, knownLanguages } from '../../../tools/translation';
 import { InterventionRole } from '../actors/actor';
@@ -21,11 +20,7 @@ import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constan
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
-import {
-  HospitalDefinition,
-  HospitalProximity,
-  PatientUnitTypology,
-} from '../evacuation/hospitalType';
+import { HospitalProximity, PatientUnitTypology } from '../evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -369,8 +364,6 @@ export class OnTheRoadAction extends StartEndAction {
 export class CasuMessageAction extends RadioDrivenAction {
   hospitalRequestPayload: HospitalRequestPayload | undefined;
 
-  hospitals: HospitalDefinition[] | undefined;
-
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -384,10 +377,6 @@ export class CasuMessageAction extends RadioDrivenAction {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
     if (this.casuMessagePayload.messageType === 'R') {
       this.hospitalRequestPayload = this.casuMessagePayload;
-      // Hardcoded, hospital data should be retrieve from scenarist inputs
-      this.hospitals = hospitalInfo.filter(
-        h => this.hospitalRequestPayload!.proximity!.valueOf() >= h.proximity
-      );
     }
   }
 
