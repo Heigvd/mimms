@@ -379,7 +379,7 @@
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
-                          "content" : "import { getHospitalId, getPatientUnitAtHospitalChoices } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospitalChoices(getHospitalId());",
+                          "content" : "import { getHospitalId, getPatientUnitsChoices } from \"./UIfacade/evacuationFacade\";getPatientUnitsChoices(getHospitalId());",
                           "language" : "typescript"
                         },
                         "className" : "evacuationInputField",
@@ -393,12 +393,12 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "import { selectPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\n\nselectPatientUnitAtHospital(Context.patientUnitAtHospital);",
+                            "content" : "import { selectPatientUnitId } from \"./UIfacade/evacuationFacade\";\n\nselectPatientUnitId(Context.patientUnitId);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
                             "@class" : "Script",
-                            "content" : "\"patientUnitAtHospital\"",
+                            "content" : "\"patientUnitId\"",
                             "language" : "TypeScript"
                           }
                         },
@@ -409,7 +409,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital() || '';",
+                          "content" : "import { getPatientUnitId } from \"./UIfacade/evacuationFacade\";getPatientUnitId() || '';",
                           "language" : "TypeScript"
                         },
                         "style" : { }
@@ -452,7 +452,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getPatientUnitAtHospital } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitAtHospital();",
+                          "content" : "import { getPatientUnitName } from \"./UIfacade/evacuationFacade\";\ngetPatientUnitName();",
                           "language" : "TypeScript"
                         }
                       },

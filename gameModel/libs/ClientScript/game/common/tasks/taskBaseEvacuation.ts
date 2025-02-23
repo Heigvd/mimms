@@ -6,12 +6,12 @@ import {
   GlobalEventId,
   HospitalId,
   PatientId,
+  PatientUnitId,
   ResourceId,
   TranslationKey,
 } from '../baseTypes';
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
 import { formatTravelTimeToMinutes } from '../evacuation/hospitalController';
-import { PatientUnitTypology } from '../evacuation/hospitalType';
 import {
   AddRadioMessageLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
@@ -60,7 +60,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     resourcesId: ResourceId[],
     patientId: PatientId,
     hospitalId: HospitalId,
-    patientUnitAtHospital: PatientUnitTypology,
+    patientUnitId: PatientUnitId,
     doResourcesComeBack: boolean,
     travelTime: number,
     feedbackWhenReturning: TranslationKey,
@@ -70,7 +70,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       resourcesId,
       patientId,
       hospitalId,
-      patientUnitAtHospital,
+      patientUnitId,
       doResourcesComeBack,
       parentEventId,
       ownerId,
@@ -161,7 +161,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       new MovePatientLocalEvent(subTask.parentEventId, state.getSimTime(), subTask.patientId, {
         kind: 'Hospital',
         locationId: subTask.hospitalId,
-        patientUnit: subTask.patientUnitAtHospital,
+        patientUnit: subTask.patientUnitId,
       })
     );
     if (subTask.doResourcesComeBack) {

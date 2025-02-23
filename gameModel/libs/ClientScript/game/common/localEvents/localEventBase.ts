@@ -2,11 +2,7 @@ import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
-import {
-  getCurrentLanguageCodeAsKnownLanguage,
-  getTranslation,
-  knownLanguages,
-} from '../../../tools/translation';
+import { getText, getTranslation } from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
@@ -14,6 +10,7 @@ import {
   ActionId,
   ActorId,
   GlobalEventId,
+  PatientUnitId,
   ResourceContainerDefinitionId,
   ResourceId,
   SimDuration,
@@ -23,7 +20,11 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import { getHospitalsByProximity, getPatientUnits } from '../evacuation/hospitalController';
+import {
+  getHospitalsByProximity,
+  getPatientUnitById,
+  getPatientUnitIdsSorted,
+} from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -960,18 +961,21 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = getHospitalsByProximity(message.proximity);
-    const patientUnits = getPatientUnits();
-    const lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();
+    const hospitals = Object.values(getHospitalsByProximity(message.proximity));
+    const units: PatientUnitId[] = getPatientUnitIdsSorted();
 
     let casuMessage = '';
+    let qty = 0;
     for (const hospital of hospitals) {
       casuMessage += `${hospital.shortName}: \n`;
-      Object.entries(hospital.units).forEach(([unitId, qty]) => {
+
+      for (const unitId of units) {
+        qty = hospital.units[unitId] ?? 0;
         if (qty > 0) {
-          casuMessage += `${qty}: ${patientUnits[unitId]?.name[lang]} \n`;
+          casuMessage += `${qty}: ${getText(getPatientUnitById(unitId).name)} \n`;
         }
-      });
+      }
+
       casuMessage += '\n';
     }
     return casuMessage;
