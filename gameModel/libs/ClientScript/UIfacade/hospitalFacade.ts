@@ -223,5 +223,6 @@ export function changeHospitalUnitCapacity(
   patientUnitId: PatientUnitId,
   qty: number
 ) {
-  updateHospitalUnitCapacity(hospitalId, patientUnitId, qty);
+  const effectiveQty = isNaN(qty) ? 0 : Math.round(qty);
+  updateHospitalUnitCapacity(hospitalId, patientUnitId, effectiveQty);
 }

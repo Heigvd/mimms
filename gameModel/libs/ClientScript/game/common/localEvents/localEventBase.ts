@@ -972,7 +972,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       for (const unitId of units) {
         qty = hospital.units[unitId] ?? 0;
         if (qty > 0) {
-          casuMessage += `${qty}: ${getText(getPatientUnitById(unitId).name)} \n`;
+          casuMessage += `${qty} ${getText(getPatientUnitById(unitId).name)} \n`;
         }
       }
 

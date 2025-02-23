@@ -197,10 +197,10 @@ export function updateHospitalUnitCapacity(
     getHospitalsDefinition().hospitals
   );
 
-  if (qty === 0) {
+  if (Math.round(qty) <= 0) {
     delete hospitals[hospitalId]!.units[patientUnitId];
   } else {
-    hospitals[hospitalId]!.units[patientUnitId] = qty;
+    hospitals[hospitalId]!.units[patientUnitId] = Math.round(qty);
   }
 
   saveToObjectDescriptor(getHospitalsConfigVariable(), {

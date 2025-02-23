@@ -20,7 +20,7 @@ import {
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getText, getTranslation } from '../tools/translation';
-import { getPatientUnitById } from '../game/common/evacuation/hospitalController';
+import { getHospitalById, getPatientUnitById } from '../game/common/evacuation/hospitalController';
 
 /**
  * @returns All currently present patients
@@ -172,7 +172,10 @@ export function getPatientsSummary() {
         data: {
           id: patientId,
           categorization: patient.preTriageResult,
-          location: patient.location.locationId,
+          location:
+            patient.location.kind === 'Hospital'
+              ? getHospitalById(patient.location.locationId).shortName
+              : patient.location.locationId,
           effects: effectsStringArray,
           patientUnit:
             patient.location.kind === 'Hospital'
