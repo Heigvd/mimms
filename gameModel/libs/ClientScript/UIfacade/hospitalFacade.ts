@@ -83,10 +83,10 @@ export function getHospitalProximityChoices(): { label: string; value: string }[
   return (
     Object.entries(HospitalProximity)
       // hack to have all items from enum only once
-      .filter(entry => isNaN(parseInt(entry[0])))
-      .map(entry => ({
-        label: getProximityTranslation(entry[0]),
-        value: `${entry[1] as HospitalProximity}`,
+      .filter(([k,_]) => isNaN(parseInt(k)))
+      .map(([k,v]) => ({
+        label: getProximityTranslation(k),
+        value: `${v}`,
       }))
   );
 }
