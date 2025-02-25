@@ -161,10 +161,10 @@
   color: var(--grey_base);
 }
 
-.service-icon-hovered svg {
+.services-actions:hover .service-icon svg {
   color: var(--primary_base);
 }
 
-.service-icon:hover svg {
+.services-actions:hover .service-icon:hover svg {
   color: var(--primary_70);
 }

@@ -406,7 +406,7 @@
                                         "layoutStyle" : { },
                                         "name" : "distance",
                                         "style" : {
-                                          "gap" : "--xs-space"
+                                          "gap" : "4px"
                                         }
                                       },
                                       "type" : "FlexList"
@@ -568,7 +568,7 @@
                                         "name" : "distance",
                                         "style" : {
                                           "align-items" : "center",
-                                          "gap" : "--xs-space"
+                                          "gap" : "4px"
                                         }
                                       },
                                       "type" : "FlexList"
@@ -800,7 +800,7 @@
                                   "props" : {
                                     "disableIf" : {
                                       "@class" : "Script",
-                                      "content" : "getHospitalIndex(HospitalId) === 0;",
+                                      "content" : "import { getAllHospitals, getHospitalIndex } from \"./UIfacade/hospitalFacade\";\ngetHospitalIndex(Context.hospital.id) === getAllHospitals().length;",
                                       "language" : "typescript"
                                     },
                                     "icon" : "angle-down",
@@ -823,6 +823,11 @@
                                   "type" : "Button"
                                 }, {
                                   "props" : {
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getHospitalIndex } from \"./UIfacade/hospitalFacade\";\ngetHospitalIndex(Context.hospital.id) === 1;",
+                                      "language" : "typescript"
+                                    },
                                     "icon" : "angle-up",
                                     "label" : {
                                       "@class" : "Script",
@@ -983,7 +988,21 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "service-icon",
+                                    "className" : "",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "service-icon",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) != 1;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) === 1;",
+                                      "language" : "typescript"
+                                    },
                                     "icon" : "angle-left",
                                     "label" : {
                                       "@class" : "Script",
@@ -1004,7 +1023,21 @@
                                   "type" : "Button"
                                 }, {
                                   "props" : {
-                                    "className" : "service-icon",
+                                    "className" : "",
+                                    "conditionnalClassNames" : [ {
+                                      "applyOn" : "Inside",
+                                      "className" : "service-icon",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) != getAllPatientUnits().length;",
+                                        "language" : "typescript"
+                                      }
+                                    } ],
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) === getAllPatientUnits().length;",
+                                      "language" : "typescript"
+                                    },
                                     "icon" : "angle-right",
                                     "label" : {
                                       "@class" : "Script",
