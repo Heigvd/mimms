@@ -17,6 +17,21 @@ function getHospitalsConfigVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'hospitals_config');
 }
 
+function saveHospitalsAndPatientsConfig(patientUnits: Record<PatientUnitId, PatientUnitDefinition>, hospitals: Record<HospitalId, HospitalDefinition>): void {
+  saveToObjectDescriptor(getHospitalsConfigVariable(), {
+    patientUnits: patientUnits,
+    hospitals: hospitals,
+  });
+}
+
+function saveHospitalsConfig(hospitals: Record<HospitalId, HospitalDefinition>): void {
+  saveHospitalsAndPatientsConfig(getHospitalsDefinition().patientUnits, hospitals);
+}
+
+function savePatientUnitsConfig(patientUnits: Record<PatientUnitId, PatientUnitDefinition>): void {
+  saveHospitalsAndPatientsConfig(patientUnits, getHospitalsDefinition().hospitals);
+}
+
 function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
   const properties = getHospitalsConfigVariable().getProperties();
   return {
@@ -82,10 +97,7 @@ export function insertHospital() {
     units: {},
   };
 
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
+  saveHospitalsConfig(hospitals);
 }
 
 // builds a type which properties are only of the condition type
@@ -105,34 +117,23 @@ export function updateHospitalData<T = number | string>(
   const h = hospitals[id];
   if (h != undefined) {
     h[field] = newData as any;
-
-    saveToObjectDescriptor(getHospitalsConfigVariable(), {
-      patientUnits: getHospitalsDefinition().patientUnits,
-      hospitals: hospitals,
-    });
+    saveHospitalsConfig(hospitals);
   }
 }
 
 export function updateHospitalTranslatableData(
   id: HospitalId,
-  field: keyof HospitalDefinition,
+  field: 'preposition',
   lang: knownLanguages,
   newData: string
 ) {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
     getHospitalsDefinition().hospitals
   );
-
-  if (hospitals[id] != undefined) {
-    // hospitals[id]![field] = newData; // does not compile
-    if (field === 'preposition') {
-      hospitals[id]![field][lang] = newData;
-    }
-
-    saveToObjectDescriptor(getHospitalsConfigVariable(), {
-      patientUnits: getHospitalsDefinition().patientUnits,
-      hospitals: hospitals,
-    });
+  const hd = hospitals[id]
+  if (hd) {
+    hd[field][lang] = newData;
+    saveHospitalsConfig(hospitals);
   }
 }
 
@@ -159,10 +160,7 @@ export function updateHospitalIndex(id: HospitalId, direction: Direction) {
       }
       hospitals[id]!['index'] = newIndex;
 
-      saveToObjectDescriptor(getHospitalsConfigVariable(), {
-        patientUnits: getHospitalsDefinition().patientUnits,
-        hospitals: hospitals,
-      });
+      saveHospitalsConfig(hospitals);
     }
   }
 }
@@ -180,11 +178,7 @@ export function deleteHospital(id: HospitalId) {
         hosp.index--;
       }
     });
-
-    saveToObjectDescriptor(getHospitalsConfigVariable(), {
-      patientUnits: getHospitalsDefinition().patientUnits,
-      hospitals: hospitals,
-    });
+    saveHospitalsConfig(hospitals);
   }
 }
 
@@ -202,11 +196,7 @@ export function updateHospitalUnitCapacity(
   } else {
     hospitals[hospitalId]!.units[patientUnitId] = Math.round(qty);
   }
-
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: getHospitalsDefinition().patientUnits,
-    hospitals: hospitals,
-  });
+  saveHospitalsConfig(hospitals);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -241,16 +231,12 @@ export function insertPatientUnit() {
     index: Object.values(patientUnits).length + 1,
     name: { fr: '', en: '' },
   };
-
-  saveToObjectDescriptor(getHospitalsConfigVariable(), {
-    patientUnits: patientUnits,
-    hospitals: getHospitalsDefinition().hospitals,
-  });
+  savePatientUnitsConfig(patientUnits);
 }
 
 export function updatePatientUnitTranslatableData(
   id: PatientUnitId,
-  field: keyof PatientUnitDefinition,
+  field: 'name',
   lang: knownLanguages,
   newName: string
 ) {
@@ -259,16 +245,8 @@ export function updatePatientUnitTranslatableData(
   );
 
   if (patientUnits[id] != undefined) {
-    // patientUnits[id]![field][lang] = newName; // does not compile
-    // So we put some conditions about typing
-    if (field === 'name') {
-      patientUnits[id]![field][lang] = newName;
-    }
-
-    saveToObjectDescriptor(getHospitalsConfigVariable(), {
-      patientUnits: patientUnits,
-      hospitals: getHospitalsDefinition().hospitals,
-    });
+    patientUnits[id]![field][lang] = newName;
+    savePatientUnitsConfig(patientUnits);
   }
 }
 
@@ -294,11 +272,7 @@ export function updatePatientUnitIndex(id: PatientUnitId, direction: Direction) 
         patientUnits[neighbourId]!['index'] = oldIndex;
       }
       patientUnits[id]!['index'] = newIndex;
-
-      saveToObjectDescriptor(getHospitalsConfigVariable(), {
-        patientUnits: patientUnits,
-        hospitals: getHospitalsDefinition().hospitals,
-      });
+      savePatientUnitsConfig(patientUnits);
     }
   }
 }
@@ -326,10 +300,7 @@ export function deletePatientUnit(patientUnitId: PatientUnitId) {
       delete hosp.units[patientUnitId];
     });
 
-    saveToObjectDescriptor(getHospitalsConfigVariable(), {
-      patientUnits: patientUnits,
-      hospitals: hospitals,
-    });
+    savePatientUnitsConfig(patientUnits);
   }
 }
 
