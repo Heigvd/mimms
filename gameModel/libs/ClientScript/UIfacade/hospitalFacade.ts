@@ -2,7 +2,9 @@ import { HospitalId, PatientUnitId } from '../game/common/baseTypes';
 import {
   deleteHospital,
   deletePatientUnit,
+  getHospitalById,
   getHospitals,
+  getPatientUnitById,
   getPatientUnits,
   insertHospital,
   insertPatientUnit,
@@ -150,6 +152,13 @@ export function createHospital() {
   insertHospital();
 }
 
+/**
+ * Get hospital index
+ */
+export function getHospitalIndex(id: HospitalId) {
+  return getHospitalById(id).index;
+}
+
 // -------------------------------------------------------------------------------------------------
 // patient units
 // -------------------------------------------------------------------------------------------------
@@ -206,6 +215,13 @@ export function removePatientUnit(id: PatientUnitId) {
  */
 export function createPatientUnit() {
   insertPatientUnit();
+}
+
+/**
+ * Get patient unit index
+ */
+export function getPatientUnitIndex(id: PatientUnitId) {
+  return getPatientUnitById(id).index;
 }
 
 // -------------------------------------------------------------------------------------------------
