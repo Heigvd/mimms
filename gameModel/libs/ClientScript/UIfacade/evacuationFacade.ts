@@ -13,7 +13,6 @@ import {
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { getText } from '../tools/translation';
 
 // used in radioChannelEvacuation page
 
@@ -35,7 +34,7 @@ export function getPatientUnitsChoices(
   }
 
   return Object.keys(getHospitalById(hospitalId).units).map(patientUnitId => {
-    return { label: getText(getPatientUnitById(patientUnitId).name), value: patientUnitId };
+    return { label: I18n.translate(getPatientUnitById(patientUnitId).name), value: patientUnitId };
   });
 }
 
@@ -85,7 +84,7 @@ export function getPatientUnitId(): PatientUnitId | undefined {
 export function getPatientUnitName(): string {
   const patientUnitId = getTypedInterfaceState().evacuation.data.patientUnitId;
   if (patientUnitId) {
-    return getText(getPatientUnitById(patientUnitId).name);
+    return I18n.translate(getPatientUnitById(patientUnitId).name);
   }
   return '';
 }

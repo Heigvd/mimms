@@ -1,9 +1,6 @@
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { translationLogger } from './logger';
 
-const knownLanguagesArray: string[] = ['en', 'fr'];
-export type knownLanguages = typeof knownLanguagesArray[number];
-
 let cache: Record<string, SObjectDescriptor> = {};
 
 /**
@@ -18,11 +15,8 @@ export function getTranslation(
   upperCaseFirstLetter = true,
   values: (string | number)[] = []
 ): string {
-  //if(!cache[category]){
   cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
-  //}
   if (cache[category]) {
-    //TODO cache parsed ?
     const tr = cache[category]!.getProperties()[key.toLowerCase()];
     if (tr) {
       const t = JSON.parse(tr);
@@ -127,6 +121,7 @@ function lowerCaseFirst(s: string): string {
 }
 
 /**
+ * DEPRECATED !
  * CSV to translation object
  * expected format
  * header
@@ -137,13 +132,13 @@ function lowerCaseFirst(s: string): string {
 function updateCategoryFromTsv(filename: string, category: keyof VariableClasses, dryrun: boolean) {
   Helpers.downloadFile(`translations/${filename}`, 'TEXT').then(tsv => {
     if (tsv.startsWith('<!DOCTYPE')) {
-      // TODO should be empty or raise and error
-      wlog('tsv file not found : ', filename);
+      translationLogger.error('tsv file not found : ', filename);
       return;
     }
     const lines = tsv.split('\n');
     if (lines.length < 1) {
-      wlog('File has no lines', filename);
+      translationLogger.error('File has no lines', filename);
+      return;
     }
     const header = lines[0]!.split('\t');
 
@@ -175,24 +170,24 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
     });
 
     if (dryrun) {
-      wlog(statements);
+      translationLogger.info(statements);
     } else {
       const script = statements.join(';');
-      wlog('running script for ' + filename);
+      translationLogger.info('running script for ' + filename);
       APIMethods.runScript(script, {}).then(response => {
-        wlog('script executed', response);
+        translationLogger.info('script executed', response);
       });
     }
   });
 
-  function buildTranslation(en: string, fr: string) {
+  function buildTranslation(en: string, fr: string): ITranslatableContent {
     const cleanFr = lowerCaseFirst(fr ? fr.trim() : '');
     const cleanEn = lowerCaseFirst(en ? en.trim() : '');
     return {
       '@class': 'TranslatableContent',
       translations: {
         EN: { '@class': 'Translation', lang: 'EN', status: '', translation: cleanEn },
-        FR: { status: '', translation: cleanFr, lang: 'FR' },
+        FR: { '@class': 'Translation', lang: 'FR', status: '', translation: cleanFr },
       },
       version: 0,
     };
@@ -202,6 +197,12 @@ function updateCategoryFromTsv(filename: string, category: keyof VariableClasses
 export function updateFromAllTsv(dryrun: boolean): void {
   cache = {};
 
+  translationLogger.warn(
+    'DEPRECATED, the translations should be updated through the variable editor form directly'
+  );
+  if (!dryrun) {
+    translationLogger.warn("Double check that you don't overwrite recent translations");
+  }
   const variables: (keyof VariableClasses)[] = [
     'general-interface',
     'human-actions',
@@ -225,7 +226,7 @@ export function updateFromAllTsv(dryrun: boolean): void {
   ];
 
   variables.forEach(v => {
-    wlog('processing', v);
+    translationLogger.info('processing', v);
     updateCategoryFromTsv(v + '.tsv', v, dryrun);
   });
 }
@@ -234,27 +235,26 @@ export function getCurrentLanguageCode(): string {
   return I18n.currentLanguageCode;
 }
 
-export function getCurrentLanguageCodeAsKnownLanguage(): knownLanguages {
-  return I18n.currentLanguageCode.toLowerCase() as knownLanguages;
+export function createOrUpdateTranslation(
+  value: string,
+  existing: ITranslatableContent | undefined
+): ITranslatableContent {
+  if (existing && existing.translations) {
+    existing.translations[I18n.currentLanguageCode] = I18n.createTranslation(value);
+    existing.version++;
+    return existing;
+  } else {
+    return I18n.createTranslatableContent(value);
+  }
 }
 
-// TODO see if the logic is redundant to somewhere
-export function getText(translations: Partial<Record<knownLanguages, string>> | undefined) {
-  if (translations != undefined) {
-    const lang = getCurrentLanguageCodeAsKnownLanguage();
-    let translatedText = translations[lang];
+export function getDefaultHospitalPreposition(): ITranslatableContent {
+  const dflt = createOrUpdateTranslation('preposition', undefined);
 
-    if (translatedText != undefined) {
-      return translatedText;
-    }
+  dflt.translations = {
+    EN: { '@class': 'Translation', lang: 'EN', status: '', translation: 'to' },
+    FR: { '@class': 'Translation', lang: 'FR', status: '', translation: 'à' },
+  };
 
-    for (const altLang in knownLanguagesArray) {
-      translatedText = translations[altLang];
-      if (translatedText != undefined) {
-        return translatedText;
-      }
-    }
-  }
-
-  return 'abracadabra';
+  return dflt;
 }

@@ -21,7 +21,6 @@ import {
   PatientUnitDefinition,
 } from '../game/common/evacuation/hospitalType';
 import { getProximityTranslation } from '../game/common/radio/radioLogic';
-import { getCurrentLanguageCodeAsKnownLanguage, knownLanguages } from '../tools/translation';
 
 // -------------------------------------------------------------------------------------------------
 // UI state
@@ -53,7 +52,7 @@ export interface HospitalToDisplay {
   index: number;
   fullName: string;
   shortName: string;
-  preposition: Record<knownLanguages, string>;
+  preposition: ITranslatableContent;
   distance: number;
   proximity: HospitalProximity;
   units: Record<PatientUnitId, number>;
@@ -85,8 +84,8 @@ export function getHospitalProximityChoices(): { label: string; value: string }[
   return (
     Object.entries(HospitalProximity)
       // hack to have all items from enum only once
-      .filter(([k,_]) => isNaN(parseInt(k)))
-      .map(([k,v]) => ({
+      .filter(([k, _]) => isNaN(parseInt(k)))
+      .map(([k, v]) => ({
         label: getProximityTranslation(k),
         value: `${v}`,
       }))
@@ -120,8 +119,7 @@ export function changeHospitalTranslatableData(
   field: 'preposition',
   newValue: string
 ) {
-  const lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();
-  updateHospitalTranslatableData(id, field, lang, newValue);
+  updateHospitalTranslatableData(id, field, newValue);
 }
 
 /**
@@ -166,7 +164,7 @@ export function getHospitalIndex(id: HospitalId) {
 export interface PatientUnitToDisplay {
   id: PatientUnitId;
   index: number;
-  name: Partial<Record<knownLanguages, string>>;
+  name: ITranslatableContent;
 }
 
 /**
@@ -185,8 +183,7 @@ export function getAllPatientUnits(): PatientUnitToDisplay[] {
  * Update the name of a patient unit
  */
 export function changePatientUnitName(id: PatientUnitId, newName: string) {
-  const lang: knownLanguages = getCurrentLanguageCodeAsKnownLanguage();
-  updatePatientUnitTranslatableData(id, 'name', lang, newName);
+  updatePatientUnitTranslatableData(id, 'name', newName);
 }
 
 /**

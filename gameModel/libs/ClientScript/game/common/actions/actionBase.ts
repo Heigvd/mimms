@@ -1,5 +1,5 @@
 import { entries } from '../../../tools/helper';
-import { getText, getTranslation } from '../../../tools/translation';
+import { getTranslation } from '../../../tools/translation';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -1640,7 +1640,7 @@ export class EvacuationAction extends RadioDrivenAction {
     const hospital = getHospitalById(payload.hospitalId);
 
     const patientId: string = payload.patientId;
-    const toHospital: string = `${getText(hospital.preposition)} ${hospital.shortName}`;
+    const toHospital: string = `${I18n.translate(hospital.preposition)} ${hospital.shortName}`;
     const squadDef = getSquadDef(payload.transportSquad);
     const byVector: string = getTranslation(
       'mainSim-actions-tasks',

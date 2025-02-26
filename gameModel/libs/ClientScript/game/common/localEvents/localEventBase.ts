@@ -2,7 +2,7 @@ import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/
 import { getEnv } from '../../../tools/WegasHelper';
 import { entries, keys } from '../../../tools/helper';
 import { mainSimLogger, resourceLogger } from '../../../tools/logger';
-import { getText, getTranslation } from '../../../tools/translation';
+import { getTranslation } from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
@@ -972,7 +972,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       for (const unitId of units) {
         qty = hospital.units[unitId] ?? 0;
         if (qty > 0) {
-          casuMessage += `${qty} ${getText(getPatientUnitById(unitId).name)} \n`;
+          casuMessage += `${qty} ${I18n.translate(getPatientUnitById(unitId).name)} \n`;
         }
       }
 

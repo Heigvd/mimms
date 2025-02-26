@@ -19,7 +19,7 @@ import {
 } from '../game/pretri/triage';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
-import { getBlockTranslation, getText, getTranslation } from '../tools/translation';
+import { getBlockTranslation, getTranslation } from '../tools/translation';
 import { getHospitalById, getPatientUnitById } from '../game/common/evacuation/hospitalController';
 
 /**
@@ -179,7 +179,7 @@ export function getPatientsSummary() {
           effects: effectsStringArray,
           patientUnit:
             patient.location.kind === 'Hospital'
-              ? getText(getPatientUnitById(patient.location.patientUnit).name)
+              ? I18n.translate(getPatientUnitById(patient.location.patientUnit).name)
               : '',
         },
         id: patientId,

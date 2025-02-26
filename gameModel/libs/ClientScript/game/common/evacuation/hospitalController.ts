@@ -1,5 +1,8 @@
-import { knownLanguages } from '../../../tools/translation';
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
+import {
+  createOrUpdateTranslation,
+  getDefaultHospitalPreposition,
+} from '../../../tools/translation';
 import { HospitalId, PatientUnitId } from '../baseTypes';
 import { OneMinuteDuration } from '../constants';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -17,7 +20,10 @@ function getHospitalsConfigVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'hospitals_config');
 }
 
-function saveHospitalsAndPatientsConfig(patientUnits: Record<PatientUnitId, PatientUnitDefinition>, hospitals: Record<HospitalId, HospitalDefinition>): void {
+function saveHospitalsAndPatientsConfig(
+  patientUnits: Record<PatientUnitId, PatientUnitDefinition>,
+  hospitals: Record<HospitalId, HospitalDefinition>
+): void {
   saveToObjectDescriptor(getHospitalsConfigVariable(), {
     patientUnits: patientUnits,
     hospitals: hospitals,
@@ -86,12 +92,11 @@ export function insertHospital() {
   );
 
   const newId = generateNewId(6, Object.keys(hospitals));
-
   hospitals[newId] = {
     index: Object.values(hospitals).length + 1,
     fullName: '',
     shortName: '',
-    preposition: { fr: 'à', en: 'to' },
+    preposition: getDefaultHospitalPreposition(),
     distance: 0,
     proximity: 1,
     units: {},
@@ -124,15 +129,14 @@ export function updateHospitalData<T = number | string>(
 export function updateHospitalTranslatableData(
   id: HospitalId,
   field: 'preposition',
-  lang: knownLanguages,
   newData: string
 ) {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
     getHospitalsDefinition().hospitals
   );
-  const hd = hospitals[id]
+  const hd = hospitals[id];
   if (hd) {
-    hd[field][lang] = newData;
+    hd[field] = createOrUpdateTranslation(newData, hd[field]);
     saveHospitalsConfig(hospitals);
   }
 }
@@ -229,7 +233,7 @@ export function insertPatientUnit() {
 
   patientUnits[newId] = {
     index: Object.values(patientUnits).length + 1,
-    name: { fr: '', en: '' },
+    name: createOrUpdateTranslation('', undefined),
   };
   savePatientUnitsConfig(patientUnits);
 }
@@ -237,15 +241,14 @@ export function insertPatientUnit() {
 export function updatePatientUnitTranslatableData(
   id: PatientUnitId,
   field: 'name',
-  lang: knownLanguages,
   newName: string
 ) {
   const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
     getHospitalsDefinition().patientUnits
   );
-
-  if (patientUnits[id] != undefined) {
-    patientUnits[id]![field][lang] = newName;
+  const pu = patientUnits[id];
+  if (pu) {
+    pu[field] = createOrUpdateTranslation(newName, pu[field]);
     savePatientUnitsConfig(patientUnits);
   }
 }
