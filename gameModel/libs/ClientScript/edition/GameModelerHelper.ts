@@ -1,6 +1,6 @@
 import { createHumanBody, defaultMeta } from '../HUMAn/human';
 import { DataDef, MatrixConfig } from './MatrixEditor';
-import { getActs, getItems, getPathologies } from '../HUMAn/registries';
+import { getActs, getItems } from '../HUMAn/registries';
 import { BagDefinition } from '../game/legacy/the_world';
 import { getBagDefinition, getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
 import { compare } from '../tools/helper';
@@ -9,15 +9,6 @@ import {
   getItemActionTranslation,
   getItemTranslation,
 } from '../tools/translation';
-
-//const observableVitals = [
-//	{ label: 'SaO2', value: "respiration.SaO2" },
-//	{ label: "CaO2", value: "respiration.CaO2" },
-//	{ label: "GCS (sum)", value: "glasgow.total" },
-//	{ label: "GCS (sum)", value: "glasgow.eye" },
-//	{ label: "GCS (sum)", value: "glasgow.verbal" },
-//	{ label: "GCS (sum)", value: "glasgow.total" },
-//];
 
 function extractAllKeys(obj: object, currentKey: string, list: string[]) {
   Object.entries(obj).forEach(([k, v]) => {
@@ -188,121 +179,6 @@ export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> 
       },
     ],
     onChangeRefName: BagOnChangeRefName,
-  };
-}
-
-/**
- * Situations Definitions Edition
- */
-
-type SituationId = string;
-type PathologyId = string;
-
-type SituationMatrixCell = undefined | boolean;
-
-type SituationOnChangeFn = (
-  x: DataDef<SituationId>,
-  y: DataDef<PathologyId>,
-  value: SituationMatrixCell
-) => void;
-
-const SituationOnChangeRefName = 'situDefOnChange';
-
-const onSituationChangeRef = Helpers.useRef<SituationOnChangeFn>(
-  SituationOnChangeRefName,
-  () => {}
-);
-
-interface SituationDefinition {
-  name?: string;
-  pathologies?: Record<PathologyId, boolean>;
-}
-
-export function getSituationDefinition(situId: string) {
-  const sdef = Variable.find(gameModel, 'situationsDefinitions').getProperties()[situId];
-  return parse<SituationDefinition>(sdef || '');
-}
-
-onSituationChangeRef.current = (x, y, newData) => {
-  const situationId = x.id;
-  const pathologyId = y.id;
-
-  const def = getSituationDefinition(situationId) || { name: '', pathologies: {} };
-
-  if (newData) {
-    if (def.pathologies == null) {
-      def.pathologies = {};
-    }
-    def.pathologies[pathologyId] = true;
-  } else {
-    if (def.pathologies) {
-      delete def.pathologies[pathologyId];
-    }
-  }
-
-  const script = `Variable.find(gameModel, "situationsDefinitions").setProperty('${situationId}',
-		 ${JSON.stringify(JSON.stringify(def))});`;
-
-  APIMethods.runScript(script, {});
-};
-
-function getSituationsDefinitions() {
-  return parseObjectDescriptor<SituationDefinition>(
-    Variable.find(gameModel, 'situationsDefinitions')
-  );
-}
-
-export function getSituationsDefinitionsAsChoices() {
-  const situations = getSituationsDefinitions();
-  const choices = Object.entries(situations).map(([situId, situDef]) => ({
-    label: situDef.name,
-    value: situId,
-  }));
-  choices.unshift({
-    label: 'all',
-    value: '',
-  });
-  return choices;
-}
-
-export function getSituationsDefsMatrix(): MatrixConfig<
-  SituationId,
-  PathologyId,
-  SituationMatrixCell
-> {
-  const pathologies = getPathologies().sort((a, b) => {
-    return a.label.localeCompare(b.label);
-  });
-  const situations = getSituationsDefinitions();
-
-  const matrix: Record<SituationId, Record<PathologyId, SituationMatrixCell>> = {};
-
-  Object.entries(situations).forEach(([situId, situDef]) => {
-    matrix[situId] = {};
-    Object.keys(situDef.pathologies || {}).forEach(pathoId => {
-      matrix[situId]![pathoId] = true;
-    });
-  });
-
-  return {
-    y: pathologies.map(item => ({
-      label: item.label,
-      id: item.value,
-    })),
-    x: Object.entries(situations)
-      .sort(([, a], [, b]) => compare(a.name, b.name))
-      .map(([situId, situ]) => ({
-        id: situId,
-        label: situ?.name || 'no name',
-      })),
-    data: matrix,
-    cellDef: [
-      {
-        type: 'boolean',
-        label: '',
-      },
-    ],
-    onChangeRefName: SituationOnChangeRefName,
   };
 }
 

@@ -1321,9 +1321,9 @@
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
-                                    "@class" : "Script",
-                                    "content" : "import { doAutomaticTriageAndLogToConsole } from './game/legacy/triage';\n\ndoAutomaticTriageAndLogToConsole();",
-                                    "language" : "typescript"
+                                    "@class" : "ClientScript",
+                                    "content" : "import { doAutomaticTriageAndLogToConsole } from \"./game/pretri/triage\";\n\ndoAutomaticTriageAndLogToConsole();",
+                                    "language" : "TypeScript"
                                   }
                                 },
                                 "style" : { }
@@ -1753,7 +1753,7 @@
                       "type" : "State"
                     }, {
                       "props" : {
-                        "className" : "noPadding",
+                        "className" : "l_button whiteButton",
                         "disableIf" : {
                           "@class" : "Script",
                           "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",

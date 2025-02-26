@@ -123,6 +123,11 @@ Helpers.registerEffect(() => {
                       choices: skillChoices,
                     },
                   },
+                  sugarLevel: { type: 'number', view: { label: 'Sugar', layout: 'shortInline' } },
+                  temperature: {
+                    type: 'number',
+                    view: { label: 'Temperature', layout: 'shortInline' },
+                  },
                 },
               },
             },

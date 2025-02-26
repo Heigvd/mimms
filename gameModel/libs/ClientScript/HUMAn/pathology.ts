@@ -480,7 +480,7 @@ export function afflictPathology(pathologyId: string): AfflictedPathology {
   const pathology = getPathology(pathologyId);
 
   if (pathology == null) {
-    throw new Error('Pathology does not exist');
+    throw new Error('Pathology does not exist (id): ' + pathologyId);
   }
 
   const aPatho: AfflictedPathology = {

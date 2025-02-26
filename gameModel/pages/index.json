@@ -20,7 +20,7 @@
         "@class" : "Page",
         "id" : "12",
         "name" : "preTriDrill",
-        "scenaristPage" : false,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -210,6 +210,12 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
+        "id" : "patientGeneration",
+        "name" : "Patient Generation",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
@@ -223,7 +229,7 @@
       }, {
         "@class" : "Page",
         "id" : "9",
-        "name" : "patient generation",
+        "name" : "Patients details",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
@@ -234,22 +240,16 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "15",
-        "name" : "situationsConfig",
-        "scenaristPage" : false,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
         "id" : "16",
         "name" : "skills config",
         "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "29",
-        "name" : "patientPresets",
-        "scenaristPage" : false,
-        "trainerPage" : false
+        "id" : "PathologySelection",
+        "name" : "Pathology Selection",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {
@@ -325,12 +325,6 @@
           "id" : "55",
           "name" : "mainSim_multiTimeFwd",
           "scenaristPage" : false,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "56",
-          "name" : "mainSim_setup",
-          "scenaristPage" : null,
           "trainerPage" : null
         } ],
         "name" : "mainSimDebugPages"

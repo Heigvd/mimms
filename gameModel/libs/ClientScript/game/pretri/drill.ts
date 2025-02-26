@@ -1,6 +1,5 @@
 import { BaseEvent, initEmitterIds } from '../common/events/baseEvent';
 import { getSendEventServerScript } from '../common/events/eventUtils';
-import { compare } from '../../tools/helper';
 import { reviveScriptedEvent } from '../legacy/scenario';
 import {
   getCurrentPatientBody,
@@ -9,9 +8,8 @@ import {
 } from '../legacy/the_world';
 import { getCurrentSimulationTime, getRunningMode } from '../legacy/TimeManager';
 import { getBodyParam, getSortedPatientIds } from '../../tools/WegasHelper';
-import { getPatientPreset } from '../../edition/patientPreset';
-import { drillLogger } from '../../tools/logger';
 import { AgingEvent, TeleportEvent } from '../common/events/eventTypes';
+import { getInitialTimeJumpSeconds } from '../common/patients/handleState';
 
 interface DrillStatus {
   status: 'not_started' | 'ongoing' | 'completed_summary' | 'completed_review' | 'validated';
@@ -82,29 +80,10 @@ export function isCurrentPatientCategorized() {
   return current?.category != null;
 }
 
-/**
- * If no preset is currently set, returns all patients
- */
-export function getCurrentPresetSortedPatientIds(): string[] {
-  const presetId = Variable.find(gameModel, 'patientSet').getValue(self);
-  if (presetId) {
-    const preset = getPatientPreset(presetId);
-    if (preset) {
-      return Object.keys(preset.patients).sort(compare);
-    }
-    drillLogger.warn('preset with id ' + presetId + ' not found');
-  }
-  drillLogger.warn('could not get current preset id, variable patientSet is not set');
-
-  //fallback, get all patients
-
-  return getSortedPatientIds();
-}
-
 export function selectNextPatient(): Promise<unknown> {
   const status = getDrillStatus();
   if (status === 'not_started' || status === 'ongoing') {
-    const allIds = getCurrentPresetSortedPatientIds();
+    const allIds = getSortedPatientIds();
     const processed = getInstantiatedHumanIds();
 
     const patientId = allIds
@@ -163,7 +142,7 @@ export function selectNextPatient(): Promise<unknown> {
         const timeJump: AgingEvent = {
           ...emitter,
           type: 'Aging',
-          deltaSeconds: 3600,
+          deltaSeconds: getInitialTimeJumpSeconds(),
           targetType: 'Human',
           targetId: patientId,
         };

@@ -3,8 +3,8 @@ import {
   HistogramDistribution,
   IHistogram,
   NormalDistribution,
+  UniformDistribution,
 } from '../tools/distributionSampling';
-import { getSituationDefinition } from './GameModelerHelper';
 import { pickRandom } from '../tools/helper';
 import { BodyFactoryParam, Sex } from '../HUMAn/human';
 import {
@@ -28,53 +28,30 @@ import {
   parseObjectDescriptor,
   saveToObjectDescriptor,
 } from '../tools/WegasHelper';
-import { clearAllPatientsFromPresets, removePatientFromPresets } from './patientPreset';
-import { patientGenerationLogger } from '../tools/logger';
 import { getActTranslation, getItemActionTranslation, getTranslation } from '../tools/translation';
 import { HumanTreatmentEvent, ScriptedEvent } from '../game/common/events/eventTypes';
 
-/**
- * Add patients to the existing list
- */
-export function createPatients(n: number, namer?: string | ((n: number) => string) | undefined) {
-  const patients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
-
-  for (let i = 1; i <= n; i++) {
-    let name: string;
-    if (typeof namer === 'string') {
-      name = `${namer}${i}`;
-    } else if (typeof namer === 'function') {
-      name = namer(i);
-    } else {
-      name = makeOfficialUid();
-    }
-    while (patients[name]) {
-      // collision
-      name = makeOfficialUid();
-    }
-    patients[name] = generateOnePatient(undefined, 1);
+function getUniqueName(existing: Record<string, BodyFactoryParam>, nameGen: () => string): string {
+  let name: string;
+  name = nameGen();
+  while (existing[name]) {
+    name = nameGen();
   }
-  setTestPatients(Object.values(patients));
-  const patientDesc = Variable.find(gameModel, 'patients');
-  saveToObjectDescriptor(patientDesc, patients);
+  return name;
 }
 
-export function deleteAllPatients(): void {
-  if (!Editor.getFeatures().ADVANCED) {
-    patientGenerationLogger.error('Cannot delete all patient if not in ADVANCED mode');
-    return;
-  }
-
-  patientGenerationLogger.warn('Deleting all patients !!!');
-
-  resetCurrentPatient();
-
-  const patientDesc = Variable.find(gameModel, 'patients');
-  setTestPatients(Object.values({}));
-  saveToObjectDescriptor(patientDesc, {});
-
-  // clean up drill presets
-  clearAllPatientsFromPresets();
+export function generateRandomPatient(patients: Record<string, BodyFactoryParam>): {
+  uid: string;
+  params: BodyFactoryParam;
+} {
+  const bodyParams = getHumanGenerator().generateOneHuman();
+  const maxPatho = Variable.find(gameModel, 'pathology_max_amount').getValue(self);
+  const nPatho = Math.floor(new UniformDistribution(1, maxPatho + 1).sample());
+  getHumanGenerator().addPathologies(bodyParams, nPatho);
+  return {
+    uid: getUniqueName(patients, makeOfficialUid),
+    params: bodyParams,
+  };
 }
 
 /**
@@ -89,9 +66,6 @@ export function deletePatient(patientId: string): void {
   }
   const patientDesc = Variable.find(gameModel, 'patients');
   saveToObjectDescriptor(patientDesc, patients);
-
-  // update drill presets
-  removePatientFromPresets(patientId);
 }
 
 function resetCurrentPatient(): void {
@@ -119,25 +93,16 @@ function makeOfficialUid(): string {
   return id;
 }
 
-/**
- * Todo: filter pathologies according to current situation
- */
 export function getAvailablePathologies(): { label: string; value: string }[] {
-  const situId = Variable.find(gameModel, 'situation').getValue(self);
-
-  if (!situId) {
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  const current = parseObjectDescriptor<boolean>(desc);
+  if (!current) {
     return getPathologies();
   } else {
-    const situDef = getSituationDefinition(situId);
-    if (situDef == null) {
-      throw new Error('Situation not found');
-    } else {
-      const map = getPathologiesMap();
-      return Object.keys(situDef.pathologies || {}).map(id => ({
-        label: map[id]!,
-        value: id,
-      }));
-    }
+    const pathoMap = getPathologiesMap();
+    return Object.entries(current)
+      .filter(([_, selected]) => selected)
+      .map(([id, _]) => ({ label: pathoMap[id] || '', value: id }));
   }
 }
 
@@ -368,7 +333,6 @@ export class HumanGenerator {
     if (!human.scriptedEvents) {
       human.scriptedEvents = [];
     }
-
     const pList = getAvailablePathologies();
     for (let i = 0; i < n; i++) {
       const def = pickRandom(pList);
@@ -406,6 +370,7 @@ export function setTestPatients(newPatients: BodyFactoryParam[]) {
   testPatients = newPatients;
 }
 
+// Singleton
 export const getHumanGenerator = (() => {
   let pg: HumanGenerator | undefined = undefined;
 
@@ -416,11 +381,6 @@ export const getHumanGenerator = (() => {
     return pg;
   };
 })();
-
-export function generateOnePatient(sex?: Sex, nPathologies?: number): BodyFactoryParam {
-  const h = getHumanGenerator().generateOneHuman(sex);
-  return getHumanGenerator().addPathologies(h, nPathologies || 0);
-}
 
 export function generateTestPatients(forceNew: boolean) {
   if (forceNew) {

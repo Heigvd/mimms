@@ -17,8 +17,11 @@
           "props" : {
             "allowDoubleClick" : false,
             "allowDrag" : false,
+            "allowZoom" : false,
             "height" : 300,
             "layoutStyle" : { },
+            "legendAlign" : "center",
+            "legendPosition" : "top",
             "onDblClickCallback" : {
               "@class" : "Script",
               "content" : "undefined;",
@@ -39,6 +42,7 @@
               "content" : "undefined;",
               "language" : "typescript"
             },
+            "responsive" : false,
             "scales" : {
               "@class" : "Script",
               "content" : "({\"x\":{},\"y\":{\n\t\"min\":0,\n\t\"max\":100,\n\ttitle: {\n\t\tdisplay: true,\n\t\ttext: 'ortho',\n\t}\n\t}});",
@@ -47,7 +51,7 @@
             "series" : {
               "@class" : "Script",
               "content" : "Context.item.series;",
-              "language" : "JavaScript"
+              "language" : "TypeScript"
             },
             "showLine" : true,
             "style" : { }

@@ -4,7 +4,6 @@ import {
   computeState,
   createHumanBody,
   doActionOnHumanBody,
-  Environnment,
   HumanBody,
 } from '../../../HUMAn/human';
 import { mainSimLogger } from '../../../tools/logger';
@@ -12,18 +11,12 @@ import { AfflictedPathology, RevivedPathology, revivePathology } from '../../../
 import { getAct, getItem } from '../../../HUMAn/registries';
 import { PatientLocation, PatientState } from '../simulationState/patientState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { getPresetByName } from '../../../edition/patientPreset';
 import { PatientEvolutionEVACTimeModifier, PatientEvolutionPMATimeModifier } from '../constants';
-
-const currentPatientPreset = 'CERN 12 Mai';
 
 export function loadPatients(): PatientState[] {
   const env = getEnv();
-  const preset = getPresetByName(currentPatientPreset);
 
   const humanBodies = getPatientsBodyFactoryParamsArray()
-    // TODO: temporarily filtering hardcoded preset, should be handled in UI
-    .filter(bodyFactoryParamWithId => preset!.patients[bodyFactoryParamWithId.id])
     .map(bodyFactoryParamWithId => {
       const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
       humanBody.id = bodyFactoryParamWithId.id;
@@ -39,7 +32,7 @@ export function loadPatients(): PatientState[] {
 
   mainSimLogger.info('Adding', humanBodies.length, 'patients');
 
-  return humanBodies.flatMap(humanBody => {
+  const patients: PatientState[] = humanBodies.map(humanBody => {
     return {
       patientId: humanBody.id!,
       humanBody: humanBody,
@@ -47,6 +40,8 @@ export function loadPatients(): PatientState[] {
       location: { kind: 'FixedMapEntity', locationId: LOCATION_ENUM.chantier },
     };
   });
+  computeNewPatientsState(patients, getInitialTimeJumpSeconds());
+  return patients;
 }
 
 export function computeInitialAfflictedPathologies(
@@ -169,9 +164,10 @@ function computeVirtualElapsedTime(timeJump: number, location: PatientLocation):
 export function computeNewPatientsState(
   patients: PatientState[],
   timeJump: number,
-  env: Environnment
+  skipStable: boolean = true
 ): void {
   const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
+  const env = getEnv();
   patients.forEach(patient => {
     const body = patient.humanBody;
     if (body.meta == null) throw `Unable to find meta for patient`;
@@ -179,8 +175,9 @@ export function computeNewPatientsState(
     const virtualElapsed = computeVirtualElapsedTime(timeJump, patient.location);
 
     if (
-      virtualElapsed === 0 ||
-      (body.effects!.length === 0 && body.revivedPathologies!.length === 0)
+      skipStable &&
+      (virtualElapsed === 0 ||
+        (body.effects!.length === 0 && body.revivedPathologies!.length === 0))
     ) {
       // no need to compute state; Human is stable
       mainSimLogger.info('Skip Human');
@@ -228,4 +225,8 @@ export function computeNewPatientsState(
     body.state.time = from + timeJump;
     mainSimLogger.debug('FinalStateTime: ', patient.patientId, body.state.time);
   });
+}
+
+export function getInitialTimeJumpSeconds(): number {
+  return Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self) * 60;
 }
