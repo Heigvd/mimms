@@ -4,7 +4,7 @@
  *
  */
 
-import { getPatientPreset, PatientPreset } from '../edition/patientPreset';
+import { PatientId } from '../game/common/baseTypes';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
@@ -13,8 +13,6 @@ import {
 import { HumanBody, createHumanBody, computeState } from '../HUMAn/human';
 import { RevivedPathology } from '../HUMAn/pathology';
 import { getEnv, getPatientsBodyFactoryParamsArray } from '../tools/WegasHelper';
-
-type PatientId = string;
 
 type PatientState = {
   patientId: PatientId;
@@ -25,23 +23,8 @@ type PatientState = {
 
 export function loadPatients(): PatientState[] {
   const env = getEnv();
-  const presetId = Variable.find(gameModel, 'patientSet').getValue(self);
-  let preset: PatientPreset | null | undefined;
-  if (presetId) {
-    preset = getPatientPreset(presetId);
-  } else {
-    // If no preset we fetch all patients
-    preset = {
-      name: '',
-      patients: {},
-    };
-    Object.keys(Variable.find(gameModel, 'patients').getProperties()).forEach(key => {
-      preset!.patients[key] = true;
-    });
-  }
 
   const humanBodies = getPatientsBodyFactoryParamsArray()
-    .filter(bodyFactoryParamWithId => preset!.patients[bodyFactoryParamWithId.id])
     .map(bodyFactoryParamWithId => {
       const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
       humanBody.id = bodyFactoryParamWithId.id;

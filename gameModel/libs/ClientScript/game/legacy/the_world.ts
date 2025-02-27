@@ -1634,6 +1634,10 @@ function processEvent(
     case 'ActionCancellationEvent':
     case 'ActionCreationEvent':
     case 'TimeForwardEvent':
+    case 'TimeForwardCancelEvent':
+    case 'GameOptionsEvent':
+    case 'DashboardRadioMessageEvent':
+    case 'DashboardNotificationMessageEvent':
       worldLogger.info('Ignoring event of type (new sim)', eType);
       break;
     default:

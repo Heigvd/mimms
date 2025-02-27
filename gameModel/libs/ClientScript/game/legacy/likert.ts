@@ -15,6 +15,7 @@ import {
   getSortedPatientIds,
 } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
+import { PatientId } from '../common/baseTypes';
 
 export function isThereAnythingToSave() {
   return Context.likertSaveState.state.somethingToSave;
@@ -662,11 +663,10 @@ export async function saveData() {
 }
 
 type TeamId = string;
-type PatientId = string;
 type TimeRef = string;
 type MetricName = string;
 type Value = number;
-//
+
 type RawData = Record<
   TeamId,
   Record<

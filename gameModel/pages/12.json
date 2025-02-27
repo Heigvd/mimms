@@ -146,7 +146,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+                  "content" : "import { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nimport { getSortedPatientIds } from \"./tools/WegasHelper\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
                   "language" : "TypeScript"
                 }
               },
@@ -377,7 +377,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                      "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -689,7 +689,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
               "language" : "TypeScript"
             }
           },
@@ -943,7 +943,7 @@
                 "exposeAs" : "patient",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                  "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -1016,7 +1016,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getCurrentPresetSortedPatientIds } from \"./game/pretri/drill\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getCurrentPresetSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
               "language" : "TypeScript"
             }
           },

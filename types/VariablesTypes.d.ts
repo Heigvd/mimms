@@ -28,118 +28,89 @@
           "texts": SListDescriptor;
           "maintitle": SStaticTextDescriptor;
           "staticTextDescriptor": SStaticTextDescriptor;
-
-          'lickertPages': SListDescriptor;
-          'lickertWelcome': SStaticTextDescriptor;
-          'lickertLegend': SStaticTextDescriptor;
-          'notCompletedYet': SStaticTextDescriptor;
+          "likertPages": SListDescriptor;
+          "likertWelcome": SStaticTextDescriptor;
+          "likertLegend": SStaticTextDescriptor;
+          "notCompletedYet": SStaticTextDescriptor;
           "congrats": SStaticTextDescriptor;
           "byebye": SStaticTextDescriptor;
-
           "demographics_zFZxWK": SListDescriptor;
           "donneesDemographiques": SStaticTextDescriptor;
 
-          'env': SListDescriptor;
-          'atmP_mmHg': SNumberDescriptor;
-          'fiO2': SNumberDescriptor;
-          'duration_s': SNumberDescriptor;
-          'stepDuration': SNumberDescriptor;
-
-          'data': SListDescriptor;
-          'patients': SObjectDescriptor;
-          'characters': SObjectDescriptor;
-          'bagsDefinitions': SObjectDescriptor;
           'hospitals_config': SObjectDescriptor;
-          'situationsDefinitions': SObjectDescriptor;
-          'skillsDefinitions': SObjectDescriptor;
-          'drill_Presets': SObjectDescriptor;
+          "env": SListDescriptor;
+          "atmP_mmHg": SNumberDescriptor;
+          "fiO2": SNumberDescriptor;
+          "duration_s": SNumberDescriptor;
+          "stepDuration": SNumberDescriptor;
+          "data": SListDescriptor;
+          "patients": SObjectDescriptor;
+          "characters": SObjectDescriptor;
+          "bagsDefinitions": SObjectDescriptor;
+          "skillsDefinitions": SObjectDescriptor;
           "actionsDurations": SObjectDescriptor;
           "containers_config": SObjectDescriptor;
-
           "state": SListDescriptor;
           "whoAmI": SStringDescriptor;
           "currentPatient": SStringDescriptor;
           "drillStatus": SObjectDescriptor;
           "realLifeRole": SStringDescriptor;
           "scenarioRevived": SBooleanDescriptor;
-
-          'variable': SListDescriptor;
-          'vasoconstriction': SBooleanDescriptor;
-          'coagulation': SBooleanDescriptor;
-          'vasoconstrictionLungs': SBooleanDescriptor;
-          'tagSystem': SStringDescriptor;
-          'drillType': SStringDescriptor;
-
-          'drill': SListDescriptor;
-          'bagType': SStringDescriptor;
-          'defaultProfile': SStringDescriptor;
-          'patientSet': SStringDescriptor;
-
-          'finished_custom_text': STextDescriptor;
-          'multiplayerMode': SStringDescriptor;
+          "variable": SListDescriptor;
+          "vasoconstriction": SBooleanDescriptor;
+          "coagulation": SBooleanDescriptor;
+          "vasoconstrictionLungs": SBooleanDescriptor;
+          "tagSystem": SStringDescriptor;
+          "drillType": SStringDescriptor;
+          "drill": SListDescriptor;
+          "bagType": SStringDescriptor;
+          "defaultProfile": SStringDescriptor;
+          "finished_custom_text": STextDescriptor;
+          "multiplayerMode": SStringDescriptor;
           "examMode": SBooleanDescriptor;
           "collectDemographicData": SBooleanDescriptor;
-
-          'time_management': SListDescriptor;
-
-          'team': SListDescriptor;
-          'inSim_ref': SNumberDescriptor;
-          'epoch_ref': SNumberDescriptor;
-          'running': SBooleanDescriptor;
-          'keepalive': SNumberDescriptor;
-          'upTo_inSim_ref': SNumberDescriptor;
-          'replay': SBooleanDescriptor;
-
-          'global': SListDescriptor;
-          'running_global': SBooleanDescriptor;
-
-          'outputs': SListDescriptor;
-
+          "time_management": SListDescriptor;
+          "team": SListDescriptor;
+          "inSim_ref": SNumberDescriptor;
+          "epoch_ref": SNumberDescriptor;
+          "running": SBooleanDescriptor;
+          "keepalive": SNumberDescriptor;
+          "upTo_inSim_ref": SNumberDescriptor;
+          "replay": SBooleanDescriptor;
+          "global": SListDescriptor;
+          "running_global": SBooleanDescriptor;
+          "outputs": SListDescriptor;
           "demographics": SListDescriptor;
           "demographicsValidated": SBooleanDescriptor;
-
           "data_9mM5A5": SListDescriptor;
-          'gender': SStringDescriptor;
-          'age': SNumberDescriptor;
-          'fmh': SBooleanDescriptor;
-
+          "gender": SStringDescriptor;
+          "age": SNumberDescriptor;
+          "fmh": SBooleanDescriptor;
           "specialisation": SListDescriptor;
-          'fmhInternalMedicine': SBooleanDescriptor;
-          'fmhAnesthesiology': SBooleanDescriptor;
-          'fmhIntensiveMedicine': SBooleanDescriptor;
-          'fmhOther': SBooleanDescriptor;
-          'fmhOtherDetails': SStringDescriptor;
-
-          'afc': SBooleanDescriptor;
-
+          "fmhInternalMedicine": SBooleanDescriptor;
+          "fmhAnesthesiology": SBooleanDescriptor;
+          "fmhIntensiveMedicine": SBooleanDescriptor;
+          "fmhOther": SBooleanDescriptor;
+          "fmhOtherDetails": SStringDescriptor;
+          "afc": SBooleanDescriptor;
           "aFC": SListDescriptor;
-          'afcIntraHosp': SBooleanDescriptor;
-          'afcExtraHosp': SBooleanDescriptor;
-
-          'ySinceDiploma': SNumberDescriptor;
-          'yPreHospXp': SNumberDescriptor;
-
+          "afcIntraHosp": SBooleanDescriptor;
+          "afcExtraHosp": SBooleanDescriptor;
+          "ySinceDiploma": SNumberDescriptor;
+          "yPreHospXp": SNumberDescriptor;
           "likert": SObjectDescriptor;
-
-          'plot': SListDescriptor;
-          'output': SObjectDescriptor;
-          'outputCardio': SObjectDescriptor;
-          'outputOther': SObjectDescriptor;
-
-          'trigger': SBooleanDescriptor;
-
-          'patient_generation': SListDescriptor;
-          'generation_settings': SObjectDescriptor;
-          'patientNumber': SNumberDescriptor;
-          'situation': SStringDescriptor;
-
+          "plot": SListDescriptor;
+          "output": SObjectDescriptor;
+          "outputCardio": SObjectDescriptor;
+          "outputOther": SObjectDescriptor;
+          "trigger": SBooleanDescriptor;
+          "patient_generation": SListDescriptor;
+          "generation_settings": SObjectDescriptor;
           "events_vd1H1F": SListDescriptor;
           "newEvents": SEventInboxDescriptor;
           "events": SInboxDescriptor;
           "lastEventId": SNumberDescriptor;
-
           "localization": SListDescriptor;
-
           "pathologies_517FG4": SListDescriptor;
           "human-blocks": SObjectDescriptor;
           "human-pathology": SObjectDescriptor;
@@ -147,62 +118,54 @@
           "human-actions": SObjectDescriptor;
           "human-items": SObjectDescriptor;
           "human-chemicals": SObjectDescriptor;
-
           "pretriage": SListDescriptor;
           "pretriage-interface": SObjectDescriptor;
           "pretriage-explanations": SObjectDescriptor;
-
           "variable_6HaInb": SListDescriptor;
           "qr-interface": SObjectDescriptor;
-
           "general": SListDescriptor;
           "general-interface": SObjectDescriptor;
           "general-likert": SObjectDescriptor;
-
           "mainSim": SListDescriptor;
           "mainSim-interface": SObjectDescriptor;
           "mainSim-actions-tasks": SObjectDescriptor;
           "mainSim-actors": SObjectDescriptor;
+          "mainSim-locations": SObjectDescriptor;
           "mainSim-resources": SObjectDescriptor;
           "mainSim-radio": SObjectDescriptor;
           "mainSim-summary": SObjectDescriptor;
           "mainSim-dashboard": SObjectDescriptor;
-          "mainSim-locations": SObjectDescriptor;
-
           "trainer": SListDescriptor;
           "trainer-interface": SObjectDescriptor;
-
           "debug": SListDescriptor;
           "debug_LMEBup": SNumberDescriptor;
           "debugStoredState": SNumberDescriptor;
-          "debugIgnoredEvents":SObjectDescriptor;
-
+          "debugIgnoredEvents": SObjectDescriptor;
           "mainGame": SListDescriptor;
-
           "interface": SListDescriptor;
           "gameState": SStringDescriptor;
-
+          "startTime": SListDescriptor;
+          "startMinutes": SNumberDescriptor;
+          "startHours": SNumberDescriptor;
+          "startMenuPageLoader": SNumberDescriptor;
+          "display_debug_button": SBooleanDescriptor;
+          "readRadioMessagesByChannel": SObjectDescriptor;
           "multiplayer": SListDescriptor;
           "multiplayerMatrix": SObjectDescriptor;
           "trainer_PX3n0s": SListDescriptor;
           "selectedTeam": SStringDescriptor;
-
           "trainer_Zix3IY": SListDescriptor;
           "godView": SBooleanDescriptor;
-
-          "startTime": SListDescriptor;
-          "startMinutes": SNumberDescriptor;
-          "startHours": SNumberDescriptor;
-
-          "startMenuPageLoader": SNumberDescriptor;
-          'display_debug_button': SBooleanDescriptor;
-          "readRadioMessagesByChannel": SObjectDescriptor;
-          "currentStateCount": SNumberDescriptor;
-          "currentState": SObjectDescriptor;
           "messagesLifeLength": SNumberDescriptor;
           "respectHierarchy": SBooleanDescriptor;
+          "dashboard": SListDescriptor;
+          "currentState": SObjectDescriptor;
+          "currentStateCount": SNumberDescriptor;
           "gameMode": SStringDescriptor;
-        }
+          "patients-elapsed-minutes": SNumberDescriptor;
+          "pathology_max_amount": SNumberDescriptor;
+          "selected_pathologies": SObjectDescriptor;
+                  }
 
         type FindFN = <T extends keyof VariableClasses>(
           gameModel: SGameModel,

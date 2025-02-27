@@ -1,8 +1,8 @@
 import { EnhancedCellData, MatrixConfig } from '../edition/MatrixEditor';
-import { getCurrentPresetSortedPatientIds } from '../game/pretri/drill';
+import { PatientId } from '../game/common/baseTypes';
 import { compare } from '../tools/helper';
+import { getSortedPatientIds } from '../tools/WegasHelper';
 
-type PatientId = string;
 type CellConfig = number;
 
 interface PatientSummary {
@@ -38,10 +38,10 @@ Helpers.useRef(onChangeRef, () => {});
 export function getMatrix(): MatrixConfig<CatId, PatientId, CellConfig> {
   if (dashboard) {
     let filteredDashboard = Object.entries(dashboard);
-    const preset = getCurrentPresetSortedPatientIds();
-    if (preset) {
+    const patients = getSortedPatientIds();
+    if (patients) {
       filteredDashboard = filteredDashboard.filter(([k, _]) => {
-        return preset.indexOf(k) > -1;
+        return patients.indexOf(k) > -1;
       });
     }
     return {
