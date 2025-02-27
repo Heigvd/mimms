@@ -1,12 +1,11 @@
-import { ActionCreationEvent } from './eventTypes';
-import { HospitalId, PatientId, SimDuration } from '../baseTypes';
-import { PatientUnitTypology } from '../evacuation/hospitalType';
+import { HospitalId, PatientId, PatientUnitId, SimDuration } from '../baseTypes';
 import { EvacuationSquadType } from '../evacuation/evacuationSquadDef';
+import { ActionCreationEvent } from './eventTypes';
 
 export interface EvacuationActionPayload {
   patientId: PatientId;
   hospitalId: HospitalId;
-  patientUnitAtHospital: PatientUnitTypology;
+  patientUnitId: PatientUnitId;
   transportSquad: EvacuationSquadType;
   doResourcesComeBack?: boolean;
 }

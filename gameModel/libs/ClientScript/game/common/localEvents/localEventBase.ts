@@ -9,6 +9,7 @@ import {
   ActionId,
   ActorId,
   GlobalEventId,
+  PatientUnitId,
   ResourceContainerDefinitionId,
   ResourceId,
   SimDuration,
@@ -18,7 +19,11 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import { getHospitalsByProximity } from '../evacuation/hospitalController';
+import {
+  getHospitalsByProximity,
+  getPatientUnitById,
+  getPatientUnitIdsSorted,
+} from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -955,14 +960,21 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = getHospitalsByProximity(message.proximity);
+    const hospitals = Object.values(getHospitalsByProximity(message.proximity));
+    const units: PatientUnitId[] = getPatientUnitIdsSorted();
 
     let casuMessage = '';
+    let qty = 0;
     for (const hospital of hospitals) {
       casuMessage += `${hospital.shortName}: \n`;
-      for (const unit of hospital.units) {
-        casuMessage += `${unit.availableCapacity}: ${unit.placeType.typology} \n`;
+
+      for (const unitId of units) {
+        qty = hospital.units[unitId] ?? 0;
+        if (qty > 0) {
+          casuMessage += `${qty} ${I18n.translate(getPatientUnitById(unitId).name)} \n`;
+        }
       }
+
       casuMessage += '\n';
     }
     return casuMessage;

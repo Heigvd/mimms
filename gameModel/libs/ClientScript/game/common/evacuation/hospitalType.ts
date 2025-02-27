@@ -1,31 +1,28 @@
-import { HospitalId } from '../baseTypes';
-import { knownLanguages } from '../../../tools/translation';
+import { HospitalId, PatientUnitId } from '../baseTypes';
 
+// Note : we use the numerical representation so that we can easily sort them
 export enum HospitalProximity {
-  Regional = 0,
-  National,
-  International,
+  Regional = 1,
+  National = 2,
+  International = 3,
 }
 
-export type PatientUnitTypology = string;
-
-interface PatientUnitType {
-  typology: PatientUnitTypology;
-  description?: string;
-}
-
-interface PatientUnitDefinition {
-  placeType: PatientUnitType;
-  availableCapacity: number;
+export interface PatientUnitDefinition {
+  index: number;
+  name: ITranslatableContent;
 }
 
 export interface HospitalDefinition {
-  hospitalId: HospitalId;
+  index: number;
   fullName: string;
   shortName: string;
-  nameAsDestination: Record<knownLanguages, string>;
-  description?: string;
+  preposition: ITranslatableContent;
+  distance: number /* distance from the site */;
   proximity: HospitalProximity;
-  distance: number;
-  units: PatientUnitDefinition[];
+  units: Record<PatientUnitId, number> /* available capacity in each unit */;
+}
+
+export interface HospitalsConfigVariableDefinition {
+  hospitals: Record<HospitalId, HospitalDefinition>;
+  patientUnits: Record<PatientUnitId, PatientUnitDefinition>;
 }

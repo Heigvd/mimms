@@ -32,3 +32,4 @@ export type PatientId = string;
 export type PathologyId = string;
 
 export type HospitalId = string;
+export type PatientUnitId = string;

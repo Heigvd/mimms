@@ -240,6 +240,12 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
+        "id" : "hospitalsConfig",
+        "name" : "hospitals config",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "16",
         "name" : "skills config",
         "scenaristPage" : false,

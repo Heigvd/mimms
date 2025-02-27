@@ -152,7 +152,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.patient.data.patientUnitAtHospital;",
+                      "content" : "Context.patient.data.patientUnit",
                       "language" : "TypeScript"
                     }
                   },

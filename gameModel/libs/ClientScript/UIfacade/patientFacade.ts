@@ -1,14 +1,8 @@
-import { PatientState } from '../game/common/simulationState/patientState';
-import { getCurrentState } from '../game/mainSimulationLogic';
-import {
-  Categorization,
-  getBackgroundColorByCategoryId,
-  getCategoryById,
-  PreTriageResult,
-} from '../game/pretri/triage';
+import { PatientId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getPatientsByLocation } from '../game/common/simulationState/patientState';
+import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/legacy/the_world';
+import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   AfflictedBlockDetails,
   formatMetric,
@@ -17,10 +11,16 @@ import {
   getHumanVisualInfosOfHuman,
 } from '../game/patientZoom/currentPatientZoom';
 import { getFlatCategoryCardSvg, getLocalizedBlocks } from '../game/patientZoom/graphics';
-import { PatientId } from '../game/common/baseTypes';
+import {
+  Categorization,
+  getBackgroundColorByCategoryId,
+  getCategoryById,
+  PreTriageResult,
+} from '../game/pretri/triage';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getTranslation } from '../tools/translation';
+import { getHospitalById, getPatientUnitById } from '../game/common/evacuation/hospitalController';
 
 /**
  * @returns All currently present patients
@@ -155,7 +155,7 @@ export function getPatientsSummary() {
       categorization: PreTriageResult<string> | undefined;
       location: string;
       effects: string[];
-      patientUnitAtHospital: string;
+      patientUnit: string;
     };
     id: string;
   }[] = [];
@@ -172,10 +172,15 @@ export function getPatientsSummary() {
         data: {
           id: patientId,
           categorization: patient.preTriageResult,
-          location: patient.location.locationId,
+          location:
+            patient.location.kind === 'Hospital'
+              ? getHospitalById(patient.location.locationId).shortName
+              : patient.location.locationId,
           effects: effectsStringArray,
-          patientUnitAtHospital:
-            patient.location.kind === 'Hospital' ? patient.location.patientUnit : '',
+          patientUnit:
+            patient.location.kind === 'Hospital'
+              ? I18n.translate(getPatientUnitById(patient.location.patientUnit).name)
+              : '',
         },
         id: patientId,
       });

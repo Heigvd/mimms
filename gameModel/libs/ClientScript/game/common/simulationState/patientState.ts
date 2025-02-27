@@ -1,13 +1,12 @@
 import { HumanBody } from '../../../HUMAn/human';
 import {
-  getTagNameByCategoryId,
   getPriorityByCategoryId,
+  getTagNameByCategoryId,
   PreTriageResult,
 } from '../../pretri/triage';
-import { MainSimulationState } from './mainSimulationState';
-import { HospitalId, PatientId } from '../baseTypes';
+import { HospitalId, PatientId, PatientUnitId } from '../baseTypes';
 import { LOCATION_ENUM } from './locationState';
-import { PatientUnitTypology } from '../evacuation/hospitalType';
+import { MainSimulationState } from './mainSimulationState';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -23,7 +22,7 @@ export type PatientLocation =
   | {
       kind: 'Hospital';
       locationId: HospitalId;
-      patientUnit: PatientUnitTypology;
+      patientUnit: PatientUnitId;
     };
 
 export type PatientLocationKind = 'FixedMapEntity' | 'Hospital';

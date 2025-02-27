@@ -36,6 +36,8 @@
           "byebye": SStaticTextDescriptor;
           "demographics_zFZxWK": SListDescriptor;
           "donneesDemographiques": SStaticTextDescriptor;
+
+          'hospitals_config': SObjectDescriptor;
           "env": SListDescriptor;
           "atmP_mmHg": SNumberDescriptor;
           "fiO2": SNumberDescriptor;
