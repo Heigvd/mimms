@@ -247,14 +247,3 @@ export function createOrUpdateTranslation(
     return I18n.createTranslatableContent(value);
   }
 }
-
-export function getDefaultHospitalPreposition(): ITranslatableContent {
-  const dflt = createOrUpdateTranslation('preposition', undefined);
-
-  dflt.translations = {
-    EN: { '@class': 'Translation', lang: 'EN', status: '', translation: 'to' },
-    FR: { '@class': 'Translation', lang: 'FR', status: '', translation: 'à' },
-  };
-
-  return dflt;
-}

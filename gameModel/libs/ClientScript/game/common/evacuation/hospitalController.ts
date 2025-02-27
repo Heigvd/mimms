@@ -1,8 +1,5 @@
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
-import {
-  createOrUpdateTranslation,
-  getDefaultHospitalPreposition,
-} from '../../../tools/translation';
+import { createOrUpdateTranslation } from '../../../tools/translation';
 import { HospitalId, PatientUnitId } from '../baseTypes';
 import { OneMinuteDuration } from '../constants';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -360,4 +357,15 @@ function generateId(length: number) {
   }
 
   return id;
+}
+
+export function getDefaultHospitalPreposition(): ITranslatableContent {
+  const dflt = createOrUpdateTranslation('preposition', undefined);
+
+  dflt.translations = {
+    EN: { '@class': 'Translation', lang: 'EN', status: '', translation: 'to' },
+    FR: { '@class': 'Translation', lang: 'FR', status: '', translation: 'à' },
+  };
+
+  return dflt;
 }
