@@ -2,11 +2,12 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>Select Pathologies</p>\"",
+          "content" : "\"Select Pathologies\"",
           "language" : "TypeScript"
         }
       },
@@ -17,66 +18,103 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  Context.pathology.label;",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : { },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "import { togglePathology } from \"./UIfacade/patientGenFacade\";\n\ntogglePathology(Context.pathology.id);",
-                    "language" : "TypeScript"
-                  }
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  Context.pathology.label;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { togglePathology } from \"./UIfacade/patientGenFacade\";\n\ntogglePathology(Context.pathology.id);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "Context.pathology.selected || false;",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { },
+                    "type" : "checkbox"
+                  },
+                  "type" : "Boolean"
+                } ],
+                "layout" : {
+                  "flexDirection" : "row"
                 },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Context.pathology.selected || false;",
-                  "language" : "TypeScript"
-                },
-                "style" : { },
-                "type" : "toggler"
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
               },
-              "type" : "Boolean"
+              "type" : "FlexList"
             } ],
-            "layout" : {
-              "flexDirection" : "row"
+            "exposeAs" : "pathology",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getPathologiesChoices } from \"./UIfacade/patientGenFacade\";\n  getPathologiesChoices();",
+              "language" : "TypeScript"
             },
+            "itemKey" : "id",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { }
           },
-          "type" : "FlexList"
+          "type" : "For each"
         } ],
-        "exposeAs" : "pathology",
-        "getItemsFn" : {
-          "@class" : "Script",
-          "content" : "import { getPathologiesChoices } from \"./UIfacade/patientGenFacade\";\n  getPathologiesChoices();",
-          "language" : "TypeScript"
+        "layout" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "300px",
+          "overflow" : "auto"
         },
-        "itemKey" : "id",
-        "layout" : {
-          "flexDirection" : "column"
-        },
-        "layoutStyle" : { },
+        "name" : "pathologies",
         "style" : { }
       },
-      "type" : "For each"
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "'Next'",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('stats-modal');",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "next",
+        "style" : { }
+      },
+      "type" : "Button"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

@@ -1,0 +1,48 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"Currently generating ...<br>Your set of patients is being generated\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  getTypedGenState().generation.generated;",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Number"
+    }, {
+      "props" : {
+        "label" : {
+          "@class" : "Script",
+          "content" : "'cancel'",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "name" : "cancel",
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

@@ -11,9 +11,14 @@ import {
 import { doPatientAutomaticTriage } from '../game/common/patients/pretriage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { PatientState } from '../game/common/simulationState/patientState';
-import { getPriorityByCategoryId, STANDARD_CATEGORY } from '../game/pretri/triage';
+import {
+  getPriorityByCategoryId,
+  STANDARD_CATEGORY,
+  STANDARD_CATEGORY_ARRAY,
+} from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
 import { getPathologies } from '../HUMAn/registries';
+import { group } from '../tools/groupBy';
 import { entries, makeAsync } from '../tools/helper';
 import { patientGenerationLogger } from '../tools/logger';
 import {
@@ -50,18 +55,36 @@ type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let cacheInitDone = false;
 
-
 /**
  * foreach adapter for all patients
  */
 export function getPatientsSamples(): PatientEntry[] {
-  const sortFunc = sortFunctions[getGenCtx().state.sort];
+  const genCtx = getGenCtx();
+  const sortFunc = sortFunctions[genCtx?.state?.sort || 'priority'];
   const params = getPatientsBodyFactoryParams();
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
       return { id: id, samples: ps, params: params[id]! };
     })
     .sort(sortFunc);
+}
+
+export function getPatientTotal(): { id: STANDARD_CATEGORY; count: number }[] {
+  const t0 = getInitialTimeJumpSeconds();
+  const grouped = group(
+    getPatientsSamples(),
+    entry => entry.samples[t0].preTriageResult!.categoryId!
+  );
+  const counts = Object.entries(grouped).map(([key, value]) => ({
+    id: key as STANDARD_CATEGORY,
+    count: value.length,
+  }));
+  STANDARD_CATEGORY_ARRAY.forEach(category => {
+    if (counts.findIndex(c => c.id === category) === -1) {
+      counts.push({ id: category, count: 0 });
+    }
+  });
+  return counts;
 }
 
 /**
@@ -267,14 +290,36 @@ function updateCache(startInstance: PatientState): void {
 }
 
 // INTERFACE STATE ============================================================
+type ModalState =
+  | 'patient-list'
+  | 'pathology-modal'
+  | 'stats-modal'
+  | 'patient-modal'
+  | 'generating-modal';
 interface PatientGenerationState {
-  status: 'patient-list' | 'pathology-modal' | 'stats-modal' | 'patient-modal' | 'generating-modal';
+  status: ModalState;
   sort: SortType;
   generation: {
     pending: number;
     generated: number;
     target: InjuryCategoryStats;
   };
+  patientId: string;
+}
+
+export function setModalState(modalState: ModalState, patientId: PatientId = ''): void {
+  const ctx = getGenCtx();
+  const newState = Helpers.cloneDeep(ctx.state);
+  newState.status = modalState;
+  newState.patientId = patientId;
+  ctx.setState(newState);
+}
+
+export function setGenerationValue(category: STANDARD_CATEGORY, qty: number): void {
+  const ctx = getGenCtx();
+  const newState = Helpers.cloneDeep(ctx.state);
+  newState.generation.target[category] = qty;
+  ctx.setState(newState);
 }
 
 export function getDefaultGenerationState(): PatientGenerationState {
@@ -291,7 +336,19 @@ export function getDefaultGenerationState(): PatientGenerationState {
         urgent: 0,
       },
     },
+    patientId: '',
   };
+}
+
+export function getPatientModalData(selectedTime: number | undefined = undefined) {
+  const mainState = getTypedGenState();
+  const time = selectedTime || getInitialTimeJumpSeconds();
+  const patient = patientsSamplesCache[mainState.patientId][time];
+  return { ...patient, observedBlock: '' };
+}
+
+export function setPatientModalData(selectedTime: number | undefined = undefined) {
+  Context.currentPatient.setState(getPatientModalData(selectedTime));
 }
 
 export function getTypedGenState(): PatientGenerationState {
