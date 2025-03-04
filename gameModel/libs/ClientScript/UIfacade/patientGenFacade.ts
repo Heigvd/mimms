@@ -50,7 +50,6 @@ type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let cacheInitDone = false;
 
-
 /**
  * foreach adapter for all patients
  */

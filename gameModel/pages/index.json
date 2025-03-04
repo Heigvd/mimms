@@ -256,6 +256,12 @@
         "name" : "Pathology Selection",
         "scenaristPage" : true,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "mapConfiguration",
+        "name" : "Map Configuration",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {
