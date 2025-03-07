@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1741102266953,
+  "createdTime" : 1741353373922,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5264,7 +5264,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"subPath\":\"GVA-center\",\"zoom\":18.5,\"extent\":[2499286.105929431,1117873.1533189379,2500468.462442313,1118797.789834155],\"mapId\":\"GVA-center\"}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.752585931405488,\"extent\":[2499979.19850525,1118406.4102222002,2500216.761593409,1118653.8865241725],\"center\":[2500097.9800493293,1118530.1483731864],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
         },
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",

@@ -6,71 +6,172 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva\", value: \"GVA\"}]",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : {
-                  "width" : "100%"
-                },
-                "noOptionsMessage" : {
-                  "@class" : "Script",
-                  "content" : "\"No maps available\"",
-                  "language" : "TypeScript"
-                },
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "Context.state.setState({mapId: Context.value});",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "\"Select a map\"",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "  Context.state.state.mapId || 'GVA-center';",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
+                "children" : [ {
+                  "props" : {
+                    "choices" : {
+                      "@class" : "Script",
+                      "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}]",
+                      "language" : "typescript"
+                    },
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "noOptionsMessage" : {
+                      "@class" : "Script",
+                      "content" : "\"No maps available\"",
+                      "language" : "TypeScript"
+                    },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "Context.state.setState({mapId: Context.value});",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Select a map\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "  Context.state.state.mapId || 'GVA-center';",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Select input"
+                }, {
+                  "props" : {
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\nContext.state?.state?.mapId == getMapConfig()?.mapId;",
+                      "language" : "typescript"
+                    },
+                    "icon" : "",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Load selected</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\n  updateMapChoice(Context.state.state.mapId);",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown> | undefined"
+                      }
+                    },
+                    "name" : "load",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ]
               },
-              "type" : "Select input"
+              "type" : "FlexList"
             }, {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\nContext.state?.state?.mapId == getMapConfig()?.mapId;",
-                  "language" : "typescript"
-                },
-                "icon" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Load selected</p>\"",
-                  "language" : "TypeScript"
+                "children" : [ {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Center to view</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { centerToSavedView } from \"./UIfacade/mapConfigFacade\";\n\ncenterToSavedView()",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "center",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Save current view</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { saveCurrentView } from \"./UIfacade/mapConfigFacade\";\n\nsaveCurrentView()",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "save",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Reset view</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\nupdateMapChoice(Context.state.state.mapId);",
+                        "language" : "TypeScript",
+                        "returnType" : "Promise<unknown> | undefined"
+                      }
+                    },
+                    "name" : "reset",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "flexDirection" : "row"
                 },
                 "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\n  updateMapChoice(Context.state.state.mapId);",
-                    "language" : "TypeScript",
-                    "returnType" : "Promise<unknown> | undefined"
-                  }
-                },
-                "name" : "refresh",
                 "style" : { }
               },
-              "type" : "Button"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "children" : [ {
                   "props" : {
                     "OSMLayer" : false,
                     "children" : [ {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : {
+                          "zIndex" : 100
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { getViewGeometry } from \"./UIfacade/mapConfigFacade\";\ngetViewGeometry();",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:2056",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : false
+                        },
+                        "layerStyle" : { },
+                        "layoutStyle" : { },
+                        "name" : "control",
+                        "onLayerReady" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "layer", "map" ],
+                          "content" : "import { storeMapView } from \"./UIfacade/mapConfigFacade\";\n  storeMapView(map);\n  return;"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
                       "props" : {
                         "layerId" : "",
                         "layerProps" : { },
@@ -201,12 +302,12 @@
                     "viewOptions" : {
                       "center" : {
                         "@class" : "Script",
-                        "content" : "import { getMapCenter } from \"./gameMap/utils/mapConfig\";\ngetMapCenter();",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
                         "language" : "typescript"
                       },
                       "extent" : {
                         "@class" : "Script",
-                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().extent;",
+                        "content" : "import { getScaledExtent } from \"./gameMap/utils/mapConfig\";\ngetScaledExtent();",
                         "language" : "typescript"
                       },
                       "maxZoom" : {
@@ -214,7 +315,12 @@
                         "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.maxZoom;",
                         "language" : "typescript"
                       },
-                      "projection" : "EPSG:2056",
+                      "projection" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().projection;",
+                        "language" : "typescript"
+                      },
+                      "showFullExtent" : true,
                       "zoom" : {
                         "@class" : "Script",
                         "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.zoom;",

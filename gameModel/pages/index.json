@@ -260,7 +260,7 @@
         "@class" : "Page",
         "id" : "mapConfiguration",
         "name" : "Map Configuration",
-        "scenaristPage" : null,
+        "scenaristPage" : true,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"
