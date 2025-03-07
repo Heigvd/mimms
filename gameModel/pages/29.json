@@ -2,11 +2,25 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "patient-modal__title",
+        "layoutStyle" : { },
+        "name" : "title",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"Currently generating ...\"",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "",
         "layoutStyle" : { },
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"Currently generating ...<br>Your set of patients is being generated\"",
+          "content" : "\"Your set of patients is being generated\"",
           "language" : "TypeScript"
         }
       },

@@ -36,7 +36,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state.patientId)",
+                  "content" : "import { getCategoryCardSvg } from \"./UIfacade/patientFacade\";\ngetCategoryCardSvg(Context.currentPatient.state)",
                   "language" : "TypeScript"
                 }
               },

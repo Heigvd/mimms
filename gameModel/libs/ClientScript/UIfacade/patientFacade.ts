@@ -101,14 +101,9 @@ export function getDivForCategory(patientId: string): string {
   }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }
 
-export function getCategoryColor(patientId: string): string {
-  const patient = getPatient(patientId)!;
-  const categoryId = patient.preTriageResult?.categoryId;
-  return categoryId != undefined ? getBackgroundColorByCategoryId(categoryId) : '#f6f7f9ff';
-}
-
-export function getCategoryCardSvg(patientId: string) {
-  const bgColor = getCategoryColor(patientId);
+export function getCategoryCardSvg(patient: PatientState) {
+  const categoryId = patient?.preTriageResult?.categoryId;
+  const bgColor = categoryId ? getBackgroundColorByCategoryId(categoryId) : '#f6f7f9ff';
   return getFlatCategoryCardSvg(bgColor, 0, 0, 64);
 }
 

@@ -1,0 +1,171 @@
+.patient-line-open {
+  width: 60vw;
+}
+
+.patient-line-closed {
+  width: 42vw;
+}
+
+.patient-accordion-header {
+  background-color: white;
+  color: black;
+  text-transform: capitalize;
+}
+
+.patient-accordion-header:hover,
+.patient-accordion-header:focus,
+.patient-accordion-header:focus-visible {
+  background-color: white;
+  cursor: pointer;
+}
+
+.patient-accordion-header > div > div > div {
+  display: flex;
+  font-size: var(--SM_text);
+}
+
+.patient-accordion-header > div > div > div > div {
+  width: 6vw;
+}
+
+#details {
+  width: 24vw;
+}
+
+.patient-header-button--active button {
+  color: white;
+  background-color: var(--primary_base);
+}
+
+.patient-header-button--active:hover button {
+  color: white;
+  background-color: var(--primary_70);
+}
+
+.line .line-actions {
+  display: none;
+  /*opacity: 0;
+  transition: opacity 1s;*/
+}
+
+.line:hover .line-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 6vw;
+  /*opacity: 100%;
+  transition: opacity 1s;*/
+}
+
+.patientGenerationTagCategory {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--XS_borderRadius);
+}
+
+
+/* - - - -  M O D A L S - - - - */
+
+/* - - s t e p p e r - - */
+.stepper-container {
+  /*display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;*/
+  margin-bottom: 1.5rem;
+}
+
+.stepper {
+  gap: 4px;
+}
+
+.step-container {
+  align-items: center;
+  gap: 4px;
+
+  /*display: flex;
+  position: relative;*/
+}
+
+.step-line::after {
+    content: "";
+    width: 50px;
+    height: 1px;
+    background-color: var(--grey_20);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: white;
+  background-color: var(--primary_base);
+  border-radius: var(--S_borderRadius);
+}
+
+.step-number--disabled {
+  background-color: var(--grey_30);
+}
+
+.step-text {
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.step-text--disabled {
+  color: var(--grey_30);
+}
+
+.patient-modal__close-button svg {
+  color: var(--grey_30);
+}
+
+/* - - t i t l e - - */
+.patient-modal__title {
+  margin-bottom: 1rem;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+}
+
+/* - - c o n t e n t - - */
+.patient-modal__line {
+  width: 22rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: var(--XS_borderRadius);
+  transition: background-color ease-in-out .3s;
+}
+
+.patient-modal__line:hover {
+  background-color: var(--primary_10);
+  transition: background-color ease-in-out .3s;
+}
+
+.patient-modal__text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  transition: color ease-in-out .3s;
+}
+
+.patient-modal__line:hover .patient-modal__text {
+  color: var(--primary_base);
+  transition: color ease-in-out .3s;
+}
+
+.patient-modal__checkbox .iconOnly {
+  padding: 0;
+  color: var(--primary_base);
+}
+
+.existing-patients__container {
+  margin: 0 0 1rem 0;
+  padding: 0 0 1rem 0;
+  border-bottom: 1px solid var(--grey_20);
+}

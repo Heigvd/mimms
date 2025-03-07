@@ -2,8 +2,11 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "patient-modal__title",
         "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flex-shrink" : "0"
+        },
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -20,6 +23,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "patient-modal__text",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "style" : { },
@@ -32,6 +36,7 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "patient-modal__checkbox",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "onVariableChange" : {
@@ -51,8 +56,10 @@
                   },
                   "type" : "Boolean"
                 } ],
+                "className" : "patient-modal__line",
                 "layout" : {
-                  "flexDirection" : "row"
+                  "flexDirection" : "row",
+                  "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
@@ -77,9 +84,9 @@
           "type" : "For each"
         } ],
         "layout" : { },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "noPadding pathologies",
         "layoutStyle" : {
-          "height" : "300px",
+          "flex" : "1",
           "overflow" : "auto"
         },
         "name" : "pathologies",
@@ -88,23 +95,41 @@
       "type" : "FlexList"
     }, {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "'Next'",
-          "language" : "TypeScript"
+        "children" : [ {
+          "props" : {
+            "className" : "button-S button-primaryColor current",
+            "label" : {
+              "@class" : "Script",
+              "content" : "'Next'",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('stats-modal');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "next",
+            "style" : {
+              "margin-top" : "24px"
+            }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "justifyContent" : "flex-end"
         },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('stats-modal');",
-            "language" : "TypeScript"
-          }
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "flex-shrink" : "0"
         },
-        "name" : "next",
+        "name" : "button",
         "style" : { }
       },
-      "type" : "Button"
+      "type" : "FlexList"
     } ],
     "layout" : {
       "flexDirection" : "column"
@@ -114,7 +139,9 @@
       "height" : "100%",
       "width" : "100%"
     },
-    "style" : { }
+    "style" : {
+      "height" : "100%"
+    }
   },
   "type" : "FlexList"
 }

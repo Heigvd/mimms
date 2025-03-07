@@ -12,6 +12,7 @@ import { doPatientAutomaticTriage } from '../game/common/patients/pretriage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { PatientState } from '../game/common/simulationState/patientState';
 import {
+  getCategory,
   getPriorityByCategoryId,
   STANDARD_CATEGORY,
   STANDARD_CATEGORY_ARRAY,
@@ -73,8 +74,9 @@ export function getPatientTotal(): { id: STANDARD_CATEGORY; count: number }[] {
   const t0 = getInitialTimeJumpSeconds();
   const grouped = group(
     getPatientsSamples(),
-    entry => entry.samples[t0].preTriageResult!.categoryId!
+    entry => entry.samples[t0]?.preTriageResult?.categoryId || ''
   );
+  delete grouped['']; // remove any undefined category
   const counts = Object.entries(grouped).map(([key, value]) => ({
     id: key as STANDARD_CATEGORY,
     count: value.length,
@@ -305,6 +307,7 @@ interface PatientGenerationState {
     target: InjuryCategoryStats;
   };
   patientId: string;
+  details: boolean;
 }
 
 export function setModalState(modalState: ModalState, patientId: PatientId = ''): void {
@@ -337,13 +340,14 @@ export function getDefaultGenerationState(): PatientGenerationState {
       },
     },
     patientId: '',
+    details: false,
   };
 }
 
 export function getPatientModalData(selectedTime: number | undefined = undefined) {
   const mainState = getTypedGenState();
   const time = selectedTime || getInitialTimeJumpSeconds();
-  const patient = patientsSamplesCache[mainState.patientId][time];
+  const patient = patientsSamplesCache[mainState.patientId]![time];
   return { ...patient, observedBlock: '' };
 }
 
@@ -367,6 +371,22 @@ function getGenCtx(): GenerationCtx {
 function savePatients(patients: Record<PatientId, BodyFactoryParam>): void {
   const patientDesc = Variable.find(gameModel, 'patients');
   saveToObjectDescriptor(patientDesc, patients);
+}
+
+/**
+ * Html formated pre-triage category
+ */
+export function categoryToHtml(categoryId: string | undefined): string {
+  if (!categoryId) {
+    return `<div class='tagCategory notCategorized'></div>`;
+  }
+
+  const cat = getCategory(categoryId)?.category;
+  if (cat) {
+    return `<div class='patientGenerationTagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}"></div>`;
+  } else {
+    return `Error: unresolved category: ${categoryId}`;
+  }
 }
 
 // PATHOLOGIES =================================================================
