@@ -149,6 +149,10 @@ export async function regenerateOne(id: PatientId): Promise<void> {
   savePatients(patientsParams);
 }
 
+export function totalExistingPatients(): number {
+  return Object.values(getPatientsBodyFactoryParams()).length;
+}
+
 export async function addPatientsAsync(
   targetStats: InjuryCategoryStats
 ): Promise<Record<PatientId, BodyFactoryParam>> {
@@ -169,7 +173,7 @@ export async function addPatientsAsync(
     bestEffortGenerateAndStore(existingPatients, stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx));
+    tasks.push(makeAsync(genFunction, genCtx, i));
   }
   await Promise.all(tasks);
 
@@ -322,7 +326,15 @@ export function setGenerationValue(category: STANDARD_CATEGORY, qty: number): vo
   const ctx = getGenCtx();
   const newState = Helpers.cloneDeep(ctx.state);
   newState.generation.target[category] = qty;
+  newState.generation.pending = Object.values(newState.generation.target).reduce(
+    (acc, v) => acc + v,
+    0
+  );
   ctx.setState(newState);
+}
+
+export function totalPendingPatients() {
+  return getTypedGenState().generation.pending;
 }
 
 export function getDefaultGenerationState(): PatientGenerationState {

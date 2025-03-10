@@ -121,6 +121,10 @@ div .button-closed-locations {
   pointer-events: none;
 }
 
+.header-button .iconOnly {
+  color: var(--primary_base);
+}
+
 .play-pause-icon {
   display: flex;
   justify-content: center;
