@@ -12,7 +12,7 @@ export const MAP_EXTENT_SCALE_FACTOR = 1.5;
  */
 export const swissProjection = 'EPSG:2056';
 /**
- * Equivalent to WGS84
+ * Equivalent to WGS84 GPS coordinates
  * extracted GeoJSON files are expressed in this coordinate system
  */
 export const gpsProjection = 'EPSG:4326';
@@ -50,7 +50,7 @@ export function getDefaultMapConfig(): MapConfig {
     maxZoom: 21,
     mapId: 'GVA-center',
     zoom: 0,
-    extent: [0, 0, 1, 1], // TODO better
+    extent: [0, 0, 1, 1],
     center: [0, 0],
     projection: swissProjection,
     viewConfigured: false,

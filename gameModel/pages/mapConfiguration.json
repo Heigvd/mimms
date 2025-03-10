@@ -160,7 +160,11 @@
                           "type" : "VectorLayer",
                           "useSpatialIndex" : false
                         },
-                        "layerStyle" : { },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getViewSelectionStyle } from \"./gameMap/styling/layerStyles\";\ngetViewSelectionStyle(feature);"
+                        },
                         "layoutStyle" : { },
                         "name" : "control",
                         "onLayerReady" : {

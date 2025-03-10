@@ -254,3 +254,30 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 
   return { fill, stroke, text };
 }
+
+export function getViewSelectionStyle(feature: any): LayerStyleObject {
+  const color = '#b80ee3';
+  const props = feature.getProperties();
+  wlog(props);
+
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: color,
+    width: 5,
+  };
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: color + '30', // alpha
+  };
+  const text: TextStyleObject = {
+    type: 'TextStyle',
+    text: props.name,
+    textAlign: 'center',
+    fill: {
+      type: 'FillStyle',
+      color: color,
+    },
+    font: 'bold 32px sans-serif',
+  };
+  return { fill, stroke, text };
+}

@@ -59,20 +59,32 @@ export function centerToSavedView(): void {
 
 export function getViewGeometry(): FeatureCollection {
   const config = getMapConfig();
-  const f = getEmptyFeatureCollection('view bounds');
-  if (!config.viewConfigured) {
-    return f;
+  const fc = getEmptyFeatureCollection('view bounds');
+  if (config.viewConfigured) {
+    fc.features.push({
+      type: 'Feature',
+      properties: {
+        name: 'Selected View',
+      },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [extentToLineString(getMapConfig().extent)],
+      },
+    });
+    /*
+    fc.features.push(
+      {
+      type: 'Feature',
+      properties : {
+        name: 'View Center'
+      },
+      geometry :{
+        type: 'Point',
+        coordinates : getMapConfig().center,
+      }
+    })*/
   }
-
-  f.features.push({
-    type: 'LineString',
-    coordinates: extentToLineString(getMapConfig().extent),
-  });
-  f.features.push({
-    type: 'Point',
-    coordinates: getMapConfig().center,
-  });
-  return f;
+  return fc;
 }
 
 function saveMapConfig(config: MapConfig): void {
