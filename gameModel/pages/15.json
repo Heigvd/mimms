@@ -71,19 +71,18 @@
                           },
                           "type" : "Text"
                         } ],
+                        "className" : "see-patient__buttons-gap",
                         "layout" : { },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "color + category",
-                        "style" : {
-                          "gap" : ".5rem"
-                        }
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
                       "props" : {
                         "className" : "patient-modal__text",
-                        "layoutClassName" : "existing-patients__output noPadding",
+                        "layoutClassName" : "noPadding existing-patients__output",
                         "layoutStyle" : { },
                         "script" : {
                           "@class" : "Script",
@@ -110,13 +109,13 @@
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
-                "layout" : { },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "existing patients",
-                "style" : {
-                  "flex-direction" : "column"
-                }
+                "style" : { }
               },
               "type" : "For each"
             } ],
@@ -130,9 +129,7 @@
               "flexDirection" : "column"
             },
             "layoutClassName" : "existing-patients__container",
-            "layoutStyle" : {
-              "width" : "22rem"
-            },
+            "layoutStyle" : { },
             "name" : "existing patients",
             "style" : { }
           },
@@ -174,13 +171,12 @@
                           },
                           "type" : "Text"
                         } ],
+                        "className" : "see-patient__buttons-gap",
                         "layout" : { },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "color + category",
-                        "style" : {
-                          "gap" : ".5rem"
-                        }
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
@@ -225,13 +221,13 @@
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
-                "layout" : { },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "patients to be generated",
-                "style" : {
-                  "flex-direction" : "column"
-                }
+                "style" : { }
               },
               "type" : "For each"
             }, {
@@ -296,7 +292,7 @@
             },
             "name" : "generate",
             "style" : {
-              "margin-top" : "24px"
+              "margin-top" : "1.5rem"
             }
           },
           "type" : "Button"
@@ -317,11 +313,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding",
-    "layoutStyle" : {
-      "height" : "100%",
-      "width" : "100%"
-    },
+    "layoutClassName" : "noPadding fullSize",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

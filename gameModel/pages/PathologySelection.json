@@ -58,7 +58,6 @@
                 } ],
                 "className" : "patient-modal__line",
                 "layout" : {
-                  "flexDirection" : "row",
                   "justifyContent" : "space-between"
                 },
                 "layoutClassName" : "noPadding",
@@ -84,7 +83,7 @@
           "type" : "For each"
         } ],
         "layout" : { },
-        "layoutClassName" : "noPadding pathologies",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "flex" : "1",
           "overflow" : "auto"
@@ -114,7 +113,7 @@
             },
             "name" : "next",
             "style" : {
-              "margin-top" : "24px"
+              "margin-top" : "1.5rem"
             }
           },
           "type" : "Button"
@@ -131,17 +130,13 @@
       },
       "type" : "FlexList"
     } ],
+    "className" : "fullSize",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding",
-    "layoutStyle" : {
-      "height" : "100%",
-      "width" : "100%"
-    },
-    "style" : {
-      "height" : "100%"
-    }
+    "layoutClassName" : "noPadding fullSize",
+    "layoutStyle" : { },
+    "style" : { }
   },
   "type" : "FlexList"
 }

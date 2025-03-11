@@ -1,14 +1,20 @@
-.patient-line-open {
-  width: 60vw;
+/* - - - -  P A T I E N T   G E N E R A T I O N  - - - */
+
+/* - - h e a d e r - - */
+.top-left-cell {
+  display: flex;
+  align-items: center;
 }
 
-.patient-line-closed {
-  width: 42vw;
+.table-buttons {
+  gap: 0.5rem;
+  margin-left: 1.5rem;
 }
 
+/* accordion */
 .patient-accordion-header {
   background-color: white;
-  color: black;
+  color: var(--grey_100);
   text-transform: capitalize;
 }
 
@@ -24,6 +30,7 @@
   font-size: var(--SM_text);
 }
 
+/* details accordion width */
 .patient-accordion-header > div > div > div > div {
   width: 6vw;
 }
@@ -32,37 +39,33 @@
   width: 24vw;
 }
 
-.patient-header-button--active button {
-  color: white;
-  background-color: var(--primary_base);
-}
-
-.patient-header-button--active:hover button {
-  color: white;
-  background-color: var(--primary_70);
-}
-
+/* - - l i n e - - */
 .no-patient__text {
   margin: 14px 0 0 5px;
-  font-family: var(--mainFont);
+  /*font-family: var(--mainFont);*/
   font-size: var(--S_text);
   font-style: italic;
-  color: var(--grey-100);
+  color: var(--grey_100);
+}
+
+/* different line width depending on if details accordion is open/closed */
+.patient-line-open {
+  width: 60vw;
+}
+
+.patient-line-closed {
+  width: 42vw;
 }
 
 .line .line-actions {
   display: none;
-  /*opacity: 0;
-  transition: opacity 1s;*/
 }
 
 .line:hover .line-actions {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: .5rem;
   width: 6vw;
-  /*opacity: 100%;
-  transition: opacity 1s;*/
 }
 
 .patientGenerationTagCategory {
@@ -74,12 +77,30 @@
 
 /* - - - -  M O D A L S - - - - */
 
+/* - - s e e   p a t i e n t   m o d a l - - */
+.patient-header-button--active button {
+  color: white;
+  background-color: var(--primary_base);
+}
+
+.patient-header-button--active:hover button {
+  color: white;
+  background-color: var(--primary_70);
+}
+
+.see-patient__buttons-gap {
+  gap: .5rem;
+}
+
+/* - - p a t i e n t   g e n e r a t i o n   m o d a l - - */
+.patient-modal {
+  width: 30rem;
+  height: 50vh;
+}
+
 /* - - s t e p p e r - - */
 .stepper-container {
-  /*display: flex;
-  align-items: center;
-  gap: 4px;
-  width: 100%;*/
+  justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 
@@ -90,9 +111,6 @@
 .step-container {
   align-items: center;
   gap: 4px;
-
-  /*display: flex;
-  position: relative;*/
 }
 
 .step-line::after {
@@ -123,16 +141,16 @@
 }
 
 .step-icon-container {
-  align-items: center;
-  justify-content: center;
+  /*align-items: center;
+  justify-content: center;*/
   width: 22px;
-  height: 22px;
+  /*height: 22px;*/
   background-color: var(--primary_base);
   border-radius: var(--S_borderRadius);
 }
 
 .step-icon {
-  width: .75rem;
+  /*width: .75rem;*/
   height: auto;
   color: white;
 }
@@ -162,11 +180,10 @@
   color: var(--primary_base);
 }
 
-/* - - c o n t e n t - - */
-/* - - p a t h o l o g i e s - - */
+/* - - c o n t e n t   p a t h o l o g i e s - - */
 .patient-modal__line {
   width: 22rem;
-  padding: 0.5rem;
+  padding: .5rem;
   background-color: white;
   border-radius: var(--XS_borderRadius);
   transition: background-color ease-in-out .3s;
@@ -194,10 +211,11 @@
   color: var(--primary_base);
 }
 
-/* - - c a t e g o r i e s - - */
+/* - - c o n t e n t   c a t e g o r i e s - - */
 .existing-patients__container {
-  margin: 0 0 1rem 0;
+  width: 22rem;
   padding: 0 0 .5rem 0;
+  margin: 0 0 1rem 0;
   border-bottom: 1px solid var(--grey_20);
 }
 

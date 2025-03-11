@@ -108,10 +108,18 @@ div .button-closed-locations {
   color: var(--primary_base);
 }
 
+.header-button svg {
+  color: var(--primary_base);
+}
+
 .header-button:hover {
   color: var(--primary_70);
   border: 1px solid var(--primary_70);
   background-color: transparent;
+}
+
+.header-button:hover svg {
+  color: var(--primary_70);
 }
 
 .header-button.disabled {
@@ -121,8 +129,14 @@ div .button-closed-locations {
   pointer-events: none;
 }
 
-.header-button .iconOnly {
-  color: var(--primary_base);
+.header-button--disabled {
+  border: 1px solid var(--grey_30);
+  background-color: transparent;
+  pointer-events: none;
+}
+
+.header-button--disabled svg {
+  color: var(--grey_30);
 }
 
 .play-pause-icon {

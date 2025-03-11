@@ -285,9 +285,7 @@
                   "type" : "Button"
                 } ],
                 "className" : "stepper-container",
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
+                "layout" : { },
                 "layoutStyle" : {
                   "flex-shrink" : "0"
                 },
@@ -297,24 +295,24 @@
               "type" : "FlexList"
             }, {
               "props" : {
+                "className" : "fullSize",
                 "exposePageSizeAs" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
                   "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n    const generationState = getTypedGenState().status;\n        switch (generationState) {\n            case 'pathology-modal':\n            return 'PathologySelection';\n            case 'stats-modal':\n            return '15';\n            case 'generating-modal':\n            return '29';\n        }\n        ''",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "fullSize",
                 "layoutStyle" : {
                   "flex-shrink" : "1",
-                  "height" : "100%",
                   "overflow" : "auto"
                 },
                 "name" : "patient generation",
-                "style" : {
-                  "height" : "100%"
-                }
+                "style" : { }
               },
               "type" : "PageLoader"
             } ],
+            "className" : "patient-modal",
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'pathology-modal':\n      case 'stats-modal':\n      case 'generating-modal':\n      return false;\n    }\n    true;",
@@ -326,10 +324,7 @@
             "layoutStyle" : { },
             "name" : "patient generation",
             "onExitActions" : { },
-            "style" : {
-              "height" : "calc(100vh / 2)",
-              "width" : "30rem"
-            }
+            "style" : { }
           },
           "type" : "Modal"
         }, {
@@ -342,24 +337,6 @@
                     "children" : [ {
                       "props" : {
                         "children" : [ {
-                          "props" : {
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "true;",
-                              "language" : "typescript"
-                            },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "patient id",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  Context.patient.id;",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
@@ -394,6 +371,7 @@
                                   },
                                   "type" : "Button"
                                 } ],
+                                "className" : "see-patient__buttons-gap",
                                 "exposeAs" : "item",
                                 "getItemsFn" : {
                                   "@class" : "Script",
@@ -404,9 +382,7 @@
                                 "layout" : { },
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "style" : {
-                                  "gap" : "0.5rem"
-                                }
+                                "style" : { }
                               },
                               "type" : "For each"
                             }, {
@@ -433,13 +409,12 @@
                               },
                               "type" : "Button"
                             } ],
+                            "className" : "see-patient__buttons-gap",
                             "layout" : { },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "t + x & regenerate",
-                            "style" : {
-                              "gap" : "0.5rem"
-                            }
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         }, {
@@ -493,10 +468,8 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : {
-                      "width" : "100%"
-                    },
+                    "layoutClassName" : "noPadding fullSize",
+                    "layoutStyle" : { },
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -552,14 +525,11 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "hospital-header-name",
+                        "className" : "hospital-header-name top-left-cell",
                         "id" : "",
                         "layoutStyle" : { },
                         "name" : "tag",
-                        "style" : {
-                          "align-items" : "center",
-                          "display" : "flex"
-                        },
+                        "style" : { },
                         "text" : {
                           "@class" : "Script",
                           "content" : "\"Tag\"",
@@ -586,7 +556,7 @@
                           "content" : "  if (Context.genState.state.details) {\n    return \"<div>BMI</div><div>Height</div><div>Age</div><div>Sex</div>\"\n  }\n  \"Details\"",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "accordion-container noPadding",
+                        "layoutClassName" : "noPadding accordion-container",
                         "layoutStyle" : {
                           "margin" : "0"
                         },
@@ -663,6 +633,15 @@
                     }, {
                       "props" : {
                         "className" : "header-button",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-button--disabled",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "icon" : "trash",
                         "label" : {
                           "@class" : "Script",
@@ -678,22 +657,20 @@
                           }
                         },
                         "name" : "reset",
+                        "prefixedLabel" : false,
                         "style" : { }
                       },
                       "type" : "Button"
                     } ],
+                    "className" : "table-buttons",
                     "layout" : { },
                     "layoutStyle" : { },
                     "name" : "buttons",
-                    "style" : {
-                      "gap" : "0.5rem",
-                      "margin-left" : "1.5rem"
-                    }
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
                 "layout" : {
-                  "flexDirection" : "row",
                   "justifyContent" : "space-between"
                 },
                 "layoutStyle" : {
@@ -960,9 +937,8 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutStyle" : {
-                  "height" : "100%"
-                },
+                "layoutClassName" : "fullSize",
+                "layoutStyle" : { },
                 "name" : "patient",
                 "style" : {
                   "flex-shrink" : "1",
@@ -971,18 +947,14 @@
               },
               "type" : "For each"
             } ],
+            "className" : "fullSize",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutStyle" : {
-              "height" : "100%",
-              "width" : "100%"
-            },
+            "layoutClassName" : "fullSize",
+            "layoutStyle" : { },
             "name" : "patient generation",
-            "style" : {
-              "height" : "100%",
-              "width" : "100%"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         } ],
@@ -992,27 +964,23 @@
           "content" : "import { getDefaultGenerationState } from \"./UIfacade/patientGenFacade\";\ngetDefaultGenerationState();",
           "language" : "TypeScript"
         },
-        "layoutClassName" : "accordion-state",
-        "layoutStyle" : {
-          "height" : "100%"
-        },
+        "layoutClassName" : "fullSize accordion-state",
+        "layoutStyle" : { },
         "localState" : true,
         "style" : { }
       },
       "type" : "State"
     } ],
-    "className" : "patient-generation",
+    "className" : "fullSize",
     "id" : "patient-generation",
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "fullSize",
     "layoutStyle" : {
-      "height" : "100%",
-      "width" : "100%"
+      "overflow-x" : "auto"
     },
-    "style" : {
-      "height" : "100%"
-    }
+    "style" : { }
   },
   "type" : "FlexList"
 }
