@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1740567358738,
+  "createdTime" : 1741688364926,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -2724,7 +2724,7 @@
   }, {
     "@class" : "BooleanDescriptor",
     "broadcastScope" : "TeamScope",
-    "comments" : "",
+    "comments" : "Used for matrix editor update",
     "defaultInstance" : {
       "@class" : "BooleanInstance",
       "refId" : "BooleanInstance:56277:5s3iVr",
@@ -2928,71 +2928,6 @@
       },
       "name" : "newEvents",
       "refId" : "EventInboxDescriptor:205070:tu8VIV",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "InboxDescriptor",
-      "broadcastScope" : "TeamScope",
-      "capped" : false,
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "InboxInstance",
-        "messages" : [ ],
-        "refId" : "InboxInstance:24034252:rDo97E",
-        "unreadCount" : 0
-      },
-      "editorTag" : "events",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034253:ZficUd",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034253:ZficUd::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "events",
-      "refId" : "InboxDescriptor:24034251:S1G7kT",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:24035264:cyLOux",
-        "value" : -1.0
-      },
-      "defaultValue" : -1.0,
-      "editorTag" : "",
-      "historySize" : 20,
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24035265:bVpHuE",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24035265:bVpHuE::EN",
-            "status" : "",
-            "translation" : "lastEventId"
-          }
-        }
-      },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "lastEventId",
-      "refId" : "NumberDescriptor:24035263:MlG2Ps",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -5031,74 +4966,6 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
-      }, {
-        "@class" : "ListDescriptor",
-        "addShortcut" : "",
-        "allowedTypes" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ListInstance",
-          "refId" : "ListInstance:229060:x3YZb1"
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "items" : [ {
-          "@class" : "StringDescriptor",
-          "allowedValues" : [ ],
-          "broadcastScope" : "TeamScope",
-          "comments" : "",
-          "defaultInstance" : {
-            "@class" : "StringInstance",
-            "refId" : "StringInstance:229065:RN1v6E",
-            "trValue" : {
-              "@class" : "TranslatableContent",
-              "refId" : "TranslatableContent:229066:Zx2ZxH",
-              "translations" : { }
-            }
-          },
-          "editorTag" : "",
-          "isolation" : "OPEN",
-          "label" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:229067:jlWp3f",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:229067:jlWp3f::EN",
-                "status" : "",
-                "translation" : "selectedTeam"
-              }
-            }
-          },
-          "maxSelectable" : 1,
-          "name" : "selectedTeam",
-          "refId" : "StringDescriptor:229064:Sk0Wg5",
-          "scopeType" : "TeamScope",
-          "sortable" : false,
-          "validationPattern" : null,
-          "version" : null,
-          "visibility" : "PRIVATE"
-        } ],
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:229061:xPPXIo",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:229061:xPPXIo::EN",
-              "status" : "",
-              "translation" : "trainer"
-            }
-          }
-        },
-        "name" : "trainer_PX3n0s",
-        "refId" : "ListDescriptor:229059:mUDySZ",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -7095,7 +6962,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS XGO MIM-347+351",
+  "name" : "MIMMS - MIM-371 XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

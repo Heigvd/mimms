@@ -108,8 +108,6 @@
           "generation_settings": SObjectDescriptor;
           "events_vd1H1F": SListDescriptor;
           "newEvents": SEventInboxDescriptor;
-          "events": SInboxDescriptor;
-          "lastEventId": SNumberDescriptor;
           "localization": SListDescriptor;
           "pathologies_517FG4": SListDescriptor;
           "human-blocks": SObjectDescriptor;
