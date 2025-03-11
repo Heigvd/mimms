@@ -54,6 +54,7 @@ interface PatientEntry {
 type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
+let patientsBodyParamsCache: Record<PatientId, BodyFactoryParam> = {};
 let cacheInitDone = false;
 
 /**
@@ -62,10 +63,9 @@ let cacheInitDone = false;
 export function getPatientsSamples(): PatientEntry[] {
   const genCtx = getGenCtx();
   const sortFunc = sortFunctions[genCtx?.state?.sort || 'priority'];
-  const params = getPatientsBodyFactoryParams();
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
-      return { id: id, samples: ps, params: params[id]! };
+      return { id: id, samples: ps, params: patientsBodyParamsCache[id]! };
     })
     .sort(sortFunc);
 }
@@ -110,16 +110,16 @@ export function getSampleTimesSec(): number[] {
 }
 
 export function resetAll(): void {
-  savePatients({});
   patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  savePatients();
   getGenCtx().setState(getDefaultGenerationState());
 }
 
 export function deleteOne(id: PatientId): void {
-  const patientsParams = getPatientsBodyFactoryParams();
   delete patientsSamplesCache[id];
-  delete patientsParams[id];
-  savePatients(patientsParams);
+  delete patientsBodyParamsCache[id];
+  savePatients();
 }
 
 export async function regenerateOne(id: PatientId): Promise<void> {
@@ -137,25 +137,21 @@ export async function regenerateOne(id: PatientId): Promise<void> {
     target[cat as STANDARD_CATEGORY] = 1;
   }
 
-  const patientsParams = getPatientsBodyFactoryParams();
   const { instance, bodyParams } = await makeAsync(
-    _ => bestEffortGenerate(patientsParams, target, MAX_RETRIES * 2),
+    _ => bestEffortGenerate(target, MAX_RETRIES * 2),
     {}
   );
   //keep old id
-  patientsParams[id] = bodyParams;
   instance.patientId = id;
-  updateCache(instance);
-  savePatients(patientsParams);
+  updateCache(instance, bodyParams);
+  savePatients();
 }
 
 export function totalExistingPatients(): number {
   return Object.values(getPatientsBodyFactoryParams()).length;
 }
 
-export async function addPatientsAsync(
-  targetStats: InjuryCategoryStats
-): Promise<Record<PatientId, BodyFactoryParam>> {
+export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promise<void> {
   const t = Date.now();
   const genCtx = getGenCtx();
   const total = Object.values(targetStats).reduce((acc, v) => acc + v, 0);
@@ -166,39 +162,32 @@ export async function addPatientsAsync(
 
   const stillNeeded = Helpers.cloneDeep(targetStats);
 
-  const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
-
   const tasks: Promise<void>[] = [];
-  const genFunction = (ctx: GenerationCtx) =>
-    bestEffortGenerateAndStore(existingPatients, stillNeeded, ctx);
+  const genFunction = (ctx: GenerationCtx) => bestEffortGenerateAndStore(stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
     tasks.push(makeAsync(genFunction, genCtx, i));
   }
   await Promise.all(tasks);
 
-  savePatients(existingPatients);
+  savePatients();
   patientGenerationLogger.info('Generation duration', Date.now() - t);
   genCtx.setState(getDefaultGenerationState());
-  return existingPatients;
 }
 
 export function initCache(force: boolean = false): void {
   if (cacheInitDone && !force) return;
   const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
   for (const id in existingPatients) {
-    const ps = instantiateAndPretriage(id, existingPatients[id]!);
-    updateCache(ps);
+    const params = existingPatients[id]!;
+    const ps = instantiateAndPretriage(id, params);
+    updateCache(ps, params);
   }
   cacheInitDone = true;
 }
 
-function bestEffortGenerateAndStore(
-  patients: Record<PatientId, BodyFactoryParam>,
-  remaining: InjuryCategoryStats,
-  genCtx: GenerationCtx
-) {
-  let { instance, bodyParams } = bestEffortGenerate(patients, remaining, MAX_RETRIES);
+function bestEffortGenerateAndStore(remaining: InjuryCategoryStats, genCtx: GenerationCtx) {
+  const { instance, bodyParams } = bestEffortGenerate(remaining, MAX_RETRIES);
 
   const cat = instance.preTriageResult?.categoryId as STANDARD_CATEGORY;
   if (!cat) {
@@ -206,8 +195,7 @@ function bestEffortGenerateAndStore(
   }
   remaining[cat] = (remaining[cat] || 0) - 1;
   patientGenerationLogger.info(remaining);
-  patients[instance.patientId] = bodyParams;
-  updateCache(instance);
+  updateCache(instance, bodyParams);
   incrementGenerated(genCtx);
 }
 
@@ -222,27 +210,26 @@ function incrementGenerated(genState: GenerationCtx): void {
  * Generates a random patients until one fits in the stats
  */
 function bestEffortGenerate(
-  patients: Record<PatientId, BodyFactoryParam>,
   remaining: InjuryCategoryStats,
   maxAttempts: number
 ): { instance: PatientState; bodyParams: BodyFactoryParam } {
-  let { instance, bodyParams } = generateOnePatientAndTriage(patients);
+  let { instance, bodyParams } = generateOnePatientAndTriage();
 
   for (let r = 0; r < maxAttempts; r++) {
     const cat = instance.preTriageResult?.categoryId as STANDARD_CATEGORY;
     if (cat && remaining[cat] > 0) {
       break;
     }
-    ({ instance, bodyParams } = generateOnePatientAndTriage(patients));
+    ({ instance, bodyParams } = generateOnePatientAndTriage());
   }
   return { instance, bodyParams };
 }
 
-function generateOnePatientAndTriage(patients: Record<PatientId, BodyFactoryParam>): {
+function generateOnePatientAndTriage(): {
   instance: PatientState;
   bodyParams: BodyFactoryParam;
 } {
-  const { uid, params } = generateRandomPatient(patients);
+  const { uid, params } = generateRandomPatient(patientsBodyParamsCache);
   const patientState = instantiateAndPretriage(uid, params);
   return {
     bodyParams: params,
@@ -279,7 +266,7 @@ function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientS
  * Builds snapshots of patients at required times
  * startInstance is expected to be at T0 (after initial time interval elapsed)
  */
-function updateCache(startInstance: PatientState): void {
+function updateCache(startInstance: PatientState, body: BodyFactoryParam): void {
   const id: PatientId = startInstance.patientId;
   const entry: PatientSamples = {};
   let sampleInstance = startInstance;
@@ -293,6 +280,7 @@ function updateCache(startInstance: PatientState): void {
     entry[t] = sampleInstance;
   }
   patientsSamplesCache[id] = entry;
+  patientsBodyParamsCache[id] = body;
 }
 
 // INTERFACE STATE ============================================================
@@ -334,7 +322,7 @@ export function setGenerationValue(category: STANDARD_CATEGORY, qty: number): vo
 }
 
 export function totalPendingPatients() {
-  return getTypedGenState().generation.pending;
+  return getTypedGenState()?.generation?.pending || 0;
 }
 
 export function getDefaultGenerationState(): PatientGenerationState {
@@ -380,9 +368,9 @@ function getGenCtx(): GenerationCtx {
   return Context.genState as GenerationCtx;
 }
 
-function savePatients(patients: Record<PatientId, BodyFactoryParam>): void {
+function savePatients(): void {
   const patientDesc = Variable.find(gameModel, 'patients');
-  saveToObjectDescriptor(patientDesc, patients);
+  saveToObjectDescriptor(patientDesc, patientsBodyParamsCache);
 }
 
 /**

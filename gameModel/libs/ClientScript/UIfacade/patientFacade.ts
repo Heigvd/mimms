@@ -58,30 +58,30 @@ export function getTranslatedBlockName(blockName: string): string {
   return getBlockTranslation(blockName);
 }
 
-export function getAfflictedBlocksDetails(id: string): AfflictedBlockDetails[] {
-  const human = getPatient(id)!.humanBody;
+export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlockDetails[] {
+  const human = patient.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
     effects: human.effects!,
   };
-  const currentTime = getCurrentState().getSimTime();
+  const currentTime = patient.humanBody.state.time;
 
   return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, false);
 }
 
-function getAfflictedBlocks(id: string): string[] {
-  const human = getPatient(id)!.humanBody;
+function getAfflictedBlocks(patient: PatientState): string[] {
+  const human = patient.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
     effects: human.effects!,
   };
-  const currentTime = getCurrentState().getSimTime();
+  const currentTime = patient.humanBody.state.time;
 
   return getAfflictedBlocksOfHuman(human, health, currentTime);
 }
 
-export function getLocalizedAffictedBlocks(id: string) {
-  const afflictedBlocks = getAfflictedBlocks(id);
+export function getLocalizedAffictedBlocks(patient: PatientState) {
+  const afflictedBlocks = getAfflictedBlocks(patient);
 
   return getLocalizedBlocks([...afflictedBlocks]).localized;
 }

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1740567358738,
+  "createdTime" : 1741625873479,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7107,7 +7107,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-395",
+  "name" : "MIMMS - MIM-395 XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

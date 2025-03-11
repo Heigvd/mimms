@@ -125,7 +125,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('A');",
+                  "content" : "  String('A');",
                   "language" : "TypeScript"
                 }
               },
@@ -149,7 +149,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('EtCO2');",
+                      "content" : "  String('EtCO2');",
                       "language" : "TypeScript"
                     }
                   },
@@ -195,7 +195,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('B');",
+                  "content" : "  String('B');",
                   "language" : "TypeScript"
                 }
               },
@@ -286,7 +286,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('C');",
+                  "content" : "  String('C');",
                   "language" : "TypeScript"
                 }
               },
@@ -377,7 +377,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('D');",
+                  "content" : "  String('D');",
                   "language" : "TypeScript"
                 }
               },
@@ -392,7 +392,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('Glasgow');",
+                      "content" : "  String('Glasgow');",
                       "language" : "TypeScript"
                     }
                   },
@@ -674,7 +674,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRawString } from \"./tools/helper\";\n \n  getRawString('E');",
+                  "content" : "  String('E');",
                   "language" : "TypeScript"
                 }
               },
@@ -789,7 +789,7 @@
                         "exposeAs" : "block",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getLocalizedAffictedBlocks } from \"./UIfacade/patientFacade\";\n  getLocalizedAffictedBlocks(Context.currentPatient.state.patientId);",
+                          "content" : "import { getLocalizedAffictedBlocks } from \"./UIfacade/patientFacade\";\n  wlog(Context.currentPatient.state);\n  getLocalizedAffictedBlocks(Context.currentPatient.state);",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "blockName",
@@ -921,7 +921,7 @@
                     "exposeAs" : "block",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getAfflictedBlocksDetails } from \"./UIfacade/patientFacade\";\ngetAfflictedBlocksDetails(Context.currentPatient.state.patientId).map((data, i) => ({\n\tid: i, \n  name: data.block,\n\tdetails: data.details\n}));",
+                      "content" : "import { getAfflictedBlocksDetails } from \"./UIfacade/patientFacade\";\ngetAfflictedBlocksDetails(Context.currentPatient.state).map((data, i) => ({\n\tid: i, \n  name: data.block,\n\tdetails: data.details\n}));",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
