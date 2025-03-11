@@ -1406,7 +1406,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "header-text ",
+                        "className" : "dashboard-header-text",
                         "id" : "teams",
                         "layoutClassName" : "",
                         "layoutStyle" : { },
@@ -1423,7 +1423,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "header-text",
+                            "className" : "dashboard-header-text",
                             "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "name" : "time",
@@ -1437,7 +1437,7 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "header-text",
+                            "className" : "dashboard-header-text",
                             "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "name" : "methane",
@@ -1481,7 +1481,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "header-text",
+                                "className" : "dashboard-header-text",
                                 "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
                                 "style" : { },
@@ -1543,7 +1543,7 @@
                                 "className" : "header-button",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
-                                  "className" : "disabled",
+                                  "className" : "header-button--disabled",
                                   "condition" : {
                                     "@class" : "Script",
                                     "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
@@ -1575,7 +1575,7 @@
                                 "className" : "header-button",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Inside",
-                                  "className" : "disabled",
+                                  "className" : "header-button--disabled",
                                   "condition" : {
                                     "@class" : "Script",
                                     "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
@@ -1616,7 +1616,7 @@
                             "className" : "header-button",
                             "conditionnalClassNames" : [ {
                               "applyOn" : "Inside",
-                              "className" : "disabled",
+                              "className" : "header-button--disabled",
                               "condition" : {
                                 "@class" : "Script",
                                 "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated()",
@@ -1647,7 +1647,7 @@
                             "className" : "header-button",
                             "conditionnalClassNames" : [ {
                               "applyOn" : "Inside",
-                              "className" : "disabled",
+                              "className" : "header-button--disabled",
                               "condition" : {
                                 "@class" : "Script",
                                 "content" : "import { someGameStateStatusNotInitiated } from \"./dashboard/dashboardFacade\";\nsomeGameStateStatusNotInitiated();",
@@ -1782,7 +1782,7 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "header",
+                    "className" : "dashboard-header",
                     "layout" : { },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
@@ -1843,7 +1843,7 @@
                                   },
                                   "type" : "Button"
                                 } ],
-                                "className" : "team-text",
+                                "className" : "line-left-cell",
                                 "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },

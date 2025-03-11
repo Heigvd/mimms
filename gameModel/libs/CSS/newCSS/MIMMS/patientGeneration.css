@@ -41,8 +41,7 @@
 
 /* - - l i n e - - */
 .no-patient__text {
-  margin: 14px 0 0 5px;
-  /*font-family: var(--mainFont);*/
+  margin: 14px 0 0 0;
   font-size: var(--S_text);
   font-style: italic;
   color: var(--grey_100);

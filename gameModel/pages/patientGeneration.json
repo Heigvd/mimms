@@ -525,7 +525,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "hospital-header-name top-left-cell",
+                        "className" : "header-left-cell",
                         "id" : "",
                         "layoutStyle" : { },
                         "name" : "tag",
@@ -576,7 +576,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "hospital-header-text",
+                            "className" : "header-text",
                             "layoutClassName" : "header-text-container",
                             "layoutStyle" : { },
                             "name" : "t + x",
@@ -704,7 +704,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "hospitals team-text",
+                        "className" : "line-left-cell",
                         "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "id",
@@ -964,7 +964,7 @@
           "content" : "import { getDefaultGenerationState } from \"./UIfacade/patientGenFacade\";\ngetDefaultGenerationState();",
           "language" : "TypeScript"
         },
-        "layoutClassName" : "fullSize accordion-state",
+        "layoutClassName" : "noPadding fullSize accordion-state",
         "layoutStyle" : { },
         "localState" : true,
         "style" : { }
@@ -976,7 +976,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "fullSize",
+    "layoutClassName" : "noPadding fullSize",
     "layoutStyle" : {
       "overflow-x" : "auto"
     },
