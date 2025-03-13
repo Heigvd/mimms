@@ -525,431 +525,445 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "header-left-cell",
-                        "id" : "",
-                        "layoutStyle" : { },
-                        "name" : "tag",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "\"Tag\"",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "accordion-header patient-accordion-header",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Outside",
-                          "className" : "button-closed",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "!Context.genState.state.details;",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "icon" : "play",
-                        "id" : "details",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "  if (Context.genState.state.details) {\n    return \"<div>BMI</div><div>Height</div><div>Age</div><div>Sex</div>\"\n  }\n  \"Details\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding accordion-container",
-                        "layoutStyle" : {
-                          "margin" : "0"
-                        },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "const newState = Helpers.cloneDeep(Context.genState.state);\n\nnewState.details = !newState.details;\n\nContext.genState.setState(newState);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "details",
-                        "prefixedLabel" : true,
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "header-text",
-                            "layoutClassName" : "header-text-container",
+                            "className" : "header-left-cell",
+                            "id" : "",
                             "layoutStyle" : { },
-                            "name" : "t + x",
+                            "name" : "tag",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "'T + ' + Context.item.value;",
+                              "content" : "\"Tag\"",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "accordion-header patient-accordion-header",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Outside",
+                              "className" : "button-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.genState.state.details;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "icon" : "play",
+                            "id" : "details",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "  if (Context.genState.state.details) {\n    return \"<div>BMI</div><div>Height</div><div>Age</div><div>Sex</div>\"\n  }\n  \"Details\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding accordion-container",
+                            "layoutStyle" : {
+                              "margin" : "0"
+                            },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "const newState = Helpers.cloneDeep(Context.genState.state);\n\nnewState.details = !newState.details;\n\nContext.genState.setState(newState);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "details",
+                            "prefixedLabel" : true,
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "header-text",
+                                "layoutClassName" : "header-text-container",
+                                "layoutStyle" : { },
+                                "name" : "t + x",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "'T + ' + Context.item.value;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "exposeAs" : "item",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getSampleTimesSec } from \"./UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n/60}));",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "id",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "For each"
                         } ],
-                        "exposeAs" : "item",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getSampleTimesSec } from \"./UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n/60}));",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "id",
                         "layout" : { },
                         "layoutStyle" : { },
+                        "name" : "table",
                         "style" : { }
                       },
-                      "type" : "For each"
+                      "type" : "FlexList"
                     } ],
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "name" : "table",
+                    "layout" : {
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutStyle" : {
+                      "flex-shrink" : "0"
+                    },
+                    "name" : "header",
                     "style" : { }
                   },
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "className" : "header-button",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "'Add'",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "add",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "header-button",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "header-button--disabled",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "icon" : "trash",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { resetAll } from \"./UIfacade/patientGenFacade\";\n\nresetAll();",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "reset",
-                        "prefixedLabel" : false,
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "table-buttons",
-                    "layout" : { },
+                    "className" : "no-patient__text",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0;",
+                      "language" : "typescript"
+                    },
                     "layoutStyle" : { },
-                    "name" : "buttons",
-                    "style" : { }
+                    "name" : "no patients",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"You have not generated any patients yet\"",
+                      "language" : "TypeScript"
+                    }
                   },
-                  "type" : "FlexList"
-                } ],
-                "layout" : {
-                  "justifyContent" : "space-between"
-                },
-                "layoutStyle" : {
-                  "flex-shrink" : "0"
-                },
-                "name" : "header",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "no-patient__text",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0;",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "name" : "no patients",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"You have not generated any patients yet\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
+                  "type" : "Text"
+                }, {
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "line-left-cell",
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "id",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "  Context.patient.id;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "line-text",
+                            "className" : "line-left-cell",
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
-                            "name" : "bmi",
+                            "name" : "id",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.patient.params.bmi + '';",
+                              "content" : "  Context.patient.id;",
                               "language" : "TypeScript"
                             }
                           },
                           "type" : "Text"
                         }, {
-                          "props" : {
-                            "className" : "line-text",
-                            "layoutStyle" : { },
-                            "name" : "height",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  Context.patient.params.height_cm + '';",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "line-text",
-                            "layoutStyle" : { },
-                            "name" : "age",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  Context.patient.params.age + '';",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "className" : "line-text",
-                            "layoutStyle" : { },
-                            "name" : "sex",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "  Context.patient.params.sex.charAt(0) + '';",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "header-closed",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "!Context.genState.state.details;",
-                            "language" : "typescript"
-                          }
-                        }, {
-                          "applyOn" : "Inside",
-                          "className" : "header-open",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "Context.genState.state.details;",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "layout" : { },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "details",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "line-text",
                                 "layoutStyle" : { },
-                                "name" : "category",
+                                "name" : "bmi",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { categoryToHtml } from \"./UIfacade/patientGenFacade\";\n  categoryToHtml(Context.sample.patient.preTriageResult.categoryId);",
+                                  "content" : "  Context.patient.params.bmi + '';",
                                   "language" : "TypeScript"
                                 }
                               },
                               "type" : "Text"
-                            } ]
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "layoutStyle" : { },
+                                "name" : "height",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.patient.params.height_cm + '';",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "layoutStyle" : { },
+                                "name" : "age",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.patient.params.age + '';",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "line-text details-sex",
+                                "layoutStyle" : { },
+                                "name" : "sex",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.patient.params.sex.charAt(0) + '';",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-closed",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "!Context.genState.state.details;",
+                                "language" : "typescript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "header-open",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.genState.state.details;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "details",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "line-text",
+                                    "layoutStyle" : { },
+                                    "name" : "category",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { categoryToHtml } from \"./UIfacade/patientGenFacade\";\n  categoryToHtml(Context.sample.patient.preTriageResult.categoryId);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ]
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "exposeAs" : "sample",
+                            "getItemsFn" : {
+                              "@class" : "Script",
+                              "content" : "import { getPatientSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientSamples(Context.patient.samples);",
+                              "language" : "TypeScript"
+                            },
+                            "itemKey" : "time",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "timing",
+                            "style" : { }
+                          },
+                          "type" : "For each"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "eye",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "''",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-modal', Context.patient.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "see",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "icon" : "undo",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { regenerateOne } from \"./UIfacade/patientGenFacade\";\n  regenerateOne(Context.patient.id)",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "regenerate",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "icon" : "trash",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { deleteOne } from \"./UIfacade/patientGenFacade\";\n\ndeleteOne(Context.patient.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "delete",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "className" : "line-actions",
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "patient actions",
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
-                        "exposeAs" : "sample",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getPatientSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientSamples(Context.patient.samples);",
-                          "language" : "TypeScript"
-                        },
-                        "itemKey" : "time",
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "timing",
-                        "style" : { }
-                      },
-                      "type" : "For each"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "icon" : "eye",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "''",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-modal', Context.patient.id);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "see",
-                            "style" : { }
-                          },
-                          "type" : "Button"
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "patient-line-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.genState.state.details;",
+                            "language" : "typescript"
+                          }
                         }, {
-                          "props" : {
-                            "icon" : "undo",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { regenerateOne } from \"./UIfacade/patientGenFacade\";\n  regenerateOne(Context.patient.id)",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
-                              }
-                            },
-                            "name" : "regenerate",
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        }, {
-                          "props" : {
-                            "icon" : "trash",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "\"\"",
-                              "language" : "TypeScript"
-                            },
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { deleteOne } from \"./UIfacade/patientGenFacade\";\n\ndeleteOne(Context.patient.id);",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "name" : "delete",
-                            "style" : { }
-                          },
-                          "type" : "Button"
+                          "applyOn" : "Outside",
+                          "className" : "patient-line-closed",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "!Context.genState.state.details;",
+                            "language" : "typescript"
+                          }
                         } ],
-                        "className" : "line-actions",
                         "layout" : { },
+                        "layoutClassName" : "line ",
                         "layoutStyle" : { },
-                        "name" : "patient actions",
+                        "name" : "entry",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Outside",
-                      "className" : "patient-line-open",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "Context.genState.state.details;",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Outside",
-                      "className" : "patient-line-closed",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "!Context.genState.state.details;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "layout" : { },
-                    "layoutClassName" : "line ",
+                    "className" : "",
+                    "exposeAs" : "patient",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientsSamples();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "fullSize",
                     "layoutStyle" : { },
-                    "name" : "entry",
-                    "style" : { }
+                    "name" : "patient",
+                    "style" : {
+                      "flex-shrink" : "1",
+                      "overflow" : "auto"
+                    }
                   },
-                  "type" : "FlexList"
+                  "type" : "For each"
                 } ],
-                "className" : "",
-                "exposeAs" : "patient",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientsSamples();",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "id",
+                "className" : "fullSize",
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "fullSize",
-                "layoutStyle" : { },
-                "name" : "patient",
-                "style" : {
-                  "flex-shrink" : "1",
-                  "overflow" : "auto"
-                }
+                "layoutStyle" : {
+                  "height" : "100%",
+                  "width" : "66vw"
+                },
+                "name" : "table"
               },
-              "type" : "For each"
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "header-button",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "'Add'",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "add",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "header-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "header-button--disabled",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "trash",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { resetAll } from \"./UIfacade/patientGenFacade\";\n\nresetAll();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "reset",
+                    "prefixedLabel" : false,
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "table-buttons",
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "buttons",
+                "style" : { }
+              },
+              "type" : "FlexList"
             } ],
             "className" : "fullSize",
             "layout" : {
-              "flexDirection" : "column"
+              "alignItems" : "flex-start"
             },
             "layoutClassName" : "fullSize",
             "layoutStyle" : { },

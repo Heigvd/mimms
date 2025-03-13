@@ -67,6 +67,10 @@
   width: 6vw;
 }
 
+.details-sex {
+  text-transform: uppercase;
+}
+
 .patientGenerationTagCategory {
   width: 1rem;
   height: 1rem;
