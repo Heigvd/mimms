@@ -35,7 +35,7 @@
           "flexDirection" : "column",
           "justifyContent" : "center"
         },
-        "layoutClassName" : "noPadding fullSize",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "height" : "100%"
         },
@@ -79,7 +79,9 @@
     "layoutStyle" : {
       "overflow" : "auto"
     },
-    "style" : { }
+    "style" : {
+      "width" : ""
+    }
   },
   "type" : "FlexList"
 }

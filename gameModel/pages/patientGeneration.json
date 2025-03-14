@@ -295,16 +295,17 @@
               "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "fullSize",
+                "className" : "",
                 "exposePageSizeAs" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
                   "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n    const generationState = getTypedGenState().status;\n        switch (generationState) {\n            case 'pathology-modal':\n            return 'PathologySelection';\n            case 'stats-modal':\n            return '15';\n            case 'generating-modal':\n            return '29';\n        }\n        ''",
                   "language" : "typescript"
                 },
-                "layoutClassName" : "fullSize",
+                "layoutClassName" : "",
                 "layoutStyle" : {
                   "flex-shrink" : "1",
+                  "height" : "100%",
                   "overflow" : "auto"
                 },
                 "name" : "patient generation",

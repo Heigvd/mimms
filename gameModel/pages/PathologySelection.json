@@ -130,12 +130,15 @@
       },
       "type" : "FlexList"
     } ],
-    "className" : "fullSize",
+    "className" : "",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding fullSize",
-    "layoutStyle" : { },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "width" : "100%"
+    },
     "style" : { }
   },
   "type" : "FlexList"
