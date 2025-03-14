@@ -990,9 +990,11 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding fullSize",
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
-      "overflow-x" : "auto"
+      "height" : "100%",
+      "overflow-x" : "auto",
+      "width" : "100%"
     },
     "style" : { }
   },
