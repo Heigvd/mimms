@@ -11,9 +11,15 @@ import {
 import { doPatientAutomaticTriage } from '../game/common/patients/pretriage';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { PatientState } from '../game/common/simulationState/patientState';
-import { getPriorityByCategoryId, STANDARD_CATEGORY } from '../game/pretri/triage';
+import {
+  getCategory,
+  getPriorityByCategoryId,
+  STANDARD_CATEGORY,
+  STANDARD_CATEGORY_ARRAY,
+} from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
 import { getPathologies } from '../HUMAn/registries';
+import { group } from '../tools/groupBy';
 import { entries, makeAsync } from '../tools/helper';
 import { patientGenerationLogger } from '../tools/logger';
 import {
@@ -48,20 +54,39 @@ interface PatientEntry {
 type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
+let patientsBodyParamsCache: Record<PatientId, BodyFactoryParam> = {};
 let cacheInitDone = false;
-
 
 /**
  * foreach adapter for all patients
  */
 export function getPatientsSamples(): PatientEntry[] {
-  const sortFunc = sortFunctions[getGenCtx().state.sort];
-  const params = getPatientsBodyFactoryParams();
+  const genCtx = getGenCtx();
+  const sortFunc = sortFunctions[genCtx?.state?.sort || 'priority'];
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
-      return { id: id, samples: ps, params: params[id]! };
+      return { id: id, samples: ps, params: patientsBodyParamsCache[id]! };
     })
     .sort(sortFunc);
+}
+
+export function getPatientTotal(): { id: STANDARD_CATEGORY; count: number }[] {
+  const t0 = getInitialTimeJumpSeconds();
+  const grouped = group(
+    getPatientsSamples(),
+    entry => entry.samples[t0]?.preTriageResult?.categoryId || ''
+  );
+  delete grouped['']; // remove any undefined category
+  const counts = Object.entries(grouped).map(([key, value]) => ({
+    id: key as STANDARD_CATEGORY,
+    count: value.length,
+  }));
+  STANDARD_CATEGORY_ARRAY.forEach(category => {
+    if (counts.findIndex(c => c.id === category) === -1) {
+      counts.push({ id: category, count: 0 });
+    }
+  });
+  return counts;
 }
 
 /**
@@ -85,16 +110,16 @@ export function getSampleTimesSec(): number[] {
 }
 
 export function resetAll(): void {
-  savePatients({});
   patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  savePatients();
   getGenCtx().setState(getDefaultGenerationState());
 }
 
 export function deleteOne(id: PatientId): void {
-  const patientsParams = getPatientsBodyFactoryParams();
   delete patientsSamplesCache[id];
-  delete patientsParams[id];
-  savePatients(patientsParams);
+  delete patientsBodyParamsCache[id];
+  savePatients();
 }
 
 export async function regenerateOne(id: PatientId): Promise<void> {
@@ -112,21 +137,21 @@ export async function regenerateOne(id: PatientId): Promise<void> {
     target[cat as STANDARD_CATEGORY] = 1;
   }
 
-  const patientsParams = getPatientsBodyFactoryParams();
   const { instance, bodyParams } = await makeAsync(
-    _ => bestEffortGenerate(patientsParams, target, MAX_RETRIES * 2),
+    _ => bestEffortGenerate(target, MAX_RETRIES * 2),
     {}
   );
   //keep old id
-  patientsParams[id] = bodyParams;
   instance.patientId = id;
-  updateCache(instance);
-  savePatients(patientsParams);
+  updateCache(instance, bodyParams);
+  savePatients();
 }
 
-export async function addPatientsAsync(
-  targetStats: InjuryCategoryStats
-): Promise<Record<PatientId, BodyFactoryParam>> {
+export function totalExistingPatients(): number {
+  return Object.values(getPatientsBodyFactoryParams()).length;
+}
+
+export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promise<void> {
   const t = Date.now();
   const genCtx = getGenCtx();
   const total = Object.values(targetStats).reduce((acc, v) => acc + v, 0);
@@ -137,39 +162,32 @@ export async function addPatientsAsync(
 
   const stillNeeded = Helpers.cloneDeep(targetStats);
 
-  const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
-
   const tasks: Promise<void>[] = [];
-  const genFunction = (ctx: GenerationCtx) =>
-    bestEffortGenerateAndStore(existingPatients, stillNeeded, ctx);
+  const genFunction = (ctx: GenerationCtx) => bestEffortGenerateAndStore(stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx));
+    tasks.push(makeAsync(genFunction, genCtx, i));
   }
   await Promise.all(tasks);
 
-  savePatients(existingPatients);
+  savePatients();
   patientGenerationLogger.info('Generation duration', Date.now() - t);
   genCtx.setState(getDefaultGenerationState());
-  return existingPatients;
 }
 
 export function initCache(force: boolean = false): void {
   if (cacheInitDone && !force) return;
   const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
   for (const id in existingPatients) {
-    const ps = instantiateAndPretriage(id, existingPatients[id]!);
-    updateCache(ps);
+    const params = existingPatients[id]!;
+    const ps = instantiateAndPretriage(id, params);
+    updateCache(ps, params);
   }
   cacheInitDone = true;
 }
 
-function bestEffortGenerateAndStore(
-  patients: Record<PatientId, BodyFactoryParam>,
-  remaining: InjuryCategoryStats,
-  genCtx: GenerationCtx
-) {
-  let { instance, bodyParams } = bestEffortGenerate(patients, remaining, MAX_RETRIES);
+function bestEffortGenerateAndStore(remaining: InjuryCategoryStats, genCtx: GenerationCtx) {
+  const { instance, bodyParams } = bestEffortGenerate(remaining, MAX_RETRIES);
 
   const cat = instance.preTriageResult?.categoryId as STANDARD_CATEGORY;
   if (!cat) {
@@ -177,8 +195,7 @@ function bestEffortGenerateAndStore(
   }
   remaining[cat] = (remaining[cat] || 0) - 1;
   patientGenerationLogger.info(remaining);
-  patients[instance.patientId] = bodyParams;
-  updateCache(instance);
+  updateCache(instance, bodyParams);
   incrementGenerated(genCtx);
 }
 
@@ -193,27 +210,26 @@ function incrementGenerated(genState: GenerationCtx): void {
  * Generates a random patients until one fits in the stats
  */
 function bestEffortGenerate(
-  patients: Record<PatientId, BodyFactoryParam>,
   remaining: InjuryCategoryStats,
   maxAttempts: number
 ): { instance: PatientState; bodyParams: BodyFactoryParam } {
-  let { instance, bodyParams } = generateOnePatientAndTriage(patients);
+  let { instance, bodyParams } = generateOnePatientAndTriage();
 
   for (let r = 0; r < maxAttempts; r++) {
     const cat = instance.preTriageResult?.categoryId as STANDARD_CATEGORY;
     if (cat && remaining[cat] > 0) {
       break;
     }
-    ({ instance, bodyParams } = generateOnePatientAndTriage(patients));
+    ({ instance, bodyParams } = generateOnePatientAndTriage());
   }
   return { instance, bodyParams };
 }
 
-function generateOnePatientAndTriage(patients: Record<PatientId, BodyFactoryParam>): {
+function generateOnePatientAndTriage(): {
   instance: PatientState;
   bodyParams: BodyFactoryParam;
 } {
-  const { uid, params } = generateRandomPatient(patients);
+  const { uid, params } = generateRandomPatient(patientsBodyParamsCache);
   const patientState = instantiateAndPretriage(uid, params);
   return {
     bodyParams: params,
@@ -250,7 +266,7 @@ function instantiateAndPretriage(id: string, params: BodyFactoryParam): PatientS
  * Builds snapshots of patients at required times
  * startInstance is expected to be at T0 (after initial time interval elapsed)
  */
-function updateCache(startInstance: PatientState): void {
+function updateCache(startInstance: PatientState, body: BodyFactoryParam): void {
   const id: PatientId = startInstance.patientId;
   const entry: PatientSamples = {};
   let sampleInstance = startInstance;
@@ -264,17 +280,49 @@ function updateCache(startInstance: PatientState): void {
     entry[t] = sampleInstance;
   }
   patientsSamplesCache[id] = entry;
+  patientsBodyParamsCache[id] = body;
 }
 
 // INTERFACE STATE ============================================================
+type ModalState =
+  | 'patient-list'
+  | 'pathology-modal'
+  | 'stats-modal'
+  | 'patient-modal'
+  | 'generating-modal';
 interface PatientGenerationState {
-  status: 'patient-list' | 'pathology-modal' | 'stats-modal' | 'patient-modal' | 'generating-modal';
+  status: ModalState;
   sort: SortType;
   generation: {
     pending: number;
     generated: number;
     target: InjuryCategoryStats;
   };
+  patientId: string;
+  details: boolean;
+}
+
+export function setModalState(modalState: ModalState, patientId: PatientId = ''): void {
+  const ctx = getGenCtx();
+  const newState = Helpers.cloneDeep(ctx.state);
+  newState.status = modalState;
+  newState.patientId = patientId;
+  ctx.setState(newState);
+}
+
+export function setGenerationValue(category: STANDARD_CATEGORY, qty: number): void {
+  const ctx = getGenCtx();
+  const newState = Helpers.cloneDeep(ctx.state);
+  newState.generation.target[category] = qty;
+  newState.generation.pending = Object.values(newState.generation.target).reduce(
+    (acc, v) => acc + v,
+    0
+  );
+  ctx.setState(newState);
+}
+
+export function totalPendingPatients() {
+  return getTypedGenState()?.generation?.pending || 0;
 }
 
 export function getDefaultGenerationState(): PatientGenerationState {
@@ -291,7 +339,20 @@ export function getDefaultGenerationState(): PatientGenerationState {
         urgent: 0,
       },
     },
+    patientId: '',
+    details: false,
   };
+}
+
+export function getPatientModalData(selectedTime: number | undefined = undefined) {
+  const mainState = getTypedGenState();
+  const time = selectedTime || getInitialTimeJumpSeconds();
+  const patient = patientsSamplesCache[mainState.patientId]![time];
+  return { ...patient, observedBlock: '' };
+}
+
+export function setPatientModalData(selectedTime: number | undefined = undefined) {
+  Context.currentPatient.setState(getPatientModalData(selectedTime));
 }
 
 export function getTypedGenState(): PatientGenerationState {
@@ -307,9 +368,25 @@ function getGenCtx(): GenerationCtx {
   return Context.genState as GenerationCtx;
 }
 
-function savePatients(patients: Record<PatientId, BodyFactoryParam>): void {
+function savePatients(): void {
   const patientDesc = Variable.find(gameModel, 'patients');
-  saveToObjectDescriptor(patientDesc, patients);
+  saveToObjectDescriptor(patientDesc, patientsBodyParamsCache);
+}
+
+/**
+ * Html formated pre-triage category
+ */
+export function categoryToHtml(categoryId: string | undefined): string {
+  if (!categoryId) {
+    return `<div class='tagCategory notCategorized'></div>`;
+  }
+
+  const cat = getCategory(categoryId)?.category;
+  if (cat) {
+    return `<div class='patientGenerationTagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}"></div>`;
+  } else {
+    return `Error: unresolved category: ${categoryId}`;
+  }
 }
 
 // PATHOLOGIES =================================================================

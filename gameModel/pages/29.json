@@ -1,0 +1,87 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "patient-modal__title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"Currently generating ...\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "patient-modal__text",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTypedGenState, totalPendingPatients } from \"./UIfacade/patientGenFacade\";\n  const generated = getTypedGenState()?.generation?.generated || 0;\n\"Patient \" + generated + \" out of \" + totalPendingPatients() + \" is being generated\";",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "flexDirection" : "column",
+          "justifyContent" : "center"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%"
+        },
+        "name" : "content",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "button-S button-primaryColor",
+            "label" : {
+              "@class" : "Script",
+              "content" : "'cancel'",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "cancel",
+            "style" : {
+              "margin-top" : "24px"
+            }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "justifyContent" : "flex-end"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "button",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding fullSize",
+    "layoutStyle" : {
+      "overflow" : "auto"
+    },
+    "style" : {
+      "width" : ""
+    }
+  },
+  "type" : "FlexList"
+}

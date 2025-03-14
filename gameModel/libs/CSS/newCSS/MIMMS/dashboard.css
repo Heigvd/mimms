@@ -18,9 +18,6 @@
   margin-left: 12vw;
 }
 
-.accordion-state * {
-  padding: 0;
-}
 
 /* - - a n i m a t i o n s - - */
 div .button-closed-locations {
@@ -69,18 +66,13 @@ div .button-closed-locations {
 
 
 /* - - - - H E A D E R - - - - */
-.header {
+.dashboard-header {
   height: 35px;
   align-items: center;
 }
 
 /* - - a n i m a t i o n s - - */
-.header-open {
-  opacity: 100%;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.header-text {
+.dashboard-header-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   text-transform: uppercase;
@@ -94,33 +86,6 @@ div .button-closed-locations {
 }
 
 /* - - i m p a c t s - - */
-.header-button {
-  display: flex;
-  align-items: center;
-  height: 25px;
-  padding: 5px;
-  border: 1px solid var(--primary_base);
-  border-radius: 5px;
-  background-color: transparent;
-  font-size: var(--S_text);
-  font-weight: var(--boldWeight);
-  text-transform: uppercase;
-  color: var(--primary_base);
-}
-
-.header-button:hover {
-  color: var(--primary_70);
-  border: 1px solid var(--primary_70);
-  background-color: transparent;
-}
-
-.header-button.disabled {
-  color: var(--grey_30);
-  border: 1px solid var(--grey_30);
-  background-color: transparent;
-  pointer-events: none;
-}
-
 .play-pause-icon {
   display: flex;
   justify-content: center;
@@ -239,17 +204,6 @@ div .button-closed-locations {
 
 
 /* - - - - L I N E - - - - */
-
-.line {
-  min-height: 38.4px;
-  border-radius: 10px;
-  background-color: var(--grey_10);
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: var(--SM_text);
-  font-weight: 900;
-  color: var(--grey_base);
-}
 
 .line .play-pause-icon-focus {
   background-color: var(--grey_base);

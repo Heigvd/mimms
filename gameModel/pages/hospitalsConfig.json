@@ -100,7 +100,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "hospital-header-name",
+                                "className" : "header-left-cell",
                                 "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
@@ -115,7 +115,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "hospital-header-text",
+                                "className" : "header-text",
                                 "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
                                 "name" : "shortName",
@@ -129,7 +129,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "hospital-header-text",
+                                "className" : "header-text",
                                 "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
                                 "name" : "preposition",
@@ -143,7 +143,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "hospital-header-text",
+                                "className" : "header-text",
                                 "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
                                 "name" : "distance",
@@ -157,7 +157,7 @@
                               "type" : "Text"
                             }, {
                               "props" : {
-                                "className" : "hospital-header-text",
+                                "className" : "header-text",
                                 "layoutClassName" : "header-text-container",
                                 "layoutStyle" : { },
                                 "name" : "proximity",
@@ -193,7 +193,7 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "hospital-header-text",
+                                        "className" : "header-text",
                                         "layoutClassName" : "header-text-container",
                                         "layoutStyle" : { },
                                         "name" : "services",
@@ -335,7 +335,7 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "team-text",
+                                        "className" : "line-left-cell",
                                         "layoutStyle" : {
                                           "align-items" : "center"
                                         },
