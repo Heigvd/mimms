@@ -10,7 +10,7 @@ import {
   ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { doPatientAutomaticTriage } from '../patients/pretriage';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -57,7 +57,7 @@ export class PreTriageTask extends TaskBase {
     timeJump: number
   ): void {
     if (getTaskCurrentStatus(state, this.Uid) === 'Uninitialized') {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'OnGoing')
       );
     }
@@ -93,15 +93,15 @@ export class PreTriageTask extends TaskBase {
     );
 
     if (getNonPreTriagedPatientsSize(state, this.locationSource) === 0) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
       );
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
       );
 
       // We broadcast a message that task is completed (recipient = 0)
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           0,
           state.getSimTime(),

@@ -37,7 +37,7 @@ import {
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
-import { localEventManager } from './common/localEvents/localEventManager';
+import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
 import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { Resource } from './common/resources/resource';
@@ -314,7 +314,7 @@ function processEvent(event: FullEvent<TimedEventPayload>): void {
 
   try {
     convertToLocalEventAndQueue(event);
-    const newState = localEventManager.processPendingEvents(currentSimulationState, event.id);
+    const newState = getLocalEventManager().processPendingEvents(currentSimulationState, event.id);
     if (newState.stateCount !== currentSimulationState?.stateCount) {
       mainSimLogger.info('updating current state', newState.stateCount);
       currentSimulationState = newState;
@@ -348,11 +348,11 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
             const localEvent = actionTemplate.buildLocalEvent(
               event as FullEvent<ActionCreationEvent>
             );
-            localEventManager.queueLocalEvent(localEvent);
+            getLocalEventManager().queueLocalEvent(localEvent);
           } else {
             // notify!
             const ownerId = event.payload.emitterCharacterId as ActorId;
-            localEventManager.queueLocalEvent(
+            getLocalEventManager().queueLocalEvent(
               new AddNotificationLocalEvent(
                 event.id,
                 getCurrentState().getSimTime(),
@@ -389,7 +389,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
             event.payload.actorId,
             event.payload.timeStamp
           );
-          localEventManager.queueLocalEvent(localEvent);
+          getLocalEventManager().queueLocalEvent(localEvent);
         }
       }
       break;
@@ -415,7 +415,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
               involved,
               TimeSliceDuration
             );
-            localEventManager.queueLocalEvent(timefwdEvent);
+            getLocalEventManager().queueLocalEvent(timefwdEvent);
           }
         }
       }
@@ -427,7 +427,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
           event.payload.triggerTime,
           event.payload.involvedActors
         );
-        localEventManager.queueLocalEvent(timefwdEvent);
+        getLocalEventManager().queueLocalEvent(timefwdEvent);
       }
       break;
     case 'DashboardRadioMessageEvent': {
@@ -442,7 +442,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
         event.payload.canal,
         true
       );
-      localEventManager.queueLocalEvent(radioMessageEvent);
+      getLocalEventManager().queueLocalEvent(radioMessageEvent);
       break;
     }
 
@@ -461,7 +461,7 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
             payload.message,
             true
           );
-          localEventManager.queueLocalEvent(notificationMessageEvent);
+          getLocalEventManager().queueLocalEvent(notificationMessageEvent);
         }
       });
       break;

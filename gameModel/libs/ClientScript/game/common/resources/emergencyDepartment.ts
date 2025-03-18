@@ -14,7 +14,7 @@ import {
   AddRadioMessageLocalEvent,
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
@@ -246,7 +246,7 @@ export function resolveResourceRequest(
           n,
           c.name
         );
-        localEventManager.queueLocalEvent(evt);
+        getLocalEventManager().queueLocalEvent(evt);
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
     });
@@ -285,7 +285,7 @@ function queueResourceDepartureRadioMessageEvents(
       RadioType.CASU,
       true
     );
-    localEventManager.queueLocalEvent(evt);
+    getLocalEventManager().queueLocalEvent(evt);
   });
 }
 

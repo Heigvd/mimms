@@ -1,4 +1,4 @@
-import { localEventManager } from '../game/common/localEvents/localEventManager';
+import { getLocalEventManager } from '../game/common/localEvents/localEventManager';
 import { runUpdateLoop } from '../game/mainSimulationLogic';
 
 export function triggerEventLoop() {
@@ -14,7 +14,9 @@ export function triggerEventLoop() {
 
 export function getAllLocalEvents() {
   let counter = 0;
-  return localEventManager.getProcessedEvents().map(pe => {
-    return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
-  });
+  return getLocalEventManager()
+    .getProcessedEvents()
+    .map(pe => {
+      return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
+    });
 }

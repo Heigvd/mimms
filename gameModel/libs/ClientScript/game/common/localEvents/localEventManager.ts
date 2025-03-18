@@ -53,7 +53,12 @@ export class LocalEventManager {
 }
 
 // will be initialized as soon as all scripts have been evaluated
-export let localEventManager: LocalEventManager = undefined as unknown as LocalEventManager;
+let localEventManager: LocalEventManager = undefined as unknown as LocalEventManager;
 Helpers.registerEffect(() => {
   localEventManager = new LocalEventManager();
 });
+
+// TODO get from proper context
+export function getLocalEventManager(): LocalEventManager {
+  return localEventManager;
+}

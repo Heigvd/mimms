@@ -19,7 +19,7 @@ import {
   MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
@@ -135,14 +135,14 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     state: Readonly<MainSimulationState>,
     subTask: EvacuationSubTask
   ) {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent(subTask.parentEventId, state.getSimTime(), subTask.patientId, {
         kind: 'FixedMapEntity',
         locationId: LOCATION_ENUM.remote,
       })
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveResourcesLocalEvent(
         subTask.parentEventId,
         state.getSimTime(),
@@ -157,7 +157,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     state: Readonly<MainSimulationState>,
     subTask: EvacuationSubTask
   ) {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent(subTask.parentEventId, state.getSimTime(), subTask.patientId, {
         kind: 'Hospital',
         locationId: subTask.hospitalId,
@@ -166,7 +166,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     );
     if (subTask.doResourcesComeBack) {
       // Send radio message on CASU about time needed to come back to incident when arriving at hospital
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           subTask.parentEventId,
           state.getSimTime(),
@@ -198,7 +198,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     state: Readonly<MainSimulationState>,
     subTask: EvacuationSubTask
   ) {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveResourcesAtArrivalLocationLocalEvent(
         subTask.parentEventId,
         state.getSimTime(),
@@ -206,7 +206,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       )
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent(
         subTask.parentEventId,
         state.getSimTime(),
