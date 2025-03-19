@@ -10,6 +10,7 @@ export function getIdleTaskUid(state: Readonly<MainSimulationState>): TaskId {
 }
 
 export function getIdleTask(state: Readonly<MainSimulationState>): TaskBase {
+  wlog(state);
   return state
     .getInternalStateObject()
     .tasks.find((task: TaskBase) => task instanceof WaitingTask)!;

@@ -15,6 +15,7 @@ import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { DashboardTeamGameState, makeReducedState } from '../../../dashboard/dashboardState';
+import { GameOptions } from '../gameOptions';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -40,9 +41,6 @@ export class MainSimulationState implements IClonable {
   public getLastEventId() {
     return this.lastEventId;
   }
-  public static resetStateCounter() {
-    MainSimulationState.stateCounter = 0;
-  }
 
   public constructor(
     state: MainStateObject,
@@ -54,6 +52,10 @@ export class MainSimulationState implements IClonable {
     this.simulationTimeSec = simTime;
     this.lastEventId = lastEventId;
     this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
+    if (!timeFrame) {
+      // no time frame means it is the initial state build
+      MainSimulationState.stateCounter = 0;
+    }
     this.stateCount = MainSimulationState.stateCounter++;
   }
 
@@ -79,6 +81,13 @@ export class MainSimulationState implements IClonable {
    * Only use this function if you will not modify the state or while applying an event
    */
   public getInternalStateObject(): Readonly<MainStateObject> {
+    return this.internalState;
+  }
+
+  /**
+   * Returns a mutable state object, only use when applying an event
+   */
+  public getInternalStateObjectUnsafe(): MainStateObject {
     return this.internalState;
   }
 
@@ -202,6 +211,13 @@ export class MainSimulationState implements IClonable {
   public getRadioMessages(): RadioMessage[] {
     return this.internalState.radioMessages;
   }
+
+  /**
+   * @ returns true if resources respect hierarchy
+   */
+  public getRespectHierarchyValue(): boolean {
+    return this.internalState.gameOptions.respectHierarchy;
+  }
 }
 
 export interface MainStateObject {
@@ -222,4 +238,5 @@ export interface MainStateObject {
   resourceContainers: ResourceContainerConfig[];
   flags: Partial<Record<SimFlag, boolean>>;
   hospital: HospitalState;
+  gameOptions: GameOptions;
 }

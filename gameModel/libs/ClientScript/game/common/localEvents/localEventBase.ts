@@ -30,6 +30,7 @@ import {
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { GameOptions } from '../gameOptions';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -1041,6 +1042,26 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
         true
       )
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// GAME OPTIONS
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class GameOptionsUpdateLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    private readonly options: GameOptions
+  ) {
+    super(parentEventId, 'GameOptionsUpdateLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.getInternalStateObjectUnsafe().gameOptions = this.options;
   }
 }
 

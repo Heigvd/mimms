@@ -1,9 +1,9 @@
+import { getStartingMainState } from '../game/common/simulationState/loaders/mainStateLoader';
 import {
   MainSimulationState,
   MainStateObject,
 } from '../game/common/simulationState/mainSimulationState';
 import { PatientState } from '../game/common/simulationState/patientState';
-import { buildStartingMainState } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 
 type PatientReducedState = Omit<PatientState, 'humanBody'>;
@@ -85,7 +85,7 @@ export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGame
     } catch (e) {
       // Assumption : happens when the initial state has not been uploaded yet by any player
       if (!initialState) {
-        initialState = buildStartingMainState().getReducedState();
+        initialState = getStartingMainState().getReducedState();
       }
       result[tid] = initialState;
     }

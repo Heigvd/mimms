@@ -1,24 +1,16 @@
 /**
  * Setup function
  */
-import { updateLastState } from '../dashboard/dashboardState';
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
-import { ActionBase } from './common/actions/actionBase';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
-import { Actor } from './common/actors/actor';
 import { ActorId, TemplateId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
-import {
-  BuildingStatus,
-  GeometryBasedFixedMapEntity,
-  PointGeometricalShape,
-} from './common/events/defineMapObjectEvent';
 import {
   ActionCancellationEvent,
   ActionCreationEvent,
@@ -28,39 +20,32 @@ import {
   TimeForwardCancelEvent,
   TimeForwardEvent,
 } from './common/events/eventTypes';
-import { compareTimedEvents, FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
-import { GameOptions, getCurrentGameOptions } from './common/gameOptions';
+import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
+import { getCurrentGameOptions } from './common/gameOptions';
 import {
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   CancelActionLocalEvent,
+  GameOptionsUpdateLocalEvent,
+  LocalEventBase,
   TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
-import { loadPatients } from './common/patients/handleState';
-import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
-import { Resource } from './common/resources/resource';
-import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
-import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
-import { SubTask } from './common/tasks/subTask';
-import { HealingTask, TaskBase } from './common/tasks/taskBase';
-import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
-import { PorterTask } from './common/tasks/taskBasePorter';
-import { PreTriageTask } from './common/tasks/taskBasePretriage';
-import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { createPlayerContext, getCurrentExecutionContext } from './gameExecutionContextController';
 
-let currentSimulationState: MainSimulationState;
-let stateHistory: MainSimulationState[];
+//let currentSimulationState: MainSimulationState;
+//let stateHistory: MainSimulationState[];
 
 let actionTemplates: Record<string, ActionTemplateBase>;
-let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
+//let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
 
 let uniqueActionTemplates: IUniqueActionTemplates;
 
-export let gameOptions: GameOptions;
+//export let gameOptions: GameOptions;
 
+/*
 Helpers.registerEffect(() => {
   currentSimulationState = buildStartingMainState();
   stateHistory = [currentSimulationState];
@@ -80,257 +65,41 @@ Helpers.registerEffect(() => {
 function queueAutomaticEvents() {
   // empty for now
 }
+*/
 
-export function buildStartingMainState(): MainSimulationState {
-  // TODO read all simulation parameters to build start state and initialize the whole simulation
-  gameOptions = getCurrentGameOptions();
-
-  const testAL = new Actor('AL', LOCATION_ENUM.chantier);
-  const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
-
-  const mainAccident = new GeometryBasedFixedMapEntity(
-    0,
-    'location-chantier',
-    LOCATION_ENUM.chantier,
-    [],
-    new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]),
-    BuildingStatus.ready,
-    'mainAccident'
-  );
-
-  const taskPretriChantier = new PreTriageTask(
-    'pre-tri-title',
-    'pre-tri-desc',
-    'pretriage-task-completed',
-    1,
-    5,
-    'AL',
-    LOCATION_ENUM.chantier,
-    []
-  );
-
-  const taskPretriPMA = new PreTriageTask(
-    'pre-tri-title',
-    'pre-tri-desc',
-    'pretriage-task-completed',
-    1,
-    5,
-    'AL',
-    LOCATION_ENUM.PMA,
-    []
-  );
-
-  const taskPretriNidDeBlesses = new PreTriageTask(
-    'pre-tri-title',
-    'pre-tri-desc',
-    'pretriage-task-completed',
-    1,
-    5,
-    'AL',
-    LOCATION_ENUM.nidDeBlesses,
-    []
-  );
-
-  const taskBrancardageChantier = new PorterTask(
-    'brancardage-title',
-    'porter-desc',
-    'porters-task-chantier-completed',
-    'porters-task-no-target-location',
-    LOCATION_ENUM.chantier,
-    2,
-    100,
-    'AL',
-    []
-  );
-
-  const taskBrancardageNidDeBlesses = new PorterTask(
-    'brancardage-title',
-    'porter-desc',
-    'porters-task-nid-completed',
-    'porters-task-no-target-location',
-    LOCATION_ENUM.nidDeBlesses,
-    2,
-    100,
-    'AL',
-    []
-  );
-
-  const taskHealing = new HealingTask(
-    'healing-title',
-    'healing-desc',
-    1,
-    100,
-    'AL',
-    [LOCATION_ENUM.nidDeBlesses, LOCATION_ENUM.chantier],
-    []
-  );
-
-  const taskHealingRed = new HealingTask(
-    'healing-pma-red-title',
-    'healing-pma-red-desc',
-    1,
-    100,
-    'LEADPMA',
-    [LOCATION_ENUM.PMA],
-    [],
-    1
-  );
-
-  const taskHealingYellow = new HealingTask(
-    'healing-pma-yellow-title',
-    'healing-pma-yellow-desc',
-    1,
-    100,
-    'LEADPMA',
-    [LOCATION_ENUM.PMA],
-    [],
-    2
-  );
-
-  const taskHealingGreen = new HealingTask(
-    'healing-pma-green-title',
-    'healing-pma-green-desc',
-    1,
-    100,
-    'LEADPMA',
-    [LOCATION_ENUM.PMA],
-    [],
-    3
-  );
-
-  const taskEvacuation = new EvacuationTask(
-    'evacuate-title',
-    'evacuate-desc',
-    1,
-    100000,
-    'EVASAN',
-    [LOCATION_ENUM.ambulancePark, LOCATION_ENUM.helicopterPark],
-    []
-  );
-
-  const taskWaiting = new WaitingTask(
-    'waiting-title',
-    'waiting-task-desc',
-    1,
-    10000,
-    'AL',
-    [
-      LOCATION_ENUM.chantier,
-      LOCATION_ENUM.PMA,
-      LOCATION_ENUM.pcFront,
-      LOCATION_ENUM.PC,
-      LOCATION_ENUM.ambulancePark,
-      LOCATION_ENUM.helicopterPark,
-    ],
-    []
-  );
-
-  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, taskWaiting.Uid)];
-
-  MainSimulationState.resetStateCounter();
-
-  return new MainSimulationState(
-    {
-      actions: [],
-      cancelledActions: [],
-      actors: [testAL, testCASU],
-      mapLocations: [mainAccident],
-      patients: loadPatients(),
-      tasks: [
-        taskWaiting,
-        taskPretriChantier,
-        taskPretriPMA,
-        taskPretriNidDeBlesses,
-        taskBrancardageChantier,
-        taskBrancardageNidDeBlesses,
-        taskHealing,
-        taskHealingRed,
-        taskHealingYellow,
-        taskHealingGreen,
-        taskEvacuation,
-      ],
-      radioMessages: [],
-      resources: initialResources,
-      resourceContainers: loadEmergencyResourceContainers(),
-      flags: {},
-      hospital: {},
-    },
-    0,
-    0
-  );
-}
+let initializationComplete = false;
 
 /**
  * Checks for new events and applies them to the state
- * Forces rerendering if any changes ?
+ * This should be called on player side only
  */
 export function runUpdateLoop(): void {
-  // get all events
+  if (!initializationComplete) {
+    ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+    createPlayerContext();
+    initializationComplete = true;
+    mainSimLogger.info('------ STATE INIT DONE ------');
+  }
+
+  const playerCtx = getCurrentExecutionContext();
   const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
-  setPreviousReferenceState(currentSimulationState);
-  // filter out non processed events
-  // and filter out ignored events (if a previous state was restored)
+  setPreviousReferenceState(playerCtx.getCurrentState());
+
+  // filter out omitted events (if a previous state was restored)
   const ignored = getOmittedEvents();
-  const unprocessed = globalEvents.filter(e => !processedEvents[e.id] && !ignored[e.id]);
+  const filteredEvents = globalEvents.filter(e => !ignored[e.id]);
 
-  const sorted = unprocessed.sort(compareTimedEvents);
-
-  // process all candidate events
-  sorted.forEach(event => {
-    mainSimLogger.info('Processing event ', event);
-    processEvent(event);
-  });
-
-  // update last state variable for dashboard
-  updateLastState(currentSimulationState);
+  playerCtx.processEvents(filteredEvents, convertToLocalEvent);
+  mainSimLogger.info('Event loop done');
 }
 
-/**
- * Processes one global event and computes a new resulting state
- * The new state is appended to the history
- * The event is ignored if it doesn't match with the current simulation time
- * @param event the global event to process
- */
-function processEvent(event: FullEvent<TimedEventPayload>): void {
-  const now = currentSimulationState.getSimTime();
-  if (!event.payload.dashboardForced) {
-    if (event.payload.triggerTime < now) {
-      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-      mainSimLogger.warn(
-        'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
-      );
-      return;
-    } else if (event.payload.triggerTime > now) {
-      mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
-      mainSimLogger.warn('This event will be processed later');
-      return;
-    }
-  } else {
-    // from trainer
-    mainSimLogger.info('Trainer event', event);
-    event.payload.triggerTime = now;
-  }
-
-  try {
-    convertToLocalEventAndQueue(event);
-    const newState = getLocalEventManager().processPendingEvents(currentSimulationState, event.id);
-    if (newState.stateCount !== currentSimulationState?.stateCount) {
-      mainSimLogger.info('updating current state', newState.stateCount);
-      currentSimulationState = newState;
-      stateHistory.push(newState);
-    }
-  } catch (error) {
-    mainSimLogger.error('Error while processing event', event, error);
-  }
-
-  processedEvents[event.id] = event;
-}
 /**
  * converts a global event to local events and enqueue them for later evaluation
  * @param event a received global event
  */
-function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void {
+export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalEventBase[] {
+  const localEvents: LocalEventBase[] = [];
   switch (event.payload.type) {
     case 'ActionCreationEvent':
       {
@@ -406,7 +175,9 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
         } else {
           // if event is forced, take all actors regardless
           const involved = event.payload.dashboardForced
-            ? currentSimulationState.getAllActors().map(a => a.Uid)
+            ? getCurrentState()
+                .getAllActors()
+                .map(a => a.Uid)
             : event.payload.involvedActors;
           for (let i = 0; i < timeJump; i += TimeSliceDuration) {
             const timefwdEvent = new TimeForwardLocalEvent(
@@ -450,7 +221,9 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const payload = event.payload;
       payload.roles.forEach(role => {
-        const actorId = currentSimulationState.getAllActors().find(a => a.Role === role)?.Uid;
+        const actorId = getCurrentState()
+          .getAllActors()
+          .find(a => a.Role === role)?.Uid;
         if (actorId) {
           const notificationMessageEvent = new AddNotificationLocalEvent(
             event.id,
@@ -467,8 +240,12 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       break;
     }
     case 'GameOptionsEvent': {
-      const options = event.payload.options;
-      gameOptions = options;
+      const optionChange = new GameOptionsUpdateLocalEvent(
+        event.id,
+        event.payload.triggerTime,
+        event.payload.options
+      );
+      getLocalEventManager().queueLocalEvent(optionChange);
       break;
     }
     default:
@@ -479,16 +256,17 @@ function convertToLocalEventAndQueue(event: FullEvent<TimedEventPayload>): void 
       }
       break;
   }
+  return localEvents;
 }
 
 export function fetchAvailableActions(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION
 ): ActionTemplateBase[] {
-  const actor = currentSimulationState.getActorById(actorId);
+  const actor = getCurrentState().getActorById(actorId);
   if (actor) {
     return Object.values(actionTemplates).filter(
-      at => at.isAvailable(currentSimulationState, actor) && at.isInCategory(actionType)
+      at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
     );
   } else {
     mainSimLogger.warn('Actor not found. id = ', actorId);
@@ -509,10 +287,10 @@ export async function buildAndLaunchActionFromTemplate(
   selectedActor: ActorId,
   params: any
 ): Promise<IManagedResponse | undefined> {
-  const actor = currentSimulationState.getActorById(selectedActor);
+  const actor = getCurrentState().getActorById(selectedActor);
 
   if (actTemplate && actor) {
-    const evt = actTemplate.buildGlobalEvent(currentSimulationState.getSimTime(), actor, params);
+    const evt = actTemplate.buildGlobalEvent(getCurrentState().getSimTime(), actor, params);
     return await sendEvent(evt);
   } else {
     mainSimLogger.error('Undefined template or actor', actTemplate, selectedActor);
@@ -527,14 +305,15 @@ export async function buildAndLaunchActionCancellation(
     .getAllActions()
     .find(a => a.getTemplateId() === templateId && a.ownerId === selectedActor);
 
+  const simTime = getCurrentState().getSimTime();
   if (action && selectedActor) {
     const cancellationEvent: ActionCancellationEvent = {
       ...initBaseEvent(0),
-      triggerTime: currentSimulationState.getSimTime(),
+      triggerTime: simTime,
       type: 'ActionCancellationEvent',
       templateId: templateId,
       actorId: selectedActor,
-      timeStamp: getCurrentState().getSimTime(),
+      timeStamp: simTime,
     };
 
     return await sendEvent(cancellationEvent);
@@ -548,6 +327,7 @@ export async function buildAndLaunchActionCancellation(
  * @returns managed response
  */
 export async function triggerTimeForward(): Promise<IManagedResponse> {
+  const currentSimulationState = getCurrentState();
   const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
 
   const tf: TimeForwardEvent = {
@@ -565,6 +345,7 @@ export async function triggerTimeForward(): Promise<IManagedResponse> {
  * Cancel a pending time forward
  */
 export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
+  const currentSimulationState = getCurrentState();
   const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
   const tfc: TimeForwardCancelEvent = {
     ...initBaseEvent(0),
@@ -581,10 +362,9 @@ export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
  */
 export async function initGameOptions(): Promise<IManagedResponse> {
   const options = getCurrentGameOptions();
-
   const go: GameOptionsEvent = {
     ...initBaseEvent(0),
-    triggerTime: currentSimulationState.getSimTime(),
+    triggerTime: 0,
     options: options,
     type: 'GameOptionsEvent',
   };
@@ -593,9 +373,10 @@ export async function initGameOptions(): Promise<IManagedResponse> {
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {
-  return currentSimulationState;
+  return getCurrentExecutionContext().getCurrentState();
 }
 
+/*
 export function recomputeState() {
   mainSimLogger.info('Reinitialize state');
   processedEvents = {};
@@ -616,29 +397,26 @@ export function recomputeState() {
   mainSimLogger.info('reset done');
   runUpdateLoop();
 }
+*/
 
 /**** DEBUG TOOLS SECTION ***/
 
 export function getStateHistory() {
-  return stateHistory;
+  return getCurrentExecutionContext().getStateHistory();
 }
 
 /*
- function that resets the game state to a previously stored one
+ Restores the game state to a previously stored one
+ this mutates the state history of the execution context
  */
-export async function setCurrentStateDebug(stateId: number | undefined) {
-  const idx = stateHistory.findIndex(s => s.stateCount == stateId);
-  if (idx < 0) {
-    mainSimLogger.warn('state not found, cannot restore state with id', stateId);
-    return;
-  }
-  currentSimulationState = stateHistory[idx]!;
-  stateHistory = stateHistory.slice(0, idx + 1);
+export async function setCurrentStateDebug(stateId: number) {
+  const execContext = getCurrentExecutionContext();
+  execContext.restoreState(stateId);
 
   // store the events that have to be omitted when recomputing the state
   // i.e. the events that occured after the restored state
   const ignored = getOmittedEvents();
-  const lastEvtId = currentSimulationState.getLastEventId();
+  const lastEvtId = execContext.getCurrentState().getLastEventId();
   const all = getAllEvents();
   let i = all.length - 1;
   while (i > 0 && all[i]?.id !== lastEvtId) {

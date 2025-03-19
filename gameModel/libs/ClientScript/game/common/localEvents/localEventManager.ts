@@ -1,5 +1,6 @@
 import { Heap } from '../../../tools/heap';
 import { localEventManagerLogger } from '../../../tools/logger';
+import { getCurrentExecutionContext } from '../../gameExecutionContextController';
 import { SimTime } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { compareLocalEvents, LocalEventBase } from './localEventBase';
@@ -18,6 +19,10 @@ export class LocalEventManager {
 
   public queueLocalEvent(event: LocalEventBase) {
     this.pendingEvents.insert(event);
+  }
+
+  public queueLocalEvents(events: LocalEventBase[]) {
+    events.forEach(e => this.queueLocalEvent(e));
   }
 
   public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
@@ -52,13 +57,6 @@ export class LocalEventManager {
   }
 }
 
-// will be initialized as soon as all scripts have been evaluated
-let localEventManager: LocalEventManager = undefined as unknown as LocalEventManager;
-Helpers.registerEffect(() => {
-  localEventManager = new LocalEventManager();
-});
-
-// TODO get from proper context
 export function getLocalEventManager(): LocalEventManager {
-  return localEventManager;
+  return getCurrentExecutionContext().getLocalEventManager();
 }

@@ -18,11 +18,12 @@ export async function debugRestoreSavedState() {
     await mainLogic.setCurrentStateDebug(storedStateId);
   }
 }
-
+/* TODO remove
 export function recomputeLocalState() {
   wlog('--- LOCAL STATE RESET');
   mainLogic.recomputeState();
 }
+*/
 
 export function getAllResources() {
   const tasks = getCurrentState().getInternalStateObject().tasks;
