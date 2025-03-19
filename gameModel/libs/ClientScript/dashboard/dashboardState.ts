@@ -1,10 +1,15 @@
+import { TimedEventPayload } from '../game/common/events/eventTypes';
+import { FullEvent } from '../game/common/events/eventUtils';
 import { getStartingMainState } from '../game/common/simulationState/loaders/mainStateLoader';
 import {
   MainSimulationState,
   MainStateObject,
 } from '../game/common/simulationState/mainSimulationState';
 import { PatientState } from '../game/common/simulationState/patientState';
+import { createOrUpdateExecutionContext } from '../game/gameExecutionContextController';
+import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
+import { parse } from '../tools/WegasHelper';
 
 type PatientReducedState = Omit<PatientState, 'humanBody'>;
 
@@ -55,6 +60,41 @@ export async function updateLastState(
 /**************************************
  * Dashboard fetch functions
  **************************************/
+
+interface RawEventBoxContent {
+  events: {
+    id: number;
+    parentId: number;
+    payload: string;
+  }[];
+  eventBoxId: number;
+}
+
+export async function buildAllTeamsState(safety: boolean): Promise<void> {
+  if (safety && loadedFirstTime) {
+    dashboardLogger.debug('Loaded already');
+  }
+  loadedFirstTime = true;
+  dashboardLogger.debug('Loading per team state...');
+
+  const response = await APIMethods.runScript('CustomDashboard.getEventsByTeam();', {});
+  const events = response.updatedEntities as any[];
+  Object.entries(events[0]).forEach(([teamId, raw]) => {
+    const tid = teamId as unknown as number;
+    const box = raw as RawEventBoxContent;
+    const parsedEvents = box.events.map((rawEv: any) => {
+      const content = parse<{ time: number; payload: TimedEventPayload }>(rawEv.payload)!;
+      const event: FullEvent<TimedEventPayload> = {
+        id: rawEv.id,
+        time: content.time, // sim provided time (used in pre-tri real time)
+        payload: content.payload,
+        timestamp: rawEv.timeStamp, // server epoch time
+      };
+      return event;
+    });
+    createOrUpdateExecutionContext(tid, box.eventBoxId, parsedEvents, convertToLocalEvent);
+  });
+}
 
 export type DashboardGameState = Record<number, DashboardTeamGameState>;
 

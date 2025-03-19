@@ -125,14 +125,13 @@ export class GameExecutionContext {
 }
 
 export class UidGenerator implements IClonable {
-  private generators: Record<string, number> = {};
+  constructor(readonly generators: Record<string, number>) {}
 
   clone(): this {
-    const clone = new UidGenerator();
-    clone.generators = Helpers.cloneDeep(this.generators);
-    return clone as this;
+    return new UidGenerator(this.generators) as this;
   }
 
+  /** gets next value for class name, if not existing the default value is registered*/
   public getNext(className: string, defaultValue: number): number {
     if (!this.generators[className]) {
       this.generators[className] = defaultValue;
