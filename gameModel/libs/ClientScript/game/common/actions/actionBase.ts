@@ -1,5 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -85,12 +86,6 @@ const ACTION_SEED_ID: ActionId = 3000;
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
 
-  private static idProvider: ActionId = ACTION_SEED_ID;
-
-  public static resetIdSeed() {
-    ActionBase.idProvider = ACTION_SEED_ID;
-  }
-
   protected readonly logger = ActionBase.slogger;
 
   public readonly Uid: ActionId;
@@ -105,7 +100,7 @@ export abstract class ActionBase {
     public readonly ownerId: ActorId,
     protected readonly uuidTemplate: ActionTemplateId = -1
   ) {
-    this.Uid = ++ActionBase.idProvider;
+    this.Uid = getContextUidGenerator().getNext('ActionBase', ACTION_SEED_ID);
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }

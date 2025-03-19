@@ -1,9 +1,9 @@
 import { mainSimLogger } from '../tools/logger';
 import { TimedEventPayload } from './common/events/eventTypes';
 import { compareTimedEvents, FullEvent } from './common/events/eventUtils';
+import { IClonable } from './common/interfaces';
 import { LocalEventBase } from './common/localEvents/localEventBase';
 import { LocalEventManager } from './common/localEvents/localEventManager';
-import { getStartingMainState } from './common/simulationState/loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 
 export type TeamId = number;
@@ -13,10 +13,17 @@ export class GameExecutionContext {
   private stateHistory: MainSimulationState[] = [];
   private readonly processedEvents: Record<string, FullEvent<TimedEventPayload>> = {};
   private readonly localEventManager: LocalEventManager;
+  private readonly uidProvider: UidGenerator;
 
-  constructor(public readonly teamId: TeamId, public readonly eventBoxId: number) {
+  constructor(
+    public readonly teamId: TeamId,
+    public readonly eventBoxId: number,
+    initialState: MainSimulationState,
+    uidGenerator: UidGenerator
+  ) {
     this.localEventManager = new LocalEventManager();
-    this.updateCurrentState(getStartingMainState());
+    this.uidProvider = uidGenerator;
+    this.updateCurrentState(initialState);
   }
 
   private updateCurrentState(newState: MainSimulationState): void {
@@ -51,7 +58,7 @@ export class GameExecutionContext {
   }
 
   /**
-   * Restore a previous state to a given state count value
+   * Restores a previous state to a given state count value
    * ignored if the state count doesn't exist
    */
   public restoreState(stateId: number): void {
@@ -98,7 +105,7 @@ export class GameExecutionContext {
       this.getLocalEventManager().queueLocalEvents(localEvents);
       const newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
       if (newState.stateCount !== currentState?.stateCount) {
-        mainSimLogger.info('updating current state', newState.stateCount);
+        mainSimLogger.info('Updated state', newState.stateCount);
         this.updateCurrentState(newState);
       }
     } catch (error) {
@@ -110,5 +117,26 @@ export class GameExecutionContext {
 
   public getLocalEventManager(): LocalEventManager {
     return this.localEventManager;
+  }
+
+  public getUidProvider(): UidGenerator {
+    return this.uidProvider;
+  }
+}
+
+export class UidGenerator implements IClonable {
+  private generators: Record<string, number> = {};
+
+  clone(): this {
+    const clone = new UidGenerator();
+    clone.generators = Helpers.cloneDeep(this.generators);
+    return clone as this;
+  }
+
+  public getNext(className: string, defaultValue: number): number {
+    if (!this.generators[className]) {
+      this.generators[className] = defaultValue;
+    }
+    return ++this.generators[className];
   }
 }

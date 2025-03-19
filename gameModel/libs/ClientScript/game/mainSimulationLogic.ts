@@ -33,39 +33,16 @@ import {
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
-import { createPlayerContext, getCurrentExecutionContext } from './gameExecutionContextController';
+import {
+  createPlayerContext,
+  debugRemovePlayerContext,
+  getCurrentExecutionContext,
+} from './gameExecutionContextController';
 
-//let currentSimulationState: MainSimulationState;
-//let stateHistory: MainSimulationState[];
+mainSimLogger.debug('--------- EVALUATING MAIN SIM LOGIC ---------');
 
 let actionTemplates: Record<string, ActionTemplateBase>;
-//let processedEvents: Record<string, FullEvent<TimedEventPayload>>;
-
 let uniqueActionTemplates: IUniqueActionTemplates;
-
-//export let gameOptions: GameOptions;
-
-/*
-Helpers.registerEffect(() => {
-  currentSimulationState = buildStartingMainState();
-  stateHistory = [currentSimulationState];
-
-  actionTemplates = {};
-  processedEvents = {};
-
-  mainSimLogger.info('Main simulation initialized', actionTemplates);
-  mainSimLogger.info('Initial state', currentSimulationState);
-
-  mainSimLogger.info('scheduling automatic events');
-  queueAutomaticEvents();
-
-  recomputeState();
-});
-
-function queueAutomaticEvents() {
-  // empty for now
-}
-*/
 
 let initializationComplete = false;
 
@@ -82,16 +59,17 @@ export function runUpdateLoop(): void {
   }
 
   const playerCtx = getCurrentExecutionContext();
-  const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
+  if (playerCtx) {
+    const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
-  setPreviousReferenceState(playerCtx.getCurrentState());
+    setPreviousReferenceState(playerCtx.getCurrentState());
 
-  // filter out omitted events (if a previous state was restored)
-  const ignored = getOmittedEvents();
-  const filteredEvents = globalEvents.filter(e => !ignored[e.id]);
+    // filter out omitted events (if a previous state was restored)
+    const ignored = getOmittedEvents();
+    const filteredEvents = globalEvents.filter(e => !ignored[e.id]);
 
-  playerCtx.processEvents(filteredEvents, convertToLocalEvent);
-  mainSimLogger.info('Event loop done');
+    playerCtx.processEvents(filteredEvents, convertToLocalEvent);
+  }
 }
 
 /**
@@ -376,30 +354,13 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   return getCurrentExecutionContext().getCurrentState();
 }
 
-/*
-export function recomputeState() {
-  mainSimLogger.info('Reinitialize state');
-  processedEvents = {};
+/**** DEBUG TOOLS SECTION ***/
 
-  Actor.resetIdSeed();
-  ActionTemplateBase.resetIdSeed();
-  ActionBase.resetIdSeed();
-  TaskBase.resetIdSeed();
-  SubTask.resetIdSeed();
-  Resource.resetIdSeed();
-  ResourceContainerResetIdSeed();
-
-  currentSimulationState = buildStartingMainState();
-  stateHistory = [currentSimulationState];
-
-  ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
-
-  mainSimLogger.info('reset done');
+export function forceRecomputeStateDebug() {
+  initializationComplete = false;
+  debugRemovePlayerContext();
   runUpdateLoop();
 }
-*/
-
-/**** DEBUG TOOLS SECTION ***/
 
 export function getStateHistory() {
   return getCurrentExecutionContext().getStateHistory();

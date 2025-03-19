@@ -67,7 +67,7 @@
                 "language" : "TypeScript"
               }
             },
-            "name" : "Log state",
+            "name" : "Log sim time",
             "style" : { }
           },
           "type" : "Button"

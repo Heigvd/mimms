@@ -12,12 +12,14 @@ import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { Actor } from '../../actors/actor';
 import { TaskType } from '../../tasks/taskBase';
+import { notifyMainStateInitializationComplete } from '../../../gameExecutionContextController';
 
 let singletonStartState: MainSimulationState;
 
 export function getStartingMainState(): MainSimulationState {
   if (!singletonStartState) {
     singletonStartState = buildStartingMainState();
+    notifyMainStateInitializationComplete();
   }
   return Helpers.cloneDeep(singletonStartState);
 }

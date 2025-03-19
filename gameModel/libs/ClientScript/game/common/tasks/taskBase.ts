@@ -1,5 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
@@ -43,12 +44,6 @@ const TASK_SEED_ID: TaskId = 4000;
  * Base class for a task
  */
 export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
-  private static idProvider: TaskId = TASK_SEED_ID;
-
-  public static resetIdSeed() {
-    TaskBase.idProvider = TASK_SEED_ID;
-  }
-
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
@@ -69,7 +64,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly availableToRoles: InterventionRole[] = [],
     readonly isStandardAssignation: boolean = true
   ) {
-    this.Uid = ++TaskBase.idProvider;
+    this.Uid = getContextUidGenerator().getNext('TaskBase', TASK_SEED_ID);
     this.status = 'Uninitialized';
     this.subTasks = {};
   }

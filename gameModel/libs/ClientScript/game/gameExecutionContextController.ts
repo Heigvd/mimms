@@ -1,13 +1,14 @@
 import { gameExecLogger } from '../tools/logger';
-import { GameExecutionContext, TeamId } from './gameExecutionContext';
+import { getStartingMainState } from './common/simulationState/loaders/mainStateLoader';
+import { GameExecutionContext, TeamId, UidGenerator } from './gameExecutionContext';
 
 let lockedTeamId: TeamId | undefined;
 
 let executionContexts: Record<TeamId, GameExecutionContext> = {};
 
 /**
- * Forces the game execution context to a given team id
- * This should only be used dashboard side when updating the state of a team
+ * Locks the game execution context to a given team id
+ * This should only be used on dashboard side when updating the state of a team
  * @param teamId
  */
 export function lockTeamId(teamId: TeamId): void {
@@ -19,7 +20,7 @@ export function lockTeamId(teamId: TeamId): void {
 }
 
 /**
- * Forces the game execution context to a given team id
+ * unlocksthe game execution context to a given team id
  * This should only be used dashboard side when updating the state of a team
  * @param teamId
  */
@@ -32,16 +33,25 @@ export function createNewContext(teamId: TeamId, eventBoxId: number): void {
   if (executionContexts[teamId]) {
     throw new Error('Context with id ' + teamId + ' is already created');
   }
-  executionContexts[teamId] = new GameExecutionContext(teamId, eventBoxId);
+  const state = getStartingMainState();
+  const uidProvider = mainStateDefaultUidGenerator.clone();
+  executionContexts[teamId] = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
 }
 
 export function createPlayerContext(): void {
-  const teamId = self.getParentId()!;
+  const teamId = getPlayerTeamId();
+  if (executionContexts[teamId]) {
+    return;
+  }
   const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId()!;
   createNewContext(teamId, eventBoxId);
 }
 
-export function getCurrentTeamId(): TeamId {
+function getPlayerTeamId(): number {
+  return self.getParentId()!;
+}
+
+function getCurrentTeamId(): TeamId {
   // when loading/updating the dashboard states
   if (lockedTeamId) {
     return lockedTeamId;
@@ -51,7 +61,7 @@ export function getCurrentTeamId(): TeamId {
     return Context.team.id;
   }
   // current player's team id
-  return self.getParentId()!;
+  return getPlayerTeamId();
 }
 
 export function getCurrentExecutionContext(): GameExecutionContext {
@@ -60,18 +70,32 @@ export function getCurrentExecutionContext(): GameExecutionContext {
   if (ctx) {
     return ctx;
   }
+  //return ctx!;
   throw new Error('No context has been initalized for team id ' + teamId);
 }
 
-/*
-export function getCurrentPlayerExecutionContext(): GameExecutionContext {
-  const teamId = self.getParentId()!;
-  let ctx = executionContexts[teamId];
-  if (!ctx) {
-    const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId();
-    ctx = new GameExecutionContext(teamId, eventBoxId);
-    executionContexts[teamId] = ctx;
+// ========== UID GENERATOR ==========
+let mainStateInitializationComplete = false;
+let mainStateDefaultUidGenerator: UidGenerator;
+
+export function getContextUidGenerator(): UidGenerator {
+  if (mainStateInitializationComplete) {
+    return getCurrentExecutionContext().getUidProvider();
+  } else if (!mainStateDefaultUidGenerator) {
+    mainStateDefaultUidGenerator = new UidGenerator();
   }
-  return ctx;
+  return mainStateDefaultUidGenerator;
 }
-*/
+
+export function notifyMainStateInitializationComplete(): void {
+  if (mainStateInitializationComplete) {
+    throw new Error('Main state initialization completion has been called already');
+  }
+  mainStateInitializationComplete = true;
+}
+
+// ========== DEBUG ===========
+export function debugRemovePlayerContext(): void {
+  gameExecLogger.warn('DEBUG ONLY, removing player context');
+  delete executionContexts[getPlayerTeamId()];
+}
