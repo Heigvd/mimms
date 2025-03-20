@@ -126,9 +126,9 @@ export type EventPayload =
   | TimeForwardCancelEvent
   | ActionCreationEvent
   | ActionCancellationEvent
+  // TRAINER EVENT
   | DashboardRadioMessageEvent
   | DashboardNotificationMessageEvent
-  // TRAINER EVENT
   | GameOptionsEvent;
 
 export type EventType = EventPayload['type'];

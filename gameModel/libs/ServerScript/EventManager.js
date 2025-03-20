@@ -37,37 +37,6 @@ var EventManager = (function () {
     RequestManager.lock('NewEvent-' + thePlayer.getTeamId());
   }
 
-  /** DEPRECATED use sendNewEvent*/
-  function sendEvent(payload, time, teamId) {
-    var player = inferPlayer(teamId);
-
-    lock(player);
-
-    var realTime = getEventTime(time, player);
-
-    var events = Variable.find(gameModel, 'events');
-    var instance = events.getInstance(player);
-
-    lastEventI = Variable.find(gameModel, 'lastEventId').getInstance(player);
-    lastId = lastEventI.getValue();
-
-    var event = {
-      time: realTime,
-      payload: payload,
-    };
-
-    var newEvent = instance.sendMessage(player.getName(), '' + lastId, JSON.stringify(event));
-    // print ("NewEvent ID" + newEvent.getId());
-    // Make sure newEvent got an Id
-    // hack: commit request to force state machine evaluation
-    //       This will flush all pending changes to DB
-    //       newEvent got an ID
-    RequestManager.commit();
-    // print ("Post Commit NewEvent ID" + newEvent.getId());
-
-    lastEventI.setValue(newEvent.getId());
-  }
-
   /**
    * New implementation using new EventBox dedicated type
    */
@@ -191,7 +160,8 @@ var EventManager = (function () {
     return id;
   }
 
-  function instantiateCharacter(profileId, bagId, useEventBox) {
+  // TODO get rid of character logic for player aka whoAmI
+  function instantiateCharacter(profileId, bagId) {
     lock();
     var charactersDesc = Variable.find(gameModel, 'characters');
     var strProfile = charactersDesc.getProperty(profileId);
@@ -226,11 +196,7 @@ var EventManager = (function () {
           targetId: id,
           bagId: bagId,
         };
-        if (useEventBox) {
-          sendNewEvent(giveBagPayload);
-        } else {
-          sendEvent(giveBagPayload);
-        }
+        sendNewEvent(giveBagPayload);
       }
 
       return id;
@@ -239,15 +205,8 @@ var EventManager = (function () {
   }
 
   return {
-    instantiateCharacter: function (profileId, bagId) {
-      instantiateCharacter(profileId, bagId, false);
-    },
-    instantiateCharacterNew: function (profileId, bagId) {
-      instantiateCharacter(profileId, bagId, true);
-    },
+    instantiateCharacter: instantiateCharacter,
     runScenario: runScenario,
-    /*** DEPRECATED use postNewEvent */
-    postEvent: sendEvent,
     postNewEvent: sendNewEvent,
   };
 })();

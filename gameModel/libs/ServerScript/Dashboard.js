@@ -7,40 +7,19 @@ interface Data {
 }
 */
 
-// type PerTarget = Record<string, FullEvent<CategorizeEvent>>;
-var useNewBox = true;
-var eventsVarName = useNewBox ? 'newEvents' : 'events';
+var eventsVarName = 'newEvents';
 
 /**
- * parses the events in an inbox or event inbox
+ * parses the events in an event inbox
  * @return the deserialized events payloads FullEvent<EventPayload>[]
  */
-function getEvents(inboxInstance /*: SInboxInstance | SEventInboxInstance */) {
+function getEvents(inboxInstance /*: SEventInboxInstance */) {
   var events = [];
-  if (useNewBox) {
-    var rawEvents = inboxInstance.getEvents();
-    for (var i in rawEvents) {
-      events.push(JSON.parse(rawEvents[i].payload));
-    }
-  } else {
-    var rawMessages = Java.from(inboxInstance.getMessages());
-    for (var i in rawMessages) {
-      var message = rawMessages[i];
-      var json = I18n.t(message.getBody());
-      var event = JSON.parse(json);
-
-      event.id = message.getId();
-      event.timestamp = message.getTime();
-
-      events.push(event);
-    }
+  var rawEvents = inboxInstance.getEvents();
+  for (var i in rawEvents) {
+    events.push(JSON.parse(rawEvents[i].payload));
   }
   return events;
-}
-
-function getDashboard() {
-  var events = getEvents(Variable.find(gameModel, eventsVarName).getInstance(self));
-  return getPretriage(events);
 }
 
 function objectValues(object) {
