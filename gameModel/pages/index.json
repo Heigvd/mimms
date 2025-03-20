@@ -272,6 +272,12 @@
           "trainerPage" : null
         } ],
         "name" : "Patient Generation"
+      }, {
+        "@class" : "Page",
+        "id" : "56",
+        "name" : "resources",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

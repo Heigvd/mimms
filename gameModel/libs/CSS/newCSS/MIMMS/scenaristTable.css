@@ -1,6 +1,7 @@
 /* - - - - A C C O R D I O N - - - - */
 
-.accordion-state * {
+.accordion-state * ,
+.resources * {
   padding: 0;
 }
 

@@ -722,7 +722,7 @@
       "name" : "hospitals_config",
       "properties" : {
         "hospitals" : "{\"iyEVC1\":{\"index\":1,\"fullName\":\"CHUV\",\"shortName\":\"CHUV\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":10,\"proximity\":\"2\",\"units\":{\"9seyHx\":5,\"3TE4yA\":2}},\"yP4JAc\":{\"index\":2,\"fullName\":\"HUG\",\"shortName\":\"HUG\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":1,\"proximity\":1,\"units\":{\"9seyHx\":2,\"3TE4yA\":8}},\"iUKvbj\":{\"index\":3,\"fullName\":\"Meyrin\",\"shortName\":\"MH\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":3,\"proximity\":1,\"units\":{\"9seyHx\":3,\"3TE4yA\":1}}}",
-        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"PolyTrauma\"}},\"version\":2}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Dechoc\"}},\"version\":1}},\"t07U7p\":{\"index\":3,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0}}}"
+        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"PolyTrauma\"}},\"version\":2}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Dechoc\"}},\"version\":1}},\"t07U7p\":{\"index\":3,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"serzartert\"}},\"version\":2}}}"
       },
       "refId" : "ObjectDescriptor:1618543:nC9xke",
       "scopeType" : "GameModelScope",
@@ -841,8 +841,7 @@
         "GE-005" : "{\"type\":\"AMB-I\",\"availabilityTime\":5,\"travelTime\":5}",
         "GE-006" : "{\"type\":\"AMB-U\",\"availabilityTime\":10,\"travelTime\":5}",
         "GE-007" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":5}",
-        "GE-008" : "{\"type\":\"AMB-I\",\"availabilityTime\":20,\"travelTime\":5}",
-        "GE-009" : "{\"type\":\"AMB-T\",\"availabilityTime\":20,\"travelTime\":5}",
+        "GE-009" : "{\"type\":\"AMB-T\",\"availabilityTime\":20,\"travelTime\":500}",
         "GE-010" : "{\"type\":\"AMB-U\",\"availabilityTime\":20,\"travelTime\":5}",
         "GE-011" : "{\"type\":\"AMB-T\",\"availabilityTime\":25,\"travelTime\":5}",
         "GE-012" : "{\"type\":\"AMB-I\",\"availabilityTime\":25,\"travelTime\":5}",
@@ -863,9 +862,10 @@
         "SMUR-005" : "{\"type\":\"SMUR\",\"availabilityTime\":60,\"travelTime\":5}",
         "VD-001" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
         "VD-002" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
-        "VD-003" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
         "VD-004" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":30}",
-        "VD-005" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":30}"
+        "VD-005" : "{\"type\":\"AMB-U\",\"availabilityTime\":30,\"travelTime\":3032}",
+        "strzbsrzs" : "{\"type\":\"AMB-U\",\"availabilityTime\":15,\"travelTime\":30}",
+        "vzsb5r7s" : "{\"type\":\"AMB-I\",\"availabilityTime\":20,\"travelTime\":15}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
@@ -5543,6 +5543,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/resourcesConfiguration",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1743352:WDHods",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/actionTemplatesData",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6830,6 +6839,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/resourcesConfig",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1743353:rjd7Yg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/ressources",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7107,7 +7125,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-395 XGO",
+  "name" : "MIM-405",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

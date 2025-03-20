@@ -906,7 +906,7 @@
                               "className" : "services-edit-closed",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "Context.UIState.state.edit && !Context.UIState.state.services;",
+                                "content" : "Context.UIState.state.edit&&\n!Context.UIState.state.services;",
                                 "language" : "typescript"
                               }
                             }, {
@@ -921,7 +921,7 @@
                             "layout" : { },
                             "layoutClassName" : "line-container",
                             "layoutStyle" : { },
-                            "name" : "Line",
+                            "name" : "line",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -1163,7 +1163,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding accordion-state",
                 "layoutStyle" : { },
-                "name" : "",
+                "name" : "table",
                 "style" : { }
               },
               "type" : "FlexList"
