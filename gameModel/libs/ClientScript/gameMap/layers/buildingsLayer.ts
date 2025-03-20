@@ -1,4 +1,4 @@
-export function getBuildingsLayer(feature: any, resolution: number) {
+export function getBuildingsLayer(feature: any, _resolution: number) {
   let buildingStyle: LayerStyleObject = {
     fill: {
       type: 'FillStyle',
@@ -22,12 +22,12 @@ export function getBuildingsLayer(feature: any, resolution: number) {
     },
   };
 
-  const mapState = Context.mapState.state;
-  const interfaceState = Context.interfaceState.state;
+  const mapState = Context.mapState?.state;
+  const interfaceState = Context.interfaceState?.state;
   // Filter selectFeature from mapFeatures[] and flatMap it to an array of ids
 
   // Is a selection action currently being performed ?
-  if (mapState.mapSelect && mapState.selectionState.featureKey) {
+  if (mapState?.mapSelect && mapState?.selectionState?.featureKey) {
     // We get the index of the current feature from the selectables
     const index =
       mapState.selectionState.featureIds.indexOf(feature.get(mapState.selectionState.featureKey)) +

@@ -258,3 +258,9 @@ export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 1):
     }, delay);
   });
 }
+
+// builds a type which properties are only of the condition type
+export type FilterTypeProperties<Source, Condition> = Pick<
+  Source,
+  { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
+>;

@@ -5236,6 +5236,62 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "Map configuration",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:1655152:8xkNF5"
+      },
+      "editorTag" : "map",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:1658766:rpwMnM"
+        },
+        "description" : "",
+        "editorTag" : "mapConfiguration",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1658767:rTLtez",
+          "translations" : { }
+        },
+        "name" : "mapConfiguration",
+        "properties" : {
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.907871699377882,\"extent\":[2499696.2936464697,1118102.6796080722,2499972.5616214722,1118446.0276092258],\"center\":[2499834.427633971,1118274.353608649],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
+        },
+        "refId" : "ObjectDescriptor:1658765:zpHZKW",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1655153:jqCN4l",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1655153:jqCN4l::FR",
+            "status" : "",
+            "translation" : "map"
+          }
+        }
+      },
+      "name" : "map",
+      "refId" : "ListDescriptor:1655151:QFhHPh",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -6290,6 +6346,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/utils/mapConfig",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658763:n2eskE",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/utils/mapUtils",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6564,6 +6629,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1220808:lhMLFW",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/mapConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658791:AGkxNO",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

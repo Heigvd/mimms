@@ -245,6 +245,12 @@
         "scenaristPage" : false,
         "trainerPage" : null
       }, {
+        "@class" : "Page",
+        "id" : "mapConfiguration",
+        "name" : "Map Configuration",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
