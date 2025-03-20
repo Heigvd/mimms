@@ -58,30 +58,30 @@ export function getTranslatedBlockName(blockName: string): string {
   return getBlockTranslation(blockName);
 }
 
-export function getAfflictedBlocksDetails(id: string): AfflictedBlockDetails[] {
-  const human = getPatient(id)!.humanBody;
+export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlockDetails[] {
+  const human = patient.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
     effects: human.effects!,
   };
-  const currentTime = getCurrentState().getSimTime();
+  const currentTime = patient.humanBody.state.time;
 
   return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, false);
 }
 
-function getAfflictedBlocks(id: string): string[] {
-  const human = getPatient(id)!.humanBody;
+function getAfflictedBlocks(patient: PatientState): string[] {
+  const human = patient.humanBody;
   const health: HumanHealth = {
     pathologies: human.revivedPathologies!,
     effects: human.effects!,
   };
-  const currentTime = getCurrentState().getSimTime();
+  const currentTime = patient.humanBody.state.time;
 
   return getAfflictedBlocksOfHuman(human, health, currentTime);
 }
 
-export function getLocalizedAffictedBlocks(id: string) {
-  const afflictedBlocks = getAfflictedBlocks(id);
+export function getLocalizedAffictedBlocks(patient: PatientState) {
+  const afflictedBlocks = getAfflictedBlocks(patient);
 
   return getLocalizedBlocks([...afflictedBlocks]).localized;
 }
@@ -101,14 +101,9 @@ export function getDivForCategory(patientId: string): string {
   }; background-color: ${category ? category.bgColor : '#f6f7f9ff'}'/>`;
 }
 
-export function getCategoryColor(patientId: string): string {
-  const patient = getPatient(patientId)!;
-  const categoryId = patient.preTriageResult?.categoryId;
-  return categoryId != undefined ? getBackgroundColorByCategoryId(categoryId) : '#f6f7f9ff';
-}
-
-export function getCategoryCardSvg(patientId: string) {
-  const bgColor = getCategoryColor(patientId);
+export function getCategoryCardSvg(patient: PatientState) {
+  const categoryId = patient?.preTriageResult?.categoryId;
+  const bgColor = categoryId ? getBackgroundColorByCategoryId(categoryId) : '#f6f7f9ff';
   return getFlatCategoryCardSvg(bgColor, 0, 0, 64);
 }
 

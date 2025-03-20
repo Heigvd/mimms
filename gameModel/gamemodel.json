@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1741688364926,
+  "createdTime" : 1741625873479,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -604,23 +604,26 @@
       },
       "name" : "patients",
       "properties" : {
-        "CH-CU-239" : "{\"sex\":\"male\",\"age\":35,\"height_cm\":189,\"bmi\":17.11,\"sugarLevel\":4.766882214287438,\"temperature\":36.97671474168074,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah__2\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.9425473813303546}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah__2\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.8562993418463579}]}}]}",
-        "CH-DJ-826" : "{\"sex\":\"male\",\"age\":64,\"height_cm\":170,\"bmi\":24.89,\"sugarLevel\":8.304380054639175,\"temperature\":36.46457894116801,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_simple\",\"afflictedBlocks\":[\"LEFT_HAND\",\"LEFT_HAND\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.07658051614031408}]}}]}",
-        "CH-GX-441" : "{\"sex\":\"male\",\"age\":50,\"height_cm\":182,\"bmi\":22.38,\"sugarLevel\":5.990145090730092,\"temperature\":37.05164988260228,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-T4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-HW-633" : "{\"sex\":\"male\",\"age\":21,\"height_cm\":196,\"bmi\":21.04,\"sugarLevel\":5.214692091941638,\"temperature\":36.15097866544187,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":22.13659367094184}]}}]}",
-        "CH-JY-893" : "{\"sex\":\"male\",\"age\":23,\"height_cm\":181,\"bmi\":22.14,\"sugarLevel\":5.9267352082389335,\"temperature\":36.27868324181108,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ah__2\",\"afflictedBlocks\":[\"RIGHT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5403163678476358}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.14116187980262668}]}}]}",
-        "CH-KM-060" : "{\"sex\":\"male\",\"age\":80,\"height_cm\":172,\"bmi\":16.64,\"sugarLevel\":8.088347582625556,\"temperature\":36.443732002995674,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-NS-622" : "{\"sex\":\"female\",\"age\":52,\"height_cm\":158,\"bmi\":23.99,\"sugarLevel\":6.650622630382404,\"temperature\":36.7240572803381,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":40.51747355311973}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.37809788892841223}]}}]}",
-        "CH-QG-323" : "{\"sex\":\"male\",\"age\":91,\"height_cm\":182,\"bmi\":21.84,\"sugarLevel\":7.716825978282466,\"temperature\":36.793254023041726,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.018548576184227353}]}}]}",
-        "CH-RH-559" : "{\"sex\":\"female\",\"age\":60,\"height_cm\":171,\"bmi\":19.92,\"sugarLevel\":7.706650381170054,\"temperature\":36.427953542962186,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0032624469957213795}]}}]}",
-        "CH-RK-187" : "{\"sex\":\"male\",\"age\":49,\"height_cm\":180,\"bmi\":21.26,\"sugarLevel\":8.320523019909777,\"temperature\":36.998420367820515,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"tamponade_hard\",\"afflictedBlocks\":[\"HEART\"],\"modulesArguments\":[{\"type\":\"TamponadeArgs\",\"pericardial_deltaMin\":27.430567194924485}]}}]}",
-        "CH-SK-836" : "{\"sex\":\"female\",\"age\":51,\"height_cm\":161,\"bmi\":18.14,\"sugarLevel\":5.885719110128242,\"temperature\":36.41841936113435,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0.5079320219071725},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":5.48362737584104},{\"type\":\"NoArgs\"}]}}]}",
-        "CH-SR-517" : "{\"sex\":\"female\",\"age\":91,\"height_cm\":159,\"bmi\":20.07,\"sugarLevel\":5.967347678537225,\"temperature\":36.4903030603866,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_displaced\",\"afflictedBlocks\":[\"LEFT_FOREARM\",\"LEFT_FOREARM\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7554391922183121}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LUNG\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-TM-635" : "{\"sex\":\"female\",\"age\":51,\"height_cm\":167,\"bmi\":28.16,\"sugarLevel\":4.6559786643121575,\"temperature\":36.290692177916334,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_limb\",\"afflictedBlocks\":[\"RIGHT_FOOT\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-TW-740" : "{\"sex\":\"male\",\"age\":25,\"height_cm\":196,\"bmi\":24.81,\"sugarLevel\":7.812643566436327,\"temperature\":36.38217968929079,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh_arm\",\"afflictedBlocks\":[\"RIGHT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.8890018242442415}]}}]}",
-        "CH-YY-632" : "{\"sex\":\"female\",\"age\":64,\"height_cm\":163,\"bmi\":21.45,\"sugarLevel\":6.866949468071566,\"temperature\":36.47412648639769,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":3}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-T4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-ZB-672" : "{\"sex\":\"female\",\"age\":90,\"height_cm\":167,\"bmi\":19.21,\"sugarLevel\":7.413595609040691,\"temperature\":36.03540245824195,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7570075508642685}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_limb\",\"afflictedBlocks\":[\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
-        "CH-ZO-136" : "{\"sex\":\"female\",\"age\":51,\"height_cm\":162,\"bmi\":23.74,\"sugarLevel\":7.40088031257875,\"temperature\":36.58692674855689,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_open\",\"afflictedBlocks\":[\"RIGHT_SHOULDER\",\"RIGHT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.22380855062165672}]}}]}"
+        "CH-EB-345" : "{\"sex\":\"female\",\"age\":24,\"height_cm\":159,\"bmi\":23.72,\"sugarLevel\":5.1107325367565775,\"temperature\":36.7945737768483,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah__2\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.9606181319263818}]}}]}",
+        "CH-GB-531" : "{\"sex\":\"female\",\"age\":33,\"height_cm\":168,\"bmi\":23.7,\"sugarLevel\":7.036634103073863,\"temperature\":36.498027305402516,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"urgent_vh\",\"afflictedBlocks\":[\"RIGHT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.11550893531276313}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh\",\"afflictedBlocks\":[\"LEFT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.040031495369984446}]}}]}",
+        "CH-HE-948" : "{\"sex\":\"male\",\"age\":42,\"height_cm\":158,\"bmi\":26.9,\"sugarLevel\":5.928239902775764,\"temperature\":36.6740770866704,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"urgent_vh\",\"afflictedBlocks\":[\"RIGHT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.08935114379313248}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh_neck\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.6756747909766545}]}}]}",
+        "CH-HP-521" : "{\"sex\":\"female\",\"age\":81,\"height_cm\":159,\"bmi\":26.85,\"sugarLevel\":6.9354214048534875,\"temperature\":36.12795601862804,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"contusion\",\"afflictedBlocks\":[\"RIGHT_FOOT\",\"RIGHT_FOOT\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"PainArgs\",\"pain\":4}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-T4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-HP-796" : "{\"sex\":\"female\",\"age\":53,\"height_cm\":151,\"bmi\":22.88,\"sugarLevel\":7.677326576127362,\"temperature\":36.859293799581515,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh\",\"afflictedBlocks\":[\"LEFT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.01983024504382795}]}}]}",
+        "CH-JQ-995" : "{\"sex\":\"male\",\"age\":24,\"height_cm\":189,\"bmi\":24.5,\"sugarLevel\":7.975478508711993,\"temperature\":36.68613137254864,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_open\",\"afflictedBlocks\":[\"RIGHT_HAND\",\"RIGHT_HAND\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.46225374088359983}]}}]}",
+        "CH-KE-267" : "{\"sex\":\"male\",\"age\":92,\"height_cm\":175,\"bmi\":21,\"sugarLevel\":6.271344743561945,\"temperature\":36.78662559826692,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh_neck\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7738151580987864}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICMArgs\",\"delta_perMin\":0.24347505832599536},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":22.907111772545804}]}}]}",
+        "CH-NT-705" : "{\"sex\":\"female\",\"age\":18,\"height_cm\":158,\"bmi\":28.35,\"sugarLevel\":5.430538002957676,\"temperature\":36.39640274752773,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_t1l4\",\"afflictedBlocks\":[\"T1-T4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.4831796596469677}]}}]}",
+        "CH-OH-948" : "{\"sex\":\"male\",\"age\":61,\"height_cm\":180,\"bmi\":25.52,\"sugarLevel\":6.640389248817217,\"temperature\":36.537054083557884,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh_arm\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7970174164521684}]}}]}",
+        "CH-PC-128" : "{\"sex\":\"female\",\"age\":27,\"height_cm\":166,\"bmi\":21.28,\"sugarLevel\":5.659685833133924,\"temperature\":36.693520933369065,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"BRAIN\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICMArgs\",\"delta_perMin\":6.398563071503082},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":55.734523091079225}]}}]}",
+        "CH-PX-342" : "{\"sex\":\"male\",\"age\":87,\"height_cm\":184,\"bmi\":21.2,\"sugarLevel\":6.418483115692743,\"temperature\":36.42864282704707,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_limb\",\"afflictedBlocks\":[\"LEFT_KNEE\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-QL-776" : "{\"sex\":\"female\",\"age\":46,\"height_cm\":164,\"bmi\":24.88,\"sugarLevel\":7.545358212401675,\"temperature\":36.76092082401541,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh_face\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0028657382497755133}]}}]}",
+        "CH-QW-216" : "{\"sex\":\"male\",\"age\":84,\"height_cm\":173,\"bmi\":23.18,\"sugarLevel\":6.076406432683604,\"temperature\":36.709766133619716,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-SR-866" : "{\"sex\":\"female\",\"age\":27,\"height_cm\":154,\"bmi\":23.84,\"sugarLevel\":8.200150943846394,\"temperature\":36.41142423228262,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"simple_pno_full\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\",\"THORAX_RIGHT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"PneumothoraxArgs\",\"compliance\":0.6110886618120452},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":20.452471820743302},{\"type\":\"NoArgs\"}]}}]}",
+        "CH-TP-757" : "{\"sex\":\"male\",\"age\":63,\"height_cm\":183,\"bmi\":21.44,\"sugarLevel\":8.00046287275272,\"temperature\":37.091970010356036,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.19767439074664162}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah\",\"afflictedBlocks\":[\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.9801659242748584}]}}]}",
+        "CH-UI-178" : "{\"sex\":\"female\",\"age\":50,\"height_cm\":159,\"bmi\":20.87,\"sugarLevel\":6.30475022966697,\"temperature\":36.07824824471533,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_limb\",\"afflictedBlocks\":[\"RIGHT_ANKLE\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-UQ-095" : "{\"sex\":\"male\",\"age\":50,\"height_cm\":188,\"bmi\":22.16,\"sugarLevel\":5.891568253155178,\"temperature\":36.43438167369254,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LEFT_HAND\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-WP-013" : "{\"sex\":\"male\",\"age\":92,\"height_cm\":173,\"bmi\":25.83,\"sugarLevel\":7.189160631320868,\"temperature\":36.84105063338209,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.03740920376042945}]}}]}",
+        "CH-XM-825" : "{\"sex\":\"female\",\"age\":21,\"height_cm\":164,\"bmi\":23.9,\"sugarLevel\":4.884303579304496,\"temperature\":36.83452212101757,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.04500476929895161},{\"type\":\"BurnArgs\",\"percent\":0.29409258734558547}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}]}",
+        "CH-XS-803" : "{\"sex\":\"male\",\"age\":93,\"height_cm\":176,\"bmi\":24.55,\"sugarLevel\":8.441022738263657,\"temperature\":36.713548448616415,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh__2\",\"afflictedBlocks\":[\"LEFT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7049154823249416}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.03111042828878583}]}}]}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "TeamScope",
@@ -719,7 +722,7 @@
       "name" : "hospitals_config",
       "properties" : {
         "hospitals" : "{\"iyEVC1\":{\"index\":1,\"fullName\":\"CHUV\",\"shortName\":\"CHUV\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":10,\"proximity\":\"2\",\"units\":{\"9seyHx\":5,\"3TE4yA\":2}},\"yP4JAc\":{\"index\":2,\"fullName\":\"HUG\",\"shortName\":\"HUG\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":1,\"proximity\":1,\"units\":{\"9seyHx\":2,\"3TE4yA\":8}},\"iUKvbj\":{\"index\":3,\"fullName\":\"Meyrin\",\"shortName\":\"MH\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":3,\"proximity\":1,\"units\":{\"9seyHx\":3,\"3TE4yA\":1}}}",
-        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"PolyTrauma\"}},\"version\":2}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Dechoc\"}},\"version\":1}}}"
+        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"PolyTrauma\"}},\"version\":2}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Dechoc\"}},\"version\":1}},\"t07U7p\":{\"index\":3,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0}}}"
       },
       "refId" : "ObjectDescriptor:1618543:nC9xke",
       "scopeType" : "GameModelScope",
@@ -5100,6 +5103,62 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "Map configuration",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:1655152:8xkNF5"
+      },
+      "editorTag" : "map",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:1658766:rpwMnM"
+        },
+        "description" : "",
+        "editorTag" : "mapConfiguration",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1658767:rTLtez",
+          "translations" : { }
+        },
+        "name" : "mapConfiguration",
+        "properties" : {
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.907871699377882,\"extent\":[2499696.2936464697,1118102.6796080722,2499972.5616214722,1118446.0276092258],\"center\":[2499834.427633971,1118274.353608649],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
+        },
+        "refId" : "ObjectDescriptor:1658765:zpHZKW",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1655153:jqCN4l",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1655153:jqCN4l::FR",
+            "status" : "",
+            "translation" : "map"
+          }
+        }
+      },
+      "name" : "map",
+      "refId" : "ListDescriptor:1655151:QFhHPh",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -6154,6 +6213,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/utils/mapConfig",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658763:n2eskE",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/utils/mapUtils",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6433,6 +6501,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/mapConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658791:AGkxNO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/methaneFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6568,15 +6645,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "newCSS/MIMMS/dashboardHospitalsConfigCommon",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:1598775:RK2MP8",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "newCSS/MIMMS/evasanFrom",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6676,6 +6744,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/patientGeneration",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1658764:2UxNvj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/PMA",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6698,6 +6775,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1383:9LZWli",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/scenaristTable",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:1662212:JDEaMP",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6962,7 +7048,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-371 XGO",
+  "name" : "MIMMS - MIM-395 XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -1,0 +1,247 @@
+/* - - - -  P A T I E N T   G E N E R A T I O N  - - - */
+
+/* - - h e a d e r - - */
+.top-left-cell {
+  display: flex;
+  align-items: center;
+}
+
+.table-buttons {
+  gap: 0.5rem;
+  margin-left: 1.5rem;
+}
+
+/* accordion */
+.patient-accordion-header {
+  background-color: white;
+  color: var(--grey_100);
+  text-transform: capitalize;
+}
+
+.patient-accordion-header:hover,
+.patient-accordion-header:focus,
+.patient-accordion-header:focus-visible {
+  background-color: white;
+  cursor: pointer;
+}
+
+.patient-accordion-header > div > div > div {
+  display: flex;
+  font-size: var(--SM_text);
+}
+
+/* details accordion width */
+.patient-accordion-header > div > div > div > div {
+  width: 6vw;
+}
+
+#details {
+  width: 24vw;
+}
+
+/* - - l i n e - - */
+.no-patient__text {
+  margin: 14px 0 0 0;
+  font-size: var(--S_text);
+  font-style: italic;
+  color: var(--grey_100);
+}
+
+/* different line width depending on if details accordion is open/closed */
+.patient-line-open {
+  width: 60vw;
+}
+
+.patient-line-closed {
+  width: 42vw;
+}
+
+.line .line-actions {
+  display: none;
+}
+
+.line:hover .line-actions {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  width: 6vw;
+}
+
+.details-sex {
+  text-transform: uppercase;
+}
+
+.patientGenerationTagCategory {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--XS_borderRadius);
+}
+
+
+/* - - - -  M O D A L S - - - - */
+
+/* - - s e e   p a t i e n t   m o d a l - - */
+.patient-header-button--active button {
+  color: white;
+  background-color: var(--primary_base);
+}
+
+.patient-header-button--active:hover button {
+  color: white;
+  background-color: var(--primary_70);
+}
+
+.see-patient__buttons-gap {
+  gap: .5rem;
+}
+
+/* - - p a t i e n t   g e n e r a t i o n   m o d a l - - */
+.patient-modal {
+  width: 30rem;
+  height: 50vh;
+}
+
+/* - - s t e p p e r - - */
+.stepper-container {
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.stepper {
+  gap: 4px;
+}
+
+.step-container {
+  align-items: center;
+  gap: 4px;
+}
+
+.step-line::after {
+    content: "";
+    width: 50px;
+    height: 1px;
+    background-color: var(--grey_20);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: white;
+  border-radius: var(--S_borderRadius);
+}
+
+.step-number--active {
+  background-color: var(--primary_base);
+}
+
+.step-number--disabled {
+  background-color: var(--grey_30);
+}
+
+.step-icon-container {
+  /*align-items: center;
+  justify-content: center;*/
+  width: 22px;
+  /*height: 22px;*/
+  background-color: var(--primary_base);
+  border-radius: var(--S_borderRadius);
+}
+
+.step-icon {
+  /*width: .75rem;*/
+  height: auto;
+  color: white;
+}
+
+.step-text {
+  font-size: var(--XS_text);
+  color: var(--grey_100);
+}
+
+.step-text--active {
+  font-weight: var(--boldWeight);
+}
+
+.step-text--disabled {
+  color: var(--grey_30);
+}
+
+.patient-modal__close-button svg {
+  color: var(--grey_30);
+}
+
+/* - - t i t l e - - */
+.patient-modal__title {
+  margin-bottom: 1rem;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+}
+
+/* - - c o n t e n t   p a t h o l o g i e s - - */
+.patient-modal__line {
+  width: 22rem;
+  padding: .5rem;
+  background-color: white;
+  border-radius: var(--XS_borderRadius);
+  transition: background-color ease-in-out .3s;
+}
+
+.patient-modal__line:hover {
+  background-color: var(--primary_10);
+  transition: background-color ease-in-out .3s;
+}
+
+.patient-modal__text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  transition: color ease-in-out .3s;
+}
+
+.patient-modal__line:hover .patient-modal__text {
+  color: var(--primary_base);
+  transition: color ease-in-out .3s;
+}
+
+.patient-modal__checkbox .iconOnly {
+  padding: 0;
+  color: var(--primary_base);
+}
+
+/* - - c o n t e n t   c a t e g o r i e s - - */
+.existing-patients__container {
+  width: 22rem;
+  padding: 0 0 .5rem 0;
+  margin: 0 0 1rem 0;
+  border-bottom: 1px solid var(--grey_20);
+}
+
+.existing-patients,
+.new-patients {
+  justify-content: space-between;
+  margin-bottom: .5rem;
+}
+
+.existing-patients__output {
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 1.5rem;
+}
+
+.new-patients__input input {
+  width: 4rem;
+  height: 1.5rem;
+  min-height: 0;
+  border-radius: var(--XXS_borderRadius);
+  border: 1px solid var(--grey_30);
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+}

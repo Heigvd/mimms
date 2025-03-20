@@ -238,10 +238,6 @@ export const entries = Object.entries as <T>(obj: T) => Array<[keyof T, T[keyof 
 export const keys = Object.keys as <T>(obj: T) => Array<keyof T>;
 export const values = Object.values as <T>(obj: T) => Array<T[keyof T]>;
 
-export function getRawString(value: string) {
-  return value;
-}
-
 export function getLetterRepresentationOfIndex(index: number): string {
   return (index + 10).toString(36).toUpperCase();
 }
@@ -262,3 +258,9 @@ export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 1):
     }, delay);
   });
 }
+
+// builds a type which properties are only of the condition type
+export type FilterTypeProperties<Source, Condition> = Pick<
+  Source,
+  { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
+>;

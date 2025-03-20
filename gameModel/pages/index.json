@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "47",
+  "defaultPageId" : "43",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
@@ -210,12 +210,6 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
-        "id" : "patientGeneration",
-        "name" : "Patient Generation",
-        "scenaristPage" : true,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
@@ -252,10 +246,38 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "PathologySelection",
-        "name" : "Pathology Selection",
+        "id" : "mapConfiguration",
+        "name" : "Map Configuration",
         "scenaristPage" : true,
         "trainerPage" : null
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "PathologySelection",
+          "name" : "Pathology Selection",
+          "scenaristPage" : true,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "patientGeneration",
+          "name" : "Patient Generation",
+          "scenaristPage" : true,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "15",
+          "name" : "CategorySelection",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "29",
+          "name" : "GenerationModal",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "Patient Generation"
       } ],
       "name" : "Scenarist"
     }, {
@@ -552,6 +574,12 @@
           "trainerPage" : null
         } ],
         "name" : "summary"
+      }, {
+        "@class" : "Page",
+        "id" : "50",
+        "name" : "patient details",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "mainSimulation pages"
     } ],
