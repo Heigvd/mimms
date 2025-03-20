@@ -13,11 +13,10 @@ export function updateMapRef(map: any): void {
   map.on('moveend', printView);
 }
 
-export function printView(): void {
+function printView(): void {
   const map = mapRef.current;
-  //wlog('View', map.getView());
-  wlog('Center', map.getView().getCenter());
-  wlog('Zoom', map.getView().getZoom());
+  logger.debug('Center', map.getView().getCenter());
+  logger.debug('Zoom', map.getView().getZoom());
 }
 
 export interface MapState {
