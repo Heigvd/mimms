@@ -1,5 +1,5 @@
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
-import { Point } from '../../map/point2D';
+import { add, mul, Point, sub } from '../../map/point2D';
 
 /**
  * Convert Point to PointLikeObject
@@ -86,4 +86,32 @@ export function getPolygonCentroid(vertices: PointLikeObject[]): PointLikeObject
  */
 export function getLineStringMiddlePoint(vertices: PointLikeObject[]): PointLikeObject {
   return [(vertices[0]![0] + vertices[1]![0]) / 2.0, (vertices[0]![1] + vertices[1]![1]) / 2.0];
+}
+
+export function getExtentCenter(extent: ExtentLikeObject): PointLikeObject {
+  return [(extent[0] + extent[2]) * 0.5, (extent[1] + extent[3]) * 0.5];
+}
+
+export function scaleExtent(extent: ExtentLikeObject, factor: number): ExtentLikeObject {
+  const center = pointLikeToPoint(getExtentCenter(extent));
+  const oldMax: Point = { x: extent[2], y: extent[3] };
+
+  const vec = mul(sub(oldMax, center), factor);
+  const min = sub(center, vec);
+  const max = add(center, vec);
+
+  return [min.x, min.y, max.x, max.y];
+}
+
+export function extentToLineString(extent: ExtentLikeObject): PointLikeObject[] {
+  const min: Point = { x: extent[0], y: extent[1] };
+  const max: Point = { x: extent[2], y: extent[3] };
+
+  return [
+    [min.x, min.y],
+    [max.x, min.y],
+    [max.x, max.y],
+    [min.x, max.y],
+    [min.x, min.y],
+  ];
 }

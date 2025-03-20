@@ -2727,7 +2727,7 @@
   }, {
     "@class" : "BooleanDescriptor",
     "broadcastScope" : "TeamScope",
-    "comments" : "",
+    "comments" : "Used for matrix editor update",
     "defaultInstance" : {
       "@class" : "BooleanInstance",
       "refId" : "BooleanInstance:56277:5s3iVr",
@@ -2931,71 +2931,6 @@
       },
       "name" : "newEvents",
       "refId" : "EventInboxDescriptor:205070:tu8VIV",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "InboxDescriptor",
-      "broadcastScope" : "TeamScope",
-      "capped" : false,
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "InboxInstance",
-        "messages" : [ ],
-        "refId" : "InboxInstance:24034252:rDo97E",
-        "unreadCount" : 0
-      },
-      "editorTag" : "events",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24034253:ZficUd",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24034253:ZficUd::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "events",
-      "refId" : "InboxDescriptor:24034251:S1G7kT",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:24035264:cyLOux",
-        "value" : -1.0
-      },
-      "defaultValue" : -1.0,
-      "editorTag" : "",
-      "historySize" : 20,
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24035265:bVpHuE",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24035265:bVpHuE::EN",
-            "status" : "",
-            "translation" : "lastEventId"
-          }
-        }
-      },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "lastEventId",
-      "refId" : "NumberDescriptor:24035263:MlG2Ps",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -5034,74 +4969,6 @@
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
-      }, {
-        "@class" : "ListDescriptor",
-        "addShortcut" : "",
-        "allowedTypes" : [ ],
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ListInstance",
-          "refId" : "ListInstance:229060:x3YZb1"
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "items" : [ {
-          "@class" : "StringDescriptor",
-          "allowedValues" : [ ],
-          "broadcastScope" : "TeamScope",
-          "comments" : "",
-          "defaultInstance" : {
-            "@class" : "StringInstance",
-            "refId" : "StringInstance:229065:RN1v6E",
-            "trValue" : {
-              "@class" : "TranslatableContent",
-              "refId" : "TranslatableContent:229066:Zx2ZxH",
-              "translations" : { }
-            }
-          },
-          "editorTag" : "",
-          "isolation" : "OPEN",
-          "label" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:229067:jlWp3f",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:229067:jlWp3f::EN",
-                "status" : "",
-                "translation" : "selectedTeam"
-              }
-            }
-          },
-          "maxSelectable" : 1,
-          "name" : "selectedTeam",
-          "refId" : "StringDescriptor:229064:Sk0Wg5",
-          "scopeType" : "TeamScope",
-          "sortable" : false,
-          "validationPattern" : null,
-          "version" : null,
-          "visibility" : "PRIVATE"
-        } ],
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:229061:xPPXIo",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:229061:xPPXIo::EN",
-              "status" : "",
-              "translation" : "trainer"
-            }
-          }
-        },
-        "name" : "trainer_PX3n0s",
-        "refId" : "ListDescriptor:229059:mUDySZ",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5234,6 +5101,62 @@
       "name" : "trainer_Zix3IY",
       "refId" : "ListDescriptor:243642:ynaItH",
       "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ListDescriptor",
+      "addShortcut" : "",
+      "allowedTypes" : [ ],
+      "broadcastScope" : "TeamScope",
+      "comments" : "Map configuration",
+      "defaultInstance" : {
+        "@class" : "ListInstance",
+        "refId" : "ListInstance:1655152:8xkNF5"
+      },
+      "editorTag" : "map",
+      "isolation" : "OPEN",
+      "items" : [ {
+        "@class" : "ObjectDescriptor",
+        "broadcastScope" : "GameModelScope",
+        "comments" : "",
+        "defaultInstance" : {
+          "@class" : "ObjectInstance",
+          "properties" : { },
+          "refId" : "ObjectInstance:1658766:rpwMnM"
+        },
+        "description" : "",
+        "editorTag" : "mapConfiguration",
+        "isolation" : "OPEN",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1658767:rTLtez",
+          "translations" : { }
+        },
+        "name" : "mapConfiguration",
+        "properties" : {
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.907871699377882,\"extent\":[2499696.2936464697,1118102.6796080722,2499972.5616214722,1118446.0276092258],\"center\":[2499834.427633971,1118274.353608649],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
+        },
+        "refId" : "ObjectDescriptor:1658765:zpHZKW",
+        "scopeType" : "GameModelScope",
+        "version" : null,
+        "visibility" : "PRIVATE"
+      } ],
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1655153:jqCN4l",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1655153:jqCN4l::FR",
+            "status" : "",
+            "translation" : "map"
+          }
+        }
+      },
+      "name" : "map",
+      "refId" : "ListDescriptor:1655151:QFhHPh",
+      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -6326,6 +6249,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/utils/mapConfig",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658763:n2eskE",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/utils/mapUtils",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6600,6 +6532,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1220808:lhMLFW",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/mapConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1658791:AGkxNO",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
