@@ -1,10 +1,14 @@
+import {
+  ContainerConfigurationData,
+  loadResourceContainersConfigurationData,
+} from '../game/common/simulationState/loaders/resourceLoader';
+import { generateId } from '../tools/helper';
 import { saveToObjectDescriptor } from '../tools/WegasHelper';
 
 export function getContainerConfigurations() {
-  const raw = Variable.find(gameModel, 'containers_config').getProperties();
-  return Object.entries(raw).map(([key, value]) => {
-    const parsed = JSON.parse(value);
-    return { id: key, ...parsed };
+  const data = loadResourceContainersConfigurationData();
+  return Object.entries(data).map(([key, value]) => {
+    return { id: key, ...value };
   });
 }
 
@@ -18,25 +22,51 @@ export function getDefaultUIState(): UIState {
   };
 }
 
-function getContainerConfigurationsVariable() {
-  const raw = Variable.find(gameModel, 'containers_config').getProperties();
-  const containerConfigurations: any = {};
-  Object.entries(raw).forEach(([key, value]) => {
-    containerConfigurations[key] = JSON.parse(value);
-  });
-  return containerConfigurations;
-}
-
-export function updateValue(id: string, field: string, value: string | number) {
-  const containerConfigurations = getContainerConfigurationsVariable();
-  containerConfigurations[id][field] = value;
+export function updateNumberValue(
+  id: string,
+  field: 'travelTime' | 'availabilityTime',
+  value: number
+) {
+  const containerConfigurations = loadResourceContainersConfigurationData();
+  const payload = containerConfigurations[id]!.payload;
+  payload[field] = value;
   saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
 }
 
-export function updateID(id: string, newId: string | number) {
-  const containerConfigurations = getContainerConfigurationsVariable();
-  const values = containerConfigurations[id];
+export function updateStringValue(id: string, field: 'name' | 'type', value: string) {
+  const containerConfigurations = loadResourceContainersConfigurationData();
+  const payload = containerConfigurations[id]!.payload;
+  payload[field] = value;
+  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+}
+
+export function addContainerConfiguration() {
+  const containerConfigurations = loadResourceContainersConfigurationData();
+  const newConfig: ContainerConfigurationData = {
+    mandatory: false,
+    payload: {
+      name: 'unnamed',
+      type: 'AMB-U',
+      availabilityTime: 5,
+      travelTime: 10,
+    },
+  };
+  const id = generateId(10);
+  containerConfigurations[id] = newConfig;
+  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+}
+
+export function removeContainerConfiguration(id: string) {
+  const containerConfigurations = loadResourceContainersConfigurationData();
   delete containerConfigurations[id];
-  containerConfigurations[newId] = values;
   saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+}
+
+export function toggleMandatory(id: string) {
+  const containerConfigurations = loadResourceContainersConfigurationData();
+  const config = containerConfigurations[id];
+  if(config){
+    config.mandatory = !config.mandatory;
+    saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  }
 }

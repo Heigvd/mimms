@@ -87,7 +87,7 @@
                             },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.containerConfig.type;",
+                              "content" : "  Context.containerConfig.payload.type;",
                               "language" : "TypeScript"
                             }
                           },
@@ -100,7 +100,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.containerConfig.id + \"\";",
+                              "content" : "  Context.containerConfig.payload.name;",
                               "language" : "TypeScript"
                             }
                           },
@@ -115,7 +115,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.containerConfig.availabilityTime + \"\";",
+                                  "content" : "  Context.containerConfig.payload.availabilityTime + \"\";",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -151,7 +151,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.containerConfig.travelTime + \"\";",
+                                  "content" : "  Context.containerConfig.payload.travelTime + \"\";",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -195,6 +195,31 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Editor.getFeatures().ADVANCED;",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "mandatory",
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { toggleMandatory } from \"./edition/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.containerConfig.mandatory;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { },
+                            "type" : "checkbox"
+                          },
+                          "type" : "Boolean"
+                        }, {
+                          "props" : {
                             "className" : "line-left-cell",
                             "layoutStyle" : { },
                             "name" : "Type of means",
@@ -204,7 +229,7 @@
                             },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.containerConfig.type;",
+                              "content" : "  Context.containerConfig.payload.type;",
                               "language" : "TypeScript"
                             }
                           },
@@ -218,7 +243,7 @@
                             "onVariableChange" : {
                               "client" : {
                                 "@class" : "Script",
-                                "content" : "import { updateID } from \"./edition/resourcesConfiguration\";\nupdateID(Context.containerConfig.id, Context.value);",
+                                "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
                                 "language" : "TypeScript"
                               },
                               "exposeVariableAs" : {
@@ -229,7 +254,7 @@
                             },
                             "script" : {
                               "@class" : "Script",
-                              "content" : "  Context.containerConfig.id + \"\"",
+                              "content" : "  Context.containerConfig.payload.name;",
                               "language" : "TypeScript"
                             },
                             "style" : { }
@@ -242,10 +267,21 @@
                                 "layoutStyle" : { },
                                 "name" : "Availability time",
                                 "onCancel" : { },
-                                "onVariableChange" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"value\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.containerConfig.availabilityTime;",
+                                  "content" : "  Context.containerConfig.payload.availabilityTime;",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -283,7 +319,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateValue } from \"./edition/resourcesConfiguration\";\n\nupdateValue(Context.containerConfig.id, \"travelTime\", Context.value);",
+                                    "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -294,7 +330,7 @@
                                 },
                                 "script" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.containerConfig.travelTime;",
+                                  "content" : "  Context.containerConfig.payload.travelTime;",
                                   "language" : "TypeScript"
                                 },
                                 "style" : { }
@@ -352,6 +388,11 @@
                               "type" : "Button"
                             }, {
                               "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.containerConfig.mandatory == true;",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "trash",
                                 "label" : {
                                   "@class" : "Script",
@@ -359,6 +400,13 @@
                                   "language" : "TypeScript"
                                 },
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { removeContainerConfiguration } from \"./edition/resourcesConfiguration\";\n\nremoveContainerConfiguration(Context.containerConfig.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "name" : "delete resource",
                                 "style" : { }
                               },
@@ -449,6 +497,25 @@
             "style" : {
               "margin" : "24px 0 0 24px"
             }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>add</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { addContainerConfiguration } from \"./edition/resourcesConfiguration\";\n\naddContainerConfiguration();",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "add",
+            "style" : { }
           },
           "type" : "Button"
         } ],
