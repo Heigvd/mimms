@@ -21,6 +21,23 @@ export const ResourceContainerTypeArray = [
 
 export type ResourceContainerType = typeof ResourceContainerTypeArray[number];
 
+/**
+ * Friendly name used for the configuration of container types
+ */
+export const ResourceContainerDefinitionNameArray = [
+  'AMB-U',
+  'AMB-I',
+  'AMB-T',
+  'SMUR',
+  'Helico',
+  'ACS-MCS',
+  'PMA',
+  'PICA',
+  'PC',
+] as const;
+
+export type ResourceContainerDefinitionName = typeof ResourceContainerDefinitionNameArray[number];
+
 export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {
   'ACS-MCS': true,
   'PC-San': true,

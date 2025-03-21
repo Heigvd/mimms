@@ -258,3 +258,14 @@ export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 1):
     }, delay);
   });
 }
+
+export function generateId(length: number) {
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  let id = '';
+  for (let i = 0; i < length; i++) {
+    id += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return id;
+}

@@ -7,7 +7,6 @@ import { FixedMapEntity } from '../events/defineMapObjectEvent';
 import { IClonable } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
-import { getAllContainerDefs } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';
 import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
@@ -15,6 +14,7 @@ import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { DashboardTeamGameState, makeReducedState } from '../../../dashboard/dashboardState';
+import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -86,7 +86,7 @@ export class MainSimulationState implements IClonable {
    * Get map of containers
    */
   public getResourceContainersByType(): Record<ResourceContainerType, ResourceContainerConfig[]> {
-    const defs = getAllContainerDefs();
+    const defs = getContainersDefinitions();
     return group(this.internalState.resourceContainers, c => defs[c.templateId]!.type);
   }
 

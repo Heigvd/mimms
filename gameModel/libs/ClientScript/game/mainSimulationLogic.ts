@@ -39,9 +39,9 @@ import {
 } from './common/localEvents/localEventBase';
 import { localEventManager } from './common/localEvents/localEventManager';
 import { loadPatients } from './common/patients/handleState';
-import { loadEmergencyResourceContainers } from './common/resources/emergencyDepartment';
 import { Resource } from './common/resources/resource';
 import { resetIdSeed as ResourceContainerResetIdSeed } from './common/resources/resourceContainer';
+import { loadResourceContainersConfiguration } from './common/simulationState/loaders/resourceLoader';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { SubTask } from './common/tasks/subTask';
@@ -251,7 +251,7 @@ export function buildStartingMainState(): MainSimulationState {
       ],
       radioMessages: [],
       resources: initialResources,
-      resourceContainers: loadEmergencyResourceContainers(),
+      resourceContainers: loadResourceContainersConfiguration(),
       flags: {},
       hospital: {},
     },
