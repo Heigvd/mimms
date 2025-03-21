@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1742402114228,
+  "createdTime" : 1742577242531,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5191,55 +5191,6 @@
     "editorTag" : "dashboard",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "Contains the last computed state of the team's main simulation",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:1087303:DPBrfZ"
-      },
-      "description" : "",
-      "editorTag" : "currentState",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:1087304:OjFNkp",
-        "translations" : { }
-      },
-      "name" : "currentState",
-      "properties" : { },
-      "refId" : "ObjectDescriptor:1087302:mzXlDQ",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "Contains the last computed state id",
-      "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:1087357:5G3oPN",
-        "value" : -1.0
-      },
-      "defaultValue" : -1.0,
-      "editorTag" : "currentStateCount",
-      "historySize" : 20,
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:1087358:8seO4W",
-        "translations" : { }
-      },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "currentStateCount",
-      "refId" : "NumberDescriptor:1087356:MPzI0g",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ {
         "@class" : "EnumItem",
@@ -7084,7 +7035,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-384 XGO (3)",
+  "name" : "MIMMS - MIM-384 XGO (4)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

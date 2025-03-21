@@ -40,20 +40,18 @@ export function sendEvents(
 export function getAllEvents<P extends EventPayload>(): FullEvent<P>[] {
   const eventsInstance = Variable.find(gameModel, 'newEvents').getInstance(self);
   const rawEvents = eventsInstance.getEntity().events || [];
+  return rawEvents.map(parseSingleEvent);
+}
 
-  const events = rawEvents.map((rawEv: any) => {
-    const content = parse<{ time: number; payload: P }>(rawEv.payload)!;
-    const event: FullEvent<P> = {
-      id: rawEv.id,
-      time: content.time, // sim provided time (used in pre-tri real time)
-      payload: content.payload,
-      timestamp: rawEv.timeStamp, // server epoch time
-    };
-
-    return event;
-  });
-
-  return events;
+export function parseSingleEvent<P extends EventPayload>(rawEv: any): FullEvent<P> {
+  const content = parse<{ time: number; payload: P }>(rawEv.payload)!;
+  const event: FullEvent<P> = {
+    id: rawEv.id,
+    time: content.time, // sim provided time (used in pre-tri real time)
+    payload: content.payload,
+    timestamp: rawEv.timeStamp, // server epoch time
+  };
+  return event;
 }
 
 /**

@@ -1,61 +1,20 @@
 import { TimedEventPayload } from '../game/common/events/eventTypes';
-import { FullEvent } from '../game/common/events/eventUtils';
+import { parseSingleEvent } from '../game/common/events/eventUtils';
 import { getStartingMainState } from '../game/common/simulationState/loaders/mainStateLoader';
+import { MainStateObject } from '../game/common/simulationState/mainSimulationState';
 import {
-  MainSimulationState,
-  MainStateObject,
-} from '../game/common/simulationState/mainSimulationState';
-import { PatientState } from '../game/common/simulationState/patientState';
-import { createOrUpdateExecutionContext } from '../game/gameExecutionContextController';
+  createOrUpdateExecutionContext,
+  getTargetExectionContext,
+} from '../game/gameExecutionContextController';
 import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
-import { parse } from '../tools/WegasHelper';
+import { getDashboardTeams } from './utils';
 
-type PatientReducedState = Omit<PatientState, 'humanBody'>;
-
-export function makeReducedState(patient: PatientState): PatientReducedState {
-  const { humanBody, ...reduced } = patient;
-  return reduced;
-}
-
-export type DashboardTeamGameState = Omit<MainStateObject, 'patients'> & {
+export type DashboardTeamGameState = MainStateObject & {
   simulationTime: number;
-  patients: PatientReducedState[];
 };
 
 export type UpdateStateFunc = (newState: DashboardGameState) => void;
-
-let localStateCount = -1;
-/**
- * Stores the current state of a game in a 'per team' variable
- * Called by player
- */
-export async function updateLastState(
-  computedState: Readonly<MainSimulationState>
-): Promise<IManagedResponse | undefined> {
-  try {
-    const varCount = Variable.find(gameModel, 'currentStateCount').getInstance(self).getValue();
-    const count = Math.max(varCount, localStateCount);
-    dashboardLogger.debug(
-      'state values (var, local, new)',
-      varCount,
-      localStateCount,
-      computedState.stateCount
-    );
-    localStateCount = count;
-    if (localStateCount < computedState.stateCount) {
-      localStateCount = computedState.stateCount;
-
-      let script = `Variable.find(gameModel, 'currentStateCount').getInstance(self).setValue(${localStateCount});`;
-      script += `Variable.find(gameModel, 'currentState').getInstance(self).setProperty('state', 
-      ${JSON.stringify(JSON.stringify(computedState.getReducedState()))});`;
-
-      return await APIMethods.runScript(script, {});
-    }
-  } catch (e) {
-    dashboardLogger.error('Could not update team state', computedState, e);
-  }
-}
 
 /**************************************
  * Dashboard fetch functions
@@ -70,28 +29,18 @@ interface RawEventBoxContent {
   eventBoxId: number;
 }
 
-export async function buildAllTeamsState(safety: boolean): Promise<void> {
-  if (safety && loadedFirstTime) {
-    dashboardLogger.debug('Loaded already');
-  }
-  loadedFirstTime = true;
-  dashboardLogger.debug('Loading per team state...');
+/**
+ * Fetches all events for each team and updates their state
+ */
+async function updateAllTeamsState(): Promise<void> {
+  dashboardLogger.debug('Building per team state...');
 
   const response = await APIMethods.runScript('CustomDashboard.getEventsByTeam();', {});
   const events = response.updatedEntities as any[];
   Object.entries(events[0]).forEach(([teamId, raw]) => {
     const tid = teamId as unknown as number;
     const box = raw as RawEventBoxContent;
-    const parsedEvents = box.events.map((rawEv: any) => {
-      const content = parse<{ time: number; payload: TimedEventPayload }>(rawEv.payload)!;
-      const event: FullEvent<TimedEventPayload> = {
-        id: rawEv.id,
-        time: content.time, // sim provided time (used in pre-tri real time)
-        payload: content.payload,
-        timestamp: rawEv.timeStamp, // server epoch time
-      };
-      return event;
-    });
+    const parsedEvents = box.events.map((rawEv: any) => parseSingleEvent<TimedEventPayload>(rawEv));
     createOrUpdateExecutionContext(tid, box.eventBoxId, parsedEvents, convertToLocalEvent);
   });
 }
@@ -100,12 +49,13 @@ export type DashboardGameState = Record<number, DashboardTeamGameState>;
 
 let loadedFirstTime = false;
 let stateCache: DashboardGameState = {};
-// dummy state without event => same for all teams
-let initialState: DashboardTeamGameState;
 function cacheUpdate(freshState: DashboardGameState): void {
   stateCache = freshState;
 }
 
+/**
+ * Builds all the game contexts and maps them DashboardGameStates
+ */
 export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> {
   if (safety && loadedFirstTime) {
     dashboardLogger.debug('Loaded already, returning cached result');
@@ -114,24 +64,20 @@ export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGame
   loadedFirstTime = true;
   dashboardLogger.debug('Loading per team state...');
 
-  const response = await APIMethods.runScript('CustomDashboard.getStoredStatesByTeam();', {});
-  const states = response.updatedEntities as any[];
-  const result: Record<number, DashboardTeamGameState> = {};
-  Object.entries(states[0]).forEach(([teamId, instance]) => {
-    const tid = teamId as unknown as number;
-    try {
-      const state = JSON.parse((instance as any).properties.state) as DashboardTeamGameState;
-      result[tid] = state;
-    } catch (e) {
-      // Assumption : happens when the initial state has not been uploaded yet by any player
-      if (!initialState) {
-        initialState = getStartingMainState().getReducedState();
-      }
-      result[tid] = initialState;
-    }
+  await updateAllTeamsState();
+
+  const currentStates: DashboardGameState = {};
+  getDashboardTeams().forEach(t => {
+    const tid = t.getId()!;
+    const state = getTargetExectionContext(tid)?.getCurrentState() || getStartingMainState();
+    const dstate: DashboardTeamGameState = {
+      ...state.getInternalStateObject(),
+      simulationTime: state.getSimTime(),
+    };
+    currentStates[tid] = dstate;
   });
-  cacheUpdate(result);
-  return result;
+  cacheUpdate(currentStates);
+  return currentStates;
 }
 
 export async function fetchAndUpdateTeamsGameState(

@@ -19,10 +19,6 @@ CustomDashboard = (function () {
     return byTeamEvents;
   }
 
-  function getStoredStatesByTeam() {
-    return getInstances('currentState');
-  }
-
   function getGameStateByTeam() {
     var gameStates = getInstances('gameState');
 
@@ -58,7 +54,6 @@ CustomDashboard = (function () {
   return {
     getInstances: getInstances,
     getEventsByTeam: getEventsByTeam,
-    getStoredStatesByTeam: getStoredStatesByTeam,
     getGameStateByTeam: getGameStateByTeam,
     getGameState: getGameState,
     setGameState: setGameState,

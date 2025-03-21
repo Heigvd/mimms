@@ -52,7 +52,7 @@ let initializationComplete = false;
  */
 export function runUpdateLoop(): void {
   if (!initializationComplete) {
-    ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+    tryLoadTemplates();
     createPlayerContext();
     initializationComplete = true;
     mainSimLogger.info('------ STATE INIT DONE ------');
@@ -72,11 +72,19 @@ export function runUpdateLoop(): void {
   }
 }
 
+function tryLoadTemplates(): void {
+  if (!actionTemplates || !uniqueActionTemplates) {
+    ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+  }
+}
+
 /**
  * converts a global event to local events and enqueue them for later evaluation
  * @param event a received global event
  */
 export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalEventBase[] {
+  tryLoadTemplates();
+
   const localEvents: LocalEventBase[] = [];
   switch (event.payload.type) {
     case 'ActionCreationEvent':

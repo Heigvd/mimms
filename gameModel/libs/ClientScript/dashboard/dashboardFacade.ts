@@ -564,3 +564,18 @@ export async function updateRolesSetupAndClose(
   await updateTeamMatrix(state.selectedTeam, state.roleConfig);
   resetModalCustom(dasboardStateCtx);
 }
+
+let firstLoadDone = false;
+
+export async function refresh(safety: boolean): Promise<unknown> {
+  if (safety && firstLoadDone) {
+    return;
+  }
+  firstLoadDone = true;
+
+  return await Promise.all([
+    getAllTeamsMultiplayerMatrix(),
+    getAllTeamGameStateStatus(),
+    fetchAndUpdateTeamsGameState(Context.state.setState, safety),
+  ]);
+}

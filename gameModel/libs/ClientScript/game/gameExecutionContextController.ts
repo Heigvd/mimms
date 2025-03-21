@@ -63,8 +63,15 @@ export function createOrUpdateExecutionContext(
 
 export function createPlayerContext(): void {
   const teamId = getPlayerTeamId();
-  const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId()!;
-  createNewContext(teamId, eventBoxId);
+  if (executionContexts[teamId]) {
+    gameExecLogger.warn(
+      'player context exists already. This is normal if the dashboard page and main simulation page is opened',
+      teamId
+    );
+  } else {
+    const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId()!;
+    createNewContext(teamId, eventBoxId);
+  }
 }
 
 function getPlayerTeamId(): number {
@@ -84,13 +91,16 @@ function getCurrentTeamId(): TeamId {
   return getPlayerTeamId();
 }
 
+export function getTargetExectionContext(teamId: TeamId): GameExecutionContext | undefined {
+  return executionContexts[teamId];
+}
+
 export function getCurrentExecutionContext(): GameExecutionContext {
   const teamId = getCurrentTeamId();
   let ctx = executionContexts[teamId];
   if (ctx) {
     return ctx;
   }
-  //return ctx!;
   throw new Error('No context has been initalized for team id ' + teamId);
 }
 
@@ -98,6 +108,7 @@ export function getCurrentExecutionContext(): GameExecutionContext {
 let mainStateInitializationComplete = false;
 /**
  * The default generator is used during the starting state initialization
+ * while building the initial state that is common to all teams
  */
 let mainStateDefaultUidGenerator: UidGenerator;
 
