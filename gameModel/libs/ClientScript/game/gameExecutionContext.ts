@@ -62,7 +62,6 @@ export class GameExecutionContext {
       // check that the first event to be applied matches the state
       const firstEvent = sorted[0];
       if ((firstEvent?.previousEventId || 0) !== this.getCurrentState().getLastEventId()) {
-        
         mainSimLogger.warn(
           "received event doesn't match the current state. Refresh required",
           firstEvent?.previousEventId,

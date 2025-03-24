@@ -54,7 +54,6 @@ export async function triggerDashboardTimeForward(
   dashboardLogger.debug('Sending time forward event to team', tf, teamId);
   const response = await sendEvent(tf, 0, teamId);
   updateStateAfterImpact(response, updateFunc);
-  //await fetchAndUpdateTeamsGameStateAfterImpact(true, updateFunc);
 }
 
 /**

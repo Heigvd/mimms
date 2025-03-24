@@ -105,30 +105,20 @@ export function createPlayerContext(): void {
   }
 }
 
-function getPlayerTeamId(): number {
+function getPlayerTeamId(): TeamId {
   return self.getParentId()!;
-}
-
-function getCurrentTeamId(): TeamId {
-  // when loading/updating the dashboard states
-  if (lockedTeamId) {
-    return lockedTeamId;
-  }
-  // reading values from the dashboard
-  // TODO remove ?
-  if (Context.team?.id) {
-    return Context.team.id;
-  }
-  // current player's team id
-  return getPlayerTeamId();
 }
 
 export function getTargetExecutionContext(teamId: TeamId): GameExecutionContext | undefined {
   return executionContexts[teamId];
 }
 
+/**
+ * If the context has been locked (dashboard update steps) returns the specific context
+ * else use the player's context
+ */
 export function getCurrentExecutionContext(): GameExecutionContext {
-  const teamId = getCurrentTeamId();
+  const teamId = lockedTeamId || getPlayerTeamId();
   let ctx = executionContexts[teamId];
   if (ctx) {
     return ctx;
