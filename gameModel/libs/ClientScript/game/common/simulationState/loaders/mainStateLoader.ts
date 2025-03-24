@@ -1,18 +1,17 @@
-import { loadTasks } from '../../simulationState/loaders/taskLoader';
+import { getWaitingTaskId, loadTasks } from '../../simulationState/loaders/taskLoader';
 import {
   BuildingStatus,
   GeometryBasedFixedMapEntity,
   PointGeometricalShape,
 } from '../../events/defineMapObjectEvent';
 import { getCurrentGameOptions } from '../../gameOptions';
-import { loadPatients } from '../../patients/handleState';
-import { loadEmergencyResourceContainers } from '../../resources/emergencyDepartment';
 import { Resource } from '../../resources/resource';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { Actor } from '../../actors/actor';
-import { TaskType } from '../../tasks/taskBase';
 import { notifyMainStateInitializationComplete } from '../../../gameExecutionContextController';
+import { loadEmergencyResourceContainers } from '../../simulationState/loaders/resourceLoader';
+import { loadPatients } from '../../simulationState/loaders/patientsLoader';
 
 let singletonStartState: MainSimulationState;
 
@@ -39,11 +38,12 @@ function buildStartingMainState(): MainSimulationState {
   );
 
   const tasks = loadTasks();
-  const waitingTask = tasks.find(t => t.taskType === TaskType.Waiting);
-  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTask?.Uid)];
+  const waitingTaskId = getWaitingTaskId(tasks);
+  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
 
   return new MainSimulationState(
     {
+      simulationTimeSec: 0,
       actions: [],
       cancelledActions: [],
       actors: [testAL, testCASU],
@@ -57,7 +57,6 @@ function buildStartingMainState(): MainSimulationState {
       hospital: {},
       gameOptions: getCurrentGameOptions(),
     },
-    0,
     0
   );
 }

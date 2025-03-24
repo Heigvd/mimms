@@ -7,7 +7,6 @@ import { FixedMapEntity } from '../events/defineMapObjectEvent';
 import { IClonable } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
-import { getAllContainerDefs } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';
 import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
@@ -15,15 +14,12 @@ import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { GameOptions } from '../gameOptions';
+import { getAllContainerDefs } from '../simulationState/loaders/resourceLoader';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
 
   private readonly internalState: MainStateObject;
-  /**
-   * Simulated time in seconds
-   */
-  private simulationTimeSec: number;
 
   /**
    * Handles time forward for multiplayer
@@ -43,12 +39,10 @@ export class MainSimulationState implements IClonable {
 
   public constructor(
     state: MainStateObject,
-    simTime: number,
     lastEventId: number,
     timeFrame: TimeFrame | undefined = undefined
   ) {
     this.internalState = state;
-    this.simulationTimeSec = simTime;
     this.lastEventId = lastEventId;
     this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
     if (!timeFrame) {
@@ -61,7 +55,6 @@ export class MainSimulationState implements IClonable {
   clone(): this {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
-      this.simulationTimeSec,
       this.lastEventId,
       Helpers.cloneDeep(this.forwardTimeFrame)
     ) as this;
@@ -103,7 +96,7 @@ export class MainSimulationState implements IClonable {
    * @param jump jump in seconds
    */
   public incrementSimulationTime(jump: SimDuration): void {
-    this.simulationTimeSec += jump;
+    this.internalState.simulationTimeSec += jump;
   }
 
   /**
@@ -120,7 +113,7 @@ export class MainSimulationState implements IClonable {
 
   /************ IMMUTABLE GETTERS ***************/
   public getSimTime(): SimTime {
-    return this.simulationTimeSec;
+    return this.internalState.simulationTimeSec;
   }
 
   public getActorById(actorId: ActorId | undefined): Readonly<Actor | undefined> {
@@ -181,7 +174,8 @@ export class MainSimulationState implements IClonable {
       this.internalState.mapLocations.filter(
         loc =>
           loc.name === 'Triage Zone' &&
-          (loc.startTimeSec || 0) + (loc.durationTimeSec || 0) <= this.simulationTimeSec
+          (loc.startTimeSec || 0) + (loc.durationTimeSec || 0) <=
+            this.internalState.simulationTimeSec
       ).length > 0
     );
   }
@@ -209,6 +203,7 @@ export class MainSimulationState implements IClonable {
 }
 
 export interface MainStateObject {
+  simulationTimeSec: number;
   /**
    * All actions that have been created
    */

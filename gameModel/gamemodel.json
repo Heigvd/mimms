@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1742827677932,
+  "createdTime" : 1742833117491,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5795,6 +5795,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/patientsLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750136:kCodvg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/resourceLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750135:J6ma6L",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/loaders/taskLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7035,7 +7053,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-384 XGO (5)",
+  "name" : "MIMMS - MIM-384 XGO (6)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

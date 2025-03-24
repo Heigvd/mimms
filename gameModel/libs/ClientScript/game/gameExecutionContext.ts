@@ -64,7 +64,7 @@ export class GameExecutionContext {
       if ((firstEvent?.previousEventId || 0) !== this.getCurrentState().getLastEventId()) {
         
         mainSimLogger.warn(
-          "received event doesn't match the current state",
+          "received event doesn't match the current state. Refresh required",
           firstEvent?.previousEventId,
           this.getCurrentState().getLastEventId()
         );

@@ -11,10 +11,6 @@ import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 import { getDashboardTeams } from './utils';
 
-export type DashboardTeamGameState = MainStateObject & {
-  simulationTime: number;
-};
-
 export type UpdateStateFunc = (newState: DashboardGameState) => void;
 
 /**************************************
@@ -41,6 +37,8 @@ interface RawEventBoxContent {
   eventBoxId: number;
 }
 
+export type DashboardGameState = Record<number, MainStateObject>;
+
 /**
  * Fetches all events for each team and updates their state
  */
@@ -56,8 +54,6 @@ async function refreshAllTeamsState(): Promise<void> {
     createOrUpdateExecutionContext(tid, box.eventBoxId, parsedEvents, convertToLocalEvent);
   });
 }
-
-export type DashboardGameState = Record<number, DashboardTeamGameState>;
 
 let loadedFirstTime = false;
 
@@ -79,11 +75,7 @@ function getDashboardStateMap(): DashboardGameState {
   getDashboardTeams().forEach(team => {
     const tid = team.getId()!;
     const state = getTargetExecutionContext(tid)?.getCurrentState() || getStartingMainState();
-    const dstate: DashboardTeamGameState = {
-      ...state.getInternalStateObject(),
-      simulationTime: state.getSimTime(),
-    };
-    currentStates[tid] = dstate;
+    currentStates[tid] = state.getInternalStateObject();
   });
   return currentStates;
 }
@@ -125,14 +117,4 @@ export function updateStateAfterImpact(
     updateExecutionContextFromEventBoxId(Number(boxId), events, convertToLocalEvent);
   });
   updateFunc(getDashboardStateMap());
-}
-
-/**
- * Just to type the context properly
- */
-export function getTypedState(
-  state: DashboardGameState,
-  teamId: number
-): DashboardTeamGameState | undefined {
-  return state[teamId];
 }

@@ -120,7 +120,7 @@ export async function triggerAbsoluteTimeForwardGame(
   });
 
   const response = await sendEventPerTeam(events, teams);
-  if(response){
+  if (response) {
     updateStateAfterImpact(response, updateFunc);
   }
 }
