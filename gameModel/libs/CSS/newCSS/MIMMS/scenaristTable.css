@@ -146,7 +146,7 @@ div .button-closed {
 .line {
   min-height: 38.4px;
   border-radius: 10px;
-  background-color: var(--grey_10);
+  background-color: var(--grey10);
   margin-bottom: 10px;
   padding: 10px;
   font-size: var(--SM_text);
