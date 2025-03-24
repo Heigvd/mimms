@@ -38,23 +38,45 @@ export class GameExecutionContext {
     throw new Error('Could not get current state for team ' + this.teamId);
   }
 
+  public getLastEventId(): number {
+    return this.getCurrentState().getLastEventId();
+  }
+
   public getStateHistory(): MainSimulationState[] {
     return this.stateHistory;
   }
 
+  /**
+   * returns true if the events could be processed
+   * false if the last event id doesn't match the first event to be applied
+   */
   public processEvents(
     globalEvents: FullEvent<TimedEventPayload>[],
     conversionFunc: GlobalToLocalEventFunction
-  ): void {
+  ): boolean {
     // filter out non processed events
     const unprocessed = globalEvents.filter(e => !this.processedEvents[e.id]);
     const sorted = unprocessed.sort(compareTimedEvents);
 
+    if (sorted.length > 0) {
+      // check that the first event to be applied matches the state
+      const firstEvent = sorted[0];
+      if ((firstEvent?.previousEventId || 0) !== this.getCurrentState().getLastEventId()) {
+        
+        mainSimLogger.warn(
+          "received event doesn't match the current state",
+          firstEvent?.previousEventId,
+          this.getCurrentState().getLastEventId()
+        );
+        return false;
+      }
+    }
     // process all candidate events
     sorted.forEach(event => {
       mainSimLogger.info('Processing event ', event);
       this.processEvent(event, conversionFunc);
     });
+    return true;
   }
 
   /**

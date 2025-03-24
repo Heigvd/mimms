@@ -1,10 +1,11 @@
 import { TimedEventPayload } from '../game/common/events/eventTypes';
-import { parseSingleEvent } from '../game/common/events/eventUtils';
+import { FullEvent, parseSingleEvent } from '../game/common/events/eventUtils';
 import { getStartingMainState } from '../game/common/simulationState/loaders/mainStateLoader';
 import { MainStateObject } from '../game/common/simulationState/mainSimulationState';
 import {
   createOrUpdateExecutionContext,
-  getTargetExectionContext,
+  getTargetExecutionContext,
+  updateExecutionContextFromEventBoxId,
 } from '../game/gameExecutionContextController';
 import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
@@ -20,19 +21,30 @@ export type UpdateStateFunc = (newState: DashboardGameState) => void;
  * Dashboard fetch functions
  **************************************/
 
+interface RawEvent {
+  '@class': 'Event';
+  id: number;
+  // the event box id
+  parentId: number;
+  previousEventId: number;
+  payload: string;
+}
+
+interface RawEventBox {
+  '@class': 'EventInboxInstance';
+  id: number;
+  lastEventId: number;
+}
+
 interface RawEventBoxContent {
-  events: {
-    id: number;
-    parentId: number;
-    payload: string;
-  }[];
+  events: RawEvent[];
   eventBoxId: number;
 }
 
 /**
  * Fetches all events for each team and updates their state
  */
-async function updateAllTeamsState(): Promise<void> {
+async function refreshAllTeamsState(): Promise<void> {
   dashboardLogger.debug('Building per team state...');
 
   const response = await APIMethods.runScript('CustomDashboard.getEventsByTeam();', {});
@@ -48,35 +60,31 @@ async function updateAllTeamsState(): Promise<void> {
 export type DashboardGameState = Record<number, DashboardTeamGameState>;
 
 let loadedFirstTime = false;
-let stateCache: DashboardGameState = {};
-function cacheUpdate(freshState: DashboardGameState): void {
-  stateCache = freshState;
-}
 
 /**
- * Builds all the game contexts and maps them DashboardGameStates
+ * Rereshes all the game contexts and builds a teamId -> state map
  */
 export async function fetchAllTeamsState(safety: boolean): Promise<DashboardGameState> {
-  if (safety && loadedFirstTime) {
-    dashboardLogger.debug('Loaded already, returning cached result');
-    return stateCache;
+  if (!(safety && loadedFirstTime)) {
+    await refreshAllTeamsState();
+    loadedFirstTime = true;
+    dashboardLogger.debug('Loading per team state...');
   }
-  loadedFirstTime = true;
-  dashboardLogger.debug('Loading per team state...');
 
-  await updateAllTeamsState();
+  return getDashboardStateMap();
+}
 
+function getDashboardStateMap(): DashboardGameState {
   const currentStates: DashboardGameState = {};
-  getDashboardTeams().forEach(t => {
-    const tid = t.getId()!;
-    const state = getTargetExectionContext(tid)?.getCurrentState() || getStartingMainState();
+  getDashboardTeams().forEach(team => {
+    const tid = team.getId()!;
+    const state = getTargetExecutionContext(tid)?.getCurrentState() || getStartingMainState();
     const dstate: DashboardTeamGameState = {
       ...state.getInternalStateObject(),
       simulationTime: state.getSimTime(),
     };
     currentStates[tid] = dstate;
   });
-  cacheUpdate(currentStates);
   return currentStates;
 }
 
@@ -96,54 +104,27 @@ export async function fetchAndUpdateTeamsGameState(
   return currentStates;
 }
 
-const INTERVAL_DURATION: number = 2000;
-const MAX_RETRIES: number = 3;
-let retries: number = 0;
-
-/**
- * Fetch teams game state and update after a game state impact (do not call on page load!)
- *
- * @params {(DashboardGameState) => void} - setState function for dashboard game state
- * @params {boolean} poll - Should the function poll for updates after impact
- */
-export async function fetchAndUpdateTeamsGameStateAfterImpact(
-  poll: boolean = false,
-  updateFunc: (stateByTeam: DashboardGameState) => void = _ => {}
-): Promise<void> {
-  if (retries > 0) {
-    dashboardLogger.warn('Polling already ongoing, remaining tries: ', retries);
-    return;
-  }
-
-  const pollFunc = async () => {
-    if (retries > 0) {
-      retries--;
-
-      try {
-        const currenStates = await fetchAllTeamsState(false);
-        cacheUpdate(currenStates);
-        updateFunc(currenStates);
-        setTimeout(pollFunc, INTERVAL_DURATION);
-      } catch (error) {
-        dashboardLogger.error(error);
-        retries = 0;
-      }
+export function updateStateAfterImpact(
+  response: IManagedResponse,
+  updateFunc: UpdateStateFunc
+): void {
+  dashboardLogger.debug('Applying events after impact');
+  const entities = response.updatedEntities as (RawEvent | RawEventBox)[];
+  const eventMap: Record<number, FullEvent<TimedEventPayload>[]> = {};
+  // filter event and map them by eventBoxId
+  entities.forEach(entity => {
+    if (entity['@class'] == 'Event') {
+      const evt = parseSingleEvent<TimedEventPayload>(entity);
+      const events = eventMap[evt.eventBoxId] || [];
+      events.push(evt);
+      eventMap[evt.eventBoxId] = events;
     }
-  };
-
-  try {
-    if (poll) {
-      retries = MAX_RETRIES;
-      await pollFunc();
-    } else {
-      const currenStates = await fetchAllTeamsState(false);
-      cacheUpdate(currenStates);
-      updateFunc(currenStates);
-    }
-  } catch (error) {
-    dashboardLogger.error(error);
-    retries = 0;
-  }
+  });
+  // apply events to contexts
+  Object.entries(eventMap).forEach(([boxId, events]) => {
+    updateExecutionContextFromEventBoxId(Number(boxId), events, convertToLocalEvent);
+  });
+  updateFunc(getDashboardStateMap());
 }
 
 /**

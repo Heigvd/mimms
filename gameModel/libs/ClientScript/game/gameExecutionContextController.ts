@@ -36,14 +36,16 @@ function unlockTeamId(): void {
   lockedTeamId = undefined;
 }
 
-function createNewContext(teamId: TeamId, eventBoxId: number): void {
+function createNewContext(teamId: TeamId, eventBoxId: number): GameExecutionContext {
   if (executionContexts[teamId]) {
     throw new Error('Context with id ' + teamId + ' is already created');
   }
   const state = getStartingMainState();
   // get a clone of the starting generation state, in order to generate further ids consistently
   const uidProvider = mainStateDefaultUidGenerator.clone();
-  executionContexts[teamId] = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
+  const ctx = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
+  executionContexts[teamId] = ctx;
+  return ctx;
 }
 
 export function createOrUpdateExecutionContext(
@@ -51,14 +53,43 @@ export function createOrUpdateExecutionContext(
   eventBoxId: number,
   events: FullEvent<TimedEventPayload>[],
   convertFunc: GlobalToLocalEventFunction
-): void {
-  if (!executionContexts[teamId]) {
-    createNewContext(teamId, eventBoxId);
+): boolean {
+  const ctx: GameExecutionContext =
+    executionContexts[teamId] || createNewContext(teamId, eventBoxId);
+  return updateExecutionContext(ctx, events, convertFunc);
+}
+
+export function updateExecutionContextFromEventBoxId(
+  eventBoxId: number,
+  events: FullEvent<TimedEventPayload>[],
+  convertFunc: GlobalToLocalEventFunction
+): boolean {
+  const ctx = Object.values(executionContexts).find(ctx => ctx.eventBoxId === eventBoxId);
+  if (!ctx) {
+    gameExecLogger.warn(
+      'Execution context with box id not found',
+      eventBoxId,
+      Object.values(executionContexts).map(ctx => ctx.eventBoxId)
+    );
+    return false;
   }
-  const ctx = executionContexts[teamId]!;
-  lockTeamId(teamId); // any calls to getCurrentContext will point to the teamId's context
-  ctx.processEvents(events, convertFunc);
-  unlockTeamId();
+  return updateExecutionContext(ctx, events, convertFunc);
+}
+
+function updateExecutionContext(
+  context: GameExecutionContext,
+  events: FullEvent<TimedEventPayload>[],
+  convertFunc: GlobalToLocalEventFunction
+): boolean {
+  try {
+    lockTeamId(context.teamId); // any calls to getCurrentContext will point to the teamId's context
+    return context.processEvents(events, convertFunc);
+  } catch (error) {
+    gameExecLogger.error('Error while updating context', context.teamId, error, events);
+    return false;
+  } finally {
+    unlockTeamId();
+  }
 }
 
 export function createPlayerContext(): void {
@@ -84,6 +115,7 @@ function getCurrentTeamId(): TeamId {
     return lockedTeamId;
   }
   // reading values from the dashboard
+  // TODO remove ?
   if (Context.team?.id) {
     return Context.team.id;
   }
@@ -91,7 +123,7 @@ function getCurrentTeamId(): TeamId {
   return getPlayerTeamId();
 }
 
-export function getTargetExectionContext(teamId: TeamId): GameExecutionContext | undefined {
+export function getTargetExecutionContext(teamId: TeamId): GameExecutionContext | undefined {
   return executionContexts[teamId];
 }
 
