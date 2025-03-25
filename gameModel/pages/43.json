@@ -1043,13 +1043,13 @@
                                       "className" : "unauthorizedAction",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+                                        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
                                         "language" : "typescript"
                                       }
                                     } ],
                                     "disableIf" : {
                                       "@class" : "Script",
-                                      "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+                                      "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
                                       "language" : "typescript"
                                     },
                                     "icon" : "users",

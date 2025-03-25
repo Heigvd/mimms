@@ -16,7 +16,7 @@
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
+              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
               "language" : "typescript"
             },
             "id" : "",
@@ -54,7 +54,7 @@
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
+              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
               "language" : "typescript"
             },
             "id" : "",
@@ -200,7 +200,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n\nrunActionButton(uniqueActionTemplates().PretriageReportTemplate);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n\nrunActionButton(uniqueActionTemplates()?.PretriageReportTemplate);",
                     "language" : "TypeScript"
                   }
                 },
@@ -245,7 +245,7 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().PretriageReportTemplate);",
+        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
         "language" : "typescript"
       }
     } ],
