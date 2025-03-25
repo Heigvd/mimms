@@ -77,7 +77,7 @@ export function canPlanOrCancel(template: ActionTemplateBase): boolean {
   return canPlanAction() || canCancel(template);
 }
 
-export function uniqueActionTemplates(): IUniqueActionTemplates {
+export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return getUniqueActionTemplates();
 }
 

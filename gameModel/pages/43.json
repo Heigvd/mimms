@@ -2,20 +2,6 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : {
-          "display" : "none"
-        },
-        "name" : "eventLoop trigger",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\ntriggerEventLoop();\n\"\";",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -53,6 +39,20 @@
             "children" : [ {
               "props" : {
                 "children" : [ {
+                  "props" : {
+                    "layoutStyle" : {
+                      "display" : "none"
+                    },
+                    "name" : "eventLoop trigger",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { triggerEventLoop } from \"./UIfacade/mainStateFacade\";\ntriggerEventLoop();\n\"\";",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
                   "props" : {
                     "children" : [ {
                       "props" : {
@@ -800,7 +800,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\nimport { getLocationLongTranslation } from \"./game/common/location/locationLogic\";\nimport { getActor } from \"./UIfacade/actorFacade\";\ngetRoleShortTranslation(getActor(Context.interfaceState.state.currentActorUid)!.Role) \n  + ' - ' \n  + getLocationLongTranslation(getActor(Context.interfaceState.state.currentActorUid)!.Location);",
+                                          "content" : "import { getHeaderText } from \"./UIfacade/mainStateFacade\";\ngetHeaderText();",
                                           "language" : "TypeScript"
                                         }
                                       },

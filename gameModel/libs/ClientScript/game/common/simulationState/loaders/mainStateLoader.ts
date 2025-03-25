@@ -60,3 +60,24 @@ function buildStartingMainState(): MainSimulationState {
     0
   );
 }
+
+export function shallowState(): MainSimulationState {
+  return new MainSimulationState(
+    {
+      simulationTimeSec: 0,
+      actions: [],
+      cancelledActions: [],
+      actors: [],
+      mapLocations: [],
+      patients: [],
+      tasks: [],
+      radioMessages: [],
+      resources: [],
+      resourceContainers: [],
+      flags: {},
+      hospital: {},
+      gameOptions: { respectHierarchy: true },
+    },
+    -1
+  );
+}

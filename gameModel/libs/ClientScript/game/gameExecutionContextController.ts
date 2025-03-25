@@ -11,7 +11,11 @@ import {
 
 let lockedTeamId: TeamId | undefined;
 
-let executionContexts: Record<TeamId, GameExecutionContext> = {};
+let executionContexts: Record<TeamId, GameExecutionContext>;
+
+Helpers.registerEffect(() => {
+  executionContexts = {};
+});
 
 /**
  * Locks the game execution context to a given team id
@@ -105,25 +109,36 @@ export function createPlayerContext(): void {
   }
 }
 
-function getPlayerTeamId(): TeamId {
+function getPlayerTeamId(): number {
   return self.getParentId()!;
+}
+
+function getCurrentTeamId(): TeamId {
+  // when loading/updating the dashboard states
+  if (lockedTeamId) {
+    return lockedTeamId;
+  }
+  // reading values from the dashboard
+  // TODO remove ?
+  if (Context.team?.id) {
+    return Context.team.id;
+  }
+  // current player's team id
+  return getPlayerTeamId();
 }
 
 export function getTargetExecutionContext(teamId: TeamId): GameExecutionContext | undefined {
   return executionContexts[teamId];
 }
 
-/**
- * If the context has been locked (dashboard update steps) returns the specific context
- * else use the player's context
- */
 export function getCurrentExecutionContext(): GameExecutionContext {
-  const teamId = lockedTeamId || getPlayerTeamId();
+  const teamId = getCurrentTeamId();
   let ctx = executionContexts[teamId];
   if (ctx) {
     return ctx;
   }
-  throw new Error('No context has been initalized for team id ' + teamId);
+  const caller = new Error().stack;
+  throw new Error('No context has been initalized for team id ' + teamId + ' caller ' + caller);
 }
 
 // ========== UID GENERATOR ==========

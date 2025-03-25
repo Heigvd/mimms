@@ -32,6 +32,7 @@ import {
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
+import { shallowState } from './common/simulationState/loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import {
   createPlayerContext,
@@ -39,26 +40,39 @@ import {
   getCurrentExecutionContext,
 } from './gameExecutionContextController';
 
-mainSimLogger.debug('--------- EVALUATING MAIN SIM LOGIC ---------');
-
 let actionTemplates: Record<string, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;
 
-let initializationComplete = false;
+let initializationComplete: boolean;
+
+let scriptsFullyLoaded = false;
+
+Helpers.registerEffect(() => {
+  scriptsFullyLoaded = true;
+  initializationComplete = false;
+  mainSimLogger.info('****** ALL SCRIPTS LOADED ******');
+  tryLoadTemplates();
+});
 
 /**
  * Checks for new events and applies them to the state
  * This should be called on player side only
  */
 export function runUpdateLoop(): void {
+  if (!scriptsFullyLoaded) {
+    mainSimLogger.info('Cancelling update loop until scripts fully loaded');
+    return;
+  }
+
   if (!initializationComplete) {
     tryLoadTemplates();
     createPlayerContext();
     initializationComplete = true;
-    mainSimLogger.info('------ STATE INIT DONE ------');
+    mainSimLogger.info('****** STATE INIT DONE ******');
   }
 
   const playerCtx = getCurrentExecutionContext();
+
   if (playerCtx) {
     const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
 
@@ -75,6 +89,7 @@ export function runUpdateLoop(): void {
 function tryLoadTemplates(): void {
   if (!actionTemplates || !uniqueActionTemplates) {
     ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+    mainSimLogger.info('****** TEMPLATES LOADED ******');
   }
 }
 
@@ -255,12 +270,12 @@ export function fetchAvailableActions(
       at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
     );
   } else {
-    mainSimLogger.warn('Actor not found. id = ', actorId);
+    mainSimLogger.info('Actor not found. id = ', actorId);
     return [];
   }
 }
 
-export function getUniqueActionTemplates(): IUniqueActionTemplates {
+export function getUniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return uniqueActionTemplates;
 }
 
@@ -359,7 +374,15 @@ export async function initGameOptions(): Promise<IManagedResponse> {
 }
 
 export function getCurrentState(): Readonly<MainSimulationState> {
-  return getCurrentExecutionContext().getCurrentState();
+  if (!scriptsFullyLoaded) {
+    mainSimLogger.warn('Waiting for scripts to fully reload. Returning shallow state');
+    return shallowState();
+  }
+  try {
+    return getCurrentExecutionContext().getCurrentState();
+  } catch (e) {
+    return shallowState();
+  }
 }
 
 /**** DEBUG TOOLS SECTION ***/

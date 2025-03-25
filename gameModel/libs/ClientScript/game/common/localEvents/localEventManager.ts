@@ -9,7 +9,6 @@ import { compareLocalEvents, LocalEventBase } from './localEventBase';
  * Manages all the local events
  */
 export class LocalEventManager {
-  private readonly logger = localEventManagerLogger;
   private readonly pendingEvents: Heap<LocalEventBase>;
   private readonly processedEvents: LocalEventBase[] = [];
 
@@ -37,7 +36,7 @@ export class LocalEventManager {
     }
 
     if (safeguard >= 200) {
-      this.logger.error(
+      localEventManagerLogger.error(
         'Too much event generations, might be an infinite event generation. Stopping'
       );
     }
@@ -58,5 +57,6 @@ export class LocalEventManager {
 }
 
 export function getLocalEventManager(): LocalEventManager {
+  localEventManagerLogger.info('Getting localEventManager');
   return getCurrentExecutionContext().getLocalEventManager();
 }
