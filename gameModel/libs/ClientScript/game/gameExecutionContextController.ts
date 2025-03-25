@@ -11,10 +11,12 @@ import {
 
 let lockedTeamId: TeamId | undefined;
 
-let executionContexts: Record<TeamId, GameExecutionContext>;
+let executionContexts: Record<TeamId, GameExecutionContext> = {};
 
 Helpers.registerEffect(() => {
+  // required to reset when the scenario is restarted
   executionContexts = {};
+  gameExecLogger.info('***** Execution contexts reset *****');
 });
 
 /**

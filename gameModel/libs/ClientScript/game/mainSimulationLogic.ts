@@ -34,6 +34,7 @@ import {
 import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { shallowState } from './common/simulationState/loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
+import { GameExecutionContext } from './gameExecutionContext';
 import {
   createPlayerContext,
   debugRemovePlayerContext,
@@ -51,7 +52,6 @@ Helpers.registerEffect(() => {
   scriptsFullyLoaded = true;
   initializationComplete = false;
   mainSimLogger.info('****** ALL SCRIPTS LOADED ******');
-  tryLoadTemplates();
 });
 
 /**
@@ -60,7 +60,7 @@ Helpers.registerEffect(() => {
  */
 export function runUpdateLoop(): void {
   if (!scriptsFullyLoaded) {
-    mainSimLogger.info('Cancelling update loop until scripts fully loaded');
+    mainSimLogger.debug('Cancelling update loop until scripts fully loaded');
     return;
   }
 
@@ -71,7 +71,13 @@ export function runUpdateLoop(): void {
     mainSimLogger.info('****** STATE INIT DONE ******');
   }
 
-  const playerCtx = getCurrentExecutionContext();
+  let playerCtx: GameExecutionContext | undefined = undefined;
+  try {
+    playerCtx = getCurrentExecutionContext();
+  } catch (e) {
+    // can happen after saving scripts
+    mainSimLogger.debug(e);
+  }
 
   if (playerCtx) {
     const globalEvents: FullEvent<TimedEventPayload>[] = getAllEvents<TimedEventPayload>();
@@ -270,7 +276,7 @@ export function fetchAvailableActions(
       at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
     );
   } else {
-    mainSimLogger.info('Actor not found. id = ', actorId);
+    mainSimLogger.debug('Actor not found. id = ', actorId);
     return [];
   }
 }
@@ -375,7 +381,7 @@ export async function initGameOptions(): Promise<IManagedResponse> {
 
 export function getCurrentState(): Readonly<MainSimulationState> {
   if (!scriptsFullyLoaded) {
-    mainSimLogger.warn('Waiting for scripts to fully reload. Returning shallow state');
+    mainSimLogger.debug('Waiting for scripts to fully reload. Returning shallow state');
     return shallowState();
   }
   try {

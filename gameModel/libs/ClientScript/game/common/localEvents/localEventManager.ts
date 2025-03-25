@@ -57,6 +57,6 @@ export class LocalEventManager {
 }
 
 export function getLocalEventManager(): LocalEventManager {
-  localEventManagerLogger.info('Getting localEventManager');
+  localEventManagerLogger.debug('Getting localEventManager');
   return getCurrentExecutionContext().getLocalEventManager();
 }

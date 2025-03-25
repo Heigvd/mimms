@@ -61,6 +61,10 @@ function buildStartingMainState(): MainSimulationState {
   );
 }
 
+/**
+ * Returns an empty state that cannot be updated
+ * Mainly here for after script save reasons, to avoid rerender errors
+ */
 export function shallowState(): MainSimulationState {
   return new MainSimulationState(
     {
@@ -78,6 +82,6 @@ export function shallowState(): MainSimulationState {
       hospital: {},
       gameOptions: { respectHierarchy: true },
     },
-    -1
+    -1 // impossible state id : make sure no event can be applied on that state
   );
 }

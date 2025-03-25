@@ -17,8 +17,6 @@ import { GameOptions } from '../gameOptions';
 import { getAllContainerDefs } from '../simulationState/loaders/resourceLoader';
 
 export class MainSimulationState implements IClonable {
-  private static stateCounter = 0;
-
   private readonly internalState: MainStateObject;
 
   /**
@@ -40,23 +38,21 @@ export class MainSimulationState implements IClonable {
   public constructor(
     state: MainStateObject,
     lastEventId: number,
-    timeFrame: TimeFrame | undefined = undefined
+    timeFrame: TimeFrame | undefined = undefined,
+    previousCount: number = -1
   ) {
     this.internalState = state;
     this.lastEventId = lastEventId;
     this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
-    if (!timeFrame) {
-      // no time frame means it is the initial state build
-      MainSimulationState.stateCounter = 0;
-    }
-    this.stateCount = MainSimulationState.stateCounter++;
+    this.stateCount = previousCount + 1;
   }
 
   clone(): this {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
       this.lastEventId,
-      Helpers.cloneDeep(this.forwardTimeFrame)
+      Helpers.cloneDeep(this.forwardTimeFrame),
+      this.stateCount
     ) as this;
   }
 

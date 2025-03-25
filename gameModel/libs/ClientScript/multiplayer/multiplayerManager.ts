@@ -62,9 +62,10 @@ export async function registerSelf(): Promise<void> {
     )})`;
 
     try {
-      await APIMethods.runScript(script, {});
       hasRegisteredOnce = true;
+      await APIMethods.runScript(script, {});
     } catch (error) {
+      hasRegisteredOnce = false;
       mainSimLogger.error(error);
     }
   }
