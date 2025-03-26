@@ -5,11 +5,68 @@ import {
 import { generateId } from '../tools/helper';
 import { saveToObjectDescriptor } from '../tools/WegasHelper';
 
-export function getContainerConfigurations() {
+export function getContainerConfigurations(mandatory: boolean) {
   const data = loadResourceContainersConfigurationData();
-  return Object.entries(data).map(([key, value]) => {
+  const array = Object.entries(data).map(([key, value]) => {
     return { id: key, ...value };
   });
+  // sort by type
+  //array.sort((a,b) => a.payload.type.localeCompare(b.payload.type));
+  // sort by name
+  // array.sort((a,b) => a.payload.name.localeCompare(b.payload.name));
+  // sort by availabilityTime
+  // array.sort((a,b) => a.payload.availabilityTime - b.payload.availabilityTime);
+  // sort by travelTime
+  // array.sort((a,b) => a.payload.travelTime - b.payload.travelTime);
+  // filter
+  // const y = array.filter(x => true);
+  const filtered = array.filter(config => config.mandatory === mandatory);
+  if (!mandatory) {
+    filtered.sort((a, b) => a.index - b.index);
+  }
+  return filtered;
+}
+
+type SortFunc = (a: ContainerConfigurationData, b: ContainerConfigurationData) => number;
+
+function sortByType(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+  return a.payload.type.localeCompare(b.payload.type);
+}
+
+function sortByName(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+  return a.payload.name.localeCompare(b.payload.name);
+}
+
+function sortByAvailabilityTime(
+  a: ContainerConfigurationData,
+  b: ContainerConfigurationData
+): number {
+  return a.payload.availabilityTime - b.payload.availabilityTime;
+}
+
+function sortByTravelTime(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+  return a.payload.travelTime - b.payload.travelTime;
+}
+
+type SortAlgoType = 'travelTime' | 'name' | 'availabilityTime' | 'type';
+
+const sortAlgorithms: Record<SortAlgoType, SortFunc> = {
+  availabilityTime: sortByAvailabilityTime,
+  name: sortByName,
+  travelTime: sortByTravelTime,
+  type: sortByType,
+};
+
+export function sortAndSave(sortAlgo: SortAlgoType): void {
+  const containerConfigurations = loadResourceContainersConfigurationData();
+  const configs = Object.values(containerConfigurations);
+  const sortFunc: SortFunc = sortAlgorithms[sortAlgo];
+
+  configs.sort(sortFunc);
+  for (let i = 1; i < configs.length; i++) {
+    configs[i].index = i;
+  }
+  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
 }
 
 interface UIState {
@@ -44,6 +101,7 @@ export function addContainerConfiguration() {
   const containerConfigurations = loadResourceContainersConfigurationData();
   const newConfig: ContainerConfigurationData = {
     mandatory: false,
+    index: 0,
     payload: {
       name: 'unnamed',
       type: 'AMB-U',
@@ -65,7 +123,7 @@ export function removeContainerConfiguration(id: string) {
 export function toggleMandatory(id: string) {
   const containerConfigurations = loadResourceContainersConfigurationData();
   const config = containerConfigurations[id];
-  if(config){
+  if (config) {
     config.mandatory = !config.mandatory;
     saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
   }

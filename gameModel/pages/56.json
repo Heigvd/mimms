@@ -8,12 +8,26 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "resources__undertitle",
+                    "layoutStyle" : { },
+                    "style" : {
+                      "marginTop" : "10px"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Basic resources\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "className" : "header-text",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "!Editor.getFeatures().ADVANCED;",
+                          "content" : "!Editor.getFeatures().ADVANCED||\n!Context.UIState.state.edit;",
                           "language" : "typescript"
                         },
                         "layoutClassName" : "header-text-container",
@@ -22,7 +36,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Mandatory</p>\"",
+                          "content" : "\"Mandatory\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -31,13 +45,13 @@
                       "props" : {
                         "className" : "header-left-cell",
                         "layoutStyle" : { },
-                        "name" : "Type of means",
+                        "name" : "Type",
                         "style" : {
                           "padding" : "0"
                         },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Type of means</p>\"",
+                          "content" : "\"Type\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -51,7 +65,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Name</p>\"",
+                          "content" : "\"Name\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -65,7 +79,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Availability time</p>\"",
+                          "content" : "\"Availability time\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -79,7 +93,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Travel time</p>\"",
+                          "content" : "\"Travel time\"",
                           "language" : "TypeScript"
                         }
                       },
@@ -87,8 +101,607 @@
                     } ],
                     "layout" : { },
                     "layoutStyle" : { },
-                    "name" : "header",
+                    "name" : "header mandatory",
+                    "style" : {
+                      "height" : "35px"
+                    }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "line-left-cell",
+                                "layoutStyle" : { },
+                                "name" : "Type of means",
+                                "style" : {
+                                  "alignItems" : "center",
+                                  "display" : "flex"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.containerConfig.payload.type;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "line-text",
+                                "layoutStyle" : { },
+                                "name" : "Name",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.containerConfig.payload.name;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "Availability time",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.containerConfig.payload.availabilityTime + \"\";",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"min\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "line-text",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "Availability time",
+                                "style" : {
+                                  "gap" : "4px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "",
+                                    "layoutStyle" : { },
+                                    "name" : "Travel time",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.containerConfig.payload.travelTime + \"\";",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"min\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "className" : "line-text",
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "Travel time",
+                                "style" : {
+                                  "gap" : "4px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.UIState.state.edit;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "readonly",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Editor.getFeatures().ADVANCED;",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "hospital-input-container",
+                                "layoutStyle" : {
+                                  "justifyContent" : "center",
+                                  "marginLeft" : "-10px"
+                                },
+                                "name" : "mandatory",
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { toggleMandatory } from \"./edition/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.containerConfig.mandatory;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : {
+                                  "justifyContent" : "center"
+                                },
+                                "type" : "checkbox"
+                              },
+                              "type" : "Boolean"
+                            }, {
+                              "props" : {
+                                "className" : "line-left-cell",
+                                "conditionnalClassNames" : [ {
+                                  "applyOn" : "Outside",
+                                  "className" : "line-left-cell--advanced",
+                                  "condition" : {
+                                    "@class" : "Script",
+                                    "content" : "Editor.getFeatures().ADVANCED;",
+                                    "language" : "typescript"
+                                  }
+                                } ],
+                                "layoutStyle" : { },
+                                "name" : "Type of means",
+                                "style" : {
+                                  "alignItems" : "center",
+                                  "display" : "flex"
+                                },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.containerConfig.payload.type;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "layoutClassName" : "hospital-input-container",
+                                "layoutStyle" : { },
+                                "name" : "Name",
+                                "onCancel" : { },
+                                "onVariableChange" : {
+                                  "client" : {
+                                    "@class" : "Script",
+                                    "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
+                                    "language" : "TypeScript"
+                                  },
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"value\"",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.containerConfig.payload.name;",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "String input"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "name" : "Availability time",
+                                    "onCancel" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"value\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.containerConfig.payload.availabilityTime;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number input"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"min\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "hospital-input-container",
+                                "layoutStyle" : { },
+                                "name" : "Availability time",
+                                "style" : {
+                                  "alignItems" : "center",
+                                  "gap" : "4px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "name" : "Travel time",
+                                    "onCancel" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"value\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.containerConfig.payload.travelTime;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number input"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"min\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "hospital-input-container",
+                                "layoutStyle" : { },
+                                "name" : "Travel time",
+                                "style" : {
+                                  "alignItems" : "center",
+                                  "gap" : "4px"
+                                }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "!Context.UIState.state.edit;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "edit",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "line",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "resources-line-edit",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.UIState.state.edit;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "resources-line-edit--advanced",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Editor.getFeatures().ADVANCED === true&&\nContext.UIState.state.edit;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "line-container",
+                        "layoutStyle" : { },
+                        "name" : "line",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "containerConfig",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getContainerConfigurations } from \"./edition/resourcesConfiguration\";\n  getContainerConfigurations(true);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "mandatory-container",
+                    "layoutStyle" : { },
+                    "name" : "mandatory",
                     "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "className" : "resources__undertitle",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Other resources\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "header-text",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "!Editor.getFeatures().ADVANCED||\n!Context.UIState.state.edit;",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "header-text-container",
+                        "layoutStyle" : { },
+                        "name" : "Mandatory",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"Mandatory\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "",
+                            "layoutStyle" : { },
+                            "name" : "Type",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Type\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "resources-sort",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "resources-sort--active",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\nsortAndSave('type');",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "icon" : "arrow-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('type');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "header-left-cell",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Type",
+                        "style" : {
+                          "gap" : "4px",
+                          "padding" : "0"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "Name",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Name\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "resources-sort",
+                            "icon" : "arrow-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('name');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "header-text-container",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Name",
+                        "style" : {
+                          "gap" : "4px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "Availability time",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Availability time\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "resources-sort",
+                            "icon" : "arrow-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('availabilityTime');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "header-text-container",
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "name" : "Availability time",
+                        "style" : {
+                          "gap" : "4px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "header-text",
+                            "layoutClassName" : "",
+                            "layoutStyle" : { },
+                            "name" : "Travel time",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"Travel time\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "resources-sort",
+                            "icon" : "arrow-down",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('travelTime');",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "header-text-container",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "Travel time",
+                        "style" : {
+                          "gap" : "4px"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "name" : "header optional",
+                    "style" : {
+                      "height" : "35px"
+                    }
                   },
                   "type" : "FlexList"
                 }, {
@@ -398,37 +1011,6 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "icon" : "angle-down",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutStyle" : { },
-                                    "name" : "move down",
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                }, {
-                                  "props" : {
-                                    "icon" : "angle-up",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "\"\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutStyle" : { },
-                                    "name" : "move up",
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
-                                }, {
-                                  "props" : {
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.containerConfig.mandatory == true;",
-                                      "language" : "typescript"
-                                    },
                                     "icon" : "trash",
                                     "label" : {
                                       "@class" : "Script",
@@ -452,7 +1034,10 @@
                                 "layout" : { },
                                 "layoutStyle" : { },
                                 "name" : "resources actions",
-                                "style" : { }
+                                "style" : {
+                                  "justifyContent" : "flex-start",
+                                  "marginLeft" : "20px"
+                                }
                               },
                               "type" : "FlexList"
                             } ],
@@ -484,7 +1069,7 @@
                           "className" : "resources-line-edit--advanced",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "Editor.getFeatures().ADVANCED;",
+                            "content" : "Editor.getFeatures().ADVANCED === true&&\nContext.UIState.state.edit;",
                             "language" : "typescript"
                           }
                         } ],
@@ -499,7 +1084,7 @@
                     "exposeAs" : "containerConfig",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getContainerConfigurations } from \"./edition/resourcesConfiguration\";\n  getContainerConfigurations();",
+                      "content" : "import { getContainerConfigurations } from \"./edition/resourcesConfiguration\";\n  getContainerConfigurations(false);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -507,6 +1092,7 @@
                       "flexDirection" : "column"
                     },
                     "layoutStyle" : { },
+                    "name" : "optional",
                     "style" : { }
                   },
                   "type" : "For each"
@@ -530,9 +1116,10 @@
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>resource</p>\"",
+                  "content" : "\"resource\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "add-resource-button",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -541,8 +1128,10 @@
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "add",
-                "style" : { }
+                "name" : "add resource",
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             } ],
