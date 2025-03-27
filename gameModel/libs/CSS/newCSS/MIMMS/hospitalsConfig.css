@@ -50,40 +50,18 @@
   box-sizing: border-box;
 }
 
-.hospital-input-container {
-  width: 6vw;
-  /*height: 25px;*/
-  padding: 0 4px;
-  box-sizing: border-box;
+.hospital-text-name-edit input {
+    height: 28px;
+    min-height: 0;
+    min-width: 0;
+    padding: 5px;
+    font-size: var(--SM_text);
+    font-weight: 900;
+    color: var(--grey_base);
 }
 
-.hospital-input-container input {
-  text-align: center;
-}
-
-.hospital-text-name-edit input,
-.hospital-input-container input,
-.hospitals .wegas-select__single-value {
-  height: 28px;
-  min-height: 0;
-  min-width: 0;
-  padding: 5px;
-  font-size: var(--SM_text);
-  font-weight: 900;
-  color: var(--grey_base);
-}
-
-.line:hover .hospital-text-name-edit input,
-.line:hover .hospital-input-container input,
-.line:hover .wegas-select__single-value {
+.line:hover .hospital-text-name-edit input {
   color: var(--primary_base) !important;
-}
-
-.hospitals .wegas-select__control,
-.hospitals .wegas-select__control div {
-  align-items: center;
-  height: 28px;
-  min-height: 0;
 }
 
 .hospital-line-edit {

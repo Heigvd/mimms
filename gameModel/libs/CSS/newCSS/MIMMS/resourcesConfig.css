@@ -6,6 +6,8 @@
 }
 
 .resources-sort svg {
+  height: 12px;
+  width: auto;
   color: var(--grey_20);
 }
 
@@ -15,11 +17,19 @@
 
 .resources-line-edit {
   width: calc(30vw + 10px);
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px 5px 1px;
 }
 
 .resources-line-edit--advanced {
   width: calc(36vw + 10px);
+}
+
+.new-resource-line {
+  color: var(--grey_base);
+  background-color: var(--grey10);
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  animation-name: new-resource;
+  animation-duration: 1s;
 }
 
 .line-left-cell--advanced {
@@ -38,4 +48,12 @@
   width: 100%;
   padding-top: 10px;
   background-color: var(--grey-white);
+}
+
+
+/* - - - - A N I M A T I O N S - - - - */
+
+@keyframes new-resource {
+  0% {color: var(--primary_base); background-color: var(--primary_10); box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  100% {color: var(--grey_base); background-color: var(--grey10); box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);}
 }

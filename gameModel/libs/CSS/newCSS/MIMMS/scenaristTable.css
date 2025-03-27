@@ -183,3 +183,40 @@ div .button-closed {
 .line:hover svg:hover {
   color: var(--primary_70);
 }
+
+/* input */
+.table-input-container {
+  width: 6vw;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.table-input-container input {
+  text-align: center;
+}
+
+.line:hover .table-input-container input,
+.line:hover .wegas-select__single-value {
+  color: var(--primary_base) !important;
+}
+
+.hospitals .wegas-select__control,
+.hospitals .wegas-select__control div,
+.resources .wegas-select__control, 
+.resources .wegas-select__control div {
+  align-items: center;
+  height: 28px;
+  min-height: 0;
+}
+
+.table-input-container input,
+.hospitals .wegas-select__single-value,
+.resources .wegas-select__single-value {
+    height: 28px;
+    min-height: 0;
+    min-width: 0;
+    padding: 5px;
+    font-size: var(--SM_text);
+    font-weight: 900;
+    color: var(--grey_base);
+}

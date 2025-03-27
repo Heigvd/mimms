@@ -36,6 +36,18 @@ export const ResourceContainerDefinitionNameArray = [
   'PC',
 ] as const;
 
+export const optionalResourceDefinitions: Record<ResourceContainerDefinitionName, boolean> = {
+  'AMB-U': true,
+  'AMB-I': true,
+  'AMB-T': true,
+  SMUR: true,
+  Helico: true,
+  'ACS-MCS': false,
+  PMA: false,
+  PICA: false,
+  PC: false,
+};
+
 export type ResourceContainerDefinitionName = typeof ResourceContainerDefinitionNameArray[number];
 
 export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {

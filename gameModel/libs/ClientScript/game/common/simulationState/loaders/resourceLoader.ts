@@ -14,6 +14,7 @@ import { ResourceType } from '../../resources/resourceType';
 
 export interface ContainerConfigurationData {
   mandatory: boolean;
+  index: number;
   payload: Omit<ResourceContainerConfig, 'amount' | 'templateId'> & { type: string };
 }
 
@@ -44,7 +45,7 @@ export function loadResourceContainersConfiguration(): ResourceContainerConfig[]
       templateId: definitionsMapping[config.payload.type]!,
       name: config.payload.name || 'UNNAMED',
       availabilityTime: config.payload.availabilityTime * 60 || 0,
-      travelTime: (config.payload.travelTime || 1) || 60,
+      travelTime: config.payload.travelTime || 1 || 60,
       amount: 1,
     };
   });

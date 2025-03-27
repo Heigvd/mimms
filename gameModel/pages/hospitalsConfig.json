@@ -470,7 +470,7 @@
                                     }, {
                                       "props" : {
                                         "className" : "",
-                                        "layoutClassName" : "hospital-input-container",
+                                        "layoutClassName" : "table-input-container",
                                         "layoutStyle" : { },
                                         "name" : "shortName",
                                         "onCancel" : { },
@@ -497,7 +497,7 @@
                                     }, {
                                       "props" : {
                                         "className" : "",
-                                        "layoutClassName" : "hospital-input-container",
+                                        "layoutClassName" : "table-input-container",
                                         "layoutStyle" : { },
                                         "name" : "preposition",
                                         "onCancel" : { },
@@ -563,7 +563,7 @@
                                           "type" : "Text"
                                         } ],
                                         "layout" : { },
-                                        "layoutClassName" : "hospital-input-container",
+                                        "layoutClassName" : "table-input-container",
                                         "layoutStyle" : { },
                                         "name" : "distance",
                                         "style" : {
@@ -580,7 +580,7 @@
                                           "language" : "typescript"
                                         },
                                         "className" : "line-dropdown",
-                                        "layoutClassName" : "hospital-input-container",
+                                        "layoutClassName" : "table-input-container",
                                         "layoutStyle" : { },
                                         "name" : "proximity",
                                         "onVariableChange" : {
@@ -688,7 +688,7 @@
                                             "children" : [ {
                                               "props" : {
                                                 "className" : "",
-                                                "layoutClassName" : "hospital-input-container",
+                                                "layoutClassName" : "table-input-container",
                                                 "layoutStyle" : { },
                                                 "name" : "services",
                                                 "onCancel" : { },
