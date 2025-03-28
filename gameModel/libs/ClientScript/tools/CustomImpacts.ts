@@ -120,6 +120,12 @@ Helpers.registerEffect(() => {
     returns: undefined,
   });
 
+  ServerMethods.registerGlobalMethod(['TimeManager'], 'toggleRunningGlobal', {
+    label: 'Toggle running state for all teams',
+    parameters: [],
+    returns: undefined,
+  });
+
   ServerMethods.registerGlobalMethod(['TimeManager'], 'keepalive', {
     label: 'Keep simulation alive',
     parameters: [],
