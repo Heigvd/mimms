@@ -1,6 +1,5 @@
 import { generateRandomPatient } from '../edition/patientGeneration';
 import { PathologyId, PatientId, SimDuration } from '../game/common/baseTypes';
-import { TimeSliceDuration } from '../game/common/constants';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
@@ -36,14 +35,9 @@ import {
 const MAX_RETRIES = 50;
 
 /**
- * Number of samples after injury
+ * Default minutes at which patients state are computed for display
  */
-const SAMPLES_NUMBER = 4;
-
-/**
- * Time interval between each sample
- */
-const SAMPLE_INTERVAL_SEC = TimeSliceDuration * 15;
+const SAMPLE_VALUES_MINUTE: number[] = [0, 15, 30, 45, 60, 90, 120];
 
 type PatientSamples = Record<SimDuration, PatientState>;
 interface PatientEntry {
@@ -56,6 +50,13 @@ type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let patientsBodyParamsCache: Record<PatientId, BodyFactoryParam> = {};
 let cacheInitDone = false;
+
+// restart scenario reset
+Helpers.registerEffect(() => {
+  patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  cacheInitDone = false;
+});
 
 /**
  * foreach adapter for all patients
@@ -103,10 +104,7 @@ export function getPatientSamples(
 export function getSampleTimesSec(): number[] {
   const t0 = getInitialTimeJumpSeconds();
   const times = [t0];
-  for (let i = 1; i < SAMPLES_NUMBER; i++) {
-    times.push(t0 + i * SAMPLE_INTERVAL_SEC);
-  }
-  return times;
+  return times.concat(SAMPLE_VALUES_MINUTE.map(t => t * 60).filter(t => t > t0));
 }
 
 export function resetAll(): void {
@@ -272,9 +270,11 @@ function updateCache(startInstance: PatientState, body: BodyFactoryParam): void 
   let sampleInstance = startInstance;
   let t = startInstance.humanBody.state.time;
   entry[t] = sampleInstance;
-  for (let i = 1; i < SAMPLES_NUMBER; i++) {
+  const timeValues = getSampleTimesSec();
+  for (let i = 1; i < timeValues.length; i++) {
     sampleInstance = Helpers.cloneDeep(sampleInstance);
-    computeNewPatientsState([sampleInstance], SAMPLE_INTERVAL_SEC, false);
+    const delta = timeValues[i]! - timeValues[i - 1]!;
+    computeNewPatientsState([sampleInstance], delta, false);
     t = sampleInstance.humanBody.state.time;
     sampleInstance.preTriageResult = doPatientAutomaticTriage(sampleInstance.humanBody, t, false);
     entry[t] = sampleInstance;
