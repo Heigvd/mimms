@@ -668,7 +668,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "  Context.patient.params.bmi + '';",
+                                  "content" : "  Context.patient.params.pathologyNames.join(\", \");",
                                   "language" : "TypeScript"
                                 }
                               },

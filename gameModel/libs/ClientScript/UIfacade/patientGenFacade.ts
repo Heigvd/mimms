@@ -18,6 +18,7 @@ import {
 } from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
 import { getPathologies } from '../HUMAn/registries';
+import { getPathologyDefinitionById } from '../HUMAn/registry/pathologies';
 import { group } from '../tools/groupBy';
 import { entries, makeAsync } from '../tools/helper';
 import { patientGenerationLogger } from '../tools/logger';
@@ -40,15 +41,17 @@ const MAX_RETRIES = 50;
 const SAMPLE_VALUES_MINUTE: number[] = [0, 15, 30, 45, 60, 90, 120];
 
 type PatientSamples = Record<SimDuration, PatientState>;
+type BodyParamsWithPathology = BodyFactoryParam & { pathologyNames: string[] };
+
 interface PatientEntry {
   id: PatientId;
   samples: PatientSamples;
-  params: BodyFactoryParam;
+  params: BodyParamsWithPathology;
 }
 type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
-let patientsBodyParamsCache: Record<PatientId, BodyFactoryParam> = {};
+let patientsBodyParamsCache: Record<PatientId, BodyParamsWithPathology> = {};
 let cacheInitDone = false;
 
 // restart scenario reset
@@ -280,7 +283,13 @@ function updateCache(startInstance: PatientState, body: BodyFactoryParam): void 
     entry[t] = sampleInstance;
   }
   patientsSamplesCache[id] = entry;
-  patientsBodyParamsCache[id] = body;
+  const pathoNames = body.scriptedEvents?.map(se => {
+    if (se.payload.type === 'HumanPathology') {
+      return getPathologyDefinitionById(se.payload.pathologyId)?.shortDescription || '';
+    }
+    return '';
+  });
+  patientsBodyParamsCache[id] = { ...body, pathologyNames: pathoNames || [] };
 }
 
 // INTERFACE STATE ============================================================

@@ -100,6 +100,23 @@
   cursor: not-allowed;
 }
 
+/** quaternary **/
+.quaternary-button {
+  padding: 0;
+  margin: 0;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-decoration: underline;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.quaternary-button:hover {
+  color: var(--primary_80);
+  background-color: transparent;
+}
+
 /************************* Special button  ****************************/
 
 /***** ABORT *****/

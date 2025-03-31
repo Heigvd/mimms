@@ -2,19 +2,71 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "patient-modal__title",
-        "layoutClassName" : "noPadding",
-        "layoutStyle" : {
-          "flex-shrink" : "0"
+        "children" : [ {
+          "props" : {
+            "className" : "patient-modal__title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "flex-shrink" : "0"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"Select Pathologies\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "quaternary-button",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "'select all'",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "quaternary-button",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "'deselect all'",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "alignItems" : "flex-start"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "buttons",
+            "style" : {
+              "gap" : ".5rem"
+            }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "justifyContent" : "space-between"
         },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "\"Select Pathologies\"",
-          "language" : "TypeScript"
-        }
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "header",
+        "style" : { }
       },
-      "type" : "Text"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {
