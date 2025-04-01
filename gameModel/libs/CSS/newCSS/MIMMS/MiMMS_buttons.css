@@ -109,12 +109,12 @@
   color: var(--primary_base);
   text-decoration: underline;
   background-color: transparent;
-  cursor: pointer;
 }
 
 .quaternary-button:hover {
   color: var(--primary_80);
   background-color: transparent;
+  cursor: pointer;
 }
 
 /************************* Special button  ****************************/

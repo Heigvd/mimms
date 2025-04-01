@@ -35,6 +35,15 @@
   width: 6vw;
 }
 
+.patient-accordion-header > div > div > div > div:first-of-type {
+  width: 12vw;
+  padding-left: 0;
+}
+
+.patient-generation .header-open div:first-of-type div {
+  width: 12vw;
+}
+
 #details {
   width: 24vw;
 }
@@ -48,12 +57,16 @@
 }
 
 /* different line width depending on if details accordion is open/closed */
-.patient-line-open {
-  width: 60vw;
+.patient-generation .line-container {
+  width: fit-content;
 }
 
-.patient-line-closed {
-  width: 42vw;
+.patient-line-open .line:hover {
+  width: calc(100% - 6vw);
+}
+
+.patient-line-closed .line:hover {
+  width: calc(100% - 6vw);
 }
 
 .line .line-actions {
@@ -65,6 +78,10 @@
   justify-content: center;
   gap: .5rem;
   width: 6vw;
+}
+
+.patient-generation .line:hover .line-actions {
+  padding-left: 20px;
 }
 
 .details-sex {
