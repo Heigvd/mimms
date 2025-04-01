@@ -53,7 +53,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic arterial hemorrhage (thigh, neck)',
         blockSelectionMode: 'any',
         severity: 'dead',
-        shortDescription: 'cata. art. hem.',
+        shortDescription: 'Cata. Art. Hem.',
       },
       [
         {
@@ -74,7 +74,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic arterial hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'dead',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Cata. Art. Hem.',
       },
       [
         {
@@ -95,7 +95,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe arterial hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'immediate',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -116,7 +116,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe arterial hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'immediate',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -137,7 +137,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'urgent arterial hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -178,7 +178,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (neck)',
         blockSelectionMode: 'any',
         severity: 'dead',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -200,7 +200,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'dead',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -221,7 +221,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'dead',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -242,7 +242,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'immediate',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -263,7 +263,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'immediate',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -284,7 +284,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage',
         blockSelectionMode: 'any',
         severity: 'immediate',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -305,7 +305,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'moderate venous hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -326,7 +326,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor venous hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Minor Hem.',
       },
       [
         {
@@ -347,7 +347,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor venous hemorrhage (face)',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Minor Hem.',
       },
       [
         {
@@ -369,7 +369,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'dead',
         name: 'catastrophic internal hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Cata. Int. Hem.',
       },
       [
         {
@@ -390,7 +390,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'severe internal hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Internal Hem.',
       },
       [
         {
@@ -411,7 +411,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'urgent internal hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Internal Hem.',
       },
       [
         {
@@ -432,7 +432,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor internal hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Min. Int. Hem.',
       },
       [
         {
@@ -511,7 +511,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'Upper airways burn',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Airways Burn',
       },
       [
         {
@@ -537,7 +537,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'Simple pneumothorax',
         severity: 'non_urgent',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Simple PNX',
       },
       [
         {
@@ -610,7 +610,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'cranial trauma with hemorrhage',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Brain Injury',
       },
       [
         {
@@ -638,7 +638,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'contusion',
         blockSelectionMode: 'same',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Bruise',
       },
       [
         {
@@ -662,7 +662,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'unable to walk',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Simple injury',
       },
       [
         {
@@ -681,7 +681,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'Circumferential Thorax Burn',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Thorax Burn',
       },
       [
         {
@@ -743,7 +743,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'Tamponade',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Tamponade',
       },
       [
         {
@@ -763,7 +763,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'dead',
         name: 'Dislocation C1/C2',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -781,7 +781,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'Dislocation C5/C7',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -799,7 +799,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'Dislocation T1/T4',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -817,7 +817,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'Dislocation limb',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -835,7 +835,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'fracture non-displaced',
         blockSelectionMode: 'same',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -864,7 +864,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'fracture displaced',
         severity: 'non_urgent',
         blockSelectionMode: 'same',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -893,7 +893,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'fracture open & displaced',
         blockSelectionMode: 'same',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -922,7 +922,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'Pain',
         blockSelectionMode: 'any',
-        shortDescription: 'TODO Laurent',
+        shortDescription: 'Simple injury',
       },
       [
         {
