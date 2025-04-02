@@ -116,6 +116,7 @@
 .patient-modal {
   width: 30rem;
   height: 50vh;
+  min-height: 30rem;
 }
 
 /* - - s t e p p e r - - */
