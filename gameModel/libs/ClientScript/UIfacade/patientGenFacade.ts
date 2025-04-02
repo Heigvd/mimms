@@ -416,6 +416,21 @@ export function togglePathology(id: PathologyId): void {
   saveToObjectDescriptor(desc, current);
 }
 
+export function toggleAllPathologies(toggle: boolean): void {
+  const current: Record<string, boolean> = {};
+  getPathologies().forEach(p => {
+    current[p.value] = toggle;
+  });
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  saveToObjectDescriptor(desc, current);
+}
+
+export function anyPathologySelected(): boolean {
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  const current = parseObjectDescriptor<boolean>(desc);
+  return Object.values(current).some(selected => selected);
+}
+
 // SORTING ====================================================================
 
 type SortType = 'id' | 'priority';

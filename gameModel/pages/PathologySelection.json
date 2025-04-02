@@ -29,6 +29,13 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(true);",
+                    "language" : "TypeScript"
+                  }
+                },
                 "style" : { }
               },
               "type" : "Button"
@@ -42,6 +49,13 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(false);",
+                    "language" : "TypeScript"
+                  }
+                },
                 "style" : { }
               },
               "type" : "Button"
@@ -149,6 +163,11 @@
         "children" : [ {
           "props" : {
             "className" : "button-S button-primaryColor current",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { anyPathologySelected } from \"./UIfacade/patientGenFacade\";\n!anyPathologySelected();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "'Next'",

@@ -926,24 +926,32 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "fullSize",
+                "layoutClassName" : "",
                 "layoutStyle" : {
                   "flex-shrink" : "1",
-                  "overflow" : "auto"
+                  "height" : "100%",
+                  "overflow-y" : "auto",
+                  "width" : "100%"
                 },
                 "name" : "patient",
                 "style" : { }
               },
               "type" : "For each"
             } ],
-            "className" : "fullSize",
+            "className" : "",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "fullSize",
-            "layoutStyle" : { },
+            "layoutClassName" : "",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
             "name" : "table",
-            "style" : { }
+            "style" : {
+              "height" : "100%",
+              "width" : "100%"
+            }
           },
           "type" : "FlexList"
         } ],
@@ -953,14 +961,17 @@
           "content" : "import { getDefaultGenerationState } from \"./UIfacade/patientGenFacade\";\ngetDefaultGenerationState();",
           "language" : "TypeScript"
         },
-        "layoutClassName" : "noPadding fullSize accordion-state",
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding accordion-state",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
         "localState" : true,
         "style" : { }
       },
       "type" : "State"
     } ],
-    "className" : "fullSize",
+    "className" : "",
     "id" : "patient-generation",
     "layout" : {
       "flexDirection" : "column"
@@ -971,7 +982,10 @@
       "overflow" : "auto",
       "width" : "100%"
     },
-    "style" : { }
+    "style" : {
+      "height" : "100%",
+      "width" : "100%"
+    }
   },
   "type" : "FlexList"
 }
