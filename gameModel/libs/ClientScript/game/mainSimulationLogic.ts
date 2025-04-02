@@ -50,6 +50,7 @@ import { EvacuationTask } from './common/tasks/taskBaseEvacuation';
 import { PorterTask } from './common/tasks/taskBasePorter';
 import { PreTriageTask } from './common/tasks/taskBasePretriage';
 import { WaitingTask } from './common/tasks/taskBaseWaiting';
+import { getTestTriggers } from './common/triggers/trigger';
 
 let currentSimulationState: MainSimulationState;
 let stateHistory: MainSimulationState[];
@@ -254,6 +255,7 @@ export function buildStartingMainState(): MainSimulationState {
       resourceContainers: loadEmergencyResourceContainers(),
       flags: {},
       hospital: {},
+      triggers: getTestTriggers(),
     },
     0,
     0

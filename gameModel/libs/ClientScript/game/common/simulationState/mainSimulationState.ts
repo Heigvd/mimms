@@ -15,6 +15,7 @@ import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { DashboardTeamGameState, makeReducedState } from '../../../dashboard/dashboardState';
+import { Trigger } from '../triggers/trigger';
 
 export class MainSimulationState implements IClonable {
   private static stateCounter = 0;
@@ -222,4 +223,5 @@ export interface MainStateObject {
   resourceContainers: ResourceContainerConfig[];
   flags: Partial<Record<SimFlag, boolean>>;
   hospital: HospitalState;
+  triggers: Trigger[];
 }

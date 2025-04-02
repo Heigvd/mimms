@@ -50,6 +50,7 @@ import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationSta
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
+import { evaluateTrigger } from '../triggers/trigger';
 import { localEventManager } from './localEventManager';
 
 export interface LocalEvent {
@@ -204,6 +205,8 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       // update all tasks
       this.updateTasks(state);
 
+      this.evaluateTriggers(state);
+
       registerOpenSelectedActorPanelAfterMove();
 
       state.updateForwardTimeFrame();
@@ -232,6 +235,13 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
   private updateTasks(state: MainSimulationState) {
     TaskState.getAllTasks(state).forEach(t => t.update(state, this.timeJump));
+  }
+
+  private evaluateTriggers(state: MainSimulationState) {
+    state.getInternalStateObject().triggers.forEach(t => {
+      const localEvents = evaluateTrigger(state, t);
+      localEvents.forEach(le => localEventManager.queueLocalEvent(le));
+    });
   }
 }
 
