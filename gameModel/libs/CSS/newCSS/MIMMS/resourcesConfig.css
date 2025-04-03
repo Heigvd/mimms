@@ -15,6 +15,21 @@
   color: var(--grey_100);
 }
 
+.resources .line-container:has(.resources-line-edit) {
+  width: calc(100% + 2vw);
+}
+
+.resources .line-container .line-actions {
+  display: none;
+}
+
+.resources .line-container:hover .line-actions {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  width: 6vw;
+}
+
 .resources-line-edit {
   width: calc(30vw + 10px);
   padding: 5px 10px 5px 1px;
@@ -29,7 +44,7 @@
   background-color: var(--grey10);
   box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
   animation-name: new-resource;
-  animation-duration: 1s;
+  animation-duration: 3s;
 }
 
 .line-left-cell--advanced {
@@ -55,5 +70,6 @@
 
 @keyframes new-resource {
   0% {color: var(--primary_base); background-color: var(--primary_10); box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  50% {color: var(--primary_base); background-color: var(--primary_10); box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
   100% {color: var(--grey_base); background-color: var(--grey10); box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);}
 }

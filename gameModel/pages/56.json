@@ -289,6 +289,11 @@
                                     "language" : "TypeScript"
                                   }
                                 },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Select type\"",
+                                  "language" : "TypeScript"
+                                },
                                 "script" : {
                                   "@class" : "Script",
                                   "content" : "  Context.containerConfig.payload.type;",
@@ -941,6 +946,11 @@
                                   "width" : "12vw"
                                 },
                                 "name" : "Type",
+                                "noOptionsMessage" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
@@ -952,6 +962,11 @@
                                     "content" : "\"value\"",
                                     "language" : "TypeScript"
                                   }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"Select type\"",
+                                  "language" : "TypeScript"
                                 },
                                 "script" : {
                                   "@class" : "Script",
@@ -1252,7 +1267,6 @@
               "type" : "Button"
             } ],
             "layout" : {
-              "alignItems" : "flex-start",
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
@@ -1280,7 +1294,9 @@
             },
             "name" : "edit",
             "style" : {
-              "margin" : "24px 0 0 24px"
+              "position" : "absolute",
+              "right" : "0",
+              "top" : "24px"
             }
           },
           "type" : "Button"

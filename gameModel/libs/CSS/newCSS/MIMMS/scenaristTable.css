@@ -196,7 +196,8 @@ div .button-closed {
 }
 
 .line:hover .table-input-container input,
-.line:hover .wegas-select__single-value {
+.line:hover .wegas-select__single-value,
+.line:hover .wegas-select__placeholder {
   color: var(--primary_base) !important;
 }
 
@@ -211,7 +212,8 @@ div .button-closed {
 
 .table-input-container input,
 .hospitals .wegas-select__single-value,
-.resources .wegas-select__single-value {
+.resources .wegas-select__single-value,
+.resources .wegas-select__placeholder {
     height: 28px;
     min-height: 0;
     min-width: 0;

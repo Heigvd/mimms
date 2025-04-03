@@ -40,15 +40,18 @@ export function loadResourceContainersConfiguration(): ResourceContainerConfig[]
     initContainerDefinitions();
   }
 
-  return Object.values(data).map(config => {
-    return {
-      templateId: definitionsMapping[config.payload.type]!,
-      name: config.payload.name || 'UNNAMED',
-      availabilityTime: config.payload.availabilityTime * 60 || 0,
-      travelTime: config.payload.travelTime || 1 || 60,
-      amount: 1,
-    };
-  });
+  return Object.values(data)
+    .filter(config => definitionsMapping[config.payload.type])
+    .map(config => {
+      return {
+        templateId: definitionsMapping[config.payload.type]!,
+        name: config.payload.name || 'UNNAMED',
+        availabilityTime: config.payload.availabilityTime * 60 || 0,
+        travelTime: config.payload.travelTime || 1 || 60,
+        amount: 1,
+      };
+    })
+    .filter(c => c);
 }
 
 // ===================== CONTAINER DEFINITIONS ===========================

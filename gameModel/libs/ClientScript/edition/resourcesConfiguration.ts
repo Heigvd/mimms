@@ -11,16 +11,6 @@ export function getContainerConfigurations(mandatory: boolean) {
   const array = Object.entries(data).map(([key, value]) => {
     return { id: key, ...value };
   });
-  // sort by type
-  //array.sort((a,b) => a.payload.type.localeCompare(b.payload.type));
-  // sort by name
-  // array.sort((a,b) => a.payload.name.localeCompare(b.payload.name));
-  // sort by availabilityTime
-  // array.sort((a,b) => a.payload.availabilityTime - b.payload.availabilityTime);
-  // sort by travelTime
-  // array.sort((a,b) => a.payload.travelTime - b.payload.travelTime);
-  // filter
-  // const y = array.filter(x => true);
   const filtered = array.filter(config => config.mandatory === mandatory);
   if (!mandatory) {
     filtered.sort((a, b) => a.index - b.index);
@@ -131,9 +121,9 @@ export function addContainerConfiguration() {
     index: 0,
     payload: {
       name: 'unnamed',
-      type: 'AMB-U',
-      availabilityTime: 5,
-      travelTime: 10,
+      type: '',
+      availabilityTime: 0,
+      travelTime: 0,
     },
   };
   const id = generateId(10);
