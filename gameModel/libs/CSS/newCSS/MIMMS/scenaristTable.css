@@ -56,7 +56,7 @@ div .button-closed {
 .header-left-cell {
   display: flex;
   align-items: center;
-  width: 12vw;
+  width: 6vw;
   padding-left: 10px;
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
@@ -146,7 +146,7 @@ div .button-closed {
 .line {
   min-height: 38.4px;
   border-radius: 10px;
-  background-color: var(--grey10);
+  background-color: var(--grey05);
   margin-bottom: 10px;
   padding: 10px;
   font-size: var(--SM_text);
@@ -161,7 +161,7 @@ div .button-closed {
 
 .line-left-cell {
   justify-content: space-between;
-  width: calc(12vw - 10px);
+  width: calc(6vw - 10px);
 }
 
 .line-text {
@@ -208,6 +208,10 @@ div .button-closed {
   align-items: center;
   height: 28px;
   min-height: 0;
+}
+
+.resources .table-input-container input {
+  width: 4.5rem;
 }
 
 .table-input-container input,

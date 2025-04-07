@@ -49,11 +49,11 @@
 
 /* different line width depending on if details accordion is open/closed */
 .patient-line-open {
-  width: 60vw;
+  width: 54vw;
 }
 
 .patient-line-closed {
-  width: 42vw;
+  width: 36vw;
 }
 
 .line .line-actions {

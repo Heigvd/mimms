@@ -46,9 +46,7 @@
                         "className" : "header-left-cell",
                         "layoutStyle" : { },
                         "name" : "Type",
-                        "style" : {
-                          "padding" : "0"
-                        },
+                        "style" : { },
                         "text" : {
                           "@class" : "Script",
                           "content" : "\"Type\"",
@@ -275,7 +273,7 @@
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : {
-                                  "width" : "12vw"
+                                  "width" : "6vw"
                                 },
                                 "onVariableChange" : {
                                   "client" : {
@@ -336,7 +334,9 @@
                             }, {
                               "props" : {
                                 "layoutClassName" : "table-input-container",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "justifyContent" : "center"
+                                },
                                 "name" : "Name",
                                 "onCancel" : { },
                                 "onVariableChange" : {
@@ -597,8 +597,7 @@
                         "layoutStyle" : { },
                         "name" : "Type",
                         "style" : {
-                          "gap" : "4px",
-                          "padding" : "0"
+                          "gap" : "4px"
                         }
                       },
                       "type" : "FlexList"
@@ -943,7 +942,7 @@
                                 "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : {
-                                  "width" : "12vw"
+                                  "width" : "6vw"
                                 },
                                 "name" : "Type",
                                 "noOptionsMessage" : {
@@ -1009,7 +1008,9 @@
                             }, {
                               "props" : {
                                 "layoutClassName" : "table-input-container",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "justifyContent" : "center"
+                                },
                                 "name" : "Name",
                                 "onCancel" : { },
                                 "onVariableChange" : {

@@ -12,6 +12,7 @@ export function getContainerConfigurations(mandatory: boolean) {
     return { id: key, ...value };
   });
   const filtered = array.filter(config => config.mandatory === mandatory);
+  // Purposefully not sorted
   if (!mandatory) {
     filtered.sort((a, b) => a.index - b.index);
   }
@@ -109,6 +110,7 @@ export function updateStringValue(id: string, field: 'name' | 'type', value: str
 }
 
 let lastAdded: string = '';
+let lastIndex: number = 0;
 
 export function getLastAdded(): string {
   return lastAdded;
@@ -118,7 +120,7 @@ export function addContainerConfiguration() {
   const containerConfigurations = loadResourceContainersConfigurationData();
   const newConfig: ContainerConfigurationData = {
     mandatory: false,
-    index: 0,
+    index: lastIndex--,
     payload: {
       name: 'unnamed',
       type: '',
@@ -149,6 +151,7 @@ export function toggleMandatory(id: string) {
   lastSortType = undefined;
 }
 
+// In advanced mode, all types. In normal mode, only optional types
 export function getDefinitionChoices(): { label: string; value: string }[] {
   const advanced = Editor.getFeatures().ADVANCED;
   return Object.entries(optionalResourceDefinitions)

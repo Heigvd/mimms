@@ -3,7 +3,7 @@
 /* hospitals accordion width */
 #hospitals,
 .hospitals-container {
-  width: 36vw;
+  width: 30vw;
   /* min-width: 112.75px; */
 }
 
@@ -45,7 +45,7 @@
 
 /* edit line style */
 .hospital-text-name-edit {
-  width: calc(12vw - 5px);
+  width: calc(6vw - 5px);
   padding: 0 4px 0 0;
   box-sizing: border-box;
 }
@@ -100,7 +100,7 @@
 
 /* different line width depending on if services accordion is open/closed, display/edit */
 .services-edit-closed {
-  width: calc(36vw + 105.5px);
+  width: calc(30vw + 105.5px);
 }
 
 .services-hospital-edit-closed {
