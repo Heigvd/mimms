@@ -20,7 +20,7 @@ import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
 import { getPathologies } from '../HUMAn/registries';
 import { getPathologyDefinitionById } from '../HUMAn/registry/pathologies';
 import { group } from '../tools/groupBy';
-import { entries, makeAsync } from '../tools/helper';
+import { entries, makeAsync, upperCaseFirst } from '../tools/helper';
 import { patientGenerationLogger } from '../tools/logger';
 import {
   alphaNumericSort,
@@ -167,7 +167,7 @@ export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promis
   const genFunction = (ctx: GenerationCtx) => bestEffortGenerateAndStore(stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx, i));
+    tasks.push(makeAsync(genFunction, genCtx, i * 10));
   }
   await Promise.all(tasks);
 
@@ -298,7 +298,8 @@ type ModalState =
   | 'pathology-modal'
   | 'stats-modal'
   | 'patient-modal'
-  | 'generating-modal';
+  | 'generating-modal'
+  | 'delete-all-modal';
 interface PatientGenerationState {
   status: ModalState;
   sort: SortType;
@@ -405,7 +406,7 @@ export function getPathologiesChoices(): { id: PathologyId; selected: boolean; l
   return getPathologies().map(p => ({
     id: p.value,
     selected: saved[p.value] || false,
-    label: p.label,
+    label: upperCaseFirst(p.label),
   }));
 }
 

@@ -162,6 +162,21 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "step-text step-text--disabled",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "1.5rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"The chosen categories will be respected as much as possible. Certain pathologies make certain categories medically impossible.\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "className" : "button-S button-primaryColor current",
             "disableIf" : {
               "@class" : "Script",
@@ -184,7 +199,7 @@
             },
             "name" : "next",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"

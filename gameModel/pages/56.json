@@ -1,0 +1,27 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"patientGeneration\"",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "patient list",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

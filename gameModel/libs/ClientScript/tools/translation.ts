@@ -1,4 +1,5 @@
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
+import { lowerCaseFirst, upperCaseFirst } from './helper';
 import { translationLogger } from './logger';
 
 let cache: Record<string, SObjectDescriptor> = {};
@@ -108,16 +109,6 @@ export function getItemActionTranslation(item: ItemDefinition, actionId: string)
 
 export function getActTranslation(act: ActDefinition) {
   return getTranslation('human-actions', act.id);
-}
-
-function upperCaseFirst(s: string): string {
-  if (s && s.length > 0) return s.charAt(0).toUpperCase() + s.slice(1);
-  return s;
-}
-
-function lowerCaseFirst(s: string): string {
-  if (s && s.length > 0) return s.charAt(0).toLowerCase() + s.slice(1);
-  return s;
 }
 
 /**

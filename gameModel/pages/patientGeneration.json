@@ -7,6 +7,105 @@
             "attachedToId" : "patient-generation",
             "children" : [ {
               "props" : {
+                "className" : "modal-title",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Delete all\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "modal-text",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Are you sure you want to delete all patients generated so far?\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "button-S button-primaryColor",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'cancel')",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "button-S button-primaryColor current",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send')",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { resetAll } from \"./UIfacade/patientGenFacade\";\n\nresetAll();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "modal-buttons-container",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "width" : "100%"
+                },
+                "name" : "buttons",
+                "style" : {
+                  "justifyContent" : "flex-end"
+                }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "modal",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'delete-all-modal':\n      return false;\n    }\n    true;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "alignItems" : "center",
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "name" : "delete all confirmation",
+            "onExitActions" : { },
+            "style" : { }
+          },
+          "type" : "Modal"
+        }, {
+          "props" : {
+            "attachedToId" : "patient-generation",
+            "children" : [ {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "children" : [ {
@@ -388,11 +487,16 @@
                               "type" : "For each"
                             }, {
                               "props" : {
-                                "className" : "header-button",
+                                "className" : "header-button see-patient__regenerate-button",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "APP_CONTEXT !== \"Editor\";",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "undo",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "'Regenerate'",
+                                  "content" : "'Regenerate<span class=\"see-patient__tooltip\">Generate a new patient with the same category</span>'",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "noPadding",
@@ -469,8 +573,11 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noPadding fullSize",
-                    "layoutStyle" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "height" : "100%",
+                      "width" : "100%"
+                    },
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -498,11 +605,14 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "",
             "layoutStyle" : { },
             "name" : "see patient",
             "onExitActions" : { },
             "style" : {
-              "margin" : "0"
+              "margin" : "auto",
+              "minWidth" : "60rem",
+              "width" : "50%"
             }
           },
           "type" : "Modal"
@@ -636,6 +746,7 @@
                                 "language" : "typescript"
                               }
                             } ],
+                            "confirm" : false,
                             "icon" : "trash",
                             "label" : {
                               "@class" : "Script",
@@ -646,7 +757,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { resetAll } from \"./UIfacade/patientGenFacade\";\n\nresetAll();",
+                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('delete-all-modal');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -657,6 +768,11 @@
                           "type" : "Button"
                         } ],
                         "className" : "table-buttons",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "APP_CONTEXT !== \"Editor\";",
+                          "language" : "typescript"
+                        },
                         "layout" : { },
                         "layoutStyle" : { },
                         "name" : "buttons",
@@ -841,6 +957,11 @@
                           "type" : "Button"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "APP_CONTEXT !== \"Editor\";",
+                              "language" : "typescript"
+                            },
                             "icon" : "undo",
                             "label" : {
                               "@class" : "Script",
@@ -862,6 +983,11 @@
                           "type" : "Button"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "APP_CONTEXT !== \"Editor\";",
+                              "language" : "typescript"
+                            },
                             "icon" : "trash",
                             "label" : {
                               "@class" : "Script",
