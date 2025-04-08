@@ -120,11 +120,7 @@ function getCurrentTeamId(): TeamId {
   if (lockedTeamId) {
     return lockedTeamId;
   }
-  // reading values from the dashboard
-  // TODO remove ?
-  if (Context.team?.id) {
-    return Context.team.id;
-  }
+
   // current player's team id
   return getPlayerTeamId();
 }
