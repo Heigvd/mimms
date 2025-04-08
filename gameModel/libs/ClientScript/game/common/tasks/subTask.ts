@@ -1,3 +1,4 @@
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import {
   ActorId,
   GlobalEventId,
@@ -14,12 +15,6 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 const SUB_TASK_SEED_ID: SubTaskId = 5000;
 
 export class SubTask {
-  private static idProvider: SubTaskId = SUB_TASK_SEED_ID;
-
-  public static resetIdSeed() {
-    SubTask.idProvider = SUB_TASK_SEED_ID;
-  }
-
   public readonly subTaskId: SubTaskId;
 
   /** The resources involved in the execution of the sub-task */
@@ -30,7 +25,7 @@ export class SubTask {
   public cumulatedTime: number;
 
   public constructor(resources: ResourceId[], patientId: PatientId) {
-    this.subTaskId = ++SubTask.idProvider;
+    this.subTaskId = getContextUidGenerator().getNext('SubTask', SUB_TASK_SEED_ID);
     this.resources = resources;
     this.patientId = patientId;
     this.cumulatedTime = 0;

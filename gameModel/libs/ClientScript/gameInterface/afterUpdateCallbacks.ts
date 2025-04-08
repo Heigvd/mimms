@@ -26,7 +26,7 @@ function addAfterUpdateCallback(callback: AfterUpdateCallback): void {
 }
 
 /**
- * Sets the previous state reference that will be passed in the callback functions
+ * Sets the previous state reference that will be passed to the callback functions
  */
 export function setPreviousReferenceState(prevState: Readonly<MainSimulationState>): void {
   // only update the previous state if the pending callbacks have been called

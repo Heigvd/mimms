@@ -1,3 +1,4 @@
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';
@@ -8,12 +9,6 @@ const RESOURCE_SEED_ID: ResourceId = 7000;
  * A resource is someone / something at disposal of actors to perform tasks.
  */
 export class Resource {
-  private static idProvider: ResourceId = RESOURCE_SEED_ID;
-
-  public static resetIdSeed() {
-    Resource.idProvider = RESOURCE_SEED_ID;
-  }
-
   public readonly Uid: ResourceId;
 
   /** What is it for a resource (fixed through time) */
@@ -36,7 +31,7 @@ export class Resource {
     currentLocation: Resource['currentLocation'] = LOCATION_ENUM.remote,
     currentActivity: Resource['currentActivity'] = null
   ) {
-    this.Uid = ++Resource.idProvider;
+    this.Uid = getContextUidGenerator().getNext('Resource', RESOURCE_SEED_ID);
     this.type = type;
     this.currentLocation = currentLocation;
     this.currentActivity = currentActivity;

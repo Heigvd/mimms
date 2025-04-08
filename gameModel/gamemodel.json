@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1741625873479,
+  "createdTime" : 1742920582267,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5191,55 +5191,6 @@
     "editorTag" : "dashboard",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "Contains the last computed state of the team's main simulation",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:1087303:DPBrfZ"
-      },
-      "description" : "",
-      "editorTag" : "currentState",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:1087304:OjFNkp",
-        "translations" : { }
-      },
-      "name" : "currentState",
-      "properties" : { },
-      "refId" : "ObjectDescriptor:1087302:mzXlDQ",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "NumberDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "Contains the last computed state id",
-      "defaultInstance" : {
-        "@class" : "NumberInstance",
-        "history" : [ ],
-        "refId" : "NumberInstance:1087357:5G3oPN",
-        "value" : -1.0
-      },
-      "defaultValue" : -1.0,
-      "editorTag" : "currentStateCount",
-      "historySize" : 20,
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:1087358:8seO4W",
-        "translations" : { }
-      },
-      "maxValue" : null,
-      "minValue" : null,
-      "name" : "currentStateCount",
-      "refId" : "NumberDescriptor:1087356:MPzI0g",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ {
         "@class" : "EnumItem",
@@ -5835,6 +5786,42 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/mainStateLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1724242:nv4rqc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/patientsLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750136:kCodvg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/resourceLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750135:J6ma6L",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/simulationState/loaders/taskLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1724243:2PjgdU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/locationState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5947,6 +5934,24 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#101:sHMfxz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/gameExecutionContext",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1723208:ehnGzf",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/gameExecutionContextController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1724236:1N6dXJ",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7048,7 +7053,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-395 XGO",
+  "name" : "MIMMS - MIM-384 XGO 7 clean (3)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

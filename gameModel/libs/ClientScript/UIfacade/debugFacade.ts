@@ -1,10 +1,14 @@
-import * as mainLogic from '../game/mainSimulationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getCurrentState, getStateHistory } from '../game/mainSimulationLogic';
+import {
+  forceRecomputeStateDebug,
+  getCurrentState,
+  getStateHistory,
+  setCurrentStateDebug,
+} from '../game/mainSimulationLogic';
 import { debugFacadeLogger } from '../tools/logger';
 
 export async function debugStoreCurrentState() {
-  const stateId = mainLogic.getCurrentState().stateCount;
+  const stateId = getCurrentState().stateCount;
   const script = `Variable.find(gameModel, 'debugStoredState').getInstance(self).setValue(${stateId});`;
   await APIMethods.runScript(script, {});
   debugFacadeLogger.info('Stored state with id ', stateId);
@@ -15,13 +19,13 @@ export async function debugRestoreSavedState() {
   if (storedStateId === undefined) {
     debugFacadeLogger.info('No state stored yet');
   } else {
-    await mainLogic.setCurrentStateDebug(storedStateId);
+    await setCurrentStateDebug(storedStateId);
   }
 }
 
 export function recomputeLocalState() {
-  wlog('--- LOCAL STATE RESET');
-  mainLogic.recomputeState();
+  wlog('--- LOCAL STATE RESET DEBUG ---');
+  forceRecomputeStateDebug();
 }
 
 export function getAllResources() {

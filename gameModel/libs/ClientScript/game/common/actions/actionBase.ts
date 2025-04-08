@@ -1,5 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -52,7 +53,7 @@ import {
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { getProximityTranslation, getResourceAsSenderName } from '../radio/radioLogic';
@@ -85,12 +86,6 @@ const ACTION_SEED_ID: ActionId = 3000;
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
 
-  private static idProvider: ActionId = ACTION_SEED_ID;
-
-  public static resetIdSeed() {
-    ActionBase.idProvider = ACTION_SEED_ID;
-  }
-
   protected readonly logger = ActionBase.slogger;
 
   public readonly Uid: ActionId;
@@ -105,7 +100,7 @@ export abstract class ActionBase {
     public readonly ownerId: ActorId,
     protected readonly uuidTemplate: ActionTemplateId = -1
   ) {
-    this.Uid = ++ActionBase.idProvider;
+    this.Uid = getContextUidGenerator().getNext('ActionBase', ACTION_SEED_ID);
     this.status = 'Uninitialized';
     this.templateId = uuidTemplate;
   }
@@ -301,7 +296,7 @@ export class DisplayMessageAction extends StartEndAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event DisplayMessageAction');
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -344,7 +339,7 @@ export class OnTheRoadAction extends StartEndAction {
     const actor = state.getActorById(this.ownerId)!;
     actor.setLocation(actor.getComputedSymbolicLocation(state));
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddNotificationLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -432,7 +427,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     this.logger.info('end event CasuMessageAction');
     const now = state.getSimTime();
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         now,
@@ -445,7 +440,7 @@ export class CasuMessageAction extends RadioDrivenAction {
       )
     );
     if (this.casuMessagePayload.messageType === 'R') {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new HospitalRequestUpdateLocalEvent(
           this.eventId,
           now,
@@ -461,7 +456,7 @@ export class CasuMessageAction extends RadioDrivenAction {
         this.ownerId,
         this.casuMessagePayload
       );
-      localEventManager.queueLocalEvent(dispatchEvent);
+      getLocalEventManager().queueLocalEvent(dispatchEvent);
 
       // Auto request ACS MCS if not requested within 5 mins after methane and ACS/MCS is not on site already
       // enough to test for presence, in case of multiple requests, only the first one is executed
@@ -470,7 +465,7 @@ export class CasuMessageAction extends RadioDrivenAction {
         this.logger.info(
           'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
         );
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new AutoSendACSMCSLocalEvent(this.eventId, now + ACSMCSAutoRequestDelay)
         );
       }
@@ -541,7 +536,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event ActivateRadioSchemaAction');
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -558,7 +553,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     if (suitableActors.includes(this.ownerId)) {
       state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
 
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -570,7 +565,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
         )
       );
     } else {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -645,21 +640,21 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   protected dispatchInitEvents(state: MainSimulationState): void {
     this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
     );
   }
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     // ungrey the map element
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new CompleteBuildingFixedEntityLocalEvent(
         this.eventId,
         state.getSimTime(),
         this.fixedMapEntity
       )
     );
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddNotificationLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -672,7 +667,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
   }
 
   protected cancelInternal(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
     );
   }
@@ -710,13 +705,13 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
   protected override dispatchEndedEvents(state: MainSimulationState): void {
     super.dispatchEndedEvents(state);
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, LOCATION_ENUM.pcFront)
     );
 
     // First and only resource on scene comes with
     const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -725,7 +720,7 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
         LOCATION_ENUM.pcFront
       )
     );
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent(this.eventId, state.getSimTime(), [resourceUid])
     );
   }
@@ -768,12 +763,12 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
 
     for (const actor of actors) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
       );
     }
     // Move human resources to PC
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveFreeHumanResourcesByLocationLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -785,7 +780,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     // Remove PC Front once all actors and resources have been moved
     const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
     );
   }
@@ -824,7 +819,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
   protected override dispatchEndedEvents(state: MainSimulationState): void {
     super.dispatchEndedEvents(state);
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new MoveFreeWaitingResourcesByTypeLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -876,7 +871,7 @@ export class MoveActorAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: MainSimulationState): void {
     if (!canMoveToLocation(state, 'Actors', this.location)) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -887,7 +882,7 @@ export class MoveActorAction extends StartEndAction {
         )
       );
     } else {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
       );
     }
@@ -948,7 +943,7 @@ export class AppointActorAction extends StartEndAction {
       this.involvedResourceId = matchingResources[0]!.Uid;
 
       // we reserve the resources for this action so that they cannot be used by anything else
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new ReserveResourcesLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -958,7 +953,7 @@ export class AppointActorAction extends StartEndAction {
       );
     } else {
       // if no resource is available, send directly a notification
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -974,20 +969,20 @@ export class AppointActorAction extends StartEndAction {
   protected dispatchEndedEvents(state: MainSimulationState): void {
     if (this.compliantWithHierarchy) {
       if (this.involvedResourceId != undefined) {
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
         );
 
         // no need to free the resource as long as it will be deleted
 
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
         );
       }
     } else {
       // we free the resources so that they are available for other actions
       if (this.involvedResourceId != undefined) {
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
             this.involvedResourceId,
           ])
@@ -995,7 +990,7 @@ export class AppointActorAction extends StartEndAction {
       }
 
       // Resources refused the order due to hierarchy conflict
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1011,7 +1006,7 @@ export class AppointActorAction extends StartEndAction {
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
     if (this.involvedResourceId != undefined) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
           this.involvedResourceId,
         ])
@@ -1139,7 +1134,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     ).map(resource => resource.Uid);
 
     // we reserve the resources for this action so that they cannot be used by anything else
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new ReserveResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -1153,7 +1148,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     this.logger.info('end event MoveResourcesAssignTaskAction');
 
     if (this.commMedia === CommMedia.Radio) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1169,7 +1164,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
     // we free the resources so that they are available again
     // ! but we free them only when everything is done !
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent(
         this.eventId,
         state.getSimTime() + this.timeDelay,
@@ -1185,7 +1180,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       this.sendFeedbackMessage(state, 'move-res-task-no-location');
     } else {
       if (!this.isSameLocation) {
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new MoveResourcesLocalEvent(
             this.eventId,
             state.getSimTime(),
@@ -1196,7 +1191,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         );
 
         // during the travel set the resources as waiting
-        localEventManager.queueLocalEvent(
+        getLocalEventManager().queueLocalEvent(
           new AssignResourcesToWaitingTaskLocalEvent(
             this.eventId,
             state.getSimTime(),
@@ -1206,7 +1201,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       }
 
       // during the travel set the resources as waiting
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent(
           this.eventId,
           state.getSimTime() + this.timeDelay,
@@ -1238,7 +1233,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
     const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
     if (isRadioMessage) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1250,7 +1245,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         )
       );
     } else {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1295,7 +1290,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
     );
   }
@@ -1341,7 +1336,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -1354,7 +1349,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
       )
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new PretriageReportResponseLocalEvent(
         this.eventId,
         state.getSimTime() + PretriageReportResponseDelay,
@@ -1419,7 +1414,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendRadioMessageAction');
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -1532,7 +1527,7 @@ export class EvacuationAction extends RadioDrivenAction {
     ).map((resource: Resource) => resource.Uid);
 
     // we reserve the resources for this action so that they cannot be used by anything else
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new ReserveResourcesLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -1546,11 +1541,11 @@ export class EvacuationAction extends RadioDrivenAction {
     this.logger.info('end event EvacuationAction');
 
     // we free the resources so that they are available again
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.eventId,
         state.getSimTime(),
@@ -1565,7 +1560,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
     if (!this.compliantWithHierarchy) {
       // Resources refused the order due to hierarchy conflict
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1577,7 +1572,7 @@ export class EvacuationAction extends RadioDrivenAction {
         )
       );
     } else if (!this.isEnoughResources) {
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1593,7 +1588,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
       const evacuationTask = TaskLogic.getEvacuationTask(state);
 
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1615,7 +1610,7 @@ export class EvacuationAction extends RadioDrivenAction {
         getSquadDef(this.evacuationActionPayload.transportSquad)
       );
 
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           this.eventId,
           state.getSimTime(),
@@ -1631,7 +1626,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
   protected cancelInternal(state: MainSimulationState): void {
     // we free the resources so that they are available for other actions
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
     );
   }

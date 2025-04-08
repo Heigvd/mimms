@@ -23,7 +23,6 @@ import { getLetterRepresentationOfIndex } from '../tools/helper';
 import {
   DashboardGameState,
   fetchAndUpdateTeamsGameState,
-  getTypedState,
   UpdateStateFunc,
 } from './dashboardState';
 import { CasuMessageAction } from '../game/common/actions/actionBase';
@@ -72,11 +71,11 @@ export function getTime(state: DashboardGameState, teamId: number): string {
 }
 
 export function getRawTime(state: DashboardGameState, teamId: number): Date {
-  const teamState = getTypedState(state, teamId);
+  const teamState = state[teamId];
 
   const currentDateTime = getSimStartDateTime();
   if (teamState) {
-    currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTime * 1000);
+    currentDateTime.setTime(currentDateTime.getTime() + teamState.simulationTimeSec * 1000);
   }
   return currentDateTime;
 }
@@ -86,7 +85,8 @@ export function getRawTime(state: DashboardGameState, teamId: number): Date {
  * and possibly raise flags to change state
  */
 export function getMethaneStatus(state: DashboardGameState, teamId: number): boolean {
-  const teamState = getTypedState(state, teamId);
+  const teamState = state[teamId];
+
   if (teamState) {
     // TODO make it clean when decided what we want
     return (
@@ -130,7 +130,8 @@ export function getActorsLocation(
   teamId: number,
   role: InterventionRole
 ): string {
-  const teamState = getTypedState(state, teamId);
+  const teamState = state[teamId];
+
   if (teamState) {
     // for the moment, we do not deal with multiple actors with same role
     const location = teamState.actors.find(act => act.Role === role)?.Location;
@@ -179,7 +180,7 @@ export function getLocationChoice(
   teamId: number,
   location: LOCATION_ENUM
 ): string {
-  const teamState = getTypedState(state, teamId);
+  const teamState = state[teamId];
 
   if (teamState) {
     const mapLocation = teamState.mapLocations.find(mapLoc => mapLoc.id === location);
@@ -201,7 +202,8 @@ export function showAsOpened(
   teamId: number,
   location: LOCATION_ENUM
 ): boolean {
-  const teamState = getTypedState(state, teamId);
+  const teamState = state[teamId];
+
   return !!(teamState && location === LOCATION_ENUM.PMA && teamState.flags[SimFlag.PMA_OPEN]);
 }
 
@@ -384,12 +386,12 @@ export async function updateMinimumValidTimeForwardValue(
     if (dstate) {
       if (teamId) {
         if (dstate[teamId]) {
-          min = dstate[teamId]?.simulationTime || 0;
+          min = dstate[teamId]?.simulationTimeSec || 0;
         }
       } else {
         // among all teams
         Object.keys(dstate).forEach(tid => {
-          const t = dstate[Number(tid)]?.simulationTime || 0;
+          const t = dstate[Number(tid)]?.simulationTimeSec || 0;
           if (t > min) {
             min = t;
           }
@@ -443,9 +445,9 @@ export async function processTimeForward(
   params: TimeForwardDashboardParams,
   teamId: number = 0
 ): Promise<void> {
+  const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (await shouldIgnoreImpact(teamId)) return;
 
-  const setStateFunc: UpdateStateFunc = Context.state.setState;
   if (params.mode === 'add') {
     const seconds = (params.addMinute || 0) * 60;
     if (seconds > MAXTIME_FORWARD_SECONDS) {
@@ -474,11 +476,11 @@ export async function processTimeForward(
  * extracts radio messages and notifications parameters and sends events, by team or game wise
  */
 export async function processMessage(state: DashboardUIState): Promise<void> {
+  const updateFunc: UpdateStateFunc = Context.state.setState;
   const teamId = state.selectedTeam;
   if (await shouldIgnoreImpact(teamId)) return;
 
   const message = state.radio.message;
-  const updateFunc: UpdateStateFunc = Context.state.updateState;
 
   if (state.radio.mode === 'notif') {
     if (teamId) {
@@ -563,4 +565,19 @@ export async function updateRolesSetupAndClose(
   const state = dasboardStateCtx.state;
   await updateTeamMatrix(state.selectedTeam, state.roleConfig);
   resetModalCustom(dasboardStateCtx);
+}
+
+let firstLoadDone = false;
+
+export async function refresh(safety: boolean): Promise<unknown> {
+  if (safety && firstLoadDone) {
+    return;
+  }
+  firstLoadDone = true;
+
+  return await Promise.all([
+    getAllTeamsMultiplayerMatrix(),
+    getAllTeamGameStateStatus(),
+    fetchAndUpdateTeamsGameState(Context.state.setState, safety),
+  ]);
 }

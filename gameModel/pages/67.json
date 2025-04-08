@@ -394,7 +394,7 @@
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -409,7 +409,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+                    "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nrunActionButton(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
                     "language" : "TypeScript"
                   }
                 },
@@ -450,13 +450,13 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
         "language" : "typescript"
       }
     } ],
     "disableIf" : {
       "@class" : "Script",
-      "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().MoveResourcesAssignTaskActionTemplate);",
+      "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
       "language" : "typescript"
     },
     "layout" : {

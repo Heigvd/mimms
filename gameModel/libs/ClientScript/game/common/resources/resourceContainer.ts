@@ -1,3 +1,4 @@
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { SimFlag } from '../actions/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
 import { ResourceContainerDefinitionId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
@@ -66,12 +67,6 @@ export interface ResourceContainerDefinition {
   flags: SimFlag[];
 }
 
-let idProvider: ResourceContainerDefinitionId = RESOURCE_CONTAINER_SEED_ID;
-
-export function resetIdSeed() {
-  idProvider = RESOURCE_CONTAINER_SEED_ID;
-}
-
 export function buildContainerDefinition(
   type: ResourceContainerType,
   name: TranslationKey,
@@ -80,7 +75,7 @@ export function buildContainerDefinition(
   flags: SimFlag[] = []
 ): ResourceContainerDefinition {
   return {
-    uid: ++idProvider,
+    uid: getContextUidGenerator().getNext('ResourceContainer', RESOURCE_CONTAINER_SEED_ID),
     type: type,
     name: name,
     resources: resources || {},

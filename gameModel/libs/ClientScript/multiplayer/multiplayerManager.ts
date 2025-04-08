@@ -62,9 +62,10 @@ export async function registerSelf(): Promise<void> {
     )})`;
 
     try {
-      await APIMethods.runScript(script, {});
       hasRegisteredOnce = true;
+      await APIMethods.runScript(script, {});
     } catch (error) {
+      hasRegisteredOnce = false;
       mainSimLogger.error(error);
     }
   }
@@ -158,11 +159,11 @@ export function getPlayerRolesSelf(): PlayerRoles {
 
   const playerRoles = getPlayersAndRoles().find(m => m.id === currentPlayerId);
   if (playerRoles === undefined) {
-    // Throw some error unregistered
-    mainSimLogger.error(`Player with id: ${currentPlayerId} has not registered roles`);
+    // Happens when the page load registration call has not returned
+    mainSimLogger.info(`Player with id: ${currentPlayerId} has not registered roles`);
     return {};
   }
-  return playerRoles!.roles;
+  return playerRoles.roles;
 }
 /**
  * Check if all playable roles are currently filled by a player
