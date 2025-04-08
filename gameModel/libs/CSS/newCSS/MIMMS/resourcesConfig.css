@@ -1,0 +1,6 @@
+.resources__undertitle {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-transform: uppercase;
+}

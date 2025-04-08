@@ -133,6 +133,29 @@ var TimeManager = (function () {
 
       Variable.find(gameModel, 'running_global').setValue(self, false);
     },
+    toggleRunningGlobal: function () {
+      // TODO Move this logic to gameMode selection screen !
+      var props = gameModel.getProperties();
+      if (!props.getFreeForAll()) {
+        props.setFreeForAll(true);
+      }
+
+      var runningGlobal = Variable.find(gameModel, 'running_global').getValue(self);
+      var shouldRun = MimmsHelper.shouldRunScenarioOnFirstStart();
+      runForAllTeams(function (player) {
+        if (runningGlobal) {
+          if (shouldRun) {
+            EventManager.runScenario(player);
+          }
+          var currentEpoch = new Date().getTime();
+          Variable.find(gameModel, 'epoch_ref').setValue(player, currentEpoch);
+        }
+
+        var currentInSim = computeEffectiveSimulationTime(player);
+        Variable.find(gameModel, 'inSim_ref').setValue(player, currentInSim);
+      });
+      Variable.find(gameModel, 'running_global').setValue(self, !runningGlobal);
+    },
     /**
      * Team enters "replay" mode
      */
