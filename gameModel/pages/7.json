@@ -2,6 +2,11 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "APP_CONTEXT !== 'Editor';",
+          "language" : "typescript"
+        },
         "layoutStyle" : { },
         "onVariableChange" : { },
         "script" : {
@@ -17,7 +22,7 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "  if(Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimSetupPage')\n  return \"11\";\n  \"4\";",
+          "content" : "  if(Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimPage')\n  return \"11\";\n  \"4\";",
           "language" : "typescript"
         },
         "layoutStyle" : { },

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1743436055623,
+  "createdTime" : 1744211277807,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1197,6 +1197,85 @@
     "editorTag" : "setup",
     "isolation" : "OPEN",
     "items" : [ {
+      "@class" : "StringDescriptor",
+      "allowedValues" : [ {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298439:l9wYBt",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298439:l9wYBt::FR",
+              "status" : "",
+              "translation" : "Drill pré-tri"
+            }
+          }
+        },
+        "name" : "pretriPage",
+        "refId" : "EnumItem:1298438:uvY2Nu"
+      }, {
+        "@class" : "EnumItem",
+        "label" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298441:4F8nyn",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298441:4F8nyn::FR",
+              "status" : "",
+              "translation" : "Simulation principale"
+            }
+          }
+        },
+        "name" : "mainSimPage",
+        "refId" : "EnumItem:1298440:ztiP5m"
+      } ],
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "StringInstance",
+        "refId" : "StringInstance:1298435:dh2lNJ",
+        "trValue" : {
+          "@class" : "TranslatableContent",
+          "refId" : "TranslatableContent:1298436:BVfOMu",
+          "translations" : {
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:1298436:BVfOMu::FR",
+              "status" : "",
+              "translation" : "pretriPage"
+            }
+          }
+        }
+      },
+      "editorTag" : "gameMode",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:1298437:wAgutq",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:1298437:wAgutq::FR",
+            "status" : "",
+            "translation" : "gameMode"
+          }
+        }
+      },
+      "maxSelectable" : 1,
+      "name" : "gameMode",
+      "refId" : "StringDescriptor:1298434:YwTCff",
+      "scopeType" : "GameModelScope",
+      "sortable" : false,
+      "validationPattern" : null,
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "",
@@ -5178,116 +5257,6 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
-  }, {
-    "@class" : "ListDescriptor",
-    "addShortcut" : "",
-    "allowedTypes" : [ ],
-    "broadcastScope" : "TeamScope",
-    "comments" : "",
-    "defaultInstance" : {
-      "@class" : "ListInstance",
-      "refId" : "ListInstance:1087352:URRCKc"
-    },
-    "editorTag" : "dashboard",
-    "isolation" : "OPEN",
-    "items" : [ {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:1298439:l9wYBt",
-          "translations" : {
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:1298439:l9wYBt::FR",
-              "status" : "",
-              "translation" : "Drill pré-tri"
-            }
-          }
-        },
-        "name" : "setupPage",
-        "refId" : "EnumItem:1298438:uvY2Nu"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:1298441:4F8nyn",
-          "translations" : {
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:1298441:4F8nyn::FR",
-              "status" : "",
-              "translation" : "Simulation principale"
-            }
-          }
-        },
-        "name" : "mainSimSetupPage",
-        "refId" : "EnumItem:1298440:ztiP5m"
-      } ],
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:1298435:dh2lNJ",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:1298436:BVfOMu",
-          "translations" : {
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:1298436:BVfOMu::FR",
-              "status" : "",
-              "translation" : "mainSimSetupPage"
-            }
-          }
-        }
-      },
-      "editorTag" : "gameMode",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:1298437:wAgutq",
-        "translations" : {
-          "FR" : {
-            "@class" : "Translation",
-            "lang" : "FR",
-            "refId" : "TranslatableContent:1298437:wAgutq::FR",
-            "status" : "",
-            "translation" : "gameMode"
-          }
-        }
-      },
-      "maxSelectable" : 1,
-      "name" : "gameMode",
-      "refId" : "StringDescriptor:1298434:YwTCff",
-      "scopeType" : "TeamScope",
-      "sortable" : false,
-      "validationPattern" : null,
-      "version" : null,
-      "visibility" : "PRIVATE"
-    } ],
-    "label" : {
-      "@class" : "TranslatableContent",
-      "refId" : "TranslatableContent:1087353:tlRWj7",
-      "translations" : {
-        "EN" : {
-          "@class" : "Translation",
-          "lang" : "EN",
-          "refId" : "TranslatableContent:1087353:tlRWj7::EN",
-          "status" : "",
-          "translation" : "dashboard"
-        }
-      }
-    },
-    "name" : "dashboard",
-    "refId" : "ListDescriptor:1087351:Wdjfbp",
-    "scopeType" : "TeamScope",
-    "version" : null,
-    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -5412,6 +5381,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56339:9xzhBc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/userRoles",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1903833:arJ77p",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7071,7 +7049,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev MIM-406",
+  "name" : "MIMMS - dev XGO MIM-414",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
