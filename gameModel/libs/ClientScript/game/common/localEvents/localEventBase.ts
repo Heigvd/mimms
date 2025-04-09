@@ -30,17 +30,19 @@ import {
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import { GameOptions } from '../gameOptions';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
-import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
+import { resolveResourceRequest } from '../resources/emergencyDepartment';
 import { Resource } from '../resources/resource';
 import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
+import { getContainerDef } from '../simulationState/loaders/resourceLoader';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
@@ -50,7 +52,7 @@ import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationSta
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
-import { localEventManager } from './localEventManager';
+import { getLocalEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
@@ -216,7 +218,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
           [],
           TimeSliceDuration
         );
-        localEventManager.queueLocalEvent(tfw);
+        getLocalEventManager().queueLocalEvent(tfw);
       }
     }
   }
@@ -557,7 +559,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
         undefined,
         this.travelTime
       );
-      localEventManager.queueLocalEvent(evt);
+      getLocalEventManager().queueLocalEvent(evt);
     });
 
     if (
@@ -572,7 +574,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
         this.amount,
         this.configName
       );
-      localEventManager.queueLocalEvent(evt);
+      getLocalEventManager().queueLocalEvent(evt);
     }
   }
 }
@@ -624,7 +626,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           const greetingActors = getHighestAuthorityActorsByLocation(state, location);
 
           greetingActors.forEach((actorId: ActorId) => {
-            localEventManager.queueLocalEvent(
+            getLocalEventManager().queueLocalEvent(
               new ResourceArrivalAnnouncementLocalEvent(
                 this.parentEventId,
                 this.simTimeStamp,
@@ -638,13 +640,13 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     } else {
       // missing ambulance or helicopter park location
       // radio message to the user
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         this.buildArrivalFailureRadioEvent(containerDef.type, state)
       );
       // TODO later : we might want to make the ressources arrive as soon as the park is defined
       // TODO if more than one container of a given type fails, do we want to aggregate the warning messages?
       // try again X minutes later
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new ResourcesArrivalLocalEvent(
           this.parentEventId,
           this.simTimeStamp + FailedRessourceArrivalDelay,
@@ -694,7 +696,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddNotificationLocalEvent(
         this.parentEventId,
         state.getSimTime(),
@@ -992,7 +994,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       RadioType.CASU,
       true
     );
-    localEventManager.queueLocalEvent(evt);
+    getLocalEventManager().queueLocalEvent(evt);
   }
 }
 
@@ -1019,7 +1021,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
       getTaskByTypeAndLocation(state, TaskType.Pretriage, this.pretriageLocation).Uid
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         this.parentEventId,
         this.simTimeStamp,
@@ -1041,6 +1043,26 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
         true
       )
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// GAME OPTIONS
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class GameOptionsUpdateLocalEvent extends LocalEventBase {
+  constructor(
+    parentEventId: GlobalEventId,
+    timeStamp: SimTime,
+    private readonly options: GameOptions
+  ) {
+    super(parentEventId, 'GameOptionsUpdateLocalEvent', timeStamp);
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    state.getInternalStateObjectUnsafe().gameOptions = this.options;
   }
 }
 

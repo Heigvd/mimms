@@ -2,11 +2,16 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "className" : "resources__undertitle",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
-        "style" : { },
+        "name" : "setup",
+        "style" : {
+          "margin" : "1.5rem 0"
+        },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3>${getTranslation('pretriage-interface', 'gameSessionSetup')}</h3>`",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'gameSessionSetup');",
           "language" : "TypeScript"
         }
       },
@@ -15,650 +20,147 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'startPauseSimulation')",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
-                  "language" : "JavaScript"
-                },
-                "icon" : "play",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "TimeManager.globalStart();",
-                    "language" : "JavaScript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Start</p>\"",
-                  "language" : "JavaScript"
-                },
-                "layout" : { },
-                "layoutStyle" : { },
-                "name" : "start",
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "alignSelf" : "flex-start",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'running_global').isFalse(self);",
-                  "language" : "JavaScript"
-                },
-                "icon" : "pause",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "TimeManager.globalPause();",
-                    "language" : "JavaScript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Pause</p>\"",
-                  "language" : "JavaScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "name" : "pause",
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "style" : { }
+            "name" : "drill algorithm",
+            "style" : {
+              "alignItems" : "center",
+              "display" : "flex"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"Drill algorithm\"",
+              "language" : "TypeScript"
+            }
           },
-          "type" : "FlexList"
+          "type" : "Text"
         }, {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "icon" : "fast-forward",
-                "impactVariable" : {
-                  "impact" : {
-                    "@class" : "Script",
-                    "content" : "TimeManager.globalFastForward(Context.duration.value);",
-                    "language" : "javascript"
-                  }
-                },
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "`+  ${Context.duration.value}`",
-                  "language" : "JavaScript"
-                },
-                "layout" : { },
-                "layoutStyle" : {
-                  "paddingTop" : "48px"
-                },
-                "name" : "",
-                "onVariableChange" : { },
-                "style" : { }
-              },
-              "type" : "Button"
+            "className" : "content-dropdown setup-dropdown",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "content-dropdown--disabled",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+                "language" : "typescript"
+              }
             } ],
-            "exposeAs" : "duration",
-            "getItemsFn" : {
+            "disableIf" : {
               "@class" : "Script",
-              "content" : "[\n\t{id: 0, value: '1m'},\n\t{id: 0, value: '5m'},\n\t{id: 0, value: '10m'},\n\t{id: 0, value: '15m'},\n\t{id: 0, value: '30m'},\n\t{id: 0, value: '1h'},\n]",
-              "language" : "TypeScript"
+              "content" : "Variable.find(gameModel, 'running_global').getValue(self);",
+              "language" : "typescript"
             },
-            "itemKey" : "id",
-            "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'tagSystem')",
+              "language" : "JavaScript"
+            },
             "style" : { }
           },
-          "type" : "For each"
+          "type" : "Select input"
         } ],
+        "className" : "line ",
         "layout" : {
-          "alignItems" : "flex-start",
-          "flexDirection" : "row"
+          "justifyContent" : "space-between"
         },
+        "layoutClassName" : "noPadding drill-setup-line",
         "layoutStyle" : { },
-        "style" : { }
+        "name" : "drill algorithm",
+        "style" : {
+          "padding" : "5px 5px 5px 10px"
+        }
       },
       "type" : "FlexList"
     }, {
       "props" : {
+        "className" : "drill-setup-line",
         "label" : {
           "@class" : "Script",
-          "content" : "\"Drill ?\"",
-          "language" : "JavaScript"
+          "content" : "\"Start / Stop\"",
+          "language" : "TypeScript"
         },
+        "layoutClassName" : "line drill-setup-line",
         "layoutStyle" : { },
+        "name" : "start/stop",
         "onVariableChange" : {
           "server" : {
             "@class" : "Script",
-            "content" : "var props = gameModel.getProperties();\nprops.setFreeForAll(!props.getFreeForAll())",
-            "language" : "JavaScript"
+            "content" : "TimeManager.toggleRunningGlobal();",
+            "language" : "javascript"
           }
         },
         "script" : {
           "@class" : "Script",
-          "content" : "gameModel.getProperties().getFreeForAll();",
-          "language" : "JavaScript"
+          "content" : "Variable.find(gameModel,'running_global')",
+          "language" : "TypeScript"
         },
         "style" : {
-          "padding" : "5px"
+          "justifyContent" : "space-between"
         },
         "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "I18n.toString(Variable.find(gameModel,'collectDemographicData'))",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'collectDemographicData')",
-          "language" : "TypeScript"
-        },
-        "style" : { },
-        "type" : "toggler"
-      },
-      "type" : "Boolean"
-    }, {
-      "props" : {
+        "className" : "drill-setup-line",
         "label" : {
           "@class" : "Script",
           "content" : "\"Exam mode\"",
           "language" : "TypeScript"
         },
+        "layoutClassName" : "line drill-setup-line",
         "layoutStyle" : { },
+        "name" : "exam mode",
         "onVariableChange" : { },
         "script" : {
           "@class" : "Script",
           "content" : "Variable.find(gameModel,'examMode')",
           "language" : "TypeScript"
         },
-        "style" : { },
+        "style" : {
+          "justifyContent" : "space-between"
+        },
         "type" : "toggler"
       },
       "type" : "Boolean"
     }, {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-set')",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "icon" : "eye",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show')",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "Context.patients.setState({show: true});",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "show",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ]
-              },
-              "type" : "FlexList"
-            } ],
-            "layout" : {
-              "alignItems" : "flex-start",
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "attachToClosest" : ".setup-page",
-            "attachedToId" : "",
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style=\"margin: 5px 0\">${getTranslation('pretriage-interface', 'patient-set')}</h3>`",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "id" : "",
-                                "layoutStyle" : { },
-                                "name" : "",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "Context.patient.id;",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "id" : "",
-                            "layout" : { },
-                            "layoutClassName" : "patients-list--patient-title",
-                            "layoutStyle" : {
-                              "padding" : "0"
-                            },
-                            "name" : "Header",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : {
-                                  "padding" : "0 5px"
-                                },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "Context.patient.meta.sex + ',';",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : {
-                                  "padding" : "0"
-                                },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "JSON.stringify(Context.patient.meta.age) + ' y/o';",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "patients-list--patient-subtitle",
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "padding" : "0"
-                            },
-                            "name" : "genre, age",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "layoutStyle" : {
-                                  "padding" : "0 5px"
-                                },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "JSON.stringify(Context.patient.meta.height_cm) + ' cm, ';",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "layoutStyle" : {
-                                  "padding" : "0"
-                                },
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "JSON.stringify(Context.patient.meta.bmi) + ' bmi';",
-                                  "language" : "JavaScript"
-                                }
-                              },
-                              "type" : "Text"
-                            } ],
-                            "className" : "patients-list--patient-subtitle",
-                            "layout" : { },
-                            "layoutStyle" : {
-                              "padding" : "0"
-                            },
-                            "name" : "height, bmi",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "className" : "patient-list--meta-description",
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.patient.meta.description || '';",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutStyle" : {
-                          "borderBottom" : "1px solid gray"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    } ],
-                    "exposeAs" : "patient",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getPatientsBodyFactoryParamsArray } from \"./tools/WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "id",
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutStyle" : {
-                      "border" : "1px solid gray",
-                      "overflow" : "auto"
-                    },
-                    "name" : "patients",
-                    "style" : { }
-                  },
-                  "type" : "For each"
-                }, {
-                  "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>OK</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "Context.patients.setState({show: false});",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutStyle" : { },
-                "style" : {
-                  "overflow" : "auto"
-                }
-              },
-              "type" : "FlexList"
-            } ],
-            "className" : "MODAL",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "!Context.patients?.state?.show",
-              "language" : "typescript"
-            },
-            "layout" : { },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "Context.patients.setState({show: false});",
-                "language" : "TypeScript"
-              }
-            },
-            "onExitActions" : { },
-            "style" : {
-              "overflow" : "auto"
-            }
-          },
-          "type" : "Modal"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>Download CSV time of death<br></p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { exportAllPatientsTimeOfDeath } from \"./dashboard/timeOfDeath\";\n\nexportAllPatientsTimeOfDeath()",
-                "language" : "TypeScript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Button"
-        } ],
-        "exposeAs" : "patients",
-        "initialState" : {
-          "@class" : "Script",
-          "content" : "({show: false})",
-          "language" : "TypeScript"
-        },
+        "className" : "resources__undertitle",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
-        "localState" : false,
-        "style" : { }
+        "name" : "downloads",
+        "style" : {
+          "margin" : "3rem 0 1.5rem 0"
+        },
+        "text" : {
+          "@class" : "Script",
+          "content" : "\"Downloads\"",
+          "language" : "TypeScript"
+        }
       },
-      "type" : "State"
+      "type" : "Text"
     }, {
       "props" : {
         "children" : [ {
           "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'drill-type')",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "layoutStyle" : {
-                  "flexGrow" : "1"
-                },
-                "name" : "drill type",
-                "onVariableChange" : { },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'drillType')",
-                  "language" : "JavaScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "drill-config--item-container",
-            "layoutStyle" : { },
-            "name" : "drill type",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"Bag type\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { getBagsDefinitionsAsChoices } from './edition/GameModelerHelper';\ngetBagsDefinitionsAsChoices();",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : {
-                  "flexGrow" : "1"
-                },
-                "name" : "bag type",
-                "onVariableChange" : { },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'bagType')",
-                  "language" : "JavaScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "drill-config--item-container",
-            "layoutStyle" : { },
-            "name" : "bag type",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Player Profile<br></p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { getCharacterProfilesAsChoices } from './tools/WegasHelper';\ngetCharacterProfilesAsChoices();",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : {
-                  "flexGrow" : "1"
-                },
-                "name" : "default profile",
-                "onVariableChange" : { },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'defaultProfile')",
-                  "language" : "JavaScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "drill-config--item-container",
-            "layoutStyle" : { },
-            "name" : "default profile",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { getDrillType } from './game/legacy/gameMaster';\ngetDrillType() !== 'LIKERT'",
-              "language" : "JavaScript"
-            },
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>Likert: Download&nbsp;CSV data<br></p>\"",
-              "language" : "JavaScript"
-            },
-            "layoutStyle" : {
-              "flexGrow" : "1"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { getAllLikertData } from './game/legacy/likert';\n\ngetAllLikertData();",
-                "language" : "typescript"
-              }
-            },
-            "name" : "likert download",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
+            "className" : "button-M button-primaryColor current",
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { getDrillType } from './game/legacy/gameMaster';\ngetDrillType() !== 'PRE-TRIAGE'",
               "language" : "typescript"
             },
+            "icon" : "download",
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Drill: Download CSV data<br></p>\"",
+              "content" : "\"Players CSV data\"",
               "language" : "JavaScript"
             },
-            "layoutStyle" : {
-              "flexGrow" : "1"
-            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -671,18 +173,36 @@
             "style" : { }
           },
           "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "button-M button-primaryColor current",
+            "icon" : "download",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"CSV time of death\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { exportAllPatientsTimeOfDeath } from \"./dashboard/timeOfDeath\";\n\nexportAllPatientsTimeOfDeath()",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "time of death",
+            "style" : { }
+          },
+          "type" : "Button"
         } ],
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n !isDrillMode();",
-          "language" : "typescript"
-        },
-        "layout" : {
-          "alignItems" : "stretch"
-        },
+        "layout" : { },
+        "layoutClassName" : "noPadding drill-setup-line",
         "layoutStyle" : { },
-        "name" : "drill config",
-        "style" : { }
+        "name" : "download buttons",
+        "style" : {
+          "gap" : "10px"
+        }
       },
       "type" : "FlexList"
     }, {
@@ -691,37 +211,53 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "resources__undertitle",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "advanced options",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('general-interface', 'multiplayer-mode')",
+                  "content" : "\"Advanced options\"",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "layoutStyle" : {
-                  "flexGrow" : "1"
-                },
-                "name" : "multiplayer mode",
-                "onVariableChange" : { },
-                "script" : {
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "advanced-options--opened",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.options?.state?.show;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "chevron-down",
+                "label" : {
                   "@class" : "Script",
-                  "content" : "Variable.find(gameModel,'multiplayerMode')",
-                  "language" : "JavaScript"
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
                 "style" : { }
               },
-              "type" : "Select input"
+              "type" : "Button"
             } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "drill-config--item-container",
+            "className" : "advanced-options",
+            "layout" : { },
+            "layoutClassName" : "noPadding drill-setup-line",
             "layoutStyle" : { },
-            "name" : "drill type",
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "const newState = Helpers.cloneDeep(Context.options.state);\n\nnewState.show = !newState.show;\n\nContext.options.setState(newState);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "advanced options",
             "style" : { }
           },
           "type" : "FlexList"
@@ -729,239 +265,76 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Observer Profile<br></p>\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import { getCharacterProfilesAsChoices } from './tools/WegasHelper';\ngetCharacterProfilesAsChoices();",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : {
-                      "flexGrow" : "1"
-                    },
-                    "name" : "default profile",
-                    "onVariableChange" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "Variable.find(gameModel,'defaultProfile')",
-                      "language" : "JavaScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "drill-config--item-container",
+                "className" : "end-game-message",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "default profile",
-                "style" : { }
+                "name" : "end game message",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"End game message\"",
+                  "language" : "TypeScript"
+                }
               },
-              "type" : "FlexList"
+              "type" : "Text"
             }, {
               "props" : {
-                "icon" : "print",
-                "label" : {
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Finish text",
+                "onCancel" : { },
+                "onVariableChange" : { },
+                "placeholder" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Patients QRs<br></p>\"",
+                  "content" : "\"<p>Enter a custom text for finish page here<br></p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : { },
-                "name" : "patients QRs",
-                "openUrl" : {
-                  "url" : {
-                    "@class" : "Script",
-                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=30`;",
-                    "language" : "TypeScript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "icon" : "print",
-                "label" : {
+                "script" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Characters QRs<br></p>\"",
+                  "content" : "Variable.find(gameModel,'finished_custom_text')",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : { },
-                "name" : "characters QRs",
-                "openUrl" : {
-                  "url" : {
-                    "@class" : "Script",
-                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=35`;",
-                    "language" : "TypeScript"
-                  }
-                },
-                "style" : { }
+                "style" : { },
+                "validator" : false
               },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "icon" : "print",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Observer QR<br></p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutStyle" : { },
-                "name" : "characters QRs",
-                "openUrl" : {
-                  "url" : {
-                    "@class" : "Script",
-                    "content" : "const baseUrl = Helpers.getWegasUrl();\n`${baseUrl}2/player.html?gameModelId=${gameModel.getId()}&pageId=38`;",
-                    "language" : "TypeScript"
-                  }
-                },
-                "style" : { }
-              },
-              "type" : "Button"
+              "type" : "Text input"
             } ],
-            "className" : "xx",
+            "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "const v = Variable.find(gameModel, 'multiplayerMode');\nv.getValue(self) !== \"REAL_LIFE\";",
+              "content" : "!Context.options?.state?.show",
               "language" : "typescript"
             },
-            "layout" : { },
-            "layoutClassName" : "",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding drill-setup-line",
             "layoutStyle" : { },
-            "name" : "QR Settings",
+            "name" : "end game message",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "hideIf" : {
+        "exposeAs" : "options",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "import { isDrillMode } from \"./game/legacy/gameMaster\";\n isDrillMode();",
-          "language" : "typescript"
-        },
-        "layout" : { },
-        "layoutStyle" : { },
-        "name" : "multiplayer config",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'tagSystem')",
-          "language" : "JavaScript"
-        },
-        "style" : { }
-      },
-      "type" : "Select input"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "true;",
-          "language" : "typescript"
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "I18n.toString(Variable.find(gameModel,'coagulation'))",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'coagulation')",
-          "language" : "JavaScript"
-        },
-        "style" : { },
-        "type" : "toggler"
-      },
-      "type" : "Boolean"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "true;",
-          "language" : "typescript"
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "I18n.toString(Variable.find(gameModel,'vasoconstriction'))",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'vasoconstriction')",
-          "language" : "JavaScript"
-        },
-        "style" : { },
-        "type" : "toggler"
-      },
-      "type" : "Boolean"
-    }, {
-      "props" : {
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "true;",
-          "language" : "typescript"
-        },
-        "label" : {
-          "@class" : "Script",
-          "content" : "I18n.toString(Variable.find(gameModel,'vasoconstrictionLungs'))",
-          "language" : "JavaScript"
-        },
-        "layoutStyle" : { },
-        "onVariableChange" : { },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'vasoconstrictionLungs')",
-          "language" : "JavaScript"
-        },
-        "style" : { },
-        "type" : "toggler"
-      },
-      "type" : "Boolean"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "Finish text",
-        "onCancel" : { },
-        "onVariableChange" : { },
-        "placeholder" : {
-          "@class" : "Script",
-          "content" : "\"<p>Enter a custom text for finish page here<br></p>\"",
+          "content" : "({show: false})",
           "language" : "TypeScript"
         },
-        "script" : {
-          "@class" : "Script",
-          "content" : "Variable.find(gameModel,'finished_custom_text')",
-          "language" : "TypeScript"
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "flexDirection" : "column"
         },
-        "style" : { },
-        "validator" : false
+        "localState" : true,
+        "name" : "advanced options",
+        "style" : { }
       },
-      "type" : "Text input"
+      "type" : "State"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "setup-page",
+    "layoutClassName" : "noPadding setup-page",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

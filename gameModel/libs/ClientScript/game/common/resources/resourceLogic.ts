@@ -1,5 +1,4 @@
 import { entries } from '../../../tools/helper';
-import { gameOptions } from '../../mainSimulationLogic';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
 import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
@@ -68,8 +67,7 @@ export function doesOrderRespectHierarchy(
   sourceLocation: LOCATION_ENUM
 ): boolean {
   // Bypass logic if hierarchy option is disabled
-  if (gameOptions?.respectHierarchy !== undefined && gameOptions.respectHierarchy === false)
-    return true;
+  if (state.getRespectHierarchyValue() === false) return true;
 
   const actor = state.getActorById(actorUid)!;
   // Actors whose location is remote are irrelevant

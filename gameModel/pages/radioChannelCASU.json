@@ -226,7 +226,7 @@
                 } ],
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates().ActivateRadioSchemaActionTemplate);",
+                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
                   "language" : "typescript"
                 },
                 "id" : "",

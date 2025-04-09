@@ -14,9 +14,9 @@ export function getSendRadioMessageTemplate(
 ): ActionTemplateBase | undefined {
   switch (radioChannel) {
     case RadioType.CASU:
-      return getUniqueActionTemplates().CasuSendRadioMessageTemplate;
+      return getUniqueActionTemplates()?.CasuSendRadioMessageTemplate;
     case RadioType.ACTORS:
-      return getUniqueActionTemplates().ActorSendRadioMessageTemplate;
+      return getUniqueActionTemplates()?.ActorSendRadioMessageTemplate;
     default:
       return undefined;
   }

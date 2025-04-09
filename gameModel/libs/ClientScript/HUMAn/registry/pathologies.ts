@@ -14,7 +14,6 @@ export function getPathologyDefinitionById(id: string) {
 }
 
 export function initPathologies(pathologySet: Record<string, PathologyDefinition>) {
-  wlog('init pathologies');
   if (initialized) {
     return;
   }

@@ -1,3 +1,4 @@
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { ActorId } from '../baseTypes';
 import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -47,12 +48,6 @@ export function sortByHierarchyLevel(actors: Readonly<Actor[]>) {
 const ACTOR_SEED_ID: ActorId = 1000;
 
 export class Actor {
-  private static idProvider: ActorId = ACTOR_SEED_ID;
-
-  public static resetIdSeed() {
-    Actor.idProvider = ACTOR_SEED_ID;
-  }
-
   public readonly Uid: ActorId;
 
   public readonly FullName;
@@ -69,7 +64,7 @@ export class Actor {
     role: InterventionRole,
     symbolicLocation: LOCATION_ENUM = symbolicLocationMatrix[role]
   ) {
-    this.Uid = ++Actor.idProvider;
+    this.Uid = getContextUidGenerator().getNext('Actor', ACTOR_SEED_ID);
     this.Role = role;
     this.ShortName = getRoleShortTranslation(role);
     this.FullName = getRoleLongTranslation(role);

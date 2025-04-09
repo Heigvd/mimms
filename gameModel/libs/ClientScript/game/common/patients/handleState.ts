@@ -1,48 +1,10 @@
-import { getEnv, getPatientsBodyFactoryParamsArray } from '../../../tools/WegasHelper';
-import {
-  BodyEffect,
-  computeState,
-  createHumanBody,
-  doActionOnHumanBody,
-  HumanBody,
-} from '../../../HUMAn/human';
+import { getEnv } from '../../../tools/WegasHelper';
+import { BodyEffect, computeState, doActionOnHumanBody, HumanBody } from '../../../HUMAn/human';
 import { mainSimLogger } from '../../../tools/logger';
 import { AfflictedPathology, RevivedPathology, revivePathology } from '../../../HUMAn/pathology';
 import { getAct, getItem } from '../../../HUMAn/registries';
 import { PatientLocation, PatientState } from '../simulationState/patientState';
-import { LOCATION_ENUM } from '../simulationState/locationState';
 import { PatientEvolutionEVACTimeModifier, PatientEvolutionPMATimeModifier } from '../constants';
-
-export function loadPatients(): PatientState[] {
-  const env = getEnv();
-
-  const humanBodies = getPatientsBodyFactoryParamsArray()
-    .map(bodyFactoryParamWithId => {
-      const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);
-      humanBody.id = bodyFactoryParamWithId.id;
-      return humanBody;
-    })
-    .map(humanBody => {
-      humanBody.revivedPathologies = reviveAfflictedPathologies(
-        computeInitialAfflictedPathologies(humanBody)
-      );
-      humanBody.effects = computeInitialEffects(humanBody);
-      return humanBody;
-    });
-
-  mainSimLogger.info('Adding', humanBodies.length, 'patients');
-
-  const patients: PatientState[] = humanBodies.map(humanBody => {
-    return {
-      patientId: humanBody.id!,
-      humanBody: humanBody,
-      preTriageResult: undefined,
-      location: { kind: 'FixedMapEntity', locationId: LOCATION_ENUM.chantier },
-    };
-  });
-  computeNewPatientsState(patients, getInitialTimeJumpSeconds());
-  return patients;
-}
 
 export function computeInitialAfflictedPathologies(
   patient: HumanBody

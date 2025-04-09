@@ -1058,18 +1058,18 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates().EvacuationActionTemplate);",
+                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.EvacuationActionTemplate);",
                     "language" : "typescript"
                   }
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nif(!isAvailable(uniqueActionTemplates().EvacuationActionTemplate)) return true;\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
+                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nif(!isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate)) return true;\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates().EvacuationActionTemplate);",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.EvacuationActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -1084,7 +1084,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(uniqueActionTemplates().EvacuationActionTemplate);",
+                    "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(uniqueActionTemplates()?.EvacuationActionTemplate);",
                     "language" : "TypeScript"
                   }
                 },

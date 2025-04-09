@@ -1,5 +1,6 @@
 import { Heap } from '../../../tools/heap';
 import { localEventManagerLogger } from '../../../tools/logger';
+import { getCurrentExecutionContext } from '../../gameExecutionContextController';
 import { SimTime } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { compareLocalEvents, LocalEventBase } from './localEventBase';
@@ -8,7 +9,6 @@ import { compareLocalEvents, LocalEventBase } from './localEventBase';
  * Manages all the local events
  */
 export class LocalEventManager {
-  private readonly logger = localEventManagerLogger;
   private readonly pendingEvents: Heap<LocalEventBase>;
   private readonly processedEvents: LocalEventBase[] = [];
 
@@ -18,6 +18,10 @@ export class LocalEventManager {
 
   public queueLocalEvent(event: LocalEventBase) {
     this.pendingEvents.insert(event);
+  }
+
+  public queueLocalEvents(events: LocalEventBase[]) {
+    events.forEach(e => this.queueLocalEvent(e));
   }
 
   public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
@@ -32,7 +36,7 @@ export class LocalEventManager {
     }
 
     if (safeguard >= 200) {
-      this.logger.error(
+      localEventManagerLogger.error(
         'Too much event generations, might be an infinite event generation. Stopping'
       );
     }
@@ -52,8 +56,7 @@ export class LocalEventManager {
   }
 }
 
-// will be initialized as soon as all scripts have been evaluated
-export let localEventManager: LocalEventManager = undefined as unknown as LocalEventManager;
-Helpers.registerEffect(() => {
-  localEventManager = new LocalEventManager();
-});
+export function getLocalEventManager(): LocalEventManager {
+  localEventManagerLogger.debug('Getting localEventManager');
+  return getCurrentExecutionContext().getLocalEventManager();
+}

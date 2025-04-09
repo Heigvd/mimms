@@ -1,4 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
@@ -84,12 +85,6 @@ export abstract class ActionTemplateBase<
   EventT extends ActionCreationEvent = ActionCreationEvent,
   UserInput = unknown
 > {
-  private static idProvider: ActionTemplateId = ACTION_TEMPLATE_SEED_ID;
-
-  public static resetIdSeed() {
-    ActionTemplateBase.idProvider = ACTION_TEMPLATE_SEED_ID;
-  }
-
   public readonly Uid: ActionTemplateId;
 
   /**
@@ -110,7 +105,7 @@ export abstract class ActionTemplateBase<
     protected provideFlagsToState: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
-    this.Uid = ++ActionTemplateBase.idProvider;
+    this.Uid = getContextUidGenerator().getNext('ActionTemplateBase', ACTION_TEMPLATE_SEED_ID);
   }
 
   /**
