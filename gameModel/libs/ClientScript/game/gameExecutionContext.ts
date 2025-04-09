@@ -30,16 +30,16 @@ export class GameExecutionContext {
     this.stateHistory.push(newState);
   }
 
+  private getLastEventId(): number {
+    return this.getCurrentState().getLastEventId();
+  }
+
   public getCurrentState(): MainSimulationState {
     const current = this.stateHistory[this.stateHistory.length - 1];
     if (current) {
       return current;
     }
     throw new Error('Could not get current state for team ' + this.teamId);
-  }
-
-  public getLastEventId(): number {
-    return this.getCurrentState().getLastEventId();
   }
 
   public getStateHistory(): MainSimulationState[] {
@@ -61,11 +61,11 @@ export class GameExecutionContext {
     if (sorted.length > 0) {
       // check that the first event to be applied matches the state
       const firstEvent = sorted[0];
-      if ((firstEvent?.previousEventId || 0) !== this.getCurrentState().getLastEventId()) {
+      if ((firstEvent?.previousEventId || 0) !== this.getLastEventId()) {
         mainSimLogger.warn(
           "received event doesn't match the current state",
           firstEvent?.previousEventId,
-          this.getCurrentState().getLastEventId()
+          this.getLastEventId()
         );
         return false;
       }
@@ -125,10 +125,12 @@ export class GameExecutionContext {
       const localEvents = conversionFunc(event);
       this.getLocalEventManager().queueLocalEvents(localEvents);
       const newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
-      if (newState.stateCount !== currentState?.stateCount) {
-        mainSimLogger.info('Updated state', newState.stateCount);
-        this.updateCurrentState(newState);
-      }
+      mainSimLogger.info(
+        'Updated state (count, lastEventId)',
+        newState.stateCount,
+        newState.getLastEventId()
+      );
+      this.updateCurrentState(newState);
     } catch (error) {
       mainSimLogger.error('Error while processing event', event, error);
     }

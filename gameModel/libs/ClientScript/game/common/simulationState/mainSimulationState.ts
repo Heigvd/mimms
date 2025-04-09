@@ -4,7 +4,6 @@ import { SimFlag } from '../actions/actionTemplateBase';
 import { Actor } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
 import { FixedMapEntity } from '../events/defineMapObjectEvent';
-import { IClonable } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
 import { Resource } from '../resources/resource';
@@ -16,7 +15,7 @@ import { HospitalState } from './hospitalState';
 import { GameOptions } from '../gameOptions';
 import { getAllContainerDefs } from '../simulationState/loaders/resourceLoader';
 
-export class MainSimulationState implements IClonable {
+export class MainSimulationState {
   private readonly internalState: MainStateObject;
 
   /**
@@ -29,7 +28,7 @@ export class MainSimulationState implements IClonable {
   /**
    * Id of the last FullEvent that was applied to get this state
    */
-  private lastEventId;
+  private readonly lastEventId;
 
   public getLastEventId() {
     return this.lastEventId;
@@ -47,10 +46,10 @@ export class MainSimulationState implements IClonable {
     this.stateCount = previousCount + 1;
   }
 
-  clone(): this {
+  createNext(lastEventId: number): this {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
-      this.lastEventId,
+      lastEventId,
       Helpers.cloneDeep(this.forwardTimeFrame),
       this.stateCount
     ) as this;
@@ -60,8 +59,7 @@ export class MainSimulationState implements IClonable {
    * applies the event to the current state
    * @param event event to be applied
    */
-  public applyEvent(event: LocalEventBase, lastEventId: number): void {
-    this.lastEventId = lastEventId;
+  public applyEvent(event: LocalEventBase): void {
     event.applyStateUpdate(this);
   }
 

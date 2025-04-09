@@ -24,13 +24,16 @@ export class LocalEventManager {
     events.forEach(e => this.queueLocalEvent(e));
   }
 
-  public processPendingEvents(state: MainSimulationState, eventId: number): MainSimulationState {
+  public processPendingEvents(
+    state: MainSimulationState,
+    lastEventId: number
+  ): MainSimulationState {
     let safeguard = 0;
-    let newState = state.clone();
+    const newState = state.createNext(lastEventId);
 
     while (this.hasPendingEvent(newState.getSimTime()) && safeguard <= 200) {
       const nextEvent = this.pendingEvents.extract()!;
-      newState.applyEvent(nextEvent, eventId);
+      newState.applyEvent(nextEvent);
       this.processedEvents.push(nextEvent);
       safeguard++;
     }
