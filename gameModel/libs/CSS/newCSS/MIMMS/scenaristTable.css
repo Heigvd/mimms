@@ -34,10 +34,13 @@
 /* - - a n i m a t i o n s - - */
 div .button-closed {
   width: 6vw;
+  min-width: 8rem;
   transition: width 0.3s ease-in-out;
 }
 
 .button-closed button {
+  width: 6vw;
+  min-width: 8rem;
   justify-content: space-between;
 }
 
@@ -57,6 +60,7 @@ div .button-closed {
   display: flex;
   align-items: center;
   width: 6vw;
+  min-width: 8rem;
   padding-left: 10px;
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
@@ -119,6 +123,7 @@ div .button-closed {
 
 .header-closed {
   width: 6vw;
+  min-width: 8rem;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -131,6 +136,7 @@ div .button-closed {
   align-items: center;
   justify-content: center;
   width: 6vw;
+  min-width: 8rem;
   padding: 0;
 }
 
@@ -162,6 +168,7 @@ div .button-closed {
 .line-left-cell {
   justify-content: space-between;
   width: calc(6vw - 10px);
+  min-width: calc(8rem - 10px);
 }
 
 .line-text {
@@ -169,6 +176,7 @@ div .button-closed {
   align-items: center;
   justify-content: center;
   width: 6vw;
+  min-width: 8rem;
 }
 
 .line svg {
@@ -187,6 +195,7 @@ div .button-closed {
 /* input */
 .table-input-container {
   width: 6vw;
+  min-width: 8rem;
   padding: 0 4px;
   box-sizing: border-box;
 }
@@ -211,7 +220,8 @@ div .button-closed {
 }
 
 .resources .table-input-container input {
-  width: 4.5rem;
+  width: 3.5vw;
+  min-width: 4.5rem;
 }
 
 .table-input-container input,

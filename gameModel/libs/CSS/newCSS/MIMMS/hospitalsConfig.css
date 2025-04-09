@@ -3,8 +3,28 @@
 /* hospitals accordion width */
 #hospitals,
 .hospitals-container {
+  flex-shrink: 0;
   width: 30vw;
-  /* min-width: 112.75px; */
+  min-width: 40rem;
+}
+
+.hospitals .button-closed #hospitals {
+  width: 6vw;
+  min-width: 8rem;
+}
+
+.hospitals .button-closed button {
+  flex: 0;
+}
+
+.hospitals:has(.services-hospital-edit-closed) .button-closed button {
+  flex: 1;
+}
+
+.hospital-button-open
+.hospital-button-open button {
+  min-width: 40rem;
+  width: 30vw;
 }
 
 /* header style */
@@ -32,6 +52,7 @@
   display: flex;
   justify-content: center;
   width: 6vw;
+  min-width: 8rem;
   height: 25px;
   padding: 0 4px;
   box-sizing: border-box;
@@ -40,12 +61,18 @@
 /* display line style */
 .line-display {
   width: fit-content;
+  /*padding: 0 0 0 10px;*/
+  padding: 0;
+}
+
+.hospitals:has(.hospital-button-open) .line-display {
   padding: 0 0 0 10px;
 }
 
 /* edit line style */
 .hospital-text-name-edit {
   width: calc(6vw - 5px);
+  min-width: calc(8rem - 5px);
   padding: 0 4px 0 0;
   box-sizing: border-box;
 }
@@ -65,24 +92,26 @@
 }
 
 .hospital-line-edit {
-  width: calc(100% - 6vw - 4px);
+  width: calc(100% - 105px);
   padding: 5px;
 }
 
 .line-dropdown {
   display: block;
-  min-width: 0;
+  min-width: 7.5rem;
 }
 
 /* hospitals' actions */
 .hospitals-actions {
   justify-content: center;
   gap: 8px;
-  width: 6vw;
+  width: 100%;
+  margin-left: 1.5rem;
 }
 
 .hospital-button-add {
-  width: 36vw;
+  width: 30vw;
+  min-width: 40rem;
 }
 
 /* - - - -  S E R V I C E S  - - - */
@@ -90,21 +119,25 @@
 /* different services accordion width depending on open/closed, display/edit */
 .services,
 .services-container {
+  /*flex: 1;*/
   width: 100%;
-  min-width: 105.5px;
+  /*min-width: 105.5px;*/
+  min-width: 8rem;
 }
 
 .services-edit {
-  width: calc(100% - 6vw - 4px);
+  width: calc(100% - 105px);
 }
 
 /* different line width depending on if services accordion is open/closed, display/edit */
 .services-edit-closed {
-  width: calc(30vw + 105.5px);
+  width: 36vw;
+  min-width: 48rem;
 }
 
 .services-hospital-edit-closed {
-  width: calc(6vw + 105.5px);
+  width: 12vw;
+  min-width: 16rem;
 }
 
 /* services' actions */
@@ -112,6 +145,7 @@
   justify-content: center;
   gap: .5rem;
   width: 6vw;
+  min-width: 8rem;
 }
 
 /* services' actions' icons */

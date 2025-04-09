@@ -551,6 +551,14 @@
                                 "content" : "!Context.genState.state.details;",
                                 "language" : "typescript"
                               }
+                            }, {
+                              "applyOn" : "Outside",
+                              "className" : "patient-generation__button-open",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.genState.state.details;",
+                                "language" : "typescript"
+                              }
                             } ],
                             "icon" : "play",
                             "id" : "details",
@@ -991,7 +999,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding",
+    "layoutClassName" : "noPadding patient-generation",
     "layoutStyle" : {
       "height" : "100%",
       "overflow-x" : "auto",

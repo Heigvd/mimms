@@ -19,37 +19,29 @@ export function getContainerConfigurations(mandatory: boolean) {
   return filtered;
 }
 
-type SortFunc = (a: ContainerConfigurationData, b: ContainerConfigurationData) => number;
+type CompareFunc = (a: ContainerConfigurationData, b: ContainerConfigurationData) => number;
 
-function sortByType(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
-  const result = a.payload.type.localeCompare(b.payload.type);
-  if (result === 0) {
-    return a.payload.availabilityTime - b.payload.availabilityTime;
-  }
-  return result;
-}
-
-function sortByName(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+function compareByName(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
   return a.payload.name.localeCompare(b.payload.name);
 }
 
-function sortByAvailabilityTime(
+function compareByType(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+  return (
+    a.payload.type.localeCompare(b.payload.type) ||
+    a.payload.availabilityTime - b.payload.availabilityTime ||
+    compareByName(a, b)
+  );
+}
+
+function compareByTravelTime(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
+  return a.payload.travelTime - b.payload.travelTime || compareByType(a, b);
+}
+
+function compareByAvailabilityTime(
   a: ContainerConfigurationData,
   b: ContainerConfigurationData
 ): number {
-  const result = a.payload.availabilityTime - b.payload.availabilityTime;
-  if (result === 0) {
-    return sortByType(a, b);
-  }
-  return result;
-}
-
-function sortByTravelTime(a: ContainerConfigurationData, b: ContainerConfigurationData): number {
-  const result = a.payload.travelTime - b.payload.travelTime;
-  if (result === 0) {
-    return sortByType(a, b);
-  }
-  return result;
+  return a.payload.availabilityTime - b.payload.availabilityTime || compareByType(a, b);
 }
 
 type SortAlgoType = 'travelTime' | 'name' | 'availabilityTime' | 'type';
@@ -59,24 +51,26 @@ export function getlastSortType() {
   return lastSortType;
 }
 
-const sortAlgorithms: Record<SortAlgoType, SortFunc> = {
-  availabilityTime: sortByAvailabilityTime,
-  name: sortByName,
-  travelTime: sortByTravelTime,
-  type: sortByType,
+const sortAlgorithms: Record<SortAlgoType, CompareFunc> = {
+  availabilityTime: compareByAvailabilityTime,
+  name: compareByName,
+  travelTime: compareByTravelTime,
+  type: compareByType,
 };
 
 export function sortAndSave(sortAlgo: SortAlgoType): void {
   const containerConfigurations = loadResourceContainersConfigurationData();
   const configs = Object.values(containerConfigurations);
-  const sortFunc: SortFunc = sortAlgorithms[sortAlgo];
+  const sortFunc: CompareFunc = sortAlgorithms[sortAlgo];
   lastSortType = sortAlgo;
 
   configs.sort(sortFunc);
-  for (let i = 1; i < configs.length; i++) {
-    configs[i].index = i;
+  for (let i = 0; i < configs.length; i++) {
+    if (configs[i]?.index !== undefined) {
+      configs[i].index = i;
+    }
   }
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  persistAll(containerConfigurations);
 }
 
 interface UIState {
@@ -97,7 +91,7 @@ export function updateNumberValue(
   const containerConfigurations = loadResourceContainersConfigurationData();
   const payload = containerConfigurations[id]!.payload;
   payload[field] = value;
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  persistAll(containerConfigurations);
   lastSortType = undefined;
 }
 
@@ -105,12 +99,12 @@ export function updateStringValue(id: string, field: 'name' | 'type', value: str
   const containerConfigurations = loadResourceContainersConfigurationData();
   const payload = containerConfigurations[id]!.payload;
   payload[field] = value;
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  persistAll(containerConfigurations);
   lastSortType = undefined;
 }
 
 let lastAdded: string = '';
-let lastIndex: number = 0;
+let lastIndex: number = -1;
 
 export function getLastAdded(): string {
   return lastAdded;
@@ -130,7 +124,7 @@ export function addContainerConfiguration() {
   };
   const id = generateId(10);
   containerConfigurations[id] = newConfig;
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  persistAll(containerConfigurations);
   lastSortType = undefined;
   lastAdded = id;
 }
@@ -138,7 +132,7 @@ export function addContainerConfiguration() {
 export function removeContainerConfiguration(id: string) {
   const containerConfigurations = loadResourceContainersConfigurationData();
   delete containerConfigurations[id];
-  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+  persistAll(containerConfigurations);
 }
 
 export function toggleMandatory(id: string) {
@@ -146,15 +140,19 @@ export function toggleMandatory(id: string) {
   const config = containerConfigurations[id];
   if (config) {
     config.mandatory = !config.mandatory;
-    saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
+    persistAll(containerConfigurations);
   }
   lastSortType = undefined;
 }
 
 // In advanced mode, all types. In normal mode, only optional types
-export function getDefinitionChoices(): { label: string; value: string }[] {
+export function getContainerTypesChoices(): { label: string; value: string }[] {
   const advanced = Editor.getFeatures().ADVANCED;
   return Object.entries(optionalResourceDefinitions)
     .filter(([_, v]) => v || advanced)
     .map(([k, _]) => ({ label: k, value: k }));
+}
+
+function persistAll(containerConfigurations: Record<string, ContainerConfigurationData>): void {
+  saveToObjectDescriptor(Variable.find(gameModel, 'containers_config'), containerConfigurations);
 }

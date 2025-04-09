@@ -13,6 +13,7 @@
 
 /* accordion */
 .patient-accordion-header {
+  padding: 0;
   background-color: white;
   color: var(--grey_100);
   text-transform: capitalize;
@@ -33,11 +34,23 @@
 /* details accordion width */
 .patient-accordion-header > div > div > div > div {
   width: 6vw;
+  min-width: 8rem;
 }
 
-#details {
+.patient-generation__button-open {
   width: 24vw;
+  min-width: 32rem;
 }
+
+.patient-generation .button-closed button {
+  width: 6vw;
+  min-width: 8rem;
+}
+
+/*#details {
+  width: 24vw;
+  min-width: 32rem;
+}*/
 
 /* - - l i n e - - */
 .no-patient__text {

@@ -46,12 +46,11 @@ export function loadResourceContainersConfiguration(): ResourceContainerConfig[]
       return {
         templateId: definitionsMapping[config.payload.type]!,
         name: config.payload.name || 'UNNAMED',
-        availabilityTime: config.payload.availabilityTime * 60 || 0,
-        travelTime: config.payload.travelTime || 1 || 60,
+        availabilityTime: (config.payload.availabilityTime || 0) * 60,
+        travelTime: (config.payload.travelTime || 1) * 60,
         amount: 1,
       };
-    })
-    .filter(c => c);
+    });
 }
 
 // ===================== CONTAINER DEFINITIONS ===========================

@@ -21,13 +21,6 @@ export function getContainerDef(id: ResourceContainerDefinitionId): ResourceCont
   return getContainersDefinitions()[id]!;
 }
 
-export function getAllContainerDefs(): Record<
-  ResourceContainerDefinitionId,
-  ResourceContainerDefinition
-> {
-  return getContainersDefinitions();
-}
-
 export function hasContainerOfType(
   state: Readonly<MainSimulationState>,
   type: ResourceContainerType

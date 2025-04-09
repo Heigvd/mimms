@@ -263,7 +263,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getDefinitionChoices } from \"./edition/resourcesConfiguration\";\ngetDefinitionChoices();",
+                                  "content" : "import { getContainerTypesChoices } from \"./edition/resourcesConfiguration\";\ngetContainerTypesChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "line-dropdown table-input-container",
@@ -273,6 +273,7 @@
                                   "language" : "typescript"
                                 },
                                 "layoutStyle" : {
+                                  "minWidth" : "8rem",
                                   "width" : "6vw"
                                 },
                                 "onVariableChange" : {
@@ -404,7 +405,8 @@
                                 "name" : "Availability time",
                                 "style" : {
                                   "alignItems" : "center",
-                                  "gap" : "4px"
+                                  "gap" : "4px",
+                                  "justifyContent" : "center"
                                 }
                               },
                               "type" : "FlexList"
@@ -453,7 +455,8 @@
                                 "name" : "Travel time",
                                 "style" : {
                                   "alignItems" : "center",
-                                  "gap" : "4px"
+                                  "gap" : "4px",
+                                  "justifyContent" : "center"
                                 }
                               },
                               "type" : "FlexList"
@@ -935,13 +938,14 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getDefinitionChoices } from \"./edition/resourcesConfiguration\";\ngetDefinitionChoices();",
+                                  "content" : "import { getContainerTypesChoices } from \"./edition/resourcesConfiguration\";\ngetContainerTypesChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "line-dropdown table-input-container",
                                 "id" : "",
                                 "layoutClassName" : "",
                                 "layoutStyle" : {
+                                  "minWidth" : "8rem",
                                   "width" : "6vw"
                                 },
                                 "name" : "Type",
@@ -1127,7 +1131,8 @@
                                 "name" : "Travel time",
                                 "style" : {
                                   "alignItems" : "center",
-                                  "gap" : "4px"
+                                  "gap" : "4px",
+                                  "justifyContent" : "center"
                                 }
                               },
                               "type" : "FlexList"
@@ -1159,6 +1164,7 @@
                                 "layoutStyle" : { },
                                 "name" : "resources actions",
                                 "style" : {
+                                  "alignItems" : "center",
                                   "justifyContent" : "flex-start",
                                   "marginLeft" : "20px"
                                 }
@@ -1284,7 +1290,7 @@
               "content" : "if (!Context.UIState.state.edit) {\n    return \"Edit\"\n  }\n  \"Close\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "noPadding edit-button__container",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -1295,9 +1301,7 @@
             },
             "name" : "edit",
             "style" : {
-              "position" : "absolute",
-              "right" : "0",
-              "top" : "24px"
+              "margin" : "0"
             }
           },
           "type" : "Button"
@@ -1310,9 +1314,7 @@
           "language" : "TypeScript"
         },
         "layoutClassName" : "",
-        "layoutStyle" : {
-          "justifyContent" : "space-between"
-        },
+        "layoutStyle" : { },
         "localState" : true,
         "name" : "UIState",
         "style" : { }
