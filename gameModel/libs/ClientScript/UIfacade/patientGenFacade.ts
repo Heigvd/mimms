@@ -1,6 +1,5 @@
 import { generateRandomPatient } from '../edition/patientGeneration';
 import { PathologyId, PatientId, SimDuration } from '../game/common/baseTypes';
-import { TimeSliceDuration } from '../game/common/constants';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
@@ -19,8 +18,9 @@ import {
 } from '../game/pretri/triage';
 import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
 import { getPathologies } from '../HUMAn/registries';
+import { getPathologyDefinitionById } from '../HUMAn/registry/pathologies';
 import { group } from '../tools/groupBy';
-import { entries, makeAsync } from '../tools/helper';
+import { entries, makeAsync, upperCaseFirst } from '../tools/helper';
 import { patientGenerationLogger } from '../tools/logger';
 import {
   alphaNumericSort,
@@ -36,26 +36,30 @@ import {
 const MAX_RETRIES = 50;
 
 /**
- * Number of samples after injury
+ * Default minutes at which patients state are computed for display
  */
-const SAMPLES_NUMBER = 4;
-
-/**
- * Time interval between each sample
- */
-const SAMPLE_INTERVAL_SEC = TimeSliceDuration * 15;
+const SAMPLE_VALUES_MINUTE: number[] = [0, 15, 30, 45, 60, 90, 120];
 
 type PatientSamples = Record<SimDuration, PatientState>;
+type BodyParamsWithPathology = BodyFactoryParam & { pathologyNames: string[] };
+
 interface PatientEntry {
   id: PatientId;
   samples: PatientSamples;
-  params: BodyFactoryParam;
+  params: BodyParamsWithPathology;
 }
 type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
-let patientsBodyParamsCache: Record<PatientId, BodyFactoryParam> = {};
+let patientsBodyParamsCache: Record<PatientId, BodyParamsWithPathology> = {};
 let cacheInitDone = false;
+
+// restart scenario reset
+Helpers.registerEffect(() => {
+  patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  cacheInitDone = false;
+});
 
 /**
  * foreach adapter for all patients
@@ -103,10 +107,7 @@ export function getPatientSamples(
 export function getSampleTimesSec(): number[] {
   const t0 = getInitialTimeJumpSeconds();
   const times = [t0];
-  for (let i = 1; i < SAMPLES_NUMBER; i++) {
-    times.push(t0 + i * SAMPLE_INTERVAL_SEC);
-  }
-  return times;
+  return times.concat(SAMPLE_VALUES_MINUTE.map(t => t * 60).filter(t => t > t0));
 }
 
 export function resetAll(): void {
@@ -166,7 +167,7 @@ export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promis
   const genFunction = (ctx: GenerationCtx) => bestEffortGenerateAndStore(stillNeeded, ctx);
 
   for (let i = 0; i < total; i++) {
-    tasks.push(makeAsync(genFunction, genCtx, i));
+    tasks.push(makeAsync(genFunction, genCtx, i * 10));
   }
   await Promise.all(tasks);
 
@@ -272,15 +273,23 @@ function updateCache(startInstance: PatientState, body: BodyFactoryParam): void 
   let sampleInstance = startInstance;
   let t = startInstance.humanBody.state.time;
   entry[t] = sampleInstance;
-  for (let i = 1; i < SAMPLES_NUMBER; i++) {
+  const timeValues = getSampleTimesSec();
+  for (let i = 1; i < timeValues.length; i++) {
     sampleInstance = Helpers.cloneDeep(sampleInstance);
-    computeNewPatientsState([sampleInstance], SAMPLE_INTERVAL_SEC, false);
+    const delta = timeValues[i]! - timeValues[i - 1]!;
+    computeNewPatientsState([sampleInstance], delta, false);
     t = sampleInstance.humanBody.state.time;
     sampleInstance.preTriageResult = doPatientAutomaticTriage(sampleInstance.humanBody, t, false);
     entry[t] = sampleInstance;
   }
   patientsSamplesCache[id] = entry;
-  patientsBodyParamsCache[id] = body;
+  const pathoNames = body.scriptedEvents?.map(se => {
+    if (se.payload.type === 'HumanPathology') {
+      return getPathologyDefinitionById(se.payload.pathologyId)?.shortDescription || '';
+    }
+    return '';
+  });
+  patientsBodyParamsCache[id] = { ...body, pathologyNames: pathoNames || [] };
 }
 
 // INTERFACE STATE ============================================================
@@ -289,7 +298,8 @@ type ModalState =
   | 'pathology-modal'
   | 'stats-modal'
   | 'patient-modal'
-  | 'generating-modal';
+  | 'generating-modal'
+  | 'delete-all-modal';
 interface PatientGenerationState {
   status: ModalState;
   sort: SortType;
@@ -396,7 +406,7 @@ export function getPathologiesChoices(): { id: PathologyId; selected: boolean; l
   return getPathologies().map(p => ({
     id: p.value,
     selected: saved[p.value] || false,
-    label: p.label,
+    label: upperCaseFirst(p.label),
   }));
 }
 
@@ -405,6 +415,21 @@ export function togglePathology(id: PathologyId): void {
   const current = parseObjectDescriptor<boolean>(desc);
   current[id] = !current[id];
   saveToObjectDescriptor(desc, current);
+}
+
+export function toggleAllPathologies(toggle: boolean): void {
+  const current: Record<string, boolean> = {};
+  getPathologies().forEach(p => {
+    current[p.value] = toggle;
+  });
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  saveToObjectDescriptor(desc, current);
+}
+
+export function anyPathologySelected(): boolean {
+  const desc = Variable.find(gameModel, 'selected_pathologies');
+  const current = parseObjectDescriptor<boolean>(desc);
+  return Object.values(current).some(selected => selected);
 }
 
 // SORTING ====================================================================

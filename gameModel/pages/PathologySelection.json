@@ -2,19 +2,85 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "patient-modal__title",
-        "layoutClassName" : "noPadding",
-        "layoutStyle" : {
-          "flex-shrink" : "0"
+        "children" : [ {
+          "props" : {
+            "className" : "patient-modal__title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "flex-shrink" : "0"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"Select Pathologies\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "quaternary-button",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "'select all'",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(true);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "quaternary-button",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "'deselect all'",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(false);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "alignItems" : "flex-start"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "buttons",
+            "style" : {
+              "gap" : ".5rem"
+            }
+          },
+          "type" : "FlexList"
+        } ],
+        "layout" : {
+          "justifyContent" : "space-between"
         },
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "\"Select Pathologies\"",
-          "language" : "TypeScript"
-        }
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "header",
+        "style" : { }
       },
-      "type" : "Text"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {
@@ -96,7 +162,27 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "step-text step-text--disabled",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "1.5rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"The chosen categories will be respected as much as possible. Certain pathologies make certain categories medically impossible.\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "className" : "button-S button-primaryColor current",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { anyPathologySelected } from \"./UIfacade/patientGenFacade\";\n!anyPathologySelected();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "'Next'",
@@ -113,7 +199,7 @@
             },
             "name" : "next",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"

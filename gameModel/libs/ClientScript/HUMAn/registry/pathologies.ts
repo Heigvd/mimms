@@ -52,6 +52,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic arterial hemorrhage (thigh, neck)',
         blockSelectionMode: 'any',
         severity: 'dead',
+        shortDescription: 'Cata. Art. Hem.',
       },
       [
         {
@@ -72,6 +73,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic arterial hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'dead',
+        shortDescription: 'Cata. Art. Hem.',
       },
       [
         {
@@ -92,6 +94,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe arterial hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'immediate',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -112,6 +115,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe arterial hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'immediate',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -132,6 +136,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'urgent arterial hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Art. Hem.',
       },
       [
         {
@@ -172,6 +177,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (neck)',
         blockSelectionMode: 'any',
         severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -193,6 +199,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -213,6 +220,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'catastrophic venous hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem.',
       },
       [
         {
@@ -233,6 +241,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage (thigh)',
         blockSelectionMode: 'any',
         severity: 'immediate',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -253,6 +262,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage (leg)',
         blockSelectionMode: 'any',
         severity: 'immediate',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -273,6 +283,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'severe venous hemorrhage',
         blockSelectionMode: 'any',
         severity: 'immediate',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -293,6 +304,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'moderate venous hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Ven. Hem.',
       },
       [
         {
@@ -313,6 +325,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor venous hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Minor Hem.',
       },
       [
         {
@@ -333,6 +346,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor venous hemorrhage (face)',
         blockSelectionMode: 'any',
+        shortDescription: 'Minor Hem.',
       },
       [
         {
@@ -354,6 +368,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'dead',
         name: 'catastrophic internal hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Cata. Int. Hem.',
       },
       [
         {
@@ -374,6 +389,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'severe internal hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Internal Hem.',
       },
       [
         {
@@ -394,6 +410,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'urgent',
         name: 'urgent internal hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Internal Hem.',
       },
       [
         {
@@ -414,6 +431,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'minor internal hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Min. Int. Hem.',
       },
       [
         {
@@ -435,7 +453,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'half_strangle',
-				name: 'Strangulation 50%',
+				name: 'strangulation 50%',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -453,7 +471,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'strangle',
-				name: 'Strangle',
+				name: 'strangle',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -471,7 +489,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'lung_r1_5pm',
-				name: 'Bronch resistance:to 100%',
+				name: 'bronch resistance:to 100%',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -490,8 +508,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'upper_airways_burn',
         severity: 'urgent',
-        name: 'Upper airways burn',
+        name: 'upper airways burn',
         blockSelectionMode: 'any',
+        shortDescription: 'Airways Burn',
       },
       [
         {
@@ -514,9 +533,10 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     buildPathology(
       {
         id: 'simple_pno_full',
-        name: 'Simple pneumothorax',
+        name: 'simple pneumothorax',
         severity: 'non_urgent',
         blockSelectionMode: 'any',
+        shortDescription: 'Simple PNX',
       },
       [
         {
@@ -551,7 +571,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'open_pno_full',
-				name: 'Open pneumothorax full',
+				name: 'open pneumothorax full',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -589,6 +609,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'immediate',
         name: 'cranial trauma with hemorrhage',
         blockSelectionMode: 'any',
+        shortDescription: 'Brain Injury',
       },
       [
         {
@@ -616,6 +637,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'contusion',
         blockSelectionMode: 'same',
+        shortDescription: 'Bruise',
       },
       [
         {
@@ -639,6 +661,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'unable to walk',
         blockSelectionMode: 'any',
+        shortDescription: 'Simple injury',
       },
       [
         {
@@ -655,8 +678,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'thorax_circ',
         severity: 'immediate',
-        name: 'Circumferential Thorax Burn',
+        name: 'circumferential thorax burn',
         blockSelectionMode: 'any',
+        shortDescription: 'Thorax Burn',
       },
       [
         {
@@ -679,7 +703,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'tamponade_slow',
-				name: 'Tamponade Light',
+				name: 'tamponade light',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -697,7 +721,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
 		buildPathology(
 			{
 				id: 'tamponade_mild',
-				name: 'Tamponade Mild',
+				name: 'tamponade mild',
 				blockSelectionMode: 'any',
 			},
 			[
@@ -716,8 +740,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'tamponade_hard',
         severity: 'immediate',
-        name: 'Tamponade',
+        name: 'tamponade',
         blockSelectionMode: 'any',
+        shortDescription: 'Tamponade',
       },
       [
         {
@@ -735,8 +760,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'disclocation_c1c2',
         severity: 'dead',
-        name: 'Dislocation C1/C2',
+        name: 'dislocation C1/C2',
         blockSelectionMode: 'any',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -752,8 +778,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'disclocation_c5c7',
         severity: 'non_urgent',
-        name: 'Dislocation C5/C7',
+        name: 'dislocation C5/C7',
         blockSelectionMode: 'any',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -769,8 +796,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'disclocation_t1l4',
         severity: 'non_urgent',
-        name: 'Dislocation T1/T4',
+        name: 'dislocation T1/T4',
         blockSelectionMode: 'any',
+        shortDescription: 'Spine injury',
       },
       [
         {
@@ -786,8 +814,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'disclocation_limb',
         severity: 'non_urgent',
-        name: 'Dislocation limb',
+        name: 'dislocation limb',
         blockSelectionMode: 'any',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -805,6 +834,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'fracture non-displaced',
         blockSelectionMode: 'same',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -833,6 +863,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         name: 'fracture displaced',
         severity: 'non_urgent',
         blockSelectionMode: 'same',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -861,6 +892,7 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
         severity: 'non_urgent',
         name: 'fracture open & displaced',
         blockSelectionMode: 'same',
+        shortDescription: 'Fracture',
       },
       [
         {
@@ -887,8 +919,9 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       {
         id: 'pain',
         severity: 'non_urgent',
-        name: 'Pain',
+        name: 'pain',
         blockSelectionMode: 'any',
+        shortDescription: 'Simple injury',
       },
       [
         {

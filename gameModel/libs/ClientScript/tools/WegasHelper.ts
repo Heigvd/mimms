@@ -227,7 +227,7 @@ export interface TestScenario {
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
   return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
     const parsed = parse<T>(v);
-    if (parsed) {
+    if (parsed !== undefined && parsed !== null) {
       acc[k] = parsed;
     }
     return acc;

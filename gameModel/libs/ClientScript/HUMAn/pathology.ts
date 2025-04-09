@@ -253,6 +253,10 @@ export interface PathologyDefinition {
    */
   name: string;
   /**
+   * Short description
+   */
+  shortDescription: string;
+  /**
    * Pathology severity
    */
   severity: STANDARD_CATEGORY;
@@ -337,7 +341,7 @@ export interface RevivedPathology {
   modules: InstantiatedModule[];
 }
 
-function prettyPrintModuleDef(mod: ModuleDefinition, block: string, args: ModuleArgs): string {
+function prettyPrintModuleDef(mod: ModuleDefinition, block: string, _args: ModuleArgs): string {
   // TODO => args!
   // TODO replace by translations
   switch (mod.type) {
@@ -385,7 +389,10 @@ export function prettyPrinterAfflictedPathology(ap: AfflictedPathology): string 
 	</ul>`;
 }
 
-type PathologyMeta = Pick<PathologyDefinition, 'id' | 'name' | 'blockSelectionMode' | 'severity'>;
+type PathologyMeta = Pick<
+  PathologyDefinition,
+  'id' | 'name' | 'blockSelectionMode' | 'severity' | 'shortDescription'
+>;
 
 type BlockKey = keyof Block['params'];
 

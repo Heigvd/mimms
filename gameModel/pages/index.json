@@ -204,6 +204,12 @@
         "name" : "Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "56",
+        "name" : "Patient List",
+        "scenaristPage" : null,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {
@@ -256,7 +262,7 @@
           "@class" : "Page",
           "id" : "PathologySelection",
           "name" : "Pathology Selection",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
