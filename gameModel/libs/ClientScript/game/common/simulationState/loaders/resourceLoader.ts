@@ -1,4 +1,5 @@
 import { resourceLogger } from '../../../../tools/logger';
+import { parseObjectDescriptor } from '../../../../tools/WegasHelper';
 import { SimFlag } from '../../actions/actionTemplateBase';
 import { InterventionRole } from '../../actors/actor';
 import { ResourceContainerDefinitionId, TranslationKey } from '../../baseTypes';
@@ -6,74 +7,115 @@ import {
   buildContainerDefinition,
   ResourceContainerConfig,
   ResourceContainerDefinition,
+  ResourceContainerDefinitionName,
   ResourceContainerType,
 } from '../../resources/resourceContainer';
 import { ResourceType } from '../../resources/resourceType';
 
-const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
-
-export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
-  return containerDefinitions[id]!;
+export interface ContainerConfigurationData {
+  mandatory: boolean;
+  index: number;
+  payload: Omit<ResourceContainerConfig, 'amount' | 'templateId'> & { type: string };
 }
 
-export function getAllContainerDefs(): Record<
+/**
+ * Configuration data aimed at the scenarist configuration
+ */
+export function loadResourceContainersConfigurationData(): Record<
+  string,
+  ContainerConfigurationData
+> {
+  const desc = Variable.find(gameModel, 'containers_config');
+  return parseObjectDescriptor<ContainerConfigurationData>(desc);
+}
+
+/**
+ * Loads data for the game runtime
+ * loads the scenarist container configs and binds them with the container definitions
+ * only contains relevant information for the game runtime
+ */
+export function loadResourceContainersConfiguration(): ResourceContainerConfig[] {
+  const data = loadResourceContainersConfigurationData();
+  if (!definitionsLoaded) {
+    initContainerDefinitions();
+  }
+
+  const containerConfigs = Object.values(data)
+    .filter(config => definitionsMapping[config.payload.type])
+    .map(config => {
+      return {
+        templateId: definitionsMapping[config.payload.type]!,
+        name: config.payload.name || 'UNNAMED',
+        availabilityTime: (config.payload.availabilityTime || 0) * 60,
+        travelTime: (config.payload.travelTime || 1) * 60,
+        amount: 1,
+      };
+    });
+  resourceLogger.info('CONTAINERS CONFIG', containerConfigs);
+  return containerConfigs;
+}
+
+// ===================== CONTAINER DEFINITIONS ===========================
+// Container definitions define the resources content of a container type
+
+export function getContainersDefinitions(): Record<
   ResourceContainerDefinitionId,
   ResourceContainerDefinition
 > {
+  if (!definitionsLoaded) {
+    initContainerDefinitions();
+  }
   return containerDefinitions;
 }
 
-export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
-  const containerConfigs: ResourceContainerConfig[] = [];
-  const containers = Variable.find(gameModel, 'containers_config').getProperties();
+let definitionsLoaded = false;
+const containerDefinitions: Record<ResourceContainerDefinitionId, ResourceContainerDefinition> = {};
 
-  if (!containers) return containerConfigs;
+/**
+ * Maps the friendly name to the definition id
+ */
+const definitionsMapping: Record<
+  ResourceContainerDefinitionName | string,
+  ResourceContainerDefinitionId
+> = {};
 
-  const emergencyAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-    'Ambulance',
-    'emergencyAmbulance',
-    {
-      ambulance: 1,
-      ambulancier: 2,
-    }
-  );
+/**
+ * Builds hard coded containers definitions, and the mapping from friendly name to unique id
+ */
+function initContainerDefinitions(): void {
+  if (definitionsLoaded) {
+    return;
+  }
 
-  const intermediateAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-    'Ambulance',
-    'intermediateAmbulance',
-    {
-      ambulance: 1,
-      technicienAmbulancier: 1,
-      ambulancier: 1,
-    }
-  );
+  definitionsMapping['AMB-U'] = addContainerDefinition('Ambulance', 'emergencyAmbulance', {
+    ambulance: 1,
+    ambulancier: 2,
+  });
 
-  const transferAmbulance: ResourceContainerDefinitionId = addContainerDefinition(
-    'Ambulance',
-    'transferAmbulance',
-    {
-      ambulance: 1,
-      secouriste: 1,
-      technicienAmbulancier: 1,
-    }
-  );
+  definitionsMapping['AMB-I'] = addContainerDefinition('Ambulance', 'intermediateAmbulance', {
+    ambulance: 1,
+    technicienAmbulancier: 1,
+    ambulancier: 1,
+  });
 
-  const helicopter: ResourceContainerDefinitionId = addContainerDefinition(
-    'Helicopter',
-    'helicopter',
-    {
-      helicopter: 1,
-      ambulancier: 1,
-      medecinSenior: 1,
-    }
-  );
+  definitionsMapping['AMB-T'] = addContainerDefinition('Ambulance', 'transferAmbulance', {
+    ambulance: 1,
+    secouriste: 1,
+    technicienAmbulancier: 1,
+  });
 
-  const smur: ResourceContainerDefinitionId = addContainerDefinition('SMUR', 'smur', {
+  definitionsMapping['Helico'] = addContainerDefinition('Helicopter', 'helicopter', {
+    helicopter: 1,
+    ambulancier: 1,
+    medecinSenior: 1,
+  });
+
+  definitionsMapping['SMUR'] = addContainerDefinition('SMUR', 'smur', {
     ambulancier: 1,
     medecinJunior: 1,
   });
 
-  const acsMcs: ResourceContainerDefinitionId = addContainerDefinition(
+  definitionsMapping['ACS-MCS'] = addContainerDefinition(
     'ACS-MCS',
     'acs-mcs',
     {},
@@ -81,15 +123,15 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED]
   );
 
-  const pma: ResourceContainerDefinitionId = addContainerDefinition('PMA', 'pma', {
+  definitionsMapping['PMA'] = addContainerDefinition('PMA', 'pma', {
     secouriste: 4,
   });
 
-  const pica: ResourceContainerDefinitionId = addContainerDefinition('PICA', 'pica', {
+  definitionsMapping['PICA'] = addContainerDefinition('PICA', 'pica', {
     secouriste: 10,
   });
 
-  const pcSanitaire: ResourceContainerDefinitionId = addContainerDefinition(
+  definitionsMapping['PC'] = addContainerDefinition(
     'PC-San',
     'pc-san',
     {},
@@ -97,52 +139,8 @@ export function loadEmergencyResourceContainers(): ResourceContainerConfig[] {
     [SimFlag.PCS_ARRIVED]
   );
 
-  Object.entries(containers).forEach(([key, value]) => {
-    const oneContainer = JSON.parse(value);
-    let definition = null;
-    switch (oneContainer['type']!) {
-      case 'AMB-U':
-        definition = emergencyAmbulance;
-        break;
-      case 'AMB-I':
-        definition = intermediateAmbulance;
-        break;
-      case 'AMB-T':
-        definition = transferAmbulance;
-        break;
-      case 'SMUR':
-        definition = smur;
-        break;
-      case 'Helico':
-        definition = helicopter;
-        break;
-      case 'ACS-MCS':
-        definition = acsMcs;
-        break;
-      case 'PMA':
-        definition = pma;
-        break;
-      case 'PICA':
-        definition = pica;
-        break;
-      case 'PC':
-        definition = pcSanitaire;
-        break;
-      default:
-        definition = emergencyAmbulance;
-        resourceLogger.warn('malformed resource container type', oneContainer['type']);
-    }
-    containerConfigs.push({
-      templateId: definition,
-      name: key || 'UNNAMED',
-      availabilityTime: +oneContainer['availabilityTime']! * 60 || 0,
-      travelTime: +oneContainer['travelTime']! * 60 || 60,
-      amount: 1,
-    });
-  });
-
-  resourceLogger.info('CONTAINERS CONFIG', containerConfigs);
-  return containerConfigs;
+  definitionsLoaded = true;
+  resourceLogger.info('Container definitions loaded', containerDefinitions);
 }
 
 function addContainerDefinition(

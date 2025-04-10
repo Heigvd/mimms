@@ -1,20 +1,24 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
 import { getCasuActorId } from '../actors/actorLogic';
-import { ActorId, GlobalEventId } from '../baseTypes';
+import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
-import { getContainerDef } from '../simulationState/loaders/resourceLoader';
+import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ResourceContainerConfig,
   ResourceContainerDefinition,
   ResourceContainerType,
 } from './resourceContainer';
+
+export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
+  return getContainersDefinitions()[id]!;
+}
 
 export function hasContainerOfType(
   state: Readonly<MainSimulationState>,

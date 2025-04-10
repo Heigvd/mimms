@@ -13,6 +13,7 @@
 
 /* accordion */
 .patient-accordion-header {
+  padding: 0;
   background-color: white;
   color: var(--grey_100);
   text-transform: capitalize;
@@ -33,6 +34,12 @@
 /* details accordion width */
 .patient-accordion-header > div > div > div > div {
   width: 6vw;
+  min-width: 8rem;
+}
+
+.patient-generation__button-open {
+  width: 24vw;
+  min-width: 32rem;
 }
 
 .patient-accordion-header > div > div > div > div:first-of-type {
@@ -44,9 +51,15 @@
   width: 12vw;
 }
 
-#details {
-  width: 24vw;
+.patient-generation .button-closed button {
+  width: 6vw;
+  min-width: 8rem;
 }
+
+/*#details {
+  width: 24vw;
+  min-width: 32rem;
+}*/
 
 /* - - l i n e - - */
 .no-patient__text {
@@ -57,6 +70,14 @@
 }
 
 /* different line width depending on if details accordion is open/closed */
+.patient-line-open {
+  width: 54vw;
+}
+
+.patient-line-closed {
+  width: 36vw;
+}
+
 .patient-generation .line-container {
   width: fit-content;
 }

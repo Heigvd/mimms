@@ -1256,6 +1256,14 @@
                             "content" : "!Context.dashboardState.state.state;",
                             "language" : "typescript"
                           }
+                        }, {
+                          "applyOn" : "Outside",
+                          "className" : "button-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.state;",
+                            "language" : "typescript"
+                          }
                         } ],
                         "icon" : "play",
                         "id" : "state",
@@ -1287,6 +1295,14 @@
                           "condition" : {
                             "@class" : "Script",
                             "content" : "!Context.dashboardState.state.roles;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Outside",
+                          "className" : "button-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.roles;",
                             "language" : "typescript"
                           }
                         } ],
@@ -1322,6 +1338,14 @@
                             "content" : "!Context.dashboardState.state.impacts;",
                             "language" : "typescript"
                           }
+                        }, {
+                          "applyOn" : "Outside",
+                          "className" : "button-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.impacts;",
+                            "language" : "typescript"
+                          }
                         } ],
                         "icon" : "play",
                         "id" : "impacts",
@@ -1353,6 +1377,14 @@
                           "condition" : {
                             "@class" : "Script",
                             "content" : "!Context.dashboardState.state.locations;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Outside",
+                          "className" : "button-open",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.dashboardState.state.locations;",
                             "language" : "typescript"
                           }
                         } ],
@@ -1843,7 +1875,7 @@
                                   },
                                   "type" : "Button"
                                 } ],
-                                "className" : "line-left-cell",
+                                "className" : "line-left-cell dashboard-line-text",
                                 "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
@@ -2157,6 +2189,7 @@
                                     "language" : "typescript"
                                   }
                                 } ],
+                                "id" : "",
                                 "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
@@ -2255,6 +2288,7 @@
                                     "language" : "typescript"
                                   }
                                 } ],
+                                "id" : "",
                                 "layout" : { },
                                 "layoutClassName" : "",
                                 "layoutStyle" : { },
@@ -2311,6 +2345,14 @@
                                               "condition" : {
                                                 "@class" : "Script",
                                                 "content" : "!Context.dashboardState.state.state;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-open",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.dashboardState.state.state;",
                                                 "language" : "typescript"
                                               }
                                             } ],
@@ -2410,6 +2452,14 @@
                                                 "content" : "!Context.dashboardState.state.impacts;",
                                                 "language" : "typescript"
                                               }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-open",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.dashboardState.state.impacts;",
+                                                "language" : "typescript"
+                                              }
                                             } ],
                                             "id" : "impacts",
                                             "layout" : { },
@@ -2427,6 +2477,14 @@
                                               "condition" : {
                                                 "@class" : "Script",
                                                 "content" : "!Context.dashboardState.state.locations;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "button-open",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "Context.dashboardState.state.locations;",
                                                 "language" : "typescript"
                                               }
                                             } ],
@@ -2455,7 +2513,10 @@
                                               "content" : "\"\"",
                                               "language" : "TypeScript"
                                             },
-                                            "layoutStyle" : { },
+                                            "layoutClassName" : "",
+                                            "layoutStyle" : {
+                                              "minWidth" : "calc(8rem - 10px)"
+                                            },
                                             "name" : "Spy player",
                                             "openUrl" : {
                                               "url" : {

@@ -13,6 +13,9 @@
   --primary_90: #073041ff;
   --primary_100: #041d27ff;
 
+  --grey-white: #ffffffff;
+  --grey_0: #f6f7f9ff;
+  --grey05: #F0F1F3; 
   --grey_10: #e0e2e3ff;
   --grey_20: #cccfd0ff;
   --grey_30: #b2b6b8ff;
@@ -24,10 +27,7 @@
   --grey_80: #323739ff;
   --grey_90: #222526ff;
   --grey_100: #141617ff;
-  --grey_0: #f6f7f9ff;
-  --grey10: #F0F1F3; 
-  --grey-white: #ffffffff;
-  
+
   --secondary_10: #DDDBEA;
   --secondary_20: #C6C2DB;
   --secondary_30: #AAA4C9;

@@ -10,7 +10,7 @@ import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { Actor } from '../../actors/actor';
 import { notifyMainStateInitializationComplete } from '../../../gameExecutionContextController';
-import { loadEmergencyResourceContainers } from '../../simulationState/loaders/resourceLoader';
+import { loadResourceContainersConfiguration } from '../../simulationState/loaders/resourceLoader';
 import { loadPatients } from '../../simulationState/loaders/patientsLoader';
 
 let singletonStartState: MainSimulationState;
@@ -52,7 +52,7 @@ function buildStartingMainState(): MainSimulationState {
       tasks: tasks,
       radioMessages: [],
       resources: initialResources,
-      resourceContainers: loadEmergencyResourceContainers(),
+      resourceContainers: loadResourceContainersConfiguration(),
       flags: {},
       hospital: {},
       gameOptions: getCurrentGameOptions(),
