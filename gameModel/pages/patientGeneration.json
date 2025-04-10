@@ -717,11 +717,14 @@
                         "children" : [ {
                           "props" : {
                             "className" : "header-button",
+                            "icon" : "plus",
+                            "id" : "",
                             "label" : {
                               "@class" : "Script",
                               "content" : "'Add'",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {

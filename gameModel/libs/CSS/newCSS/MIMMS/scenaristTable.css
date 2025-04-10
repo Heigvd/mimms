@@ -34,10 +34,13 @@
 /* - - a n i m a t i o n s - - */
 div .button-closed {
   width: 6vw;
+  min-width: 8rem;
   transition: width 0.3s ease-in-out;
 }
 
 .button-closed button {
+  width: 6vw;
+  min-width: 8rem;
   justify-content: space-between;
 }
 
@@ -57,6 +60,7 @@ div .button-closed {
   display: flex;
   align-items: center;
   width: 6vw;
+  min-width: 8rem;
   padding-left: 10px;
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
@@ -119,6 +123,7 @@ div .button-closed {
 
 .header-closed {
   width: 6vw;
+  min-width: 8rem;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -131,6 +136,7 @@ div .button-closed {
   align-items: center;
   justify-content: center;
   width: 6vw;
+  min-width: 8rem;
   padding: 0;
 }
 
@@ -146,7 +152,7 @@ div .button-closed {
 .line {
   min-height: 38.4px;
   border-radius: 10px;
-  background-color: var(--grey10);
+  background-color: var(--grey05);
   margin-bottom: 10px;
   padding: 10px;
   font-size: var(--SM_text);
@@ -162,6 +168,7 @@ div .button-closed {
 .line-left-cell {
   justify-content: space-between;
   width: calc(6vw - 10px);
+  min-width: calc(8rem - 10px);
 }
 
 .line-text {
@@ -169,6 +176,7 @@ div .button-closed {
   align-items: center;
   justify-content: center;
   width: 6vw;
+  min-width: 8rem;
 }
 
 .line svg {
@@ -187,6 +195,7 @@ div .button-closed {
 /* input */
 .table-input-container {
   width: 6vw;
+  min-width: 8rem;
   padding: 0 4px;
   box-sizing: border-box;
 }
@@ -196,7 +205,8 @@ div .button-closed {
 }
 
 .line:hover .table-input-container input,
-.line:hover .wegas-select__single-value {
+.line:hover .wegas-select__single-value,
+.line:hover .wegas-select__placeholder {
   color: var(--primary_base) !important;
 }
 
@@ -209,14 +219,20 @@ div .button-closed {
   min-height: 0;
 }
 
+.resources .table-input-container input {
+  width: 3.5vw;
+  min-width: 4.5rem;
+}
+
 .table-input-container input,
 .hospitals .wegas-select__single-value,
-.resources .wegas-select__single-value {
-    height: 28px;
-    min-height: 0;
-    min-width: 0;
-    padding: 5px;
-    font-size: var(--SM_text);
-    font-weight: 900;
-    color: var(--grey_base);
+.resources .wegas-select__single-value,
+.resources .wegas-select__placeholder {
+  height: 28px;
+  min-height: 0;
+  min-width: 0;
+  padding: 5px;
+  font-size: var(--SM_text);
+  font-weight: 900;
+  color: var(--grey_base);
 }

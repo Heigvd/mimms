@@ -1,6 +1,3 @@
-/**
- * Setup function
- */
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';

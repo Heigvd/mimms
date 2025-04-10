@@ -259,6 +259,17 @@ export function makeAsync<T, C>(func: (ctx: C) => T, ctx: C, delay: number = 1):
   });
 }
 
+export function generateId(length: number) {
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  let id = '';
+  for (let i = 0; i < length; i++) {
+    id += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return id;
+}
+
 export function upperCaseFirst(s: string): string {
   if (s && s.length > 0) return s.charAt(0).toUpperCase() + s.slice(1);
   return s;

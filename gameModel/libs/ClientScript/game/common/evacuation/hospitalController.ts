@@ -10,6 +10,7 @@ import {
   HospitalsConfigVariableDefinition,
   PatientUnitDefinition,
 } from './hospitalType';
+import { generateId } from '../../../tools/helper';
 import { FilterTypeProperties } from '../../../tools/helper';
 
 export type Direction = 'increment' | 'decrement';
@@ -338,17 +339,6 @@ function generateNewId(length: number, existing: string[]): string {
 
   if (existing.includes(id)) {
     id = 'abc';
-  }
-
-  return id;
-}
-
-function generateId(length: number) {
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  let id = '';
-  for (let i = 0; i < length; i++) {
-    id += possible.charAt(Math.floor(Math.random() * possible.length));
   }
 
   return id;

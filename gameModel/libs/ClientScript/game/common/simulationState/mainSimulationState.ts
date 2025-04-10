@@ -12,8 +12,8 @@ import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
+import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
-import { getAllContainerDefs } from '../simulationState/loaders/resourceLoader';
 
 export class MainSimulationState {
   private readonly internalState: MainStateObject;
@@ -81,7 +81,7 @@ export class MainSimulationState {
    * Get map of containers
    */
   public getResourceContainersByType(): Record<ResourceContainerType, ResourceContainerConfig[]> {
-    const defs = getAllContainerDefs();
+    const defs = getContainersDefinitions();
     return group(this.internalState.resourceContainers, c => defs[c.templateId]!.type);
   }
 
