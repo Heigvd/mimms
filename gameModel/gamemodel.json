@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744211277807,
+  "createdTime" : 1744295137771,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -1204,6 +1204,13 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298439:l9wYBt",
           "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:1298439:l9wYBt::EN",
+              "status" : "",
+              "translation" : "Pretriage drill"
+            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
@@ -1213,7 +1220,7 @@
             }
           }
         },
-        "name" : "pretriPage",
+        "name" : "pretriMode",
         "refId" : "EnumItem:1298438:uvY2Nu"
       }, {
         "@class" : "EnumItem",
@@ -1221,6 +1228,13 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298441:4F8nyn",
           "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:1298441:4F8nyn::EN",
+              "status" : "",
+              "translation" : "Main simulation"
+            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
@@ -1230,7 +1244,7 @@
             }
           }
         },
-        "name" : "mainSimPage",
+        "name" : "mainSimMode",
         "refId" : "EnumItem:1298440:ztiP5m"
       } ],
       "broadcastScope" : "GameModelScope",
@@ -1242,12 +1256,19 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298436:BVfOMu",
           "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:1298436:BVfOMu::EN",
+              "status" : "",
+              "translation" : "pretriMode"
+            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "pretriPage"
+              "translation" : "pretriMode"
             }
           }
         }
