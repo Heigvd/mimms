@@ -274,7 +274,7 @@
         "name" : "Patient Generation"
       }, {
         "@class" : "Page",
-        "id" : "56",
+        "id" : "resourcesConfiguration",
         "name" : "resources",
         "scenaristPage" : true,
         "trainerPage" : null
