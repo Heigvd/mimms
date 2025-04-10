@@ -716,31 +716,15 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "accordion-header patient-accordion-header header-button",
-                            "conditionnalClassNames" : [ {
-                              "applyOn" : "Outside",
-                              "className" : "button-closed",
-                              "condition" : {
-                                "@class" : "Script",
-                                "content" : "!Context.genState.state.details;",
-                                "language" : "typescript"
-                              }
-                            }, {
-                              "applyOn" : "Outside",
-                              "className" : "patient-generation__button-open",
-                              "condition" : {
-                                "@class" : "Script",
-                                "content" : "Context.genState.state.details;",
-                                "language" : "typescript"
-                              }
-                            } ],
-                            "icon" : "play",
-                            "id" : "details",
+                            "className" : "header-button",
+                            "icon" : "plus",
+                            "id" : "",
                             "label" : {
                               "@class" : "Script",
                               "content" : "'Add'",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {

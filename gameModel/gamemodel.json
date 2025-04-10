@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1743436055623,
+  "createdTime" : 1744293973228,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -721,8 +721,8 @@
       },
       "name" : "hospitals_config",
       "properties" : {
-        "hospitals" : "{\"iyEVC1\":{\"index\":1,\"fullName\":\"CHUV\",\"shortName\":\"CHUV\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":10,\"proximity\":\"2\",\"units\":{\"9seyHx\":5,\"3TE4yA\":2}},\"yP4JAc\":{\"index\":2,\"fullName\":\"HUG\",\"shortName\":\"HUG\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":1,\"proximity\":1,\"units\":{\"9seyHx\":2,\"3TE4yA\":8}},\"iUKvbj\":{\"index\":3,\"fullName\":\"Meyrin\",\"shortName\":\"MH\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":3,\"proximity\":1,\"units\":{\"9seyHx\":3,\"3TE4yA\":1}}}",
-        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"PolyTrauma\"}},\"version\":2}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Dechoc\"}},\"version\":1}},\"t07U7p\":{\"index\":3,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"\"}},\"version\":0}},\"3sdLLF\":{\"index\":4,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0}}}"
+        "hospitals" : "{\"iyEVC1\":{\"index\":2,\"fullName\":\"Centre hôspitalier universitaire vaudois\",\"shortName\":\"CHUV\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":50,\"proximity\":\"2\",\"units\":{\"9seyHx\":5,\"RTAiDV\":5}},\"yP4JAc\":{\"index\":1,\"fullName\":\"Hôpitaux universitaires de Genève\",\"shortName\":\"HUG\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":5,\"proximity\":1,\"units\":{\"9seyHx\":2,\"3TE4yA\":8,\"YVlOh2\":4,\"tPQj5R\":20}},\"iUKvbj\":{\"index\":3,\"fullName\":\"Hôpital de La Tour à Meyrin\",\"shortName\":\"Meyrin\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":7,\"proximity\":\"3\",\"units\":{\"9seyHx\":3,\"YVlOh2\":1,\"tPQj5R\":5}},\"nwGfPI\":{\"index\":4,\"fullName\":\"Centre Hospitalier Intercommunal Sud-Léman Valserine\",\"shortName\":\"St Julien\",\"preposition\":{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"to\"},\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"à\"}},\"version\":0},\"distance\":9,\"proximity\":\"3\",\"units\":{\"YVlOh2\":1,\"tPQj5R\":6}}}",
+        "patientUnits" : "{\"9seyHx\":{\"index\":2,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Caisson hyperbare - couchés\"}},\"version\":3}},\"3TE4yA\":{\"index\":1,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Caisson hyperbare - assis\"}},\"version\":2}},\"YVlOh2\":{\"index\":3,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Polytraumatisés\"}},\"version\":1}},\"tPQj5R\":{\"index\":4,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Traumas simples\"}},\"version\":4}},\"RTAiDV\":{\"index\":5,\"name\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Grands brûlés\"}},\"version\":5}}}"
       },
       "refId" : "ObjectDescriptor:1618543:nC9xke",
       "scopeType" : "GameModelScope",
@@ -7081,7 +7081,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-405_corr",
+  "name" : "MIM-405_corr (4)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

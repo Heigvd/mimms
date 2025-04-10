@@ -67,7 +67,7 @@ export function sortAndSave(sortAlgo: SortAlgoType): void {
   configs.sort(sortFunc);
   for (let i = 0; i < configs.length; i++) {
     const c = configs[i];
-    if (c?.index !== undefined) {
+    if (c) {
       c.index = i;
     }
   }
