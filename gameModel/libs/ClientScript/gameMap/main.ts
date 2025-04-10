@@ -8,6 +8,17 @@ const logger = Helpers.getLogger('mainSim.map');
 export const mapRef = Helpers.useRef<any>('map', null);
 export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
 
+export function updateMapRef(map: any): void {
+  mapRef.current = map;
+  map.on('moveend', printView);
+}
+
+function printView(): void {
+  const map = mapRef.current;
+  logger.debug('Center', map.getView().getCenter());
+  logger.debug('Zoom', map.getView().getZoom());
+}
+
 export interface MapState {
   mapSelect: boolean;
   selectionState: FixedMapEntity | undefined;

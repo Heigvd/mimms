@@ -269,3 +269,19 @@ export function generateId(length: number) {
 
   return id;
 }
+
+export function upperCaseFirst(s: string): string {
+  if (s && s.length > 0) return s.charAt(0).toUpperCase() + s.slice(1);
+  return s;
+}
+
+export function lowerCaseFirst(s: string): string {
+  if (s && s.length > 0) return s.charAt(0).toLowerCase() + s.slice(1);
+  return s;
+}
+
+// builds a type which properties are only of the condition type
+export type FilterTypeProperties<Source, Condition> = Pick<
+  Source,
+  { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
+>;

@@ -274,6 +274,44 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "step-text step-text--disabled",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "1.5rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"The chosen categories will be respected as much as possible. Certain pathologies make certain categories medically impossible.\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "button-S button-primaryColor",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"Back\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "back",
+            "style" : {
+              "margin-top" : "1.5rem"
+            }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
             "className" : "button-S button-primaryColor current",
             "label" : {
               "@class" : "Script",
@@ -306,7 +344,9 @@
           "flex-shrink" : "0"
         },
         "name" : "button",
-        "style" : { }
+        "style" : {
+          "gap" : "1rem"
+        }
       },
       "type" : "FlexList"
     } ],

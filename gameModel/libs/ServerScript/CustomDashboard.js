@@ -13,14 +13,10 @@ CustomDashboard = (function () {
       .forEach(function (entry) {
         var teamId = entry.getKey();
         var box = entry.getValue();
-        byTeamEvents[teamId] = box.getEvents();
+        byTeamEvents[teamId] = { events: box.getEvents(), eventBoxId: box.getId() };
       });
 
     return byTeamEvents;
-  }
-
-  function getStoredStatesByTeam() {
-    return getInstances('currentState');
   }
 
   function getGameStateByTeam() {
@@ -58,7 +54,6 @@ CustomDashboard = (function () {
   return {
     getInstances: getInstances,
     getEventsByTeam: getEventsByTeam,
-    getStoredStatesByTeam: getStoredStatesByTeam,
     getGameStateByTeam: getGameStateByTeam,
     getGameState: getGameState,
     setGameState: setGameState,

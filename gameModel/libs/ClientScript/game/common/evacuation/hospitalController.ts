@@ -11,6 +11,7 @@ import {
   PatientUnitDefinition,
 } from './hospitalType';
 import { generateId } from '../../../tools/helper';
+import { FilterTypeProperties } from '../../../tools/helper';
 
 export type Direction = 'increment' | 'decrement';
 
@@ -103,15 +104,9 @@ export function insertHospital() {
   saveHospitalsConfig(hospitals);
 }
 
-// builds a type which properties are only of the condition type
-type FilterConditionally<Source, Condition> = Pick<
-  Source,
-  { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
->;
-
 export function updateHospitalData<T = number | string>(
   id: HospitalId,
-  field: keyof FilterConditionally<HospitalDefinition, T>,
+  field: keyof FilterTypeProperties<HospitalDefinition, T>,
   newData: T
 ) {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(

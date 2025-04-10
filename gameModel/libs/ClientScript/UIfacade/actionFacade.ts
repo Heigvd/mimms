@@ -64,7 +64,8 @@ export function isAvailable(template: ActionTemplateBase): boolean {
  * @param template
  * @returns true if the action can be played or is currently planned, thus can be cancelled
  */
-export function canCancel(template: ActionTemplateBase): boolean {
+export function canCancel(template: ActionTemplateBase | undefined): boolean {
+  if (!template) return false;
   return isAvailable(template) && isPlannedAction(template.Uid);
 }
 
@@ -73,11 +74,11 @@ export function canCancel(template: ActionTemplateBase): boolean {
  * @returns true if an action can be planned by the current actor
  * or that the current actor can cancel an action based on this template
  */
-export function canPlanOrCancel(template: ActionTemplateBase): boolean {
+export function canPlanOrCancel(template: ActionTemplateBase | undefined): boolean {
   return canPlanAction() || canCancel(template);
 }
 
-export function uniqueActionTemplates(): IUniqueActionTemplates {
+export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return getUniqueActionTemplates();
 }
 

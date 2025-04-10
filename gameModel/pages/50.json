@@ -789,7 +789,7 @@
                         "exposeAs" : "block",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getLocalizedAffictedBlocks } from \"./UIfacade/patientFacade\";\n  wlog(Context.currentPatient.state);\n  getLocalizedAffictedBlocks(Context.currentPatient.state);",
+                          "content" : "import { getLocalizedAffictedBlocks } from \"./UIfacade/patientFacade\";\n  getLocalizedAffictedBlocks(Context.currentPatient.state);",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "blockName",

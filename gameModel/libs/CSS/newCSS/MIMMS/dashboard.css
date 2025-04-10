@@ -442,7 +442,7 @@ div .button-closed-locations {
   font-size: var(--SM_text);
 }
 
-.title-dropdown .css-1w294or-control,
+.title-dropdown .wegas-select__control,
 .title-dropdown .css-2rmndj-control,
 .title-dropdown .css-1hwfws3,
 .title-dropdown .css-1wy0on6 {
@@ -450,7 +450,7 @@ div .button-closed-locations {
   min-height: 30px;
 }
 
-.modal-dropdown-time .css-1w294or-control,
+.modal-dropdown-time .wegas-select__control,
 .modal-dropdown-time .css-2rmndj-control,
 .modal-dropdown-time .css-1hwfws3,
 .modal-dropdown-time .css-1wy0on6 {
@@ -458,7 +458,7 @@ div .button-closed-locations {
   min-height: 30px;
 }
 
-.content-dropdown .css-1w294or-control,
+.content-dropdown .wegas-select__control,
 .content-dropdown .css-2rmndj-control,
 .content-dropdown .css-1hwfws3,
 .content-dropdown .css-1wy0on6 {
@@ -466,9 +466,9 @@ div .button-closed-locations {
   min-height: 30px;
 }
 
-.title-dropdown .css-1w294or-control:hover,
-.modal-dropdown-time .css-1w294or-control:hover,
-.content-dropdown .css-1w294or-control:hover {
+.title-dropdown .wegas-select__control:hover,
+.modal-dropdown-time .wegas-select__control:hover,
+.content-dropdown .wegas-select__control:hover {
   border: 1px solid #313131;
 }
 

@@ -25,7 +25,6 @@ import {
 } from '../game/legacy/gameMaster';
 import { getActTranslation, getItemActionTranslation } from './translation';
 import { HumanTreatmentEvent, PathologyEvent } from '../game/common/events/eventTypes';
-import { eventBoxImplementation } from '../game/common/events/eventUtils';
 
 export function parse<T>(meta: string): T | null {
   try {
@@ -183,10 +182,8 @@ export async function instantiateWhoAmI(force: boolean = false): Promise<string>
 
     instantiationStatus = 'ONGOING';
     const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
-    const verb =
-      eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
     const response = await APIMethods.runScript(
-      `EventManager.${verb}(${JSON.stringify(profileId)} ${
+      `EventManager.instantiateCharacter(${JSON.stringify(profileId)} ${
         defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''
       })`,
       {}
@@ -230,7 +227,7 @@ export interface TestScenario {
 export function parseObjectDescriptor<T>(od: SObjectDescriptor): Record<string, T> {
   return Object.entries(od.getProperties()).reduce<{ [k: string]: T }>((acc, [k, v]) => {
     const parsed = parse<T>(v);
-    if (parsed) {
+    if (parsed !== undefined && parsed !== null) {
       acc[k] = parsed;
     }
     return acc;

@@ -228,11 +228,11 @@ div .button-closed {
 .hospitals .wegas-select__single-value,
 .resources .wegas-select__single-value,
 .resources .wegas-select__placeholder {
-    height: 28px;
-    min-height: 0;
-    min-width: 0;
-    padding: 5px;
-    font-size: var(--SM_text);
-    font-weight: 900;
-    color: var(--grey_base);
+  height: 28px;
+  min-height: 0;
+  min-width: 0;
+  padding: 5px;
+  font-size: var(--SM_text);
+  font-weight: 900;
+  color: var(--grey_base);
 }

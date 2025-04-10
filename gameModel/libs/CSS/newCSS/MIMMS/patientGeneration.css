@@ -42,6 +42,15 @@
   min-width: 32rem;
 }
 
+.patient-accordion-header > div > div > div > div:first-of-type {
+  width: 12vw;
+  padding-left: 0;
+}
+
+.patient-generation .header-open div:first-of-type div {
+  width: 12vw;
+}
+
 .patient-generation .button-closed button {
   width: 6vw;
   min-width: 8rem;
@@ -69,15 +78,35 @@
   width: 36vw;
 }
 
+.patient-generation .line-container {
+  width: fit-content;
+}
+
+.patient-generation .line {
+  width: calc(100% - 6vw);
+}
+
+.patient-line-open .line:hover {
+  width: calc(100% - 6vw);
+}
+
+.patient-line-closed .line:hover {
+  width: calc(100% - 6vw);
+}
+
 .line .line-actions {
-  display: none;
+  visibility: hidden;
+  width: 6vw;
 }
 
 .line:hover .line-actions {
-  display: flex;
-  justify-content: center;
+  visibility: visible;
+  /*justify-content: center;*/
   gap: .5rem;
-  width: 6vw;
+}
+
+.patient-generation .line:hover .line-actions {
+  padding-left: 20px;
 }
 
 .details-sex {
@@ -108,10 +137,32 @@
   gap: .5rem;
 }
 
+.see-patient__regenerate-button:hover .see-patient__tooltip {
+  opacity: 100%;
+  transition: opacity .3s ease-in-out;
+}
+
+.see-patient__tooltip {
+  opacity: 0;
+  position: absolute;
+  width: 120px;
+  padding: 5px;
+  font-weight: var(--regularWeight);
+  color: var(--grey_100);
+  text-align: center;
+  text-transform: initial;
+  background-color: var(--grey_10);
+  border-radius: 5px;
+  z-index: 1;
+  transition: opacity .3s ease-in-out;
+}
+
 /* - - p a t i e n t   g e n e r a t i o n   m o d a l - - */
 .patient-modal {
   width: 30rem;
   height: 50vh;
+  min-height: 34rem;
+  max-height: 36rem;
 }
 
 /* - - s t e p p e r - - */
@@ -157,16 +208,12 @@
 }
 
 .step-icon-container {
-  /*align-items: center;
-  justify-content: center;*/
   width: 22px;
-  /*height: 22px;*/
   background-color: var(--primary_base);
   border-radius: var(--S_borderRadius);
 }
 
 .step-icon {
-  /*width: .75rem;*/
   height: auto;
   color: white;
 }
@@ -174,6 +221,7 @@
 .step-text {
   font-size: var(--XS_text);
   color: var(--grey_100);
+  line-height: 1.2;
 }
 
 .step-text--active {

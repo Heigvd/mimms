@@ -1,5 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
+import { getContextUidGenerator } from '../../gameExecutionContextController';
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
@@ -8,7 +9,7 @@ import {
   ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
@@ -43,12 +44,6 @@ const TASK_SEED_ID: TaskId = 4000;
  * Base class for a task
  */
 export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
-  private static idProvider: TaskId = TASK_SEED_ID;
-
-  public static resetIdSeed() {
-    TaskBase.idProvider = TASK_SEED_ID;
-  }
-
   public readonly Uid: TaskId;
 
   protected status: TaskStatus;
@@ -69,7 +64,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly availableToRoles: InterventionRole[] = [],
     readonly isStandardAssignation: boolean = true
   ) {
-    this.Uid = ++TaskBase.idProvider;
+    this.Uid = getContextUidGenerator().getNext('TaskBase', TASK_SEED_ID);
     this.status = 'Uninitialized';
     this.subTasks = {};
   }
@@ -104,7 +99,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return this.status;
   }
 
-  // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
+  // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
   public setStatus(status: TaskStatus): void {
     this.status = status;
   }
@@ -124,7 +119,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     }
 
     // TODO some way ResourceState.releaseAllResources(state, this);
-    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
+    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
     return true;
   }
 
@@ -199,7 +194,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
 
@@ -215,7 +210,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
+          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
         }
 
         break;
@@ -225,7 +220,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we localEventManager.queueLocalEvent(..)
+          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
         break;
@@ -314,16 +309,16 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   }
 
   protected finaliseTask(state: Readonly<MainSimulationState>, feedbackRadioMessage: string) {
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
     );
 
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
     );
 
     // We broadcast a message when the task is completed
-    localEventManager.queueLocalEvent(
+    getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent(
         0,
         state.getSimTime(),

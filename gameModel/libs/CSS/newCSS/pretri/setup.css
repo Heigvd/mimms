@@ -1,0 +1,83 @@
+.drill-setup-line {
+  width: 30rem;
+}
+
+.end-game-message {
+  margin-bottom: 10px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+}
+
+.setup-page div.wegas-toggler {
+  height: 20px;
+  width: 37.5px;
+  min-width: 35px;
+}
+
+.setup-page div.wegas-toggler-handle {
+  height: 13px;
+  width: 13px;
+}
+
+.setup-page div.wegas-toggler.checked {
+  background-color: var(--primary_base);
+}
+
+.advanced-options {
+  justify-content: space-between;
+  margin: 3rem 0 1.5rem 0;
+  cursor: pointer;
+}
+
+.advanced-options svg {
+  color: var(--primary_base);
+  transform: initial;
+  transition: transform 0.3s ease-in-out;
+}
+
+.advanced-options--opened svg {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* dropdown */
+.setup-page div.content-dropdown {
+  width: 125px;
+}
+
+.setup-dropdown div.wegas-select__control {
+  background-color: transparent;
+}
+
+.setup-page div.wegas-select__single-value {
+  color: var(--grey_base);
+  font-weight: var(--regularWeight);
+  text-transform: lowercase;
+}
+
+.setup-page .line .content-dropdown svg {
+  fill: var(--grey_base);
+}
+
+.setup-page .line:hover .content-dropdown svg {
+  color: var(--primary_base);
+  fill: var(--primary_base);
+}
+
+.setup-page .content-dropdown .wegas-select__control:hover {
+  border: 1px solid var(--primary_base);
+}
+
+.setup-page .content-dropdown--disabled .wegas-select__indicators {
+  display: none;
+}
+
+.setup-page .content-dropdown--disabled .wegas-select__control:hover {
+  border: none;
+}
+
+.content-dropdown--disabled .wegas-select__value-container {
+  justify-content: flex-end;
+  padding: 0;
+}

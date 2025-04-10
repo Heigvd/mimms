@@ -40,7 +40,7 @@ export function loadResourceContainersConfiguration(): ResourceContainerConfig[]
     initContainerDefinitions();
   }
 
-  return Object.values(data)
+  const containerConfigs = Object.values(data)
     .filter(config => definitionsMapping[config.payload.type])
     .map(config => {
       return {
@@ -51,6 +51,8 @@ export function loadResourceContainersConfiguration(): ResourceContainerConfig[]
         amount: 1,
       };
     });
+  resourceLogger.info('CONTAINERS CONFIG', containerConfigs);
+  return containerConfigs;
 }
 
 // ===================== CONTAINER DEFINITIONS ===========================
@@ -64,18 +66,6 @@ export function getContainersDefinitions(): Record<
     initContainerDefinitions();
   }
   return containerDefinitions;
-}
-
-function addContainerDefinition(
-  type: ResourceContainerType,
-  name: TranslationKey,
-  resources: Partial<Record<ResourceType, number>>,
-  roles: InterventionRole[] = [],
-  flags: SimFlag[] = []
-): ResourceContainerDefinitionId {
-  const c = buildContainerDefinition(type, name, resources, roles, flags);
-  containerDefinitions[c.uid] = c;
-  return c.uid;
 }
 
 let definitionsLoaded = false;
@@ -92,7 +82,7 @@ const definitionsMapping: Record<
 /**
  * Builds hard coded containers definitions, and the mapping from friendly name to unique id
  */
-function initContainerDefinitions() {
+function initContainerDefinitions(): void {
   if (definitionsLoaded) {
     return;
   }
@@ -151,4 +141,16 @@ function initContainerDefinitions() {
 
   definitionsLoaded = true;
   resourceLogger.info('Container definitions loaded', containerDefinitions);
+}
+
+function addContainerDefinition(
+  type: ResourceContainerType,
+  name: TranslationKey,
+  resources: Partial<Record<ResourceType, number>>,
+  roles: InterventionRole[] = [],
+  flags: SimFlag[] = []
+): ResourceContainerDefinitionId {
+  const c = buildContainerDefinition(type, name, resources, roles, flags);
+  containerDefinitions[c.uid] = c;
+  return c.uid;
 }

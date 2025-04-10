@@ -204,6 +204,12 @@
         "name" : "Dashboard",
         "scenaristPage" : true,
         "trainerPage" : true
+      }, {
+        "@class" : "Page",
+        "id" : "56",
+        "name" : "Patient List",
+        "scenaristPage" : null,
+        "trainerPage" : true
       } ],
       "name" : "TrainerPages"
     }, {
@@ -245,12 +251,18 @@
         "scenaristPage" : false,
         "trainerPage" : null
       }, {
+        "@class" : "Page",
+        "id" : "mapConfiguration",
+        "name" : "Map Configuration",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
           "id" : "PathologySelection",
           "name" : "Pathology Selection",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",

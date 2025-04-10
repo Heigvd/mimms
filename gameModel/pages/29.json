@@ -50,7 +50,7 @@
             "className" : "button-S button-primaryColor",
             "label" : {
               "@class" : "Script",
-              "content" : "'cancel'",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'cancel')",
               "language" : "TypeScript"
             },
             "layoutClassName" : "noPadding",

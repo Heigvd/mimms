@@ -6,7 +6,7 @@ import {
   AddRadioMessageLocalEvent,
   ResourceMobilizationEvent,
 } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -15,7 +15,6 @@ import {
   ResourceContainerDefinition,
   ResourceContainerType,
 } from './resourceContainer';
-
 
 export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return getContainersDefinitions()[id]!;
@@ -95,7 +94,7 @@ export function resolveResourceRequest(
           n,
           c.name
         );
-        localEventManager.queueLocalEvent(evt);
+        getLocalEventManager().queueLocalEvent(evt);
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
     });
@@ -134,7 +133,7 @@ function queueResourceDepartureRadioMessageEvents(
       RadioType.CASU,
       true
     );
-    localEventManager.queueLocalEvent(evt);
+    getLocalEventManager().queueLocalEvent(evt);
   });
 }
 

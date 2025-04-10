@@ -5,7 +5,7 @@ import { SimFlag } from '../actions/actionTemplateBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
 import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
-import { localEventManager } from '../localEvents/localEventManager';
+import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
@@ -122,7 +122,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
           subTask.cumulatedTime >=
           this.TIME_REQUIRED_FOR_INSTRUCTION + this.TIME_REQUIRED_FOR_SELF_TRANSPORT
         ) {
-          localEventManager.queueLocalEvent(
+          getLocalEventManager().queueLocalEvent(
             new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
               kind: 'FixedMapEntity',
               locationId: subTask.targetLocation,
@@ -135,7 +135,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         //3b. cannot walk, handle transport
         //time-jump is enough to transport patient, so we just move it and un-assign patient
         if (subTask.cumulatedTime >= this.TIME_REQUIRED_FOR_TRANSPORT) {
-          localEventManager.queueLocalEvent(
+          getLocalEventManager().queueLocalEvent(
             new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
               kind: 'FixedMapEntity',
               locationId: subTask.targetLocation,
@@ -187,7 +187,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
       taskLogger.warn('nowhere to send patients');
 
       // We broadcast a message when the task is completed
-      localEventManager.queueLocalEvent(
+      getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent(
           0,
           state.getSimTime(),

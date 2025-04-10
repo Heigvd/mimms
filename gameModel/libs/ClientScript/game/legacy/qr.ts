@@ -1,5 +1,4 @@
 import { logger } from '../../tools/logger';
-import { eventBoxImplementation } from '../common/events/eventUtils';
 import { getDefaultBag, getMultiplayerMode, getRealLifeRole } from './gameMaster';
 
 interface ActAsPatient {
@@ -119,14 +118,12 @@ export async function processQrCode(rawData: string) {
 
   const role = getRealLifeRole();
   try {
-    const verb =
-      eventBoxImplementation === 'NEWEVENTBOX' ? 'instantiateCharacterNew' : 'instantiateCharacter';
     const data = JSON.parse(rawData);
     if (isActAsCharacter(data)) {
       if (role === 'NONE' || !role) {
         const profileId = atob(data.profileId);
         return APIMethods.runScript(
-          `EventManager.${verb}(${JSON.stringify(profileId)}${bagScript});
+          `EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
 					Variable.find(gameModel, 'realLifeRole').setValue(self, 'HEALTH_SQUAD');`,
           {}
         );
@@ -149,7 +146,7 @@ export async function processQrCode(rawData: string) {
       if (role === 'NONE' || !role) {
         const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
         return APIMethods.runScript(
-          `EventManager.${verb}(${JSON.stringify(profileId)}${bagScript});
+          `EventManager.instantiateCharacter(${JSON.stringify(profileId)}${bagScript});
 					Variable.find(gameModel, 'realLifeRole').setValue(self, 'OBSERVER');`,
           {}
         );

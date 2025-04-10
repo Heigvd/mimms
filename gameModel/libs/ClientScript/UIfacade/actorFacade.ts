@@ -80,7 +80,7 @@ export function getCurrentPlayerPlayableActorsCount(): number {
  * @returns Actor with given id or undefined
  */
 // used in page 66
-export function getActor(id: number): Readonly<Actor | undefined> | undefined {
+export function getActor(id: number): Readonly<Actor> | undefined {
   return getCurrentState().getActorById(id);
 }
 
