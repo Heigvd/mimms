@@ -69,13 +69,13 @@
                 "className" : "mimms_h2title  noPadding",
                 "layoutClassName" : "noMargin ",
                 "layoutStyle" : { },
-                "name" : "name",
+                "name" : "sex and age",
                 "style" : {
                   "margin" : "0px"
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : " (Context.currentPatient.state.humanBody.meta.sex) +', ' + (Context.currentPatient.state.humanBody.meta.age)",
+                  "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\n (Context.currentPatient.state.humanBody.meta.sex) +', ' + (getRoundedAge(Context.currentPatient.state.humanBody))",
                   "language" : "TypeScript"
                 }
               },
