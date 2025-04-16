@@ -9,7 +9,7 @@ import { Resource } from '../common/resources/resource';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { MainSimulationState } from '../common/simulationState/mainSimulationState';
 import { Actor } from '../common/actors/actor';
-import { notifyMainStateInitializationComplete } from '../../executionContext/gameExecutionContextController';
+import { notifyMainStateInitializationComplete } from '../executionContext/gameExecutionContextController';
 import { loadResourceContainersConfiguration } from './resourceLoader';
 import { loadPatients } from './patientsLoader';
 

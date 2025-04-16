@@ -31,12 +31,12 @@ import {
 import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { shallowState } from './loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
-import { GameExecutionContext } from '../executionContext/gameExecutionContext';
+import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
   createPlayerContext,
   debugRemovePlayerContext,
   getCurrentExecutionContext,
-} from '../executionContext/gameExecutionContextController';
+} from './executionContext/gameExecutionContextController';
 
 let actionTemplates: Record<string, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;

@@ -6,7 +6,7 @@ import {
   createOrUpdateExecutionContext,
   getTargetExecutionContext,
   updateExecutionContextFromEventBoxId,
-} from '../executionContext/gameExecutionContextController';
+} from '../game/executionContext/gameExecutionContextController';
 import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 import { getDashboardTeams } from './utils';

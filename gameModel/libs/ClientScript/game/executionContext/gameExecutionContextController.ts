@@ -1,7 +1,7 @@
-import { gameExecLogger } from '../tools/logger';
-import { TimedEventPayload } from '../game/common/events/eventTypes';
-import { FullEvent } from '../game/common/events/eventUtils';
-import { getStartingMainState } from '../game/loaders/mainStateLoader';
+import { gameExecLogger } from '../../tools/logger';
+import { TimedEventPayload } from '../common/events/eventTypes';
+import { FullEvent } from '../common/events/eventUtils';
+import { getStartingMainState } from '../loaders/mainStateLoader';
 import {
   GameExecutionContext,
   GlobalToLocalEventFunction,

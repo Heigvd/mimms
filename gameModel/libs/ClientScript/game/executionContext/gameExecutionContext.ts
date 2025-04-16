@@ -1,10 +1,10 @@
-import { mainSimLogger } from '../tools/logger';
-import { TimedEventPayload } from '../game/common/events/eventTypes';
-import { compareTimedEvents, FullEvent } from '../game/common/events/eventUtils';
-import { IClonable } from '../game/common/interfaces';
-import { LocalEventBase } from '../game/common/localEvents/localEventBase';
-import { LocalEventManager } from '../game/common/localEvents/localEventManager';
-import { MainSimulationState } from '../game/common/simulationState/mainSimulationState';
+import { mainSimLogger } from '../../tools/logger';
+import { TimedEventPayload } from '../common/events/eventTypes';
+import { compareTimedEvents, FullEvent } from '../common/events/eventUtils';
+import { IClonable } from '../common/interfaces';
+import { LocalEventBase } from '../common/localEvents/localEventBase';
+import { LocalEventManager } from '../common/localEvents/localEventManager';
+import { MainSimulationState } from '../common/simulationState/mainSimulationState';
 
 export type TeamId = number;
 export type GlobalToLocalEventFunction = (evt: FullEvent<TimedEventPayload>) => LocalEventBase[];
