@@ -31,7 +31,7 @@
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { totalExistingPatients } from \"./UIfacade/patientGenFacade\";\n\"Existing patient(s) (\" + totalExistingPatients() +\")\";",
+                  "content" : "import { totalExistingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Existing patient(s) (\" + totalExistingPatients() +\")\";",
                   "language" : "TypeScript"
                 }
               },
@@ -51,7 +51,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { categoryToHtml } from \"./UIfacade/patientGenFacade\";\n  categoryToHtml(Context.category.id);",
+                              "content" : "import { categoryToHtml } from \"./edition/UIfacade/patientGenFacade\";\n  categoryToHtml(Context.category.id);",
                               "language" : "TypeScript"
                             }
                           },
@@ -105,7 +105,7 @@
                 "exposeAs" : "category",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientTotal } from \"./UIfacade/patientGenFacade\";\n  getPatientTotal();",
+                  "content" : "import { getPatientTotal } from \"./edition/UIfacade/patientGenFacade\";\n  getPatientTotal();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -122,7 +122,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
+              "content" : "import { getPatientsSamples } from \"./edition/UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
               "language" : "typescript"
             },
             "layout" : {
@@ -151,7 +151,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "import { categoryToHtml } from \"./UIfacade/patientGenFacade\";\n  categoryToHtml(Context.category.id);",
+                              "content" : "import { categoryToHtml } from \"./edition/UIfacade/patientGenFacade\";\n  categoryToHtml(Context.category.id);",
                               "language" : "TypeScript"
                             }
                           },
@@ -188,7 +188,7 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "import { setGenerationValue } from \"./UIfacade/patientGenFacade\";\n\nsetGenerationValue(Context.category.id, Context.value);",
+                            "content" : "import { setGenerationValue } from \"./edition/UIfacade/patientGenFacade\";\n\nsetGenerationValue(Context.category.id, Context.value);",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -217,7 +217,7 @@
                 "exposeAs" : "category",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientTotal } from \"./UIfacade/patientGenFacade\";\n  getPatientTotal();",
+                  "content" : "import { getPatientTotal } from \"./edition/UIfacade/patientGenFacade\";\n  getPatientTotal();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -241,7 +241,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { totalPendingPatients } from \"./UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s).\";",
+                  "content" : "import { totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s).\";",
                   "language" : "TypeScript"
                 }
               },
@@ -300,7 +300,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
+                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
                 "language" : "TypeScript"
               }
             },
@@ -323,7 +323,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { addPatientsAsync, getTypedGenState } from \"./UIfacade/patientGenFacade\";\n addPatientsAsync(getTypedGenState().generation.target);",
+                "content" : "import { addPatientsAsync, getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\n addPatientsAsync(getTypedGenState().generation.target);",
                 "language" : "TypeScript",
                 "returnType" : "Promise<unknown> | undefined"
               }

@@ -24,7 +24,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTypedGenState, totalPendingPatients } from \"./UIfacade/patientGenFacade\";\n  const generated = getTypedGenState()?.generation?.generated || 0;\n\"Patient \" + generated + \" out of \" + totalPendingPatients() + \" is being generated\";",
+              "content" : "import { getTypedGenState, totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n  const generated = getTypedGenState()?.generation?.generated || 0;\n\"Patient \" + generated + \" out of \" + totalPendingPatients() + \" is being generated\";",
               "language" : "TypeScript"
             }
           },
