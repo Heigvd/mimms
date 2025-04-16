@@ -38,7 +38,7 @@ function lockTeamId(teamId: TeamId): void {
  * @param teamId
  */
 function unlockTeamId(): void {
-  gameExecLogger.info('---- Unlocking ctx, was locked by', lockTeamId);
+  gameExecLogger.info('---- Unlocking ctx, was locked by', lockedTeamId);
   lockedTeamId = undefined;
 }
 
