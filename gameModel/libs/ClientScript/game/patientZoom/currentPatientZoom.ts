@@ -746,9 +746,9 @@ function getBlockDetails(
     if (block.params.totalExtLosses_ml ?? 0 > 0) {
       output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
       if ((block.params.arterialBleedingFactor || 0) > (block.params.venousBleedingFactor || 0)) {
-        output.push(formatBlockEntry('venous', 'human-pathology'));
-      } else {
         output.push(formatBlockEntry('arterial', 'human-pathology'));
+      } else {
+        output.push(formatBlockEntry('venous', 'human-pathology'));
       }
 
       if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {

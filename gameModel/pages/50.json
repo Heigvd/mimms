@@ -75,7 +75,7 @@
                 },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\n (Context.currentPatient.state.humanBody.meta.sex) +', ' + (getRoundedAge(Context.currentPatient.state.humanBody))",
+                  "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\n (Context.currentPatient.state.humanBody.meta.sex) +', ' + (getRoundedAge(Context.currentPatient.state.humanBody.meta.age))",
                   "language" : "TypeScript"
                 }
               },
