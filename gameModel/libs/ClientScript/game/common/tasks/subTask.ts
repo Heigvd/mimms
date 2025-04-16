@@ -1,4 +1,4 @@
-import { getContextUidGenerator } from '../../../executionContext/gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import {
   ActorId,
   GlobalEventId,

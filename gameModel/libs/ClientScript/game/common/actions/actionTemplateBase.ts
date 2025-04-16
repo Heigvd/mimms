@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../../executionContext/gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
