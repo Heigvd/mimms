@@ -623,7 +623,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { initCache } from \"./UIfacade/patientGenFacade\";\n  initCache();\n  '';",
+              "content" : "import { initCache } from \"./UIfacade/patientGenFacade\";\n  initCache(Context.genState);\n  '';",
               "language" : "TypeScript"
             }
           },
@@ -805,7 +805,7 @@
                 "className" : "no-patient__text",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0;",
+                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0 || Context.genState.state.cacheInitDone !== 'done';",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -859,7 +859,7 @@
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "  Context.patient.params.age + '';",
+                              "content" : "import { getRoundedAge } from \"./game/patientZoom/currentPatientZoom\";\n  String(getRoundedAge(Context.patient.params.age));",
                               "language" : "TypeScript"
                             }
                           },

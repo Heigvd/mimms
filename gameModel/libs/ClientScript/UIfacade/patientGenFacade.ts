@@ -38,7 +38,7 @@ const MAX_RETRIES = 50;
 /**
  * Default minutes at which patients state are computed for display
  */
-const SAMPLE_VALUES_MINUTE: number[] = [0, 15, 30, 45, 60, 90, 120];
+const SAMPLE_VALUES_MINUTE: number[] = [15, 30, 45, 60, 90, 120];
 
 type PatientSamples = Record<SimDuration, PatientState>;
 type BodyParamsWithPathology = BodyFactoryParam & { pathologyNames: string[] };
@@ -48,17 +48,16 @@ interface PatientEntry {
   samples: PatientSamples;
   params: BodyParamsWithPathology;
 }
+
 type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let patientsBodyParamsCache: Record<PatientId, BodyParamsWithPathology> = {};
-let cacheInitDone = false;
 
-// restart scenario reset
+// on script loading done or on scenario restart
 Helpers.registerEffect(() => {
   patientsSamplesCache = {};
   patientsBodyParamsCache = {};
-  cacheInitDone = false;
 });
 
 /**
@@ -66,7 +65,7 @@ Helpers.registerEffect(() => {
  */
 export function getPatientsSamples(): PatientEntry[] {
   const genCtx = getGenCtx();
-  const sortFunc = sortFunctions[genCtx?.state?.sort || 'priority'];
+  const sortFunc = sortFunctions[genCtx?.state?.sort || 'id'];
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
       return { id: id, samples: ps, params: patientsBodyParamsCache[id]! };
@@ -114,7 +113,7 @@ export function resetAll(): void {
   patientsSamplesCache = {};
   patientsBodyParamsCache = {};
   savePatients();
-  getGenCtx().setState(getDefaultGenerationState());
+  getGenCtx().setState({ ...getDefaultGenerationState(), cacheInitStatus: 'done' });
 }
 
 export function deleteOne(id: PatientId): void {
@@ -176,15 +175,45 @@ export async function addPatientsAsync(targetStats: InjuryCategoryStats): Promis
   genCtx.setState(getDefaultGenerationState());
 }
 
-export function initCache(force: boolean = false): void {
-  if (cacheInitDone && !force) return;
-  const existingPatients: Record<string, BodyFactoryParam> = getPatientsBodyFactoryParams();
-  for (const id in existingPatients) {
+export function initCache(genCtx: GenerationCtx): void {
+  if (genCtx.state.cacheInitStatus !== 'not-started') return;
+
+  patientGenerationLogger.info('Patient loading started...');
+  const newState = Helpers.cloneDeep(genCtx.state);
+  newState.cacheInitStatus = 'loading';
+  genCtx.setState(newState);
+  genCtx.state = newState;
+
+  const existingPatients: Record<PatientId, BodyFactoryParam> = getPatientsBodyFactoryParams();
+
+  function loadPatient(id: PatientId): void {
     const params = existingPatients[id]!;
     const ps = instantiateAndPretriage(id, params);
     updateCache(ps, params);
+    incrementLoaded(genCtx);
   }
-  cacheInitDone = true;
+
+  const loadTasks: Promise<void>[] = [];
+  let delay = 0;
+
+  for (const patientId in existingPatients) {
+    delay += 10;
+    loadTasks.push(makeAsync(id => loadPatient(id), patientId, delay));
+  }
+
+  Promise.all(loadTasks).then(() => {
+    const newState = Helpers.cloneDeep(genCtx.state);
+    newState.cacheInitStatus = 'done';
+    patientGenerationLogger.info('Patient loading done');
+    genCtx.setState(newState);
+  });
+}
+
+function incrementLoaded(genState: GenerationCtx): void {
+  const clone = Helpers.cloneDeep(genState.state);
+  clone.loaded++;
+  genState.state = clone;
+  genState.setState(clone);
 }
 
 function bestEffortGenerateAndStore(remaining: InjuryCategoryStats, genCtx: GenerationCtx) {
@@ -301,6 +330,8 @@ type ModalState =
   | 'generating-modal'
   | 'delete-all-modal';
 interface PatientGenerationState {
+  cacheInitStatus: 'done' | 'loading' | 'not-started';
+  loaded: number;
   status: ModalState;
   sort: SortType;
   generation: {
@@ -337,8 +368,10 @@ export function totalPendingPatients() {
 
 export function getDefaultGenerationState(): PatientGenerationState {
   return {
+    cacheInitStatus: 'not-started',
+    loaded: 0,
     status: 'patient-list',
-    sort: 'priority',
+    sort: APP_CONTEXT === 'Editor' ? 'priority' : 'id',
     generation: {
       generated: 0,
       pending: 0,

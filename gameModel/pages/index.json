@@ -1,16 +1,16 @@
 {
-  "defaultPageId" : "43",
+  "defaultPageId" : "47",
   "root" : {
     "@class" : "Folder",
     "items" : [ {
-      "@class" : "Page",
-      "id" : "5",
-      "name" : "pretriMainPage",
-      "scenaristPage" : true,
-      "trainerPage" : null
-    }, {
       "@class" : "Folder",
       "items" : [ {
+        "@class" : "Page",
+        "id" : "5",
+        "name" : "pretriMainPage",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
         "@class" : "Page",
         "id" : "40",
         "name" : "demographics",
@@ -208,7 +208,7 @@
         "@class" : "Page",
         "id" : "56",
         "name" : "Patient List",
-        "scenaristPage" : null,
+        "scenaristPage" : false,
         "trainerPage" : true
       } ],
       "name" : "TrainerPages"

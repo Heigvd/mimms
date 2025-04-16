@@ -746,9 +746,9 @@ function getBlockDetails(
     if (block.params.totalExtLosses_ml ?? 0 > 0) {
       output.push(formatBlockSubTitle('Hemorrhage', 'human-pathology'));
       if ((block.params.arterialBleedingFactor || 0) > (block.params.venousBleedingFactor || 0)) {
-        output.push(formatBlockEntry('venous', 'human-pathology'));
-      } else {
         output.push(formatBlockEntry('arterial', 'human-pathology'));
+      } else {
+        output.push(formatBlockEntry('venous', 'human-pathology'));
       }
 
       if (block.params.extLossesFlow_mlPerMin ?? 0 > 0) {
@@ -1319,13 +1319,12 @@ export async function selectAndValidateCategory(
   return validateCategory(newState);
 }
 
-function getRoundedAge(human: HumanBody) {
-  const age = human.meta.age;
+export function getRoundedAge(age: number): number {
   if (age < 18) {
     // child and teenager => quite easy to guess effective age
     return age;
   } else {
-    // adugle => round to 20, 25, 30, 35, and so on
+    // adult => round to 20, 25, 30, 35, and so on
     return Math.round(age / 5) * 5;
   }
 }
@@ -1334,7 +1333,7 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
   const id = getCurrentPatientId();
   const human = getHuman(id);
   if (human != null) {
-    const age = exact ? human.meta.age : `${getRoundedAge(human)}`;
+    const age = exact ? human.meta.age : `${getRoundedAge(human.meta.age)}`;
     const sex = getTranslation('human-general', human!.meta.sex);
     const years = getTranslation('human-general', 'years', false);
     return `<span class='human-sex'>${sex}</span>,
