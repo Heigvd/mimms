@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744702329294,
+  "createdTime" : 1744826473027,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -19,47 +19,6 @@
     "editorTag" : "texts",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "StaticTextDescriptor",
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StaticTextInstance",
-        "refId" : "StaticTextInstance:22373372:yFtgwV"
-      },
-      "editorTag" : "maintitle",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:22373373:2sw0WG",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:22373373:2sw0WG::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "maintitle",
-      "refId" : "StaticTextDescriptor:22373371:oHukmX",
-      "scopeType" : "GameModelScope",
-      "text" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:22373374:vXQtgD",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:22373374:vXQtgD::EN",
-            "status" : "",
-            "translation" : "HUMAn"
-          }
-        }
-      },
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "StaticTextDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "",
@@ -4944,35 +4903,6 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "GameModelScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:619025:UlDl2R",
-          "value" : false
-        },
-        "editorTag" : "display_debug_button",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:619026:tTt3Du",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:619026:tTt3Du::EN",
-              "status" : "",
-              "translation" : ""
-            }
-          }
-        },
-        "name" : "display_debug_button",
-        "refId" : "BooleanDescriptor:619024:fvXVu7",
-        "scopeType" : "GameModelScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "TeamScope",
         "comments" : "",
@@ -5403,6 +5333,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56339:9xzhBc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/patientGenFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1580618:cy0rqR",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6542,15 +6481,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/UIfacade/patientGenFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1580618:cy0rqR",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "UIfacade/radioFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7080,7 +7010,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO MIM-414",
+  "name" : "MIMMS - XGO MIM-416",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
