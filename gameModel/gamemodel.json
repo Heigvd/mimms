@@ -5408,7 +5408,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/resourcesConfiguration",
+    "contentKey" : "edition/UIfacade/resourcesConfiguration",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1743352:WDHods",
