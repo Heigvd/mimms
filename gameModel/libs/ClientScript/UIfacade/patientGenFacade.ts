@@ -54,7 +54,7 @@ type InjuryCategoryStats = Record<STANDARD_CATEGORY, number>;
 let patientsSamplesCache: Record<PatientId, PatientSamples> = {};
 let patientsBodyParamsCache: Record<PatientId, BodyParamsWithPathology> = {};
 
-// on scenario restart
+// on script loading done or on scenario restart
 Helpers.registerEffect(() => {
   patientsSamplesCache = {};
   patientsBodyParamsCache = {};
@@ -65,7 +65,7 @@ Helpers.registerEffect(() => {
  */
 export function getPatientsSamples(): PatientEntry[] {
   const genCtx = getGenCtx();
-  const sortFunc = sortFunctions[genCtx?.state?.sort];
+  const sortFunc = sortFunctions[genCtx?.state?.sort || 'id'];
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
       return { id: id, samples: ps, params: patientsBodyParamsCache[id]! };
@@ -194,11 +194,11 @@ export function initCache(genCtx: GenerationCtx): void {
   }
 
   const loadTasks: Promise<void>[] = [];
-  let delay = 10;
+  let delay = 0;
 
   for (const patientId in existingPatients) {
     delay += 10;
-    loadTasks.push(makeAsync(ids => loadPatient(ids), patientId, delay));
+    loadTasks.push(makeAsync(id => loadPatient(id), patientId, delay));
   }
 
   Promise.all(loadTasks).then(() => {
