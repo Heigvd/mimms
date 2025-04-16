@@ -1,9 +1,9 @@
-import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { HealingTask, TaskBase, TaskType } from '../../tasks/taskBase';
-import { EvacuationTask } from '../../tasks/taskBaseEvacuation';
-import { PorterTask } from '../../tasks/taskBasePorter';
-import { PreTriageTask } from '../../tasks/taskBasePretriage';
-import { WaitingTask } from '../../tasks/taskBaseWaiting';
+import { LOCATION_ENUM } from '../common/simulationState/locationState';
+import { HealingTask, TaskBase, TaskType } from '../common/tasks/taskBase';
+import { EvacuationTask } from '../common/tasks/taskBaseEvacuation';
+import { PorterTask } from '../common/tasks/taskBasePorter';
+import { PreTriageTask } from '../common/tasks/taskBasePretriage';
+import { WaitingTask } from '../common/tasks/taskBaseWaiting';
 
 export function getWaitingTaskId(loadedTasks: TaskBase[]): number {
   return loadedTasks.find(t => t.taskType === TaskType.Waiting)!.Uid;

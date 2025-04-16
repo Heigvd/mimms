@@ -12,7 +12,7 @@ import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
-import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
+import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
 
 export class MainSimulationState {

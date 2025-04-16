@@ -1,16 +1,16 @@
-import { resourceLogger } from '../../../../tools/logger';
-import { parseObjectDescriptor } from '../../../../tools/WegasHelper';
-import { SimFlag } from '../../actions/actionTemplateBase';
-import { InterventionRole } from '../../actors/actor';
-import { ResourceContainerDefinitionId, TranslationKey } from '../../baseTypes';
+import { resourceLogger } from '../../tools/logger';
+import { parseObjectDescriptor } from '../../tools/WegasHelper';
+import { SimFlag } from '../common/actions/actionTemplateBase';
+import { InterventionRole } from '../common/actors/actor';
+import { ResourceContainerDefinitionId, TranslationKey } from '../common/baseTypes';
 import {
   buildContainerDefinition,
   ResourceContainerConfig,
   ResourceContainerDefinition,
   ResourceContainerDefinitionName,
   ResourceContainerType,
-} from '../../resources/resourceContainer';
-import { ResourceType } from '../../resources/resourceType';
+} from '../common/resources/resourceContainer';
+import { ResourceType } from '../common/resources/resourceType';
 
 export interface ContainerConfigurationData {
   mandatory: boolean;

@@ -1,14 +1,14 @@
-import { createHumanBody } from '../../../../HUMAn/human';
-import { getEnv, getPatientsBodyFactoryParamsArray } from '../../../../tools/WegasHelper';
+import { createHumanBody } from '../../HUMAn/human';
+import { getEnv, getPatientsBodyFactoryParamsArray } from '../../tools/WegasHelper';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
   computeNewPatientsState,
   getInitialTimeJumpSeconds,
   reviveAfflictedPathologies,
-} from '../../patients/handleState';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { PatientState } from '../../simulationState/patientState';
+} from '../common/patients/handleState';
+import { LOCATION_ENUM } from '../common/simulationState/locationState';
+import { PatientState } from '../common/simulationState/patientState';
 
 export function loadPatients(): PatientState[] {
   const env = getEnv();

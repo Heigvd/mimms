@@ -5734,7 +5734,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/mainStateLoader",
+    "contentKey" : "game/loaders/mainStateLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724242:nv4rqc",
@@ -5743,7 +5743,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/patientsLoader",
+    "contentKey" : "game/loaders/patientsLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1750136:kCodvg",
@@ -5752,7 +5752,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/resourceLoader",
+    "contentKey" : "game/loaders/resourceLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1750135:J6ma6L",
@@ -5761,7 +5761,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/taskLoader",
+    "contentKey" : "game/loaders/taskLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724243:2PjgdU",

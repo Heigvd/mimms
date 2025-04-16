@@ -1,6 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../../executionContext/gameExecutionContextController';
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';

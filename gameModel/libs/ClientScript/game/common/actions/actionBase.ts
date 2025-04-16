@@ -1,6 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../../executionContext/gameExecutionContextController';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
