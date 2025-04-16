@@ -244,7 +244,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { toggleMandatory } from \"./edition/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
+                                    "content" : "import { toggleMandatory } from \"./edition/UIfacade/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -263,7 +263,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getContainerTypesChoices } from \"./edition/resourcesConfiguration\";\ngetContainerTypesChoices();",
+                                  "content" : "import { getContainerTypesChoices } from \"./edition/UIfacade/resourcesConfiguration\";\ngetContainerTypesChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "line-dropdown table-input-container",
@@ -279,7 +279,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'type', Context.value);",
+                                    "content" : "import { updateStringValue } from \"./edition/UIfacade/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'type', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -343,7 +343,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
+                                    "content" : "import { updateStringValue } from \"./edition/UIfacade/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -370,7 +370,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
+                                        "content" : "import { updateNumberValue } from \"./edition/UIfacade/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -420,7 +420,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
+                                        "content" : "import { updateNumberValue } from \"./edition/UIfacade/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -504,7 +504,7 @@
                     "exposeAs" : "containerConfig",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getContainerConfigurations } from \"./edition/resourcesConfiguration\";\n  getContainerConfigurations(true);",
+                      "content" : "import { getContainerConfigurations } from \"./edition/UIfacade/resourcesConfiguration\";\n  getContainerConfigurations(true);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -573,7 +573,7 @@
                               "className" : "resources-sort--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getlastSortType } from \"./edition/resourcesConfiguration\";\ngetlastSortType() == 'type';",
+                                "content" : "import { getlastSortType } from \"./edition/UIfacade/resourcesConfiguration\";\ngetlastSortType() == 'type';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -587,7 +587,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('type');",
+                                "content" : "import { sortAndSave } from \"./edition/UIfacade/resourcesConfiguration\";\n\nsortAndSave('type');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -628,7 +628,7 @@
                               "className" : "resources-sort--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getlastSortType } from \"./edition/resourcesConfiguration\";\ngetlastSortType() == 'name';",
+                                "content" : "import { getlastSortType } from \"./edition/UIfacade/resourcesConfiguration\";\ngetlastSortType() == 'name';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -642,7 +642,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('name');",
+                                "content" : "import { sortAndSave } from \"./edition/UIfacade/resourcesConfiguration\";\n\nsortAndSave('name');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -684,7 +684,7 @@
                               "className" : "resources-sort--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getlastSortType } from \"./edition/resourcesConfiguration\";\ngetlastSortType() == 'availabilityTime';",
+                                "content" : "import { getlastSortType } from \"./edition/UIfacade/resourcesConfiguration\";\ngetlastSortType() == 'availabilityTime';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -698,7 +698,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('availabilityTime');",
+                                "content" : "import { sortAndSave } from \"./edition/UIfacade/resourcesConfiguration\";\n\nsortAndSave('availabilityTime');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -739,7 +739,7 @@
                               "className" : "resources-sort--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getlastSortType } from \"./edition/resourcesConfiguration\";\ngetlastSortType() == 'travelTime';",
+                                "content" : "import { getlastSortType } from \"./edition/UIfacade/resourcesConfiguration\";\ngetlastSortType() == 'travelTime';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -753,7 +753,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { sortAndSave } from \"./edition/resourcesConfiguration\";\n\nsortAndSave('travelTime');",
+                                "content" : "import { sortAndSave } from \"./edition/UIfacade/resourcesConfiguration\";\n\nsortAndSave('travelTime');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -919,7 +919,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { toggleMandatory } from \"./edition/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
+                                    "content" : "import { toggleMandatory } from \"./edition/UIfacade/resourcesConfiguration\";\n\ntoggleMandatory(Context.containerConfig.id);",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -938,7 +938,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getContainerTypesChoices } from \"./edition/resourcesConfiguration\";\ngetContainerTypesChoices();",
+                                  "content" : "import { getContainerTypesChoices } from \"./edition/UIfacade/resourcesConfiguration\";\ngetContainerTypesChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "line-dropdown table-input-container",
@@ -957,7 +957,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'type', Context.value);",
+                                    "content" : "import { updateStringValue } from \"./edition/UIfacade/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'type', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -1020,7 +1020,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { updateStringValue } from \"./edition/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
+                                    "content" : "import { updateStringValue } from \"./edition/UIfacade/resourcesConfiguration\";\nupdateStringValue(Context.containerConfig.id, 'name', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -1047,7 +1047,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
+                                        "content" : "import { updateNumberValue } from \"./edition/UIfacade/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"availabilityTime\", Context.value);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -1096,7 +1096,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateNumberValue } from \"./edition/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
+                                        "content" : "import { updateNumberValue } from \"./edition/UIfacade/resourcesConfiguration\";\n\nupdateNumberValue(Context.containerConfig.id, \"travelTime\", Context.value);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -1150,7 +1150,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { removeContainerConfiguration } from \"./edition/resourcesConfiguration\";\n\nremoveContainerConfiguration(Context.containerConfig.id);",
+                                        "content" : "import { removeContainerConfiguration } from \"./edition/UIfacade/resourcesConfiguration\";\n\nremoveContainerConfiguration(Context.containerConfig.id);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -1207,7 +1207,7 @@
                           "className" : "new-resource-line",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "import { getLastAdded } from \"./edition/resourcesConfiguration\";\ngetLastAdded() == Context.containerConfig.id;",
+                            "content" : "import { getLastAdded } from \"./edition/UIfacade/resourcesConfiguration\";\ngetLastAdded() == Context.containerConfig.id;",
                             "language" : "typescript"
                           }
                         } ],
@@ -1222,7 +1222,7 @@
                     "exposeAs" : "containerConfig",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getContainerConfigurations } from \"./edition/resourcesConfiguration\";\n  getContainerConfigurations(false);",
+                      "content" : "import { getContainerConfigurations } from \"./edition/UIfacade/resourcesConfiguration\";\n  getContainerConfigurations(false);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -1262,7 +1262,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addContainerConfiguration } from \"./edition/resourcesConfiguration\";\n\naddContainerConfiguration();",
+                    "content" : "import { addContainerConfiguration } from \"./edition/UIfacade/resourcesConfiguration\";\n\naddContainerConfiguration();",
                     "language" : "TypeScript"
                   }
                 },
@@ -1310,7 +1310,7 @@
         "exposeAs" : "UIState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { getDefaultUIState } from \"./edition/resourcesConfiguration\";\ngetDefaultUIState();",
+          "content" : "import { getDefaultUIState } from \"./edition/UIfacade/resourcesConfiguration\";\ngetDefaultUIState();",
           "language" : "TypeScript"
         },
         "layoutClassName" : "",

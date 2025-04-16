@@ -1,10 +1,10 @@
-import { optionalResourceDefinitions } from '../game/common/resources/resourceContainer';
+import { optionalResourceDefinitions } from '../../game/common/resources/resourceContainer';
 import {
   ContainerConfigurationData,
   loadResourceContainersConfigurationData,
-} from '../game/common/simulationState/loaders/resourceLoader';
-import { generateId } from '../tools/helper';
-import { saveToObjectDescriptor } from '../tools/WegasHelper';
+} from '../../game/common/simulationState/loaders/resourceLoader';
+import { generateId } from '../../tools/helper';
+import { saveToObjectDescriptor } from '../../tools/WegasHelper';
 
 export function getContainerConfigurations(mandatory: boolean) {
   const data = loadResourceContainersConfigurationData();
