@@ -6542,7 +6542,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/patientGenFacade",
+    "contentKey" : "edition/UIfacade/patientGenFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1580618:cy0rqR",

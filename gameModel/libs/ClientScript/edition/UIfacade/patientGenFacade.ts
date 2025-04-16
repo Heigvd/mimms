@@ -1,34 +1,34 @@
-import { generateRandomPatient } from '../edition/patientGeneration';
-import { PathologyId, PatientId, SimDuration } from '../game/common/baseTypes';
+import { generateRandomPatient } from '../patientGeneration';
+import { PathologyId, PatientId, SimDuration } from '../../game/common/baseTypes';
 import {
   computeInitialAfflictedPathologies,
   computeInitialEffects,
   computeNewPatientsState,
   getInitialTimeJumpSeconds,
   reviveAfflictedPathologies,
-} from '../game/common/patients/handleState';
-import { doPatientAutomaticTriage } from '../game/common/patients/pretriage';
-import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { PatientState } from '../game/common/simulationState/patientState';
+} from '../../game/common/patients/handleState';
+import { doPatientAutomaticTriage } from '../../game/common/patients/pretriage';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { PatientState } from '../../game/common/simulationState/patientState';
 import {
   getCategory,
   getPriorityByCategoryId,
   STANDARD_CATEGORY,
   STANDARD_CATEGORY_ARRAY,
-} from '../game/pretri/triage';
-import { BodyFactoryParam, createHumanBody } from '../HUMAn/human';
-import { getPathologies } from '../HUMAn/registries';
-import { getPathologyDefinitionById } from '../HUMAn/registry/pathologies';
-import { group } from '../tools/groupBy';
-import { entries, makeAsync, upperCaseFirst } from '../tools/helper';
-import { patientGenerationLogger } from '../tools/logger';
+} from '../../game/pretri/triage';
+import { BodyFactoryParam, createHumanBody } from '../../HUMAn/human';
+import { getPathologies } from '../../HUMAn/registries';
+import { getPathologyDefinitionById } from '../../HUMAn/registry/pathologies';
+import { group } from '../../tools/groupBy';
+import { entries, makeAsync, upperCaseFirst } from '../../tools/helper';
+import { patientGenerationLogger } from '../../tools/logger';
 import {
   alphaNumericSort,
   getEnv,
   getPatientsBodyFactoryParams,
   parseObjectDescriptor,
   saveToObjectDescriptor,
-} from '../tools/WegasHelper';
+} from '../../tools/WegasHelper';
 
 /**
  * Maximum number of attempts to generate a patient that fits in the required statistics
