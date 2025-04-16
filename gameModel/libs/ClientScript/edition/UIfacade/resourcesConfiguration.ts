@@ -2,7 +2,7 @@ import { optionalResourceDefinitions } from '../../game/common/resources/resourc
 import {
   ContainerConfigurationData,
   loadResourceContainersConfigurationData,
-} from '../../game/common/simulationState/loaders/resourceLoader';
+} from '../../game/loaders/resourceLoader';
 import { generateId } from '../../tools/helper';
 import { saveToObjectDescriptor } from '../../tools/WegasHelper';
 

@@ -8,7 +8,7 @@ import {
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
-import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
+import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ResourceContainerConfig,

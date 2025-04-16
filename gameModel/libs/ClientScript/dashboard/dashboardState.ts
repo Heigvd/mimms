@@ -1,12 +1,12 @@
 import { TimedEventPayload } from '../game/common/events/eventTypes';
 import { FullEvent, parseSingleEvent } from '../game/common/events/eventUtils';
-import { getStartingMainState } from '../game/common/simulationState/loaders/mainStateLoader';
+import { getStartingMainState } from '../game/loaders/mainStateLoader';
 import { MainStateObject } from '../game/common/simulationState/mainSimulationState';
 import {
   createOrUpdateExecutionContext,
   getTargetExecutionContext,
   updateExecutionContextFromEventBoxId,
-} from '../game/gameExecutionContextController';
+} from '../executionContext/gameExecutionContextController';
 import { convertToLocalEvent } from '../game/mainSimulationLogic';
 import { dashboardLogger } from '../tools/logger';
 import { getDashboardTeams } from './utils';

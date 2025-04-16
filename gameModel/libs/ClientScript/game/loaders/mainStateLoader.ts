@@ -1,17 +1,17 @@
-import { getWaitingTaskId, loadTasks } from '../../simulationState/loaders/taskLoader';
+import { getWaitingTaskId, loadTasks } from './taskLoader';
 import {
   BuildingStatus,
   GeometryBasedFixedMapEntity,
   PointGeometricalShape,
-} from '../../events/defineMapObjectEvent';
-import { getCurrentGameOptions } from '../../gameOptions';
-import { Resource } from '../../resources/resource';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { MainSimulationState } from '../../simulationState/mainSimulationState';
-import { Actor } from '../../actors/actor';
-import { notifyMainStateInitializationComplete } from '../../../gameExecutionContextController';
-import { loadResourceContainersConfiguration } from '../../simulationState/loaders/resourceLoader';
-import { loadPatients } from '../../simulationState/loaders/patientsLoader';
+} from '../common/events/defineMapObjectEvent';
+import { getCurrentGameOptions } from '../common/gameOptions';
+import { Resource } from '../common/resources/resource';
+import { LOCATION_ENUM } from '../common/simulationState/locationState';
+import { MainSimulationState } from '../common/simulationState/mainSimulationState';
+import { Actor } from '../common/actors/actor';
+import { notifyMainStateInitializationComplete } from '../../executionContext/gameExecutionContextController';
+import { loadResourceContainersConfiguration } from './resourceLoader';
+import { loadPatients } from './patientsLoader';
 
 let singletonStartState: MainSimulationState;
 

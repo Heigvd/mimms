@@ -1,7 +1,7 @@
 import { gameExecLogger } from '../tools/logger';
-import { TimedEventPayload } from './common/events/eventTypes';
-import { FullEvent } from './common/events/eventUtils';
-import { getStartingMainState } from './common/simulationState/loaders/mainStateLoader';
+import { TimedEventPayload } from '../game/common/events/eventTypes';
+import { FullEvent } from '../game/common/events/eventUtils';
+import { getStartingMainState } from '../game/loaders/mainStateLoader';
 import {
   GameExecutionContext,
   GlobalToLocalEventFunction,
@@ -131,7 +131,7 @@ export function getTargetExecutionContext(teamId: TeamId): GameExecutionContext 
 
 export function getCurrentExecutionContext(): GameExecutionContext {
   const teamId = getCurrentTeamId();
-  let ctx = executionContexts[teamId];
+  const ctx = executionContexts[teamId];
   if (ctx) {
     return ctx;
   }

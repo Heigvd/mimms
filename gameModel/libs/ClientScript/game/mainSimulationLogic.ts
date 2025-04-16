@@ -29,14 +29,14 @@ import {
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
-import { shallowState } from './common/simulationState/loaders/mainStateLoader';
+import { shallowState } from './loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
-import { GameExecutionContext } from './gameExecutionContext';
+import { GameExecutionContext } from '../executionContext/gameExecutionContext';
 import {
   createPlayerContext,
   debugRemovePlayerContext,
   getCurrentExecutionContext,
-} from './gameExecutionContextController';
+} from '../executionContext/gameExecutionContextController';
 
 let actionTemplates: Record<string, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;
