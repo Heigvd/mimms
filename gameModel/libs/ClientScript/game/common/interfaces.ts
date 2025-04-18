@@ -6,3 +6,37 @@
 export interface IClonable {
   clone(): this;
 }
+
+/**
+ * Unique id base64
+ */
+export type Uid = string;
+/**
+ * Used by scenarist to identify elements, friendly name, soft reference
+ */
+export type Tag = string;
+
+export interface IDescriptor {
+  uid: Uid;
+}
+
+/**
+ * For easier type discrimination in ts
+ */
+export interface Typed {
+  type: string;
+}
+
+/**
+ * Runtime activable interface
+ */
+export interface IActivable {
+  type: string;
+  ref: Uid;
+}
+
+export interface IActivableDescriptor {
+  activableType: string;
+  activeAtStart: boolean;
+  tag: Tag;
+}

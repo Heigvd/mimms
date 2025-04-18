@@ -14,6 +14,8 @@ import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
+import { Activable } from '../simulationState/activableState';
+import { Uid } from '../interfaces';
 
 export class MainSimulationState {
   private readonly internalState: MainStateObject;
@@ -194,6 +196,13 @@ export class MainSimulationState {
   public getRespectHierarchyValue(): boolean {
     return this.internalState.gameOptions.respectHierarchy;
   }
+
+  /**
+   * Returns the current state of an activable object
+   */
+  public getActivable(uid: Uid): Activable {
+    return this.internalState.activables[uid];
+  }
 }
 
 export interface MainStateObject {
@@ -216,4 +225,5 @@ export interface MainStateObject {
   flags: Partial<Record<SimFlag, boolean>>;
   hospital: HospitalState;
   gameOptions: GameOptions;
+  activables: Record<Uid, Activable>;
 }

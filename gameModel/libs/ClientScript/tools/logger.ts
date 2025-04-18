@@ -32,6 +32,8 @@ export const timeLogger = Helpers.getLogger('time');
 export const debugFacadeLogger = Helpers.getLogger('debug');
 export const dashboardLogger = Helpers.getLogger('dashboard');
 export const gameExecLogger = Helpers.getLogger('game.execution.context');
+export const triggerLogger = Helpers.getLogger('trigger');
+
 gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
 mainSimLogger.setLevel('INFO');
