@@ -27,7 +27,7 @@ interface TriggerActivable extends ActivableState<Trigger> {
 
 interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {}
 
-// TODO map objects, there might be a sub state such as 'building' as in current implementation
+// TODO map entities objects, there might be a sub state such as 'building' as in current implementation
 
 type DescriptorActivableType = TemplateDescriptor | ChoiceDescriptor | Trigger;
 

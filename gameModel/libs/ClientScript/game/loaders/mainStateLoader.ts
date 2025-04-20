@@ -12,6 +12,7 @@ import { Actor } from '../common/actors/actor';
 import { notifyMainStateInitializationComplete } from '../executionContext/gameExecutionContextController';
 import { loadResourceContainersConfiguration } from './resourceLoader';
 import { loadPatients } from './patientsLoader';
+import { buildActivables } from './activableLoader';
 
 let singletonStartState: MainSimulationState;
 
@@ -41,6 +42,7 @@ function buildStartingMainState(): MainSimulationState {
   const waitingTaskId = getWaitingTaskId(tasks);
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
 
+  // TODO run triggers at T = 0
   return new MainSimulationState(
     {
       simulationTimeSec: 0,
@@ -56,6 +58,7 @@ function buildStartingMainState(): MainSimulationState {
       flags: {},
       hospital: {},
       gameOptions: getCurrentGameOptions(),
+      activables: buildActivables(),
     },
     0
   );
@@ -81,6 +84,7 @@ export function shallowState(): MainSimulationState {
       flags: {},
       hospital: {},
       gameOptions: { respectHierarchy: true },
+      activables: {},
     },
     -1 // impossible state id : make sure no event can be applied on that state
   );

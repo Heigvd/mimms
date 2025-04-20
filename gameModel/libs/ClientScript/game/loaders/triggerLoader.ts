@@ -3,15 +3,16 @@ import { Trigger } from '../common/triggers/trigger';
 
 export function loadTriggers(): Trigger[] {
   // TODO load from WEGAS variable
-  // instantiate triggers status structures
   return getTestTriggers();
 }
 
 function getTestTriggers(): Trigger[] {
   return [
     {
+      type: 'trigger',
+      activableType: 'trigger',
+      activeAtStart: true,
       priority: 0,
-      active: true,
       conditions: [
         {
           type: 'Time',
@@ -23,6 +24,7 @@ function getTestTriggers(): Trigger[] {
         {
           type: 'notification',
           role: 'AL',
+          sender: 'SENDER',
           delaySeconds: 60,
           message: 'Hey this is a trigger talking to you',
         },
@@ -30,12 +32,14 @@ function getTestTriggers(): Trigger[] {
       operator: 'OR',
       repeatable: false,
       tag: 'Test Trigger',
-      uid: 1234,
+      uid: 'Test trigger UID here',
     },
     // RADIO IMPACT
     {
+      type: 'trigger',
+      activableType: 'trigger',
+      activeAtStart: true,
       priority: 0,
-      active: true,
       conditions: [
         {
           type: 'Time',
@@ -59,7 +63,7 @@ function getTestTriggers(): Trigger[] {
       operator: 'AND',
       repeatable: true,
       tag: 'Test Trigger',
-      uid: 1234,
+      uid: 'Other test trigger UID here',
     },
   ];
 }

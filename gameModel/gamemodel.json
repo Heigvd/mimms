@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744976012981,
+  "createdTime" : 1745166242667,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6125,6 +6125,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991679:5PgpAB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/activableLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991753:X2ddZg",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
