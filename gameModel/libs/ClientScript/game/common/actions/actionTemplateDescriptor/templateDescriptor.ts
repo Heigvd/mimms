@@ -11,7 +11,7 @@ export interface ITemplateDescriptor extends IActivableDescriptor, IDescriptor, 
    *  */
   repeatable: number;
   /**
-   * indicated that the template mandatory for the game configuration to be sound
+   * indicates that the template mandatory for the game configuration to be sound
    */
   mandatory: boolean;
   /**

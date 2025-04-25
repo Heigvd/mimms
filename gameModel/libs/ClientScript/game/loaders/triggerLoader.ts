@@ -3,6 +3,7 @@ import { Trigger } from '../common/triggers/trigger';
 
 export function loadTriggers(): Trigger[] {
   // TODO load from WEGAS variable
+  // TODO load once and cache
   return getTestTriggers();
 }
 
@@ -27,6 +28,7 @@ function getTestTriggers(): Trigger[] {
           sender: 'SENDER',
           delaySeconds: 60,
           message: 'Hey this is a trigger talking to you',
+          priority: 0,
         },
       ],
       operator: 'OR',
@@ -58,6 +60,7 @@ function getTestTriggers(): Trigger[] {
           canal: RadioType.CASU,
           delaySeconds: 0,
           message: 'Triggers can talk in the radio too',
+          priority: 0,
         },
       ],
       operator: 'AND',

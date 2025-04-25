@@ -42,7 +42,7 @@ function buildStartingMainState(): MainSimulationState {
   const waitingTaskId = getWaitingTaskId(tasks);
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
 
-  // TODO run triggers at T = 0
+  // TODO run triggers at T = 0 (a dedicated local event seems reasonable)
   return new MainSimulationState(
     {
       simulationTimeSec: 0,

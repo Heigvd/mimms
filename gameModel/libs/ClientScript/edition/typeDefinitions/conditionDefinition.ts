@@ -10,3 +10,5 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
 
   return defs[type]!;
 }
+
+// TODO complete with all condition types, see impacts

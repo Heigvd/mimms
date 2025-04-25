@@ -7,8 +7,6 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
   type: 'FullyConfigurableActionTemplate';
 }
 
-// TODO convert descriptor to class here
-
 export function buildFullyConfigurableTemplate(
   _descriptor: FullyConfigurableTemplateDescriptor
 ): MoveActorActionTemplate {

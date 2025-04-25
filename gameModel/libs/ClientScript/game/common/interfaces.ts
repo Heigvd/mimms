@@ -21,7 +21,7 @@ export interface IDescriptor {
 }
 
 /**
- * For easier type discrimination in ts
+ * For easier type discrimination in ts. (runtime typing)
  */
 export interface Typed {
   type: string;
@@ -29,6 +29,7 @@ export interface Typed {
 
 /**
  * Runtime activable interface
+ * active means that the object referenced by its uid can be active or inactive
  */
 export interface IActivable {
   type: string;

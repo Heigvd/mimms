@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1745166242667,
+  "createdTime" : 1745591528108,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5338,6 +5338,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/typeDefinitions/choiceDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2050471:3aOQas",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/typeDefinitions/conditionDefinition",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5369,6 +5378,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990713:HrPBLj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/fullyConfigurableTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2050462:QtJUT5",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

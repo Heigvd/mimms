@@ -7,7 +7,7 @@ type TriggerDefinition = Definition<Trigger>;
 export function getTriggerDefinition(): TriggerDefinition {
   return {
     type: 'trigger',
-    default: () => ({
+    getDefault: () => ({
       type: 'trigger',
       uid: generateId(10),
       activableType: 'trigger',
@@ -26,11 +26,11 @@ export function getTriggerDefinition(): TriggerDefinition {
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
       conditions: {
+        type: ALL_EDITABLE,
         choiceId: ALL_EDITABLE,
         templateId: ALL_EDITABLE,
         operator: ALL_EDITABLE,
         timeSeconds: ALL_EDITABLE,
-        type: ALL_EDITABLE,
       },
       impacts: {
         type: ALL_EDITABLE,
@@ -40,6 +40,8 @@ export function getTriggerDefinition(): TriggerDefinition {
         operator: ALL_EDITABLE,
         role: ALL_EDITABLE,
         target: ALL_EDITABLE,
+        priority: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+        sender: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       },
       operator: ALL_EDITABLE,
       repeatable: ALL_EDITABLE,

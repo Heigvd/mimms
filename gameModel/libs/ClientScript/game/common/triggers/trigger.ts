@@ -4,6 +4,12 @@ import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
 
+/**
+ * A trigger is a collection of condition and impacts
+ * when simulation progresses each active trigger has its conditions evaluated
+ * the conditons are linked with an operator AND/OR
+ * if the conditions are evaluated to true, the impacts are evaluated
+ */
 export interface Trigger extends IActivableDescriptor, IDescriptor, Typed {
   type: 'trigger';
   activableType: 'trigger';
@@ -35,7 +41,7 @@ function evaluateTriggerImpacts(state: MainSimulationState, trigger: Trigger): L
 export function evaluateTrigger(state: MainSimulationState, trigger: Trigger): LocalEventBase[] {
   if (evaluateTriggerConditions(state, trigger)) {
     if (!trigger.repeatable) {
-      // TODO see if LocalEvent emitted instead
+      // TODO see if LocalEvent emitted instead, would be cleaner
       const triggerState = state.getActivable(trigger.uid);
       triggerState.active = false;
     }
