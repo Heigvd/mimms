@@ -4,6 +4,9 @@ type Unarray<T> = T extends Array<infer U> ? U : T;
 
 type EditionLevel = 'hidden' | 'visible' | 'editable';
 
+/**
+ * Might be directly mapped to WEGAS ADVANCED and INTERNAL views
+ */
 interface ConfigurationView {
   basic: EditionLevel;
   advanced: EditionLevel;

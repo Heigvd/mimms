@@ -3,8 +3,8 @@ import { MoveActorActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
 export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
-  // TODO find way to make it bound to its template class
   type: 'MoveActorActionTemplate';
+  constructorType: 'MoveActorActionTemplate';
 }
 
 // convert descriptor TODO complete implementation

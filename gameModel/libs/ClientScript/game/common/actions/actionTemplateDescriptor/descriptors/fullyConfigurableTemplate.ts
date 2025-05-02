@@ -3,8 +3,8 @@ import { MoveActorActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
 export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor {
-  // TODO find way to make it bound to its template class without genericity
   type: 'FullyConfigurableActionTemplate';
+  constructorType: 'FullyConfigurableActionTemplate';
 }
 
 export function buildFullyConfigurableTemplate(

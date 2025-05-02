@@ -7,6 +7,7 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
     type: 'MoveActorActionTemplate',
     getDefault: () => ({
       type: 'MoveActorActionTemplate',
+      constructorType: 'MoveActorActionTemplate',
       activableType: 'actionTemplate',
       activeAtStart: true,
       binding: undefined,
@@ -19,6 +20,6 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
       uid: generateId(10),
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
-    view: {} as any, // TODO
+    view: {} as any, // TODO hide almost all fields for the move template
   };
 }
