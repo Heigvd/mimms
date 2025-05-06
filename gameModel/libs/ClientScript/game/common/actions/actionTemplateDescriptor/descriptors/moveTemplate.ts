@@ -3,7 +3,7 @@ import { MoveActorActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
 export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
-  type: 'MoveActorActionTemplate';
+  type: 'MoveActorTemplateDescriptor';
   constructorType: 'MoveActorActionTemplate';
 }
 

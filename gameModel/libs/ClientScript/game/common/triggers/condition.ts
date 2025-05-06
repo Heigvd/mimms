@@ -10,6 +10,11 @@ export interface ConditionBase extends Typed {}
 
 export type ActivableStatus = 'active' | 'inactive';
 
+/**
+ * completed once => there exist an action or action with specific choice in the timeline that has completed
+ * ongoing => there exist an action or action with specific choice in the timeline that is currently running
+ * never planned => no action or action with specific choice in the timeline
+ */
 export type ChoiceActionStatus = ActivableStatus | 'completed once' | 'ongoing' | 'never planned';
 
 export type Condition = TimeCondition | ActionCondition | ChoiceCondition | TriggerCondition;
@@ -37,8 +42,8 @@ export function evaluateActivable(
 ): boolean {
   switch (status) {
     case 'active':
-      return state.getActivable(uid).active;
+      return state.getActivable(uid)?.active || false;
     case 'inactive':
-      return !state.getActivable(uid).active;
+      return !state.getActivable(uid)?.active || false;
   }
 }

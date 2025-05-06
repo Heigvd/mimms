@@ -12,9 +12,9 @@ export function getTemplateDef(type: TemplateDescriptorTypeName): TemplateDefini
   // TODO choose implementation between switch or TemplateDefinitionRecord (see ImpactDefinition)
 
   switch (type) {
-    case 'FullyConfigurableActionTemplate':
+    case 'FullyConfigurableTemplateDescriptor':
       return getFullConfigurableTemplateDef();
-    case 'MoveActorActionTemplate':
+    case 'MoveActorTemplateDescriptor':
       return getMoveTemplateDef();
     default:
       scenarioEditionLogger.error('Unknown type name for template descriptor', type);

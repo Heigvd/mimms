@@ -4,15 +4,15 @@ import { buildMoveActorTemplate } from '../common/actions/actionTemplateDescript
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 
 export function makeInstance(tplDescriptor: TemplateDescriptor): ActionTemplateBase {
-  const type = tplDescriptor.constructorType;
-  switch (type) {
+  const ctorType = tplDescriptor.constructorType;
+  switch (ctorType) {
     case 'MoveActorActionTemplate':
       return buildMoveActorTemplate(tplDescriptor);
     case 'FullyConfigurableActionTemplate':
       return buildFullyConfigurableTemplate(tplDescriptor);
     default:
       // this makes sure a missing case induces a compilation error
-      missingCase(type);
+      missingCase(ctorType);
   }
   return undefined as any;
 }

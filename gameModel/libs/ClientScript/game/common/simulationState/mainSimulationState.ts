@@ -200,7 +200,7 @@ export class MainSimulationState {
   /**
    * Returns the current state of an activable object
    */
-  public getActivable(uid: Uid): Activable {
+  public getActivable(uid: Uid): Activable | undefined {
     return this.internalState.activables[uid];
   }
 }

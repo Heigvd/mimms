@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1746184561473,
+  "createdTime" : 1746542667038,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5693,6 +5693,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990708:HQAfqm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/implementation/choiceEffectSelectionImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2194486:uJWGlW",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

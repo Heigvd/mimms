@@ -1,3 +1,4 @@
+import { triggerLogger } from '../../../tools/logger';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Typed } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
@@ -21,7 +22,7 @@ export interface Trigger extends IActivableDescriptor, IDescriptor, Typed {
 }
 
 function evaluateTriggerConditions(state: MainSimulationState, trigger: Trigger): boolean {
-  if (state.getActivable(trigger.uid).active) {
+  if (state.getActivable(trigger.uid)?.active) {
     if (trigger.conditions.length === 0) {
       return true;
     }
@@ -41,9 +42,14 @@ function evaluateTriggerImpacts(state: MainSimulationState, trigger: Trigger): L
 export function evaluateTrigger(state: MainSimulationState, trigger: Trigger): LocalEventBase[] {
   if (evaluateTriggerConditions(state, trigger)) {
     if (!trigger.repeatable) {
-      // TODO see if LocalEvent emitted instead, would be cleaner
+      // TODO see if LocalEvent emitted instead, would be cleaner and more uniform
       const triggerState = state.getActivable(trigger.uid);
-      triggerState.active = false;
+
+      if (triggerState) {
+        triggerState.active = false;
+      } else {
+        triggerLogger.warn(`Trigger activable with id ${trigger.uid} not found`);
+      }
     }
     return evaluateTriggerImpacts(state, trigger);
   }

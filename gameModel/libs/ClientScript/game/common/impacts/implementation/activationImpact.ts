@@ -16,7 +16,7 @@ export function convertActivationImpact(
   impact: ActivationImpact,
   parentId: Uid
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  //const time = state.getSimTime() + impact.delaySeconds;
   return [];
   // TODO add / modify entry in activables through local event
 }

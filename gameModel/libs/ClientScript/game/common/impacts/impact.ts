@@ -3,6 +3,10 @@ import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActivationImpact, convertActivationImpact } from './implementation/activationImpact';
 import {
+  ChoiceEffectSelectionImpact,
+  convertChoiceEffectSelectionImpact,
+} from './implementation/choiceEffectSelectionImpact';
+import {
   convertNotificationImpact,
   NotificationMessageImpact,
 } from './implementation/notificationImpact';
@@ -16,7 +20,11 @@ export interface ImpactBase extends Typed {
   priority: number;
 }
 
-export type Impact = NotificationMessageImpact | RadioMessageImpact | ActivationImpact;
+export type Impact =
+  | NotificationMessageImpact
+  | RadioMessageImpact
+  | ActivationImpact
+  | ChoiceEffectSelectionImpact;
 
 export function convertToLocalEvents(
   state: MainSimulationState,
@@ -30,6 +38,8 @@ export function convertToLocalEvents(
       return convertNotificationImpact(state, impact, parentId);
     case 'radio':
       return convertRadioNotificationImpact(state, impact, parentId);
+    case 'choice':
+      return convertChoiceEffectSelectionImpact(state, impact, parentId);
     default:
       return [];
   }

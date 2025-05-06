@@ -7,10 +7,10 @@ import { Definition } from '../../typeDefinitions/definition';
  */
 export function getFullConfigurableTemplateDef(): Definition<FullyConfigurableTemplateDescriptor> {
   return {
-    type: 'FullyConfigurableActionTemplate',
+    type: 'FullyConfigurableTemplateDescriptor',
     getDefault: () => ({
-      type: 'FullyConfigurableActionTemplate',
-      constructorType: 'TODO',
+      type: 'FullyConfigurableTemplateDescriptor',
+      constructorType: 'FullyConfigurableActionTemplate',
       activableType: 'actionTemplate',
       activeAtStart: true,
       binding: undefined,

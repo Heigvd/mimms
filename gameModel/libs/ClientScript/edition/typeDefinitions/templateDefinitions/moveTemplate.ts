@@ -4,9 +4,9 @@ import { Definition } from '../../typeDefinitions/definition';
 
 export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
   return {
-    type: 'MoveActorActionTemplate',
+    type: 'MoveActorTemplateDescriptor',
     getDefault: () => ({
-      type: 'MoveActorActionTemplate',
+      type: 'MoveActorTemplateDescriptor',
       constructorType: 'MoveActorActionTemplate',
       activableType: 'actionTemplate',
       activeAtStart: true,

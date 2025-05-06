@@ -36,6 +36,9 @@ export interface IActivable {
   ref: Uid;
 }
 
+/**
+ * Scenarist configuration activable interface
+ */
 export interface IActivableDescriptor {
   activableType: string;
   activeAtStart: boolean;
