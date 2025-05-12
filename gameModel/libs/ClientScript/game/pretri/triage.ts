@@ -107,7 +107,7 @@ export function getTagSystem(): SystemName {
 
 const deadTag = '#797979';
 const yellowTag = '#E9B406';
-const greenTag = '#4F7200';
+const greenTag = '#86b700';
 const redTag = '#B73D3C';
 const orangeTag = '#FFBD60';
 const blueTag = '#4CA9FF';
