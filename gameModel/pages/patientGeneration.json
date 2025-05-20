@@ -612,6 +612,7 @@
             "style" : {
               "margin" : "auto",
               "minWidth" : "60rem",
+              "overflow" : "auto",
               "width" : "50%"
             }
           },
