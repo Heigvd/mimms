@@ -39,5 +39,5 @@ function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): voi
 }
 
 function addMapEntitiesActivables(_activables: Record<Uid, Activable>): void {
-  // TODO
+  // TODO map entities from WEGAS variable
 }

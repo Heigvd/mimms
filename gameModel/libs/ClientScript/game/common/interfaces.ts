@@ -29,7 +29,7 @@ export interface Typed {
 
 /**
  * Runtime activable interface
- * active means that the object referenced by its uid can be active or inactive
+ * activable means that the object referenced by its uid can be active or inactive
  */
 export interface IActivable {
   type: string;
@@ -42,5 +42,8 @@ export interface IActivable {
 export interface IActivableDescriptor {
   activableType: string;
   activeAtStart: boolean;
+  /**
+   * Friendly name used by scenarist
+   */
   tag: Tag;
 }

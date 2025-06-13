@@ -6,9 +6,9 @@ export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typ
   activableType: 'choice';
   parent: Uid; // owning template descriptor
   description: string; // TODO multilang
-  label: string; // TODO multilang
+  title: string; // TODO multilang
 
-  placeHolder: Uid; //reference to geometry
+  placeHolder: Uid; //reference to map object
   /**
    * Selected effect at start
    */

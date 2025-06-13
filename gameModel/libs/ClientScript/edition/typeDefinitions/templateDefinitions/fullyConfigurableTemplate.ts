@@ -1,6 +1,6 @@
 import { FullyConfigurableTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { generateId } from '../../../tools/helper';
-import { Definition } from '../../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition } from '../../typeDefinitions/definition';
 
 /**
  * Scenarist fully configurable template, including choices and impacts
@@ -23,6 +23,19 @@ export function getFullConfigurableTemplateDef(): Definition<FullyConfigurableTe
       uid: generateId(10),
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
-    view: {} as any, // TODO
+    view: {
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      activeAtStart: ALL_EDITABLE,
+      description: ALL_EDITABLE,
+      title: ALL_EDITABLE,
+      tag: ALL_EDITABLE,
+      choices: ALL_EDITABLE,
+      binding: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      constructorType: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      mandatory: ALL_EDITABLE,
+      repeatable: ALL_EDITABLE,
+    },
   };
 }

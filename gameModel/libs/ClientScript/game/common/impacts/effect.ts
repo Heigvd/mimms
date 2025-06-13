@@ -4,7 +4,13 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { convertToLocalEvents, Impact } from './impact';
 
 export interface Effect extends IDescriptor {
+  /**
+   * Friendly name for scenarist
+   */
   tag: Tag;
+  /**
+   * Owning choice id
+   */
   parent: Uid;
   impacts: Impact[];
 }

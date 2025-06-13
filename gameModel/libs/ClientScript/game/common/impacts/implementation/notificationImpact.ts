@@ -7,24 +7,24 @@ import { ImpactBase } from '../impact';
 export interface NotificationMessageImpact extends ImpactBase {
   type: 'notification';
   message: any; //TODO multilang
-  sender: any; // TODO what options for scenarist ?
-  role: InterventionRole; // TODO
+  sender: string; // TODO any options for scenarist ?
+  roles: Record<InterventionRole, boolean>;
 }
 
 export function convertNotificationImpact(
   state: MainSimulationState,
   impact: NotificationMessageImpact,
-  parentId: Uid
+  _parentId: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
-  const actors = state.getOnSiteActors().filter(a => a.Role === impact.role);
+  const actors = state.getOnSiteActors().filter(act => impact.roles[act.Role]);
   return actors.map(
     a =>
       new AddMessageLocalEvent(
-        0, //triggerId, // TODO convert ids to string and pass triggerId here
+        0, // TODO triggerId ?
         time,
-        impact.sender, // TODO sender id
-        'Trigger Manager', // TODO specific name
+        undefined, // TODO sender id ?
+        'Trigger Manager : ' + impact.sender, // TODO specific name ?
         a.Uid,
         impact.message
       )

@@ -21,10 +21,18 @@ function getTestTriggers(): Trigger[] {
           timeSeconds: 120,
         },
       ],
+
       impacts: [
         {
           type: 'notification',
-          role: 'AL',
+          roles: {
+            AL: true,
+            ACS: false,
+            CASU: false,
+            EVASAN: false,
+            LEADPMA: false,
+            MCS: false,
+          },
           sender: 'SENDER',
           delaySeconds: 60,
           message: 'Hey this is a trigger talking to you',

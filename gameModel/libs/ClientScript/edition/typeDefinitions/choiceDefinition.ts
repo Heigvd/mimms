@@ -15,9 +15,9 @@ export function getChoiceDefinition(): ChoiceDefinition {
       defaultEffect: '',
       description: 'description',
       effects: [],
-      label: 'label',
+      title: 'title',
       parent: 'no parent',
-      placeHolder: 'no placeholder', // should there be a default one
+      placeHolder: 'no placeholder', // should there be a default one ?
       tag: 'define tag',
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
@@ -30,11 +30,11 @@ export function getChoiceDefinition(): ChoiceDefinition {
       description: ALL_EDITABLE,
       effects: {
         parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-        impacts: {} as any, // TODO figure out
+        impacts: ALL_EDITABLE,
         tag: ALL_EDITABLE,
         uid: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       },
-      label: ALL_EDITABLE,
+      title: ALL_EDITABLE,
       parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       placeHolder: ALL_EDITABLE,
       tag: ALL_EDITABLE,
