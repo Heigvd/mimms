@@ -5,7 +5,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 // TODO if easier, both action and choice conditions could be grouped
 
 export interface ChoiceCondition extends ConditionBase {
-  type: 'Choice';
+  type: 'choice';
   choiceId: Uid;
   templateId: Uid; // TODO needed ?
   operator: ChoiceActionStatus;

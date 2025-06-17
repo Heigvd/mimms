@@ -23,7 +23,7 @@ export function convertNotificationImpact(
       new AddMessageLocalEvent(
         0, // TODO triggerId ?
         time,
-        undefined, // TODO sender id ?
+        0, // TODO sender id ?
         'Trigger Manager : ' + impact.sender, // TODO specific name ?
         a.Uid,
         impact.message

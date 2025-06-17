@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1749815575021,
+  "createdTime" : 1750170273672,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5383,6 +5383,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/fixedMapEntityTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2276752:IeNZuB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/typeDefinitions/templateDefinitions/fullyConfigurableTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5468,6 +5477,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#84:ASnhzm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2276802:PVO3dT",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

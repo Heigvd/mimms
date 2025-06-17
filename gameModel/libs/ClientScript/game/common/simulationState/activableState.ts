@@ -25,7 +25,9 @@ interface TriggerActivable extends ActivableState<Trigger> {
   count: number;
 }
 
-interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {}
+interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {
+  count: number;
+}
 
 // TODO map entities objects, there might be a sub state such as 'building' as in current implementation
 
@@ -52,7 +54,7 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         uid: descriptor.uid,
         activableType: descriptor.activableType,
         active: descriptor.activeAtStart,
-        //count: 0
+        count: 0,
       };
       return ca;
     case 'trigger':

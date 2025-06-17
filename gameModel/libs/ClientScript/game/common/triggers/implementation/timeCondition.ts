@@ -3,7 +3,7 @@ import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ConditionBase } from '../condition';
 
 export interface TimeCondition extends ConditionBase {
-  type: 'Time';
+  type: 'time';
   operator: '<' | '=' | '>';
   timeSeconds: number;
 }

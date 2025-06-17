@@ -13,23 +13,23 @@ export type ConditionDefinition = MapToDefinition<Condition>;
 export function getConditionDefinition(type: ConditionTypeName): ConditionDefinition {
   // TODO complete all definitions
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
-    Time: getTimeConditionDef(),
-    Action: {} as any,
-    Choice: {} as any,
-    Trigger: {} as any,
+    time: getTimeConditionDef(),
+    action: {} as any,
+    choice: {} as any,
+    trigger: {} as any,
   };
 
   return defs[type]!;
 }
 
-// TODO complete with all condition types
+// TODO complete with all other condition types
 
 function getTimeConditionDef(): Definition<TimeCondition> {
   return {
-    type: 'Time',
+    type: 'time',
     validator: _condition => ({ success: true, messages: [] }),
     getDefault: () => ({
-      type: 'Time',
+      type: 'time',
       operator: '=',
       timeSeconds: 0,
     }),

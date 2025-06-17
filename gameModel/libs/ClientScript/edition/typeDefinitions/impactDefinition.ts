@@ -10,17 +10,8 @@ import {
 
 type ImpactTypeName = MapToTypeNames<Impact>;
 type ImpactDefinition = MapToDefinition<Impact>;
-// ensures a subtype name is mapped the correct subtype
-//type ImpactRecord = MapToRecordByType<Impact>;
 
 export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
-  /*const defs: ImpactRecord = {
-    notification: getNotificationImpactDef(),
-    activation: {} as any, // TODO
-    radio: {} as any, // TODO
-    choice: {} as any // TODO
-  };*/
-
   let definition: ImpactDefinition;
   switch (type) {
     case 'notification':
@@ -29,18 +20,14 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
     case 'activation':
     case 'choice':
     case 'radio':
-      definition = {} as any; // TODO !!
+      definition = {} as any; // TODO specific definitions!!
   }
 
   if (definition?.type !== type) {
-    // TODO some error or warning
+    // TODO error or warning,
   }
 
   return definition;
-
-  // ImpactRecord is technically a Record<ImpactTypeName, ImpactDefinition>
-  // a better typing should be possible, but this cast is correct
-  //return (defs as Record<ImpactTypeName, ImpactDefinition>)[type];
 }
 
 function getNotificationImpactDef(): Definition<NotificationMessageImpact> {

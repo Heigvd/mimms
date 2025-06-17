@@ -3,7 +3,6 @@ import { Trigger } from '../common/triggers/trigger';
 
 export function loadTriggers(): Trigger[] {
   // TODO load from WEGAS variable
-  // TODO load once and cache
   return getTestTriggers();
 }
 
@@ -16,7 +15,7 @@ function getTestTriggers(): Trigger[] {
       priority: 0,
       conditions: [
         {
-          type: 'Time',
+          type: 'time',
           operator: '>',
           timeSeconds: 120,
         },
@@ -52,12 +51,12 @@ function getTestTriggers(): Trigger[] {
       priority: 0,
       conditions: [
         {
-          type: 'Time',
+          type: 'time',
           operator: '>',
           timeSeconds: 60 * 10,
         },
         {
-          type: 'Time',
+          type: 'time',
           operator: '<',
           timeSeconds: 60 * 13,
         },

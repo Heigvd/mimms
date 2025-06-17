@@ -21,13 +21,13 @@ export type Condition = TimeCondition | ActionCondition | ChoiceCondition | Trig
 
 export function evaluateCondition(state: MainSimulationState, condition: Condition) {
   switch (condition.type) {
-    case 'Time':
+    case 'time':
       return evaluateTimeCondition(state, condition);
-    case 'Action':
+    case 'action':
       return evaluateActionCondition(state, condition);
-    case 'Choice':
+    case 'choice':
       return evaluateChoiceCondition(state, condition);
-    case 'Trigger':
+    case 'trigger':
       return evaluateActivable(state, condition.triggerId, condition.operator);
     default:
       triggerLogger.warn('Unknown condition type', condition);

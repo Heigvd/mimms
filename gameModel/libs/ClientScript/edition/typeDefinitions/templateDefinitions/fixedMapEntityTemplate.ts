@@ -1,24 +1,24 @@
-import { FullyConfigurableTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
+import { FixedMapEntityTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { ALL_EDITABLE, Definition } from '../../typeDefinitions/definition';
 
 /**
- * Scenarist fully configurable template, including choices and impacts
+ * Scenarist fixed map entity template
  */
-export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableTemplateDescriptor> {
+export function getFixedMapEntityTemplate(): Definition<FixedMapEntityTemplateDescriptor> {
   return {
-    type: 'FullyConfigurableTemplateDescriptor',
+    type: 'FixedMapEntityTemplateDescriptor',
     getDefault: () => ({
-      type: 'FullyConfigurableTemplateDescriptor',
-      constructorType: 'FullyConfigurableActionTemplate',
+      type: 'FixedMapEntityTemplateDescriptor',
+      constructorType: 'SelectionFixedMapEntityTemplate',
       activableType: 'actionTemplate',
       activeAtStart: true,
       binding: undefined,
       choices: [],
       mandatory: false,
       repeatable: 0,
-      tag: 'new custom template',
+      tag: 'new fixed entity template',
       description: 'some default description', // multilang
       title: 'some default title', // TODO multilang
       uid: generateId(10),

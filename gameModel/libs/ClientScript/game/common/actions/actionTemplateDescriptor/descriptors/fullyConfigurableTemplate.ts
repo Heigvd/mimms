@@ -7,10 +7,10 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
   constructorType: 'FullyConfigurableActionTemplate'; // could be a union type with other constructor types
 }
 
-export function buildFullyConfigurableTemplate(
+export function createFullyConfigurableTemplate(
   _descriptor: FullyConfigurableTemplateDescriptor
 ): MoveActorActionTemplate {
-  // TODO implement the real class
+  // TODO implement the real class, wrong one here for compilation purposes
   return new MoveActorActionTemplate(
     'move-actor-title',
     'move-actor-desc',

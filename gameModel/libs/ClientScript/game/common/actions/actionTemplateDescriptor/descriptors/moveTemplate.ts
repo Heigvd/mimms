@@ -9,7 +9,7 @@ export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
 
 // convert descriptor TODO complete implementation
 
-export function buildMoveActorTemplate(
+export function createMoveActorTemplate(
   _descriptor: MoveActorTemplateDescriptor
 ): MoveActorActionTemplate {
   return new MoveActorActionTemplate(

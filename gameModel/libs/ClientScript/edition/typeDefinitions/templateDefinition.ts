@@ -1,21 +1,21 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { MapToDefinition, MapToTypeNames } from '../typeDefinitions/definition';
-import { getFullConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
+import { getFixedMapEntityTemplate } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
+import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 
 type TemplateDescriptorTypeName = MapToTypeNames<TemplateDescriptor>;
 type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
-//type TemplateDefinitionRecord = MapToRecordByType<TemplateDescriptor>;
 
 export function getTemplateDef(type: TemplateDescriptorTypeName): TemplateDefinition | undefined {
-  // TODO choose implementation between switch or TemplateDefinitionRecord (see ImpactDefinition)
-
   switch (type) {
     case 'FullyConfigurableTemplateDescriptor':
-      return getFullConfigurableTemplateDef();
+      return getFullyConfigurableTemplateDef();
     case 'MoveActorTemplateDescriptor':
       return getMoveTemplateDef();
+    case 'FixedMapEntityTemplateDescriptor':
+      return getFixedMapEntityTemplate();
     default:
       scenarioEditionLogger.error('Unknown type name for template descriptor', type);
   }
