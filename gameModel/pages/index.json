@@ -312,6 +312,12 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
+        "id" : "30",
+        "name" : "Menu",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
