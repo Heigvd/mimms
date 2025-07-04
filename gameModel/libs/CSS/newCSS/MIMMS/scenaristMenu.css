@@ -1,0 +1,79 @@
+.scenarist-menu-container--open {
+  width: 17%;
+  min-width: 16rem;
+  height: 100%;
+  background-color: var(--grey_0);
+}
+
+.scenarist-menu-container--closed {
+  width: 3.75rem;
+  min-width: 3.75rem;
+  height: 100%;
+  background-color: var(--grey_0);
+}
+
+.scenarist-menu-item {
+  position: relative;
+  width: 100%;
+  padding: 3.375rem 1rem 0 .5rem;
+}
+
+.scenarist-menu__open-close {
+  width: 1.25rem;
+  height: 1.25rem;
+  top: -2.25rem;
+  right: -1.625rem;
+  border-radius: var(--XS_borderRadius);
+  z-index: 10;
+}
+
+.scenarist-menu__open-close svg {
+  color: var(--grey_0);
+}
+
+.scenarist-menu-container--closed .scenarist-menu__open-close svg {
+  transform: rotate(180deg);
+}
+
+.scenarist-menu-button {
+  width: 100%;
+  padding: 13px 17px;
+  font-weight: var(--boldWeight);
+  color: var(--primary_30);
+  background-color: var(--grey_0);
+  border-radius: .5rem;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button p {
+  margin: 0 0 0 1rem;
+}
+
+.scenarist-menu-container--closed .scenarist-menu-button p {
+  display: none;
+}
+
+.scenarist-menu-button:hover {
+  color: var(--primary_base);
+  background-color: var(--grey_0);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button--active {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button--active:hover {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+
+/*   P A G E  L O A D E R   */
+
+.scenarist-page-loader {
+  flex: 1;
+}
