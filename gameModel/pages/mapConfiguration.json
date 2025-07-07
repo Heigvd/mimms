@@ -352,6 +352,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "height" : "100%",
               "width" : "100%"
@@ -366,6 +367,7 @@
           "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\n({mapId: getMapConfig()?.mapId});",
           "language" : "TypeScript"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "height" : "100%",
           "width" : "100%"
@@ -378,6 +380,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

@@ -1,48 +1,71 @@
 .scenarist-menu-container--open {
   width: 17%;
   min-width: 16rem;
-  height: 100%;
   background-color: var(--grey_0);
+  transition: width .3s ease-in-out;
 }
 
 .scenarist-menu-container--closed {
   width: 3.75rem;
   min-width: 3.75rem;
-  height: 100%;
   background-color: var(--grey_0);
+  transition: width .3s ease-in-out;
 }
 
-.scenarist-menu-item {
-  position: relative;
+.scenarist-menu-item--open {
   width: 100%;
   padding: 3.375rem 1rem 0 .5rem;
 }
 
-.scenarist-menu__open-close {
+.scenarist-menu-item--closed {
+  width: 100%;
+  padding: 3.375rem .5rem 0 .5rem;
+}
+
+.scenarist-menu__angle-button {
   width: 1.25rem;
   height: 1.25rem;
   top: -2.25rem;
-  right: -1.625rem;
   border-radius: var(--XS_borderRadius);
-  z-index: 10;
 }
 
-.scenarist-menu__open-close svg {
+.scenarist-menu__angle-button--open {
+  right: -1.625rem;
+}
+
+.scenarist-menu__angle-button--closed {
+  right: -1.125rem;
+}
+
+.scenarist-menu__angle-button svg {
   color: var(--grey_0);
+  transform: rotate(0deg);
+  transition: transform .3s ease-in-out;
 }
 
-.scenarist-menu-container--closed .scenarist-menu__open-close svg {
+.scenarist-menu-container--closed .scenarist-menu__angle-button svg {
   transform: rotate(180deg);
+  transition: transform .3s ease-in-out;
 }
 
 .scenarist-menu-button {
-  width: 100%;
-  padding: 13px 17px;
   font-weight: var(--boldWeight);
   color: var(--primary_30);
   background-color: var(--grey_0);
   border-radius: .5rem;
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button--open {
+  width: 100%;
+  padding: 13px 17px;
+}
+
+.scenarist-menu-button--closed {
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  /*padding: 0;*/
 }
 
 .scenarist-menu-button p {
@@ -59,12 +82,7 @@
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
-.scenarist-menu-button--active {
-  color: var(--primary_base);
-  background-color: var(--primary_10);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
-}
-
+.scenarist-menu-button--active,
 .scenarist-menu-button--active:hover {
   color: var(--primary_base);
   background-color: var(--primary_10);
