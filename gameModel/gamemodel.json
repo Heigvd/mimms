@@ -6895,6 +6895,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/mapConfiguration",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2361601:MFPaTG",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/menu",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7280,7 +7289,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-416",
+  "name" : "MIM-442",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
