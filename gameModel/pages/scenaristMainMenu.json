@@ -426,7 +426,7 @@
             "exposePageSizeAs" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n  let page: string;\n  switch (getCurrentPage()) {\n      case 'map': page = 'mapConfiguration'; break;\n      case 'patients': page = 'patientGeneration'; break;\n      case 'hospitals': page = 'hospitalsConfig'; break;\n      case 'resources': page = 'resourcesConfiguration'; break;\n      default: page = 'mapConfiguration';\n  }\n  page;",
+              "content" : "import { displayCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ndisplayCurrentPage();",
               "language" : "typescript"
             },
             "layoutClassName" : "scenarist-page-loader",

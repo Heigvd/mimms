@@ -13,6 +13,36 @@ export function getCurrentPage(): Page {
   return Context.menu.state.page;
 }
 
+export function displayCurrentPage(): string {
+  let Page: string;
+  switch (getCurrentPage()) {
+    case 'map':
+      Page = 'mapConfiguration';
+      break;
+    case 'locations':
+      Page = 'locationsConfiguration';
+      break;
+    case 'triggers':
+      Page = 'triggersConfiguration';
+      break;
+    case 'actions':
+      Page = 'actionsConfiguration';
+      break;
+    case 'patients':
+      Page = 'patientGeneration';
+      break;
+    case 'hospitals':
+      Page = 'hospitalsConfig';
+      break;
+    case 'resources':
+      Page = 'resourcesConfiguration';
+      break;
+    default:
+      Page = 'mapConfiguration';
+  }
+  return Page;
+}
+
 export function toggleMenu() {
   const newState = Helpers.cloneDeep(Context.menu.state);
   newState.menu = !newState.menu;
