@@ -121,20 +121,23 @@ export class GameExecutionContext {
       event.payload.triggerTime = now;
     }
 
+    let newState: MainSimulationState;
     try {
       const localEvents = conversionFunc(event);
       this.getLocalEventManager().queueLocalEvents(localEvents);
-      const newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
-      mainSimLogger.info(
-        'Updated state (count, lastEventId)',
-        newState.stateCount,
-        newState.getLastEventId()
-      );
-      this.updateCurrentState(newState);
+      newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
     } catch (error) {
       mainSimLogger.error('Error while processing event', event, error);
+      // build a new state with the failed event's id anyway
+      // such that next events can be processed
+      newState = currentState.createNext(event.id);
     }
-
+    mainSimLogger.info(
+      'Updated state (count, lastEventId)',
+      newState.stateCount,
+      newState.getLastEventId()
+    );
+    this.updateCurrentState(newState);
     this.processedEvents[event.id] = event;
   }
 
