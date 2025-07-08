@@ -29,7 +29,7 @@ export interface InterfaceState {
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   situationUpdateDuration: number;
-  getHospitalInfoChosenProximity: HospitalProximity | undefined;
+  hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
@@ -107,7 +107,7 @@ export function getInitialInterfaceState(): InterfaceState {
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     situationUpdateDuration: getDefaultSituationUpdateDuration(),
-    getHospitalInfoChosenProximity: undefined,
+    hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,

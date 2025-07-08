@@ -42,6 +42,7 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
+import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -49,8 +50,8 @@ import { SelectedPanel } from './selectedPanel';
  * @params ActionTemplateBase action being launched
  */
 // used in several pages
-export function runActionButton(action: ActionTemplateBase): void {
-  if (!isAvailable(action)) {
+export function runActionButton(action: ActionTemplateBase | undefined): void {
+  if (!action || !isAvailable(action)) {
     actionLogger.debug('action not available ' + JSON.stringify(action?.getTitle()));
     return;
   }
@@ -178,24 +179,23 @@ function fetchMoveResourcesAssignTaskValues() {
  * @returns CasuMessagePayload
  */
 function fetchCasuMessageRequestValues(): CasuMessagePayload {
-  const casuMessage = Context.interfaceState.state.casuMessage;
-  const request = Context.interfaceState.state.resources.requestedResources;
-  const hospitalProximity = Context.interfaceState.state.getHospitalInfoChosenProximity;
+  const { casuMessage, resources, hospitalInfoChosenProximity } = getTypedInterfaceState();
 
   // For now only case where CasuMessage isn't METHANE related
   if (casuMessage.messageType === 'R') {
     const payload: HospitalRequestPayload = {
       messageType: casuMessage.messageType,
-      proximity: hospitalProximity,
+      proximity: hospitalInfoChosenProximity || HospitalProximity.International,
     };
 
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
-    newState.getHospitalInfoChosenProximity = undefined;
+    newState.hospitalInfoChosenProximity = undefined;
     Context.interfaceState.setState(newState);
 
     return payload;
   } else {
-    const payload: MethaneMessagePayload = { messageType: casuMessage.messageType };
+    const msgType = casuMessage.messageType as 'METHANE' | 'MET' | 'HANE' | 'E';
+    const payload: MethaneMessagePayload = { messageType: msgType };
 
     if (casuMessage.messageType.startsWith('MET')) {
       payload.major = casuMessage.major;
@@ -208,7 +208,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
       payload.victims = casuMessage.victims;
     }
     if (casuMessage.messageType.endsWith('E')) {
-      payload.resourceRequest = request;
+      payload.resourceRequest = resources.requestedResources;
     }
 
     // Reset interfaceState

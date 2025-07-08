@@ -42,7 +42,7 @@ export function resolveResourceRequest(
   state: MainSimulationState,
   globalEventId: GlobalEventId,
   senderId: ActorId | undefined,
-  request: Record<ResourceContainerType, number>
+  request: Partial<Record<ResourceContainerType, number>>
 ) {
   const containers = state.getResourceContainersByType();
   const now = state.getSimTime();
@@ -69,16 +69,17 @@ export function resolveResourceRequest(
   }
 
   entries(request)
-    .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
+    .filter(([_typeId, requestedAmount]) => requestedAmount ?? 0 > 0)
     .forEach(([typeId, requestedAmount]) => {
+      const reqAmount = requestedAmount || 0;
       // fetch the containers that still have an amount
       const cs: ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
       // ordered by time of availability
       cs.sort((a, b) => a.availabilityTime - b.availabilityTime);
       let foundAmount = 0;
-      for (let i = 0; i < cs.length && foundAmount < requestedAmount; i++) {
+      for (let i = 0; i < cs.length && foundAmount < reqAmount; i++) {
         const c = cs[i]!;
-        const n = Math.min(requestedAmount - foundAmount, c.amount);
+        const n = Math.min(reqAmount - foundAmount, c.amount);
         // n > 0 by construction
         foundAmount += n;
         c.amount -= n; // !!! STATE CHANGE HERE !!!

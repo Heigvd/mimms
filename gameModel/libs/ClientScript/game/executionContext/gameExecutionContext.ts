@@ -26,8 +26,19 @@ export class GameExecutionContext {
     this.updateCurrentState(initialState);
   }
 
-  private updateCurrentState(newState: MainSimulationState): void {
+  private updateCurrentState(
+    newState: MainSimulationState,
+    event?: FullEvent<TimedEventPayload>
+  ): void {
+    mainSimLogger.info(
+      'Updated state (count, lastEventId)',
+      newState.stateCount,
+      newState.getLastEventId()
+    );
     this.stateHistory.push(newState);
+    if (event) {
+      this.processedEvents[event.id] = event;
+    }
   }
 
   private getLastEventId(): number {
@@ -109,6 +120,7 @@ export class GameExecutionContext {
         mainSimLogger.warn(
           'Likely due to a TimeForwardEvent that has jumped over an existing event => BUG'
         );
+        this.updateCurrentState(currentState.createNext(event.id), event);
         return;
       } else if (event.payload.triggerTime > now) {
         mainSimLogger.warn(`current sim time ${now}, ignoring event : `, event);
@@ -132,13 +144,7 @@ export class GameExecutionContext {
       // such that next events can be processed
       newState = currentState.createNext(event.id);
     }
-    mainSimLogger.info(
-      'Updated state (count, lastEventId)',
-      newState.stateCount,
-      newState.getLastEventId()
-    );
-    this.updateCurrentState(newState);
-    this.processedEvents[event.id] = event;
+    this.updateCurrentState(newState, event);
   }
 
   public getLocalEventManager(): LocalEventManager {

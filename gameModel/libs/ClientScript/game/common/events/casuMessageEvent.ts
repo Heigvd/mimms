@@ -13,7 +13,7 @@ export interface MethaneMessagePayload {
   hazards?: string;
   access?: string;
   victims?: string;
-  resourceRequest?: Record<ResourceContainerType, number>;
+  resourceRequest?: Partial<Record<ResourceContainerType, number>>;
 }
 
 export interface HospitalRequestPayload {

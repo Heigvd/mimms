@@ -213,3 +213,11 @@ export function isPretriageReportTemplate(template: ActionTemplateBase | undefin
 export function isPCFrontBuilt(): boolean {
   return getCurrentState().isSimFlagEnabled(SimFlag.PCFRONT_BUILT);
 }
+
+export function isMethaneSendDisabled(): boolean {
+  if (canCancel(uniqueActionTemplates()?.CasuMessageTemplate)) {
+    return false;
+  }
+  const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
+  return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
+}
