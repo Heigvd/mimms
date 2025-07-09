@@ -7298,7 +7298,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-443",
+  "name" : "MIM-439",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
