@@ -312,10 +312,34 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
+        "id" : "scenaristMainMenu",
+        "name" : "Menu",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
         "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "locationsConfiguration",
+        "name" : "Locations",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "triggersConfiguration",
+        "name" : "Triggers",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "actionsConfiguration",
+        "name" : "Actions",
+        "scenaristPage" : null,
+        "trainerPage" : null
       }, {
         "@class" : "Page",
         "id" : "hospitalsConfig",
