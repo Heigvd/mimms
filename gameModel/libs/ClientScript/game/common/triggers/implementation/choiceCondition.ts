@@ -1,0 +1,29 @@
+import { Uid } from '../../interfaces';
+import { MainSimulationState } from '../../simulationState/mainSimulationState';
+import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../condition';
+
+// TODO if easier, both action and choice conditions could be grouped
+
+export interface ChoiceCondition extends ConditionBase {
+  type: 'choice';
+  choiceId: Uid;
+  templateId: Uid; // TODO needed ?
+  operator: ChoiceActionStatus;
+}
+
+export function evaluateChoiceCondition(
+  state: MainSimulationState,
+  condition: ChoiceCondition
+): boolean {
+  switch (condition.operator) {
+    case 'active':
+    case 'inactive':
+      return evaluateActivable(state, condition.choiceId, condition.operator);
+
+    // TODO timeline fetch and check status
+    case 'completed once':
+    case 'never planned':
+    case 'ongoing':
+  }
+  return false;
+}
