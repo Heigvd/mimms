@@ -113,15 +113,14 @@ var TimeManager = (function () {
       Variable.find(gameModel, 'running_global').setValue(self, false);
     },
     toggleRunningGlobal: function () {
-
-			if(MimmsHelper.isDrillMode()){
-				var runningGlobal = Variable.find(gameModel, 'running_global').getValue(self);
-				if(runningGlobal) {
-					this.globalPause();
-				}else {
-					this.globalStart();
-				}
-			}
+      if (MimmsHelper.isDrillMode()) {
+        var runningGlobal = Variable.find(gameModel, 'running_global').getValue(self);
+        if (runningGlobal) {
+          this.globalPause();
+        } else {
+          this.globalStart();
+        }
+      }
     },
     /**
      * Restore simulation when players return

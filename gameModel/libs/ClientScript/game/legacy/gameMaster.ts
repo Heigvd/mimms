@@ -8,7 +8,6 @@ export function getDrillType(): DrillType {
   return Variable.find(gameModel, 'drillType').getValue(self) as DrillType;
 }
 
-
 export function isDrillMode(): boolean {
   return Variable.find(gameModel, 'gameMode').getValue(self) === 'pretriMode';
 }
