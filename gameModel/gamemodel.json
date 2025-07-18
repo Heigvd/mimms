@@ -1505,23 +1505,6 @@
         "@class" : "EnumItem",
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24054870:e8Kmjs",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24054870:e8Kmjs::EN",
-              "status" : "",
-              "translation" : "PRE-TRIAGE_ON_MAP"
-            }
-          }
-        },
-        "name" : "PRE-TRIAGE_ON_MAP",
-        "refId" : "EnumItem:#1:Bqd0Tl"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24070154:KkHDNB",
           "translations" : {
             "EN" : {

@@ -1,4 +1,3 @@
-import { isRealLifeGame } from './gameMaster';
 import { syncWorld } from './the_world';
 
 const timeLogger = Helpers.getLogger('TimeManager');
@@ -11,7 +10,7 @@ const KEEPALIVE_DELAY_S = 60; // 30 sec
 let delta_epoch: number | undefined = undefined;
 let currentTime_s = 0;
 
-type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'REPLAY' | 'IDLE' | 'REPLAY_DONE';
+type RunningMode = 'GLOBAL_PAUSE' | 'TEAM_PAUSE' | 'RUNNING' | 'IDLE';
 
 interface TimeStatus {
   mode: RunningMode;
@@ -59,53 +58,26 @@ function getTimeStatus(): TimeStatus {
   if (Variable.find(gameModel, 'running_global').getValue(self)) {
     // Is globally running
 
-    const realLifeTime = isRealLifeGame();
-    if (realLifeTime) {
-      return {
-        mode: 'RUNNING',
-        currentTime: computeRawSimulationTime(),
-      };
-    }
-
     if (Variable.find(gameModel, 'running').getValue(self)) {
       // Is locally running
-      const replayMode = Variable.find(gameModel, 'replay').getValue(self);
       const currentRawSimTime = computeRawSimulationTime();
 
-      if (replayMode) {
-        // in replay mode, auto stop if limit has been reached
-        const replayUpTo = Variable.find(gameModel, 'upTo_inSim_ref').getValue(self);
-        if (currentRawSimTime < replayUpTo) {
-          timeLogger.debug('Replay : ', currentRawSimTime);
-          return {
-            mode: 'REPLAY',
-            currentTime: currentRawSimTime,
-          };
-        } else {
-          timeLogger.debug('Replay limit reached : ', replayUpTo);
-          return {
-            mode: 'REPLAY_DONE',
-            currentTime: replayUpTo,
-          };
-        }
+      const keepalive = Variable.find(gameModel, 'keepalive').getValue(self);
+
+      const delta = currentRawSimTime - keepalive;
+
+      if (delta < KEEPALIVE_DELAY_S) {
+        timeLogger.debug('Keepalive is valid ', currentRawSimTime);
+        return {
+          mode: 'RUNNING',
+          currentTime: currentRawSimTime,
+        };
       } else {
-        const keepalive = Variable.find(gameModel, 'keepalive').getValue(self);
-
-        const delta = currentRawSimTime - keepalive;
-
-        if (delta < KEEPALIVE_DELAY_S) {
-          timeLogger.debug('Keepalive is valid ', currentRawSimTime);
-          return {
-            mode: 'RUNNING',
-            currentTime: currentRawSimTime,
-          };
-        } else {
-          // NOT ALIVE
-          return {
-            mode: 'IDLE',
-            currentTime: keepalive + KEEPALIVE_DELAY_S,
-          };
-        }
+        // NOT ALIVE
+        return {
+          mode: 'IDLE',
+          currentTime: keepalive + KEEPALIVE_DELAY_S,
+        };
       }
     } else {
       return {
@@ -167,7 +139,7 @@ Helpers.registerEffect(() => {
  */
 export function isRunning(): boolean {
   const status = getTimeStatus();
-  return status.mode === 'REPLAY' || status.mode === 'RUNNING';
+  return status.mode === 'RUNNING';
 }
 
 export function registerSetStateAndThrottle(setTime: WorldTimeSetter) {

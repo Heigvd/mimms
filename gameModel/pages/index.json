@@ -66,12 +66,6 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "21",
-          "name" : "time_toolbar",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "6",
           "name" : "zoom, medical care",
           "scenaristPage" : null,
