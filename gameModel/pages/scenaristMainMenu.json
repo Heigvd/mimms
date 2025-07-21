@@ -431,6 +431,7 @@
             },
             "layoutClassName" : "scenarist-page-loader",
             "layoutStyle" : {
+              "overflow" : "auto",
               "padding" : "0 0 0 2rem"
             },
             "name" : "Page Content",
@@ -457,12 +458,8 @@
     "layout" : {
       "flexDirection" : "row"
     },
-    "layoutClassName" : "noPadding scenarist-menu",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "fullSize noPadding scenarist-menu",
+    "layoutStyle" : { },
     "name" : "Menu Page",
     "style" : { }
   },
