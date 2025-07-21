@@ -144,19 +144,12 @@ function shouldInstantiateWhoAmI(): boolean {
     const drillType = getDrillType();
     switch (drillType) {
       case 'PRE-TRIAGE':
-      case 'PRE-TRIAGE_ON_MAP':
         return true;
       case 'LIKERT':
         return false;
     }
-  } else {
-    // in multiplayer modes, whoAmI instantiation is triggered by users
-    // RealLife with QR Code: player scan the profile code
-    // software simulation: exact behaviour to be defined
-    // either the player will choose its profile itself
-    // either the trainer will choose for it
-    return false;
   }
+  return false;
 }
 
 export function whoAmI(): string {
@@ -468,11 +461,6 @@ export function getBagDefinition(bagId: string) {
  * Get character skills
  */
 export function getHumanSkillDefinition(humanId: string): SkillDefinition {
-  // todo: once character instanction is alive, remove this code !
-  /*if(getDrillType() === 'PRE-TRIAGE') {
-		const skillId = Variable.find(gameModel, 'skill').getValue(self);
-		return getSkillDefinition(skillId);
-	}*/
   const humanDef = getBodyParam(humanId);
   const skillId = humanDef?.skillId;
   return getSkillDefinition(skillId);

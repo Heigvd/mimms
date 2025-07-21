@@ -107,33 +107,6 @@ var EventManager = (function () {
     return payload;
   }
 
-  function runScenario(player) {
-    lock();
-    var thePlayer = player || self;
-
-    var alreadyDone = Variable.find(gameModel, 'scenarioRevived').getValue(thePlayer);
-    if (!alreadyDone) {
-      var emitter = {
-        emitterCharacterId: '',
-        emitterPlayerId: thePlayer.getId(),
-      };
-      var patients = getParsedPatients();
-      for (var i in patients) {
-        var patient = patients[i];
-        var events = patient.data.scriptedEvents;
-        if (events) {
-          for (var j in events) {
-            var event = events[j];
-            var payload = revivePayload(emitter, patient.id, event);
-            sendEvent(payload, event.time, thePlayer);
-          }
-        }
-      }
-
-      Variable.find(gameModel, 'scenarioRevived').setValue(thePlayer, true);
-    }
-  }
-
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   function generateRandomId(length) {
@@ -206,7 +179,6 @@ var EventManager = (function () {
 
   return {
     instantiateCharacter: instantiateCharacter,
-    runScenario: runScenario,
     postNewEvent: sendNewEvent,
   };
 })();

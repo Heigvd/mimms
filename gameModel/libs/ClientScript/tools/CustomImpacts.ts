@@ -138,18 +138,6 @@ Helpers.registerEffect(() => {
     returns: undefined,
   });
 
-  ServerMethods.registerGlobalMethod(['TimeManager'], 'enterReplay', {
-    label: 'Start replay from tZero',
-    parameters: [],
-    returns: undefined,
-  });
-
-  ServerMethods.registerGlobalMethod(['TimeManager'], 'quitReplay', {
-    label: 'Stop replaying and restore LIVE time',
-    parameters: [],
-    returns: undefined,
-  });
-
   /**
    * afflictPathology: function (humanId, pathologyId, blocks, time);
    */

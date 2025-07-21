@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744831176447,
+  "createdTime" : 1752854915043,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -988,131 +988,6 @@
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098823:J6ILgH",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098823:J6ILgH::EN",
-              "status" : "",
-              "translation" : "Patient"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098823:J6ILgH::FR",
-              "status" : "",
-              "translation" : "Patient"
-            }
-          }
-        },
-        "name" : "PATIENT",
-        "refId" : "EnumItem:24098822:v81x94"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098825:Xo4W2n",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098825:Xo4W2n::EN",
-              "status" : "",
-              "translation" : "Health squad"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098825:Xo4W2n::FR",
-              "status" : "",
-              "translation" : "Brigade sanitaire"
-            }
-          }
-        },
-        "name" : "HEALTH_SQUAD",
-        "refId" : "EnumItem:24098824:cxPMer"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098830:OQk7Oj",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098830:OQk7Oj::EN",
-              "status" : "",
-              "translation" : "None"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098830:OQk7Oj::FR",
-              "status" : "",
-              "translation" : "Aucun"
-            }
-          }
-        },
-        "name" : "NONE",
-        "refId" : "EnumItem:#2:0aBRsh"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24107252:8udMMl",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24107252:8udMMl::EN",
-              "status" : "",
-              "translation" : "Observer"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24107252:8udMMl::FR",
-              "status" : "",
-              "translation" : "Observateur"
-            }
-          }
-        },
-        "name" : "OBSERVER",
-        "refId" : "EnumItem:#3:PAjxEf"
-      } ],
-      "broadcastScope" : "PlayerScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:24098819:BjuOZm",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098820:zZ109x",
-          "translations" : { }
-        }
-      },
-      "editorTag" : "Real-Life Role",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098821:vhMvms",
-        "translations" : { }
-      },
-      "maxSelectable" : 1,
-      "name" : "realLifeRole",
-      "refId" : "StringDescriptor:24098818:EdlIrE",
-      "scopeType" : "PlayerScope",
-      "sortable" : false,
-      "validationPattern" : null,
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "TeamScope",
       "comments" : "",
@@ -1505,23 +1380,6 @@
         "@class" : "EnumItem",
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24054870:e8Kmjs",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24054870:e8Kmjs::EN",
-              "status" : "",
-              "translation" : "PRE-TRIAGE_ON_MAP"
-            }
-          }
-        },
-        "name" : "PRE-TRIAGE_ON_MAP",
-        "refId" : "EnumItem:#1:Bqd0Tl"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24070154:KkHDNB",
           "translations" : {
             "EN" : {
@@ -1701,91 +1559,6 @@
       "name" : "finished_custom_text",
       "refId" : "TextDescriptor:26620158:7cwtor",
       "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098800:NkmJci",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098800:NkmJci::EN",
-              "status" : "",
-              "translation" : "real-life game (QR code)"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098800:NkmJci::FR",
-              "status" : "",
-              "translation" : "Grandeur nature (avec code QR)"
-            }
-          }
-        },
-        "name" : "REAL_LIFE",
-        "refId" : "EnumItem:24098799:k3wPkO"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098805:w7rR12",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098805:w7rR12::EN",
-              "status" : "",
-              "translation" : "Software simulation"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098805:w7rR12::FR",
-              "status" : "",
-              "translation" : "Simulation logicielle"
-            }
-          }
-        },
-        "name" : "SOFTWARE",
-        "refId" : "EnumItem:#1:1Pyyxm"
-      } ],
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:24098796:HvH0KW",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098797:fh1vcJ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098797:fh1vcJ::EN",
-              "status" : "",
-              "translation" : "REAL_LIFE"
-            }
-          }
-        }
-      },
-      "editorTag" : "multiplayerMode",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098798:NqjBsa",
-        "translations" : { }
-      },
-      "maxSelectable" : 1,
-      "name" : "multiplayerMode",
-      "refId" : "StringDescriptor:24098795:J9bZEX",
-      "scopeType" : "GameModelScope",
-      "sortable" : false,
-      "validationPattern" : null,
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1993,53 +1766,6 @@
         "minValue" : null,
         "name" : "keepalive",
         "refId" : "NumberDescriptor:24069462:7eEV5K",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "NumberDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "NumberInstance",
-          "history" : [ ],
-          "refId" : "NumberInstance:24069478:1EcSpN",
-          "value" : 0.0
-        },
-        "defaultValue" : 0.0,
-        "editorTag" : "",
-        "historySize" : 20,
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24069479:V87vn1",
-          "translations" : { }
-        },
-        "maxValue" : null,
-        "minValue" : null,
-        "name" : "upTo_inSim_ref",
-        "refId" : "NumberDescriptor:24069477:jyIJtC",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:24069458:0fp1YW",
-          "value" : false
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24069459:wHf4hO",
-          "translations" : { }
-        },
-        "name" : "replay",
-        "refId" : "BooleanDescriptor:24069457:XLcG0f",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -7298,13 +7024,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-440",
+  "name" : "MIMMS - Dev",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,
