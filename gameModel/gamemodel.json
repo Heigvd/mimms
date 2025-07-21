@@ -7024,7 +7024,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-413",
+  "name" : "MIMMS - Dev",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

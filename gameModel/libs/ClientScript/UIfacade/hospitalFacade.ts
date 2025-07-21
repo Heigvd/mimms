@@ -154,7 +154,7 @@ export function createHospital() {
  * Get hospital index
  */
 export function getHospitalIndex(id: HospitalId) {
-  return getHospitalById(id).index;
+  return getHospitalById(id)?.index;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ export function createPatientUnit() {
  * Get patient unit index
  */
 export function getPatientUnitIndex(id: PatientUnitId) {
-  return getPatientUnitById(id).index;
+  return getPatientUnitById(id)?.index;
 }
 
 // -------------------------------------------------------------------------------------------------
