@@ -21,9 +21,9 @@
   background-color: var(--primary_base);
 }
 
-.accordion-header:focus {
+/*.accordion-header:focus {
   background-color: var(--primary_base);
-}
+}*/
 
 .accordion-header svg {
   position: absolute;
@@ -146,7 +146,6 @@ div .button-closed {
 .line-container {
   display: inline-block;
   transition: width 0.3s ease-in-out;
-
 }
 
 .line {
@@ -158,11 +157,13 @@ div .button-closed {
   font-size: var(--SM_text);
   font-weight: 900;
   color: var(--grey_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
 .line:hover {
   color: var(--primary_base);
   background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
 .line-left-cell {
@@ -200,9 +201,9 @@ div .button-closed {
   box-sizing: border-box;
 }
 
-.table-input-container input {
+/*.table-input-container input {
   text-align: center;
-}
+}*/
 
 .line:hover .table-input-container input,
 .line:hover .wegas-select__single-value,

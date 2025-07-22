@@ -1,0 +1,467 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "noPadding scenarist-menu__angle-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu__angle-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu__angle-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "angle-left",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleMenu } from \"./UIfacade/scenaristMenuFacade\";\n\ntoggleMenu();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Open - Close",
+                "style" : {
+                  "backgroundColor" : "var(--primary_30)",
+                  "position" : "absolute"
+                }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'map';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "map",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Map</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('map');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Map",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'locations';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "map-marker-alt",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Locations</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('locations');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Locations",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'triggers';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "calendar",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Triggers</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('triggers');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Triggers",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'actions';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "bolt",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Actions</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('actions');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Actions",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'patients';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "bed",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Patients</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('patients');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Patients",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'hospitals';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "hospital-alt",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Hospitals</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('hospitals');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Hospitals",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'resources';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "users",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Resources</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('resources');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Resources",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "scenarist-menu-container--open",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Outside",
+              "className" : "scenarist-menu-container--closed",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "scenarist-menu-item--open",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                "language" : "typescript"
+              }
+            }, {
+              "applyOn" : "Inside",
+              "className" : "scenarist-menu-item--closed",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                "language" : "typescript"
+              }
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "position" : "relative"
+            },
+            "name" : "Menu",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "import { displayCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ndisplayCurrentPage();",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "scenarist-page-loader",
+            "layoutStyle" : {
+              "overflow" : "auto",
+              "padding" : "0 0 0 2rem"
+            },
+            "name" : "Page Content",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "exposeAs" : "menu",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "({ \n    page: \"map\"\n  });",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding fullSize",
+        "layoutStyle" : { },
+        "localState" : true,
+        "name" : "Menu",
+        "style" : {
+          "display" : "flex"
+        }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "row"
+    },
+    "layoutClassName" : "fullSize noPadding scenarist-menu",
+    "layoutStyle" : { },
+    "name" : "Menu Page",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

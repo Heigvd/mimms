@@ -640,6 +640,21 @@
                         "className" : "header-left-cell",
                         "id" : "",
                         "layoutStyle" : { },
+                        "name" : "index",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { totalExistingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"<p>Index<br>\" + totalExistingPatients() +\" patients</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "header-text",
+                        "id" : "",
+                        "layoutClassName" : "header-text-container",
+                        "layoutStyle" : { },
                         "name" : "tag",
                         "style" : { },
                         "text" : {
@@ -826,6 +841,20 @@
                     "children" : [ {
                       "props" : {
                         "className" : "line-left-cell",
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "index",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  String(Context.patient.index);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "line-text",
                         "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "id",

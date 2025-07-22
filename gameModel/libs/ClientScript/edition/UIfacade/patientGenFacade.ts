@@ -66,11 +66,16 @@ Helpers.registerEffect(() => {
 export function getPatientsSamples(): PatientEntry[] {
   const genCtx = getGenCtx();
   const sortFunc = sortFunctions[genCtx?.state?.sort || 'id'];
+  let i = 1;
   return Object.entries(patientsSamplesCache)
     .map(([id, ps]) => {
       return { id: id, samples: ps, params: patientsBodyParamsCache[id]! };
     })
-    .sort(sortFunc);
+    .sort(sortFunc)
+    .map(entry => ({
+      ...entry,
+      index: i++,
+    }));
 }
 
 export function getPatientTotal(): { id: STANDARD_CATEGORY; count: number }[] {
