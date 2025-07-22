@@ -399,7 +399,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     if (message.resourceRequest) {
       let requestResource = 'E - ';
       entries(message.resourceRequest)
-        .filter(([_, a]) => a > 0)
+        .filter(([_, a]) => a ?? 0 > 0)
         .forEach(([typeId, requestedAmount]) => {
           requestResource += `${typeId}: ${requestedAmount} \n`;
         });

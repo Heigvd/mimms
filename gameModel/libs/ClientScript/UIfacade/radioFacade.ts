@@ -103,11 +103,11 @@ export function showActionParamsPanel(action: CasuAction): string {
 }
 
 export function getSelectedProximity(): HospitalProximity | undefined {
-  return getTypedInterfaceState().getHospitalInfoChosenProximity;
+  return getTypedInterfaceState().hospitalInfoChosenProximity;
 }
 
 export function setSelectedProximity(proximity: HospitalProximity): void {
-  setInterfaceState({ getHospitalInfoChosenProximity: proximity });
+  setInterfaceState({ hospitalInfoChosenProximity: proximity });
 }
 
 // -------------------------------------------------------------------------------------------------

@@ -630,6 +630,11 @@
                     "language" : "typescript"
                   }
                 } ],
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nisMethaneSendDisabled();",
+                  "language" : "typescript"
+                },
                 "label" : {
                   "@class" : "Script",
                   "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates()?.CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
