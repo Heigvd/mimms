@@ -443,25 +443,25 @@ div .button-closed-locations {
 }
 
 .title-dropdown .wegas-select__control,
-.title-dropdown .css-2rmndj-control,
-.title-dropdown .css-1hwfws3,
-.title-dropdown .css-1wy0on6 {
+.title-dropdown .wegas-select__value-container,
+.title-dropdown .wegas-select__value-container--has-value,
+.title-dropdown .wegas-select__indicators {
   height: 30px;
   min-height: 30px;
 }
 
 .modal-dropdown-time .wegas-select__control,
-.modal-dropdown-time .css-2rmndj-control,
-.modal-dropdown-time .css-1hwfws3,
-.modal-dropdown-time .css-1wy0on6 {
+.modal-dropdown-time .wegas-select__value-container,
+.modal-dropdown-time .wegas-select__value-container--has-value,
+.modal-dropdown-time .wegas-select__indicators {
   height: 30px;
   min-height: 30px;
 }
 
 .content-dropdown .wegas-select__control,
-.content-dropdown .css-2rmndj-control,
-.content-dropdown .css-1hwfws3,
-.content-dropdown .css-1wy0on6 {
+.content-dropdown .wegas-select__value-container,
+.content-dropdown .wegas-select__value-container--has-value,
+.content-dropdown .wegas-select__indicators {
   height: 30px;
   min-height: 30px;
 }
