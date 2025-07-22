@@ -160,7 +160,7 @@ export class UidGenerator implements IClonable {
   constructor(readonly generators: Record<string, number>) {}
 
   clone(): this {
-    return new UidGenerator(this.generators) as this;
+    return new UidGenerator(Helpers.cloneDeep(this.generators)) as this;
   }
 
   /** gets next value for class name, if not existing the default value is registered*/
