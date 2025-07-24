@@ -55,12 +55,12 @@ import { getLocalEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
-  parentEventId: GlobalEventId;
-  simTimeStamp: SimTime;
-  priority: number;
+  parentEventId: GlobalEventId; // The Global Event that causes this local event
+  simTimeStamp: SimTime; // The time at which it happens
+  priority?: number; // The smaller priority is the first to be processed
 }
 
-export abstract class LocalEventBase implements LocalEvent {
+export abstract class LocalEventBase {
   private static eventCounter = 0;
 
   /**
@@ -68,12 +68,17 @@ export abstract class LocalEventBase implements LocalEvent {
    */
   public readonly eventNumber: number;
 
-  protected constructor(
-    readonly parentEventId: GlobalEventId,
-    readonly type: string,
-    readonly simTimeStamp: number,
-    readonly priority: number = 0
-  ) {
+  readonly type: string;
+  readonly parentEventId: GlobalEventId;
+  readonly simTimeStamp: number;
+  readonly priority: number;
+
+  protected constructor(props: LocalEvent) {
+    this.type = props.type;
+    this.parentEventId = props.parentEventId;
+    this.simTimeStamp = props.simTimeStamp;
+    this.priority = props.priority ?? 0;
+
     this.eventNumber = LocalEventBase.eventCounter++;
   }
 
@@ -112,8 +117,8 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
  * Creates an action to be inserted in the timeline and inits it
  */
 export class PlanActionLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase) {
-    super(parentEventId, 'PlanActionLocalEvent', timeStamp);
+  constructor(parentEventId: GlobalEventId, simTimeStamp: SimTime, readonly action: ActionBase) {
+    super({ parentEventId, type: 'PlanActionLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -128,12 +133,12 @@ export class PlanActionLocalEvent extends LocalEventBase {
 export class CancelActionLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly templateId: TemplateId,
     readonly actorUid: ActorId,
     readonly planTime: SimTime
   ) {
-    super(parentEventId, 'CancelActionLocalEvent', timeStamp);
+    super({ parentEventId, type: 'CancelActionLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -166,10 +171,10 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
     parentEventId: GlobalEventId,
     type: string,
     readonly actors: ActorId[],
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     override priority: number = 1
   ) {
-    super(parentEventId, type, timeStamp, priority);
+    super({ parentEventId, type, simTimeStamp, priority });
   }
 
   protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
@@ -184,11 +189,11 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
 export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(
     parentEventId: GlobalEventId,
-    readonly timeStamp: SimTime,
+    simTimeStamp: SimTime,
     actors: ActorId[],
     readonly timeJump: number
   ) {
-    super(parentEventId, 'TimeForwardLocalEvent', actors, timeStamp);
+    super(parentEventId, 'TimeForwardLocalEvent', actors, simTimeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -240,8 +245,8 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
  * When applied, bumps down being readiness for a time forward for the provided actors
  */
 export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actors: ActorId[]) {
-    super(parentEventId, 'TimeForwardCancelLocalEvent', actors, timeStamp);
+  constructor(parentEventId: GlobalEventId, simTimeStamp: SimTime, actors: ActorId[]) {
+    super(parentEventId, 'TimeForwardCancelLocalEvent', actors, simTimeStamp);
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -260,10 +265,10 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
 export class AddFixedEntityLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'AddFixedEntityLocalEvent', timeStamp);
+    super({ parentEventId, type: 'AddFixedEntityLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -275,10 +280,10 @@ export class AddFixedEntityLocalEvent extends LocalEventBase {
 export class RemoveFixedEntityLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'RemoveFixedEntityLocalEvent', timeStamp);
+    super({ parentEventId, type: 'RemoveFixedEntityLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -295,10 +300,10 @@ export class RemoveFixedEntityLocalEvent extends LocalEventBase {
 export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly fixedMapEntity: FixedMapEntity
   ) {
-    super(parentEventId, 'CompleteBuildingFixedEntityLocalEvent', timeStamp);
+    super({ parentEventId, type: 'CompleteBuildingFixedEntityLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -319,19 +324,19 @@ export class AddActorLocalEvent extends LocalEventBase {
   /**
    * Adds an actor in the game
    * @param parentEventId
-   * @param timeStamp
+   * @param simTimeStamp
    * @param role spawned role
    * @param location if undefined automatically resolved
    * @param travelTime if 0 no travel time, if greater, a travel action is planned
    */
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     private role: InterventionRole,
     private location: LOCATION_ENUM | undefined = undefined,
     private travelTime: SimDuration = 0
   ) {
-    super(parentEventId, 'AddActorLocalEvent', timeStamp);
+    super({ parentEventId, type: 'AddActorLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -360,11 +365,11 @@ export class AddActorLocalEvent extends LocalEventBase {
 export class MoveActorLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly actorUid: ActorId,
     readonly location: LOCATION_ENUM
   ) {
-    super(parentEventId, 'MoveActorLocalEvent', timeStamp);
+    super({ parentEventId, type: 'MoveActorLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -387,8 +392,8 @@ export class AddMessageLocalEvent extends LocalEventBase {
   private static RadioIdProvider = 1;
 
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     public readonly senderId: ActorId | undefined,
     public readonly senderName: string | undefined,
     public readonly recipientId: ActorId | undefined,
@@ -397,7 +402,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
     public readonly omitTranslation: boolean = false,
     public readonly messageValues: (string | number)[] = []
   ) {
-    super(parentId, 'AddMessageLocalEvent', timeStamp);
+    super({ parentEventId, type: 'AddMessageLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -421,8 +426,8 @@ export class AddMessageLocalEvent extends LocalEventBase {
 
 export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     senderId: ActorId | undefined,
     senderName: string | undefined, // in case there is no sending actor, free sender name
     recipientId: ActorId | undefined,
@@ -432,8 +437,8 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
     messageValues: (string | number)[] = []
   ) {
     super(
-      parentId,
-      timeStamp,
+      parentEventId,
+      simTimeStamp,
       senderId,
       senderName,
       recipientId,
@@ -447,8 +452,8 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
 
 export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     senderId: ActorId | undefined,
     senderName: string | undefined,
     recipientId: ActorId,
@@ -457,8 +462,8 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
     messageValues: (string | number)[] = []
   ) {
     super(
-      parentId,
-      timeStamp,
+      parentEventId,
+      simTimeStamp,
       senderId,
       senderName,
       recipientId,
@@ -483,11 +488,11 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
 export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     private actorUid: ActorId | undefined,
     private request: CasuMessagePayload
   ) {
-    super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
+    super({ parentEventId, type: 'ResourceRequestResolutionLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -504,7 +509,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
 }
 
 export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEvent {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime) {
+  constructor(parentEventId: GlobalEventId, simTimeStamp: SimTime) {
     //Request ACS-MCS
     const casuMessage: MethaneMessagePayload = {
       messageType: 'E',
@@ -518,7 +523,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         Helicopter: 0,
       },
     };
-    super(parentEventId, timeStamp, undefined, casuMessage);
+    super(parentEventId, simTimeStamp, undefined, casuMessage);
   }
 
   override applyStateUpdate(state: MainSimulationState): void {
@@ -532,15 +537,15 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
  */
 export class ResourceMobilizationEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     public readonly departureTime: SimTime,
     public readonly travelTime: SimDuration,
     public readonly containerDefId: ResourceContainerDefinitionId,
     public readonly amount: number,
     public readonly configName: string
   ) {
-    super(parentId, 'ResourceMobilizationEvent', timeStamp);
+    super({ parentEventId, type: 'ResourceMobilizationEvent', simTimeStamp });
   }
 
   override applyStateUpdate(_state: MainSimulationState): void {
@@ -584,13 +589,13 @@ export class ResourceMobilizationEvent extends LocalEventBase {
  */
 export class ResourcesArrivalLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     public readonly containerDefId: ResourceContainerDefinitionId,
     public readonly amount: number,
     public readonly squadName: string
   ) {
-    super(parentId, 'ResourcesArrivalLocalEvent', timeStamp);
+    super({ parentEventId, type: 'ResourcesArrivalLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -686,12 +691,12 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
 export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     readonly recipientActor: ActorId,
     readonly resources: Partial<Record<ResourceType, number>>
   ) {
-    super(parentId, 'ResourceArrivalAnnouncementLocalEvent', timeStamp);
+    super({ parentEventId, type: 'ResourceArrivalAnnouncementLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -718,12 +723,12 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
 
 export class ReserveResourcesLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     readonly resourcesId: ResourceId[],
     readonly actionId: ActionId
   ) {
-    super(parentId, 'ReserveResourcesLocalEvent', timeStamp);
+    super({ parentEventId, type: 'ReserveResourcesLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -732,8 +737,12 @@ export class ReserveResourcesLocalEvent extends LocalEventBase {
 }
 
 export class UnReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly resourcesId: ResourceId[]) {
-    super(parentId, 'UnReserveResourcesLocalEvent', timeStamp);
+  constructor(
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
+    readonly resourcesId: ResourceId[]
+  ) {
+    super({ parentEventId, type: 'UnReserveResourcesLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -745,11 +754,11 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
     type: string,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly ownerUid: ActorId,
     readonly targetLocation: LOCATION_ENUM
   ) {
-    super(parentEventId, type, timeStamp);
+    super({ parentEventId, type, simTimeStamp });
   }
 
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
@@ -768,12 +777,12 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
 export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     ownerUid: ActorId,
     readonly resourcesId: ResourceId[],
     targetLocation: LOCATION_ENUM
   ) {
-    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
+    super(parentEventId, 'MoveResourcesLocalEvent', simTimeStamp, ownerUid, targetLocation);
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
@@ -783,16 +792,16 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
 
 export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     ownerUid: ActorId,
     readonly sourceLocation: LOCATION_ENUM,
     targetLocation: LOCATION_ENUM
   ) {
     super(
-      parentId,
+      parentEventId,
       'MoveFreeHumanResourcesByLocationLocalEvent',
-      timeStamp,
+      simTimeStamp,
       ownerUid,
       targetLocation
     );
@@ -805,16 +814,16 @@ export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLoc
 
 export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
     ownerUid: ActorId,
     readonly resourceType: ResourceType,
     targetLocation: LOCATION_ENUM
   ) {
     super(
-      parentId,
+      parentEventId,
       'MoveFreeWaitingResourcesByTypeLocalEvent',
-      timeStamp,
+      simTimeStamp,
       ownerUid,
       targetLocation
     );
@@ -828,10 +837,10 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
 export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly resourcesIds: ResourceId[]
   ) {
-    super(parentEventId, 'MoveResourcesAtArrivalLocationLocalEvent', timeStamp);
+    super({ parentEventId, type: 'MoveResourcesAtArrivalLocationLocalEvent', simTimeStamp });
   }
 
   override applyStateUpdate(state: MainSimulationState) {
@@ -846,11 +855,11 @@ export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
 export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly resourcesId: ResourceId[],
     readonly taskId: TaskId
   ) {
-    super(parentEventId, 'AssignResourcesToTaskLocalEvent', timeStamp);
+    super({ parentEventId, type: 'AssignResourcesToTaskLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -861,10 +870,10 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
 export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly resourcesId: ResourceId[]
   ) {
-    super(parentEventId, 'AssignResourcesToWaitingTaskLocalEvent', timeStamp);
+    super({ parentEventId, type: 'AssignResourcesToWaitingTaskLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -873,8 +882,8 @@ export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
 }
 
 export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
-    super(parentEventId, 'ReleaseResourcesFromTaskLocalEvent', timeStamp);
+  constructor(parentEventId: GlobalEventId, simTimeStamp: SimTime, readonly taskId: TaskId) {
+    super({ parentEventId, type: 'ReleaseResourcesFromTaskLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -893,8 +902,12 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
 }
 
 export class DeleteResourceLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
-    super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
+  constructor(
+    parentEventId: GlobalEventId,
+    simTimeStamp: SimTime,
+    readonly resourceId: ResourceId
+  ) {
+    super({ parentEventId, type: 'DeleteResourceLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -911,11 +924,11 @@ export class DeleteResourceLocalEvent extends LocalEventBase {
 export class TaskStatusChangeLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly taskId: TaskId,
     readonly status: TaskStatus
   ) {
-    super(parentEventId, 'TaskStatusChangeLocalEvent', timeStamp);
+    super({ parentEventId, type: 'TaskStatusChangeLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -932,11 +945,11 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
 export class MovePatientLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     readonly patientId: string,
     readonly location: PatientLocation
   ) {
-    super(parentEventId, 'MovePatientLocalEvent', timeStamp);
+    super({ parentEventId, type: 'MovePatientLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -953,11 +966,11 @@ export class MovePatientLocalEvent extends LocalEventBase {
 export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     private readonly senderId: ActorId | undefined,
     private readonly hospitalRequestPayload: HospitalRequestPayload
   ) {
-    super(parentEventId, 'HospitalRequestUpdateLocalEvent', timeStamp);
+    super({ parentEventId, type: 'HospitalRequestUpdateLocalEvent', simTimeStamp });
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
@@ -1005,13 +1018,13 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
 
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     private readonly senderName: string,
     private readonly recipient: number,
     private pretriageLocation: LOCATION_ENUM,
     private feedbackWhenReport: TranslationKey
   ) {
-    super(parentEventId, 'PretriageReportResponseLocalEvent', timeStamp);
+    super({ parentEventId, type: 'PretriageReportResponseLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -1054,10 +1067,10 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
 export class GameOptionsUpdateLocalEvent extends LocalEventBase {
   constructor(
     parentEventId: GlobalEventId,
-    timeStamp: SimTime,
+    simTimeStamp: SimTime,
     private readonly options: GameOptions
   ) {
-    super(parentEventId, 'GameOptionsUpdateLocalEvent', timeStamp);
+    super({ parentEventId, type: 'GameOptionsUpdateLocalEvent', simTimeStamp });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
