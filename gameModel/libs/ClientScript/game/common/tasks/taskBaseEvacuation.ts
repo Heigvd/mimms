@@ -136,20 +136,25 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     subTask: EvacuationSubTask
   ) {
     getLocalEventManager().queueLocalEvent(
-      new MovePatientLocalEvent(subTask.parentEventId, state.getSimTime(), subTask.patientId, {
-        kind: 'FixedMapEntity',
-        locationId: LOCATION_ENUM.remote,
+      new MovePatientLocalEvent({
+        parentEventId: subTask.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        patientId: subTask.patientId,
+        location: {
+          kind: 'FixedMapEntity',
+          locationId: LOCATION_ENUM.remote,
+        },
       })
     );
 
     getLocalEventManager().queueLocalEvent(
-      new MoveResourcesLocalEvent(
-        subTask.parentEventId,
-        state.getSimTime(),
-        subTask.ownerId,
-        subTask.resources,
-        LOCATION_ENUM.remote
-      )
+      new MoveResourcesLocalEvent({
+        parentEventId: subTask.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: subTask.ownerId,
+        resourcesId: subTask.resources,
+        targetLocation: LOCATION_ENUM.remote,
+      })
     );
   }
 
@@ -158,25 +163,27 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     subTask: EvacuationSubTask
   ) {
     getLocalEventManager().queueLocalEvent(
-      new MovePatientLocalEvent(subTask.parentEventId, state.getSimTime(), subTask.patientId, {
-        kind: 'Hospital',
-        locationId: subTask.hospitalId,
-        patientUnit: subTask.patientUnitId,
+      new MovePatientLocalEvent({
+        parentEventId: subTask.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        patientId: subTask.patientId,
+        location: {
+          kind: 'Hospital',
+          locationId: subTask.hospitalId,
+          patientUnit: subTask.patientUnitId,
+        },
       })
     );
     if (subTask.doResourcesComeBack) {
       // Send radio message on CASU about time needed to come back to incident when arriving at hospital
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          subTask.parentEventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          undefined,
-          subTask.feedbackWhenReturning,
-          RadioType.CASU,
-          false,
-          [
+        new AddRadioMessageLocalEvent({
+          parentEventId: subTask.parentEventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          message: subTask.feedbackWhenReturning,
+          channel: RadioType.CASU,
+          messageValues: [
             getTranslation(
               'mainSim-actions-tasks',
               subTask.squadDef.mainVehicleTranslationNoun,
@@ -188,8 +195,8 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
               false
             ),
             formatTravelTimeToMinutes(subTask.travelTime),
-          ]
-        )
+          ],
+        })
       );
     }
   }
@@ -199,19 +206,19 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     subTask: EvacuationSubTask
   ) {
     getLocalEventManager().queueLocalEvent(
-      new MoveResourcesAtArrivalLocationLocalEvent(
-        subTask.parentEventId,
-        state.getSimTime(),
-        subTask.resources
-      )
+      new MoveResourcesAtArrivalLocationLocalEvent({
+        parentEventId: subTask.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesIds: subTask.resources,
+      })
     );
 
     getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent(
-        subTask.parentEventId,
-        state.getSimTime(),
-        subTask.resources
-      )
+      new AssignResourcesToWaitingTaskLocalEvent({
+        parentEventId: subTask.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: subTask.resources,
+      })
     );
   }
 }
