@@ -38,6 +38,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "21",
+          "name" : "Game Mode",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "24",
           "name" : "menu",
           "scenaristPage" : null,
