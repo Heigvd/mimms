@@ -191,7 +191,7 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   }
 
   protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
-    updateCurrentTimeFrame(state, this.props.actors, modifier, this.simTimeStamp);
+    updateCurrentTimeFrame(state, this.props.actors, modifier, this.props.simTimeStamp);
   }
 }
 
@@ -232,7 +232,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       // auto-continue if all actors are still awaiting
       if (isTimeForwardReady(state)) {
         const tfw = new TimeForwardLocalEvent({
-          parentEventId: this.parentEventId,
+          parentEventId: this.extensionProps.parentEventId,
           simTimeStamp: state.getSimTime(),
           actors: [],
           timeJump: TimeSliceDuration,
@@ -522,7 +522,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
     if (this.props.request.messageType !== 'R' && this.props.request.resourceRequest) {
       resolveResourceRequest(
         state,
-        this.parentEventId,
+        this.props.parentEventId,
         this.props.actorUid,
         this.props.request.resourceRequest
       );
@@ -600,7 +600,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
     ) {
       // schedule resource arrival event
       const evt = new ResourcesArrivalLocalEvent({
-        parentEventId: this.parentEventId,
+        parentEventId: this.props.parentEventId,
         simTimeStamp: this.props.departureTime + this.props.travelTime,
         containerDefId: this.props.containerDefId,
         amount: this.props.amount,
@@ -707,7 +707,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       this.props.squadName,
     ]);
     return new AddRadioMessageLocalEvent({
-      parentEventId: this.parentEventId,
+      parentEventId: this.props.parentEventId,
       simTimeStamp: state.getSimTime(),
       senderName: this.props.squadName,
       message,
@@ -732,7 +732,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     getLocalEventManager().queueLocalEvent(
       new AddNotificationLocalEvent({
-        parentEventId: this.parentEventId,
+        parentEventId: this.props.parentEventId,
         simTimeStamp: state.getSimTime(),
         senderName: RadioLogic.getResourceAsSenderName(),
         recipientId: this.props.recipientActor,
