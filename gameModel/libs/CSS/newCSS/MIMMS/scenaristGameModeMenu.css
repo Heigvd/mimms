@@ -1,3 +1,84 @@
+/* - - - - G A M E  M O D E - - - - */
+.game-mode__container {
+  background-color: var(--secondary_base);
+}
+
+.main-simulation__container,
+.drill-pretri__container {
+  /*position: relative;*/
+  width: 50%;
+  /*height: 100%;
+  background-size: cover;*/
+}
+
+.game-mode__background {
+  /*overflow: hidden;
+  align-items: center;*/
+  position: absolute;
+  /*top: 0;
+  left: 0;*/
+  width: 100%;
+  height: 100%;
+}
+
+.game-mode__background img {
+  width: 100%;
+  /*height: 100%;
+  display: block;*/
+  object-fit: cover;
+  filter: drop-shadow(0 0 25px rgba(0, 0, 0, .75));
+  transition: transform .3s ease-in-out;
+}
+
+.game-mode__title {
+  height: 25%;
+  margin: 2rem 1rem;
+}
+
+.main-simulation__container .game-mode__background img {
+  /*padding-right: 25px;*/
+  object-position: right center;
+  transform-origin: right center;
+}
+
+.drill-pretri__container .game-mode__background img {
+  /*padding-left: 25px;*/
+  object-position: left center;
+  transform-origin: left center;
+}
+
+.main-simulation__container:hover,
+.drill-pretri__container:hover {
+  cursor: pointer;
+}
+
+.main-simulation__container:hover .game-mode__background img,
+.drill-pretri__container:hover .game-mode__background img {
+  transform: scale(1.2);
+}
+
+.main-simulation__container > div div:nth-of-type(2),
+.drill-pretri__container > div div:nth-of-type(2) {
+  align-items: flex-end;
+}
+
+.drill-pretri__container > div div:nth-of-type(2) {
+  justify-content: flex-end;
+}
+
+/*.game-mode__background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, rgba(21, 145, 195, 0), rgba(21, 145, 195, 1));
+  pointer-events: none;
+}*/
+
+/* - - - - S C E N A R I S T  M E N U - - - - */
+
 .scenarist-menu-container--open {
   width: 17%;
   min-width: 16rem;
@@ -27,6 +108,7 @@
   height: 1.25rem;
   top: -2.25rem;
   border-radius: var(--XS_borderRadius);
+  z-index: 10;
 }
 
 .scenarist-menu__angle-button--open {
