@@ -58,7 +58,12 @@ export class PreTriageTask extends TaskBase {
   ): void {
     if (getTaskCurrentStatus(state, this.Uid) === 'Uninitialized') {
       getLocalEventManager().queueLocalEvent(
-        new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'OnGoing')
+        new TaskStatusChangeLocalEvent({
+          parentEventId: 0,
+          simTimeStamp: state.getSimTime(),
+          taskId: this.Uid,
+          status: 'OnGoing',
+        })
       );
     }
 
@@ -94,30 +99,37 @@ export class PreTriageTask extends TaskBase {
 
     if (getNonPreTriagedPatientsSize(state, this.locationSource) === 0) {
       getLocalEventManager().queueLocalEvent(
-        new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
+        new TaskStatusChangeLocalEvent({
+          parentEventId: 0,
+          simTimeStamp: state.getSimTime(),
+          taskId: this.Uid,
+          status: 'Completed',
+        })
       );
       getLocalEventManager().queueLocalEvent(
-        new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
+        new ReleaseResourcesFromTaskLocalEvent({
+          parentEventId: 0,
+          simTimeStamp: state.getSimTime(),
+          taskId: this.Uid,
+        })
       );
 
       // We broadcast a message that task is completed (recipient = 0)
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          0,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          undefined,
-          formatStandardPretriageReport(
+        new AddRadioMessageLocalEvent({
+          parentEventId: 0,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          message: formatStandardPretriageReport(
             state,
             this.locationSource,
             'pretriage-report-task-feedback-report',
             true,
             false
           ),
-          RadioType.RESOURCES,
-          true
-        )
+          channel: RadioType.RESOURCES,
+          omitTranslation: true,
+        })
       );
     }
   }

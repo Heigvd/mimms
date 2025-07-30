@@ -123,9 +123,14 @@ export class PorterTask extends TaskBase<PorterSubTask> {
           this.TIME_REQUIRED_FOR_INSTRUCTION + this.TIME_REQUIRED_FOR_SELF_TRANSPORT
         ) {
           getLocalEventManager().queueLocalEvent(
-            new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
-              kind: 'FixedMapEntity',
-              locationId: subTask.targetLocation,
+            new MovePatientLocalEvent({
+              parentEventId: 0,
+              simTimeStamp: state.getSimTime(),
+              patientId: patient.patientId,
+              location: {
+                kind: 'FixedMapEntity',
+                locationId: subTask.targetLocation,
+              },
             })
           );
 
@@ -136,9 +141,14 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         //time-jump is enough to transport patient, so we just move it and un-assign patient
         if (subTask.cumulatedTime >= this.TIME_REQUIRED_FOR_TRANSPORT) {
           getLocalEventManager().queueLocalEvent(
-            new MovePatientLocalEvent(0, state.getSimTime(), patient.patientId, {
-              kind: 'FixedMapEntity',
-              locationId: subTask.targetLocation,
+            new MovePatientLocalEvent({
+              parentEventId: 0,
+              simTimeStamp: state.getSimTime(),
+              patientId: patient.patientId,
+              location: {
+                kind: 'FixedMapEntity',
+                locationId: subTask.targetLocation,
+              },
             })
           );
 
@@ -188,16 +198,14 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
       // We broadcast a message when the task is completed
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          0,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          undefined,
-          this.getFeedbackIfNoTargetLocation(),
-          RadioType.RESOURCES,
-          true
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: 0,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          message: this.getFeedbackIfNoTargetLocation(),
+          channel: RadioType.RESOURCES,
+          omitTranslation: true,
+        })
       );
     }
 

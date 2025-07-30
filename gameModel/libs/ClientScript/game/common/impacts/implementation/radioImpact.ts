@@ -17,14 +17,14 @@ export function convertRadioNotificationImpact(
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
-    new AddRadioMessageLocalEvent(
-      0, //triggerId, // TODO convert ids to string and pass triggerId here
-      time,
-      1000, // TODO senderID
-      'Event Manager sender name?', // TODO sender name
-      undefined, // recipient id
-      impact.message,
-      impact.canal
-    ),
+    new AddRadioMessageLocalEvent({
+      parentEventId: 0, //triggerId, // TODO convert ids to string and pass triggerId here
+      simTimeStamp: time,
+      senderId: 1000, // TODO senderID
+      senderName: 'Event Manager sender name?', // TODO sender name
+      recipientId: undefined, // recipient id
+      message: impact.message,
+      channel: impact.canal,
+    }),
   ];
 }

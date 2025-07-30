@@ -20,13 +20,13 @@ export function convertNotificationImpact(
   const actors = state.getOnSiteActors().filter(act => impact.roles[act.Role]);
   return actors.map(
     a =>
-      new AddMessageLocalEvent(
-        0, // TODO triggerId ?
-        time,
-        0, // TODO sender id ?
-        'Trigger Manager : ' + impact.sender, // TODO specific name ?
-        a.Uid,
-        impact.message
-      )
+      new AddMessageLocalEvent({
+        parentEventId: 0, // TODO triggerId ?
+        simTimeStamp: time,
+        senderId: 0, // TODO sender id ?
+        senderName: 'Trigger Manager : ' + impact.sender, // TODO specific name ?
+        recipientId: a.Uid,
+        message: impact.message,
+      })
   );
 }
