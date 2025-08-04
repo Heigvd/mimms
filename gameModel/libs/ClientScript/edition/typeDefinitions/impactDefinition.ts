@@ -38,7 +38,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       type: 'notification',
       delaySeconds: 0,
       message: '',
-      priority: 0,
+      index: 0,
       roles: {
         ACS: false,
         MCS: false,
@@ -47,14 +47,12 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
         EVASAN: false,
         LEADPMA: false,
       },
-      sender: 'Scenarist', // likely not used at all
     }),
     view: {
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
-      priority: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       roles: {} as any, // TODO ALL_EDITABLE,
-      sender: ALL_EDITABLE,
       type: ALL_EDITABLE,
     },
   };

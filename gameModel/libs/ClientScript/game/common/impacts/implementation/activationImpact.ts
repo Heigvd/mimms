@@ -14,7 +14,7 @@ export interface ActivationImpact extends ImpactBase {
 export function convertActivationImpact(
   state: MainSimulationState,
   impact: ActivationImpact,
-  parentId: Uid
+  parentTriggerId: Uid
 ): LocalEventBase[] {
   //const time = state.getSimTime() + impact.delaySeconds;
   return [];

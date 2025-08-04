@@ -10,36 +10,36 @@ import {
   convertNotificationImpact,
   NotificationMessageImpact,
 } from './implementation/notificationImpact';
-import { convertRadioNotificationImpact, RadioMessageImpact } from './implementation/radioImpact';
+import { convertRadioMessageImpact, RadioMessageImpact } from './implementation/radioImpact';
 
 /**
  * Impacts are meant to produce local events that will in turn modify the state of the game
  */
 export interface ImpactBase extends Typed {
-  delaySeconds: number;
-  priority: number;
+  index: number; // to sort the impacts (for display and processing)
+  delaySeconds: number; // time to wait before processing the produced local events
 }
 
 export type Impact =
-  | NotificationMessageImpact
-  | RadioMessageImpact
   | ActivationImpact
-  | ChoiceEffectSelectionImpact;
+  | ChoiceEffectSelectionImpact
+  | NotificationMessageImpact
+  | RadioMessageImpact;
 
 export function convertToLocalEvents(
   state: MainSimulationState,
   impact: Impact,
-  parentId: Uid
+  parentTriggerId: Uid
 ): LocalEventBase[] {
   switch (impact.type) {
     case 'activation':
-      return convertActivationImpact(state, impact, parentId);
-    case 'notification':
-      return convertNotificationImpact(state, impact, parentId);
-    case 'radio':
-      return convertRadioNotificationImpact(state, impact, parentId);
+      return convertActivationImpact(state, impact, parentTriggerId);
     case 'choice':
-      return convertChoiceEffectSelectionImpact(state, impact, parentId);
+      return convertChoiceEffectSelectionImpact(state, impact, parentTriggerId);
+    case 'notification':
+      return convertNotificationImpact(state, impact, parentTriggerId);
+    case 'radio':
+      return convertRadioMessageImpact(state, impact, parentTriggerId);
     default:
       return [];
   }
