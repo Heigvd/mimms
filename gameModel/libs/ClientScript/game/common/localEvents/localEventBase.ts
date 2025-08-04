@@ -31,6 +31,7 @@ import {
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
+import { Uid } from '../interfaces';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -56,6 +57,7 @@ import { getLocalEventManager } from './localEventManager';
 export interface LocalEvent {
   type: string;
   parentEventId: GlobalEventId; // The Global Event that causes this local event
+  parentTriggerId?: Uid; // The Trigger that causes this local event, (most of the time, there is none)
   simTimeStamp: SimTime; // The time at which it happens
   priority?: number; // The smaller priority is the first to be processed
 }
@@ -70,12 +72,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
+  readonly parentTriggerId: Uid | undefined;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
+    this.parentTriggerId = props.parentTriggerId ?? undefined;
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -180,10 +184,10 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly type: string;
-      readonly actors: ActorId[];
       readonly simTimeStamp: SimTime;
       readonly priority?: number;
+      readonly type: string;
+      readonly actors: ActorId[];
     }
   ) {
     const defaultProps = { priority: 1 };
@@ -423,9 +427,10 @@ export class AddMessageLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
       readonly message: TranslationKey;
       readonly channel?: RadioType | undefined;
@@ -464,9 +469,10 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined; // in case there is no sending actor, free sender name
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
       readonly message: TranslationKey;
       readonly channel: RadioType;
@@ -482,9 +488,10 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId: ActorId;
       readonly message: TranslationKey;
       readonly omitTranslation?: boolean;
@@ -788,8 +795,8 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
     private readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly type: string;
       readonly simTimeStamp: SimTime;
+      readonly type: string;
       readonly ownerUid: ActorId;
       readonly targetLocation: LOCATION_ENUM;
     }
