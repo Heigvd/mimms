@@ -6,7 +6,9 @@ import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choic
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
 import { TriggerCondition } from './implementation/triggerCondition';
 
-export interface ConditionBase extends Typed, Indexed {}
+export interface ConditionBase extends Typed, Indexed {
+  invert?: boolean; // The condition must NOT be met
+}
 
 export type ActivableStatus = 'active' | 'inactive';
 
