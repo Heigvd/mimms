@@ -2,15 +2,17 @@ import { triggerLogger } from '../../../tools/logger';
 import { Indexed, Typed, Uid } from '../interfaces';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
+import { MapEntityCondition, TriggerCondition } from './implementation/activableCondition';
 import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
-import { TriggerCondition } from './implementation/triggerCondition';
 
 export interface ConditionBase extends Typed, Indexed {
   invert?: boolean; // The condition must NOT be met
 }
 
-export type ActivableStatus = 'active' | 'inactive';
+export type ActivableStatus =
+  | 'active'
+  | 'inactive';
 
 /**
  * completed once => there exist an action or action with specific choice in the timeline that has completed
@@ -35,7 +37,8 @@ export function evaluateCondition(state: MainSimulationState, condition: Conditi
     case 'choice':
       return evaluateChoiceCondition(state, condition);
     case 'trigger':
-      return evaluateActivable(state, condition.triggerId, condition.operator);
+    case 'mapEntity':
+      return evaluateActivable(state, condition.activableRef, condition.status);
     default:
       triggerLogger.warn('Unknown condition type', condition);
       return false;
@@ -49,8 +52,8 @@ export function evaluateActivable(
 ): boolean {
   switch (status) {
     case 'active':
-      return state.getActivable(uid)?.active || false;
+      return state.getActivable(uid)?.active ?? false;
     case 'inactive':
-      return !state.getActivable(uid)?.active || false;
+      return !(state.getActivable(uid)?.active ?? false);
   }
 }
