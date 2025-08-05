@@ -1,4 +1,10 @@
-import { Uid } from '../../interfaces';
+import { triggerLogger } from '../../../../tools/logger';
+import { ActionTemplateId } from '../../baseTypes';
+import {
+  hasCompletedOnceAction,
+  hasNoActionInTimeline,
+  hasOngoingAction,
+} from '../../simulationState/actionStateAccess';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../condition';
 
@@ -6,7 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
-  actionTemplateId: Uid;
+  actionTemplateId: ActionTemplateId; // TODO see how to deal with Uid (string) vs ActionTemplateId (number)
   status: ChoiceActionStatus;
 }
 
@@ -14,17 +20,20 @@ export function evaluateActionCondition(
   state: MainSimulationState,
   condition: ActionCondition
 ): boolean {
-  // TODO complete implementation
-
   switch (condition.status) {
     case 'active':
     case 'inactive':
-      return evaluateActivable(state, condition.actionTemplateId, condition.status);
+      return evaluateActivable(state, String(condition.actionTemplateId), condition.status); // TODO remove String( ) if we can (regarding actionTemplateId type)
 
-    // TODO timeline fetch and check
     case 'completed once':
+      return hasCompletedOnceAction(state, condition.actionTemplateId);
     case 'never planned':
+      return hasNoActionInTimeline(state, condition.actionTemplateId);
     case 'ongoing':
+      return hasOngoingAction(state, condition.actionTemplateId);
+
+    default:
+      triggerLogger.warn('Unknown status', JSON.stringify(condition));
   }
   return false;
 }
