@@ -14,7 +14,8 @@ export function evaluateTimeCondition(
 ): boolean {
   const t = condition.timeSeconds;
   const simTime = state.getSimTime();
-  triggerLogger.debug('times', t, simTime);
+  triggerLogger.debug('Time condition', simTime, condition.operator, t);
+
   switch (condition.operator) {
     case '<':
       return simTime < t;
@@ -23,7 +24,7 @@ export function evaluateTimeCondition(
     case '>':
       return simTime > t;
     default:
-      triggerLogger.error('Malformed TimeCondition, bad operator', condition);
+      triggerLogger.error('Malformed TimeCondition, bad operator', JSON.stringify(condition));
       return false;
   }
 }
