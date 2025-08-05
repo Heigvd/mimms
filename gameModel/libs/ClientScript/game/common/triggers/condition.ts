@@ -1,12 +1,12 @@
 import { triggerLogger } from '../../../tools/logger';
-import { Typed, Uid } from '../interfaces';
+import { Indexed, Typed, Uid } from '../interfaces';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
 import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
 import { TriggerCondition } from './implementation/triggerCondition';
 
-export interface ConditionBase extends Typed {}
+export interface ConditionBase extends Typed, Indexed {}
 
 export type ActivableStatus = 'active' | 'inactive';
 

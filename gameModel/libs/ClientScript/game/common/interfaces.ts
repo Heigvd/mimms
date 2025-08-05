@@ -28,6 +28,13 @@ export interface Typed {
 }
 
 /**
+ * To sort (for display as well as processing)
+ */
+export interface Indexed {
+  index?: number;
+}
+
+/**
  * Runtime activable interface
  * activable means that the object referenced by its uid can be active or inactive
  */
