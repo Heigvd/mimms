@@ -4,7 +4,7 @@ import { IActivableDescriptor, IDescriptor, Typed, Uid } from '../../interfaces'
 export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typed {
   type: 'choice';
   activableType: 'choice';
-  parent: Uid; // owning template descriptor
+  parent: Uid; // owning action template descriptor
   description: string; // TODO multilang
   title: string; // TODO multilang
 

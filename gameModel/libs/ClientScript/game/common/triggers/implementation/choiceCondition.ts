@@ -7,18 +7,18 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 export interface ChoiceCondition extends ConditionBase {
   type: 'choice';
   choiceId: Uid;
-  templateId: Uid; // TODO needed ?
-  operator: ChoiceActionStatus;
+  actionTemplateId: Uid; // TODO needed ?
+  status: ChoiceActionStatus;
 }
 
 export function evaluateChoiceCondition(
   state: MainSimulationState,
   condition: ChoiceCondition
 ): boolean {
-  switch (condition.operator) {
+  switch (condition.status) {
     case 'active':
     case 'inactive':
-      return evaluateActivable(state, condition.choiceId, condition.operator);
+      return evaluateActivable(state, condition.choiceId, condition.status);
 
     // TODO timeline fetch and check status
     case 'completed once':
