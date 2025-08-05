@@ -35,20 +35,32 @@ export type Condition =
   | MapEntityCondition;
 
 export function evaluateCondition(state: MainSimulationState, condition: Condition) {
+  let result = false;
+
   switch (condition.type) {
     case 'time':
-      return evaluateTimeCondition(state, condition);
+      result = evaluateTimeCondition(state, condition);
+      break;
     case 'action':
-      return evaluateActionCondition(state, condition);
+      result = evaluateActionCondition(state, condition);
+      break;
     case 'choice':
-      return evaluateChoiceCondition(state, condition);
+      result = evaluateChoiceCondition(state, condition);
+      break;
     case 'trigger':
     case 'mapEntity':
-      return evaluateActivable(state, condition.activableRef, condition.status);
+      result = evaluateActivable(state, condition.activableRef, condition.status);
+      break;
     default:
       triggerLogger.warn('Unknown condition type', condition);
       return false;
   }
+
+  if (condition.invert) {
+    return !result;
+  }
+
+  return result;
 }
 
 export function evaluateActivable(
