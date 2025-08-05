@@ -19,7 +19,12 @@ export type ActivableStatus = 'active' | 'inactive';
  */
 export type ChoiceActionStatus = ActivableStatus | 'completed once' | 'ongoing' | 'never planned';
 
-export type Condition = TimeCondition | ActionCondition | ChoiceCondition | TriggerCondition;
+export type Condition =
+  | TimeCondition
+  | ActionCondition
+  | ChoiceCondition
+  | TriggerCondition
+  | MapEntityCondition;
 
 export function evaluateCondition(state: MainSimulationState, condition: Condition) {
   switch (condition.type) {

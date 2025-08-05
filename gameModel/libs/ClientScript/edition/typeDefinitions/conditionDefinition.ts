@@ -17,6 +17,7 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
     action: {} as any,
     choice: {} as any,
     trigger: {} as any,
+    mapEntity: {} as any,
   };
 
   return defs[type]!;
