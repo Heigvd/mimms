@@ -39,7 +39,7 @@ export function hasContainerOfType(
  * @param request the amount and type formulated in the request
  */
 export function resolveResourceRequest(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   globalEventId: GlobalEventId,
   senderId: ActorId | undefined,
   request: Partial<Record<ResourceContainerType, number>>

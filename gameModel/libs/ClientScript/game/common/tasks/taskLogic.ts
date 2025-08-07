@@ -15,7 +15,7 @@ export function getIdleTask(state: Readonly<MainSimulationState>): TaskBase {
     .tasks.find((task: TaskBase) => task instanceof WaitingTask)!;
 }
 
-export function getEvacuationTask(state: MainSimulationState): EvacuationTask {
+export function getEvacuationTask(state: Readonly<MainSimulationState>): EvacuationTask {
   return state
     .getInternalStateObject()
     .tasks.find((task: TaskBase) => task instanceof EvacuationTask)! as EvacuationTask;
