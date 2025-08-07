@@ -11,7 +11,7 @@ export interface RadioMessageImpact extends ImpactBase {
 }
 
 export function convertRadioMessageImpact(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   impact: RadioMessageImpact,
   parentTriggerId: Uid
 ): LocalEventBase[] {

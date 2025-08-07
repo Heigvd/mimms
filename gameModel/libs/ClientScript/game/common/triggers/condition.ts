@@ -34,7 +34,7 @@ export type Condition =
   | TriggerCondition
   | MapEntityCondition;
 
-export function evaluateCondition(state: MainSimulationState, condition: Condition) {
+export function evaluateCondition(state: Readonly<MainSimulationState>, condition: Condition) {
   let result = false;
 
   switch (condition.type) {
@@ -64,7 +64,7 @@ export function evaluateCondition(state: MainSimulationState, condition: Conditi
 }
 
 export function evaluateActivable(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   uid: Uid,
   status: ActivableStatus
 ): boolean {

@@ -26,7 +26,7 @@ export type Impact =
   | RadioMessageImpact;
 
 export function convertToLocalEvents(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   impact: Impact,
   parentTriggerId: Uid
 ): LocalEventBase[] {

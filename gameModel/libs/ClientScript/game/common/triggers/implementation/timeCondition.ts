@@ -9,7 +9,7 @@ export interface TimeCondition extends ConditionBase {
 }
 
 export function evaluateTimeCondition(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   condition: TimeCondition
 ): boolean {
   const t = condition.timeSeconds;

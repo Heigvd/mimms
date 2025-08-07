@@ -12,7 +12,7 @@ export interface ActivationImpact extends ImpactBase {
 }
 
 export function convertActivationImpact(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   impact: ActivationImpact,
   parentTriggerId: Uid
 ): LocalEventBase[] {

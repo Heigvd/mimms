@@ -9,7 +9,7 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 }
 
 export function convertChoiceEffectSelectionImpact(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
   parentTriggerId: Uid
 ): LocalEventBase[] {

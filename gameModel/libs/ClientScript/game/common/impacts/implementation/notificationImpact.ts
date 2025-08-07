@@ -11,7 +11,7 @@ export interface NotificationMessageImpact extends ImpactBase {
 }
 
 export function convertNotificationImpact(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   impact: NotificationMessageImpact,
   parentTriggerId: Uid
 ): LocalEventBase[] {

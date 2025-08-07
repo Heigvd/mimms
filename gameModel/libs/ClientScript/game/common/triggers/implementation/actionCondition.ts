@@ -17,7 +17,7 @@ export interface ActionCondition extends ConditionBase {
 }
 
 export function evaluateActionCondition(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   condition: ActionCondition
 ): boolean {
   switch (condition.status) {

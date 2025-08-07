@@ -12,7 +12,7 @@ export interface ChoiceCondition extends ConditionBase {
 }
 
 export function evaluateChoiceCondition(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   condition: ChoiceCondition
 ): boolean {
   switch (condition.status) {

@@ -21,7 +21,7 @@ export interface Trigger extends IActivableDescriptor, IDescriptor, Typed {
   impacts: Impact[];
 }
 
-function evaluateTriggerConditions(state: MainSimulationState, trigger: Trigger): boolean {
+function evaluateTriggerConditions(state: Readonly<MainSimulationState>, trigger: Trigger): boolean {
   if (state.getActivable(trigger.uid)?.active) {
     if (trigger.conditions.length === 0) {
       return true;
@@ -35,11 +35,11 @@ function evaluateTriggerConditions(state: MainSimulationState, trigger: Trigger)
   return false;
 }
 
-function evaluateTriggerImpacts(state: MainSimulationState, trigger: Trigger): LocalEventBase[] {
+function evaluateTriggerImpacts(state: Readonly<MainSimulationState>, trigger: Trigger): LocalEventBase[] {
   return trigger.impacts.flatMap(impact => convertToLocalEvents(state, impact, trigger.uid));
 }
 
-export function evaluateTrigger(state: MainSimulationState, trigger: Trigger): LocalEventBase[] {
+export function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger): LocalEventBase[] {
   if (evaluateTriggerConditions(state, trigger)) {
     if (!trigger.repeatable) {
       // TODO see if LocalEvent emitted instead, would be cleaner and more uniform
