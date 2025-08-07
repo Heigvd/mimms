@@ -30,7 +30,7 @@ export function buildNewTimeFrame(state: MainSimulationState): TimeFrame {
   };
 }
 
-function getInitialTimeForwardStatus(state: MainSimulationState, actorUid: ActorId): number {
+function getInitialTimeForwardStatus(state: Readonly<MainSimulationState>, actorUid: ActorId): number {
   if (isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)) {
     return 1;
   }
@@ -40,7 +40,7 @@ function getInitialTimeForwardStatus(state: MainSimulationState, actorUid: Actor
 /**
  * Returns true if all involved actors on site are ready to time forward on the state's current time frame
  */
-export function isTimeForwardReady(state: MainSimulationState): boolean {
+export function isTimeForwardReady(state: Readonly<MainSimulationState>): boolean {
   const actors = state.getOnSiteActors();
   const timeFrame = state.getCurrentTimeFrame();
   return actors.every(a => timeFrame.waitingTimeForward[a.Uid] || 0 > 0);

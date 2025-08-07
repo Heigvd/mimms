@@ -109,7 +109,7 @@ export abstract class ActionBase {
    * Will update the given status
    * @param state the current state that will be updated
    */
-  public abstract update(state: Readonly<MainSimulationState>): void;
+  public abstract update(state: MainSimulationState): void;
 
   public abstract duration(): SimDuration;
 
@@ -117,7 +117,7 @@ export abstract class ActionBase {
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  public cancel(state: MainSimulationState): boolean {
+  public cancel(state: Readonly<MainSimulationState>): boolean {
     if (this.status === 'Cancelled') {
       this.logger.warn('This action was already cancelled');
     } else if (this.status === 'Completed') {
@@ -130,7 +130,7 @@ export abstract class ActionBase {
     return true;
   }
 
-  protected abstract cancelInternal(state: MainSimulationState): void;
+  protected abstract cancelInternal(state: Readonly<MainSimulationState>): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -176,7 +176,7 @@ export abstract class StartEndAction extends ActionBase {
     this.provideFlagsToState = provideFlagsToState;
   }
 
-  protected abstract dispatchInitEvents(state: MainSimulationState): void;
+  protected abstract dispatchInitEvents(state: Readonly<MainSimulationState>): void;
 
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
@@ -307,8 +307,8 @@ export class DisplayMessageAction extends StartEndAction {
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -347,8 +347,8 @@ export class OnTheRoadAction extends StartEndAction {
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -414,12 +414,12 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {
-    //likely nothing to do
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     this.logger.info('start event CasuMessageAction');
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event CasuMessageAction');
     const now = state.getSimTime();
 
@@ -470,7 +470,8 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -531,7 +532,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     this.logger.info('start event ActivateRadioSchemaAction');
   }
 
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event ActivateRadioSchemaAction');
 
     getLocalEventManager().queueLocalEvent(
@@ -574,7 +575,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
     // nothing to do
     return;
   }
@@ -632,7 +633,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     this.fixedMapEntity = fixedMapEntity;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
 
     getLocalEventManager().queueLocalEvent(
@@ -644,7 +645,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     );
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     // ungrey the map element
     getLocalEventManager().queueLocalEvent(
       new CompleteBuildingFixedEntityLocalEvent({
@@ -663,7 +664,7 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     );
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     getLocalEventManager().queueLocalEvent(
       new RemoveFixedEntityLocalEvent({
         parentEventId: this.eventId,
@@ -703,7 +704,7 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
     getLocalEventManager().queueLocalEvent(
@@ -765,7 +766,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
     // Move actors to PC
     const actors = state
@@ -835,7 +836,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
     getLocalEventManager().queueLocalEvent(
@@ -886,9 +887,9 @@ export class MoveActorAction extends StartEndAction {
     this.location = location;
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {}
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     if (!canMoveToLocation(state, 'Actors', this.location)) {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
@@ -910,7 +911,8 @@ export class MoveActorAction extends StartEndAction {
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -950,7 +952,7 @@ export class AppointActorAction extends StartEndAction {
     this.involvedResourceId = undefined;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.location = state.getActorById(this.ownerId)!.Location;
 
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
@@ -987,7 +989,7 @@ export class AppointActorAction extends StartEndAction {
     }
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     if (this.compliantWithHierarchy) {
       if (this.involvedResourceId != undefined) {
         getLocalEventManager().queueLocalEvent(
@@ -1034,7 +1036,7 @@ export class AppointActorAction extends StartEndAction {
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     if (this.involvedResourceId != undefined) {
       getLocalEventManager().queueLocalEvent(
@@ -1074,15 +1076,15 @@ export class SituationUpdateAction extends StartEndAction {
     );
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 
-  protected dispatchEndedEvents(_state: MainSimulationState): void {
+  protected dispatchEndedEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
     // nothing to do
     return;
   }
@@ -1318,7 +1320,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     return undefined;
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
@@ -1394,8 +1396,8 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -1460,8 +1462,8 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -1543,7 +1545,7 @@ export class EvacuationAction extends RadioDrivenAction {
     this.involvedResourcesId = [];
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event EvacuationAction');
 
     const squadDef = getSquadDef(this.transportSquad);
@@ -1569,7 +1571,7 @@ export class EvacuationAction extends RadioDrivenAction {
     );
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event EvacuationAction');
 
     // we free the resources so that they are available again
@@ -1656,7 +1658,7 @@ export class EvacuationAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
