@@ -15,6 +15,7 @@ function getTestTriggers(): Trigger[] {
       priority: 0,
       conditions: [
         {
+          index: 1,
           type: 'time',
           operator: '>',
           timeSeconds: 120,
@@ -50,11 +51,13 @@ function getTestTriggers(): Trigger[] {
       priority: 0,
       conditions: [
         {
+          index: 1,
           type: 'time',
           operator: '>',
           timeSeconds: 60 * 10,
         },
         {
+          index: 2,
           type: 'time',
           operator: '<',
           timeSeconds: 60 * 13,

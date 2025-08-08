@@ -30,11 +30,13 @@ function getTimeConditionDef(): Definition<TimeCondition> {
     type: 'time',
     validator: _condition => ({ success: true, messages: [] }),
     getDefault: () => ({
+      index: 1,
       type: 'time',
       operator: '=',
       timeSeconds: 0,
     }),
     view: {
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       timeSeconds: ALL_EDITABLE,

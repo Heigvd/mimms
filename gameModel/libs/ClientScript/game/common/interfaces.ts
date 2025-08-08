@@ -31,7 +31,7 @@ export interface Typed {
  * To sort (for display as well as processing)
  */
 export interface Indexed {
-  index?: number;
+  index: number;
 }
 
 /**
