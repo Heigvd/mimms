@@ -1,18 +1,26 @@
 import { RadioType } from '../common/radio/communicationType';
 import { Trigger } from '../common/triggers/trigger';
 
-export function loadTriggers(): Trigger[] {
+function getTriggers(): Trigger[] {
   // TODO load from WEGAS variable
   return getTestTriggers();
+}
+
+export function getSortedTriggers(): Trigger[] {
+  return getTriggers().sort((a: Trigger, b: Trigger) => a.index - b.index);
 }
 
 function getTestTriggers(): Trigger[] {
   return [
     {
       type: 'trigger',
+      uid: 'Test trigger UID here',
+      index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      priority: 0,
+      tag: 'Test Trigger',
+      repeatable: false,
+      operator: 'OR',
       conditions: [
         {
           index: 1,
@@ -38,17 +46,17 @@ function getTestTriggers(): Trigger[] {
           index: 0,
         },
       ],
-      operator: 'OR',
-      repeatable: false,
-      tag: 'Test Trigger',
-      uid: 'Test trigger UID here',
     },
     // RADIO IMPACT
     {
+      uid: 'Other test trigger UID here',
       type: 'trigger',
+      index: 1,
       activableType: 'trigger',
       activeAtStart: true,
-      priority: 0,
+      tag: 'Test Trigger',
+      repeatable: true,
+      operator: 'AND',
       conditions: [
         {
           index: 1,
@@ -72,10 +80,34 @@ function getTestTriggers(): Trigger[] {
           index: 0,
         },
       ],
+    },
+    // zero timing
+    {
+      uid: 'zero timing try',
+      type: 'trigger',
+      index: 2,
+      activableType: 'trigger',
+      activeAtStart: true,
+      tag: 'Test Trigger timing',
+      repeatable: false,
       operator: 'AND',
-      repeatable: true,
-      tag: 'Test Trigger',
-      uid: 'Other test trigger UID here',
+      conditions: [],
+      impacts: [
+        {
+          type: 'notification',
+          roles: {
+            AL: true,
+            ACS: false,
+            CASU: false,
+            EVASAN: false,
+            LEADPMA: false,
+            MCS: false,
+          },
+          delaySeconds: 0,
+          message: "merci de placer l'ambulance",
+          index: 0,
+        },
+      ],
     },
   ];
 }
