@@ -10,9 +10,7 @@ export interface ConditionBase extends Typed, Indexed {
   invert?: boolean; // The condition must NOT be met
 }
 
-export type ActivableStatus =
-  | 'active'
-  | 'inactive';
+export type ActivableStatus = 'active' | 'inactive';
 
 /**
  * completed once => there exists an action or action with specific choice in the timeline that has completed
@@ -21,11 +19,7 @@ export type ActivableStatus =
  * <p>
  * never planned => no action or action with specific choice in the timeline
  */
-export type ChoiceActionStatus =
-  | ActivableStatus
-  | 'completed once'
-  | 'ongoing'
-  | 'never planned';
+export type ChoiceActionStatus = ActivableStatus | 'completed once' | 'ongoing' | 'never planned';
 
 export type Condition =
   | TimeCondition

@@ -43,8 +43,7 @@ export function hasCompletedOnceAction(
   state: Readonly<MainSimulationState>,
   actionTemplateId: ActionTemplateId
 ): boolean {
-  return getCompletedActions(state)
-    .some(action => action.getTemplateId() === actionTemplateId);
+  return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
 }
 
 /**
@@ -54,8 +53,7 @@ export function hasOngoingAction(
   state: Readonly<MainSimulationState>,
   actionTemplateId: ActionTemplateId
 ): boolean {
-  return getOngoingActions(state)
-    .some(action => action.getTemplateId() === actionTemplateId);
+  return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
 }
 
 /**
@@ -66,5 +64,5 @@ export function hasNoActionInTimeline(
   actionTemplateId: ActionTemplateId
 ): boolean {
   // Note : no need to check future actions, an action never starts after now
-  return !(state.getAllActions().some(action => action.getTemplateId() === actionTemplateId));
+  return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
 }

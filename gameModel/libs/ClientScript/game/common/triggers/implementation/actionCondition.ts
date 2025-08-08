@@ -12,7 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
-  actionTemplateId: ActionTemplateId; // TODO see how to deal with Uid (string) vs ActionTemplateId (number)
+  actionTemplateId: ActionTemplateId; // TODO see how to deal with Uid (string) vs ActionTemplateId (number) // TODO adapt UML
   status: ChoiceActionStatus;
 }
 

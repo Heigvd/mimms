@@ -32,7 +32,6 @@ function evaluateTriggerConditions(
     if (trigger.conditions.length === 0) {
       return true;
     }
-
     if (trigger.operator === 'AND') {
       return trigger.conditions.every(c => evaluateCondition(state, c));
     } else if (trigger.operator === 'OR') {

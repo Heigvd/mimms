@@ -1,11 +1,6 @@
 import { Condition } from '../../game/common/triggers/condition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
-import {
-  ALL_EDITABLE,
-  Definition,
-  MapToDefinition,
-  MapToTypeNames,
-} from '../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, MapToDefinition, MapToTypeNames } from './definition';
 
 type ConditionTypeName = MapToTypeNames<Condition>;
 export type ConditionDefinition = MapToDefinition<Condition>;
