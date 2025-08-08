@@ -1,7 +1,14 @@
 import { RadioType } from '../common/radio/communicationType';
 import { Trigger } from '../common/triggers/trigger';
 
-function getTriggers(): Trigger[] {
+//function getTriggersVariable(): SObjectDescriptor {
+//  return Variable.find(gameModel, 'triggers_data');
+//}
+
+// TODO see if Record<Uid, Trigger> ou Trigger[]
+export function getTriggers(): Trigger[] {
+  //const triggersVariable = getTriggersVariable();
+  //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
   // TODO load from WEGAS variable
   return getTestTriggers();
 }
@@ -63,14 +70,15 @@ function getTestTriggers(): Trigger[] {
           type: 'time',
           operator: '>',
           timeSeconds: 60 * 10,
-        },
-        {
-          index: 2,
+    },
+    {
+      index: 2,
           type: 'time',
           operator: '<',
           timeSeconds: 60 * 13,
         },
       ],
+
       impacts: [
         {
           type: 'radio',
