@@ -5,12 +5,12 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"21\"",
+          "content" : "'21';",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding fullSize",
         "layoutStyle" : { },
-        "name" : "Main Scenarist Page",
+        "name" : "mainScenaristPage",
         "style" : { }
       },
       "type" : "PageLoader"

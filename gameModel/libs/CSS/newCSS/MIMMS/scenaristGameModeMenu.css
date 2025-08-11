@@ -5,28 +5,20 @@
 
 .main-simulation__container,
 .drill-pretri__container {
-  /*position: relative;*/
   width: 50%;
-  /*height: 100%;
-  background-size: cover;*/
 }
 
 .game-mode__background {
-  /*overflow: hidden;
-  align-items: center;*/
+  overflow: hidden;
   position: absolute;
-  /*top: 0;
-  left: 0;*/
   width: 100%;
   height: 100%;
 }
 
 .game-mode__background img {
   width: 100%;
-  /*height: 100%;
-  display: block;*/
   object-fit: cover;
-  filter: drop-shadow(0 0 25px rgba(0, 0, 0, .75));
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, .75));
   transition: transform .3s ease-in-out;
 }
 
@@ -36,13 +28,13 @@
 }
 
 .main-simulation__container .game-mode__background img {
-  /*padding-right: 25px;*/
+  padding-right: 25px;
   object-position: right center;
   transform-origin: right center;
 }
 
 .drill-pretri__container .game-mode__background img {
-  /*padding-left: 25px;*/
+  padding-left: 25px;
   object-position: left center;
   transform-origin: left center;
 }
@@ -65,17 +57,6 @@
 .drill-pretri__container > div div:nth-of-type(2) {
   justify-content: flex-end;
 }
-
-/*.game-mode__background::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(to bottom, rgba(21, 145, 195, 0), rgba(21, 145, 195, 1));
-  pointer-events: none;
-}*/
 
 /* - - - - S C E N A R I S T  M E N U - - - - */
 

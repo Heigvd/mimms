@@ -40,7 +40,7 @@
           "pageId" : "scenaristMainMenu",
           "pageLoaderName" : {
             "@class" : "Script",
-            "content" : "\"Main Scenarist Page\"",
+            "content" : "\"mainScenaristPage\"",
             "language" : "TypeScript"
           }
         },
@@ -83,6 +83,14 @@
         "layoutClassName" : "noPadding drill-pretri__container",
         "layoutStyle" : { },
         "name" : "Drill Pre-tri",
+        "openPage" : {
+          "pageId" : "patientGeneration",
+          "pageLoaderName" : {
+            "@class" : "Script",
+            "content" : "\"mainScenaristPage\"",
+            "language" : "TypeScript"
+          }
+        },
         "style" : { }
       },
       "type" : "FlexList"

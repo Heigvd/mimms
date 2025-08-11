@@ -402,6 +402,12 @@
           "trainerPage" : null
         } ],
         "name" : "Legacy"
+      }, {
+        "@class" : "Page",
+        "id" : "30",
+        "name" : "Main Scenarist Page",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {
