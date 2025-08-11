@@ -193,7 +193,11 @@ export abstract class ActionTemplateBase<
    */
   public buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
     const action = this.createActionFromEvent(globalEvent);
-    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
+    return new PlanActionLocalEvent({
+      parentEventId: globalEvent.id,
+      simTimeStamp: globalEvent.payload.triggerTime,
+      action,
+    });
   }
 
   /**

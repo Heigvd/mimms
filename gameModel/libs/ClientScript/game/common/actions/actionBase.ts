@@ -109,7 +109,7 @@ export abstract class ActionBase {
    * Will update the given status
    * @param state the current state that will be updated
    */
-  public abstract update(state: Readonly<MainSimulationState>): void;
+  public abstract update(state: MainSimulationState): void;
 
   public abstract duration(): SimDuration;
 
@@ -117,7 +117,7 @@ export abstract class ActionBase {
    * TODO could be a pure function that returns a cloned instance
    * @returns True if cancellation could be applied
    */
-  public cancel(state: MainSimulationState): boolean {
+  public cancel(state: Readonly<MainSimulationState>): boolean {
     if (this.status === 'Cancelled') {
       this.logger.warn('This action was already cancelled');
     } else if (this.status === 'Completed') {
@@ -130,7 +130,7 @@ export abstract class ActionBase {
     return true;
   }
 
-  protected abstract cancelInternal(state: MainSimulationState): void;
+  protected abstract cancelInternal(state: Readonly<MainSimulationState>): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -176,7 +176,7 @@ export abstract class StartEndAction extends ActionBase {
     this.provideFlagsToState = provideFlagsToState;
   }
 
-  protected abstract dispatchInitEvents(state: MainSimulationState): void;
+  protected abstract dispatchInitEvents(state: Readonly<MainSimulationState>): void;
 
   protected abstract dispatchEndedEvents(state: MainSimulationState): void;
 
@@ -297,20 +297,18 @@ export class DisplayMessageAction extends StartEndAction {
     this.logger.info('end event DisplayMessageAction');
 
     getLocalEventManager().queueLocalEvent(
-      new AddMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        undefined,
-        undefined,
-        this.ownerId,
-        this.messageKey,
-        this.channel
-      )
+      new AddMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        recipientId: this.ownerId,
+        message: this.messageKey,
+        channel: this.channel,
+      })
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -340,19 +338,17 @@ export class OnTheRoadAction extends StartEndAction {
     actor.setLocation(actor.getComputedSymbolicLocation(state));
 
     getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        undefined,
-        undefined,
-        this.ownerId,
-        this.messageKey
-      )
+      new AddNotificationLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        recipientId: this.ownerId,
+        message: this.messageKey,
+      })
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -418,44 +414,43 @@ export class CasuMessageAction extends RadioDrivenAction {
     );
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {
-    //likely nothing to do
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     this.logger.info('start event CasuMessageAction');
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event CasuMessageAction');
     const now = state.getSimTime();
 
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        now,
-        this.getSenderId(),
-        undefined,
-        this.getRecipientId(),
-        this.getMessage(),
-        this.getChannel(),
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: now,
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      })
     );
     if (this.casuMessagePayload.messageType === 'R') {
       getLocalEventManager().queueLocalEvent(
-        new HospitalRequestUpdateLocalEvent(
-          this.eventId,
-          now,
-          this.ownerId,
-          this.casuMessagePayload
-        )
+        new HospitalRequestUpdateLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: now,
+          senderId: this.ownerId,
+          hospitalRequestPayload: this.casuMessagePayload,
+        })
       );
     } else if (this.casuMessagePayload.resourceRequest) {
       // Handle METHANE resource request
-      const dispatchEvent = new ResourceRequestResolutionLocalEvent(
-        this.eventId,
-        now,
-        this.ownerId,
-        this.casuMessagePayload
-      );
+      const dispatchEvent = new ResourceRequestResolutionLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: now,
+        actorUid: this.ownerId,
+        request: this.casuMessagePayload,
+      });
       getLocalEventManager().queueLocalEvent(dispatchEvent);
 
       // Auto request ACS MCS if not requested within 5 mins after methane and ACS/MCS is not on site already
@@ -466,13 +461,17 @@ export class CasuMessageAction extends RadioDrivenAction {
           'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
         );
         getLocalEventManager().queueLocalEvent(
-          new AutoSendACSMCSLocalEvent(this.eventId, now + ACSMCSAutoRequestDelay)
+          new AutoSendACSMCSLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: now + ACSMCSAutoRequestDelay,
+          })
         );
       }
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -533,20 +532,19 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     this.logger.info('start event ActivateRadioSchemaAction');
   }
 
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchEndedEvents(state: MainSimulationState): void {
     this.logger.info('end event ActivateRadioSchemaAction');
 
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getSenderId(),
-        undefined,
-        this.getRecipientId(),
-        this.getMessage(),
-        this.getChannel(),
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      })
     );
 
     const suitableActors = ActorLogic.getHighestAuthorityActorOnSite(state);
@@ -554,32 +552,30 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       state.getInternalStateObject().flags[SimFlag.RADIO_SCHEMA_ACTIVATED] = true;
 
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          getCasuActorId(),
-          undefined,
-          this.ownerId,
-          this.authorizedReplyMessage,
-          this.channel
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderId: getCasuActorId(),
+          recipientId: this.ownerId,
+          message: this.authorizedReplyMessage,
+          channel: this.channel,
+        })
       );
     } else {
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          getCasuActorId(),
-          undefined,
-          this.ownerId,
-          this.unauthorizedReplyMessage,
-          this.channel
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderId: getCasuActorId(),
+          recipientId: this.ownerId,
+          message: this.unauthorizedReplyMessage,
+          channel: this.channel,
+        })
       );
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
     // nothing to do
     return;
   }
@@ -637,38 +633,44 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     this.fixedMapEntity = fixedMapEntity;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
 
     getLocalEventManager().queueLocalEvent(
-      new AddFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
+      new AddFixedEntityLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntity: this.fixedMapEntity,
+      })
     );
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     // ungrey the map element
     getLocalEventManager().queueLocalEvent(
-      new CompleteBuildingFixedEntityLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.fixedMapEntity
-      )
+      new CompleteBuildingFixedEntityLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntity: this.fixedMapEntity,
+      })
     );
     getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        undefined,
-        undefined,
-        this.ownerId,
-        this.messageKey
-      )
+      new AddNotificationLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        recipientId: this.ownerId,
+        message: this.messageKey,
+      })
     );
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), this.fixedMapEntity)
+      new RemoveFixedEntityLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntity: this.fixedMapEntity,
+      })
     );
   }
 }
@@ -702,26 +704,35 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
     getLocalEventManager().queueLocalEvent(
-      new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, LOCATION_ENUM.pcFront)
+      new MoveActorLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        actorUid: this.ownerId,
+        location: LOCATION_ENUM.pcFront,
+      })
     );
 
     // First and only resource on scene comes with
     const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
     getLocalEventManager().queueLocalEvent(
-      new MoveResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        [resourceUid],
-        LOCATION_ENUM.pcFront
-      )
+      new MoveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        resourcesId: [resourceUid],
+        targetLocation: LOCATION_ENUM.pcFront,
+      })
     );
     getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent(this.eventId, state.getSimTime(), [resourceUid])
+      new AssignResourcesToWaitingTaskLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: [resourceUid],
+      })
     );
   }
 }
@@ -755,7 +766,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
     // Move actors to PC
     const actors = state
@@ -764,24 +775,33 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 
     for (const actor of actors) {
       getLocalEventManager().queueLocalEvent(
-        new MoveActorLocalEvent(this.eventId, state.getSimTime(), actor.Uid, this.fixedMapEntity.id)
+        new MoveActorLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          actorUid: actor.Uid,
+          location: this.fixedMapEntity.id,
+        })
       );
     }
     // Move human resources to PC
     getLocalEventManager().queueLocalEvent(
-      new MoveFreeHumanResourcesByLocationLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        LOCATION_ENUM.pcFront,
-        this.fixedMapEntity.id
-      )
+      new MoveFreeHumanResourcesByLocationLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        sourceLocation: LOCATION_ENUM.pcFront,
+        targetLocation: this.fixedMapEntity.id,
+      })
     );
     // Remove PC Front once all actors and resources have been moved
     const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
     pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
     getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent(this.eventId, state.getSimTime(), pcFrontFixedEntity!)
+      new RemoveFixedEntityLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntity: pcFrontFixedEntity!,
+      })
     );
   }
 }
@@ -816,17 +836,17 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     );
   }
 
-  protected override dispatchEndedEvents(state: MainSimulationState): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
     getLocalEventManager().queueLocalEvent(
-      new MoveFreeWaitingResourcesByTypeLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.ownerId,
-        this.vehicleType,
-        this.fixedMapEntity.id
-      )
+      new MoveFreeWaitingResourcesByTypeLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        resourceType: this.vehicleType,
+        targetLocation: this.fixedMapEntity.id,
+      })
     );
   }
 }
@@ -867,28 +887,32 @@ export class MoveActorAction extends StartEndAction {
     this.location = location;
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {}
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     if (!canMoveToLocation(state, 'Actors', this.location)) {
       getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          undefined,
-          this.ownerId,
-          'move-actor-no-location'
-        )
+        new AddNotificationLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          recipientId: this.ownerId,
+          message: 'move-actor-no-location',
+        })
       );
     } else {
       getLocalEventManager().queueLocalEvent(
-        new MoveActorLocalEvent(this.eventId, state.getSimTime(), this.ownerId, this.location)
+        new MoveActorLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          actorUid: this.ownerId,
+          location: this.location,
+        })
       );
     }
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 }
@@ -928,7 +952,7 @@ export class AppointActorAction extends StartEndAction {
     this.involvedResourceId = undefined;
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.location = state.getActorById(this.ownerId)!.Location;
 
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
@@ -944,72 +968,83 @@ export class AppointActorAction extends StartEndAction {
 
       // we reserve the resources for this action so that they cannot be used by anything else
       getLocalEventManager().queueLocalEvent(
-        new ReserveResourcesLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          [this.involvedResourceId],
-          this.Uid
-        )
+        new ReserveResourcesLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          resourcesId: [this.involvedResourceId],
+          actionId: this.Uid,
+        })
       );
     } else {
       // if no resource is available, send directly a notification
       getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          this.ownerId,
-          this.noResourceFailureMessageKey
-        )
+        new AddNotificationLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: this.noResourceFailureMessageKey,
+        })
       );
     }
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     if (this.compliantWithHierarchy) {
       if (this.involvedResourceId != undefined) {
         getLocalEventManager().queueLocalEvent(
-          new AddActorLocalEvent(this.eventId, state.getSimTime(), this.actorRole, this.location)
+          new AddActorLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            role: this.actorRole,
+            location: this.location,
+          })
         );
 
         // no need to free the resource as long as it will be deleted
 
         getLocalEventManager().queueLocalEvent(
-          new DeleteResourceLocalEvent(this.eventId, state.getSimTime(), this.involvedResourceId)
+          new DeleteResourceLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            resourceId: this.involvedResourceId,
+          })
         );
       }
     } else {
       // we free the resources so that they are available for other actions
       if (this.involvedResourceId != undefined) {
         getLocalEventManager().queueLocalEvent(
-          new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
-            this.involvedResourceId,
-          ])
+          new UnReserveResourcesLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            resourcesId: [this.involvedResourceId],
+          })
         );
       }
 
       // Resources refused the order due to hierarchy conflict
       getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          this.ownerId,
-          this.refusalFailureMessageKey
-        )
+        new AddNotificationLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: this.refusalFailureMessageKey,
+        })
       );
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     if (this.involvedResourceId != undefined) {
       getLocalEventManager().queueLocalEvent(
-        new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), [
-          this.involvedResourceId,
-        ])
+        new UnReserveResourcesLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          resourcesId: [this.involvedResourceId],
+        })
       );
     }
   }
@@ -1041,15 +1076,15 @@ export class SituationUpdateAction extends StartEndAction {
     );
   }
 
-  protected dispatchInitEvents(_state: MainSimulationState): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 
-  protected dispatchEndedEvents(_state: MainSimulationState): void {
+  protected dispatchEndedEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
     // nothing to do
     return;
   }
@@ -1135,12 +1170,12 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
     // we reserve the resources for this action so that they cannot be used by anything else
     getLocalEventManager().queueLocalEvent(
-      new ReserveResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.involvedResourcesId,
-        this.Uid
-      )
+      new ReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: this.involvedResourcesId,
+        actionId: this.Uid,
+      })
     );
   }
 
@@ -1149,27 +1184,26 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
     if (this.commMedia === CommMedia.Radio) {
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.getSenderId(),
-          undefined,
-          this.getRecipientId(),
-          this.getMessage(),
-          this.getChannel(),
-          true
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderId: this.getSenderId(),
+          recipientId: this.getRecipientId(),
+          message: this.getMessage(),
+          channel: this.getChannel(),
+          omitTranslation: true,
+        })
       );
     }
 
     // we free the resources so that they are available again
     // ! but we free them only when everything is done !
     getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime() + this.timeDelay,
-        this.involvedResourcesId
-      )
+      new UnReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime() + this.timeDelay,
+        resourcesId: this.involvedResourcesId,
+      })
     );
 
     if (!this.compliantWithHierarchy) {
@@ -1181,33 +1215,33 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     } else {
       if (!this.isSameLocation) {
         getLocalEventManager().queueLocalEvent(
-          new MoveResourcesLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.ownerId,
-            this.involvedResourcesId,
-            this.targetLocation
-          )
+          new MoveResourcesLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            ownerUid: this.ownerId,
+            resourcesId: this.involvedResourcesId,
+            targetLocation: this.targetLocation,
+          })
         );
 
         // during the travel set the resources as waiting
         getLocalEventManager().queueLocalEvent(
-          new AssignResourcesToWaitingTaskLocalEvent(
-            this.eventId,
-            state.getSimTime(),
-            this.involvedResourcesId
-          )
+          new AssignResourcesToWaitingTaskLocalEvent({
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            resourcesId: this.involvedResourcesId,
+          })
         );
       }
 
       // during the travel set the resources as waiting
       getLocalEventManager().queueLocalEvent(
-        new AssignResourcesToTaskLocalEvent(
-          this.eventId,
-          state.getSimTime() + this.timeDelay,
-          this.involvedResourcesId,
-          this.targetTaskId
-        )
+        new AssignResourcesToTaskLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime() + this.timeDelay,
+          resourcesId: this.involvedResourcesId,
+          taskId: this.targetTaskId,
+        })
       );
 
       let nbResourcesNeeded: number = 0;
@@ -1234,26 +1268,24 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     const isRadioMessage: boolean = this.commMedia === CommMedia.Radio;
     if (isRadioMessage) {
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          getResourceAsSenderName(),
-          this.ownerId,
-          messageKey,
-          RadioType.RESOURCES
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: messageKey,
+          channel: RadioType.RESOURCES,
+        })
       );
     } else {
       getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          getResourceAsSenderName(),
-          this.ownerId,
-          messageKey
-        )
+        new AddNotificationLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: messageKey,
+        })
       );
     }
   }
@@ -1288,10 +1320,14 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     return undefined;
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+      new UnReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: this.involvedResourcesId,
+      })
     );
   }
 }
@@ -1337,32 +1373,31 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getSenderId(),
-        undefined,
-        this.getRecipientId(),
-        this.getMessage(),
-        this.getChannel(),
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      })
     );
 
     getLocalEventManager().queueLocalEvent(
-      new PretriageReportResponseLocalEvent(
-        this.eventId,
-        state.getSimTime() + PretriageReportResponseDelay,
-        RadioLogic.getResourceAsSenderName(),
-        this.ownerId,
-        this.pretriageLocation,
-        this.feedbackWhenReport
-      )
+      new PretriageReportResponseLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime() + PretriageReportResponseDelay,
+        senderName: RadioLogic.getResourceAsSenderName(),
+        recipient: this.ownerId,
+        pretriageLocation: this.pretriageLocation,
+        feedbackWhenReport: this.feedbackWhenReport,
+      })
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -1415,21 +1450,20 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event SendRadioMessageAction');
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getSenderId(),
-        undefined,
-        this.getRecipientId(),
-        this.getMessage(),
-        this.getChannel(),
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      })
     );
   }
 
-  // TODO probably nothing
-  protected cancelInternal(_state: MainSimulationState): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
     return;
   }
 
@@ -1511,7 +1545,7 @@ export class EvacuationAction extends RadioDrivenAction {
     this.involvedResourcesId = [];
   }
 
-  protected dispatchInitEvents(state: MainSimulationState): void {
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event EvacuationAction');
 
     const squadDef = getSquadDef(this.transportSquad);
@@ -1528,60 +1562,61 @@ export class EvacuationAction extends RadioDrivenAction {
 
     // we reserve the resources for this action so that they cannot be used by anything else
     getLocalEventManager().queueLocalEvent(
-      new ReserveResourcesLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.involvedResourcesId,
-        this.Uid
-      )
+      new ReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: this.involvedResourcesId,
+        actionId: this.Uid,
+      })
     );
   }
 
-  protected dispatchEndedEvents(state: MainSimulationState): void {
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event EvacuationAction');
 
     // we free the resources so that they are available again
     getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+      new UnReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: this.involvedResourcesId,
+      })
     );
 
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.eventId,
-        state.getSimTime(),
-        this.getSenderId(),
-        undefined,
-        this.getRecipientId(),
-        this.getMessage(),
-        this.getChannel(),
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      })
     );
 
     if (!this.compliantWithHierarchy) {
       // Resources refused the order due to hierarchy conflict
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          this.ownerId,
-          this.msgEvacuationRefused,
-          this.getChannel()
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: this.msgEvacuationRefused,
+          channel: this.getChannel(),
+        })
       );
     } else if (!this.isEnoughResources) {
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          this.ownerId,
-          this.msgEvacuationAbort,
-          this.getChannel()
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: this.msgEvacuationAbort,
+          channel: this.getChannel(),
+        })
       );
     } else {
       const travelTime = computeTravelTime(this.hospitalId, this.transportSquad);
@@ -1589,12 +1624,12 @@ export class EvacuationAction extends RadioDrivenAction {
       const evacuationTask = TaskLogic.getEvacuationTask(state);
 
       getLocalEventManager().queueLocalEvent(
-        new AssignResourcesToTaskLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          this.involvedResourcesId,
-          evacuationTask.Uid
-        )
+        new AssignResourcesToTaskLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          resourcesId: this.involvedResourcesId,
+          taskId: evacuationTask.Uid,
+        })
       );
 
       evacuationTask.createSubTask(
@@ -1611,23 +1646,26 @@ export class EvacuationAction extends RadioDrivenAction {
       );
 
       getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent(
-          this.eventId,
-          state.getSimTime(),
-          undefined,
-          RadioLogic.getResourceAsSenderName(),
-          this.ownerId,
-          this.feedbackWhenStarted,
-          this.getChannel()
-        )
+        new AddRadioMessageLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          senderName: RadioLogic.getResourceAsSenderName(),
+          recipientId: this.ownerId,
+          message: this.feedbackWhenStarted,
+          channel: this.getChannel(),
+        })
       );
     }
   }
 
-  protected cancelInternal(state: MainSimulationState): void {
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
     // we free the resources so that they are available for other actions
     getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent(this.eventId, state.getSimTime(), this.involvedResourcesId)
+      new UnReserveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: this.involvedResourcesId,
+      })
     );
   }
 

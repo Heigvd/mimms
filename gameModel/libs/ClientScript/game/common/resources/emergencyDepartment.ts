@@ -1,5 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
+import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
 import {
@@ -8,7 +9,6 @@ import {
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
-import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ResourceContainerConfig,
@@ -39,7 +39,7 @@ export function hasContainerOfType(
  * @param request the amount and type formulated in the request
  */
 export function resolveResourceRequest(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   globalEventId: GlobalEventId,
   senderId: ActorId | undefined,
   request: Partial<Record<ResourceContainerType, number>>
@@ -86,15 +86,15 @@ export function resolveResourceRequest(
 
         const departureTime = Math.max(c.availabilityTime, now);
         const definition = getContainerDef(c.templateId);
-        const evt = new ResourceMobilizationEvent(
-          globalEventId,
-          now,
+        const evt = new ResourceMobilizationEvent({
+          parentEventId: globalEventId,
+          simTimeStamp: now,
           departureTime,
-          c.travelTime,
-          definition.uid,
-          n,
-          c.name
-        );
+          travelTime: c.travelTime,
+          containerDefId: definition.uid,
+          amount: n,
+          configName: c.name,
+        });
         getLocalEventManager().queueLocalEvent(evt);
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
@@ -124,16 +124,15 @@ function queueResourceDepartureRadioMessageEvents(
       msgs.push(buildRadioText(v.travelTime, v.def, v.name));
     });
 
-    const evt = new AddRadioMessageLocalEvent(
-      globalEventId,
-      dtime,
-      getCasuActorId(),
-      undefined,
-      senderId,
-      msgs.join('\n'),
-      RadioType.CASU,
-      true
-    );
+    const evt = new AddRadioMessageLocalEvent({
+      parentEventId: globalEventId,
+      simTimeStamp: dtime,
+      senderId: getCasuActorId(),
+      recipientId: senderId,
+      message: msgs.join('\n'),
+      channel: RadioType.CASU,
+      omitTranslation: true,
+    });
     getLocalEventManager().queueLocalEvent(evt);
   });
 }
