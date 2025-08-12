@@ -8,8 +8,11 @@
           "content" : "'21';",
           "language" : "typescript"
         },
-        "layoutClassName" : "noPadding fullSize",
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
         "name" : "mainScenaristPage",
         "style" : { }
       },
@@ -18,9 +21,11 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding fullSize",
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
-      "overflow" : "auto"
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
     },
     "style" : { }
   },

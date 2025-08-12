@@ -19,8 +19,11 @@
         }, {
           "props" : {
             "className" : "game-mode__title",
-            "layoutClassName" : "noPadding fullSize",
-            "layoutStyle" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
             "name" : "Title",
             "script" : {
               "@class" : "Script",
@@ -31,7 +34,7 @@
           },
           "type" : "Image"
         } ],
-        "className" : "fullSize",
+        "className" : "",
         "layout" : { },
         "layoutClassName" : "noPadding main-simulation__container",
         "layoutStyle" : { },
@@ -44,7 +47,10 @@
             "language" : "TypeScript"
           }
         },
-        "style" : { }
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
       },
       "type" : "FlexList"
     }, {
@@ -66,8 +72,11 @@
         }, {
           "props" : {
             "className" : "game-mode__title",
-            "layoutClassName" : "noPadding fullSize",
-            "layoutStyle" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
             "name" : "Title",
             "script" : {
               "@class" : "Script",
@@ -78,7 +87,7 @@
           },
           "type" : "Image"
         } ],
-        "className" : "fullSize",
+        "className" : "",
         "layout" : { },
         "layoutClassName" : "noPadding drill-pretri__container",
         "layoutStyle" : { },
@@ -91,16 +100,21 @@
             "language" : "TypeScript"
           }
         },
-        "style" : { }
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
       },
       "type" : "FlexList"
     } ],
     "layout" : {
       "flexDirection" : "row"
     },
-    "layoutClassName" : "noPadding fullSize game-mode__container",
+    "layoutClassName" : "noPadding game-mode__container",
     "layoutStyle" : {
-      "overflow" : "auto"
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
     },
     "style" : { }
   },
