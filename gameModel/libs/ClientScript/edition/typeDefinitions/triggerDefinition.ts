@@ -14,6 +14,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       activableType: 'trigger',
       activeAtStart: true,
       tag: 'TODO some default tag',
+      comment: '',
       repeatable: true,
       operator: 'AND',
       conditions: [],
@@ -27,11 +28,11 @@ export function getTriggerDefinition(): TriggerDefinition {
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
       tag: ALL_EDITABLE,
+      comment: ALL_EDITABLE,
       repeatable: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       conditions: ALL_EDITABLE,
       impacts: ALL_EDITABLE,
-      comment: ALL_EDITABLE,
     },
   };
 }
