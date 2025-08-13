@@ -312,6 +312,12 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
+        "id" : "21",
+        "name" : "Game Mode",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
         "scenaristPage" : true,
@@ -396,6 +402,12 @@
           "trainerPage" : null
         } ],
         "name" : "Legacy"
+      }, {
+        "@class" : "Page",
+        "id" : "30",
+        "name" : "Main Scenarist Page",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

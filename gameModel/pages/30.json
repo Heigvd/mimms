@@ -1,0 +1,33 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "'21';",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
+        },
+        "name" : "mainScenaristPage",
+        "style" : { }
+      },
+      "type" : "PageLoader"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

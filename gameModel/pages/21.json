@@ -1,0 +1,122 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "",
+            "layoutClassName" : "noPadding game-mode__background",
+            "layoutStyle" : { },
+            "name" : "Background",
+            "script" : {
+              "@class" : "Script",
+              "content" : "\"/mask _mimms.webp\"",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Image"
+        }, {
+          "props" : {
+            "className" : "game-mode__title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
+            "name" : "Title",
+            "script" : {
+              "@class" : "Script",
+              "content" : "\"/texte_mimms.webp\"",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Image"
+        } ],
+        "className" : "",
+        "layout" : { },
+        "layoutClassName" : "noPadding main-simulation__container",
+        "layoutStyle" : { },
+        "name" : "Main Simulation",
+        "openPage" : {
+          "pageId" : "scenaristMainMenu",
+          "pageLoaderName" : {
+            "@class" : "Script",
+            "content" : "\"mainScenaristPage\"",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "",
+            "layoutClassName" : "noPadding game-mode__background",
+            "layoutStyle" : { },
+            "name" : "Background",
+            "script" : {
+              "@class" : "Script",
+              "content" : "\"/mask_drill.webp\"",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Image"
+        }, {
+          "props" : {
+            "className" : "game-mode__title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
+            "name" : "Title",
+            "script" : {
+              "@class" : "Script",
+              "content" : "\"/texte_drill_pretri_droite_inverse.webp\"",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Image"
+        } ],
+        "className" : "",
+        "layout" : { },
+        "layoutClassName" : "noPadding drill-pretri__container",
+        "layoutStyle" : { },
+        "name" : "Drill Pre-tri",
+        "openPage" : {
+          "pageId" : "patientGeneration",
+          "pageLoaderName" : {
+            "@class" : "Script",
+            "content" : "\"mainScenaristPage\"",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "row"
+    },
+    "layoutClassName" : "noPadding game-mode__container",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
