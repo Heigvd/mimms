@@ -1,12 +1,12 @@
 import { triggerLogger } from '../../../tools/logger';
-import { Indexed, Typed, Uid } from '../interfaces';
+import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
 import { MapEntityCondition, TriggerCondition } from './implementation/activableCondition';
 import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
 
-export interface ConditionBase extends Typed, Indexed {
+export interface ConditionBase extends IDescriptor, Typed, Indexed {
   invert?: boolean; // The condition must NOT be met
 }
 

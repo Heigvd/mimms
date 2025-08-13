@@ -1,4 +1,4 @@
-import { Indexed, Typed, Uid } from '../interfaces';
+import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActivationImpact, convertActivationImpact } from './implementation/activationImpact';
@@ -15,7 +15,7 @@ import { convertRadioMessageImpact, RadioMessageImpact } from './implementation/
 /**
  * Impacts are meant to produce local events that will in turn modify the state of the game
  */
-export interface ImpactBase extends Typed, Indexed {
+export interface ImpactBase extends IDescriptor, Typed, Indexed {
   delaySeconds: number; // time to wait before processing the produced local events
 }
 

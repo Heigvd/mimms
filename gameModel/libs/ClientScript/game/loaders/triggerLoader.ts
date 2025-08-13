@@ -30,6 +30,7 @@ function getTestTriggers(): Trigger[] {
       operator: 'OR',
       conditions: [
         {
+          uid: 'c1',
           index: 1,
           type: 'time',
           operator: '>',
@@ -40,6 +41,7 @@ function getTestTriggers(): Trigger[] {
       impacts: [
         {
           type: 'notification',
+          uid: 'i1',
           roles: {
             AL: true,
             ACS: false,
@@ -67,12 +69,14 @@ function getTestTriggers(): Trigger[] {
       conditions: [
         {
           index: 1,
+          uid: 'c2',
           type: 'time',
           operator: '>',
           timeSeconds: 60 * 10,
-    },
-    {
-      index: 2,
+        },
+        {
+          index: 2,
+          uid: 'c3',
           type: 'time',
           operator: '<',
           timeSeconds: 60 * 13,
@@ -82,6 +86,7 @@ function getTestTriggers(): Trigger[] {
       impacts: [
         {
           type: 'radio',
+          uid: 'i1',
           channel: RadioType.CASU,
           delaySeconds: 0,
           message: 'Triggers can talk in the radio too',
@@ -103,6 +108,7 @@ function getTestTriggers(): Trigger[] {
       impacts: [
         {
           type: 'notification',
+          uid: 'i2',
           roles: {
             AL: true,
             ACS: false,

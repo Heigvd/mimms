@@ -1,5 +1,6 @@
 import { Condition } from '../../game/common/triggers/condition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
+import { generateId } from '../../tools/helper';
 import { ALL_EDITABLE, Definition, MapToDefinition, MapToTypeNames } from './definition';
 
 type ConditionTypeName = MapToTypeNames<Condition>;
@@ -25,12 +26,14 @@ function getTimeConditionDef(): Definition<TimeCondition> {
     type: 'time',
     validator: _condition => ({ success: true, messages: [] }),
     getDefault: () => ({
+      uid: generateId(10),
       index: 1,
       type: 'time',
       operator: '=',
       timeSeconds: 0,
     }),
     view: {
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: ALL_EDITABLE,
       operator: ALL_EDITABLE,

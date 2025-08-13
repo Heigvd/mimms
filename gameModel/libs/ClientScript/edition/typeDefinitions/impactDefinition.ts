@@ -1,12 +1,13 @@
 import { Impact } from '../../game/common/impacts/impact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
+import { generateId } from '../../tools/helper';
 import {
   ALL_EDITABLE,
   Definition,
   MapToDefinition,
   //MapToRecordByType,
   MapToTypeNames,
-} from '../typeDefinitions/definition';
+} from './definition';
 
 type ImpactTypeName = MapToTypeNames<Impact>;
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -36,6 +37,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
     validator: _impact => ({ success: true, messages: [] }), // TODO validation
     getDefault: () => ({
       type: 'notification',
+      uid: generateId(10),
       delaySeconds: 0,
       message: '',
       index: 0,
@@ -49,6 +51,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       },
     }),
     view: {
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
