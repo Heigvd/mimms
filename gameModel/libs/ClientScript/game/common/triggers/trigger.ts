@@ -1,7 +1,8 @@
 import { triggerLogger } from '../../../tools/logger';
+import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { getSortedTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
-import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
+import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
@@ -82,4 +83,13 @@ export function evaluateTrigger(
 export function evaluateAllTriggers(state: Readonly<MainSimulationState>): LocalEventBase[] {
   const triggers: Trigger[] = getSortedTriggers();
   return triggers.flatMap((trigger: Trigger) => evaluateTrigger(state, trigger));
+}
+
+export function getTriggersVariable(): SObjectDescriptor {
+  return Variable.find(gameModel, 'triggers_data');
+}
+
+export function saveTriggers(data: Record<Uid, Trigger>): void {
+  const triggerDataVariableDescr = getTriggersVariable();
+  saveToObjectDescriptor(triggerDataVariableDescr, data);
 }
