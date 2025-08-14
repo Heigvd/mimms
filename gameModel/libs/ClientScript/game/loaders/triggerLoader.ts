@@ -1,10 +1,6 @@
 import { RadioType } from '../common/radio/communicationType';
 import { Trigger } from '../common/triggers/trigger';
 
-//function getTriggersVariable(): SObjectDescriptor {
-//  return Variable.find(gameModel, 'triggers_data');
-//}
-
 // FIXME if needed, change return type to Record<Uid, Trigger>
 export function getTriggers(): Trigger[] {
   //const triggersVariable = getTriggersVariable();
