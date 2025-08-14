@@ -1,6 +1,7 @@
+import { ViewConfig } from '../../../edition/typeDefinitions/definition';
 import { triggerLogger } from '../../../tools/logger';
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
-import { getSortedTriggers } from '../../loaders/triggerLoader';
+import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
@@ -14,15 +15,27 @@ import { Condition, evaluateCondition } from './condition';
  * If the conditions are evaluated to true, the impacts are evaluated.
  */
 export interface Trigger extends IActivableDescriptor, IDescriptor, Typed, Indexed {
-  type: 'trigger'; // TODO see if used or not (absent in UML)
+  type: 'trigger';
   activableType: 'trigger';
-  // TODO accessLevel (present in UML)
-  // TODO mandatory (present in UML)
-  repeatable: boolean; // TODO decide the naming : repeatable (like action templates) or repeats (like in UML)
-  operator: 'OR' | 'AND';
+  comment?: string; // free text
+  accessLevel: ViewConfig; // if the scenarist can see / edit
+  mandatory: boolean;
+  repeatable: boolean; // TODO voir avec Dom si boolean / number / si on ajoute boolean "Disable itself" / ?? (update UML)
+  operator: 'OR' | 'AND'; // operator between conditions
   conditions: Condition[];
   impacts: Impact[];
-  comment?: string;
+}
+
+export function getSortedTriggers(): Trigger[] {
+  return getTriggers().sort(compareTriggers);
+}
+
+export function compareTriggers(a: Trigger, b: Trigger): number {
+  if (a.index === b.index) {
+    return a.uid.localeCompare(b.uid);
+  }
+
+  return a.index - b.index;
 }
 
 function evaluateTriggerConditions(
@@ -39,11 +52,11 @@ function evaluateTriggerConditions(
       return trigger.conditions.some(c => evaluateCondition(state, c));
     }
   } else {
-    triggerLogger.info(`trigger with id ${trigger.uid} is deactivated`);
+    triggerLogger.info(`trigger '${trigger.uid}' is deactivated`);
     return false;
   }
 
-  triggerLogger.warn('trigger conditions are erroneously defined : ', JSON.stringify(trigger));
+  triggerLogger.error('trigger conditions are erroneously defined : ', JSON.stringify(trigger));
   return false;
 }
 
@@ -56,11 +69,9 @@ function evaluateTriggerImpacts(
   );
 }
 
-export function evaluateTrigger(
-  state: Readonly<MainSimulationState>,
-  trigger: Trigger
-): LocalEventBase[] {
+function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger): LocalEventBase[] {
   if (evaluateTriggerConditions(state, trigger)) {
+    triggerLogger.info(`trigger '${trigger.uid}' is triggered`);
     const impacts: LocalEventBase[] = evaluateTriggerImpacts(state, trigger);
 
     // Deactivate if not repeatable
@@ -71,7 +82,7 @@ export function evaluateTrigger(
         // TODO do with LocalEvent as soon as it is available
         triggerState.active = false;
       } else {
-        triggerLogger.warn(`Trigger activable with id ${trigger.uid} not found`);
+        triggerLogger.warn(`Trigger activable '${trigger.uid}' not found`);
       }
     }
 
@@ -89,6 +100,7 @@ export function getTriggersVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'triggers_data');
 }
 
+// Directly used in triggerEditor page
 export function saveTriggers(data: Record<Uid, Trigger>): void {
   const triggerDataVariableDescr = getTriggersVariable();
   saveToObjectDescriptor(triggerDataVariableDescr, data);

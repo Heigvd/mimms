@@ -5,16 +5,12 @@ import { Trigger } from '../common/triggers/trigger';
 //  return Variable.find(gameModel, 'triggers_data');
 //}
 
-// TODO see if Record<Uid, Trigger> ou Trigger[]
+// FIXME if needed, change return type to Record<Uid, Trigger>
 export function getTriggers(): Trigger[] {
   //const triggersVariable = getTriggersVariable();
   //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
   // TODO load from WEGAS variable
   return getTestTriggers();
-}
-
-export function getSortedTriggers(): Trigger[] {
-  return getTriggers().sort((a: Trigger, b: Trigger) => a.index - b.index);
 }
 
 function getTestTriggers(): Trigger[] {
@@ -26,6 +22,8 @@ function getTestTriggers(): Trigger[] {
       activableType: 'trigger',
       activeAtStart: true,
       tag: 'Test Trigger',
+      accessLevel: 'basic',
+      mandatory: false,
       repeatable: false,
       operator: 'OR',
       conditions: [
@@ -64,6 +62,8 @@ function getTestTriggers(): Trigger[] {
       activableType: 'trigger',
       activeAtStart: true,
       tag: 'Test Trigger',
+      accessLevel: 'basic',
+      mandatory: false,
       repeatable: true,
       operator: 'AND',
       conditions: [
@@ -102,6 +102,8 @@ function getTestTriggers(): Trigger[] {
       activableType: 'trigger',
       activeAtStart: true,
       tag: 'Test Trigger timing',
+      accessLevel: 'basic',
+      mandatory: false,
       repeatable: false,
       operator: 'AND',
       conditions: [],

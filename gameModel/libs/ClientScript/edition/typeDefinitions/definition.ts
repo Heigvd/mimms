@@ -7,16 +7,14 @@ type Unarray<T> = T extends Array<infer U> ? U : T;
 
 type EditionLevel = 'hidden' | 'visible' | 'editable';
 
+export type ViewConfig = 'basic' | 'advanced' | 'expert';
+
 /**
  * Might be directly mapped to WEGAS ADVANCED and INTERNAL views
  */
-interface ConfigurationView {
-  basic: EditionLevel;
-  advanced: EditionLevel;
-  expert: EditionLevel;
-}
+type ConfigurationView = Record<ViewConfig, EditionLevel>;
 
-export const ALL_EDITABLE: ConfigurationView = {
+export const ALL_EDITABLE: Record<ViewConfig, EditionLevel> = {
   basic: 'editable',
   advanced: 'editable',
   expert: 'editable',
