@@ -46,7 +46,7 @@ export function evaluateCondition(state: Readonly<MainSimulationState>, conditio
       result = evaluateActivable(state, condition.activableRef, condition.status);
       break;
     default:
-      triggerLogger.warn('Unknown condition type', condition);
+      triggerLogger.error('Unknown condition type', condition);
       return false;
   }
 
@@ -68,4 +68,12 @@ export function evaluateActivable(
     case 'inactive':
       return !(state.getActivable(uid)?.active ?? false);
   }
+}
+
+export function compareConditions(a: Condition, b: Condition): number {
+  if (a.index === b.index) {
+    return a.uid.localeCompare(b.uid);
+  }
+
+  return a.index - b.index;
 }

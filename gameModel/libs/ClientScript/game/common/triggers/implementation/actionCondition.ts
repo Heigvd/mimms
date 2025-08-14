@@ -12,7 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
-  actionTemplateId: ActionTemplateId; // TODO see how to deal with Uid (string) vs ActionTemplateId (number) // TODO adapt UML
+  actionTemplateId: ActionTemplateId;
   status: ChoiceActionStatus;
 }
 
@@ -33,7 +33,7 @@ export function evaluateActionCondition(
       return hasOngoingAction(state, condition.actionTemplateId);
 
     default:
-      triggerLogger.warn('Unknown status', JSON.stringify(condition));
+      triggerLogger.error('Unknown status', JSON.stringify(condition));
   }
   return false;
 }

@@ -37,12 +37,12 @@ export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
 export type MapToTypeNames<U> = U extends Typed ? U['type'] : never;
 //export type MapToRecordByType<U> = [U] extends [Typed] ? Record<U['type'], Definition<U>> : never;
 
-interface ValidationResult {
+export interface ValidationResult {
   success: boolean;
   messages: {
     logLevel: 'OFF' | 'ERROR' | 'WARN' | 'LOG' | 'INFO' | 'DEBUG';
     message: string;
-    isTranslateKey: boolean;
+    isTranslateKey: boolean; // TODO why translate key ? Scenarist is not all in english ?
   }[];
 }
 

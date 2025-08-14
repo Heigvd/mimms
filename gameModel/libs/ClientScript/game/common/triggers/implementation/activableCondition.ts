@@ -1,16 +1,14 @@
 import { Uid } from '../../interfaces';
 import { ActivableStatus, ConditionBase } from '../condition';
 
-export interface ActivableCondition extends ConditionBase {
-  type: 'trigger' | 'mapEntity';
+export interface TriggerCondition extends ConditionBase {
+  type: 'trigger';
   activableRef: Uid;
   status: ActivableStatus;
 }
 
-export interface TriggerCondition extends ActivableCondition {
-  type: 'trigger';
-}
-
-export interface MapEntityCondition extends ActivableCondition {
+export interface MapEntityCondition extends ConditionBase {
   type: 'mapEntity';
+  activableRef: Uid;
+  status: ActivableStatus;
 }
