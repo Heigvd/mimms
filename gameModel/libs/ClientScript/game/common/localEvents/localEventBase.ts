@@ -1,6 +1,6 @@
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { entries, keys } from '../../../tools/helper';
-import { mainSimLogger, resourceLogger } from '../../../tools/logger';
+import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
@@ -31,6 +31,7 @@ import {
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
+import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
@@ -42,6 +43,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
+import { Activable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -1129,6 +1131,45 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
         omitTranslation: true,
       })
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// ACTIVABLE
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Change the active status of an activable
+ */
+export class ChangeActivableStatusLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    }
+  ) {
+    super({ ...props, type: 'PlanActionLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined) {
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.warn('Could not find activable', this.props);
+    }
   }
 }
 

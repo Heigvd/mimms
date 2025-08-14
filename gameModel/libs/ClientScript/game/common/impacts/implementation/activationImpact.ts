@@ -1,5 +1,5 @@
 import { Uid } from '../../interfaces';
-import { LocalEventBase } from '../../localEvents/localEventBase';
+import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
 
@@ -17,7 +17,14 @@ export function convertActivationImpact(
   impact: ActivationImpact,
   parentTriggerId: Uid
 ): LocalEventBase[] {
-  //const time = state.getSimTime() + impact.delaySeconds;
-  return [];
-  // TODO add / modify entry in activables through local event
+  const time = state.getSimTime() + impact.delaySeconds;
+  return [
+    new ChangeActivableStatusLocalEvent({
+      parentEventId: state.getLastEventId(),
+      parentTriggerId,
+      simTimeStamp: time,
+      target: impact.target,
+      option: impact.option,
+    }),
+  ];
 }
