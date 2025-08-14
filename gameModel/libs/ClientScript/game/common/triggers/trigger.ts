@@ -4,7 +4,7 @@ import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
-import { LocalEventBase } from '../localEvents/localEventBase';
+import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
 
@@ -76,14 +76,15 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
 
     // Deactivate if not repeatable
     if (!trigger.repeatable) {
-      const triggerState = state.getActivable(trigger.uid);
-
-      if (triggerState) {
-        // TODO do with LocalEvent as soon as it is available
-        triggerState.active = false;
-      } else {
-        triggerLogger.warn(`Trigger activable '${trigger.uid}' not found`);
-      }
+      impacts.push(
+        new ChangeActivableStatusLocalEvent({
+          parentEventId: state.getLastEventId(),
+          parentTriggerId: trigger.uid,
+          simTimeStamp: state.getSimTime(),
+          target: trigger.uid,
+          option: 'deactivate',
+        })
+      );
     }
 
     return impacts;
