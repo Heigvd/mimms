@@ -1,4 +1,5 @@
 import { Condition } from '../../game/common/triggers/condition';
+import { TriggerCondition } from '../../game/common/triggers/implementation/activableCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
 import {
@@ -18,7 +19,7 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
     time: getTimeConditionDef(),
     action: {} as any,
     choice: {} as any,
-    trigger: {} as any,
+    trigger: getTriggerConditionDef(),
     mapEntity: {} as any,
   };
 
@@ -58,6 +59,41 @@ function getTimeConditionDef(): Definition<TimeCondition> {
       type: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       timeSeconds: ALL_EDITABLE,
+    },
+  };
+}
+
+function getTriggerConditionDef(): Definition<TriggerCondition> {
+  return {
+    type: 'trigger',
+    getDefault: () => ({
+      type: 'trigger',
+      uid: generateId(10),
+      index: 0,
+      activableRef: '',
+      status: 'active',
+    }),
+    validator: (condition: TriggerCondition) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (condition.activableRef.trim().length === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select a trigger',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: ALL_EDITABLE,
+      activableRef: ALL_EDITABLE,
+      status: ALL_EDITABLE,
     },
   };
 }
