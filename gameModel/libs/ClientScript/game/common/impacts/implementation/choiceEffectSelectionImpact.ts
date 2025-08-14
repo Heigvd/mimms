@@ -4,7 +4,8 @@ import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
 
 export interface ChoiceEffectSelectionImpact extends ImpactBase {
-  type: 'choice';
+  type: 'effectSelection';
+  target: Uid;
   targetEffect: Uid;
 }
 

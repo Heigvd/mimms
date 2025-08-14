@@ -33,7 +33,7 @@ export function convertToLocalEvents(
   switch (impact.type) {
     case 'activation':
       return convertActivationImpact(state, impact, parentTriggerId);
-    case 'choice':
+    case 'effectSelection':
       return convertChoiceEffectSelectionImpact(state, impact, parentTriggerId);
     case 'notification':
       return convertNotificationImpact(state, impact, parentTriggerId);

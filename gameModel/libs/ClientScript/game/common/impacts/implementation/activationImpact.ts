@@ -7,8 +7,9 @@ export type ActivationOperator = 'activate' | 'deactivate';
 
 export interface ActivationImpact extends ImpactBase {
   type: 'activation';
+  activableType: string; // TODO see if useful
   target: Uid;
-  operator: ActivationOperator;
+  option: ActivationOperator;
 }
 
 export function convertActivationImpact(

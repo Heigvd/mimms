@@ -12,7 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
-  actionTemplateId: ActionTemplateId;
+  actionRef: ActionTemplateId;
   status: ChoiceActionStatus;
 }
 
@@ -23,14 +23,14 @@ export function evaluateActionCondition(
   switch (condition.status) {
     case 'active':
     case 'inactive':
-      return evaluateActivable(state, String(condition.actionTemplateId), condition.status); // TODO remove String( ) if we can (regarding actionTemplateId type)
+      return evaluateActivable(state, String(condition.actionRef), condition.status); // TODO remove String( ) if we can (regarding actionTemplateId type)
 
     case 'completed once':
-      return hasCompletedOnceAction(state, condition.actionTemplateId);
+      return hasCompletedOnceAction(state, condition.actionRef);
     case 'never planned':
-      return hasNoActionInTimeline(state, condition.actionTemplateId);
+      return hasNoActionInTimeline(state, condition.actionRef);
     case 'ongoing':
-      return hasOngoingAction(state, condition.actionTemplateId);
+      return hasOngoingAction(state, condition.actionRef);
 
     default:
       triggerLogger.error('Unknown status', JSON.stringify(condition));
