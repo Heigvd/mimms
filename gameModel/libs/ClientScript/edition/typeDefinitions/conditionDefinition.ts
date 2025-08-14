@@ -1,5 +1,10 @@
 import { Condition } from '../../game/common/triggers/condition';
-import { TriggerCondition } from '../../game/common/triggers/implementation/activableCondition';
+import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
+import {
+  MapEntityCondition,
+  TriggerCondition,
+} from '../../game/common/triggers/implementation/activableCondition';
+import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
 import {
@@ -14,19 +19,20 @@ type ConditionTypeName = MapToTypeNames<Condition>;
 export type ConditionDefinition = MapToDefinition<Condition>;
 
 export function getConditionDefinition(type: ConditionTypeName): ConditionDefinition {
-  // TODO complete all definitions
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
     time: getTimeConditionDef(),
-    action: {} as any,
-    choice: {} as any,
+    action: getActionCondition(),
+    choice: getChoiceCondition(),
     trigger: getTriggerConditionDef(),
-    mapEntity: {} as any,
+    mapEntity: getMapEntityCondition(),
   };
 
   return defs[type]!;
 }
 
-// TODO complete with all other condition types
+// TODO check all of that when the display is implemented
+
+// TODO somewhere check that all impacts are valid
 
 function getTimeConditionDef(): Definition<TimeCondition> {
   return {
@@ -63,6 +69,76 @@ function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
+function getActionCondition(): Definition<ActionCondition> {
+  return {
+    type: 'action',
+    getDefault: () => ({
+      uid: generateId(10),
+      index: 0,
+      type: 'action',
+      actionRef: 0,
+      status: 'active',
+    }),
+    validator: (condition: ActionCondition) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (condition.actionRef === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select the action',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: ALL_EDITABLE,
+      actionRef: ALL_EDITABLE,
+      status: ALL_EDITABLE,
+    },
+  };
+}
+
+function getChoiceCondition(): Definition<ChoiceCondition> {
+  return {
+    type: 'choice',
+    getDefault: () => ({
+      uid: generateId(10),
+      index: 0,
+      type: 'choice',
+      choiceRef: '',
+      status: 'active',
+    }),
+    validator: (condition: ChoiceCondition) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (condition.choiceRef.trim().length === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select the choice',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: ALL_EDITABLE,
+      choiceRef: ALL_EDITABLE,
+      status: ALL_EDITABLE,
+    },
+  };
+}
+
 function getTriggerConditionDef(): Definition<TriggerCondition> {
   return {
     type: 'trigger',
@@ -74,6 +150,41 @@ function getTriggerConditionDef(): Definition<TriggerCondition> {
       status: 'active',
     }),
     validator: (condition: TriggerCondition) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (condition.activableRef.trim().length === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select a trigger',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: ALL_EDITABLE,
+      activableRef: ALL_EDITABLE,
+      status: ALL_EDITABLE,
+    },
+  };
+}
+
+function getMapEntityCondition(): Definition<MapEntityCondition> {
+  return {
+    type: 'mapEntity',
+    getDefault: () => ({
+      uid: generateId(10),
+      index: 0,
+      type: 'mapEntity',
+      activableRef: '',
+      status: 'active',
+    }),
+    validator: (condition: MapEntityCondition) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
