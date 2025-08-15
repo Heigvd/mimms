@@ -325,7 +325,7 @@
       }, {
         "@class" : "Page",
         "id" : "triggersConfiguration",
-        "name" : "Triggers",
+        "name" : "Triggers Configuration",
         "scenaristPage" : null,
         "trainerPage" : null
       }, {

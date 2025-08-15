@@ -1,14 +1,13 @@
-import { RadioType } from '../common/radio/communicationType';
-import { Trigger } from '../common/triggers/trigger';
+import { getTriggersVariable, Trigger } from '../common/triggers/trigger';
+import { parseObjectDescriptor } from '../../tools/WegasHelper';
 
 // FIXME if needed, change return type to Record<Uid, Trigger>
 export function getTriggers(): Trigger[] {
-  //const triggersVariable = getTriggersVariable();
-  //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
-  // TODO load from WEGAS variable
-  return getTestTriggers();
+  const triggersVariable = getTriggersVariable();
+  return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
+  //return getTestTriggers();
 }
-
+/*
 function getTestTriggers(): Trigger[] {
   return [
     {
@@ -123,3 +122,4 @@ function getTestTriggers(): Trigger[] {
     },
   ];
 }
+*/

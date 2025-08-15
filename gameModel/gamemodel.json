@@ -883,7 +883,10 @@
         "translations" : { }
       },
       "name" : "triggers_data",
-      "properties" : { },
+      "properties" : {
+        "d2n8s9mkOp" : "{\"type\":\"trigger\",\"uid\":\"d2n8s9mkOp\",\"index\":1,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Fire brigade truck is stuck by road construction\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"repeatable\":false,\"operator\":\"AND\",\"conditions\":[],\"impacts\":[]}",
+        "ljfzA5zJ2i" : "{\"type\":\"trigger\",\"uid\":\"ljfzA5zJ2i\",\"index\":0,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Wind spreads the fire\",\"comment\":\"Triggered at 4:30 p.m. if no one has spoken to the firefighters\",\"accessLevel\":\"basic\",\"mandatory\":false,\"repeatable\":false,\"operator\":\"AND\",\"conditions\":[{\"type\":\"time\",\"uid\":\"BfSwF0WtNF\",\"index\":0,\"operator\":\"=\",\"timeSeconds\":1800}],\"impacts\":[]}"
+      },
       "refId" : "ObjectDescriptor:2623032:acjkg8",
       "scopeType" : "GameModelScope",
       "version" : null,
@@ -5082,6 +5085,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56339:9xzhBc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/triggerConfiguration",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#231:IH0YVK",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
