@@ -238,3 +238,35 @@ export function createOrUpdateTranslation(
     return I18n.createTranslatableContent(value);
   }
 }
+
+/********************** Deal with Record<Language, string>***********************/
+
+export type Language = string;
+
+export const defaultLanguage = 'EN';
+
+export function translateWithRecord(
+  translations: Record<Language, string>,
+  fallback?: string
+): string {
+  // If it exists, find the translation in the current language
+  const textInPlayerLanguage = translations[I18n.currentLanguageCode];
+  if (textInPlayerLanguage != undefined && textInPlayerLanguage.length > 0) {
+    return textInPlayerLanguage;
+  }
+
+  // If it exists, find the translation in english
+  const textInEnglish = translations[defaultLanguage];
+  if (textInEnglish != undefined && textInEnglish.length > 0) {
+    return textInEnglish;
+  }
+
+  // Try to find any translation
+  for (const text of Object.values(translations)) {
+    if (text != undefined && text.length > 0) {
+      return text;
+    }
+  }
+
+  return fallback ?? '';
+}

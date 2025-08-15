@@ -1,3 +1,4 @@
+import { Language, translateWithRecord } from '../../../../tools/translation';
 import { Uid } from '../../interfaces';
 import { AddRadioMessageLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
 import { RadioType } from '../../radio/communicationType';
@@ -6,7 +7,7 @@ import { ImpactBase } from '../impact';
 
 export interface RadioMessageImpact extends ImpactBase {
   type: 'radio';
-  message: string | any; //TODO multilang
+  message: Record<Language, string>;
   channel: RadioType;
 }
 
@@ -22,7 +23,7 @@ export function convertRadioMessageImpact(
       parentTriggerId,
       simTimeStamp: time,
       // no sender nor recipient, "xxx de yyy" must be written directly in the message text
-      message: impact.message,
+      message: translateWithRecord(impact.message),
       channel: impact.channel,
       omitTranslation: true,
     }),

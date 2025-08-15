@@ -156,7 +156,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: {},
       roles: {
         ACS: false,
         MCS: false,
@@ -179,7 +179,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (Object.entries(impact.message).length === 0) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -205,7 +205,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: ALL_EDITABLE,
+      message: {} as any, // TODO ALL_EDITABLE,
       roles: {} as any, // TODO ALL_EDITABLE,
     },
   };
@@ -219,7 +219,7 @@ function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: {},
       channel: RadioType.CASU,
     }),
     validator: (impact: RadioMessageImpact) => {
@@ -235,7 +235,7 @@ function getRadioImpactDef(): Definition<RadioMessageImpact> {
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (Object.entries(impact.message).length === 0) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -251,7 +251,7 @@ function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: ALL_EDITABLE,
+      message: {} as any, // TODO ALL_EDITABLE,
       channel: ALL_EDITABLE,
     },
   };

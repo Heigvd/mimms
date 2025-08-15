@@ -1119,14 +1119,14 @@
               "lang" : "EN",
               "refId" : "TranslatableContent:1298436:BVfOMu::EN",
               "status" : "",
-              "translation" : "pretriMode"
+              "translation" : "mainSimMode"
             },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "pretriMode"
+              "translation" : "mainSimMode"
             }
           }
         }

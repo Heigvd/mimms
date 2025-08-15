@@ -1,3 +1,4 @@
+import { Language, translateWithRecord } from '../../../../tools/translation';
 import { InterventionRole } from '../../actors/actor';
 import { Uid } from '../../interfaces';
 import { AddNotificationLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
@@ -6,7 +7,7 @@ import { ImpactBase } from '../impact';
 
 export interface NotificationMessageImpact extends ImpactBase {
   type: 'notification';
-  message: string | any; //TODO multilang
+  message: Record<Language, string>;
   roles: Record<InterventionRole, boolean>;
 }
 
@@ -25,7 +26,7 @@ export function convertNotificationImpact(
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,
-        message: impact.message,
+        message: translateWithRecord(impact.message),
         omitTranslation: true,
       })
   );
