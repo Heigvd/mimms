@@ -186,13 +186,14 @@
 }
 
 /*********************** NEXT BUTTON ***********************/
-.next-container{
+.next-container {
 	z-index: 4;
 	position: absolute;
 	top: -85px;
 	right: 10px;
   overflow: visible;
 }
+
 /* The status about this button is unknown. It may be used in tools/abstractmatrix. Page 10 
 .confirmBtn{
   position: relative;
@@ -208,7 +209,7 @@
 
 .nextActionBtn::before{
   border:none;
-  }
+}
 
 .nextActionBtn { 
   margin: 0.5em;
@@ -223,7 +224,6 @@
 }
 
 .nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
-
   background: var(--secondary_60);
 	cursor: pointer;
 }
@@ -231,4 +231,23 @@
 .nextActionBtn > * > svg {
 	font-size: 1.6em;
 	margin: auto;
+}
+
+.soft-warning {
+  visibility: hidden;
+  width: fit-content;
+  height: fit-content;
+  padding: 20px;
+  font-size: var(--S_text);
+  color: var(--secondary_60);
+  background-color: var(--yellow_base);
+  border-radius: var(--S_borderRadius);
+  opacity: 0;
+  transition: opacity .3s ease-in-out, visibility 0s ease-in-out .3s;
+}
+
+.next-container:hover .soft-warning {
+  visibility: visible;
+  opacity: 100;
+  transition: opacity .3s ease-in-out, visibility 0s ease-in-out 0s;
 }
