@@ -14,6 +14,7 @@ export enum LOCATION_ENUM {
   helicopterPark = 'helicopterPark',
   remote = 'remote',
   AccReg = 'AccReg', // ways to access and leave the site
+  custom = 'custom', // TODO more generic or bad idea ?
 }
 
 export function getMapLocationById(

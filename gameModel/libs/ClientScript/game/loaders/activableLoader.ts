@@ -5,6 +5,7 @@
  * Choices
  */
 
+import { loadMapEntityDescriptors, MapEntityDescriptor } from '../../mikkWIP/mapEntityDescriptors';
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 import { Uid } from '../common/interfaces';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
@@ -38,6 +39,9 @@ function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): voi
   });
 }
 
-function addMapEntitiesActivables(_activables: Record<Uid, Activable>): void {
-  // TODO map entities from WEGAS variable
+function addMapEntitiesActivables(activables: Record<Uid, Activable>): void {
+  const descriptors: Record<Uid, MapEntityDescriptor> = loadMapEntityDescriptors();
+  Object.values(descriptors).forEach((t: MapEntityDescriptor) => {
+    activables[t.uid] = fromDescriptor(t);
+  });
 }

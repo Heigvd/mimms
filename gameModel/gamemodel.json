@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1752854915043,
+  "createdTime" : 1755702119796,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4958,6 +4958,56 @@
     "scopeType" : "TeamScope",
     "version" : null,
     "visibility" : "PRIVATE"
+  }, {
+    "@class" : "ListDescriptor",
+    "addShortcut" : "",
+    "allowedTypes" : [ ],
+    "broadcastScope" : "TeamScope",
+    "comments" : "",
+    "defaultInstance" : {
+      "@class" : "ListInstance",
+      "refId" : "ListInstance:474391:czLIqe"
+    },
+    "editorTag" : "mikkWIP",
+    "isolation" : "OPEN",
+    "items" : [ {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:474396:hQm92H"
+      },
+      "description" : "",
+      "editorTag" : "mapEntityDescriptors",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:474397:kCOpsV",
+        "translations" : { }
+      },
+      "name" : "mapEntityDescriptors",
+      "properties" : {
+        "lekkim_active" : "\"{\\\"uid\\\": \\\"lekkim_active\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": true, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500100, 1118500]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
+        "lekkim_inactive" : "\"{\\\"uid\\\": \\\"lekkim_inactive\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
+        "lekkim_triggered" : "\"{\\\"uid\\\": \\\"lekkim_triggered\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\""
+      },
+      "refId" : "ObjectDescriptor:474395:eVNsTf",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    } ],
+    "label" : {
+      "@class" : "TranslatableContent",
+      "refId" : "TranslatableContent:474392:pYd4ba",
+      "translations" : { }
+    },
+    "name" : "mikkWIP",
+    "refId" : "ListDescriptor:474390:pyMAdQ",
+    "scopeType" : "TeamScope",
+    "version" : null,
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -6311,6 +6361,51 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "mikkWIP/activableMapLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474419:ftPcdO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mikkWIP/gameLogic",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474420:t4VlMt",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mikkWIP/locationEnumConfig",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474418:dESFuZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mikkWIP/mapEntityDescriptorForms",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474389:mRNlTO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mikkWIP/mapEntityDescriptors",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474388:S7N1Nq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "multiplayer/multiplayerManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7056,7 +7151,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - Dev",
+  "name" : "MIMMS Triggers - MIM.433",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -1,3 +1,4 @@
+import { BuildStatus, MapEntityDescriptor } from '../../../mikkWIP/mapEntityDescriptors';
 import { TemplateDescriptor } from '../actions/actionTemplateDescriptor/templateDescriptor';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { IActivableDescriptor, Uid } from '../interfaces';
@@ -29,9 +30,17 @@ interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {
   count: number;
 }
 
+export interface MapEntityActivable extends ActivableState<MapEntityDescriptor> {
+  buildStatus: BuildStatus;
+}
+
 // TODO map entities objects, there might be a sub state such as 'building' as in current implementation
 
-type DescriptorActivableType = TemplateDescriptor | ChoiceDescriptor | Trigger;
+type DescriptorActivableType =
+  | TemplateDescriptor
+  | ChoiceDescriptor
+  | Trigger
+  | MapEntityDescriptor;
 
 type MapToActivable<U> = U extends IActivableDescriptor ? ActivableState<U> : never;
 
@@ -65,5 +74,13 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         count: 0,
       };
       return ta;
+    case 'mapEntity':
+      const mea: MapEntityActivable = {
+        uid: descriptor.uid,
+        activableType: descriptor.activableType,
+        active: descriptor.activeAtStart,
+        buildStatus: descriptor.buildStatus,
+      };
+      return mea;
   }
 }

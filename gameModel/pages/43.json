@@ -619,6 +619,33 @@
                                   "type" : "WegasMapVectorLayer"
                                 }, {
                                   "props" : {
+                                    "layerId" : "activable",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getMapActivablesLayer } from \"./mikkWIP/activableMapLayer\";\ngetMapActivablesLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getActivableLayerStyle } from \"./mikkWIP/activableMapLayer\";\ngetActivableLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "ActivableLayer",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
                                     "layerId" : "",
                                     "layerProps" : { },
                                     "layerSource" : {

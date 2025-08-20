@@ -121,5 +121,30 @@ function getTestTriggers(): Trigger[] {
         },
       ],
     },
+    // map entity
+    {
+      uid: 'map entity',
+      type: 'trigger',
+      index: 3,
+      activableType: 'trigger',
+      activeAtStart: true,
+      tag: 'Test map entity trigger',
+      accessLevel: 'basic',
+      mandatory: false,
+      repeatable: false,
+      operator: 'AND',
+      conditions: [],
+      impacts: [
+        {
+          type: 'activation',
+          uid: 'i3',
+          activableType: 'trigger',
+          target: 'lekkim_triggered',
+          option: 'activate',
+          delaySeconds: 0,
+          index: 0,
+        },
+      ],
+    },
   ];
 }
