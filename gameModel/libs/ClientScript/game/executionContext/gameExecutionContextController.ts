@@ -148,7 +148,9 @@ let mainStateInitializationComplete = false;
 let mainStateDefaultUidGenerator: UidGenerator;
 
 Helpers.registerEffect(() => {
-  mainStateDefaultUidGenerator = new UidGenerator({});
+  if (!mainStateDefaultUidGenerator) {
+    mainStateDefaultUidGenerator = new UidGenerator({});
+  }
 });
 
 export function getContextUidGenerator(): UidGenerator {
