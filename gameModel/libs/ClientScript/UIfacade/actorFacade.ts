@@ -9,6 +9,8 @@ import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import { OnTheRoadAction } from '../game/common/actions/actionBase';
+import { canActorPlanAction } from '../gameInterface/main';
+import { getTranslation } from '../tools/translation';
 
 /**
  * @returns All currently present actors
@@ -40,6 +42,31 @@ export function getCurrentPlayerActors(): Readonly<Actor[]> {
   return getCurrentState()
     .getAllActors()
     .filter(actor => playerRoles[actor.Role]);
+}
+
+/**
+ * @returns All actors available to the current player that can plan a new action
+ */
+export function getAvailableActorsForAction(): Readonly<Actor[]> {
+  return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
+}
+
+/**
+ * @returns true if there are actors available to the current player that can plan a new action
+ */
+export function AvailableActorsForAction(): boolean {
+  return getAvailableActorsForAction().length > 0;
+}
+
+/**
+ * @returns true if there are actors available to the current player that can plan a new action
+ */
+export function AvailableActorsForActionMessage(): string | undefined {
+  return (
+    getAvailableActorsForAction()
+      .map(actor => actor.ShortName)
+      .join(', ') + getTranslation('mainSim-interface', 'soft-warning')
+  );
 }
 
 /**

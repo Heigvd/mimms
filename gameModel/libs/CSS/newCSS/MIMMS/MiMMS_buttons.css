@@ -234,7 +234,6 @@
 }
 
 .soft-warning {
-  visibility: hidden;
   width: fit-content;
   height: fit-content;
   padding: 20px;
@@ -243,11 +242,28 @@
   background-color: var(--yellow_base);
   border-radius: var(--S_borderRadius);
   opacity: 0;
-  transition: opacity .3s ease-in-out, visibility 0s ease-in-out .3s;
+  visibility: hidden;
 }
 
 .next-container:hover .soft-warning {
-  visibility: visible;
-  opacity: 100;
-  transition: opacity .3s ease-in-out, visibility 0s ease-in-out 0s;
+  animation: soft-warning-animation 2.6s forwards;
+}
+
+@keyframes soft-warning-animation {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  11.5% {
+    opacity: 1;
+    visibility: visible;
+  }
+  88.5% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }

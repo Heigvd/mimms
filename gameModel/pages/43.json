@@ -1098,13 +1098,18 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { AvailableActorsForAction } from \"./UIfacade/actorFacade\";\n!AvailableActorsForAction();",
+                                          "language" : "typescript"
+                                        },
                                         "layoutClassName" : "soft-warning",
                                         "layoutStyle" : { },
                                         "name" : "soft warning",
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "\"AL est inactif pour ce tour\"",
+                                          "content" : "import { AvailableActorsForActionMessage } from \"./UIfacade/actorFacade\";\nAvailableActorsForActionMessage();",
                                           "language" : "TypeScript"
                                         }
                                       },
