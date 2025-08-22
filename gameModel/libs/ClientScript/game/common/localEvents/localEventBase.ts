@@ -1168,7 +1168,7 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
         activableLogger.error('Unhandled option for changing an activable status', this.props);
       }
     } else {
-      activableLogger.warn('Could not find activable', this.props);
+      activableLogger.error('Could not find activable', this.props);
     }
   }
 }
