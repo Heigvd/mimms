@@ -30,7 +30,10 @@ export function buildNewTimeFrame(state: MainSimulationState): TimeFrame {
   };
 }
 
-function getInitialTimeForwardStatus(state: Readonly<MainSimulationState>, actorUid: ActorId): number {
+function getInitialTimeForwardStatus(
+  state: Readonly<MainSimulationState>,
+  actorUid: ActorId
+): number {
   if (isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)) {
     return 1;
   }

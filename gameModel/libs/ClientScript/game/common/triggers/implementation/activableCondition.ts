@@ -3,6 +3,12 @@ import { ActivableStatus, ConditionBase } from '../condition';
 
 export interface TriggerCondition extends ConditionBase {
   type: 'trigger';
-  triggerId: Uid;
-  operator: ActivableStatus;
+  activableRef: Uid;
+  status: ActivableStatus;
+}
+
+export interface MapEntityCondition extends ConditionBase {
+  type: 'mapEntity';
+  activableRef: Uid;
+  status: ActivableStatus;
 }

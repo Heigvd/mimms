@@ -16,7 +16,7 @@ export interface Effect extends IDescriptor {
 }
 
 export function evaluateEffectImpacts(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   effect: Effect
 ): LocalEventBase[] {
   return effect.impacts.flatMap(impact => convertToLocalEvents(state, impact, effect.uid));

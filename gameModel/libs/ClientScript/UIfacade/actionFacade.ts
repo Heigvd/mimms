@@ -27,7 +27,7 @@ import { isOngoingAndStartedAction } from '../game/common/simulationState/action
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
-  fetchAvailableActions,
+  fetchAvailableActionTemplates,
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
@@ -42,7 +42,7 @@ export function getAvailableActionTemplates(
 ): ActionTemplateBase[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
-    return fetchAvailableActions(currentActorUid, actionType);
+    return fetchAvailableActionTemplates(currentActorUid, actionType);
   }
 
   return [];

@@ -9,6 +9,7 @@ import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/t
 import { Uid } from '../common/interfaces';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
 import { Trigger } from '../common/triggers/trigger';
+import { getTriggers } from './triggerLoader';
 
 export function buildActivables(): Record<Uid, Activable> {
   const activables: Record<Uid, Activable> = {};
@@ -20,11 +21,10 @@ export function buildActivables(): Record<Uid, Activable> {
 }
 
 function addTriggerActivables(activables: Record<Uid, Activable>): void {
-  // TODO triggers from WEGAS variable
-  const triggers: Record<Uid, Trigger> = {};
+  const allTriggers: Trigger[] = getTriggers();
 
-  Object.values(triggers).forEach((t: Trigger) => {
-    activables[t.uid] = fromDescriptor(t);
+  allTriggers.forEach((trigger: Trigger) => {
+    activables[trigger.uid] = fromDescriptor(trigger);
   });
 }
 

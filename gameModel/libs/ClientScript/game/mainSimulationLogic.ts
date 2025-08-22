@@ -38,11 +38,13 @@ import {
 } from './executionContext/gameExecutionContextController';
 import { shallowState } from './loaders/mainStateLoader';
 
+/* all defined action templates */
 let actionTemplates: Record<string, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;
 
 let initializationComplete: boolean;
 
+/* let us know when Wegas has fully initialized the clientScript context */
 let scriptsFullyLoaded = false;
 
 Helpers.registerEffect(() => {
@@ -52,8 +54,8 @@ Helpers.registerEffect(() => {
 });
 
 /**
- * Checks for new events and applies them to the state
- * This should be called on player side only
+ * Checks for new global events and applies them to the state.
+ * This should be called on player side only.
  */
 export function runUpdateLoop(): void {
   if (!scriptsFullyLoaded) {
@@ -82,10 +84,10 @@ export function runUpdateLoop(): void {
     setPreviousReferenceState(playerCtx.getCurrentState());
 
     // filter out omitted events (if a previous state was restored)
-    const ignored = getOmittedEvents();
-    const filteredEvents = globalEvents.filter(e => !ignored[e.id]);
+    const ignored = getOmittedGlobalEvents();
+    const filteredGlobalEvents = globalEvents.filter(e => !ignored[e.id]);
 
-    playerCtx.processEvents(filteredEvents, convertToLocalEvent);
+    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent);
   }
 }
 
@@ -258,7 +260,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
   return localEvents;
 }
 
-export function fetchAvailableActions(
+export function fetchAvailableActionTemplates(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION
 ): ActionTemplateBase[] {
@@ -405,7 +407,7 @@ export async function setCurrentStateDebug(stateId: number) {
 
   // store the events that have to be omitted when recomputing the state
   // i.e. the events that occured after the restored state
-  const ignored = getOmittedEvents();
+  const ignored = getOmittedGlobalEvents();
   const lastEvtId = execContext.getCurrentState().getLastEventId();
   const all = getAllEvents();
   let i = all.length - 1;
@@ -423,7 +425,7 @@ export async function setCurrentStateDebug(stateId: number) {
 /**
  * Get the events that have been cancelled due to previous stored state reloading
  */
-function getOmittedEvents(): Record<string, boolean> {
+function getOmittedGlobalEvents(): Record<string, boolean> {
   const raw =
     Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
     '{}';

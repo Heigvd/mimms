@@ -6,25 +6,25 @@ import { ImpactBase } from '../impact';
 
 export interface RadioMessageImpact extends ImpactBase {
   type: 'radio';
-  message: any; //TODO multilang
-  canal: RadioType;
+  message: string | any; //TODO multilang
+  channel: RadioType;
 }
 
-export function convertRadioNotificationImpact(
-  state: MainSimulationState,
+export function convertRadioMessageImpact(
+  state: Readonly<MainSimulationState>,
   impact: RadioMessageImpact,
-  _parentId: Uid
+  parentTriggerId: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
     new AddRadioMessageLocalEvent({
-      parentEventId: 0, //triggerId, // TODO convert ids to string and pass triggerId here
+      parentEventId: state.getLastEventId(),
+      parentTriggerId,
       simTimeStamp: time,
-      senderId: 1000, // TODO senderID
-      senderName: 'Event Manager sender name?', // TODO sender name
-      recipientId: undefined, // recipient id
+      // no sender nor recipient, "xxx de yyy" must be written directly in the message text
       message: impact.message,
-      channel: impact.canal,
+      channel: impact.channel,
+      omitTranslation: true,
     }),
   ];
 }

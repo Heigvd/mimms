@@ -1,49 +1,79 @@
 import { triggerLogger } from '../../../tools/logger';
-import { Typed, Uid } from '../interfaces';
+import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
+import { MapEntityCondition, TriggerCondition } from './implementation/activableCondition';
 import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
-import { TriggerCondition } from './implementation/triggerCondition';
 
-export interface ConditionBase extends Typed {}
+export interface ConditionBase extends IDescriptor, Typed, Indexed {
+  invert?: boolean; // The condition must NOT be met
+}
 
 export type ActivableStatus = 'active' | 'inactive';
 
 /**
- * completed once => there exist an action or action with specific choice in the timeline that has completed
- * ongoing => there exist an action or action with specific choice in the timeline that is currently running
+ * completed once => there exists an action or action with specific choice in the timeline that has completed
+ * <p>
+ * ongoing => there exists an action or action with specific choice in the timeline that is currently running
+ * <p>
  * never planned => no action or action with specific choice in the timeline
  */
 export type ChoiceActionStatus = ActivableStatus | 'completed once' | 'ongoing' | 'never planned';
 
-export type Condition = TimeCondition | ActionCondition | ChoiceCondition | TriggerCondition;
+export type Condition =
+  | TimeCondition
+  | ActionCondition
+  | ChoiceCondition
+  | TriggerCondition
+  | MapEntityCondition;
 
-export function evaluateCondition(state: MainSimulationState, condition: Condition) {
+export function evaluateCondition(state: Readonly<MainSimulationState>, condition: Condition) {
+  let result = false;
+
   switch (condition.type) {
     case 'time':
-      return evaluateTimeCondition(state, condition);
+      result = evaluateTimeCondition(state, condition);
+      break;
     case 'action':
-      return evaluateActionCondition(state, condition);
+      result = evaluateActionCondition(state, condition);
+      break;
     case 'choice':
-      return evaluateChoiceCondition(state, condition);
+      result = evaluateChoiceCondition(state, condition);
+      break;
     case 'trigger':
-      return evaluateActivable(state, condition.triggerId, condition.operator);
+    case 'mapEntity':
+      result = evaluateActivable(state, condition.activableRef, condition.status);
+      break;
     default:
-      triggerLogger.warn('Unknown condition type', condition);
+      triggerLogger.error('Unknown condition type', condition);
       return false;
   }
+
+  if (condition.invert) {
+    return !result;
+  }
+
+  return result;
 }
 
 export function evaluateActivable(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   uid: Uid,
   status: ActivableStatus
 ): boolean {
   switch (status) {
     case 'active':
-      return state.getActivable(uid)?.active || false;
+      return state.getActivable(uid)?.active ?? false;
     case 'inactive':
-      return !state.getActivable(uid)?.active || false;
+      return !(state.getActivable(uid)?.active ?? false);
   }
+}
+
+export function compareConditions(a: Condition, b: Condition): number {
+  if (a.index === b.index) {
+    return a.uid.localeCompare(b.uid);
+  }
+
+  return a.index - b.index;
 }
