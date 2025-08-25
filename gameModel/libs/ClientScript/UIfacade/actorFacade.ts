@@ -47,23 +47,23 @@ export function getCurrentPlayerActors(): Readonly<Actor[]> {
 /**
  * @returns All actors available to the current player that can plan a new action
  */
-export function getAvailableActorsForAction(): Readonly<Actor[]> {
+export function getPlayerIdleActors(): Readonly<Actor[]> {
   return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
 }
 
 /**
  * @returns true if there are actors available to the current player that can plan a new action
  */
-export function AvailableActorsForAction(): boolean {
-  return getAvailableActorsForAction().length > 0;
+export function hasPlayerIdleActors(): boolean {
+  return getPlayerIdleActors().length > 0;
 }
 
 /**
- * @returns true if there are actors available to the current player that can plan a new action
+ * @returns a message if the player hasn't assigned an action to one/several actors
  */
-export function AvailableActorsForActionMessage(): string | undefined {
+export function getIdleActorsWarningMessage(): string {
   return (
-    getAvailableActorsForAction()
+    getPlayerIdleActors()
       .map(actor => actor.ShortName)
       .join(', ') + getTranslation('mainSim-interface', 'soft-warning')
   );

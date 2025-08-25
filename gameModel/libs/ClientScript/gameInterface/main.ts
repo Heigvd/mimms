@@ -46,10 +46,8 @@ export function canPlanAction(): boolean {
   return canActorPlanAction(actorUid);
 }
 
-/** TODO use for MIM-462 */
 export function canActorPlanAction(actorId: number): boolean {
   const currentTime = getSimTime();
-  //const actorUid = Context.interfaceState.state.currentActorUid;
   const actions = getAllActions();
 
   if (actions[actorId] === undefined) return true;

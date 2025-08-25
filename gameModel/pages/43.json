@@ -1100,7 +1100,7 @@
                                       "props" : {
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { AvailableActorsForAction } from \"./UIfacade/actorFacade\";\n!AvailableActorsForAction();",
+                                          "content" : "import { hasPlayerIdleActors } from \"./UIfacade/actorFacade\";\n!hasPlayerIdleActors();",
                                           "language" : "typescript"
                                         },
                                         "layoutClassName" : "soft-warning",
@@ -1109,7 +1109,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "import { AvailableActorsForActionMessage } from \"./UIfacade/actorFacade\";\nAvailableActorsForActionMessage();",
+                                          "content" : "import { getIdleActorsWarningMessage } from \"./UIfacade/actorFacade\";\ngetIdleActorsWarningMessage();",
                                           "language" : "TypeScript"
                                         }
                                       },
