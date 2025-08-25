@@ -1096,33 +1096,67 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "nextActionBtn",
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
-                                      "language" : "typescript"
+                                    "children" : [ {
+                                      "props" : {
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { hasPlayerIdleActors } from \"./UIfacade/actorFacade\";\n!hasPlayerIdleActors();",
+                                          "language" : "typescript"
+                                        },
+                                        "layoutClassName" : "soft-warning",
+                                        "layoutStyle" : { },
+                                        "name" : "soft warning",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getIdleActorsWarningMessage } from \"./UIfacade/actorFacade\";\ngetIdleActorsWarningMessage();",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "className" : "nextActionBtn",
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
+                                          "language" : "typescript"
+                                        },
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'time-forward')}`",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                            "language" : "TypeScript",
+                                            "returnType" : "Promise<unknown> | undefined"
+                                          }
+                                        },
+                                        "name" : "Next",
+                                        "style" : {
+                                          "margin" : "auto"
+                                        }
+                                      },
+                                      "type" : "Button"
+                                    } ],
+                                    "className" : "",
+                                    "layout" : {
+                                      "alignItems" : "center",
+                                      "flexDirection" : "row"
                                     },
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'time-forward')}`",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "next-container",
+                                    "layoutClassName" : "noPadding next-container",
                                     "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
-                                      }
-                                    },
-                                    "name" : "Next",
+                                    "name" : "next button",
                                     "style" : {
-                                      "margin" : "auto"
+                                      "gap" : "5px"
                                     }
                                   },
-                                  "type" : "Button"
+                                  "type" : "FlexList"
                                 }, {
                                   "props" : {
                                     "children" : [ {
