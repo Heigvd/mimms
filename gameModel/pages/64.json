@@ -86,7 +86,7 @@
                 "layoutStyle" : { },
                 "style" : {
                   "margin" : "5px",
-                  "padding" : "5px"
+                  "width" : "16.378125rem"
                 },
                 "text" : {
                   "@class" : "Script",
@@ -105,7 +105,7 @@
           "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
-        "layoutClassName" : "",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "overflow" : "none",
           "width" : "100%"

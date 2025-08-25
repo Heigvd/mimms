@@ -9,6 +9,7 @@ import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import { OnTheRoadAction } from '../game/common/actions/actionBase';
+import { InterfaceState } from '../gameInterface/interfaceState';
 
 /**
  * @returns All currently present actors
@@ -18,18 +19,20 @@ export function getAllActors(): Readonly<Actor[]> {
 }
 
 // used in page 43
-export function selectActor(id: ActorId) {
+export function selectActor(id: ActorId): InterfaceState {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.currentActorUid = id;
   newState.resources.allocateResources.currentTaskId =
     TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
   Context.interfaceState.setState(newState);
+  return newState;
 }
 
 // used in page 43
 export function selectActorAndOpenMapLocation(id: ActorId) {
-  selectActor(id);
+  const newState = selectActor(id);
   openOverlayItem(getActorLocation(id)!);
+  return newState;
 }
 
 /**

@@ -1,14 +1,30 @@
 /***** NEW NOTIFICAITON PANEL ******/
 
-.notificationPanel-container{
-	right: 20px;
-	top: 20px;
-	background-color: var(--grey-white);
-	border-radius: var(--XS_borderRadius);
+.notificationPanel-container {
+  position: absolute;
+  /*top: 0;*/
+  bottom: 0;
+  left: -22rem;
 	width: 21rem;
+  height: 100%;
 	pointer-events: auto;
 	max-height: 70%;
-  padding-right: 4.2rem;
+  /*min-height: 2rem;*/
+  /*padding-right: 4.2rem;*/
+  z-index: 5;
+}
+
+.notificationPanel > div {
+  position: absolute;
+  bottom: 0;
+  max-height: 21rem;
+  background-color: var(--yellow_base);
+	border-radius: var(--XS_borderRadius);
+  box-shadow: var(--buttonShadow);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--yellow_base);
 }
 
 .notificationPanel-container_Hidden{
@@ -20,8 +36,7 @@
 	width: 6em;
 	height: auto;
 	max-height: 80vh;
-	margin-left: 5px;
-  margin-bottom: 15px;
+  margin: 5px 0 15px 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
@@ -31,27 +46,28 @@
 	margin-top: 15px;
 }
 
-
-
 .notificationPageloader-container{
   width: calc(100% - 3em);
+  /*background-color: var(--yellow_base);
+	border-radius: var(--XS_borderRadius);*/
 }
 /****** NOTIFICATION BUTTONS ******/
 
-.notificationButton-container{
-	position: absolute;
-	z-index: 3;
-	right: 3px;
-	top: 3px;
+.notificationButton-container {
+	/*position: absolute;*/
+  width: 2.25rem;
+  height: 2.25rem;
+	/*right: 3px;
+	top: 3px;*/
 	pointer-events: auto;
 	border-radius: 100%;
-	margin: .5rem .5rem 0 0;
+	/*margin: .5rem .5rem 0 0;*/
 	padding: 0px;
-	justify-content: center;
-	align-items: center;
-	display: inline-flex;
+	/*justify-content: center;*/
+	/*align-items: center;*/
+	/*display: inline-flex;*/
   box-shadow: var(--buttonShadow);
-
+  z-index: 3;
 }
 
 .notificationButton > *{
@@ -59,50 +75,70 @@
   font-size: var(--L_text);
 }
 
-.notificationButton{
-	height: 4em;
-	width: 4em;
+.notificationButton {
+  width: 2.25rem;
+	height: 2.25rem;
+  /*padding: 5px;*/
+}
+
+.notificationButton svg {
+  height: 1rem;
 }
 
 .notificationButton-container:hover{
 	box-shadow: var(--buttonShadow);
 }
 
-
 .notificationButton-container .openNotif-button{
-	background-color: var(--primary_base);
+	background-color: var(--yellow_base);
 	border-radius: 100%;
 	justify-content: center;
 	align-items: center;
-	display: inline-flex;
-	box-shadow: var(--buttonInsetShadow);
+	/*display: inline-flex;*/
+	/*box-shadow: var(--buttonInsetShadow);*/
 }
 
 
-.notificationButton-container .closedNotif-button{
+.notificationButton-container .closedNotif-button {
 	background-color: var(--primary_base);
 	border-radius: 100%;
 	justify-content: center;
 	align-items: center;
-	display: inline-flex;
+	/*display: inline-flex;*/
+}
+
+.notificationButton-container .unselectedNotif-button {
+  background-color: var(--grey_0);
+  border: 3px solid var(--primary_base);
+  border-radius: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.notificationButton-container .unselectedNotif-button svg {
+  color: var(--primary_base);
 }
 
 .notificationButton-container .newNotif{
 	background-color: var(--yellow_base);
+  border-radius: 100%;
+  justify-content: center;
+	align-items: center;
 }
 
 .counterCircle-container {
-	width: 1.8em;
-	height: 1.8em;
-	color: var(--grey_70);
-	background-color: var(--yellow_10);
-	border: 1px var(--yellow_base) solid;
-	position: absolute;
-	right: 2px;
-	top: 2px;
-	z-index: 4;
+  position: absolute;
+	/*top: -.275rem;
+  left: 1.65rem;*/
+  top: -.1rem;
+  left: 1.5rem;
+	width: 1.2em;
+	height: 1.2em;
+	color: var(--grey_80);
+	background-color: var(--grey_0);
+	border: 1px solid var(--yellow_base);
 	border-radius: 100%;
- 
+  z-index: 4;
 }
 
 /* WIP - potential future feature */
@@ -119,6 +155,9 @@
 */
 
 .counterCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 	margin: auto;
 	font-size: var(--SM_text);
 	font-weight: var(--boldWeight);

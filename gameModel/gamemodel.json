@@ -7033,7 +7033,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-447",
+  "name" : "MIM-460",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
