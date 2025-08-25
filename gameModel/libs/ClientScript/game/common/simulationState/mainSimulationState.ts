@@ -3,7 +3,7 @@ import { ActionBase } from '../actions/actionBase';
 import { SimFlag } from '../actions/actionTemplateBase';
 import { Actor } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
-import { FixedMapEntity } from '../events/defineMapObjectEvent';
+import { FixedMapEntity, FixedMapEntityRedux } from '../events/defineMapObjectEvent';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
 import { Resource } from '../resources/resource';
@@ -151,6 +151,10 @@ export class MainSimulationState {
     return this.internalState.mapLocations;
   }
 
+  public getMapLocationsRedux(): FixedMapEntityRedux[] {
+    return this.internalState.fixedMapEntityRedux;
+  }
+
   public getSimFlags(): Partial<Record<SimFlag, boolean>> {
     return this.internalState.flags;
   }
@@ -214,6 +218,7 @@ export interface MainStateObject {
   cancelledActions: ActionBase[];
   tasks: TaskBase[];
   mapLocations: FixedMapEntity[];
+  fixedMapEntityRedux: FixedMapEntityRedux[];
   patients: PatientState[];
   actors: Actor[];
   radioMessages: RadioMessage[];

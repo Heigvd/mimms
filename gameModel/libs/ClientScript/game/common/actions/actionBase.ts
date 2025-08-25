@@ -28,19 +28,26 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import {
+  BuildingStatus,
+  FixedMapEntity,
+  FixedMapEntityRedux,
+} from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import {
   AddActorLocalEvent,
   AddFixedEntityLocalEvent,
+  AddFixedEntityReduxLocalEvent,
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
+  ChangeActivableStatusLocalEvent,
   CompleteBuildingFixedEntityLocalEvent,
+  CompleteBuildingFixedEntityReduxLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
@@ -49,6 +56,7 @@ import {
   MoveResourcesLocalEvent,
   PretriageReportResponseLocalEvent,
   RemoveFixedEntityLocalEvent,
+  RemoveFixedEntityReduxLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -602,6 +610,87 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 // place map items
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+export class SelectionFixedMapEntityReduxAction extends StartEndAction {
+  public readonly fixedMapEntityRedux: FixedMapEntityRedux;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    fixedMapEntityRedux: FixedMapEntityRedux,
+    provideFlagsToState: SimFlag[]
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+    this.fixedMapEntityRedux = fixedMapEntityRedux;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    this.fixedMapEntityRedux.buildingStatus = BuildingStatus.inProgress;
+
+    getLocalEventManager().queueLocalEvent(
+      new AddFixedEntityReduxLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntityRedux: this.fixedMapEntityRedux,
+      })
+    );
+
+    getLocalEventManager().queueLocalEvent(
+      new ChangeActivableStatusLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        target: this.fixedMapEntityRedux.mapEntityDescriptorUid,
+        option: 'activate',
+      })
+    );
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    // ungrey the map element
+    getLocalEventManager().queueLocalEvent(
+      new CompleteBuildingFixedEntityReduxLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntityRedux: this.fixedMapEntityRedux,
+      })
+    );
+
+    // REDUX TODO Add built status change
+  }
+
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
+    getLocalEventManager().queueLocalEvent(
+      new RemoveFixedEntityReduxLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntityRedux: this.fixedMapEntityRedux,
+      })
+    );
+
+    getLocalEventManager().queueLocalEvent(
+      new ChangeActivableStatusLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        target: this.fixedMapEntityRedux.mapEntityDescriptorUid,
+        option: 'deactivate',
+      })
+    );
+  }
+}
 
 /**
  * Action to select a FixedMapEntity

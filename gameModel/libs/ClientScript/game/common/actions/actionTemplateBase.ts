@@ -16,6 +16,8 @@ import {
   FixedMapEntity,
   SelectionFixedMapEntityEvent,
   createFixedMapEntityInstanceFromAnyObject,
+  FixedMapEntityRedux,
+  SelectionFixedMapEntityReduxEvent,
 } from '../events/defineMapObjectEvent';
 import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import {
@@ -52,6 +54,7 @@ import {
   SelectionParkAction,
   SendRadioMessageAction,
   SituationUpdateAction,
+  SelectionFixedMapEntityReduxAction,
 } from './actionBase';
 import * as ActionLogic from './actionLogic';
 
@@ -578,6 +581,93 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
 // place a map item
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+export class SelectionFixedMapEntityReduxTemplate<
+  ActionT extends SelectionFixedMapEntityReduxAction = SelectionFixedMapEntityReduxAction
+> extends StartEndTemplate<
+  SelectionFixedMapEntityReduxAction,
+  SelectionFixedMapEntityReduxEvent,
+  FixedMapEntityRedux
+> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    public readonly fixedMapEntityRedux: FixedMapEntityRedux,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles
+    );
+    this.fixedMapEntityRedux = fixedMapEntityRedux;
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>
+  ): SelectionFixedMapEntityReduxEvent {
+    //???? payload??
+    //We need to get the selected Uid
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+    };
+  }
+
+  protected createActionFromEvent(
+    event: FullEvent<SelectionFixedMapEntityReduxEvent>
+  ): SelectionFixedMapEntityReduxAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new SelectionFixedMapEntityReduxAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      // TODO Replace with mapEntityDescriptor Uid
+      this.fixedMapEntityRedux,
+      this.raisedFlags
+    ) as ActionT;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
+  }
+}
 
 /**
  * Template of an action to select the place of a fixed map entity.

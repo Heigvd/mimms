@@ -1,6 +1,7 @@
 import { getLineStringMiddlePoint, getPolygonCentroid } from '../../../gameMap/utils/mapUtils';
 import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import { Uid } from '../interfaces';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
 
@@ -32,6 +33,49 @@ export enum BuildingStatus {
 export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
 /** Is it a place that can contain actors / resources / patients */
 export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
+
+export class FixedMapEntityRedux {
+  id: LOCATION_ENUM;
+  leaderRoles: InterventionRole[];
+  buildingStatus: BuildingStatus;
+  accessibility: LocationAccessibility;
+  mapEntityDescriptorUid: Uid;
+
+  constructor(
+    id: LOCATION_ENUM,
+    leaderRoles: InterventionRole[],
+    buildingStatus: BuildingStatus,
+    accessibility: LocationAccessibility,
+    mapEntityDescriptorUid: Uid
+  ) {
+    this.id = id;
+    (this.leaderRoles = leaderRoles),
+      (this.buildingStatus = buildingStatus),
+      (this.accessibility = accessibility);
+    this.mapEntityDescriptorUid = mapEntityDescriptorUid;
+  }
+
+  /**
+   * TODO Implement way of getting center point for map overlays from bound mapObject
+   * How do we handle multiple geometries ?
+   */
+  public getShapeCenter(): PointLikeObject {
+    return [0, 0];
+  }
+
+  public isBuiltAndAccessible(kind: LocationAccessibilityKind | 'anyKind'): boolean {
+    const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
+
+    let isAccessible: boolean;
+    if (kind !== 'anyKind') {
+      isAccessible = this.accessibility[kind];
+    } else {
+      isAccessible = Object.values(this.accessibility).some(b => b);
+    }
+
+    return isBuilt && isAccessible;
+  }
+}
 
 export abstract class FixedMapEntity {
   ownerId!: ActorId;
@@ -212,6 +256,10 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 		return position;
 	}
 }*/
+
+export interface SelectionFixedMapEntityReduxEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+}
 
 export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {
   durationSec: SimDuration;

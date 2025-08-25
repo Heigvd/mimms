@@ -8,6 +8,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
+  SelectionFixedMapEntityReduxTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
@@ -20,6 +21,7 @@ import { ActionType } from './common/actionType';
 import { TimeSliceDuration } from './common/constants';
 import {
   BuildingStatus,
+  FixedMapEntityRedux,
   GeometryBasedFixedMapEntity,
   MultiLineStringGeometricalShape,
   PointGeometricalShape,
@@ -131,6 +133,22 @@ export function initActionTemplates(): {
     RadioType.CASU,
     true,
     ActionType.CASU_RADIO
+  );
+
+  const placePoint = new SelectionFixedMapEntityReduxTemplate(
+    'define-point-title',
+    'define-point-desc',
+    TimeSliceDuration,
+    'define-point-feedback',
+    new FixedMapEntityRedux(
+      LOCATION_ENUM.custom,
+      [],
+      BuildingStatus.ready,
+      { Actors: false, Resources: false, Patients: false },
+      'lekkim_inactive'
+    ),
+    false,
+    [SimFlag.PCFRONT_BUILT]
   );
 
   const placePMA = new SelectionFixedMapEntityTemplate(
@@ -478,6 +496,7 @@ export function initActionTemplates(): {
   templates[getInfo2.Uid] = getInfo2;
   templates[getPoliceInfos.Uid] = getPoliceInfos;
   templates[getFireFighterInfos.Uid] = getFireFighterInfos;
+  templates[placePoint.Uid] = placePoint;
   templates[placePMA.Uid] = placePMA;
   templates[placePC.Uid] = placePC;
   templates[placeNest.Uid] = placeNest;

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1755702119796,
+  "createdTime" : 1756110774075,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4990,7 +4990,7 @@
       "name" : "mapEntityDescriptors",
       "properties" : {
         "lekkim_active" : "\"{\\\"uid\\\": \\\"lekkim_active\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": true, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500100, 1118500]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
-        "lekkim_inactive" : "\"{\\\"uid\\\": \\\"lekkim_inactive\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
+        "lekkim_inactive" : "\"{\\\"uid\\\": \\\"lekkim_inactive\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500115, 1118515]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
         "lekkim_triggered" : "\"{\\\"uid\\\": \\\"lekkim_triggered\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\""
       },
       "refId" : "ObjectDescriptor:474395:eVNsTf",
@@ -6365,15 +6365,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:474419:ftPcdO",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "mikkWIP/gameLogic",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:474420:t4VlMt",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

@@ -29,7 +29,11 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
+import {
+  BuildingStatus,
+  FixedMapEntity,
+  FixedMapEntityRedux,
+} from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
 import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
@@ -292,6 +296,67 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
 // map items
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+// REDUX EVENTS
+export class AddFixedEntityReduxLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntityRedux: FixedMapEntityRedux;
+    }
+  ) {
+    super({ ...props, type: 'AddFixedEntityLocalEventRedux' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    so.fixedMapEntityRedux.push(this.props.fixedMapEntityRedux);
+  }
+}
+
+export class RemoveFixedEntityReduxLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntityRedux: FixedMapEntityRedux;
+    }
+  ) {
+    super({ ...props, type: 'RemoveFixedEntityLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    so.fixedMapEntityRedux.splice(
+      so.fixedMapEntityRedux.findIndex(
+        f =>
+          f.id === this.props.fixedMapEntityRedux.id &&
+          f.mapEntityDescriptorUid === this.props.fixedMapEntityRedux.mapEntityDescriptorUid
+      ),
+      1
+    );
+  }
+}
+
+export class CompleteBuildingFixedEntityReduxLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntityRedux: FixedMapEntityRedux;
+    }
+  ) {
+    super({ ...props, type: 'CompleteBuildingFixedEntityLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    so.fixedMapEntityRedux
+      .filter(f => f.id === this.props.fixedMapEntityRedux.id)
+      .forEach(f => (f.buildingStatus = BuildingStatus.ready));
+  }
+}
 
 /////////// TODO in own file
 export class AddFixedEntityLocalEvent extends LocalEventBase {
