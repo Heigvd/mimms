@@ -5,10 +5,6 @@
   bottom: 0;
   left: -22.25rem;
 	width: 21rem;
-  /*height: 100%;
-	pointer-events: auto;
-	max-height: 70%;
-  z-index: 5;*/
 }
 
 .notificationPanel > div {
@@ -20,10 +16,6 @@
 	border-radius: var(--XS_borderRadius);
   box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
-
-/*.notificationPanel-container_Hidden{
-	background-color: rgba(245, 40, 145, 0);
-}*/
 
 .timeline-actors .fixedEntities-arrow {
   position: absolute;
@@ -39,49 +31,21 @@
 
 /*** HEADER ***/
 .notificationPanelHeader {
-	/*width: 6em;
-	height: auto;
-	max-height: 80vh;*/
   margin: 5px 0 15px 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
 
-/*.notificationPanelHeader > p {
-	margin-bottom: 0px;
-	margin-top: 15px;
-}*/
-
-/*.notificationPageloader-container {
-  width: calc(100% - 3em);
-  background-color: var(--yellow_base);
-	border-radius: var(--XS_borderRadius);
-}*/
-
 .notificationPageloader {
-  /*width: 100%;
-  height: 100%;
-  box-sizing: border-box;*/
   overflow: auto;
   scrollbar-width: none;
 }
 
-/*.notificationPageloader::-webkit-scrollbar {
-  display: none;
-}*/
 
 /****** NOTIFICATION BUTTONS ******/
 
-/*.notificationButton-container {
-  /*width: 2.25rem;
-  height: 2.25rem;
-	pointer-events: auto;
-	border-radius: 100%;
-}*/
-
 .notificationButton > * {
 	color: var(--grey_0);
-  /*font-size: var(--L_text);*/
 }
 
 .notificationButton {
@@ -90,36 +54,23 @@
   box-shadow: var(--buttonShadow);
 }
 
-/*.notificationButton svg {
-  height: 1rem;
-}*/
-
-/*.notificationButton-container:hover{
-	box-shadow: var(--buttonShadow);
-}*/
-
 .notificationButton-container .openNotif-button {
+  justify-content: center;
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	justify-content: center;
-	/*align-items: center;
-	display: inline-flex;*/
 	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
 }
 
 .notificationButton-container .closedNotif-button {
+  justify-content: center;
 	background-color: var(--primary_base);
 	border-radius: 100%;
-	justify-content: center;
-	/*align-items: center;*/
 }
 
 .notificationButton-container .unselectedNotif-button {
-  /*background-color: var(--grey_0);*/
+  justify-content: center;
   border: 3px solid var(--primary_base);
   border-radius: 100%;
-	justify-content: center;
-	/*align-items: center;*/
 }
 
 .notificationButton-container .unselectedNotif-button svg {
@@ -127,10 +78,9 @@
 }
 
 .notificationButton-container .newNotif {
+  justify-content: center;
 	background-color: var(--yellow_base);
   border-radius: 100%;
-  justify-content: center;
-	/*align-items: center;*/
 }
 
 .counterCircle-container {
@@ -138,43 +88,21 @@
   top: -.1rem;
   left: 1.5rem;
 	width: 1.2em;
-	/*height: 1.2em;
-	color: var(--grey_80);*/
 	background-color: var(--grey_0);
 	border: 1px solid var(--yellow_base);
 	border-radius: 100%;
   z-index: 4;
 }
 
-/* WIP - potential future feature */
-/*
- animation-name: example;
-  animation-duration: 2s;
-
-@keyframes example {
-  0%   {background-color: #CA2E55;}
-  50%  {background-color: #CA2E55;}
-  0%   {background-color: #CA2E55;}
-  100% {background-color: #FBB13C;}
-}
-*/
-
 .counterCircle {
-  /*display: flex;
-  align-items: center;
-  justify-content: center;*/
+  position: relative;
+	top: -1px;
 	margin: auto;
 	font-size: var(--SM_text);
 	font-weight: var(--boldWeight);
-	position: relative;
-	top: -1px;
 	color: var(--secondary_70);
 }
 
-/*.counterCircle > p {
-	padding: 0px;
-	margin: -2px;
-}*/
 
 /***** A NOTIFICATION *****/
 
