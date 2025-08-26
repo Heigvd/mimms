@@ -702,7 +702,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "content" : "import { getFormattedPretriTime } from \"./UIfacade/pretriFacade\";\ngetFormattedPretriTime();",
               "language" : "TypeScript"
             }
           },
@@ -1029,7 +1029,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\nimport { getTranslation } from \"./tools/translation\";\n\nconst time = toHoursMinutesSecondsIso(getCurrentSimulationTime());\nconst timeLabel = getTranslation('pretriage-interface', 'time');\n`${timeLabel} ${time}`;",
+              "content" : "import { getFormattedPretriTime } from \"./UIfacade/pretriFacade\";\ngetFormattedPretriTime();",
               "language" : "TypeScript"
             }
           },
