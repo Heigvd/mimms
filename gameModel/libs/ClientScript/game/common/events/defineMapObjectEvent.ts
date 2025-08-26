@@ -1,4 +1,5 @@
 import { getLineStringMiddlePoint, getPolygonCentroid } from '../../../gameMap/utils/mapUtils';
+import { locationEnumConfig } from '../../../mikkWIP/locationEnumConfig';
 import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { Uid } from '../interfaces';
@@ -36,23 +37,12 @@ export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
 export class FixedMapEntityRedux {
   id: LOCATION_ENUM;
-  leaderRoles: InterventionRole[];
   buildingStatus: BuildingStatus;
-  accessibility: LocationAccessibility;
-  mapEntityDescriptorUid: Uid;
+  mapEntityDescriptorUid?: Uid;
 
-  constructor(
-    id: LOCATION_ENUM,
-    leaderRoles: InterventionRole[],
-    buildingStatus: BuildingStatus,
-    accessibility: LocationAccessibility,
-    mapEntityDescriptorUid: Uid
-  ) {
+  constructor(id: LOCATION_ENUM, buildingStatus: BuildingStatus, mapEntityDescriptorUid?: Uid) {
     this.id = id;
-    (this.leaderRoles = leaderRoles),
-      (this.buildingStatus = buildingStatus),
-      (this.accessibility = accessibility);
-    this.mapEntityDescriptorUid = mapEntityDescriptorUid;
+    (this.buildingStatus = buildingStatus), (this.mapEntityDescriptorUid = mapEntityDescriptorUid);
   }
 
   /**
@@ -65,12 +55,14 @@ export class FixedMapEntityRedux {
 
   public isBuiltAndAccessible(kind: LocationAccessibilityKind | 'anyKind'): boolean {
     const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
+    // TODO better way of getting accessibility ?
+    const accessibility = locationEnumConfig[this.id].accessibility;
 
     let isAccessible: boolean;
     if (kind !== 'anyKind') {
-      isAccessible = this.accessibility[kind];
+      isAccessible = accessibility[kind];
     } else {
-      isAccessible = Object.values(this.accessibility).some(b => b);
+      isAccessible = Object.values(accessibility).some(b => b);
     }
 
     return isBuilt && isAccessible;
@@ -259,6 +251,7 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 
 export interface SelectionFixedMapEntityReduxEvent extends ActionCreationEvent {
   durationSec: SimDuration;
+  mapDescriptorUid: Uid;
 }
 
 export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {

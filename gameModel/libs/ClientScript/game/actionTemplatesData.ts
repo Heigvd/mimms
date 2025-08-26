@@ -140,13 +140,9 @@ export function initActionTemplates(): {
     'define-point-desc',
     TimeSliceDuration,
     'define-point-feedback',
-    new FixedMapEntityRedux(
-      LOCATION_ENUM.custom,
-      [],
-      BuildingStatus.ready,
-      { Actors: false, Resources: false, Patients: false },
-      'lekkim_inactive'
-    ),
+    // Reference record
+    new FixedMapEntityRedux(LOCATION_ENUM.pcFront, BuildingStatus.ready),
+    ['lekkim_inactive', 'lekkim_active'],
     false,
     [SimFlag.PCFRONT_BUILT]
   );

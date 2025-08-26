@@ -653,7 +653,8 @@ export class SelectionFixedMapEntityReduxAction extends StartEndAction {
       new ChangeActivableStatusLocalEvent({
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
-        target: this.fixedMapEntityRedux.mapEntityDescriptorUid,
+        // mapEntityDescriptorUid will always be defined through event
+        target: this.fixedMapEntityRedux.mapEntityDescriptorUid!,
         option: 'activate',
       })
     );
@@ -685,7 +686,8 @@ export class SelectionFixedMapEntityReduxAction extends StartEndAction {
       new ChangeActivableStatusLocalEvent({
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
-        target: this.fixedMapEntityRedux.mapEntityDescriptorUid,
+        // mapEntityDescriptorUid will always be defined through event
+        target: this.fixedMapEntityRedux.mapEntityDescriptorUid!,
         option: 'deactivate',
       })
     );

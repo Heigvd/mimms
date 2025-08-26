@@ -72,6 +72,13 @@ export function startMapSelect() {
   Context.mapState.setState(newState);
 }
 
+export function startMapSelectRedux() {
+  clearMapState();
+  const newState = Helpers.cloneDeep(Context.mapState.state);
+  newState.mapSelect = true;
+  Context.mapState.setState(newState);
+}
+
 /**
  * Map click handler
  *

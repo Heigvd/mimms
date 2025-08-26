@@ -80,7 +80,7 @@ export function getMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
 }
 
 export function getMapEntityDescriptor(uid: Uid): MapEntityDescriptor {
-  return mapEntityDescriptors[uid];
+  return mapEntityDescriptors[uid]!;
 }
 
 export function getMapEntityDescriptorUid(binding: LOCATION_ENUM): MapEntityDescriptor | undefined {
@@ -123,7 +123,8 @@ export function getActiveMapEntityDescriptors(): Record<string, MapEntityDescrip
   const filtered: Record<string, MapEntityDescriptor> = {};
   for (const uid of activeUids) {
     if (uid in meds) {
-      filtered[uid] = meds[uid];
+      // TODO Improve typing to remove assertion
+      filtered[uid] = meds[uid]!;
     }
   }
 

@@ -1,9 +1,12 @@
+import { SelectionFixedMapEntityReduxTemplate } from '../game/common/actions/actionTemplateBase';
 import { FeatureCollection } from '../gameMap/types/featureTypes';
 import { getEmptyFeatureCollection } from '../gameMap/utils/mapUtils';
 import {
   getActiveMapEntityDescriptors,
+  getMapEntityDescriptors,
   MapEntityDescriptor,
 } from '../mikkWIP/mapEntityDescriptors';
+import { getAvailableActionTemplateById } from '../UIfacade/actionFacade';
 
 export function getMapActivablesLayer() {
   return getLayer(getActiveMapEntityDescriptors(), 'active');
@@ -64,15 +67,53 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   }
 }
 
-function getPointStyle(_feature: any): LayerStyleObject {
+function getPointStyle(feature: any): LayerStyleObject {
   const circleStyle: CircleStyleObject = {
     type: 'CircleStyle',
     fill: {
       type: 'FillStyle',
-      color: 'pink',
+      color: feature.values_.id === Context.interfaceState.state.reduxUid ? 'pink' : 'red',
     },
     radius: 10,
+    // opacity: 1, TODO Not working for some odd reason
   };
 
   return { image: circleStyle };
+}
+
+///// SELECTION LAYER /////
+
+// TODO Convoluted way of getting what we need, improve ?
+export function getMapActivableSelectionLayer() {
+  const currentTemplate = getAvailableActionTemplateById(
+    Context.interfaceState.state.currentActionUid
+  );
+
+  let medUids = [];
+  const record: Record<string, MapEntityDescriptor> = {};
+
+  if (currentTemplate instanceof SelectionFixedMapEntityReduxTemplate) {
+    medUids = currentTemplate.mapEntityDescriptorUids;
+    const meds = getMapEntityDescriptors();
+
+    // TODO Better type to remove assertion
+    for (const medUid of medUids) {
+      record[medUid] = meds[medUid]!;
+    }
+  }
+
+  return getLayer(record, 'activableSelection');
+}
+
+// TODO Implement selection opacity
+export function getActivableSelectionLayerStyle(feature: any): LayerStyleObject {
+  const properties = feature.getProperties();
+  const geometryType = properties.type;
+  // TODO Implement all styles
+  switch (geometryType) {
+    case 'Point':
+      return getPointStyle(feature);
+    default:
+      return {};
+  }
 }

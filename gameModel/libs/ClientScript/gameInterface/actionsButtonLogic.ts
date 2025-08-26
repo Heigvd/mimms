@@ -8,6 +8,7 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
   isRadioActionTemplate,
+  isReduxTemplate,
   isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
@@ -30,7 +31,7 @@ import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { clearMapState, startMapSelect, startMapSelectRedux } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -65,6 +66,13 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
       startMapSelect();
     } else {
       params = fetchSelectMapObjectValues()!;
+      clearMapState();
+    }
+  } else if (isReduxTemplate(action)) {
+    if (!canPlanAction()) {
+      startMapSelectRedux();
+    } else {
+      params = fetchReduxValues();
       clearMapState();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
@@ -246,6 +254,12 @@ function fetchRadioMessageRequestValues(channel: RadioType): RadioMessagePayload
   Context.interfaceState.setState(newState);
 
   return res;
+}
+
+function fetchReduxValues() {
+  const uid = Context.interfaceState.state.reduxUid;
+  setInterfaceState({ reduxUid: 'A' });
+  return uid;
 }
 
 /**

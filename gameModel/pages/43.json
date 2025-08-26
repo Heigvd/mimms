@@ -529,7 +529,7 @@
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "!Context.mapState?.state.selectionState",
+                                      "content" : "!Context.mapState?.state.selectionState;",
                                       "language" : "typescript"
                                     },
                                     "layerId" : "selectionLayer",
@@ -641,6 +641,43 @@
                                     },
                                     "layoutStyle" : { },
                                     "name" : "ActivableLayer",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "  !Context.mapState?.state.mapSelect;",
+                                      "language" : "typescript"
+                                    },
+                                    "layerId" : "activableSelection",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getMapActivableSelectionLayer } from \"./mikkWIP/activableMapLayer\";\ngetMapActivableSelectionLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getActivableSelectionLayerStyle } from \"./mikkWIP/activableMapLayer\";\ngetActivableSelectionLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "ActivableSelectionLayer",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
+                                    },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"

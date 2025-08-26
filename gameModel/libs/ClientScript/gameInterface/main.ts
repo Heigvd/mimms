@@ -1,17 +1,20 @@
 import {
   ActionTemplateBase,
   MoveActorActionTemplate,
+  SelectionFixedMapEntityReduxTemplate,
   SelectionFixedMapEntityTemplate,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { endMapAction, startMapSelect } from '../gameMap/main';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import { endMapAction, startMapSelect, startMapSelectRedux } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
   isFixedMapEntityTemplate,
+  isReduxTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -118,13 +121,19 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
  */
 export function actionChangeHandler(): void {
   if (!canPlanAction()) return;
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActionUid: Context.action.Uid,
-  });
+  const action = Context.action as ActionTemplateBase;
+
+  // TODO this sucks but calling setInterfaceState twice glitches the state
+  if (isReduxTemplate(action) && canPlanAction()) {
+    const firstUid = (action as SelectionFixedMapEntityReduxTemplate).mapEntityDescriptorUids[0];
+    setInterfaceState({ reduxUid: firstUid, currentActionUid: Context.action.Uid });
+    startMapSelectRedux();
+    return;
+  }
+
+  setInterfaceState({ currentActionUid: Context.action.Uid });
   endMapAction();
 
-  const action = Context.action as ActionTemplateBase;
   // If action is SelectMapObject we begin routine
   if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();
@@ -187,6 +196,8 @@ export function formatTime(dateTime: Date): string {
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
   if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
     return '48';
+  } else if (actionTemplate instanceof SelectionFixedMapEntityReduxTemplate) {
+    return '31';
   } else if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
   } else if (actionTemplate instanceof SituationUpdateActionTemplate) {

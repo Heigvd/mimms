@@ -1,5 +1,3 @@
-import { IObjectDescriptor, IObjectDescriptorWithId } from '../../clientInternal/ambientEntities';
-
 /**
  * CustomForms to handle mapObjects
  */

@@ -30,6 +30,7 @@ import {
 } from '../events/eventTypes';
 import { FullEvent } from '../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMessageEvent';
+import { Uid } from '../interfaces';
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
@@ -587,14 +588,15 @@ export class SelectionFixedMapEntityReduxTemplate<
 > extends StartEndTemplate<
   SelectionFixedMapEntityReduxAction,
   SelectionFixedMapEntityReduxEvent,
-  FixedMapEntityRedux
+  Uid
 > {
   constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    public readonly fixedMapEntityRedux: FixedMapEntityRedux,
+    public readonly fixedMapEntityRedux: Omit<FixedMapEntityRedux, 'mapEntityDescriptorUid'>,
+    public readonly mapEntityDescriptorUids: Uid[], // TODO Replace by choices
     replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -612,17 +614,20 @@ export class SelectionFixedMapEntityReduxTemplate<
       availableToRoles
     );
     this.fixedMapEntityRedux = fixedMapEntityRedux;
+    this.mapEntityDescriptorUids = mapEntityDescriptorUids;
   }
 
   public buildGlobalEvent(
     timeStamp: number,
-    initiator: Readonly<Actor>
+    initiator: Readonly<Actor>,
+    payload: Uid
   ): SelectionFixedMapEntityReduxEvent {
     //???? payload??
     //We need to get the selected Uid
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
+      mapDescriptorUid: payload,
     };
   }
 
@@ -631,6 +636,10 @@ export class SelectionFixedMapEntityReduxTemplate<
   ): SelectionFixedMapEntityReduxAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
+    const fixedMapEntity: FixedMapEntityRedux = {
+      ...this.fixedMapEntityRedux,
+      mapEntityDescriptorUid: payload.mapDescriptorUid,
+    };
 
     return new SelectionFixedMapEntityReduxAction(
       payload.triggerTime,
@@ -641,7 +650,7 @@ export class SelectionFixedMapEntityReduxTemplate<
       ownerId,
       this.Uid,
       // TODO Replace with mapEntityDescriptor Uid
-      this.fixedMapEntityRedux,
+      fixedMapEntity,
       this.raisedFlags
     ) as ActionT;
   }

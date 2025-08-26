@@ -2,6 +2,7 @@ import { Actor } from '../game/common/actors/actor';
 import { HospitalId, PatientId, PatientUnitId, TaskId } from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
@@ -28,6 +29,7 @@ export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
+  reduxUid: Uid;
   situationUpdateDuration: number;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
@@ -106,6 +108,7 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
+    reduxUid: 'A',
     situationUpdateDuration: getDefaultSituationUpdateDuration(),
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,

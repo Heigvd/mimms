@@ -13,6 +13,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
+  SelectionFixedMapEntityReduxTemplate,
   SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
@@ -46,6 +47,10 @@ export function getAvailableActionTemplates(
   }
 
   return [];
+}
+
+export function getAvailableActionTemplateById(uid: number) {
+  return getAvailableActionTemplates().find(t => t.Uid === uid);
 }
 
 export function isAvailable(template: ActionTemplateBase): boolean {
@@ -168,6 +173,10 @@ export function getActorsNotDoing<T extends ActionBase>(actionClass: {
   return playerActors.filter(
     (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, actionClass)
   );
+}
+
+export function isReduxTemplate(template: ActionTemplateBase | undefined): boolean {
+  return template instanceof SelectionFixedMapEntityReduxTemplate;
 }
 
 export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
