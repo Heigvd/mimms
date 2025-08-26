@@ -72,7 +72,9 @@
                 "layoutStyle" : {
                   "width" : "100%"
                 },
-                "style" : { }
+                "style" : {
+                  "width" : "18rem"
+                }
               },
               "type" : "For each"
             } ]
@@ -86,7 +88,7 @@
                 "layoutStyle" : { },
                 "style" : {
                   "margin" : "5px",
-                  "width" : "16.378125rem"
+                  "width" : "17.4rem"
                 },
                 "text" : {
                   "@class" : "Script",
@@ -118,12 +120,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "notificationPageloader",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

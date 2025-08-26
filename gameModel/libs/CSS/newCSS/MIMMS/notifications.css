@@ -2,139 +2,144 @@
 
 .notificationPanel-container {
   position: absolute;
-  /*top: 0;*/
   bottom: 0;
-  left: -22rem;
+  left: -22.25rem;
 	width: 21rem;
-  height: 100%;
+  /*height: 100%;
 	pointer-events: auto;
 	max-height: 70%;
-  /*min-height: 2rem;*/
-  /*padding-right: 4.2rem;*/
-  z-index: 5;
+  z-index: 5;*/
 }
 
 .notificationPanel > div {
   position: absolute;
-  bottom: 0;
+  bottom: 5px;
   max-height: 21rem;
+  padding: 5px 5px 15px 5px;
   background-color: var(--yellow_base);
 	border-radius: var(--XS_borderRadius);
-  box-shadow: var(--buttonShadow);
+  box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--yellow_base);
-}
-
-.notificationPanel-container_Hidden{
+/*.notificationPanel-container_Hidden{
 	background-color: rgba(245, 40, 145, 0);
+}*/
+
+.timeline-actors .fixedEntities-arrow {
+  position: absolute;
+  top: .75rem;
+  left: -2.55rem;
+  padding: 0;
+  border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+  border-top: 15px solid var(--yellow_base);
+  filter: drop-shadow(-2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
+  transform: rotate(-90deg);
 }
 
 /*** HEADER ***/
-.notificationPanelHeader{
-	width: 6em;
+.notificationPanelHeader {
+	/*width: 6em;
 	height: auto;
-	max-height: 80vh;
+	max-height: 80vh;*/
   margin: 5px 0 15px 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
 
-.notificationPanelHeader > p{
+/*.notificationPanelHeader > p {
 	margin-bottom: 0px;
 	margin-top: 15px;
+}*/
+
+/*.notificationPageloader-container {
+  width: calc(100% - 3em);
+  background-color: var(--yellow_base);
+	border-radius: var(--XS_borderRadius);
+}*/
+
+.notificationPageloader {
+  /*width: 100%;
+  height: 100%;
+  box-sizing: border-box;*/
+  overflow: auto;
+  scrollbar-width: none;
 }
 
-.notificationPageloader-container{
-  width: calc(100% - 3em);
-  /*background-color: var(--yellow_base);
-	border-radius: var(--XS_borderRadius);*/
-}
+/*.notificationPageloader::-webkit-scrollbar {
+  display: none;
+}*/
+
 /****** NOTIFICATION BUTTONS ******/
 
-.notificationButton-container {
-	/*position: absolute;*/
-  width: 2.25rem;
+/*.notificationButton-container {
+  /*width: 2.25rem;
   height: 2.25rem;
-	/*right: 3px;
-	top: 3px;*/
 	pointer-events: auto;
 	border-radius: 100%;
-	/*margin: .5rem .5rem 0 0;*/
-	padding: 0px;
-	/*justify-content: center;*/
-	/*align-items: center;*/
-	/*display: inline-flex;*/
-  box-shadow: var(--buttonShadow);
-  z-index: 3;
-}
+}*/
 
-.notificationButton > *{
+.notificationButton > * {
 	color: var(--grey_0);
-  font-size: var(--L_text);
+  /*font-size: var(--L_text);*/
 }
 
 .notificationButton {
   width: 2.25rem;
 	height: 2.25rem;
-  /*padding: 5px;*/
+  box-shadow: var(--buttonShadow);
 }
 
-.notificationButton svg {
+/*.notificationButton svg {
   height: 1rem;
-}
+}*/
 
-.notificationButton-container:hover{
+/*.notificationButton-container:hover{
 	box-shadow: var(--buttonShadow);
-}
+}*/
 
-.notificationButton-container .openNotif-button{
-	background-color: var(--yellow_base);
+.notificationButton-container .openNotif-button {
+	background-color: var(--primary_base);
 	border-radius: 100%;
 	justify-content: center;
-	align-items: center;
-	/*display: inline-flex;*/
-	/*box-shadow: var(--buttonInsetShadow);*/
+	/*align-items: center;
+	display: inline-flex;*/
+	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
 }
-
 
 .notificationButton-container .closedNotif-button {
 	background-color: var(--primary_base);
 	border-radius: 100%;
 	justify-content: center;
-	align-items: center;
-	/*display: inline-flex;*/
+	/*align-items: center;*/
 }
 
 .notificationButton-container .unselectedNotif-button {
-  background-color: var(--grey_0);
+  /*background-color: var(--grey_0);*/
   border: 3px solid var(--primary_base);
   border-radius: 100%;
 	justify-content: center;
-	align-items: center;
+	/*align-items: center;*/
 }
 
 .notificationButton-container .unselectedNotif-button svg {
   color: var(--primary_base);
 }
 
-.notificationButton-container .newNotif{
+.notificationButton-container .newNotif {
 	background-color: var(--yellow_base);
   border-radius: 100%;
   justify-content: center;
-	align-items: center;
+	/*align-items: center;*/
 }
 
 .counterCircle-container {
   position: absolute;
-	/*top: -.275rem;
-  left: 1.65rem;*/
   top: -.1rem;
   left: 1.5rem;
 	width: 1.2em;
-	height: 1.2em;
-	color: var(--grey_80);
+	/*height: 1.2em;
+	color: var(--grey_80);*/
 	background-color: var(--grey_0);
 	border: 1px solid var(--yellow_base);
 	border-radius: 100%;
@@ -155,9 +160,9 @@
 */
 
 .counterCircle {
-  display: flex;
+  /*display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;*/
 	margin: auto;
 	font-size: var(--SM_text);
 	font-weight: var(--boldWeight);
@@ -166,10 +171,10 @@
 	color: var(--secondary_70);
 }
 
-.counterCircle > p {
+/*.counterCircle > p {
 	padding: 0px;
 	margin: -2px;
-}
+}*/
 
 /***** A NOTIFICATION *****/
 
@@ -184,7 +189,7 @@
 	background-color: var(--grey_10);
 	}
   	50% {
-	background-color: var(--primary_30);
+	background-color: var(--yellow_10);
 	}
 
 	100% {

@@ -1204,6 +1204,21 @@
                                               "type" : "FlexList"
                                             }, {
                                               "props" : {
+                                                "children" : [ ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  if(Context.actor.Uid != Context.interfaceState.state.currentActorUid) {\n    return true;\n  }\n    \n!Context.interfaceState.state.showNotificationsPanel;",
+                                                  "language" : "typescript"
+                                                },
+                                                "layout" : { },
+                                                "layoutClassName" : "fixedEntities-arrow",
+                                                "layoutStyle" : { },
+                                                "name" : "Arrow",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
                                                 "className" : "counterCircle",
                                                 "hideIf" : {
                                                   "@class" : "Script",
@@ -1263,7 +1278,7 @@
                                                   "content" : "\"\"",
                                                   "language" : "TypeScript"
                                                 },
-                                                "layoutClassName" : "notificationButton-container",
+                                                "layoutClassName" : "noPadding notificationButton-container",
                                                 "layoutStyle" : { },
                                                 "localScriptEval" : {
                                                   "script" : {
