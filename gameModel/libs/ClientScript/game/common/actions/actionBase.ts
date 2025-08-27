@@ -35,6 +35,7 @@ import {
 } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
+import { Uid } from '../interfaces';
 import {
   AddActorLocalEvent,
   AddFixedEntityLocalEvent,
@@ -612,7 +613,8 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 // -------------------------------------------------------------------------------------------------
 
 export class SelectionFixedMapEntityReduxAction extends StartEndAction {
-  public readonly fixedMapEntityRedux: FixedMapEntityRedux;
+  public readonly mapEntityDescriptorUid: Uid;
+  public readonly fixedMapEntityRedux?: FixedMapEntityRedux;
 
   constructor(
     startTimeSec: SimTime,
@@ -622,8 +624,9 @@ export class SelectionFixedMapEntityReduxAction extends StartEndAction {
     messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
-    fixedMapEntityRedux: FixedMapEntityRedux,
-    provideFlagsToState: SimFlag[]
+    mapEntityDescriptorUid: Uid,
+    provideFlagsToState: SimFlag[],
+    fixedMapEntityRedux?: Omit<FixedMapEntityRedux, 'mapEntityDescriptorUid'>
   ) {
     super(
       startTimeSec,
@@ -635,62 +638,71 @@ export class SelectionFixedMapEntityReduxAction extends StartEndAction {
       uuidTemplate,
       provideFlagsToState
     );
-    this.fixedMapEntityRedux = fixedMapEntityRedux;
+    this.mapEntityDescriptorUid = mapEntityDescriptorUid;
+    if (fixedMapEntityRedux) {
+      this.fixedMapEntityRedux = {
+        ...fixedMapEntityRedux,
+        mapEntityDescriptorUid: mapEntityDescriptorUid,
+      };
+    }
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.fixedMapEntityRedux.buildingStatus = BuildingStatus.inProgress;
-
-    getLocalEventManager().queueLocalEvent(
-      new AddFixedEntityReduxLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntityRedux: this.fixedMapEntityRedux,
-      })
-    );
-
     getLocalEventManager().queueLocalEvent(
       new ChangeActivableStatusLocalEvent({
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
         // mapEntityDescriptorUid will always be defined through event
-        target: this.fixedMapEntityRedux.mapEntityDescriptorUid!,
+        target: this.mapEntityDescriptorUid,
         option: 'activate',
       })
     );
+
+    if (this.fixedMapEntityRedux) {
+      this.fixedMapEntityRedux.buildingStatus = BuildingStatus.inProgress;
+      getLocalEventManager().queueLocalEvent(
+        new AddFixedEntityReduxLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          fixedMapEntityRedux: this.fixedMapEntityRedux,
+        })
+      );
+    }
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     // ungrey the map element
-    getLocalEventManager().queueLocalEvent(
-      new CompleteBuildingFixedEntityReduxLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntityRedux: this.fixedMapEntityRedux,
-      })
-    );
-
-    // REDUX TODO Add built status change
+    if (this.fixedMapEntityRedux) {
+      getLocalEventManager().queueLocalEvent(
+        new CompleteBuildingFixedEntityReduxLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          fixedMapEntityRedux: this.fixedMapEntityRedux,
+        })
+      );
+    }
   }
 
   protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityReduxLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntityRedux: this.fixedMapEntityRedux,
-      })
-    );
-
     getLocalEventManager().queueLocalEvent(
       new ChangeActivableStatusLocalEvent({
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
         // mapEntityDescriptorUid will always be defined through event
-        target: this.fixedMapEntityRedux.mapEntityDescriptorUid!,
+        target: this.mapEntityDescriptorUid,
         option: 'deactivate',
       })
     );
+
+    if (this.fixedMapEntityRedux) {
+      getLocalEventManager().queueLocalEvent(
+        new RemoveFixedEntityReduxLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          fixedMapEntityRedux: this.fixedMapEntityRedux,
+        })
+      );
+    }
   }
 }
 

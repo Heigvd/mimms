@@ -595,12 +595,12 @@ export class SelectionFixedMapEntityReduxTemplate<
     description: TranslationKey,
     duration: SimDuration,
     message: TranslationKey,
-    public readonly fixedMapEntityRedux: Omit<FixedMapEntityRedux, 'mapEntityDescriptorUid'>,
     public readonly mapEntityDescriptorUids: Uid[], // TODO Replace by choices
     replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[]
+    availableToRoles?: InterventionRole[],
+    public readonly fixedMapEntityRedux?: Omit<FixedMapEntityRedux, 'mapEntityDescriptorUid'>
   ) {
     super(
       title,
@@ -636,10 +636,6 @@ export class SelectionFixedMapEntityReduxTemplate<
   ): SelectionFixedMapEntityReduxAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
-    const fixedMapEntity: FixedMapEntityRedux = {
-      ...this.fixedMapEntityRedux,
-      mapEntityDescriptorUid: payload.mapDescriptorUid,
-    };
 
     return new SelectionFixedMapEntityReduxAction(
       payload.triggerTime,
@@ -649,9 +645,9 @@ export class SelectionFixedMapEntityReduxTemplate<
       this.message,
       ownerId,
       this.Uid,
-      // TODO Replace with mapEntityDescriptor Uid
-      fixedMapEntity,
-      this.raisedFlags
+      payload.mapDescriptorUid,
+      this.raisedFlags,
+      this.fixedMapEntityRedux
     ) as ActionT;
   }
 

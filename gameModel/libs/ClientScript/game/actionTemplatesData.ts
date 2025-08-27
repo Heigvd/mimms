@@ -136,13 +136,26 @@ export function initActionTemplates(): {
   );
 
   const placePoint = new SelectionFixedMapEntityReduxTemplate(
+    'define-point-title2',
+    'define-point-desc2',
+    TimeSliceDuration,
+    'define-point-feedback2',
+    // Reference record
+    ['lekkim_inactive', 'lekkim_active'],
+    false,
+    [SimFlag.PCFRONT_BUILT],
+    undefined,
+    undefined,
+    new FixedMapEntityRedux(LOCATION_ENUM.pcFront, BuildingStatus.ready)
+  );
+
+  const placePoint2 = new SelectionFixedMapEntityReduxTemplate(
     'define-point-title',
     'define-point-desc',
     TimeSliceDuration,
     'define-point-feedback',
     // Reference record
-    new FixedMapEntityRedux(LOCATION_ENUM.pcFront, BuildingStatus.ready),
-    ['lekkim_inactive', 'lekkim_active'],
+    ['lekkim_1', 'lekkim_2'],
     false,
     [SimFlag.PCFRONT_BUILT]
   );
@@ -493,6 +506,7 @@ export function initActionTemplates(): {
   templates[getPoliceInfos.Uid] = getPoliceInfos;
   templates[getFireFighterInfos.Uid] = getFireFighterInfos;
   templates[placePoint.Uid] = placePoint;
+  templates[placePoint2.Uid] = placePoint2;
   templates[placePMA.Uid] = placePMA;
   templates[placePC.Uid] = placePC;
   templates[placeNest.Uid] = placeNest;

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1756221603485,
+  "createdTime" : 1756301989313,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4989,6 +4989,8 @@
       },
       "name" : "mapEntityDescriptors",
       "properties" : {
+        "lekkim_1" : "\"{\\\"uid\\\": \\\"lekkim_1\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118535]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
+        "lekkim_2" : "\"{\\\"uid\\\": \\\"lekkim_2\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500115, 1118545]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
         "lekkim_active" : "\"{\\\"uid\\\": \\\"lekkim_active\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": true, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500100, 1118500]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
         "lekkim_inactive" : "\"{\\\"uid\\\": \\\"lekkim_inactive\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500115, 1118515]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
         "lekkim_triggered" : "\"{\\\"uid\\\": \\\"lekkim_triggered\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\""
