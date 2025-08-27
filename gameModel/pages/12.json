@@ -160,7 +160,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nconst welcome = getTranslation('pretriage-interface', 'welcome');\nreturn welcome",
+              "content" : "import { getTranslation } from \"./tools/translation\";\nreturn getTranslation('pretriage-interface', 'welcome');",
               "language" : "TypeScript"
             }
           },
@@ -394,7 +394,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
+              "content" : "import { getPatientPretriTotal } from \"./UIfacade/pretriFacade\";\n  getPatientPretriTotal();",
               "language" : "TypeScript"
             }
           },
@@ -416,282 +416,319 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<h2 style='margin:0'>Summary</h2>\"",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
+                      "language" : "JavaScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "Script",
+                        "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
+                        "language" : "typescript"
+                      }
+                    },
+                    "style" : {
+                      "fontSize" : "18px"
+                    }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "alignItems" : "center",
+                  "justifyContent" : "space-between"
+                },
                 "layoutStyle" : { },
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<h2 style='margin:0'>Summary</h2>\"",
-                  "language" : "JavaScript"
+                "name" : "toolbar",
+                "style" : {
+                  "borderBottom" : "solid 1px var(--colors-disabledcolor)"
                 }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
-                  "language" : "JavaScript"
+                "children" : [ {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "n",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>N°</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "patientID",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-id');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "given answer",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'given-answer');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "correction",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'correction');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "right-wrong",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'result');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-summary--header",
+                    "layoutStyle" : { },
+                    "name" : "review patient",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'review-patient');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "n",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "String(Context.patient.n);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "patientID",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "Context.patient.data.id;",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "given-answer",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "answer",
+                            "layoutStyle" : { },
+                            "name" : "correction",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "layoutStyle" : { },
+                            "name" : "R-W",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p class=\"correct\">Correct</p>'\n}\n'<p class=\"wrong\">Wrong</p>'",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "reviewBtn",
+                            "icon" : "eye",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { showPatient } from \"./game/pretri/drill\";\n\nshowPatient(Context.patient.data.id)",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "patient-summary--line",
+                        "layout" : { },
+                        "layoutClassName" : "",
+                        "layoutStyle" : {
+                          "display" : "contents"
+                        },
+                        "style" : {
+                          "display" : "contents"
+                        }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "patient",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "itemsOnly" : false,
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : {
+                      "display" : "contents"
+                    },
+                    "name" : "patient",
+                    "style" : {
+                      "display" : "contents"
+                    }
+                  },
+                  "type" : "For each"
+                } ],
+                "className" : "patient-summary--grid",
+                "layout" : {
+                  "alignItems" : "center",
+                  "gridAutoRows" : "50px",
+                  "justifyItems" : "center"
                 },
                 "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "Script",
-                    "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
-                    "language" : "typescript"
-                  }
-                },
+                "name" : "summary",
                 "style" : {
-                  "fontSize" : "18px"
+                  "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
                 }
               },
-              "type" : "Button"
+              "type" : "Grid"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\ngetDrillStatus() !== 'completed_summary';",
+              "language" : "typescript"
+            },
             "layout" : {
-              "alignItems" : "center",
-              "justifyContent" : "space-between"
+              "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "name" : "toolbar",
-            "style" : {
-              "borderBottom" : "solid 1px var(--colors-disabledcolor)"
-            }
+            "name" : "patient list",
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "patient-summary--header",
                 "layoutStyle" : { },
-                "name" : "n",
+                "name" : "finish-text",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>N°</p>\"",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n\n getTranslation(\"pretriage-interface\", 'thankyou-playing');",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "className" : "patient-summary--header",
                 "layoutStyle" : { },
-                "name" : "patientID",
+                "name" : "custom-finish-text",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'patient-id');",
+                  "content" : "\n I18n.toString(Variable.find(gameModel,'finished_custom_text'))",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "patient-summary--header",
-                "layoutStyle" : { },
-                "name" : "given answer",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'given-answer');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "patient-summary--header",
-                "layoutStyle" : { },
-                "name" : "correction",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'correction');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "patient-summary--header",
-                "layoutStyle" : { },
-                "name" : "right-wrong",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'result');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "patient-summary--header",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
-                  "language" : "typescript"
-                },
-                "layoutStyle" : { },
-                "name" : "review patient",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'review-patient');",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : "n",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "String(Context.patient.n);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : "patientID",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "Context.patient.data.id;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : "given-answer",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.category);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "answer",
-                        "layoutStyle" : { },
-                        "name" : "correction",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { categoryToHtml } from \"./game/pretri/triage\";\ncategoryToHtml(Context.patient.data.categorization.autoTriage.categoryId);",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "layoutStyle" : { },
-                        "name" : "R-W",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p class=\"correct\">Correct</p>'\n}\n'<p class=\"wrong\">Wrong</p>'",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "reviewBtn",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
-                          "language" : "typescript"
-                        },
-                        "icon" : "eye",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { showPatient } from \"./game/pretri/drill\";\n\nshowPatient(Context.patient.data.id)",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "patient-summary--line",
-                    "layout" : { },
-                    "layoutClassName" : "",
-                    "layoutStyle" : {
-                      "display" : "contents"
-                    },
-                    "style" : {
-                      "display" : "contents"
-                    }
-                  },
-                  "type" : "FlexList"
-                } ],
-                "exposeAs" : "patient",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "id",
-                "itemsOnly" : false,
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutStyle" : {
-                  "display" : "contents"
-                },
-                "name" : "patient",
-                "style" : {
-                  "display" : "contents"
-                }
-              },
-              "type" : "For each"
             } ],
-            "className" : "patient-summary--grid",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "exam-mode",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
-                "language" : "typescript"
-              }
-            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\ngetDrillStatus() !== 'validated';",
+              "language" : "typescript"
+            },
             "layout" : {
-              "alignItems" : "center",
-              "gridAutoRows" : "50px",
-              "justifyItems" : "center"
+              "flexDirection" : "column"
             },
             "layoutStyle" : { },
-            "name" : "summary",
-            "style" : {
-              "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
-            }
+            "name" : "end message",
+            "style" : { }
           },
-          "type" : "Grid"
+          "type" : "FlexList"
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() !== 'completed_summary'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\n  const drillStatus = getDrillStatus();\ndrillStatus !== 'completed_summary' && drillStatus !== 'validated';",
           "language" : "typescript"
         },
         "layout" : {
@@ -699,73 +736,6 @@
         },
         "layoutStyle" : { },
         "name" : "summary",
-        "style" : { }
-      },
-      "type" : "FlexList"
-    }, {
-      "props" : {
-        "children" : [ {
-          "props" : {
-            "className" : "patient-overview",
-            "layoutStyle" : { },
-            "name" : "patient-overview",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getCategorizedHumans } from \"./game/legacy/the_world\";\nimport { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getTranslation } from \"./tools/translation\";\nconst textPatientCorrect = getTranslation(\"pretriage-interface\", 'nb-patients-correct');\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nlet nbCorrect = 0;\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\nr.forEach((pat)=> {\n\tif(pat.categorization?.category == \n\tpat.categorization?.autoTriage.categoryId){\n\tnbCorrect++;\n}});\n`${nbCorrect}/${r.length} ${textPatientCorrect}`",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-overview",
-            "layoutStyle" : { },
-            "name" : "time",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getFormattedPretriTime } from \"./UIfacade/pretriFacade\";\ngetFormattedPretriTime();",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "name" : "finish-text",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\n\n getTranslation(\"pretriage-interface\", 'thankyou-playing');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : { },
-            "name" : "custom-finish-text",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\n I18n.toString(Variable.find(gameModel,'finished_custom_text'))",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        } ],
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() !== 'validated'",
-          "language" : "typescript"
-        },
-        "layout" : {
-          "flexDirection" : "column"
-        },
-        "layoutClassName" : "",
-        "layoutStyle" : { },
-        "name" : "End",
         "style" : { }
       },
       "type" : "FlexList"

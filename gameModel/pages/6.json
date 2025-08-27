@@ -2,114 +2,6 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "attachToMostDistant" : "",
-        "attachedToId" : "zoomMedicalCarePageId",
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "className" : "noPadding norMargin",
-                        "layoutClassName" : "noPadding norMargin",
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { DelayedAction, getResolvedActionDisplayName } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction = Context.pendingAction;\nconst counter = action.dueDate - currentTime;\nconst title = getTranslation('pretriage-interface', 'pendingAction', true);\nconst actionName = getResolvedActionDisplayName(action.action);\n`<p>${title}: ${actionName} !</p>\n<p> ${getTranslation('pretriage-interface', 'still', true)} ${counter} ${getTranslation('pretriage-interface', 'secToWait', false)}</p>`",
-                          "language" : "JavaScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "noPadding norMargin",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.pendingAction?.display?.pulse_perMin == null",
-                          "language" : "typescript"
-                        },
-                        "layoutClassName" : "noPadding norMargin",
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "const perMin = Context.pendingAction?.display?.pulse_perMin;\nconst duration = 60 / perMin;\n`<div class='pulseMe' style=\"animation-duration: ${duration}s\"></div>`",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "className" : "noPadding norMargin",
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3;",
-                      "language" : "JavaScript"
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { DelayedAction } from './game/legacy/the_world';\nimport { getCurrentSimulationTime } from './game/legacy/TimeManager';\nimport { getTranslation } from './tools/translation';\nconst currentTime = getCurrentSimulationTime();\nconst action : DelayedAction =Context.pendingAction; \nconst counter = action.dueDate - currentTime;\ncounter < 3 ? getTranslation('pretriage-interface', 'toolatetocancel') : getTranslation('pretriage-interface', 'cancel', true);",
-                      "language" : "JavaScript"
-                    },
-                    "layoutClassName" : "noPadding norMargin",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { sendEvent } from './game/common/events/eventUtils';\n\nsendEvent({\n\ttype: 'CancelAction',\n\teventId: Context.pendingAction.id,\n})",
-                        "language" : "typescript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "className" : "",
-            "exposeAs" : "pendingAction",
-            "getItemsFn" : {
-              "@class" : "Script",
-              "content" : "import { getMyPendingActions } from './game/legacy/the_world';\ngetMyPendingActions();",
-              "language" : "TypeScript"
-            },
-            "itemKey" : "id",
-            "layout" : { },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "For each"
-        } ],
-        "className" : "",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { getMyPendingActions } from './game/legacy/the_world';\ngetMyPendingActions().length === 0;",
-          "language" : "JavaScript"
-        },
-        "layout" : { },
-        "layoutClassName" : "",
-        "layoutStyle" : {
-          "position" : "absolute"
-        },
-        "name" : "pending actions",
-        "onExitActions" : { },
-        "style" : { }
-      },
-      "type" : "Modal"
-    }, {
-      "props" : {
         "children" : [ {
           "props" : {
             "hideIf" : {
@@ -597,18 +489,23 @@
                                       "className" : "selected",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu",
-                                        "language" : "JavaScript"
+                                        "content" : "Context.wheelItem.id === Context.patientConsole.state.selectedMenu;",
+                                        "language" : "typescript"
                                       }
                                     }, {
                                       "applyOn" : "Inside",
                                       "className" : "no-selection",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "!Context.wheelItem.items.some(item => item?.items?.length > 0 );",
+                                        "content" : "import { actionsBlocked } from \"./UIfacade/pretriFacade\";\n!Context.wheelItem.items.some(item => item?.items?.length > 0 ) || actionsBlocked();",
                                         "language" : "typescript"
                                       }
                                     } ],
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { actionsBlocked } from \"./UIfacade/pretriFacade\";\nactionsBlocked();",
+                                      "language" : "typescript"
+                                    },
                                     "label" : {
                                       "@class" : "Script",
                                       "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
@@ -655,10 +552,23 @@
                                       "className" : "selected",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "Context.wheelItem.type === 'ExtraPanel' \n\t&& Context.wheelItem.id === Context.patientConsole.state.selectedPanel;",
-                                        "language" : "JavaScript"
+                                        "content" : "Context.wheelItem.type === 'ExtraPanel'&&\nContext.wheelItem.id === Context.patientConsole.state.selectedPanel;",
+                                        "language" : "typescript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
+                                      "className" : "no-selection",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { actionsBlocked } from './UIfacade/pretriFacade';\nactionsBlocked();",
+                                        "language" : "typescript"
                                       }
                                     } ],
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { actionsBlocked } from './UIfacade/pretriFacade';\nactionsBlocked();",
+                                      "language" : "typescript"
+                                    },
                                     "label" : {
                                       "@class" : "Script",
                                       "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
@@ -1710,11 +1620,6 @@
                               "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
                               "language" : "typescript"
                             },
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "import {getDrillStatus} from './game/pretri/drill'\nconst drillstatus = getDrillStatus()\ndrillstatus !== 'ongoing' && drillstatus !== 'completed_review'",
-                              "language" : "typescript"
-                            },
                             "label" : {
                               "@class" : "Script",
                               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'show-correction');",
@@ -1737,7 +1642,7 @@
                         "exposeAs" : "explanation",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "Variable.find(gameModel, 'examMode').getValue(self);",
+                          "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\nVariable.find(gameModel, 'examMode').getValue(self) && getDrillStatus() === 'ongoing';",
                           "language" : "typescript"
                         },
                         "initialState" : {
@@ -1754,11 +1659,6 @@
                     }, {
                       "props" : {
                         "className" : "l_button whiteButton",
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!isCurrentPatientCategorized()",
-                          "language" : "typescript"
-                        },
                         "hideIf" : {
                           "@class" : "Script",
                           "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
