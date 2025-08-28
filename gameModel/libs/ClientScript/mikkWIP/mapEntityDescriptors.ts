@@ -2,7 +2,7 @@ import { IActivableDescriptor, IDescriptor, Typed, Uid } from '../game/common/in
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { parseObjectDescriptor } from '../tools/WegasHelper';
+import { parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 
 ////// TYPES ///////
 
@@ -64,6 +64,21 @@ export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> 
   }
 
   return descs as Record<string, MapEntityDescriptor>;
+}
+
+export function saveMapEntityDescriptors(record: Record<string, MapEntityDescriptor>): void {
+  const v = Variable.find(gameModel, 'mapEntityDescriptors');
+  const data: Record<string, string> = {};
+  for (const [key, value] of Object.entries(record)) {
+    data[key] = JSON.stringify(value);
+  }
+
+  saveToObjectDescriptor(v, data);
+}
+
+export function reloadMapEntityDescriptors() {
+  mapEntityDescriptors = loadMapEntityDescriptors();
+  return mapEntityDescriptors;
 }
 
 /**

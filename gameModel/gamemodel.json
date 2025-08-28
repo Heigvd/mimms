@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1756301989313,
+  "createdTime" : 1756393652115,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4914,7 +4914,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.907871699377882,\"extent\":[2499696.2936464697,1118102.6796080722,2499972.5616214722,1118446.0276092258],\"center\":[2499834.427633971,1118274.353608649],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.264538366044548,\"extent\":[2499358.7213289896,1118016.8426077836,2500310.1339389523,1118510.4251413443],\"center\":[2499834.427633971,1118263.633874564],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
         },
         "refId" : "ObjectDescriptor:474091:uwCnyF",
         "scopeType" : "GameModelScope",
@@ -4989,11 +4989,11 @@
       },
       "name" : "mapEntityDescriptors",
       "properties" : {
-        "lekkim_1" : "\"{\\\"uid\\\": \\\"lekkim_1\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118535]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
-        "lekkim_2" : "\"{\\\"uid\\\": \\\"lekkim_2\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500115, 1118545]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
-        "lekkim_active" : "\"{\\\"uid\\\": \\\"lekkim_active\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": true, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500100, 1118500]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
-        "lekkim_inactive" : "\"{\\\"uid\\\": \\\"lekkim_inactive\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500115, 1118515]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\"",
-        "lekkim_triggered" : "\"{\\\"uid\\\": \\\"lekkim_triggered\\\", \\\"type\\\": \\\"mapEntity\\\", \\\"activableType\\\": \\\"mapEntity\\\", \\\"activeAtStart\\\": false, \\\"mapObjects\\\": [{\\\"type\\\": \\\"Point\\\", \\\"geometry\\\": [2500125, 1118525]}], \\\"tag\\\": \\\"mainIncident\\\", \\\"binding\\\": \\\"chantier\\\", \\\"buildStatus\\\": \\\"built\\\"}\""
+        "lekkim_1" : "\"{\\\"uid\\\":\\\"lekkim_1\\\",\\\"type\\\":\\\"mapEntity\\\",\\\"activableType\\\":\\\"mapEntity\\\",\\\"activeAtStart\\\":false,\\\"mapObjects\\\":[{\\\"type\\\":\\\"Point\\\",\\\"geometry\\\":[2500125,1118535]}],\\\"tag\\\":\\\"mainIncident\\\",\\\"binding\\\":\\\"chantier\\\",\\\"buildStatus\\\":\\\"built\\\"}\"",
+        "lekkim_2" : "\"{\\\"uid\\\":\\\"lekkim_2\\\",\\\"type\\\":\\\"mapEntity\\\",\\\"activableType\\\":\\\"mapEntity\\\",\\\"activeAtStart\\\":false,\\\"mapObjects\\\":[{\\\"type\\\":\\\"Point\\\",\\\"geometry\\\":[2500054.1314548966,1118509.0099368845]}],\\\"tag\\\":\\\"mainIncident\\\",\\\"binding\\\":\\\"chantier\\\",\\\"buildStatus\\\":\\\"built\\\"}\"",
+        "lekkim_active" : "\"{\\\"uid\\\":\\\"lekkim_active\\\",\\\"type\\\":\\\"mapEntity\\\",\\\"activableType\\\":\\\"mapEntity\\\",\\\"activeAtStart\\\":true,\\\"mapObjects\\\":[{\\\"type\\\":\\\"Point\\\",\\\"geometry\\\":[2500100,1118500]}],\\\"tag\\\":\\\"mainIncident\\\",\\\"binding\\\":\\\"chantier\\\",\\\"buildStatus\\\":\\\"built\\\"}\"",
+        "lekkim_inactive" : "\"{\\\"uid\\\":\\\"lekkim_inactive\\\",\\\"type\\\":\\\"mapEntity\\\",\\\"activableType\\\":\\\"mapEntity\\\",\\\"activeAtStart\\\":false,\\\"mapObjects\\\":[{\\\"type\\\":\\\"Point\\\",\\\"geometry\\\":[2500115,1118515]}],\\\"tag\\\":\\\"mainIncident\\\",\\\"binding\\\":\\\"chantier\\\",\\\"buildStatus\\\":\\\"built\\\"}\"",
+        "lekkim_triggered" : "\"{\\\"uid\\\":\\\"lekkim_triggered\\\",\\\"type\\\":\\\"mapEntity\\\",\\\"activableType\\\":\\\"mapEntity\\\",\\\"activeAtStart\\\":false,\\\"mapObjects\\\":[{\\\"type\\\":\\\"Point\\\",\\\"geometry\\\":[2500125,1118525]}],\\\"tag\\\":\\\"mainIncident\\\",\\\"binding\\\":\\\"chantier\\\",\\\"buildStatus\\\":\\\"built\\\"}\""
       },
       "refId" : "ObjectDescriptor:474395:pEL24J",
       "scopeType" : "GameModelScope",
@@ -5018,7 +5018,7 @@
     "indexOrder" : 0,
     "lang" : "français",
     "refId" : "GameModelLanguage:474096:cUQT9a",
-    "visibility" : "PRIVATE"
+    "visibility" : "PROTECTED"
   }, {
     "@class" : "GameModelLanguage",
     "active" : true,
@@ -5026,7 +5026,7 @@
     "indexOrder" : 1,
     "lang" : "english",
     "refId" : "GameModelLanguage:473451:QObKuW",
-    "visibility" : "PRIVATE"
+    "visibility" : "PROTECTED"
   } ],
   "libraries" : [ {
     "@class" : "GameModelContent",
@@ -6394,6 +6394,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:474388:3FjW9f",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "mikkWIP/scenaristPage",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:474752:SbzOgd",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

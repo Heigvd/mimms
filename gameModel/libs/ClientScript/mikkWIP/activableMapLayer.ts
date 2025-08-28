@@ -12,6 +12,10 @@ export function getMapActivablesLayer() {
   return getLayer(getActiveMapEntityDescriptors(), 'active');
 }
 
+export function getScenaristLayer(activables: Record<string, MapEntityDescriptor>) {
+  return getLayer(activables, 'activables');
+}
+
 function getLayer(
   activables: Record<string, MapEntityDescriptor>,
   name: string
@@ -68,11 +72,20 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
 }
 
 function getPointStyle(feature: any): LayerStyleObject {
+  // TODO maybe player and scenarist shouldn't share styles ?
+  let color = 'red';
+  if (Context.interfaceState) {
+    color = feature.values_.id === Context.interfaceState.state.reduxUid ? 'pink' : 'red';
+  }
+  if (Context.medState) {
+    color = feature.values_.id === Context.medState.state.currentUid ? 'pink' : 'red';
+  }
+
   const circleStyle: CircleStyleObject = {
     type: 'CircleStyle',
     fill: {
       type: 'FillStyle',
-      color: feature.values_.id === Context.interfaceState.state.reduxUid ? 'pink' : 'red',
+      color: color,
     },
     radius: 10,
     // opacity: 1, TODO Not working for some odd reason

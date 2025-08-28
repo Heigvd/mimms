@@ -353,6 +353,12 @@
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
+        "@class" : "Page",
+        "id" : "21",
+        "name" : "Map Entities",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",

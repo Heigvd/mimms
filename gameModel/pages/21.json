@@ -1,0 +1,656 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin scenarist-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Map Entities</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Log State</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "wlog(Context.medState.state)",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "log",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Reset</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { reloadMapEntityDescriptors } from \"./mikkWIP/mapEntityDescriptors\";\n\nconst newState = Helpers.cloneDeep(Context.medState.state);\nnewState.descriptors = reloadMapEntityDescriptors()\nnewState.selection = false;\nnewState.currentUid = '';\nContext.medState.setState(newState);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "reset",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Save</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { saveMapEntityDescriptors } from \"./mikkWIP/mapEntityDescriptors\";\n\nsaveMapEntityDescriptors(Context.medState.state.descriptors);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "save",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "layout" : {
+                      "flexWrap" : "wrap"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "buttons",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  'Selection: ' + Context.medState.state.selection;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  'CurrentUid: ' + Context.medState.state.currentUid;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Uid:</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "disableIf" : {
+                                      "@class" : "Script",
+                                      "content" : "true;",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "onCancel" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\nnewState.descriptors[Context.medUid] = Context.med;\nnewState.descriptors[Context.medUid].uid = Context.medUid;\ndelete newState.descriptors[Context.med];\nContext.medState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"medUid\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.med.uid",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "String input"
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "uid",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Tag:</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "onCancel" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\nnewState.descriptors[Context.med.uid].tag = Context.medTag;\nContext.medState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"medTag\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.med.tag",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "String input"
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "tag",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Binding:</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "choices" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocationEnumValues } from \"./mikkWIP/scenaristPage\";\ngetLocationEnumValues();",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\nnewState.descriptors[Context.med.uid].binding = Context.medSelect;\nContext.medState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"medSelect\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.med.binding",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Select input"
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "binding",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>ActiveAtStart:</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "layoutStyle" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\nnewState.descriptors[Context.med.uid].activeAtStart = Context.medActive;\nContext.medState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"medActive\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.med.activeAtStart;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { },
+                                    "type" : "checkbox"
+                                  },
+                                  "type" : "Boolean"
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "name" : "active",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "layout" : {
+                              "flexWrap" : "wrap"
+                            },
+                            "name" : "data"
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Update Position</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\nnewState.currentUid = Context.med.uid;\nnewState.selection = true;\nContext.medState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "update",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Delete</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "const newState = Helpers.cloneDeep(Context.medState.state);\ndelete newState.descriptors[Context.med.uid];\nContext.medState.setState(newState);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "delete",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "name" : "buttons",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : {
+                          "border" : "1px solid grey"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "med",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "  Object.values(Context.medState.state.descriptors);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "fullWidth",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "icon" : "plus",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>New</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : {
+                      "padding" : "15px"
+                    },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { getNewMapEntityDescriptor } from \"./mikkWIP/scenaristPage\";\n\nconst newState = Helpers.cloneDeep(Context.medState.state);\nconst newDescriptor = getNewMapEntityDescriptor()\nnewState.descriptors[newDescriptor.uid] = newDescriptor;\nContext.medState.setState(newState);\n",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : {
+                  "overflow" : "auto",
+                  "width" : "25%"
+                },
+                "name" : "Menu",
+                "style" : {
+                  "width" : "100%"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "OSMLayer" : false,
+                    "children" : [ {
+                      "props" : {
+                        "layerId" : "activableScenarist",
+                        "layerProps" : {
+                          "zIndex" : 91
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { getScenaristLayer } from \"./mikkWIP/activableMapLayer\";\ngetScenaristLayer(Context.medState.state.descriptors);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:2056",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getActivableLayerStyle } from \"./mikkWIP/activableMapLayer\";\ngetActivableLayerStyle(feature);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "ActivableLayer",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : { },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "water",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : { },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "rails",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : {
+                          "zIndex" : 10
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "roads",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "buildings",
+                        "layerProps" : {
+                          "@class" : "Script",
+                          "content" : "({})",
+                          "language" : "typescript"
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "buildings",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    } ],
+                    "className" : "",
+                    "debug" : false,
+                    "id" : "",
+                    "layoutClassName" : "map-configuration",
+                    "layoutStyle" : {
+                      "width" : "100%"
+                    },
+                    "mapOptions" : {
+                      "onClick" : {
+                        "@class" : "ScriptCallback",
+                        "args" : [ "coord", "features" ],
+                        "content" : "  const newState = Helpers.cloneDeep(Context.medState.state);\n  if (newState.selection && newState.currentUid) {\n    newState.descriptors[newState.currentUid].mapObjects[0].geometry = coord;\n    newState.selection = false;\n    newState.currentUid = '';\n    Context.medState.setState(newState);\n  }\n\n  return;"
+                      }
+                    },
+                    "style" : { },
+                    "viewOptions" : {
+                      "center" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                        "language" : "typescript"
+                      },
+                      "maxZoom" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.maxZoom;",
+                        "language" : "typescript"
+                      },
+                      "projection" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().projection;",
+                        "language" : "typescript"
+                      },
+                      "showFullExtent" : true,
+                      "zoom" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.zoom;",
+                        "language" : "typescript"
+                      }
+                    }
+                  },
+                  "type" : "WegasMap"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : { },
+                "layoutClassName" : "noPadding noMargin",
+                "layoutStyle" : {
+                  "left" : "0",
+                  "pointerEvents" : "auto",
+                  "top" : "0",
+                  "width" : "75%"
+                },
+                "name" : "Map",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "",
+            "layout" : {
+              "flexDirection" : "row"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "height" : "100%",
+              "width" : "100%"
+            },
+            "name" : "Map Page",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "medState",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getMapEntityDescriptors } from \"./mikkWIP/mapEntityDescriptors\";\n({\n    currentUid : '',\n    selection: false,\n    descriptors: getMapEntityDescriptors()\n  });",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%"
+        },
+        "localState" : true,
+        "name" : "State",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "width" : "100%"
+    },
+    "name" : "Map Configuration",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
