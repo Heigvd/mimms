@@ -42,13 +42,17 @@ export function isGameRunning(): boolean {
  * @returns boolean whether an action can be planned by current actor
  */
 export function canPlanAction(): boolean {
-  const currentTime = getSimTime();
   const actorUid = Context.interfaceState.state.currentActorUid;
+  return canActorPlanAction(actorUid);
+}
+
+export function canActorPlanAction(actorId: number): boolean {
+  const currentTime = getSimTime();
   const actions = getAllActions();
 
-  if (actions[actorUid] === undefined) return true;
+  if (actions[actorId] === undefined) return true;
 
-  for (const action of actions[actorUid]!) {
+  for (const action of actions[actorId]!) {
     // Is a future action planned ?
     if (action.startTime === currentTime) return false;
     // Is a previous action finished ?

@@ -1,6 +1,6 @@
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { entries, keys } from '../../../tools/helper';
-import { mainSimLogger, resourceLogger } from '../../../tools/logger';
+import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
@@ -31,6 +31,8 @@ import {
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
+import { ActivationOperator } from '../impacts/implementation/activationImpact';
+import { Uid } from '../interfaces';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -41,6 +43,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
+import { Activable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -51,11 +54,13 @@ import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationSta
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
+import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
   parentEventId: GlobalEventId; // The Global Event that causes this local event
+  parentTriggerId?: Uid; // The Trigger that causes this local event, (most of the time, there is none)
   simTimeStamp: SimTime; // The time at which it happens
   priority?: number; // The smaller priority is the first to be processed
 }
@@ -70,12 +75,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
+  readonly parentTriggerId: Uid | undefined;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
+    this.parentTriggerId = props.parentTriggerId ?? undefined;
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -180,10 +187,10 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly type: string;
-      readonly actors: ActorId[];
       readonly simTimeStamp: SimTime;
       readonly priority?: number;
+      readonly type: string;
+      readonly actors: ActorId[];
     }
   ) {
     const defaultProps = { priority: 1 };
@@ -224,6 +231,10 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
       // update all tasks
       this.updateTasks(state);
+
+      // run the triggers
+      const generatedLocalEvents = evaluateAllTriggers(state);
+      getLocalEventManager().queueLocalEvents(generatedLocalEvents);
 
       registerOpenSelectedActorPanelAfterMove();
 
@@ -423,9 +434,10 @@ export class AddMessageLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
       readonly message: TranslationKey;
       readonly channel?: RadioType | undefined;
@@ -464,9 +476,10 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined; // in case there is no sending actor, free sender name
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
       readonly message: TranslationKey;
       readonly channel: RadioType;
@@ -482,9 +495,10 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
-      readonly senderName?: string | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId: ActorId;
       readonly message: TranslationKey;
       readonly omitTranslation?: boolean;
@@ -788,8 +802,8 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
     private readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly type: string;
       readonly simTimeStamp: SimTime;
+      readonly type: string;
       readonly ownerUid: ActorId;
       readonly targetLocation: LOCATION_ENUM;
     }
@@ -1117,6 +1131,45 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
         omitTranslation: true,
       })
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// ACTIVABLE
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Change the active status of an activable
+ */
+export class ChangeActivableStatusLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    }
+  ) {
+    super({ ...props, type: 'PlanActionLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined) {
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.error('Could not find activable', this.props);
+    }
   }
 }
 

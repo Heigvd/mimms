@@ -1,6 +1,6 @@
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition } from '../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition } from './definition';
 
 type TriggerDefinition = Definition<Trigger>;
 
@@ -10,27 +10,33 @@ export function getTriggerDefinition(): TriggerDefinition {
     getDefault: () => ({
       type: 'trigger',
       uid: generateId(10),
+      index: 0,
       activableType: 'trigger',
+      activeAtStart: true,
+      tag: 'change the world',
+      comment: '',
+      accessLevel: 'basic',
+      mandatory: false,
+      repeatable: true,
+      operator: 'AND',
       conditions: [],
       impacts: [],
-      operator: 'AND',
-      priority: 0,
-      activeAtStart: true,
-      repeatable: true,
-      tag: 'TODO some default tag',
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: _t => ({ success: true, messages: [] }), // nothing to do, it cannot be misconfigured
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
-      activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      activableType: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
+      tag: ALL_EDITABLE,
+      comment: ALL_EDITABLE,
+      accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      repeatable: ALL_EDITABLE,
+      operator: ALL_EDITABLE,
       conditions: ALL_EDITABLE,
       impacts: ALL_EDITABLE,
-      operator: ALL_EDITABLE,
-      repeatable: ALL_EDITABLE,
-      priority: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      tag: ALL_EDITABLE,
     },
   };
 }

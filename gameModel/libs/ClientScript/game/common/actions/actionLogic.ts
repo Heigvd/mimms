@@ -9,6 +9,7 @@ import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionTemplateBase } from './actionTemplateBase';
 
+// directly used by radioMessageInput page
 export function getSendRadioMessageTemplate(
   radioChannel: RadioType
 ): ActionTemplateBase | undefined {

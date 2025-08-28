@@ -7,16 +7,14 @@ type Unarray<T> = T extends Array<infer U> ? U : T;
 
 type EditionLevel = 'hidden' | 'visible' | 'editable';
 
+export type ViewConfig = 'basic' | 'advanced' | 'expert';
+
 /**
  * Might be directly mapped to WEGAS ADVANCED and INTERNAL views
  */
-interface ConfigurationView {
-  basic: EditionLevel;
-  advanced: EditionLevel;
-  expert: EditionLevel;
-}
+type ConfigurationView = Record<ViewConfig, EditionLevel>;
 
-export const ALL_EDITABLE: ConfigurationView = {
+export const ALL_EDITABLE: Record<ViewConfig, EditionLevel> = {
   basic: 'editable',
   advanced: 'editable',
   expert: 'editable',
@@ -39,12 +37,12 @@ export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
 export type MapToTypeNames<U> = U extends Typed ? U['type'] : never;
 //export type MapToRecordByType<U> = [U] extends [Typed] ? Record<U['type'], Definition<U>> : never;
 
-interface ValidationResult {
+export interface ValidationResult {
   success: boolean;
   messages: {
     logLevel: 'OFF' | 'ERROR' | 'WARN' | 'LOG' | 'INFO' | 'DEBUG';
     message: string;
-    isTranslateKey: boolean;
+    isTranslateKey: boolean; // TODO why translate key ? Scenarist is not all in english ?
   }[];
 }
 
