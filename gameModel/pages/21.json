@@ -357,12 +357,21 @@
                           },
                           "type" : "FlexList"
                         } ],
+                        "className" : "",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "map-descriptor-selected",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.med.uid === Context.medState.state.currentUid;",
+                            "language" : "typescript"
+                          }
+                        } ],
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutStyle" : {
-                          "border" : "1px solid grey"
-                        },
+                        "layoutClassName" : "map-descriptor",
+                        "layoutStyle" : { },
                         "style" : { }
                       },
                       "type" : "FlexList"

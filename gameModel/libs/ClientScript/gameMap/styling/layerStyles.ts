@@ -42,7 +42,7 @@ function getPointStyle(feature: any): LayerStyleObject {
     const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
-      displacement: [0, 300],
+      displacement: [0, 30],
       anchorXUnits: 'fraction',
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,

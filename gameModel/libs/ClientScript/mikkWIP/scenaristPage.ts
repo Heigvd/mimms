@@ -8,6 +8,7 @@ export function getLocationEnumValues(): { label: string; value: string; disable
   }));
 }
 
+// TODO Add other geometry types and n+1 mapObjects
 export function getNewMapEntityDescriptor(): MapEntityDescriptor {
   const uid = String(Date.now());
 

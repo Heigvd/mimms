@@ -1,0 +1,7 @@
+.map-descriptor {
+  border: 1px solid grey;
+}
+
+.map-descriptor-selected {
+  border: 2px solid red;
+}
