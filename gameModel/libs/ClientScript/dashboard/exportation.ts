@@ -259,12 +259,12 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
   const players = await APIMethods.runScript(`MimmsHelper.getPlayers()`, {});
   const playerNames: Record<string, string> = {};
 
-  const simRefs = await getInSimRefs();
+  const endTimes = await getEndTimes();
   const playerTimes: Record<string, number> = {};
 
   players.updatedEntities.forEach((p: any) => {
     playerNames[p.id] = p.name;
-    playerTimes[p.id] = simRefs[p.teamId]!;
+    playerTimes[p.id] = endTimes[p.teamId]!;
   });
 
   Object.keys(playersAutoCat).forEach(pid => {
@@ -419,7 +419,7 @@ async function getCharactersInfo(): Promise<Record<string, BodyFactoryParam>> {
   return info;
 }
 
-async function getInSimRefs(): Promise<Record<string, number>> {
+async function getEndTimes(): Promise<Record<string, number>> {
   const res: Record<string, number> = {};
 
   const response = await APIMethods.runScript('MimmsHelper.getEndTimes();', {});
