@@ -11,7 +11,7 @@ export function getFormattedPretriTime(): string {
   const t = Variable.find(gameModel, 'latest_pretri_time').getValue(self);
   const time = toHoursMinutesSecondsIso(t);
   const timeLabel = getTranslation('pretriage-interface', 'time');
-  return `${timeLabel} ${time}`;
+  return `<span>${time}</span><br>${timeLabel}`;
 }
 
 export function actionsBlocked(): boolean {
@@ -36,5 +36,5 @@ export function getPatientPretriTotal(): string {
       nbCorrect++;
     }
   });
-  return `${nbCorrect}/${r.length} ${textPatientCorrect}`;
+  return `<span>${nbCorrect}/${r.length}</span><br>${textPatientCorrect}`;
 }
