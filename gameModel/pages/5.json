@@ -101,7 +101,9 @@
                           "language" : "TypeScript"
                         },
                         "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
+                        "layoutStyle" : {
+                          "height" : "100%"
+                        },
                         "name" : "gamePageLoader",
                         "style" : { }
                       },

@@ -2,6 +2,100 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "attachedToId" : "drillPretriPage",
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
+                  "language" : "typescript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Review label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst title = getTranslation(\"pretriage-interface\", 'review');\n`<h2 style=\"margin: 0\">${title}</h2>`",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "noPadding patient-modal__close-button",
+                "icon" : "times",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "''",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toSummaryScreen } from \"./game/pretri/drill\";\n\ntoSummaryScreen()",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "Close",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "justifyContent" : "space-between"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginBottom" : "24px"
+            },
+            "name" : "header",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "",
+            "exposePageSizeAs" : "",
+            "id" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"6\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "patientPageLoaderDrill",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "className" : "patient-summary__modal",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\nVariable.find(gameModel, 'currentPatient').getValue(self) == \"\"|| getDrillStatus() == 'ongoing';",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "onExitActions" : { },
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
+      },
+      "type" : "Modal"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -91,36 +185,7 @@
           "type" : "PageLoader"
         }, {
           "props" : {
-            "className" : "review-label",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
-              "language" : "typescript"
-            },
-            "layoutStyle" : {
-              "padding" : "0"
-            },
-            "name" : "Review label",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nconst title = getTranslation(\"pretriage-interface\", 'review');\n`<h3 style=\"margin: 0\">${title}</h3>`",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
             "className" : "",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Outside",
-              "className" : "review-mode",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() != 'ongoing'",
-                "language" : "typescript"
-              }
-            } ],
             "exposePageSizeAs" : "",
             "id" : "",
             "initialSelectedPageId" : {
@@ -140,7 +205,7 @@
         "className" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing'",
           "language" : "typescript"
         },
         "layout" : {
@@ -368,6 +433,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() != 'not_started'",
@@ -763,7 +829,8 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
-              "marginTop" : "24px"
+              "marginTop" : "24px",
+              "width" : "100%"
             },
             "name" : "patient list",
             "style" : { }
@@ -811,8 +878,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "marginTop" : "15px",
-              "minWidth" : "calc(40rem + 15px)",
-              "width" : "50%"
+              "minWidth" : "calc(40rem + 15px)"
             },
             "name" : "end message",
             "style" : { }

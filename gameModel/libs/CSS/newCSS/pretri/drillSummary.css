@@ -4,7 +4,7 @@
   background-color: var(--grey_0);
 	border-radius: var(--XS_borderRadius);
   box-shadow: var(--buttonShadow);
-  font-weight: bold;
+  font-weight: var(--boldWeight);
   text-align: center;
   color: var(--grey_base);
 }
@@ -18,7 +18,6 @@
 .patient-overview span,
 .patient-overview__end-message > div:nth-of-type(1) {
   font-size: 32px;
-  font-weight: var(--boldWeight);
   color: var(--colors-darktextcolor);
   line-height: 52px;
 }
@@ -27,7 +26,7 @@
 /* - - - - -  T A B L E  - - - - - */
 
 .patient-summary--header {
-	color: var(--grey-100);
+	color: var(--grey_100);
 	font-size: 14px;
   font-weight: var(--boldWeight);
 }
@@ -37,7 +36,7 @@
   font-weight: var(--boldWeight);
 }
 
-.patient-summary--line:nth-of-type(4n) > div,
+/*.patient-summary--line:nth-of-type(4n) > div,
 .patient-summary--line:nth-of-type(4n-1) > div {
   background-color:rgb(0, 255, 76);
 }
@@ -47,15 +46,20 @@
 }
 
 .patient-summary--header,
-.patient-summary--line > div > div > div{
+.patient-summary--line > div > div > div {
 	margin: auto;
-}
+}*/
 
 .patient-summary--line .tagCategory {
 	width: 1rem;
   height: 1rem;
   border-radius: var(--XS_borderRadius);
   font-size: 0;
+}
+
+.patient-summary--line .tagCategory:hover {
+  outline: none;
+  cursor: auto;
 }
 
 .patient-summary--line .tagCategory.notCategorized {
@@ -74,13 +78,12 @@
 .patient-summary--line .reviewBtn.iconOnly {
   font-size: 1em;
 	color: var(--grey_base);
-	background-color: transparent;
   transition: color .3s ease-in-out;
 }
 
 .patient-summary--line:hover .reviewBtn {
 	color: var(--primary_base);
-	background-color:transparent;
+	background-color: transparent;
   transition: color .3s ease-in-out;
 }
 
@@ -118,12 +121,6 @@
 	grid-template-columns: repeat(5, 1fr);
 }
 
-.review-label {
-	color: var(--colors-backgroundcolor);
-	background-color: var(--colors-primarycolor);
-	padding: 10px;
-}
-
-.review-mode {
-	border: 5px solid var(--colors-primarycolor);
+.patient-summary__modal > div {
+  overflow: auto;
 }

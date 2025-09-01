@@ -183,7 +183,7 @@
                       "alignContent" : "space-between",
                       "flexDirection" : "row"
                     },
-                    "layoutClassName" : "",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "detailsPanel",
                     "style" : { }
