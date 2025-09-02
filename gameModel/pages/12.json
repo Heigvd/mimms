@@ -2,6 +2,100 @@
   "props" : {
     "children" : [ {
       "props" : {
+        "attachedToId" : "drillPretriPage",
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
+                  "language" : "typescript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Review label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\nconst title = getTranslation(\"pretriage-interface\", 'review');\n`<h2 style=\"margin: 0\">${title}</h2>`",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "noPadding patient-modal__close-button",
+                "icon" : "times",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "''",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toSummaryScreen } from \"./game/pretri/drill\";\n\ntoSummaryScreen()",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
+                  }
+                },
+                "name" : "Close",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "layout" : {
+              "justifyContent" : "space-between"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginBottom" : "24px"
+            },
+            "name" : "header",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "",
+            "exposePageSizeAs" : "",
+            "id" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"6\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "patientPageLoaderDrill",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "className" : "patient-summary__modal",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\nVariable.find(gameModel, 'currentPatient').getValue(self) == \"\"|| getDrillStatus() == 'ongoing';",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : { },
+        "onExitActions" : { },
+        "style" : {
+          "height" : "100%",
+          "width" : "100%"
+        }
+      },
+      "type" : "Modal"
+    }, {
+      "props" : {
         "children" : [ {
           "props" : {
             "children" : [ {
@@ -91,36 +185,7 @@
           "type" : "PageLoader"
         }, {
           "props" : {
-            "className" : "review-label",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() == 'ongoing'",
-              "language" : "typescript"
-            },
-            "layoutStyle" : {
-              "padding" : "0"
-            },
-            "name" : "Review label",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\nconst title = getTranslation(\"pretriage-interface\", 'review');\n`<h3 style=\"margin: 0\">${title}</h3>`",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
             "className" : "",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Outside",
-              "className" : "review-mode",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() != 'ongoing'",
-                "language" : "typescript"
-              }
-            } ],
             "exposePageSizeAs" : "",
             "id" : "",
             "initialSelectedPageId" : {
@@ -140,7 +205,7 @@
         "className" : "",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing' && status != 'completed_review'",
+          "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing'",
           "language" : "typescript"
         },
         "layout" : {
@@ -368,6 +433,7 @@
           },
           "type" : "FlexList"
         } ],
+        "className" : "",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { getDrillStatus } from './game/pretri/drill';\ngetDrillStatus() != 'not_started'",
@@ -388,36 +454,103 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "patient-overview",
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "user-injured",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "patient-overview",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getPatientPretriTotal } from \"./UIfacade/pretriFacade\";\n  getPatientPretriTotal();",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "patient-overview",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "minWidth" : "20rem",
+                  "width" : "25%"
+                },
+                "name" : "patient-overview",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "clock",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "time",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getFormattedPretriTime } from \"./UIfacade/pretriFacade\";\ngetFormattedPretriTime();",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "patient-overview",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "minWidth" : "20rem",
+                  "width" : "25%"
+                },
+                "name" : "time",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "justifyContent" : "center"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "patient-overview",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getPatientPretriTotal } from \"./UIfacade/pretriFacade\";\n  getPatientPretriTotal();",
-              "language" : "TypeScript"
+            "name" : "patient-overview + time",
+            "style" : {
+              "gap" : "15px"
             }
           },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "className" : "patient-overview",
-            "layoutStyle" : { },
-            "name" : "time",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getFormattedPretriTime } from \"./UIfacade/pretriFacade\";\ngetFormattedPretriTime();",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
+          "type" : "FlexList"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {
@@ -429,11 +562,13 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "pink l_button",
                     "label" : {
                       "@class" : "Script",
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
                       "language" : "JavaScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -442,9 +577,7 @@
                         "language" : "typescript"
                       }
                     },
-                    "style" : {
-                      "fontSize" : "18px"
-                    }
+                    "style" : { }
                   },
                   "type" : "Button"
                 } ],
@@ -452,10 +585,12 @@
                   "alignItems" : "center",
                   "justifyContent" : "space-between"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "toolbar",
                 "style" : {
-                  "borderBottom" : "solid 1px var(--colors-disabledcolor)"
+                  "borderBottom" : "solid 1px var(--colors-disabledcolor)",
+                  "paddingBottom" : "12px"
                 }
               },
               "type" : "FlexList"
@@ -464,6 +599,7 @@
                 "children" : [ {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "n",
                     "style" : { },
@@ -477,6 +613,7 @@
                 }, {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "patientID",
                     "style" : { },
@@ -490,6 +627,7 @@
                 }, {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "given answer",
                     "style" : { },
@@ -503,6 +641,7 @@
                 }, {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "correction",
                     "style" : { },
@@ -516,6 +655,7 @@
                 }, {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "right-wrong",
                     "style" : { },
@@ -529,6 +669,7 @@
                 }, {
                   "props" : {
                     "className" : "patient-summary--header",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "review patient",
                     "style" : { },
@@ -545,6 +686,7 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "n",
                             "style" : { },
@@ -557,6 +699,7 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "patientID",
                             "style" : { },
@@ -569,6 +712,7 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "given-answer",
                             "style" : { },
@@ -582,6 +726,7 @@
                         }, {
                           "props" : {
                             "className" : "answer",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "correction",
                             "style" : { },
@@ -594,6 +739,7 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "R-W",
                             "style" : { },
@@ -613,6 +759,7 @@
                               "content" : "\"\"",
                               "language" : "TypeScript"
                             },
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "localScriptEval" : {
                               "script" : {
@@ -627,7 +774,7 @@
                         } ],
                         "className" : "patient-summary--line",
                         "layout" : { },
-                        "layoutClassName" : "",
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : {
                           "display" : "contents"
                         },
@@ -648,6 +795,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "display" : "contents"
                     },
@@ -661,14 +809,13 @@
                 "className" : "patient-summary--grid",
                 "layout" : {
                   "alignItems" : "center",
-                  "gridAutoRows" : "50px",
-                  "justifyItems" : "center"
+                  "justifyItems" : "center",
+                  "rowGap" : "10px"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "summary",
-                "style" : {
-                  "background" : "repeating-linear-gradient(transparent 0 50px, var(--colors-hovercolor) 50px 100px)"
-                }
+                "style" : { }
               },
               "type" : "Grid"
             } ],
@@ -680,7 +827,11 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutStyle" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "24px",
+              "width" : "100%"
+            },
             "name" : "patient list",
             "style" : { }
           },
@@ -689,6 +840,7 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "finish-text",
                 "style" : { },
@@ -701,6 +853,7 @@
               "type" : "Text"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "custom-finish-text",
                 "style" : { },
@@ -712,15 +865,21 @@
               },
               "type" : "Text"
             } ],
+            "className" : "patient-overview patient-overview__end-message",
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { getDrillStatus } from \"./game/pretri/drill\";\ngetDrillStatus() !== 'validated';",
               "language" : "typescript"
             },
             "layout" : {
+              "alignItems" : "center",
               "flexDirection" : "column"
             },
-            "layoutStyle" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "15px",
+              "minWidth" : "calc(40rem + 15px)"
+            },
             "name" : "end message",
             "style" : { }
           },
@@ -732,9 +891,13 @@
           "language" : "typescript"
         },
         "layout" : {
+          "alignItems" : "center",
           "flexDirection" : "column"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "margin" : "24px"
+        },
         "name" : "summary",
         "style" : { }
       },
@@ -744,7 +907,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "drillPretriPage-container",
+    "layoutClassName" : "noPadding drillPretriPage-container",
     "layoutStyle" : { },
     "name" : "drillPretriPage",
     "style" : { }
