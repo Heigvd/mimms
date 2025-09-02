@@ -120,9 +120,10 @@
                                                   "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
+                                                "icon" : "times",
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "\"<p>X</p>\"",
+                                                  "content" : "\"\"",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutStyle" : {
@@ -395,6 +396,7 @@
                                               "language" : "typescript"
                                             },
                                             "layout" : { },
+                                            "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "name" : "fixedEntityContent",
                                             "style" : { }
