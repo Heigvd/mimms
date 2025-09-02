@@ -7057,7 +7057,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-447",
+  "name" : "MIM-482",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
