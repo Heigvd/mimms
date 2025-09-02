@@ -83,69 +83,35 @@
                                           "props" : {
                                             "children" : [ {
                                               "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "className" : "fixedEntityIcon",
-                                                    "conditionnalClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : "closedFixedMapEntityIcon",
-                                                      "condition" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id)",
-                                                        "language" : "typescript"
-                                                      }
-                                                    } ],
-                                                    "layoutStyle" : { },
-                                                    "script" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n \nif(!isOverlayItemOpen(Context.overlayItem.id)) {\n  return `/maps/mapIcons/${Context.overlayItem.icon}_white.png`\n} else if(isOverlayItemOpen(Context.overlayItem.id) && isCurrentActorAtLocation(Context.overlayItem.id)) {\n  return `/maps/mapIcons/${Context.overlayItem.icon}_blue.png`\n}\n\n`/maps/mapIcons/${Context.overlayItem.icon}.png`;",
-                                                      "language" : "TypeScript"
-                                                    },
-                                                    "style" : {
-                                                      "width" : "1.5em"
-                                                    }
-                                                  },
-                                                  "type" : "Image"
+                                                "className" : "mimms_h3title",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "selectedFixedEntityHeader",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
+                                                    "language" : "typescript"
+                                                  }
                                                 }, {
-                                                  "props" : {
-                                                    "className" : "mimms_h3title",
-                                                    "conditionnalClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : "selectedFixedEntityHeader",
-                                                      "condition" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
-                                                        "language" : "typescript"
-                                                      }
-                                                    }, {
-                                                      "applyOn" : "Inside",
-                                                      "className" : "closedFixedMapEntityTitle",
-                                                      "condition" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
-                                                        "language" : "typescript"
-                                                      }
-                                                    } ],
-                                                    "layoutStyle" : { },
-                                                    "name" : "fixedEntitiesName",
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
+                                                  "applyOn" : "Inside",
+                                                  "className" : "closedFixedMapEntityTitle",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
+                                                    "language" : "typescript"
+                                                  }
                                                 } ],
-                                                "className" : "noPadding noMargin",
-                                                "layout" : {
-                                                  "justifyContent" : "flex-start"
-                                                },
-                                                "layoutClassName" : "noPadding noMargin",
+                                                "layoutClassName" : "",
                                                 "layoutStyle" : { },
-                                                "style" : { }
+                                                "name" : "fixedEntitiesName",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', Context.overlayItem.name);",
+                                                  "language" : "TypeScript"
+                                                }
                                               },
-                                              "type" : "FlexList"
+                                              "type" : "Text"
                                             }, {
                                               "props" : {
                                                 "className" : "close-button",
@@ -154,9 +120,10 @@
                                                   "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
+                                                "icon" : "times",
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "\"<p>X</p>\"",
+                                                  "content" : "\"\"",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutStyle" : {
@@ -171,7 +138,6 @@
                                                 },
                                                 "style" : {
                                                   "backgroundColor" : "none",
-                                                  "marginBottom" : ".5em",
                                                   "paddingLeft" : "2px",
                                                   "paddingRight" : "2px"
                                                 }
@@ -430,6 +396,7 @@
                                               "language" : "typescript"
                                             },
                                             "layout" : { },
+                                            "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "name" : "fixedEntityContent",
                                             "style" : { }
