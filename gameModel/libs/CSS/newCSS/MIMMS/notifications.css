@@ -51,7 +51,6 @@
 .notificationButton {
   width: 2.25rem;
 	height: 2.25rem;
-  box-shadow: var(--buttonShadow);
 }
 
 .notificationButton-container .openNotif-button {
@@ -73,8 +72,17 @@
   border-radius: 100%;
 }
 
+.notificationButton-container .unselectedNotif-button:hover {
+  background-color: var(--primary_base);
+  box-shadow: var(--buttonShadow);
+}
+
 .notificationButton-container .unselectedNotif-button svg {
   color: var(--primary_base);
+}
+
+.notificationButton-container .unselectedNotif-button:hover svg {
+  color: var(--grey-white);
 }
 
 .notificationButton-container .newNotif {

@@ -362,3 +362,11 @@ export function isChannelBusy(channel: RadioType): boolean {
   }
   return false;
 }
+
+export function showActorNotifications() {
+  if (Context.actor.Uid != Context.interfaceState.state.currentActorUid) {
+    return false;
+  }
+
+  return Context.interfaceState.state.showNotificationsPanel;
+}

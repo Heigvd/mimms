@@ -1199,11 +1199,6 @@
                                                       },
                                                       "type" : "PageLoader"
                                                     } ],
-                                                    "hideIf" : {
-                                                      "@class" : "Script",
-                                                      "content" : "  if(Context.actor.Uid != Context.interfaceState.state.currentActorUid) {\n    return true;\n  }\n    \n!Context.interfaceState.state.showNotificationsPanel;",
-                                                      "language" : "typescript"
-                                                    },
                                                     "layout" : {
                                                       "flexDirection" : "column"
                                                     },
@@ -1213,18 +1208,9 @@
                                                   "type" : "FlexList"
                                                 } ],
                                                 "className" : "notificationPanel noPadding noMargin",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Outside",
-                                                  "className" : "notificationPanel-container_Hidden",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "false;",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().notificationPanel.hidden;",
+                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications();",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -1241,7 +1227,7 @@
                                                 "children" : [ ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "  if(Context.actor.Uid != Context.interfaceState.state.currentActorUid) {\n    return true;\n  }\n    \n!Context.interfaceState.state.showNotificationsPanel;",
+                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications();",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
