@@ -1,136 +1,110 @@
 /***** NEW NOTIFICAITON PANEL ******/
 
-.notificationPanel-container{
-	right: 20px;
-	top: 20px;
-	background-color: var(--grey-white);
-	border-radius: var(--XS_borderRadius);
+.notificationPanel-container {
+  position: absolute;
+  bottom: 0;
+  left: -22.25rem;
 	width: 21rem;
-	pointer-events: auto;
-	max-height: 70%;
-  padding-right: 4.2rem;
 }
 
-.notificationPanel-container_Hidden{
-	background-color: rgba(245, 40, 145, 0);
+.notificationPanel > div {
+  position: absolute;
+  bottom: 5px;
+  max-height: 21rem;
+  padding: 5px 5px 15px 5px;
+  background-color: var(--yellow_base);
+	border-radius: var(--XS_borderRadius);
+  box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.timeline-actors .fixedEntities-arrow {
+  position: absolute;
+  top: .75rem;
+  left: -2.55rem;
+  padding: 0;
+  border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+  border-top: 15px solid var(--yellow_base);
+  filter: drop-shadow(-2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
+  transform: rotate(-90deg);
 }
 
 /*** HEADER ***/
-.notificationPanelHeader{
-	width: 6em;
-	height: auto;
-	max-height: 80vh;
-	margin-left: 5px;
-  margin-bottom: 15px;
+.notificationPanelHeader {
+  margin: 5px 0 15px 5px;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
 
-.notificationPanelHeader > p{
-	margin-bottom: 0px;
-	margin-top: 15px;
+.notificationPageloader {
+  overflow: auto;
+  scrollbar-width: none;
 }
 
 
-
-.notificationPageloader-container{
-  width: calc(100% - 3em);
-}
 /****** NOTIFICATION BUTTONS ******/
 
-.notificationButton-container{
-	position: absolute;
-	z-index: 3;
-	right: 3px;
-	top: 3px;
-	pointer-events: auto;
-	border-radius: 100%;
-	margin: .5rem .5rem 0 0;
-	padding: 0px;
-	justify-content: center;
-	align-items: center;
-	display: inline-flex;
-  box-shadow: var(--buttonShadow);
-
-}
-
-.notificationButton > *{
+.notificationButton > * {
 	color: var(--grey_0);
-  font-size: var(--L_text);
 }
 
-.notificationButton{
-	height: 4em;
-	width: 4em;
+.notificationButton {
+  justify-content: center;
+  width: 2.25rem;
+	height: 2.25rem;
+  border-radius: 100%;
 }
 
-.notificationButton-container:hover{
-	box-shadow: var(--buttonShadow);
+.notificationButton-container .openNotif-button {
+	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
 }
 
-
-.notificationButton-container .openNotif-button{
+.notificationButton-container .openNotif-button,
+.notificationButton-container .closedNotif-button {
 	background-color: var(--primary_base);
-	border-radius: 100%;
-	justify-content: center;
-	align-items: center;
-	display: inline-flex;
-	box-shadow: var(--buttonInsetShadow);
 }
 
-
-.notificationButton-container .closedNotif-button{
-	background-color: var(--primary_base);
-	border-radius: 100%;
-	justify-content: center;
-	align-items: center;
-	display: inline-flex;
+.notificationButton-container .unselectedNotif-button {
+  border: 3px solid var(--primary_base);
 }
 
-.notificationButton-container .newNotif{
+.notificationButton-container .unselectedNotif-button:hover {
+  background-color: var(--primary_base);
+  box-shadow: var(--buttonShadow);
+}
+
+.notificationButton-container .unselectedNotif-button svg {
+  color: var(--primary_base);
+}
+
+.notificationButton-container .unselectedNotif-button:hover svg {
+  color: var(--grey_0);
+}
+
+.notificationButton-container .newNotif {
 	background-color: var(--yellow_base);
 }
 
 .counterCircle-container {
-	width: 1.8em;
-	height: 1.8em;
-	color: var(--grey_70);
-	background-color: var(--yellow_10);
-	border: 1px var(--yellow_base) solid;
-	position: absolute;
-	right: 2px;
-	top: 2px;
-	z-index: 4;
+  position: absolute;
+  top: -.1rem;
+  left: 1.5rem;
+	width: 1.2em;
+	background-color: var(--grey_0);
+	border: 1px solid var(--yellow_base);
 	border-radius: 100%;
- 
+  z-index: 4;
 }
-
-/* WIP - potential future feature */
-/*
- animation-name: example;
-  animation-duration: 2s;
-
-@keyframes example {
-  0%   {background-color: #CA2E55;}
-  50%  {background-color: #CA2E55;}
-  0%   {background-color: #CA2E55;}
-  100% {background-color: #FBB13C;}
-}
-*/
 
 .counterCircle {
+  position: relative;
+	top: -1px;
 	margin: auto;
 	font-size: var(--SM_text);
 	font-weight: var(--boldWeight);
-	position: relative;
-	top: -1px;
 	color: var(--secondary_70);
 }
 
-.counterCircle > p {
-	padding: 0px;
-	margin: -2px;
-}
 
 /***** A NOTIFICATION *****/
 
@@ -145,7 +119,7 @@
 	background-color: var(--grey_10);
 	}
   	50% {
-	background-color: var(--primary_30);
+	background-color: var(--yellow_10);
 	}
 
 	100% {

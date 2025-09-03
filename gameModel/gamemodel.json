@@ -7090,7 +7090,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS MIM-451 IMPROVEMENTS",
+  "name" : "MIM-460",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

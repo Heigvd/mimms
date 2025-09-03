@@ -11,9 +11,6 @@ interface InterfaceConfiguration {
   leftPanel: {
     hidden: boolean;
   };
-  notificationPanel: {
-    hidden: boolean;
-  };
   fixedEntities: {
     hidden: boolean;
     viewNonPlayerActors: boolean;
@@ -41,9 +38,6 @@ export function getInterfaceConfiguration(): InterfaceConfiguration {
       viewNonPlayerActors: isGodView(),
     },
     leftPanel: {
-      hidden: getCurrentPlayerActors().length === 0,
-    },
-    notificationPanel: {
       hidden: getCurrentPlayerActors().length === 0,
     },
     fixedEntities: {

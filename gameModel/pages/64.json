@@ -72,7 +72,9 @@
                 "layoutStyle" : {
                   "width" : "100%"
                 },
-                "style" : { }
+                "style" : {
+                  "width" : "18rem"
+                }
               },
               "type" : "For each"
             } ]
@@ -86,7 +88,7 @@
                 "layoutStyle" : { },
                 "style" : {
                   "margin" : "5px",
-                  "padding" : "5px"
+                  "width" : "17.4rem"
                 },
                 "text" : {
                   "@class" : "Script",
@@ -105,7 +107,7 @@
           "content" : "import { getNotifications } from \"./UIfacade/radioFacade\";\ngetNotifications(Context.interfaceState.state.currentActorUid).length > 0;",
           "language" : "typescript"
         },
-        "layoutClassName" : "",
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
           "overflow" : "none",
           "width" : "100%"
@@ -118,12 +120,8 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "",
-    "layoutStyle" : {
-      "height" : "100%",
-      "overflow" : "auto",
-      "width" : "100%"
-    },
+    "layoutClassName" : "notificationPageloader",
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

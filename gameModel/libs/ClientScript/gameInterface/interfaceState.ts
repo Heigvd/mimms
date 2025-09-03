@@ -34,6 +34,7 @@ export interface InterfaceState {
   selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
+  showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
   selectedRadioChannel: RadioType;
@@ -112,6 +113,7 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
+    showNotificationsPanel: false,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,
