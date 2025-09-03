@@ -1210,7 +1210,7 @@
                                                 "className" : "notificationPanel noPadding noMargin",
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications();",
+                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications(Context.actor.Uid);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -1227,7 +1227,7 @@
                                                 "children" : [ ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications();",
+                                                  "content" : "import { showActorNotifications } from \"./UIfacade/radioFacade\";\n       !showActorNotifications(Context.actor.Uid);",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -1303,7 +1303,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "import { selectNotificationsAndUpdateInterfaceState } from \"./UIfacade/radioFacade\";\n    selectNotificationsAndUpdateInterfaceState();",
+                                                    "content" : "import { selectNotificationsAndUpdateInterfaceState } from \"./UIfacade/radioFacade\";\n    selectNotificationsAndUpdateInterfaceState(Context.actor.Uid);",
                                                     "language" : "TypeScript",
                                                     "returnType" : "Promise<unknown> | undefined"
                                                   }

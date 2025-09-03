@@ -18,7 +18,7 @@ import {
 import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getTranslation } from '../tools/translation';
-import { selectActorAndOpenMapLocation } from '../UIfacade/actorFacade';
+import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
 
@@ -163,16 +163,16 @@ export function getNotificationTime(notificationTime: number): string {
   return formatTime(startTime);
 }
 
-export function selectNotificationsAndUpdateInterfaceState(): Promise<unknown> | undefined {
-  const needChangeActor = Context.actor.Uid !== Context.interfaceState.state.currentActorUid;
-  const newState = selectActorAndOpenMapLocation(Context.actor.Uid);
+export function selectNotificationsAndUpdateInterfaceState(actorUid: ActorId): Promise<unknown> | undefined {
+  const needChangeActor = actorUid !== Context.interfaceState.state.currentActorUid;
+  const newState = selectActorAndOpenMapLocation(actorUid);
   if (needChangeActor) {
     newState.showNotificationsPanel = true;
   } else {
     newState.showNotificationsPanel = !newState.showNotificationsPanel;
   }
   Context.interfaceState.setState(newState);
-  return updateReadMessages(NotifType.NOTIF, getNotifications(Context.actor.Uid).length);
+  return updateReadMessages(NotifType.NOTIF, getNotifications(actorUid).length, actorUid);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -222,11 +222,12 @@ export function isLastRadioMessageForChannel(channel: RadioType, messageUid: num
  */
 export async function updateReadMessages(
   channel: CommType,
-  amount: number = 1
+  amount: number = 1,
+  actorUid?: ActorId
 ): Promise<IManagedResponse> {
   const key =
     channel === NotifType.NOTIF
-      ? getActorNotificationChannelName(Context.actor.Uid)
+      ? getActorNotificationChannelName(actorUid)
       : String(channel);
   return await APIMethods.runScript(
     `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${key}','${amount}');`,
@@ -355,8 +356,8 @@ export function isChannelBusy(channel: RadioType): boolean {
   return false;
 }
 
-export function showActorNotifications() {
-  if (Context.actor.Uid != Context.interfaceState.state.currentActorUid) {
+export function showActorNotifications(actorUid: ActorId) {
+  if (actorUid != Context.interfaceState.state.currentActorUid) {
     return false;
   }
 
