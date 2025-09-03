@@ -165,13 +165,16 @@ export function getNotificationTime(notificationTime: number): string {
 
 export function selectNotificationsAndUpdateInterfaceState(actorUid: ActorId): Promise<unknown> | undefined {
   const needChangeActor = actorUid !== Context.interfaceState.state.currentActorUid;
-  const newState = selectActorAndOpenMapLocation(actorUid);
+  let newState: InterfaceState;
   if (needChangeActor) {
+    newState  = selectActorAndOpenMapLocation(actorUid);
     newState.showNotificationsPanel = true;
   } else {
+    newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.showNotificationsPanel = !newState.showNotificationsPanel;
   }
   Context.interfaceState.setState(newState);
+
   return updateReadMessages(NotifType.NOTIF, getNotifications(actorUid).length, actorUid);
 }
 
