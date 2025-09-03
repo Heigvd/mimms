@@ -150,14 +150,6 @@ function getRecipientName(message: RadioMessage): string | undefined {
   return getCurrentState().getActorById(message.recipientId)?.ShortName;
 }
 
-export function selectedActorNotifications(): boolean {
-  if (Context.actor.Uid == Context.interfaceState.state.currentActorUid) {
-    return Context.interfaceState.state.showNotificationsPanel;
-  }
-
-  return false;
-}
-
 /**
  * Get notification time in HH:MM format
  *

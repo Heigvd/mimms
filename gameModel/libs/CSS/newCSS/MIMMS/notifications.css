@@ -49,27 +49,23 @@
 }
 
 .notificationButton {
+  justify-content: center;
   width: 2.25rem;
 	height: 2.25rem;
+  border-radius: 100%;
 }
 
 .notificationButton-container .openNotif-button {
-  justify-content: center;
-	background-color: var(--primary_base);
-	border-radius: 100%;
 	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
 }
 
+.notificationButton-container .openNotif-button,
 .notificationButton-container .closedNotif-button {
-  justify-content: center;
 	background-color: var(--primary_base);
-	border-radius: 100%;
 }
 
 .notificationButton-container .unselectedNotif-button {
-  justify-content: center;
   border: 3px solid var(--primary_base);
-  border-radius: 100%;
 }
 
 .notificationButton-container .unselectedNotif-button:hover {
@@ -82,13 +78,11 @@
 }
 
 .notificationButton-container .unselectedNotif-button:hover svg {
-  color: var(--grey-white);
+  color: var(--grey_0);
 }
 
 .notificationButton-container .newNotif {
-  justify-content: center;
 	background-color: var(--yellow_base);
-  border-radius: 100%;
 }
 
 .counterCircle-container {

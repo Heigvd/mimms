@@ -1264,7 +1264,7 @@
                                                   "className" : "closedNotif-button",
                                                   "condition" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { selectedActorNotifications } from \"./UIfacade/radioFacade\";\n!selectedActorNotifications() && Context.interfaceState.state.currentActorUid == Context.actor.Uid;",
+                                                    "content" : "!Context.interfaceState.state.showNotificationsPanel&&\nContext.interfaceState.state.currentActorUid == Context.actor.Uid;",
                                                     "language" : "typescript"
                                                   }
                                                 }, {
