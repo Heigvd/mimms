@@ -6,7 +6,8 @@ export function getTriggers(): Trigger[] {
   //const triggersVariable = getTriggersVariable();
   //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
   // TODO load from WEGAS variable
-  return getTestTriggers();
+
+  return []; getTestTriggers();
 }
 
 function getTestTriggers(): Trigger[] {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1756282323325,
+  "createdTime" : 1756902257925,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -562,11 +562,7 @@
         }
       },
       "name" : "patients",
-      "properties" : {
-        "CH-CU-612" : "{\"sex\":\"female\",\"age\":35,\"height_cm\":165,\"bmi\":26.46,\"sugarLevel\":6.185589093206302,\"temperature\":36.604021422054224,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Simple injury\"]}",
-        "CH-EA-559" : "{\"sex\":\"female\",\"age\":39,\"height_cm\":163,\"bmi\":27.2,\"sugarLevel\":7.513158896302269,\"temperature\":36.094163081562634,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah__2\",\"afflictedBlocks\":[\"RIGHT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.9226991188274506}]}}],\"pathologyNames\":[\"Cata. Art. Hem.\"]}",
-        "CH-SH-045" : "{\"sex\":\"male\",\"age\":37,\"height_cm\":167,\"bmi\":22.85,\"sugarLevel\":6.029071747211104,\"temperature\":37.16097238960121,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh_arm\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.42795790201713724}]}}],\"pathologyNames\":[\"Ven. Hem.\"]}"
-      },
+      "properties" : { },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "TeamScope",
       "version" : null,
@@ -7090,7 +7086,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-460",
+  "name" : "MIMMS - XGO Release 7.0.0",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
