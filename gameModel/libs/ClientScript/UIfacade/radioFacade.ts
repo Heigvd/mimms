@@ -163,11 +163,13 @@ export function getNotificationTime(notificationTime: number): string {
   return formatTime(startTime);
 }
 
-export function selectNotificationsAndUpdateInterfaceState(actorUid: ActorId): Promise<unknown> | undefined {
+export function selectNotificationsAndUpdateInterfaceState(
+  actorUid: ActorId
+): Promise<unknown> | undefined {
   const needChangeActor = actorUid !== Context.interfaceState.state.currentActorUid;
   let newState: InterfaceState;
   if (needChangeActor) {
-    newState  = selectActorAndOpenMapLocation(actorUid);
+    newState = selectActorAndOpenMapLocation(actorUid);
     newState.showNotificationsPanel = true;
   } else {
     newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -229,9 +231,7 @@ export async function updateReadMessages(
   actorUid?: ActorId
 ): Promise<IManagedResponse> {
   const key =
-    channel === NotifType.NOTIF
-      ? getActorNotificationChannelName(actorUid)
-      : String(channel);
+    channel === NotifType.NOTIF ? getActorNotificationChannelName(actorUid) : String(channel);
   return await APIMethods.runScript(
     `Variable.find(gameModel, "readRadioMessagesByChannel").getInstance(self).setProperty('${key}','${amount}');`,
     {}
