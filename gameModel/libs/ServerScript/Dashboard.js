@@ -170,7 +170,7 @@ if (drillType === 'LIKERT') {
     sortable: true,
   });
 
-  WegasDashboard.registerVariable('inSim_ref', {
+  WegasDashboard.registerVariable('latest_pretri_time', {
     label: 'End time',
     id: 'time at end',
     formatter: function (seconds) {

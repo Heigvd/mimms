@@ -27,7 +27,7 @@ import { isOngoingAndStartedAction } from '../game/common/simulationState/action
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
-  fetchAvailableActions,
+  fetchAvailableActionTemplates,
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
@@ -42,7 +42,7 @@ export function getAvailableActionTemplates(
 ): ActionTemplateBase[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (currentActorUid) {
-    return fetchAvailableActions(currentActorUid, actionType);
+    return fetchAvailableActionTemplates(currentActorUid, actionType);
   }
 
   return [];
@@ -212,4 +212,12 @@ export function isPretriageReportTemplate(template: ActionTemplateBase | undefin
  */
 export function isPCFrontBuilt(): boolean {
   return getCurrentState().isSimFlagEnabled(SimFlag.PCFRONT_BUILT);
+}
+
+export function isMethaneSendDisabled(): boolean {
+  if (canCancel(uniqueActionTemplates()?.CasuMessageTemplate)) {
+    return false;
+  }
+  const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
+  return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
 }

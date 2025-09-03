@@ -60,13 +60,11 @@ export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
 export function getHospitalsByProximity(
   proximity: HospitalProximity
 ): Record<HospitalId, HospitalDefinition> {
-  const result = { ...getHospitals() };
-  const ids = Object.keys({ ...result });
-
-  ids.forEach(hospId => {
-    const hospProximity = result[hospId]?.proximity;
-    if (hospProximity == undefined || proximity.valueOf() < hospProximity) {
-      delete result[hospId];
+  const result: Record<HospitalId, HospitalDefinition> = {};
+  const prox = proximity || HospitalProximity.International;
+  Object.entries(getHospitals()).forEach(([id, hospital]) => {
+    if (hospital.proximity && prox.valueOf() >= hospital.proximity) {
+      result[id] = hospital;
     }
   });
 

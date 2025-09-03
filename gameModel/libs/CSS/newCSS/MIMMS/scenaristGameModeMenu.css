@@ -1,0 +1,160 @@
+/* - - - - G A M E  M O D E - - - - */
+.game-mode__container {
+  background-color: var(--secondary_base);
+}
+
+.main-simulation__container,
+.drill-pretri__container {
+  width: 50%;
+}
+
+.game-mode__background {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.game-mode__background img {
+  width: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, .75));
+  transition: transform .3s ease-in-out;
+}
+
+.game-mode__title {
+  height: 20%;
+  margin: 2rem 1rem;
+}
+
+.main-simulation__container .game-mode__background img {
+  padding-right: 25px;
+  object-position: right center;
+  transform-origin: right center;
+}
+
+.drill-pretri__container .game-mode__background img {
+  padding-left: 25px;
+  object-position: left center;
+  transform-origin: left center;
+}
+
+.main-simulation__container:hover,
+.drill-pretri__container:hover {
+  cursor: pointer;
+}
+
+.main-simulation__container:hover .game-mode__background img,
+.drill-pretri__container:hover .game-mode__background img {
+  transform: scale(1.2);
+}
+
+.main-simulation__container > div div:nth-of-type(2),
+.drill-pretri__container > div div:nth-of-type(2) {
+  align-items: flex-end;
+}
+
+.drill-pretri__container > div div:nth-of-type(2) {
+  justify-content: flex-end;
+}
+
+/* - - - - S C E N A R I S T  M E N U - - - - */
+
+.scenarist-menu-container--open {
+  width: 17%;
+  min-width: 16rem;
+  background-color: var(--grey_0);
+  transition: width .3s ease-in-out;
+}
+
+.scenarist-menu-container--closed {
+  width: 3.75rem;
+  min-width: 3.75rem;
+  background-color: var(--grey_0);
+  transition: width .3s ease-in-out;
+}
+
+.scenarist-menu-item--open {
+  width: 100%;
+  padding: 3.375rem 1rem 0 .5rem;
+}
+
+.scenarist-menu-item--closed {
+  width: 100%;
+  padding: 3.375rem .5rem 0 .5rem;
+}
+
+.scenarist-menu__angle-button {
+  width: 1.25rem;
+  height: 1.25rem;
+  top: -2.25rem;
+  border-radius: var(--XS_borderRadius);
+  z-index: 10;
+}
+
+.scenarist-menu__angle-button--open {
+  right: -1.625rem;
+}
+
+.scenarist-menu__angle-button--closed {
+  right: -1.125rem;
+}
+
+.scenarist-menu__angle-button svg {
+  color: var(--grey_0);
+  transform: rotate(0deg);
+  transition: transform .3s ease-in-out;
+}
+
+.scenarist-menu-container--closed .scenarist-menu__angle-button svg {
+  transform: rotate(180deg);
+  transition: transform .3s ease-in-out;
+}
+
+.scenarist-menu-button {
+  font-weight: var(--boldWeight);
+  color: var(--primary_30);
+  background-color: var(--grey_0);
+  border-radius: .5rem;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button--open {
+  width: 100%;
+  padding: 13px 17px;
+}
+
+.scenarist-menu-button--closed {
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  /*padding: 0;*/
+}
+
+.scenarist-menu-button p {
+  margin: 0 0 0 1rem;
+}
+
+.scenarist-menu-container--closed .scenarist-menu-button p {
+  display: none;
+}
+
+.scenarist-menu-button:hover {
+  color: var(--primary_base);
+  background-color: var(--grey_0);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button--active,
+.scenarist-menu-button--active:hover {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+
+/*   P A G E  L O A D E R   */
+
+.scenarist-page-loader {
+  flex: 1;
+}

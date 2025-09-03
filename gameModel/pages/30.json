@@ -2,228 +2,31 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "joinPage__title",
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('qr-interface', 'join-as-patient');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.patient;\n`<h2>${param.id}, ${param.meta.age}y, ${param.meta.sex}</h2>`;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layout" : { },
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.patient;\nparam.meta.description;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation(\"qr-interface\", 'scan-to-impersonate-patient');",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        }, {
-                          "props" : {
-                            "icon" : "qrcode",
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : "`scan`;",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "do-no-print",
-                            "layoutStyle" : { },
-                            "localScriptEval" : {
-                              "script" : {
-                                "@class" : "ClientScript",
-                                "content" : "import { actAsPatientPayload, processQrCode } from \"./game/legacy/qr\";\nconst data = JSON.stringify(actAsPatientPayload(Context.patient.id));\nprocessQrCode(data);",
-                                "language" : "TypeScript",
-                                "returnType" : "Promise<unknown> | undefined"
-                              }
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Button"
-                        } ],
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "layout" : { },
-                        "layoutStyle" : { },
-                        "name" : "Act as Player Code",
-                        "size" : "256",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { actAsPatientPayload } from \"./game/legacy/qr\";\nJSON.stringify(actAsPatientPayload(Context.patient.id));",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "QRCode"
-                    } ],
-                    "layout" : {
-                      "alignItems" : "center",
-                      "justifyContent" : "space-between"
-                    },
-                    "layoutStyle" : {
-                      "marginTop" : "1in"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "FlexList"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "patientJoinPage pageA4",
-                "layoutStyle" : { },
-                "name" : "join page",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.patient;\n`<h1>${param.id}, ${param.meta.age}y, ${param.meta.sex}</h1>`;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { BodyFactoryParam } from \"./HUMAn/human\";\nconst param : { id: string, meta: BodyFactoryParam} = Context.patient;\n`${param.meta.description}`;",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "layout" : { },
-                        "layoutClassName" : "Examine patient",
-                        "layoutStyle" : { },
-                        "size" : "256",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { examinePatientPayload } from \"./game/legacy/qr\";\nJSON.stringify(examinePatientPayload(Context.patient.id));",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "QRCode"
-                    }, {
-                      "props" : {
-                        "icon" : "qrcode",
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "`scan`;",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "do-no-print",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { examinePatientPayload, processQrCode } from \"./game/legacy/qr\";\nconst data = JSON.stringify(examinePatientPayload(Context.patient.id));\nprocessQrCode(data);",
-                            "language" : "TypeScript",
-                            "returnType" : "Promise<unknown> | undefined"
-                          }
-                        },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ]
-                  },
-                  "type" : "FlexList"
-                } ],
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "pageA4",
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutStyle" : { },
-            "style" : { }
-          },
-          "type" : "FlexList"
-        } ],
-        "exposeAs" : "patient",
-        "getItemsFn" : {
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "import { getPatientsBodyFactoryParamsArray } from \"./tools/WegasHelper\";\ngetPatientsBodyFactoryParamsArray();",
-          "language" : "TypeScript"
+          "content" : "'21';",
+          "language" : "typescript"
         },
-        "id" : "PatientsJoinPagePrint",
-        "itemKey" : "id",
-        "layout" : {
-          "flexDirection" : "column"
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "height" : "100%",
+          "width" : "100%"
         },
-        "layoutClassName" : "printableArea",
-        "layoutStyle" : { },
+        "name" : "mainScenaristPage",
         "style" : { }
       },
-      "type" : "For each"
+      "type" : "PageLoader"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutStyle" : { },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
     "style" : { }
   },
   "type" : "FlexList"

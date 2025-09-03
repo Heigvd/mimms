@@ -1,5 +1,6 @@
 import { ActionBase } from '../actions/actionBase';
 import { MainSimulationState } from './mainSimulationState';
+import { ActionTemplateId } from '../baseTypes';
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
@@ -10,6 +11,10 @@ export function getOngoingActionsForActor(
 
 export function getOngoingActions(state: Readonly<MainSimulationState>): ActionBase[] {
   return state.getAllActions().filter((a: ActionBase) => a.getStatus() === 'OnGoing');
+}
+
+function getCompletedActions(state: Readonly<MainSimulationState>): ActionBase[] {
+  return state.getAllActions().filter((a: ActionBase) => a.getStatus() === 'Completed');
 }
 
 export function isOngoingAndStartedAction<T extends ActionBase>(
@@ -29,4 +34,35 @@ function isActionOngoingAndStarted(
   action: ActionBase
 ): boolean {
   return action.getStatus() === 'OnGoing' && action.startTime < state.getSimTime();
+}
+
+/**
+ * Some action of this template has completed at least once.
+ */
+export function hasCompletedOnceAction(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateId
+): boolean {
+  return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
+}
+
+/**
+ * Some action of this template is ongoing.
+ */
+export function hasOngoingAction(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateId
+): boolean {
+  return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
+}
+
+/**
+ * No action of this template in timeline.
+ */
+export function hasNoActionInTimeline(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateId
+): boolean {
+  // Note : no need to check future actions, an action never starts after now
+  return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
 }

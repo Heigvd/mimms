@@ -8,7 +8,18 @@
           "language" : "typescript"
         },
         "layoutStyle" : { },
-        "onVariableChange" : { },
+        "onVariableChange" : {
+          "exposeVariableAs" : {
+            "@class" : "Script",
+            "content" : "\"newChoice\"",
+            "language" : "TypeScript"
+          },
+          "server" : {
+            "@class" : "Script",
+            "content" : "const variableDescriptor = Variable.find(gameModel, 'gameMode');\nconst newValue = Context.newChoice;\nvariableDescriptor.setValue(self, newValue)\nvariableDescriptor.getDefaultInstance().setValue(newValue);",
+            "language" : "javascript"
+          }
+        },
         "script" : {
           "@class" : "Script",
           "content" : "Variable.find(gameModel,'gameMode')",

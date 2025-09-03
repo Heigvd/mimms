@@ -1,4 +1,4 @@
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActionId, ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';

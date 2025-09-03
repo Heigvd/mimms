@@ -2,7 +2,7 @@
 .headerPanels-container {
 	width: 50%;
 	height: auto;
-	top: 0px;
+	top: 0;
 	left: 550px;
 	padding: 1rem; 
 	pointer-events: auto; /* voir si none ou auto*/

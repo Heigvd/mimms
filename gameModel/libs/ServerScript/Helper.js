@@ -3,28 +3,11 @@
  */
 var MimmsHelper = (function () {
   function isDrillMode() {
-    return gameModel.getProperties().getFreeForAll();
-  }
-
-  function isRealLifeGame() {
-    return (
-      isDrillMode() === false &&
-      Variable.find(gameModel, 'multiplayerMode').getValue(self) === 'REAL_LIFE'
-    );
+    return Variable.find(gameModel, 'gameMode').getValue(self) === 'pretriMode';
   }
 
   function getDrillType() {
     return Variable.find(gameModel, 'drillType').getValue(self);
-  }
-
-  function shouldRunScenarioOnFirstStart() {
-    if (isDrillMode()) {
-      // only triage on map requires to run the predefined scenario
-      return getDrillType() === 'PRE-TRIAGE_ON_MAP';
-    } else {
-      // all multiplayer modes require to run it
-      return true;
-    }
   }
 
   function getPlayers() {
@@ -38,19 +21,16 @@ var MimmsHelper = (function () {
     return allCharactersByTeamId;
   }
 
-  // TODO better metric, see issue https://github.com/Heigvd/mimms/issues/59
-  function simRefs() {
-    return Variable.getInstancesByKeyId(Variable.find(gameModel, 'inSim_ref'));
+  function latestPretriTimes() {
+    return Variable.getInstancesByKeyId(Variable.find(gameModel, 'latest_pretri_time'));
   }
 
   return {
     isDrillMode: isDrillMode,
     getDrillType: getDrillType,
-    isRealLifeGame: isRealLifeGame,
-    shouldRunScenarioOnFirstStart: shouldRunScenarioOnFirstStart,
     getPlayers: getPlayers,
     charactersInfo: charactersInfo,
-    getEndTimes: simRefs,
+    getEndTimes: latestPretriTimes,
   };
 })();
 

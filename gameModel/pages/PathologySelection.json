@@ -32,7 +32,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(true);",
+                    "content" : "import { toggleAllPathologies } from \"./edition/UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(true);",
                     "language" : "TypeScript"
                   }
                 },
@@ -52,7 +52,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { toggleAllPathologies } from \"./UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(false);",
+                    "content" : "import { toggleAllPathologies } from \"./edition/UIfacade/patientGenFacade\";\n\ntoggleAllPathologies(false);",
                     "language" : "TypeScript"
                   }
                 },
@@ -108,7 +108,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { togglePathology } from \"./UIfacade/patientGenFacade\";\n\ntogglePathology(Context.pathology.id);",
+                        "content" : "import { togglePathology } from \"./edition/UIfacade/patientGenFacade\";\n\ntogglePathology(Context.pathology.id);",
                         "language" : "TypeScript"
                       }
                     },
@@ -135,7 +135,7 @@
             "exposeAs" : "pathology",
             "getItemsFn" : {
               "@class" : "Script",
-              "content" : "import { getPathologiesChoices } from \"./UIfacade/patientGenFacade\";\n  getPathologiesChoices();",
+              "content" : "import { getPathologiesChoices } from \"./edition/UIfacade/patientGenFacade\";\n  getPathologiesChoices();",
               "language" : "TypeScript"
             },
             "itemKey" : "id",
@@ -180,7 +180,7 @@
             "className" : "button-S button-primaryColor current",
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { anyPathologySelected } from \"./UIfacade/patientGenFacade\";\n!anyPathologySelected();",
+              "content" : "import { anyPathologySelected } from \"./edition/UIfacade/patientGenFacade\";\n!anyPathologySelected();",
               "language" : "typescript"
             },
             "label" : {
@@ -193,7 +193,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('stats-modal');",
+                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('stats-modal');",
                 "language" : "TypeScript"
               }
             },

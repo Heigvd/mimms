@@ -64,9 +64,6 @@ export function autoTimeManager() {
 
   if (expected === 'running' && currentMode != 'RUNNING') {
     switch (currentMode) {
-      case 'REPLAY':
-      case 'REPLAY_DONE':
-        return sendRequest('TimeManager.quitReplay();TimeManager.start();');
       case 'TEAM_PAUSE':
         return sendRequest('TimeManager.start();');
       case 'IDLE':
@@ -80,7 +77,7 @@ export function isCurrentPatientCategorized() {
   return current?.category != null;
 }
 
-export function selectNextPatient(): Promise<unknown> {
+export function selectNextPatient(): Promise<IManagedResponse | void> {
   const status = getDrillStatus();
   if (status === 'not_started' || status === 'ongoing') {
     const allIds = getSortedPatientIds();
@@ -112,6 +109,9 @@ export function selectNextPatient(): Promise<unknown> {
 
         const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
+        toPost.push(getStoreCurrentTimeScript(currentTime));
+
+        // stop time for the "previous" patient
         toPost.push(getFreezePatientEventScript(emitter, currentTime));
 
         const teleport: TeleportEvent = {
@@ -129,6 +129,7 @@ export function selectNextPatient(): Promise<unknown> {
         // the_world ignore not located humans
         toPost.push(getSendEventServerScript(teleport, currentTime));
 
+        // apply scripted events (mostly pathologies)
         toPost.push(
           ...script.map(sEvent => {
             const rEvent = reviveScriptedEvent(emitter, patientId, sEvent);
@@ -136,9 +137,10 @@ export function selectNextPatient(): Promise<unknown> {
           })
         );
 
+        // set upcoming patient
         toPost.push(`Variable.find(gameModel, 'currentPatient').setValue(self, '${patientId}');`);
 
-        // have the patient evolve
+        // artifically forward time for the upcoming patient
         const timeJump: AgingEvent = {
           ...emitter,
           type: 'Aging',
@@ -158,20 +160,26 @@ export function selectNextPatient(): Promise<unknown> {
   return emptyPromise();
 }
 
-function emptyPromise(): Promise<unknown> {
-  return new Promise<unknown>((resolve, reject) => {
+function emptyPromise(): Promise<void> {
+  return new Promise<void>((resolve, _reject) => {
     resolve(undefined);
   });
+}
+
+function getStoreCurrentTimeScript(currentTime: number): string {
+  return `Variable.find(gameModel, 'latest_pretri_time').setValue(self, ${currentTime});`;
 }
 
 export function toSummaryScreen(): Promise<IManagedResponse> {
   const currentTime = getCurrentSimulationTime();
   const emitter = initEmitterIds();
 
+  const storetime = getStoreCurrentTimeScript(currentTime);
   const freeze = getFreezePatientEventScript(emitter, currentTime);
 
   return APIMethods.runScript(
-    freeze +
+    storetime +
+      freeze +
       getSetDrillStatusScript('completed_summary') +
       `Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
     {}

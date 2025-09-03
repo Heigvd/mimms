@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1744702329294,
+  "createdTime" : 1756902257925,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -19,47 +19,6 @@
     "editorTag" : "texts",
     "isolation" : "OPEN",
     "items" : [ {
-      "@class" : "StaticTextDescriptor",
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StaticTextInstance",
-        "refId" : "StaticTextInstance:22373372:yFtgwV"
-      },
-      "editorTag" : "maintitle",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:22373373:2sw0WG",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:22373373:2sw0WG::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "maintitle",
-      "refId" : "StaticTextDescriptor:22373371:oHukmX",
-      "scopeType" : "GameModelScope",
-      "text" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:22373374:vXQtgD",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:22373374:vXQtgD::EN",
-            "status" : "",
-            "translation" : "HUMAn"
-          }
-        }
-      },
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
       "@class" : "StaticTextDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "",
@@ -603,28 +562,7 @@
         }
       },
       "name" : "patients",
-      "properties" : {
-        "CH-BD-578" : "{\"sex\":\"male\",\"age\":81,\"height_cm\":172,\"bmi\":27.75,\"sugarLevel\":6.10218815976013,\"temperature\":36.79778537355997,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.7190202937059269}]}}],\"pathologyNames\":[\"Cata. Art. Hem.\"]}",
-        "CH-CD-287" : "{\"sex\":\"female\",\"age\":19,\"height_cm\":164,\"bmi\":20.76,\"sugarLevel\":5.739597578372947,\"temperature\":36.94250932875053,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Spine injury\"]}",
-        "CH-FE-528" : "{\"sex\":\"male\",\"age\":61,\"height_cm\":173,\"bmi\":21.03,\"sugarLevel\":6.008117181884453,\"temperature\":36.19632198537565,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"fracture_displaced\",\"afflictedBlocks\":[\"RIGHT_SHOULDER\",\"RIGHT_SHOULDER\"],\"modulesArguments\":[{\"type\":\"NoArgs\"},{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.8861013720729765}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.08388452505955857}]}}],\"pathologyNames\":[\"Fracture\",\"Minor Hem.\"]}",
-        "CH-GI-634" : "{\"sex\":\"male\",\"age\":16,\"height_cm\":175,\"bmi\":24.1,\"sugarLevel\":4.8687750644722785,\"temperature\":36.87824919884295,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.02316213213383383},{\"type\":\"BurnArgs\",\"percent\":0.2604057335758898}]}}],\"pathologyNames\":[\"Airways Burn\"]}",
-        "CH-JB-983" : "{\"sex\":\"female\",\"age\":16,\"height_cm\":160,\"bmi\":22.09,\"sugarLevel\":6.726672508825384,\"temperature\":36.86738216390466,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"urgent_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0106541502952711}]}}],\"pathologyNames\":[\"Internal Hem.\"]}",
-        "CH-KI-999" : "{\"sex\":\"male\",\"age\":94,\"height_cm\":176,\"bmi\":26.01,\"sugarLevel\":7.1769148921883215,\"temperature\":36.2382817186781,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh_neck\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.6931010941798721}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_ah\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.10419609163420393}]}}],\"pathologyNames\":[\"Cata. Ven. Hem.\",\"Art. Hem.\"]}",
-        "CH-LV-462" : "{\"sex\":\"male\",\"age\":59,\"height_cm\":179,\"bmi\":23.66,\"sugarLevel\":7.090669335791327,\"temperature\":36.031992171968184,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh_arm\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.21017834453743084}]}}],\"pathologyNames\":[\"Ven. Hem.\"]}",
-        "CH-MQ-749" : "{\"sex\":\"male\",\"age\":56,\"height_cm\":179,\"bmi\":22.27,\"sugarLevel\":5.720207098242317,\"temperature\":36.23412003719594,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"PELVIS\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Simple injury\"]}",
-        "CH-NM-680" : "{\"sex\":\"male\",\"age\":89,\"height_cm\":195,\"bmi\":24.68,\"sugarLevel\":5.866262497331789,\"temperature\":36.225518012488116,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh_neck\",\"afflictedBlocks\":[\"NECK\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.930381594716363}]}}],\"pathologyNames\":[\"Cata. Ven. Hem.\"]}",
-        "CH-OD-946" : "{\"sex\":\"female\",\"age\":32,\"height_cm\":165,\"bmi\":29.42,\"sugarLevel\":5.85213867612941,\"temperature\":36.5376924058066,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Simple injury\"]}",
-        "CH-OF-679" : "{\"sex\":\"female\",\"age\":18,\"height_cm\":159,\"bmi\":26.51,\"sugarLevel\":7.683452327095654,\"temperature\":36.3157368066856,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_vh_face\",\"afflictedBlocks\":[\"HEAD\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0016086083437454022}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c1c2\",\"afflictedBlocks\":[\"C1-C4\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Minor Hem.\",\"Spine injury\"]}",
-        "CH-QI-712" : "{\"sex\":\"male\",\"age\":30,\"height_cm\":181,\"bmi\":21.52,\"sugarLevel\":5.362816429152593,\"temperature\":36.106554164758364,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"disclocation_c5c7\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Spine injury\"]}",
-        "CH-TK-019" : "{\"sex\":\"female\",\"age\":26,\"height_cm\":163,\"bmi\":26.9,\"sugarLevel\":6.283412941764155,\"temperature\":36.949478147202385,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.1650484146161642}]}}],\"pathologyNames\":[\"Ven. Hem.\"]}",
-        "CH-TM-079" : "{\"sex\":\"male\",\"age\":64,\"height_cm\":166,\"bmi\":21.06,\"sugarLevel\":6.099709186227888,\"temperature\":36.521067704031175,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"urgent_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0112626698102248}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"LUNG\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Internal Hem.\",\"Simple injury\"]}",
-        "CH-TV-151" : "{\"sex\":\"male\",\"age\":43,\"height_cm\":192,\"bmi\":18.84,\"sugarLevel\":7.892495736570887,\"temperature\":36.443909917499866,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.05736939812086797},{\"type\":\"BurnArgs\",\"percent\":0.48281588814077103}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.003428181133617977}]}}],\"pathologyNames\":[\"Airways Burn\",\"Min. Int. Hem.\"]}",
-        "CH-UI-401" : "{\"sex\":\"male\",\"age\":47,\"height_cm\":178,\"bmi\":20.62,\"sugarLevel\":5.854375173552146,\"temperature\":36.121569054232694,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"upper_airways_burn\",\"afflictedBlocks\":[\"NECK\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"AirwaysResistanceArgs\",\"airResistanceDelta\":0.024149869112201364},{\"type\":\"BurnArgs\",\"percent\":0.2948061697100568}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh__2\",\"afflictedBlocks\":[\"RIGHT_LEG\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.462271065991678}]}}],\"pathologyNames\":[\"Airways Burn\",\"Ven. Hem.\"]}",
-        "CH-UV-971" : "{\"sex\":\"female\",\"age\":23,\"height_cm\":163,\"bmi\":24.87,\"sugarLevel\":7.98369436388254,\"temperature\":36.50536483029724,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"thorax_circ\",\"afflictedBlocks\":[\"THORAX_LEFT\",\"THORAX_RIGHT\"],\"modulesArguments\":[{\"type\":\"BurnArgs\",\"percent\":1},{\"type\":\"BurnArgs\",\"percent\":1}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"minor_ih\",\"afflictedBlocks\":[\"ABDOMEN\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.0023673910133337247}]}}],\"pathologyNames\":[\"Thorax Burn\",\"Min. Int. Hem.\"]}",
-        "CH-VC-315" : "{\"sex\":\"male\",\"age\":16,\"height_cm\":185,\"bmi\":20.9,\"sugarLevel\":5.9864866705725674,\"temperature\":36.29705351925774,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"severe_vh\",\"afflictedBlocks\":[\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.21435426957863096}]}}],\"pathologyNames\":[\"Ven. Hem.\"]}",
-        "CH-VJ-320" : "{\"sex\":\"female\",\"age\":24,\"height_cm\":156,\"bmi\":20.41,\"sugarLevel\":4.965197723103546,\"temperature\":36.72475477025968,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"cranialTrauma\",\"afflictedBlocks\":[\"HEAD\",\"HEAD\"],\"modulesArguments\":[{\"type\":\"ICMArgs\",\"delta_perMin\":7.806451829644496},{\"type\":\"HemorrhageArgs\",\"instantaneousBloodLoss\":54.2251198865795}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"catastrophic_vh\",\"afflictedBlocks\":[\"RIGHT_THIGH\"],\"modulesArguments\":[{\"type\":\"HemorrhageArgs\",\"bleedingFactor\":0.5598283153412872}]}}],\"pathologyNames\":[\"Brain Injury\",\"Cata. Ven. Hem.\"]}",
-        "CH-XV-769" : "{\"sex\":\"male\",\"age\":20,\"height_cm\":174,\"bmi\":19.12,\"sugarLevel\":5.852957648413015,\"temperature\":36.302557878490305,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"unableToWalk\",\"afflictedBlocks\":[\"C5-C7\"],\"modulesArguments\":[{\"type\":\"NoArgs\"}]}}],\"pathologyNames\":[\"Simple injury\"]}"
-      },
+      "properties" : { },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "TeamScope",
       "version" : null,
@@ -906,6 +844,29 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:2623033:90Zuei"
+      },
+      "description" : "",
+      "editorTag" : "triggers_data",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:2623034:rBG0FZ",
+        "translations" : { }
+      },
+      "name" : "triggers_data",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:2623032:acjkg8",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1026,131 +987,6 @@
       "properties" : { },
       "refId" : "ObjectDescriptor:24060137:G5TcTN",
       "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098823:J6ILgH",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098823:J6ILgH::EN",
-              "status" : "",
-              "translation" : "Patient"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098823:J6ILgH::FR",
-              "status" : "",
-              "translation" : "Patient"
-            }
-          }
-        },
-        "name" : "PATIENT",
-        "refId" : "EnumItem:24098822:v81x94"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098825:Xo4W2n",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098825:Xo4W2n::EN",
-              "status" : "",
-              "translation" : "Health squad"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098825:Xo4W2n::FR",
-              "status" : "",
-              "translation" : "Brigade sanitaire"
-            }
-          }
-        },
-        "name" : "HEALTH_SQUAD",
-        "refId" : "EnumItem:24098824:cxPMer"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098830:OQk7Oj",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098830:OQk7Oj::EN",
-              "status" : "",
-              "translation" : "None"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098830:OQk7Oj::FR",
-              "status" : "",
-              "translation" : "Aucun"
-            }
-          }
-        },
-        "name" : "NONE",
-        "refId" : "EnumItem:#2:0aBRsh"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24107252:8udMMl",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24107252:8udMMl::EN",
-              "status" : "",
-              "translation" : "Observer"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24107252:8udMMl::FR",
-              "status" : "",
-              "translation" : "Observateur"
-            }
-          }
-        },
-        "name" : "OBSERVER",
-        "refId" : "EnumItem:#3:PAjxEf"
-      } ],
-      "broadcastScope" : "PlayerScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:24098819:BjuOZm",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098820:zZ109x",
-          "translations" : { }
-        }
-      },
-      "editorTag" : "Real-Life Role",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098821:vhMvms",
-        "translations" : { }
-      },
-      "maxSelectable" : 1,
-      "name" : "realLifeRole",
-      "refId" : "StringDescriptor:24098818:EdlIrE",
-      "scopeType" : "PlayerScope",
-      "sortable" : false,
-      "validationPattern" : null,
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -1546,23 +1382,6 @@
         "@class" : "EnumItem",
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24054870:e8Kmjs",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24054870:e8Kmjs::EN",
-              "status" : "",
-              "translation" : "PRE-TRIAGE_ON_MAP"
-            }
-          }
-        },
-        "name" : "PRE-TRIAGE_ON_MAP",
-        "refId" : "EnumItem:#1:Bqd0Tl"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:24070154:KkHDNB",
           "translations" : {
             "EN" : {
@@ -1742,91 +1561,6 @@
       "name" : "finished_custom_text",
       "refId" : "TextDescriptor:26620158:7cwtor",
       "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098800:NkmJci",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098800:NkmJci::EN",
-              "status" : "",
-              "translation" : "real-life game (QR code)"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098800:NkmJci::FR",
-              "status" : "",
-              "translation" : "Grandeur nature (avec code QR)"
-            }
-          }
-        },
-        "name" : "REAL_LIFE",
-        "refId" : "EnumItem:24098799:k3wPkO"
-      }, {
-        "@class" : "EnumItem",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098805:w7rR12",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098805:w7rR12::EN",
-              "status" : "",
-              "translation" : "Software simulation"
-            },
-            "FR" : {
-              "@class" : "Translation",
-              "lang" : "FR",
-              "refId" : "TranslatableContent:24098805:w7rR12::FR",
-              "status" : "",
-              "translation" : "Simulation logicielle"
-            }
-          }
-        },
-        "name" : "SOFTWARE",
-        "refId" : "EnumItem:#1:1Pyyxm"
-      } ],
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
-        "refId" : "StringInstance:24098796:HvH0KW",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098797:fh1vcJ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098797:fh1vcJ::EN",
-              "status" : "",
-              "translation" : "REAL_LIFE"
-            }
-          }
-        }
-      },
-      "editorTag" : "multiplayerMode",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098798:NqjBsa",
-        "translations" : { }
-      },
-      "maxSelectable" : 1,
-      "name" : "multiplayerMode",
-      "refId" : "StringDescriptor:24098795:J9bZEX",
-      "scopeType" : "GameModelScope",
-      "sortable" : false,
-      "validationPattern" : null,
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
@@ -2040,47 +1774,41 @@
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
-        "comments" : "",
+        "comments" : "In seconds. The current time is saved in this variable each time the \"next patient\" button is pressed. This time is used for display in pretri's dashboard and the player's summary screen.",
         "defaultInstance" : {
           "@class" : "NumberInstance",
           "history" : [ ],
-          "refId" : "NumberInstance:24069478:1EcSpN",
+          "refId" : "NumberInstance:36341868:gE17CJ",
           "value" : 0.0
         },
         "defaultValue" : 0.0,
-        "editorTag" : "",
+        "editorTag" : "latest_pretri_time",
         "historySize" : 20,
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24069479:V87vn1",
-          "translations" : { }
+          "refId" : "TranslatableContent:36341869:kvaq62",
+          "translations" : {
+            "EN" : {
+              "@class" : "Translation",
+              "lang" : "EN",
+              "refId" : "TranslatableContent:36341869:kvaq62::EN",
+              "status" : "",
+              "translation" : "latest_pretri_time"
+            },
+            "FR" : {
+              "@class" : "Translation",
+              "lang" : "FR",
+              "refId" : "TranslatableContent:36341869:kvaq62::FR",
+              "status" : "",
+              "translation" : "latest_pretri_time"
+            }
+          }
         },
         "maxValue" : null,
         "minValue" : null,
-        "name" : "upTo_inSim_ref",
-        "refId" : "NumberDescriptor:24069477:jyIJtC",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:24069458:0fp1YW",
-          "value" : false
-        },
-        "editorTag" : "",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24069459:wHf4hO",
-          "translations" : { }
-        },
-        "name" : "replay",
-        "refId" : "BooleanDescriptor:24069457:XLcG0f",
+        "name" : "latest_pretri_time",
+        "refId" : "NumberDescriptor:36341867:GMZMEl",
         "scopeType" : "TeamScope",
         "version" : null,
         "visibility" : "PRIVATE"
@@ -3933,6 +3661,7 @@
           "situation-update-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the selected role is currently in a situation update. To continue the simulation, please choose another role from the available options below.\"},\"FR\":{\"status\":\"\",\"translation\":\"le rôle sélectionné est actuellement en point de situation. Pour continuer la simulation, veuillez choisir un autre rôle parmi ceux disponibles ci-dessous.\",\"lang\":\"FR\"}},\"version\":0}",
           "situation-update-text-singleactor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are currently in a situation update. The simulation will automatically resume once the update is complete.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes actuellement en point de situation. La simulation reprendra automatiquement une fois le point de situation terminé.\",\"lang\":\"FR\"}},\"version\":0}",
           "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
+          "soft-warning" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\": inactif(s) pour ce tour\"},\"EN\":{\"status\":\"\",\"translation\":\": inactive for this round\",\"lang\":\"EN\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
           "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4944,35 +4673,6 @@
         "version" : null,
         "visibility" : "PRIVATE"
       }, {
-        "@class" : "BooleanDescriptor",
-        "broadcastScope" : "GameModelScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "BooleanInstance",
-          "refId" : "BooleanInstance:619025:UlDl2R",
-          "value" : false
-        },
-        "editorTag" : "display_debug_button",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:619026:tTt3Du",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:619026:tTt3Du::EN",
-              "status" : "",
-              "translation" : ""
-            }
-          }
-        },
-        "name" : "display_debug_button",
-        "refId" : "BooleanDescriptor:619024:fvXVu7",
-        "scopeType" : "GameModelScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "TeamScope",
         "comments" : "",
@@ -5408,7 +5108,97 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/resourcesConfiguration",
+    "contentKey" : "edition/typeDefinitions/choiceDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2050471:3aOQas",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/conditionDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991752:Ywr7o0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/definition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990712:AnBdrO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/impactDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991702:1fa9do",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990713:HrPBLj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/fixedMapEntityTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2276752:IeNZuB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/fullyConfigurableTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2050462:QtJUT5",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/moveTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991693:jlaATV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/triggerDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991692:OWj0Bg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/patientGenFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1580618:cy0rqR",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/resourcesConfiguration",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1743352:WDHods",
@@ -5457,6 +5247,51 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#84:ASnhzm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2276802:PVO3dT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990714:fRwwfa",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991694:acaevY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/templateDescriptor",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991680:0JwA10",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/choiceDescriptor/choiceDescriptor",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990706:Uw29Np",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5624,6 +5459,60 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/impacts/effect",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991684:2PPcJo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/impact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990705:ifg6Mt",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/implementation/activationImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990708:HQAfqm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/implementation/choiceEffectSelectionImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2194486:uJWGlW",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/implementation/notificationImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991687:G7ebNL",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/impacts/implementation/radioImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990707:IlU9gO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/interfaces",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5786,46 +5675,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/simulationState/activableState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991701:HL12HF",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/simulationState/hospitalState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#156:lOEPlr",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/mainStateLoader",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1724242:nv4rqc",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/patientsLoader",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1750136:kCodvg",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/resourceLoader",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1750135:J6ma6L",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/simulationState/loaders/taskLoader",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1724243:2PjgdU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5948,7 +5810,61 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/gameExecutionContext",
+    "contentKey" : "game/common/triggers/condition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991685:aao1hP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/implementation/actionCondition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990709:83JJ3p",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/implementation/activableCondition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#231:hg2NjY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/implementation/choiceCondition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991689:c3yhzC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/implementation/timeCondition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991688:FtSdRh",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/trigger",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991682:UrUQQ8",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/executionContext/gameExecutionContext",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1723208:ehnGzf",
@@ -5957,7 +5873,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/gameExecutionContextController",
+    "contentKey" : "game/executionContext/gameExecutionContextController",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724236:1N6dXJ",
@@ -5979,15 +5895,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#67:7aiTeC",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/qr",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#71:zNPabl",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6015,6 +5922,78 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#72:gtpcJn",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/actionTemplateFactory",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991683:3xVwiJ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/actionTemplateLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991679:5PgpAB",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/activableLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1991753:X2ddZg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/mainStateLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1724242:nv4rqc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/patientsLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750136:kCodvg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/resourceLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1750135:J6ma6L",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/taskLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1724243:2PjgdU",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/triggerLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:1990703:XgpYuJ",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6542,10 +6521,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "UIfacade/patientGenFacade",
+    "contentKey" : "UIfacade/pretriFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1580618:cy0rqR",
+    "refId" : "GameModelContent:36342851:D7AHGR",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6564,6 +6543,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:927245:4WzOpc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/scenaristMenuFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2348951:MpDZJI",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6695,6 +6683,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/mapConfiguration",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2361601:MFPaTG",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/menu",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -6798,6 +6795,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1383:9LZWli",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/scenaristGameModeMenu",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2380538:d69EVS",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7080,13 +7086,13 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - dev XGO MIM-414",
+  "name" : "MIMMS - XGO Release 7.0.0",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
     "clientScriptUri" : "",
     "cssUri" : "",
-    "freeForAll" : true,
+    "freeForAll" : false,
     "guestAllowed" : false,
     "iconUri" : "ICON_black-pink_heartbeat_fa",
     "logID" : null,

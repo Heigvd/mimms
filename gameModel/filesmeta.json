@@ -395,6 +395,18 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/mask _mimms.webp" : {
+    "description" : "",
+    "mimeType" : "image/webp",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/mask_drill.webp" : {
+    "description" : "",
+    "mimeType" : "image/webp",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
@@ -638,6 +650,18 @@
   "/patient/tag.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/texte_drill_pretri_droite_inverse.webp" : {
+    "description" : "",
+    "mimeType" : "image/webp",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/texte_mimms.webp" : {
+    "description" : "",
+    "mimeType" : "image/webp",
     "note" : "",
     "visibility" : "PRIVATE"
   },

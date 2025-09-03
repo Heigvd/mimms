@@ -6,135 +6,175 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}]",
-                      "language" : "typescript"
-                    },
-                    "layoutStyle" : {
-                      "width" : "100%"
-                    },
-                    "noOptionsMessage" : {
-                      "@class" : "Script",
-                      "content" : "\"No maps available\"",
-                      "language" : "TypeScript"
-                    },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "Context.state.setState({mapId: Context.value});",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Select a map\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "  Context.state.state.mapId || 'GVA-center';",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                }, {
-                  "props" : {
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\nContext.state?.state?.mapId == getMapConfig()?.mapId;",
-                      "language" : "typescript"
-                    },
-                    "icon" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Load selected</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\n  updateMapChoice(Context.state.state.mapId);",
-                        "language" : "TypeScript",
-                        "returnType" : "Promise<unknown> | undefined"
-                      }
-                    },
-                    "name" : "load",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ]
+                "className" : "noMargin scenarist-title",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Map</p>\"",
+                  "language" : "TypeScript"
+                }
               },
-              "type" : "FlexList"
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "noMargin scenarist-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Text",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Please select the game map and the initial player view.</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             }, {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Center to view</p>\"",
-                      "language" : "TypeScript"
-                    },
+                    "children" : [ {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}]",
+                          "language" : "typescript"
+                        },
+                        "className" : "scenarist-dropdown",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "noOptionsMessage" : {
+                          "@class" : "Script",
+                          "content" : "\"No maps available\"",
+                          "language" : "TypeScript"
+                        },
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "Context.state.setState({mapId: Context.value});",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "placeholder" : {
+                          "@class" : "Script",
+                          "content" : "\"Select map\"",
+                          "language" : "TypeScript"
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "  Context.state.state.mapId || 'GVA-center';",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "className" : "header-button",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "header-button--disabled",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\nContext.state?.state?.mapId == getMapConfig()?.mapId;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Load selected</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\n  updateMapChoice(Context.state.state.mapId);",
+                            "language" : "TypeScript",
+                            "returnType" : "Promise<unknown> | undefined"
+                          }
+                        },
+                        "name" : "Load",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "map-configuration-gap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { centerToSavedView } from \"./UIfacade/mapConfigFacade\";\n\ncenterToSavedView()",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "center",
+                    "name" : "Left",
                     "style" : { }
                   },
-                  "type" : "Button"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Save current view</p>\"",
-                      "language" : "TypeScript"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "header-button",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Set as initial player view</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { saveCurrentView } from \"./UIfacade/mapConfigFacade\";\n\nsaveCurrentView()",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "Set",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "header-button",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Reset view</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\nupdateMapChoice(Context.state.state.mapId);",
+                            "language" : "TypeScript",
+                            "returnType" : "Promise<unknown> | undefined"
+                          }
+                        },
+                        "name" : "Reset",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "map-configuration-gap",
+                    "layout" : {
+                      "flexDirection" : "row"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { saveCurrentView } from \"./UIfacade/mapConfigFacade\";\n\nsaveCurrentView()",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "save",
+                    "name" : "Right",
                     "style" : { }
                   },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Reset view</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\nupdateMapChoice(Context.state.state.mapId);",
-                        "language" : "TypeScript",
-                        "returnType" : "Promise<unknown> | undefined"
-                      }
-                    },
-                    "name" : "reset",
-                    "style" : { }
-                  },
-                  "type" : "Button"
+                  "type" : "FlexList"
                 } ],
                 "layout" : {
-                  "flexDirection" : "row"
+                  "justifyContent" : "space-between"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "Buttons",
                 "style" : { }
               },
               "type" : "FlexList"
@@ -282,16 +322,11 @@
                       },
                       "type" : "WegasMapVectorLayer"
                     } ],
-                    "debug" : true,
+                    "className" : "fullSize",
+                    "debug" : false,
                     "id" : "",
-                    "layoutClassName" : "",
-                    "layoutStyle" : {
-                      "backgroundColor" : "#E4E6E7",
-                      "height" : "100%",
-                      "padding" : "0px",
-                      "pointerEvents" : "auto",
-                      "width" : "100%"
-                    },
+                    "layoutClassName" : "map-configuration",
+                    "layoutStyle" : { },
                     "mapOptions" : {
                       "onClick" : {
                         "@class" : "ScriptCallback",
@@ -299,10 +334,7 @@
                         "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
                       }
                     },
-                    "style" : {
-                      "height" : "100%",
-                      "width" : "100%"
-                    },
+                    "style" : { },
                     "viewOptions" : {
                       "center" : {
                         "@class" : "Script",
@@ -336,26 +368,24 @@
                 } ],
                 "className" : "noPadding noMargin",
                 "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "fullSize noPadding noMargin",
                 "layoutStyle" : {
-                  "height" : "100%",
                   "left" : "0",
                   "pointerEvents" : "auto",
-                  "top" : "0",
-                  "width" : "100%"
+                  "top" : "0"
                 },
-                "name" : "map",
+                "name" : "Map",
                 "style" : { }
               },
               "type" : "FlexList"
             } ],
+            "className" : "map-configuration-page",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutStyle" : {
-              "height" : "100%",
-              "width" : "100%"
-            },
+            "layoutClassName" : "fullSize noPadding",
+            "layoutStyle" : { },
+            "name" : "Map Page",
             "style" : { }
           },
           "type" : "FlexList"
@@ -366,11 +396,10 @@
           "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\n({mapId: getMapConfig()?.mapId});",
           "language" : "TypeScript"
         },
-        "layoutStyle" : {
-          "height" : "100%",
-          "width" : "100%"
-        },
+        "layoutClassName" : "fullSize noPadding",
+        "layoutStyle" : { },
         "localState" : true,
+        "name" : "State",
         "style" : { }
       },
       "type" : "State"
@@ -378,11 +407,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
     },
+    "name" : "Map Configuration",
     "style" : { }
   },
   "type" : "FlexList"

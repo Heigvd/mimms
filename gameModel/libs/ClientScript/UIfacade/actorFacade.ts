@@ -9,6 +9,9 @@ import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import { OnTheRoadAction } from '../game/common/actions/actionBase';
+import { InterfaceState } from '../gameInterface/interfaceState';
+import { canActorPlanAction } from '../gameInterface/main';
+import { getTranslation } from '../tools/translation';
 
 /**
  * @returns All currently present actors
@@ -18,18 +21,20 @@ export function getAllActors(): Readonly<Actor[]> {
 }
 
 // used in page 43
-export function selectActor(id: ActorId) {
+export function selectActor(id: ActorId): InterfaceState {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.currentActorUid = id;
   newState.resources.allocateResources.currentTaskId =
     TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
   Context.interfaceState.setState(newState);
+  return newState;
 }
 
 // used in page 43
 export function selectActorAndOpenMapLocation(id: ActorId) {
-  selectActor(id);
+  const newState = selectActor(id);
   openOverlayItem(getActorLocation(id)!);
+  return newState;
 }
 
 /**
@@ -40,6 +45,31 @@ export function getCurrentPlayerActors(): Readonly<Actor[]> {
   return getCurrentState()
     .getAllActors()
     .filter(actor => playerRoles[actor.Role]);
+}
+
+/**
+ * @returns All actors available to the current player that can plan a new action
+ */
+export function getPlayerIdleActors(): Readonly<Actor[]> {
+  return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
+}
+
+/**
+ * @returns true if there are actors available to the current player that can plan a new action
+ */
+export function hasPlayerIdleActors(): boolean {
+  return getPlayerIdleActors().length > 0;
+}
+
+/**
+ * @returns a message if the player hasn't assigned an action to one/several actors
+ */
+export function getIdleActorsWarningMessage(): string {
+  return (
+    getPlayerIdleActors()
+      .map(actor => actor.ShortName)
+      .join(', ') + getTranslation('mainSim-interface', 'soft-warning')
+  );
 }
 
 /**

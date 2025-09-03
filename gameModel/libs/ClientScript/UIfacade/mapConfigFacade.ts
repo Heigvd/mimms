@@ -64,7 +64,7 @@ export function getViewGeometry(): FeatureCollection {
     fc.features.push({
       type: 'Feature',
       properties: {
-        name: 'Selected View',
+        name: 'Selected view',
       },
       geometry: {
         type: 'Polygon',

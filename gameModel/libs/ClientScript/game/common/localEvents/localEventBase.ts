@@ -1,6 +1,6 @@
 import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { entries, keys } from '../../../tools/helper';
-import { mainSimLogger, resourceLogger } from '../../../tools/logger';
+import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
@@ -31,6 +31,8 @@ import {
 } from '../events/casuMessageEvent';
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
+import { ActivationOperator } from '../impacts/implementation/activationImpact';
+import { Uid } from '../interfaces';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -41,6 +43,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
+import { Activable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -51,16 +54,18 @@ import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationSta
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
 import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
+import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
-  parentEventId: GlobalEventId;
-  simTimeStamp: SimTime;
-  priority: number;
+  parentEventId: GlobalEventId; // The Global Event that causes this local event
+  parentTriggerId?: Uid; // The Trigger that causes this local event, (most of the time, there is none)
+  simTimeStamp: SimTime; // The time at which it happens
+  priority?: number; // The smaller priority is the first to be processed
 }
 
-export abstract class LocalEventBase implements LocalEvent {
+export abstract class LocalEventBase {
   private static eventCounter = 0;
 
   /**
@@ -68,12 +73,19 @@ export abstract class LocalEventBase implements LocalEvent {
    */
   public readonly eventNumber: number;
 
-  protected constructor(
-    readonly parentEventId: GlobalEventId,
-    readonly type: string,
-    readonly simTimeStamp: number,
-    readonly priority: number = 0
-  ) {
+  readonly type: string;
+  readonly parentEventId: GlobalEventId;
+  readonly parentTriggerId: Uid | undefined;
+  readonly simTimeStamp: number;
+  readonly priority: number;
+
+  protected constructor(props: LocalEvent) {
+    this.type = props.type;
+    this.parentEventId = props.parentEventId;
+    this.parentTriggerId = props.parentTriggerId ?? undefined;
+    this.simTimeStamp = props.simTimeStamp;
+    this.priority = props.priority ?? 0;
+
     this.eventNumber = LocalEventBase.eventCounter++;
   }
 
@@ -112,28 +124,36 @@ export function compareLocalEvents(e1: LocalEventBase, e2: LocalEventBase): bool
  * Creates an action to be inserted in the timeline and inits it
  */
 export class PlanActionLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly action: ActionBase) {
-    super(parentEventId, 'PlanActionLocalEvent', timeStamp);
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly action: ActionBase;
+    }
+  ) {
+    super({ ...props, type: 'PlanActionLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.actions.push(this.action);
+    so.actions.push(this.props.action);
     // init action
-    this.action.update(state);
+    this.props.action.update(state);
   }
 }
 
 // Update status of action
 export class CancelActionLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly templateId: TemplateId,
-    readonly actorUid: ActorId,
-    readonly planTime: SimTime
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly templateId: TemplateId;
+      readonly actorUid: ActorId;
+      readonly planTime: SimTime;
+    }
   ) {
-    super(parentEventId, 'CancelActionLocalEvent', timeStamp);
+    super({ ...props, type: 'CancelActionLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -141,10 +161,12 @@ export class CancelActionLocalEvent extends LocalEventBase {
     const now = state.getSimTime();
     const action = so.actions.find(
       a =>
-        a.getTemplateId() === this.templateId && a.ownerId === this.actorUid && a.startTime == now
+        a.getTemplateId() === this.props.templateId &&
+        a.ownerId === this.props.actorUid &&
+        a.startTime == now
     );
 
-    if (action && action.startTime === this.planTime) {
+    if (action && action.startTime === this.props.planTime) {
       // We remove the action and place it in cancelled actions
       so.actions.splice(so.actions.indexOf(action), 1);
       so.cancelledActions.push(action);
@@ -163,17 +185,20 @@ export class CancelActionLocalEvent extends LocalEventBase {
 
 export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    type: string,
-    readonly actors: ActorId[],
-    timeStamp: SimTime,
-    override priority: number = 1
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly priority?: number;
+      readonly type: string;
+      readonly actors: ActorId[];
+    }
   ) {
-    super(parentEventId, type, timeStamp, priority);
+    const defaultProps = { priority: 1 };
+    super({ ...defaultProps, ...props });
   }
 
   protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
-    updateCurrentTimeFrame(state, this.actors, modifier, this.simTimeStamp);
+    updateCurrentTimeFrame(state, this.props.actors, modifier, this.props.simTimeStamp);
   }
 }
 
@@ -183,21 +208,23 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
  */
 export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(
-    parentEventId: GlobalEventId,
-    readonly timeStamp: SimTime,
-    actors: ActorId[],
-    readonly timeJump: number
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly actors: ActorId[];
+      readonly timeJump: number;
+    }
   ) {
-    super(parentEventId, 'TimeForwardLocalEvent', actors, timeStamp);
+    super({ ...extensionProps, type: 'TimeForwardLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     this.updateCurrentTimeFrame(state, 1);
     if (isTimeForwardReady(state)) {
-      state.incrementSimulationTime(this.timeJump);
+      state.incrementSimulationTime(this.extensionProps.timeJump);
 
       // update patients
-      this.updatePatients(state, this.timeJump);
+      this.updatePatients(state, this.extensionProps.timeJump);
 
       // update all actions
       this.updateActions(state);
@@ -205,18 +232,22 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       // update all tasks
       this.updateTasks(state);
 
+      // run the triggers
+      const generatedLocalEvents = evaluateAllTriggers(state);
+      getLocalEventManager().queueLocalEvents(generatedLocalEvents);
+
       registerOpenSelectedActorPanelAfterMove();
 
       state.updateForwardTimeFrame();
 
       // auto-continue if all actors are still awaiting
       if (isTimeForwardReady(state)) {
-        const tfw = new TimeForwardLocalEvent(
-          this.parentEventId,
-          state.getSimTime(),
-          [],
-          TimeSliceDuration
-        );
+        const tfw = new TimeForwardLocalEvent({
+          parentEventId: this.extensionProps.parentEventId,
+          simTimeStamp: state.getSimTime(),
+          actors: [],
+          timeJump: TimeSliceDuration,
+        });
         getLocalEventManager().queueLocalEvent(tfw);
       }
     }
@@ -232,7 +263,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   }
 
   private updateTasks(state: MainSimulationState) {
-    TaskState.getAllTasks(state).forEach(t => t.update(state, this.timeJump));
+    TaskState.getAllTasks(state).forEach(t => t.update(state, this.extensionProps.timeJump));
   }
 }
 
@@ -240,8 +271,14 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
  * When applied, bumps down being readiness for a time forward for the provided actors
  */
 export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, actors: ActorId[]) {
-    super(parentEventId, 'TimeForwardCancelLocalEvent', actors, timeStamp);
+  constructor(
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly actors: ActorId[];
+    }
+  ) {
+    super({ ...extensionProps, type: 'TimeForwardCancelLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -259,33 +296,38 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
 /////////// TODO in own file
 export class AddFixedEntityLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly fixedMapEntity: FixedMapEntity
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntity: FixedMapEntity;
+    }
   ) {
-    super(parentEventId, 'AddFixedEntityLocalEvent', timeStamp);
+    super({ ...props, type: 'AddFixedEntityLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    so.mapLocations.push(this.fixedMapEntity);
+    so.mapLocations.push(this.props.fixedMapEntity);
   }
 }
 
 export class RemoveFixedEntityLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly fixedMapEntity: FixedMapEntity
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntity: FixedMapEntity;
+    }
   ) {
-    super(parentEventId, 'RemoveFixedEntityLocalEvent', timeStamp);
+    super({ ...props, type: 'RemoveFixedEntityLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
     so.mapLocations.splice(
       so.mapLocations.findIndex(
-        f => f.id === this.fixedMapEntity.id && f.ownerId === this.fixedMapEntity.ownerId
+        f =>
+          f.id === this.props.fixedMapEntity.id && f.ownerId === this.props.fixedMapEntity.ownerId
       ),
       1
     );
@@ -294,17 +336,19 @@ export class RemoveFixedEntityLocalEvent extends LocalEventBase {
 
 export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly fixedMapEntity: FixedMapEntity
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly fixedMapEntity: FixedMapEntity;
+    }
   ) {
-    super(parentEventId, 'CompleteBuildingFixedEntityLocalEvent', timeStamp);
+    super({ ...props, type: 'CompleteBuildingFixedEntityLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
     so.mapLocations
-      .filter(mapEntity => mapEntity.id === this.fixedMapEntity.id)
+      .filter(mapEntity => mapEntity.id === this.props.fixedMapEntity.id)
       .forEach(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
   }
 }
@@ -318,34 +362,31 @@ export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
 export class AddActorLocalEvent extends LocalEventBase {
   /**
    * Adds an actor in the game
-   * @param parentEventId
-   * @param timeStamp
-   * @param role spawned role
-   * @param location if undefined automatically resolved
-   * @param travelTime if 0 no travel time, if greater, a travel action is planned
    */
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    private role: InterventionRole,
-    private location: LOCATION_ENUM | undefined = undefined,
-    private travelTime: SimDuration = 0
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly role: InterventionRole; // spawned role
+      readonly location?: LOCATION_ENUM | undefined; // if undefined automatically resolved
+      readonly travelTime?: SimDuration; // if 0 no travel time, if greater, a travel action is planned
+    }
   ) {
-    super(parentEventId, 'AddActorLocalEvent', timeStamp);
+    super({ ...props, type: 'AddActorLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const actor = new Actor(this.role);
-    const loc = this.location || actor.getComputedSymbolicLocation(state);
+    const actor = new Actor(this.props.role);
+    const loc = this.props.location || actor.getComputedSymbolicLocation(state);
     actor.setLocation(loc);
     state.getInternalStateObject().actors.push(actor);
 
-    if (this.travelTime > 0) {
+    if (this.props.travelTime != undefined && this.props.travelTime > 0) {
       actor.setLocation(LOCATION_ENUM.remote);
       const now = state.getSimTime();
       const travelAction = new OnTheRoadAction(
         now,
-        this.travelTime,
+        this.props.travelTime,
         'actor-arrival',
         'on-the-road',
         0,
@@ -359,20 +400,24 @@ export class AddActorLocalEvent extends LocalEventBase {
 
 export class MoveActorLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly actorUid: ActorId,
-    readonly location: LOCATION_ENUM
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly actorUid: ActorId;
+      readonly location: LOCATION_ENUM;
+    }
   ) {
-    super(parentEventId, 'MoveActorLocalEvent', timeStamp);
+    super({ ...props, type: 'MoveActorLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    if (!canMoveToLocation(state, 'Actors', this.location)) {
+    if (!canMoveToLocation(state, 'Actors', this.props.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
-      so.actors.filter(a => a.Uid === this.actorUid).forEach(a => (a.Location = this.location));
+      so.actors
+        .filter(a => a.Uid === this.props.actorUid)
+        .forEach(a => (a.Location = this.props.location));
     }
   }
 }
@@ -387,33 +432,41 @@ export class AddMessageLocalEvent extends LocalEventBase {
   private static RadioIdProvider = 1;
 
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly senderId: ActorId | undefined,
-    public readonly senderName: string | undefined,
-    public readonly recipientId: ActorId | undefined,
-    public readonly message: TranslationKey,
-    public readonly channel: RadioType | undefined = undefined,
-    public readonly omitTranslation: boolean = false,
-    public readonly messageValues: (string | number)[] = []
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly senderId?: ActorId | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
+      readonly recipientId?: ActorId | undefined;
+      readonly message: TranslationKey;
+      readonly channel?: RadioType | undefined;
+      readonly omitTranslation?: boolean;
+      readonly messageValues?: (string | number)[];
+    }
   ) {
-    super(parentId, 'AddMessageLocalEvent', timeStamp);
+    super({ ...props, type: 'AddMessageLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const msg = this.omitTranslation
-      ? this.message
-      : getTranslation('mainSim-actions-tasks', this.message, undefined, this.messageValues);
+    const msg = this.props.omitTranslation
+      ? this.props.message
+      : getTranslation(
+          'mainSim-actions-tasks',
+          this.props.message,
+          undefined,
+          this.props.messageValues
+        );
 
     state.getInternalStateObject().radioMessages.push({
-      senderId: this.senderId,
-      senderName: this.senderName,
-      recipientId: this.recipientId,
-      timeStamp: this.simTimeStamp,
+      senderId: this.props.senderId,
+      senderName: this.props.senderName,
+      recipientId: this.props.recipientId,
+      timeStamp: this.props.simTimeStamp,
       message: msg,
       uid: AddMessageLocalEvent.RadioIdProvider++,
-      isRadioMessage: this.channel != undefined,
-      channel: this.channel,
+      isRadioMessage: this.props.channel != undefined,
+      channel: this.props.channel,
       pending: false,
     });
   }
@@ -421,52 +474,38 @@ export class AddMessageLocalEvent extends LocalEventBase {
 
 export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    senderId: ActorId | undefined,
-    senderName: string | undefined, // in case there is no sending actor, free sender name
-    recipientId: ActorId | undefined,
-    message: TranslationKey,
-    channel: RadioType,
-    omitTranslation: boolean = false,
-    messageValues: (string | number)[] = []
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly senderId?: ActorId | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
+      readonly recipientId?: ActorId | undefined;
+      readonly message: TranslationKey;
+      readonly channel: RadioType;
+      readonly omitTranslation?: boolean;
+      readonly messageValues?: (string | number)[];
+    }
   ) {
-    super(
-      parentId,
-      timeStamp,
-      senderId,
-      senderName,
-      recipientId,
-      message,
-      channel,
-      omitTranslation,
-      messageValues
-    );
+    super({ ...extensionProps });
   }
 }
 
 export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    senderId: ActorId | undefined,
-    senderName: string | undefined,
-    recipientId: ActorId,
-    message: TranslationKey,
-    omitTranslation: boolean = false,
-    messageValues: (string | number)[] = []
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly senderId?: ActorId | undefined;
+      readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
+      readonly recipientId: ActorId;
+      readonly message: TranslationKey;
+      readonly omitTranslation?: boolean;
+      readonly messageValues?: (string | number)[];
+    }
   ) {
-    super(
-      parentId,
-      timeStamp,
-      senderId,
-      senderName,
-      recipientId,
-      message,
-      undefined,
-      omitTranslation,
-      messageValues
-    );
+    super({ ...extensionProps });
   }
 }
 
@@ -482,29 +521,36 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
  */
 export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    private actorUid: ActorId | undefined,
-    private request: CasuMessagePayload
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly actorUid: ActorId | undefined;
+      readonly request: CasuMessagePayload;
+    }
   ) {
-    super(parentEventId, 'ResourceRequestResolutionLocalEvent', timeStamp);
+    super({ ...props, type: 'ResourceRequestResolutionLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     // check that the payload subtypes to MethaneMessagePayload
-    if (this.request.messageType !== 'R' && this.request.resourceRequest) {
+    if (this.props.request.messageType !== 'R' && this.props.request.resourceRequest) {
       resolveResourceRequest(
         state,
-        this.parentEventId,
-        this.actorUid,
-        this.request.resourceRequest
+        this.props.parentEventId,
+        this.props.actorUid,
+        this.props.request.resourceRequest
       );
     }
   }
 }
 
 export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEvent {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime) {
+  constructor(
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+    }
+  ) {
     //Request ACS-MCS
     const casuMessage: MethaneMessagePayload = {
       messageType: 'E',
@@ -518,7 +564,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         Helicopter: 0,
       },
     };
-    super(parentEventId, timeStamp, undefined, casuMessage);
+    super({ ...extensionProps, actorUid: undefined, request: casuMessage });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {
@@ -532,32 +578,33 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
  */
 export class ResourceMobilizationEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly departureTime: SimTime,
-    public readonly travelTime: SimDuration,
-    public readonly containerDefId: ResourceContainerDefinitionId,
-    public readonly amount: number,
-    public readonly configName: string
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly departureTime: SimTime;
+      readonly travelTime: SimDuration;
+      readonly containerDefId: ResourceContainerDefinitionId;
+      readonly amount: number;
+      readonly configName: string;
+    }
   ) {
-    super(parentId, 'ResourceMobilizationEvent', timeStamp);
+    super({ ...props, type: 'ResourceMobilizationEvent' });
   }
 
   override applyStateUpdate(_state: MainSimulationState): void {
-    const containerDef = getContainerDef(this.containerDefId);
+    const containerDef = getContainerDef(this.props.containerDefId);
     // We assume that containers are well configured
     // and thus that there are no duplicates
 
     // actors are created right away (they need to appear in the timeline)
     // Note : Actor creation ignores the "amount" value
     containerDef.roles.forEach(role => {
-      const evt = new AddActorLocalEvent(
-        this.parentEventId,
-        this.departureTime,
+      const evt = new AddActorLocalEvent({
+        parentEventId: this.props.parentEventId,
+        simTimeStamp: this.props.departureTime,
         role,
-        undefined,
-        this.travelTime
-      );
+        travelTime: this.props.travelTime,
+      });
       getLocalEventManager().queueLocalEvent(evt);
     });
 
@@ -566,13 +613,13 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       Object.keys(containerDef.flags).length > 0
     ) {
       // schedule resource arrival event
-      const evt = new ResourcesArrivalLocalEvent(
-        this.parentEventId,
-        this.departureTime + this.travelTime,
-        this.containerDefId,
-        this.amount,
-        this.configName
-      );
+      const evt = new ResourcesArrivalLocalEvent({
+        parentEventId: this.props.parentEventId,
+        simTimeStamp: this.props.departureTime + this.props.travelTime,
+        containerDefId: this.props.containerDefId,
+        amount: this.props.amount,
+        squadName: this.props.configName,
+      });
       getLocalEventManager().queueLocalEvent(evt);
     }
   }
@@ -584,17 +631,19 @@ export class ResourceMobilizationEvent extends LocalEventBase {
  */
 export class ResourcesArrivalLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    public readonly containerDefId: ResourceContainerDefinitionId,
-    public readonly amount: number,
-    public readonly squadName: string
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly containerDefId: ResourceContainerDefinitionId;
+      readonly amount: number;
+      readonly squadName: string;
+    }
   ) {
-    super(parentId, 'ResourcesArrivalLocalEvent', timeStamp);
+    super({ ...props, type: 'ResourcesArrivalLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const containerDef = getContainerDef(this.containerDefId);
+    const containerDef = getContainerDef(this.props.containerDefId);
 
     if (ResourceLogic.resourceContainerCanArrive(state, containerDef.type)) {
       // add flags to state if any
@@ -610,7 +659,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
         entries(containerDef.resources)
           .filter(([_resourceType, qty]) => qty && qty > 0)
           .forEach(([resourceType, qty]) => {
-            const resourcesAmount = qty! * this.amount;
+            const resourcesAmount = qty! * this.props.amount;
             const location: LOCATION_ENUM = resourceArrivalLocationResolution(state, resourceType);
 
             if (!sentResourcesByLocations[location]) {
@@ -626,12 +675,12 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
 
           greetingActors.forEach((actorId: ActorId) => {
             getLocalEventManager().queueLocalEvent(
-              new ResourceArrivalAnnouncementLocalEvent(
-                this.parentEventId,
-                this.simTimeStamp,
-                actorId,
-                sentResourcesByLocations[location]!
-              )
+              new ResourceArrivalAnnouncementLocalEvent({
+                parentEventId: this.props.parentEventId,
+                simTimeStamp: this.props.simTimeStamp,
+                recipientActor: actorId,
+                resources: sentResourcesByLocations[location]!,
+              })
             );
           });
         });
@@ -646,13 +695,13 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       // TODO if more than one container of a given type fails, do we want to aggregate the warning messages?
       // try again X minutes later
       getLocalEventManager().queueLocalEvent(
-        new ResourcesArrivalLocalEvent(
-          this.parentEventId,
-          this.simTimeStamp + FailedRessourceArrivalDelay,
-          this.containerDefId,
-          this.amount,
-          this.squadName
-        )
+        new ResourcesArrivalLocalEvent({
+          parentEventId: this.props.parentEventId,
+          simTimeStamp: this.props.simTimeStamp + FailedRessourceArrivalDelay,
+          containerDefId: this.props.containerDefId,
+          amount: this.props.amount,
+          squadName: this.props.squadName,
+        })
       );
     }
   }
@@ -669,43 +718,43 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     const park = getTranslation('mainSim-locations', parkKey, false);
     const message = getTranslation('mainSim-locations', 'missingLocation', true, [
       park,
-      this.squadName,
+      this.props.squadName,
     ]);
-    return new AddRadioMessageLocalEvent(
-      this.parentEventId,
-      state.getSimTime(),
-      undefined,
-      this.squadName,
-      undefined,
+    return new AddRadioMessageLocalEvent({
+      parentEventId: this.props.parentEventId,
+      simTimeStamp: state.getSimTime(),
+      senderName: this.props.squadName,
       message,
-      RadioType.CASU,
-      true
-    );
+      channel: RadioType.CASU,
+      omitTranslation: true,
+    });
   }
 }
 
 export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly recipientActor: ActorId,
-    readonly resources: Partial<Record<ResourceType, number>>
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly recipientActor: ActorId;
+      readonly resources: Partial<Record<ResourceType, number>>;
+    }
   ) {
-    super(parentId, 'ResourceArrivalAnnouncementLocalEvent', timeStamp);
+    super({ ...props, type: 'ResourceArrivalAnnouncementLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent(
-        this.parentEventId,
-        state.getSimTime(),
-        undefined,
-        RadioLogic.getResourceAsSenderName(),
-        this.recipientActor,
-        'incoming-resources',
-        false,
-        [ResourceLogic.formatResourceTypesAndNumber(this.resources).join(',<br/>')]
-      )
+      new AddNotificationLocalEvent({
+        parentEventId: this.props.parentEventId,
+        simTimeStamp: state.getSimTime(),
+        senderName: RadioLogic.getResourceAsSenderName(),
+        recipientId: this.props.recipientActor,
+        message: 'incoming-resources',
+        messageValues: [
+          ResourceLogic.formatResourceTypesAndNumber(this.props.resources).join(',<br/>'),
+        ],
+      })
     );
   }
 }
@@ -718,124 +767,138 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
 
 export class ReserveResourcesLocalEvent extends LocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesId: ResourceId[],
-    readonly actionId: ActionId
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourcesId: ResourceId[];
+      readonly actionId: ActionId;
+    }
   ) {
-    super(parentId, 'ReserveResourcesLocalEvent', timeStamp);
+    super({ ...props, type: 'ReserveResourcesLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.reserveResources(state, this.resourcesId, this.actionId);
+    ResourceState.reserveResources(state, this.props.resourcesId, this.props.actionId);
   }
 }
 
 export class UnReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(parentId: GlobalEventId, timeStamp: SimTime, readonly resourcesId: ResourceId[]) {
-    super(parentId, 'UnReserveResourcesLocalEvent', timeStamp);
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourcesId: ResourceId[];
+    }
+  ) {
+    super({ ...props, type: 'UnReserveResourcesLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.unReserveResources(state, this.resourcesId);
+    ResourceState.unReserveResources(state, this.props.resourcesId);
   }
 }
 
 abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    type: string,
-    timeStamp: SimTime,
-    readonly ownerUid: ActorId,
-    readonly targetLocation: LOCATION_ENUM
+    private readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly type: string;
+      readonly ownerUid: ActorId;
+      readonly targetLocation: LOCATION_ENUM;
+    }
   ) {
-    super(parentEventId, type, timeStamp);
+    super({ ...props });
   }
 
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
+    if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
     }
 
     const resources = this.getInvolvedResources(state);
-    ResourceState.sendResourcesToLocation(resources, this.targetLocation);
+    ResourceState.sendResourcesToLocation(resources, this.props.targetLocation);
   }
 }
 
 export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    readonly resourcesId: ResourceId[],
-    targetLocation: LOCATION_ENUM
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly ownerUid: ActorId;
+      readonly resourcesId: ResourceId[];
+      readonly targetLocation: LOCATION_ENUM;
+    }
   ) {
-    super(parentEventId, 'MoveResourcesLocalEvent', timeStamp, ownerUid, targetLocation);
+    super({ ...extensionProps, type: 'MoveResourcesLocalEvent' });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return this.resourcesId.map(resourceId => ResourceState.getResourceById(state, resourceId));
+    return this.extensionProps.resourcesId.map(resourceId =>
+      ResourceState.getResourceById(state, resourceId)
+    );
   }
 }
 
 export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    readonly sourceLocation: LOCATION_ENUM,
-    targetLocation: LOCATION_ENUM
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly ownerUid: ActorId;
+      readonly sourceLocation: LOCATION_ENUM;
+      readonly targetLocation: LOCATION_ENUM;
+    }
   ) {
-    super(
-      parentId,
-      'MoveFreeHumanResourcesByLocationLocalEvent',
-      timeStamp,
-      ownerUid,
-      targetLocation
-    );
+    super({
+      ...extensionProps,
+      type: 'MoveFreeHumanResourcesByLocationLocalEvent',
+    });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeHumanResourcesByLocation(state, this.sourceLocation);
+    return ResourceState.getFreeHumanResourcesByLocation(state, this.extensionProps.sourceLocation);
   }
 }
 
 export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
-    parentId: GlobalEventId,
-    timeStamp: SimTime,
-    ownerUid: ActorId,
-    readonly resourceType: ResourceType,
-    targetLocation: LOCATION_ENUM
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly ownerUid: ActorId;
+      readonly resourceType: ResourceType;
+      readonly targetLocation: LOCATION_ENUM;
+    }
   ) {
-    super(
-      parentId,
-      'MoveFreeWaitingResourcesByTypeLocalEvent',
-      timeStamp,
-      ownerUid,
-      targetLocation
-    );
+    super({
+      ...extensionProps,
+      type: 'MoveFreeWaitingResourcesByTypeLocalEvent',
+    });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeWaitingResourcesByType(state, this.resourceType);
+    return ResourceState.getFreeWaitingResourcesByType(state, this.extensionProps.resourceType);
   }
 }
 
 export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesIds: ResourceId[]
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourcesIds: ResourceId[];
+    }
   ) {
-    super(parentEventId, 'MoveResourcesAtArrivalLocationLocalEvent', timeStamp);
+    super({ ...props, type: 'MoveResourcesAtArrivalLocationLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState) {
-    this.resourcesIds.forEach(resourceId => {
+    this.props.resourcesIds.forEach(resourceId => {
       const resource: Resource = ResourceState.getResourceById(state, resourceId);
       const location = ResourceLogic.resourceArrivalLocationResolution(state, resource.type);
       ResourceState.sendResourcesToLocation([resource], location);
@@ -845,46 +908,59 @@ export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
 
 export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesId: ResourceId[],
-    readonly taskId: TaskId
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourcesId: ResourceId[];
+      readonly taskId: TaskId;
+    }
   ) {
-    super(parentEventId, 'AssignResourcesToTaskLocalEvent', timeStamp);
+    super({ ...props, type: 'AssignResourcesToTaskLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.assignResourcesToTask(state, this.resourcesId, this.taskId);
+    ResourceState.assignResourcesToTask(state, this.props.resourcesId, this.props.taskId);
   }
 }
 
 export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly resourcesId: ResourceId[]
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourcesId: ResourceId[];
+    }
   ) {
-    super(parentEventId, 'AssignResourcesToWaitingTaskLocalEvent', timeStamp);
+    super({ ...props, type: 'AssignResourcesToWaitingTaskLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.assignResourcesToTask(state, this.resourcesId, getIdleTaskUid(state));
+    ResourceState.assignResourcesToTask(state, this.props.resourcesId, getIdleTaskUid(state));
   }
 }
 
 export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly taskId: TaskId) {
-    super(parentEventId, 'ReleaseResourcesFromTaskLocalEvent', timeStamp);
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly taskId: TaskId;
+    }
+  ) {
+    super({ ...props, type: 'ReleaseResourcesFromTaskLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const involvedResources: Resource[] = ResourceState.getFreeResourcesByTask(state, this.taskId);
+    const involvedResources: Resource[] = ResourceState.getFreeResourcesByTask(
+      state,
+      this.props.taskId
+    );
     const involvedResourcesId: ResourceId[] = involvedResources.map(
       (resource: Resource) => resource.Uid
     );
     const location: LOCATION_ENUM = TaskState.getTaskResponsibleActorSymbolicLocation(
       state,
-      this.taskId
+      this.props.taskId
     );
 
     ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));
@@ -893,12 +969,18 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
 }
 
 export class DeleteResourceLocalEvent extends LocalEventBase {
-  constructor(parentEventId: GlobalEventId, timeStamp: SimTime, readonly resourceId: ResourceId) {
-    super(parentEventId, 'DeleteResourceLocalEvent', timeStamp);
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly resourceId: ResourceId;
+    }
+  ) {
+    super({ ...props, type: 'DeleteResourceLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.deleteResource(state, this.resourceId);
+    ResourceState.deleteResource(state, this.props.resourceId);
   }
 }
 
@@ -910,16 +992,18 @@ export class DeleteResourceLocalEvent extends LocalEventBase {
 
 export class TaskStatusChangeLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly taskId: TaskId,
-    readonly status: TaskStatus
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly taskId: TaskId;
+      readonly status: TaskStatus;
+    }
   ) {
-    super(parentEventId, 'TaskStatusChangeLocalEvent', timeStamp);
+    super({ ...props, type: 'TaskStatusChangeLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    TaskState.changeTaskStatus(state, this.taskId, this.status);
+    TaskState.changeTaskStatus(state, this.props.taskId, this.props.status);
   }
 }
 
@@ -931,16 +1015,18 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
 
 export class MovePatientLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    readonly patientId: string,
-    readonly location: PatientLocation
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly patientId: string;
+      readonly location: PatientLocation;
+    }
   ) {
-    super(parentEventId, 'MovePatientLocalEvent', timeStamp);
+    super({ ...props, type: 'MovePatientLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    changePatientLocation(state, this.patientId, this.location);
+    changePatientLocation(state, this.props.patientId, this.props.location);
   }
 }
 
@@ -952,12 +1038,14 @@ export class MovePatientLocalEvent extends LocalEventBase {
 
 export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    private readonly senderId: ActorId | undefined,
-    private readonly hospitalRequestPayload: HospitalRequestPayload
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly senderId: ActorId | undefined;
+      readonly hospitalRequestPayload: HospitalRequestPayload;
+    }
   ) {
-    super(parentEventId, 'HospitalRequestUpdateLocalEvent', timeStamp);
+    super({ ...props, type: 'HospitalRequestUpdateLocalEvent' });
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
@@ -982,17 +1070,16 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    updateHospitalProximityRequest(state, this.hospitalRequestPayload.proximity);
-    const evt = new AddRadioMessageLocalEvent(
-      this.parentEventId,
-      this.simTimeStamp,
-      getCasuActorId(),
-      undefined,
-      this.senderId,
-      this.formatHospitalResponse(this.hospitalRequestPayload),
-      RadioType.CASU,
-      true
-    );
+    updateHospitalProximityRequest(state, this.props.hospitalRequestPayload.proximity);
+    const evt = new AddRadioMessageLocalEvent({
+      parentEventId: this.props.parentEventId,
+      simTimeStamp: this.props.simTimeStamp,
+      senderId: getCasuActorId(),
+      recipientId: this.props.senderId,
+      message: this.formatHospitalResponse(this.props.hospitalRequestPayload),
+      channel: RadioType.CASU,
+      omitTranslation: true,
+    });
     getLocalEventManager().queueLocalEvent(evt);
   }
 }
@@ -1004,44 +1091,85 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
   private channel: RadioType = RadioType.RESOURCES;
 
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    private readonly senderName: string,
-    private readonly recipient: number,
-    private pretriageLocation: LOCATION_ENUM,
-    private feedbackWhenReport: TranslationKey
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly senderName: string;
+      readonly recipient: number;
+      readonly pretriageLocation: LOCATION_ENUM;
+      readonly feedbackWhenReport: TranslationKey;
+    }
   ) {
-    super(parentEventId, 'PretriageReportResponseLocalEvent', timeStamp);
+    super({ ...props, type: 'PretriageReportResponseLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
     const taskStatus: TaskStatus = getTaskCurrentStatus(
       state,
-      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.pretriageLocation).Uid
+      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.props.pretriageLocation).Uid
     );
 
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        this.parentEventId,
-        this.simTimeStamp,
-        undefined,
-        this.senderName,
-        this.recipient,
-        taskStatus === 'Uninitialized'
-          ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
-              getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
-            ])
-          : formatStandardPretriageReport(
-              state,
-              this.pretriageLocation,
-              this.feedbackWhenReport,
-              false,
-              true
-            ),
-        this.channel,
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.props.parentEventId,
+        simTimeStamp: this.props.simTimeStamp,
+        senderName: this.props.senderName,
+        recipientId: this.props.recipient,
+        message:
+          taskStatus === 'Uninitialized'
+            ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+                getTranslation('mainSim-locations', 'location-' + this.props.pretriageLocation),
+              ])
+            : formatStandardPretriageReport(
+                state,
+                this.props.pretriageLocation,
+                this.props.feedbackWhenReport,
+                false,
+                true
+              ),
+        channel: this.channel,
+        omitTranslation: true,
+      })
     );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// ACTIVABLE
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Change the active status of an activable
+ */
+export class ChangeActivableStatusLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    }
+  ) {
+    super({ ...props, type: 'PlanActionLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined) {
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.error('Could not find activable', this.props);
+    }
   }
 }
 
@@ -1053,15 +1181,17 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
 
 export class GameOptionsUpdateLocalEvent extends LocalEventBase {
   constructor(
-    parentEventId: GlobalEventId,
-    timeStamp: SimTime,
-    private readonly options: GameOptions
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly simTimeStamp: SimTime;
+      readonly options: GameOptions;
+    }
   ) {
-    super(parentEventId, 'GameOptionsUpdateLocalEvent', timeStamp);
+    super({ ...props, type: 'GameOptionsUpdateLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    state.getInternalStateObjectUnsafe().gameOptions = this.options;
+    state.getInternalStateObjectUnsafe().gameOptions = this.props.options;
   }
 }
 

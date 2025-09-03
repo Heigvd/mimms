@@ -42,7 +42,7 @@ function getPointStyle(feature: any): LayerStyleObject {
     const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
-      displacement: [0, 300],
+      displacement: [0, 30],
       anchorXUnits: 'fraction',
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
@@ -256,18 +256,18 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 }
 
 export function getViewSelectionStyle(feature: any): LayerStyleObject {
-  const color = '#b80ee3';
+  const color = '#539265';
   const props = feature.getProperties();
-  wlog(props);
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
     color: color,
-    width: 5,
+    width: 2,
+    lineJoin: 'round',
   };
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: color + '30', // alpha
+    color: color + '25', // alpha
   };
   const text: TextStyleObject = {
     type: 'TextStyle',
@@ -277,7 +277,7 @@ export function getViewSelectionStyle(feature: any): LayerStyleObject {
       type: 'FillStyle',
       color: color,
     },
-    font: 'bold 32px sans-serif',
+    font: 'bold 20px sans-serif',
   };
   return { fill, stroke, text };
 }

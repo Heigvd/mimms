@@ -1,6 +1,6 @@
 import { Heap } from '../../../tools/heap';
 import { localEventManagerLogger } from '../../../tools/logger';
-import { getCurrentExecutionContext } from '../../gameExecutionContextController';
+import { getCurrentExecutionContext } from '../../executionContext/gameExecutionContextController';
 import { SimTime } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { compareLocalEvents, LocalEventBase } from './localEventBase';

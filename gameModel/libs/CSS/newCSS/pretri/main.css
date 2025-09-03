@@ -37,6 +37,10 @@ html{
 	height: 100%;
 }
 
+.fullWidth {
+  width: 100%;
+}
+
 
 /****** Fix for shadowMan ******/
 .theGame-container{

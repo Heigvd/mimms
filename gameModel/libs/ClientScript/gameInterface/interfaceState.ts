@@ -29,11 +29,12 @@ export interface InterfaceState {
   currentActionUid: number;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   situationUpdateDuration: number;
-  getHospitalInfoChosenProximity: HospitalProximity | undefined;
+  hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: PatientId | undefined;
   timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
+  showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
   selectedMapObjectId: string;
   selectedRadioChannel: RadioType;
@@ -107,11 +108,12 @@ export function getInitialInterfaceState(): InterfaceState {
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     situationUpdateDuration: getDefaultSituationUpdateDuration(),
-    getHospitalInfoChosenProximity: undefined,
+    hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: undefined,
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
+    showNotificationsPanel: false,
     selectedMapObjectId: '0',
     // selectedMapObject: '',
     selectedPanel: SelectedPanel.actions,

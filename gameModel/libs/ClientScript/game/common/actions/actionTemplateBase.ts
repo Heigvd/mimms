@@ -1,5 +1,5 @@
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
@@ -92,8 +92,8 @@ export abstract class ActionTemplateBase<
    * @param description short description of the action
    * @param replayable defaults to false, when true the action can be played multiple times
    * @param category The type of action
-   * @param flags list of simulation flags that make the action available, undefined or empty array means no flag condition
-   * @param provideFlagsToState list of simulation flags added to state when action ends
+   * @param requiredFlags list of simulation flags that make the action available, undefined or empty array means no flag condition
+   * @param raisedFlags list of simulation flags added to state when action ends
    * @param availableToRoles list of roles admitted to launch the action, undefined or empty array means available to everyone
    */
   protected constructor(
@@ -101,8 +101,8 @@ export abstract class ActionTemplateBase<
     protected readonly description: TranslationKey,
     public replayable: boolean = false,
     public readonly category: ActionType = ActionType.ACTION,
-    private flags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
-    protected provideFlagsToState: SimFlag[] = [],
+    private requiredFlags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
+    protected raisedFlags: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
     this.Uid = getContextUidGenerator().getNext('ActionTemplateBase', ACTION_TEMPLATE_SEED_ID);
@@ -158,11 +158,11 @@ export abstract class ActionTemplateBase<
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
-    if (!this.flags || this.flags.length == 0) {
+    if (!this.requiredFlags || this.requiredFlags.length == 0) {
       return true;
     }
 
-    return this.flags.every(f => state.hasFlag(f));
+    return this.requiredFlags.every(f => state.hasFlag(f));
   }
 
   protected roleWiseAvailable(role: InterventionRole): boolean {
@@ -193,7 +193,11 @@ export abstract class ActionTemplateBase<
    */
   public buildLocalEvent(globalEvent: FullEvent<EventT>): PlanActionLocalEvent {
     const action = this.createActionFromEvent(globalEvent);
-    return new PlanActionLocalEvent(globalEvent.id, globalEvent.payload.triggerTime, action);
+    return new PlanActionLocalEvent({
+      parentEventId: globalEvent.id,
+      simTimeStamp: globalEvent.payload.triggerTime,
+      action,
+    });
   }
 
   /**
@@ -247,11 +251,11 @@ export abstract class StartEndTemplate<
     message: TranslationKey,
     replayable = false,
     category: ActionType = ActionType.ACTION,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
-    super(title, description, replayable, category, flags, provideFlagsToState, availableToRoles);
+    super(title, description, replayable, category, requiredFlags, raisedFlags, availableToRoles);
     this.duration = duration;
     this.message = message;
   }
@@ -281,8 +285,8 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     duration: SimDuration,
     message: TranslationKey,
     replayable: boolean = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     readonly channel?: RadioType | undefined
   ) {
@@ -293,8 +297,8 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       message,
       replayable,
       ActionType.ACTION,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -311,7 +315,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       this.message,
       ownerId,
       this.Uid,
-      this.provideFlagsToState,
+      this.raisedFlags,
       this.channel
     );
   }
@@ -343,8 +347,8 @@ export class CasuMessageTemplate extends StartEndTemplate<
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -354,8 +358,8 @@ export class CasuMessageTemplate extends StartEndTemplate<
       message,
       replayable,
       ActionType.CASU_RADIO,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -426,8 +430,8 @@ export class PretriageReportTemplate extends StartEndTemplate<
     private feedbackWhenStarted: TranslationKey,
     private feedbackWhenReport: TranslationKey,
     replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -437,8 +441,8 @@ export class PretriageReportTemplate extends StartEndTemplate<
       feedbackWhenStarted,
       replayable,
       ActionType.RESOURCES_RADIO,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -507,8 +511,8 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     readonly unauthorizedReplyMessage: TranslationKey,
     readonly channel: RadioType,
     replayable: boolean = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -518,8 +522,8 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       feedbackMessage,
       replayable,
       ActionType.CASU_RADIO,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -542,7 +546,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       ownerId,
       this.Uid,
       this.channel,
-      this.provideFlagsToState
+      this.raisedFlags
     );
   }
 
@@ -592,8 +596,8 @@ export class SelectionFixedMapEntityTemplate<
     message: TranslationKey,
     public readonly fixedMapEntity: FixedMapEntity,
     replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -603,8 +607,8 @@ export class SelectionFixedMapEntityTemplate<
       message,
       replayable,
       ActionType.ACTION,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
     this.fixedMapEntity = fixedMapEntity;
@@ -639,7 +643,7 @@ export class SelectionFixedMapEntityTemplate<
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
+      this.raisedFlags
     ) as ActionT;
   }
 
@@ -681,8 +685,8 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
     message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
     replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -692,8 +696,8 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
       message,
       fixedMapEntity,
       replayable,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -713,7 +717,7 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
+      this.raisedFlags
     );
   }
 }
@@ -733,8 +737,8 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
     message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
     replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -744,8 +748,8 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
       message,
       fixedMapEntity,
       replayable,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -765,7 +769,7 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
-      this.provideFlagsToState
+      this.raisedFlags
     );
   }
 }
@@ -786,8 +790,8 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
     fixedMapEntity: FixedMapEntity,
     readonly vehicleType: VehicleType,
     replayable = false,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -797,8 +801,8 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       message,
       fixedMapEntity,
       replayable,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -819,7 +823,7 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
       this.vehicleType,
-      this.provideFlagsToState
+      this.raisedFlags
     );
   }
 }
@@ -853,8 +857,8 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -864,8 +868,8 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       message,
       replayable,
       ActionType.RESOURCES_RADIO,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -937,8 +941,8 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     readonly radioChannel: RadioType,
     replayable: boolean = true,
     category: ActionType,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -948,8 +952,8 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       message,
       replayable,
       category,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -1020,8 +1024,8 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     duration: SimDuration,
     message: TranslationKey,
     replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -1031,8 +1035,8 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       message,
       replayable,
       ActionType.ACTION,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -1092,8 +1096,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     readonly refusalFailureMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
     readonly typeOfResource: HumanResourceType[],
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -1103,8 +1107,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       message,
       replayable,
       ActionType.ACTION,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -1120,7 +1124,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.message,
       ownerId,
       this.Uid,
-      this.provideFlagsToState,
+      this.raisedFlags,
       this.actorRole,
       this.typeOfResource,
       this.noResourceFailureMessageKey,
@@ -1236,8 +1240,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
     replayable = true,
-    flags?: SimFlag[],
-    provideFlagsToState?: SimFlag[],
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
     super(
@@ -1247,8 +1251,8 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       message,
       replayable,
       ActionType.EVASAN_RADIO,
-      flags,
-      provideFlagsToState,
+      requiredFlags,
+      raisedFlags,
       availableToRoles
     );
   }
@@ -1278,7 +1282,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       ownerId,
       this.Uid,
       payload.evacuationActionPayload,
-      this.provideFlagsToState
+      this.raisedFlags
     );
   }
 

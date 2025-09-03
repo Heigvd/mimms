@@ -1,0 +1,21 @@
+import { TimeSliceDuration } from '../../../constants';
+import { MoveActorActionTemplate } from '../../actionTemplateBase';
+import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
+
+export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
+  type: 'MoveActorTemplateDescriptor';
+  constructorType: 'MoveActorActionTemplate';
+}
+
+// convert descriptor TODO complete implementation
+
+export function createMoveActorTemplate(
+  _descriptor: MoveActorTemplateDescriptor
+): MoveActorActionTemplate {
+  return new MoveActorActionTemplate(
+    'move-actor-title',
+    'move-actor-desc',
+    TimeSliceDuration,
+    'move-actor-feedback'
+  );
+}

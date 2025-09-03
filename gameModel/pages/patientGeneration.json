@@ -44,7 +44,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
+                        "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
                         "language" : "TypeScript"
                       }
                     },
@@ -64,7 +64,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { resetAll } from \"./UIfacade/patientGenFacade\";\n\nresetAll();",
+                        "content" : "import { resetAll } from \"./edition/UIfacade/patientGenFacade\";\n\nresetAll();",
                         "language" : "TypeScript"
                       }
                     },
@@ -88,7 +88,7 @@
             "className" : "modal",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'delete-all-modal':\n      return false;\n    }\n    true;",
+              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'delete-all-modal':\n      return false;\n    }\n    true;",
               "language" : "typescript"
             },
             "layout" : {
@@ -115,7 +115,7 @@
                             "className" : "step-icon",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
+                              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
                               "language" : "typescript"
                             },
                             "icon" : "check",
@@ -133,13 +133,13 @@
                               "className" : "step-number--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
                                 "language" : "typescript"
                               }
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'pathology-modal';",
+                              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'pathology-modal';",
                               "language" : "typescript"
                             },
                             "layoutClassName" : "noPadding",
@@ -161,7 +161,7 @@
                               "className" : "step-text--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -192,7 +192,7 @@
                             "className" : "step-icon",
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'generating-modal';",
+                              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'generating-modal';",
                               "language" : "typescript"
                             },
                             "icon" : "check",
@@ -210,7 +210,7 @@
                               "className" : "step-number--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'stats-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'stats-modal';",
                                 "language" : "typescript"
                               }
                             }, {
@@ -218,13 +218,13 @@
                               "className" : "step-number--disabled",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'stats-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'stats-modal';",
                                 "language" : "typescript"
                               }
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
+                              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
                               "language" : "typescript"
                             },
                             "layoutClassName" : "noPadding",
@@ -246,7 +246,7 @@
                               "className" : "step-text--disabled",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal';",
                                 "language" : "typescript"
                               }
                             }, {
@@ -254,7 +254,7 @@
                               "className" : "step-text--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'stats-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'stats-modal';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -288,7 +288,7 @@
                               "className" : "step-number--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
                                 "language" : "typescript"
                               }
                             }, {
@@ -296,7 +296,7 @@
                               "className" : "step-number--disabled",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'generating-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status !== 'generating-modal';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -319,7 +319,7 @@
                               "className" : "step-text--disabled",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal' || getTypedGenState().status =='stats-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'pathology-modal' || getTypedGenState().status =='stats-modal';",
                                 "language" : "typescript"
                               }
                             }, {
@@ -327,7 +327,7 @@
                               "className" : "step-text--active",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
+                                "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\ngetTypedGenState().status == 'generating-modal';",
                                 "language" : "typescript"
                               }
                             } ],
@@ -374,7 +374,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
+                        "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
                         "language" : "TypeScript"
                       }
                     },
@@ -398,7 +398,7 @@
                 "exposePageSizeAs" : "",
                 "initialSelectedPageId" : {
                   "@class" : "Script",
-                  "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n    const generationState = getTypedGenState().status;\n        switch (generationState) {\n            case 'pathology-modal':\n            return 'PathologySelection';\n            case 'stats-modal':\n            return '15';\n            case 'generating-modal':\n            return '29';\n        }\n        ''",
+                  "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\n    const generationState = getTypedGenState().status;\n        switch (generationState) {\n            case 'pathology-modal':\n            return 'PathologySelection';\n            case 'stats-modal':\n            return '15';\n            case 'generating-modal':\n            return '29';\n        }\n        ''",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "",
@@ -415,7 +415,7 @@
             "className" : "patient-modal",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'pathology-modal':\n      case 'stats-modal':\n      case 'generating-modal':\n      return false;\n    }\n    true;",
+              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'pathology-modal':\n      case 'stats-modal':\n      case 'generating-modal':\n      return false;\n    }\n    true;",
               "language" : "typescript"
             },
             "layout" : {
@@ -462,7 +462,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { setPatientModalData } from \"./UIfacade/patientGenFacade\";\n\nsetPatientModalData(Context.item.value);",
+                                        "content" : "import { setPatientModalData } from \"./edition/UIfacade/patientGenFacade\";\n\nsetPatientModalData(Context.item.value);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -475,7 +475,7 @@
                                 "exposeAs" : "item",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getSampleTimesSec } from \"./UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n}));",
+                                  "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n}));",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "id",
@@ -504,7 +504,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { regenerateOne, setPatientModalData } from \"./UIfacade/patientGenFacade\";\n  regenerateOne(Context.genState.state.patientId).then(_v => setPatientModalData());",
+                                    "content" : "import { regenerateOne, setPatientModalData } from \"./edition/UIfacade/patientGenFacade\";\n  regenerateOne(Context.genState.state.patientId).then(_v => setPatientModalData());",
                                     "language" : "TypeScript",
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
@@ -536,7 +536,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
+                                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('patient-list');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -585,7 +585,7 @@
                 "exposeAs" : "currentPatient",
                 "initialState" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientModalData } from \"./UIfacade/patientGenFacade\";\n(getPatientModalData());",
+                  "content" : "import { getPatientModalData } from \"./edition/UIfacade/patientGenFacade\";\n(getPatientModalData());",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
@@ -599,7 +599,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getTypedGenState } from \"./UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'patient-modal':\n      return false;\n    }\n    true;",
+              "content" : "import { getTypedGenState } from \"./edition/UIfacade/patientGenFacade\";\n  const generationState = getTypedGenState().status;\n  switch(generationState) {\n      case 'patient-modal':\n      return false;\n    }\n    true;",
               "language" : "typescript"
             },
             "layout" : {
@@ -612,6 +612,7 @@
             "style" : {
               "margin" : "auto",
               "minWidth" : "60rem",
+              "overflow" : "auto",
               "width" : "50%"
             }
           },
@@ -623,7 +624,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { initCache } from \"./UIfacade/patientGenFacade\";\n  initCache(Context.genState);\n  '';",
+              "content" : "import { initCache } from \"./edition/UIfacade/patientGenFacade\";\n  initCache(Context.genState);\n  '';",
               "language" : "TypeScript"
             }
           },
@@ -638,6 +639,21 @@
                       "props" : {
                         "className" : "header-left-cell",
                         "id" : "",
+                        "layoutStyle" : { },
+                        "name" : "index",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { totalExistingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"<p>Index<br>\" + totalExistingPatients() +\" patients</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "header-text",
+                        "id" : "",
+                        "layoutClassName" : "header-text-container",
                         "layoutStyle" : { },
                         "name" : "tag",
                         "style" : { },
@@ -703,7 +719,7 @@
                         "exposeAs" : "item",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getSampleTimesSec } from \"./UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n/60}));",
+                          "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSec().map(n => ({id:n, value:n/60}));",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -729,7 +745,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
+                                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('pathology-modal');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -745,7 +761,7 @@
                               "className" : "header-button--disabled",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
+                                "content" : "import { getPatientsSamples } from \"./edition/UIfacade/patientGenFacade\";\ngetPatientsSamples().length == 0;",
                                 "language" : "typescript"
                               }
                             } ],
@@ -760,7 +776,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('delete-all-modal');",
+                                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('delete-all-modal');",
                                 "language" : "TypeScript"
                               }
                             },
@@ -805,7 +821,7 @@
                 "className" : "no-patient__text",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0 || Context.genState.state.cacheInitDone !== 'done';",
+                  "content" : "import { getPatientsSamples } from \"./edition/UIfacade/patientGenFacade\";\ngetPatientsSamples().length !== 0 || Context.genState.state.cacheInitDone !== 'done';",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -825,6 +841,20 @@
                     "children" : [ {
                       "props" : {
                         "className" : "line-left-cell",
+                        "layoutClassName" : "",
+                        "layoutStyle" : { },
+                        "name" : "index",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  String(Context.patient.index);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "line-text",
                         "layoutClassName" : "",
                         "layoutStyle" : { },
                         "name" : "id",
@@ -914,7 +944,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { categoryToHtml } from \"./UIfacade/patientGenFacade\";\n  categoryToHtml(Context.sample.patient.preTriageResult.categoryId);",
+                                  "content" : "import { categoryToHtml } from \"./edition/UIfacade/patientGenFacade\";\n  categoryToHtml(Context.sample.patient.preTriageResult.categoryId);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -926,7 +956,7 @@
                         "exposeAs" : "sample",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getPatientSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientSamples(Context.patient.samples);",
+                          "content" : "import { getPatientSamples } from \"./edition/UIfacade/patientGenFacade\";\n  getPatientSamples(Context.patient.samples);",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "time",
@@ -950,7 +980,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { setModalState } from \"./UIfacade/patientGenFacade\";\n\nsetModalState('patient-modal', Context.patient.id);",
+                                "content" : "import { setModalState } from \"./edition/UIfacade/patientGenFacade\";\n\nsetModalState('patient-modal', Context.patient.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -975,7 +1005,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { regenerateOne } from \"./UIfacade/patientGenFacade\";\n  regenerateOne(Context.patient.id)",
+                                "content" : "import { regenerateOne } from \"./edition/UIfacade/patientGenFacade\";\n  regenerateOne(Context.patient.id)",
                                 "language" : "TypeScript",
                                 "returnType" : "Promise<unknown> | undefined"
                               }
@@ -1001,7 +1031,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { deleteOne } from \"./UIfacade/patientGenFacade\";\n\ndeleteOne(Context.patient.id);",
+                                "content" : "import { deleteOne } from \"./edition/UIfacade/patientGenFacade\";\n\ndeleteOne(Context.patient.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1048,7 +1078,7 @@
                 "exposeAs" : "patient",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getPatientsSamples } from \"./UIfacade/patientGenFacade\";\n  getPatientsSamples();",
+                  "content" : "import { getPatientsSamples } from \"./edition/UIfacade/patientGenFacade\";\n  getPatientsSamples();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -1087,7 +1117,7 @@
         "exposeAs" : "genState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { getDefaultGenerationState } from \"./UIfacade/patientGenFacade\";\ngetDefaultGenerationState();",
+          "content" : "import { getDefaultGenerationState } from \"./edition/UIfacade/patientGenFacade\";\ngetDefaultGenerationState();",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding accordion-state",

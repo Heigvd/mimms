@@ -1,6 +1,6 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
@@ -310,25 +310,32 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
   protected finaliseTask(state: Readonly<MainSimulationState>, feedbackRadioMessage: string) {
     getLocalEventManager().queueLocalEvent(
-      new TaskStatusChangeLocalEvent(0, state.getSimTime(), this.Uid, 'Completed')
+      new TaskStatusChangeLocalEvent({
+        parentEventId: 0,
+        simTimeStamp: state.getSimTime(),
+        taskId: this.Uid,
+        status: 'Completed',
+      })
     );
 
     getLocalEventManager().queueLocalEvent(
-      new ReleaseResourcesFromTaskLocalEvent(0, state.getSimTime(), this.Uid)
+      new ReleaseResourcesFromTaskLocalEvent({
+        parentEventId: 0,
+        simTimeStamp: state.getSimTime(),
+        taskId: this.Uid,
+      })
     );
 
     // We broadcast a message when the task is completed
     getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent(
-        0,
-        state.getSimTime(),
-        undefined,
-        RadioLogic.getResourceAsSenderName(),
-        undefined,
-        feedbackRadioMessage,
-        RadioType.RESOURCES,
-        true
-      )
+      new AddRadioMessageLocalEvent({
+        parentEventId: 0,
+        simTimeStamp: state.getSimTime(),
+        senderName: RadioLogic.getResourceAsSenderName(),
+        message: feedbackRadioMessage,
+        channel: RadioType.RESOURCES,
+        omitTranslation: true,
+      })
     );
   }
 }

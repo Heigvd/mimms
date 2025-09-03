@@ -1,4 +1,4 @@
-import { getContextUidGenerator } from '../../gameExecutionContextController';
+import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActorId } from '../baseTypes';
 import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';

@@ -29,20 +29,22 @@ import {
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
-import { shallowState } from './common/simulationState/loaders/mainStateLoader';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
-import { GameExecutionContext } from './gameExecutionContext';
+import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
   createPlayerContext,
   debugRemovePlayerContext,
   getCurrentExecutionContext,
-} from './gameExecutionContextController';
+} from './executionContext/gameExecutionContextController';
+import { shallowState } from './loaders/mainStateLoader';
 
+/* all defined action templates */
 let actionTemplates: Record<string, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;
 
 let initializationComplete: boolean;
 
+/* let us know when Wegas has fully initialized the clientScript context */
 let scriptsFullyLoaded = false;
 
 Helpers.registerEffect(() => {
@@ -52,8 +54,8 @@ Helpers.registerEffect(() => {
 });
 
 /**
- * Checks for new events and applies them to the state
- * This should be called on player side only
+ * Checks for new global events and applies them to the state.
+ * This should be called on player side only.
  */
 export function runUpdateLoop(): void {
   if (!scriptsFullyLoaded) {
@@ -82,10 +84,10 @@ export function runUpdateLoop(): void {
     setPreviousReferenceState(playerCtx.getCurrentState());
 
     // filter out omitted events (if a previous state was restored)
-    const ignored = getOmittedEvents();
-    const filteredEvents = globalEvents.filter(e => !ignored[e.id]);
+    const ignored = getOmittedGlobalEvents();
+    const filteredGlobalEvents = globalEvents.filter(e => !ignored[e.id]);
 
-    playerCtx.processEvents(filteredEvents, convertToLocalEvent);
+    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent);
   }
 }
 
@@ -126,15 +128,13 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
             // notify!
             const ownerId = event.payload.emitterCharacterId as ActorId;
             getLocalEventManager().queueLocalEvent(
-              new AddNotificationLocalEvent(
-                event.id,
-                getCurrentState().getSimTime(),
-                undefined,
-                undefined,
-                ownerId,
-                getTranslation('mainSim-interface', 'notification-concurrent-stop'),
-                true
-              )
+              new AddNotificationLocalEvent({
+                parentEventId: event.id,
+                simTimeStamp: getCurrentState().getSimTime(),
+                recipientId: ownerId,
+                message: getTranslation('mainSim-interface', 'notification-concurrent-stop'),
+                omitTranslation: true,
+              })
             );
           }
         }
@@ -155,13 +155,13 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         if (!action) {
           mainSimLogger.error('no action was found with id ', payload.templateId);
         } else {
-          const localEvent = new CancelActionLocalEvent(
-            event.id,
-            event.payload.triggerTime,
-            event.payload.templateId,
-            event.payload.actorId,
-            event.payload.timeStamp
-          );
+          const localEvent = new CancelActionLocalEvent({
+            parentEventId: event.id,
+            simTimeStamp: event.payload.triggerTime,
+            templateId: event.payload.templateId,
+            actorUid: event.payload.actorId,
+            planTime: event.payload.timeStamp,
+          });
           getLocalEventManager().queueLocalEvent(localEvent);
         }
       }
@@ -184,12 +184,12 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
                 .map(a => a.Uid)
             : event.payload.involvedActors;
           for (let i = 0; i < timeJump; i += TimeSliceDuration) {
-            const timefwdEvent = new TimeForwardLocalEvent(
-              event.id,
-              event.payload.triggerTime + i,
-              involved,
-              TimeSliceDuration
-            );
+            const timefwdEvent = new TimeForwardLocalEvent({
+              parentEventId: event.id,
+              simTimeStamp: event.payload.triggerTime + i,
+              actors: involved,
+              timeJump: TimeSliceDuration,
+            });
             getLocalEventManager().queueLocalEvent(timefwdEvent);
           }
         }
@@ -197,26 +197,24 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       break;
     case 'TimeForwardCancelEvent':
       {
-        const timefwdEvent = new TimeForwardCancelLocalEvent(
-          event.id,
-          event.payload.triggerTime,
-          event.payload.involvedActors
-        );
+        const timefwdEvent = new TimeForwardCancelLocalEvent({
+          parentEventId: event.id,
+          simTimeStamp: event.payload.triggerTime,
+          actors: event.payload.involvedActors,
+        });
         getLocalEventManager().queueLocalEvent(timefwdEvent);
       }
       break;
     case 'DashboardRadioMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
-      const radioMessageEvent = new AddRadioMessageLocalEvent(
-        event.id,
-        event.payload.triggerTime,
-        undefined,
-        trainerName,
-        undefined,
-        event.payload.message,
-        event.payload.canal,
-        true
-      );
+      const radioMessageEvent = new AddRadioMessageLocalEvent({
+        parentEventId: event.id,
+        simTimeStamp: event.payload.triggerTime,
+        senderName: trainerName,
+        message: event.payload.message,
+        channel: event.payload.canal,
+        omitTranslation: true,
+      });
       getLocalEventManager().queueLocalEvent(radioMessageEvent);
       break;
     }
@@ -229,26 +227,25 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           .getAllActors()
           .find(a => a.Role === role)?.Uid;
         if (actorId) {
-          const notificationMessageEvent = new AddNotificationLocalEvent(
-            event.id,
-            payload.triggerTime,
-            undefined,
-            trainerName,
-            actorId,
-            payload.message,
-            true
-          );
+          const notificationMessageEvent = new AddNotificationLocalEvent({
+            parentEventId: event.id,
+            simTimeStamp: payload.triggerTime,
+            senderName: trainerName,
+            recipientId: actorId,
+            message: payload.message,
+            omitTranslation: true,
+          });
           getLocalEventManager().queueLocalEvent(notificationMessageEvent);
         }
       });
       break;
     }
     case 'GameOptionsEvent': {
-      const optionChange = new GameOptionsUpdateLocalEvent(
-        event.id,
-        event.payload.triggerTime,
-        event.payload.options
-      );
+      const optionChange = new GameOptionsUpdateLocalEvent({
+        parentEventId: event.id,
+        simTimeStamp: event.payload.triggerTime,
+        options: event.payload.options,
+      });
       getLocalEventManager().queueLocalEvent(optionChange);
       break;
     }
@@ -263,7 +260,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
   return localEvents;
 }
 
-export function fetchAvailableActions(
+export function fetchAvailableActionTemplates(
   actorId: ActorId,
   actionType: ActionType = ActionType.ACTION
 ): ActionTemplateBase[] {
@@ -410,7 +407,7 @@ export async function setCurrentStateDebug(stateId: number) {
 
   // store the events that have to be omitted when recomputing the state
   // i.e. the events that occured after the restored state
-  const ignored = getOmittedEvents();
+  const ignored = getOmittedGlobalEvents();
   const lastEvtId = execContext.getCurrentState().getLastEventId();
   const all = getAllEvents();
   let i = all.length - 1;
@@ -428,7 +425,7 @@ export async function setCurrentStateDebug(stateId: number) {
 /**
  * Get the events that have been cancelled due to previous stored state reloading
  */
-function getOmittedEvents(): Record<string, boolean> {
+function getOmittedGlobalEvents(): Record<string, boolean> {
   const raw =
     Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
     '{}';

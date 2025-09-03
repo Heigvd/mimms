@@ -1,5 +1,6 @@
 import { entries } from '../../../tools/helper';
 import { getTranslation } from '../../../tools/translation';
+import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
 import {
@@ -8,7 +9,6 @@ import {
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
-import { getContainersDefinitions } from '../simulationState/loaders/resourceLoader';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ResourceContainerConfig,
@@ -39,10 +39,10 @@ export function hasContainerOfType(
  * @param request the amount and type formulated in the request
  */
 export function resolveResourceRequest(
-  state: MainSimulationState,
+  state: Readonly<MainSimulationState>,
   globalEventId: GlobalEventId,
   senderId: ActorId | undefined,
-  request: Record<ResourceContainerType, number>
+  request: Partial<Record<ResourceContainerType, number>>
 ) {
   const containers = state.getResourceContainersByType();
   const now = state.getSimTime();
@@ -69,31 +69,32 @@ export function resolveResourceRequest(
   }
 
   entries(request)
-    .filter(([_typeId, requestedAmount]) => requestedAmount > 0)
+    .filter(([_typeId, requestedAmount]) => requestedAmount ?? 0 > 0)
     .forEach(([typeId, requestedAmount]) => {
+      const reqAmount = requestedAmount || 0;
       // fetch the containers that still have an amount
       const cs: ResourceContainerConfig[] = (containers[typeId] || []).filter(c => c.amount > 0);
       // ordered by time of availability
       cs.sort((a, b) => a.availabilityTime - b.availabilityTime);
       let foundAmount = 0;
-      for (let i = 0; i < cs.length && foundAmount < requestedAmount; i++) {
+      for (let i = 0; i < cs.length && foundAmount < reqAmount; i++) {
         const c = cs[i]!;
-        const n = Math.min(requestedAmount - foundAmount, c.amount);
+        const n = Math.min(reqAmount - foundAmount, c.amount);
         // n > 0 by construction
         foundAmount += n;
         c.amount -= n; // !!! STATE CHANGE HERE !!!
 
         const departureTime = Math.max(c.availabilityTime, now);
         const definition = getContainerDef(c.templateId);
-        const evt = new ResourceMobilizationEvent(
-          globalEventId,
-          now,
+        const evt = new ResourceMobilizationEvent({
+          parentEventId: globalEventId,
+          simTimeStamp: now,
           departureTime,
-          c.travelTime,
-          definition.uid,
-          n,
-          c.name
-        );
+          travelTime: c.travelTime,
+          containerDefId: definition.uid,
+          amount: n,
+          configName: c.name,
+        });
         getLocalEventManager().queueLocalEvent(evt);
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
@@ -123,16 +124,15 @@ function queueResourceDepartureRadioMessageEvents(
       msgs.push(buildRadioText(v.travelTime, v.def, v.name));
     });
 
-    const evt = new AddRadioMessageLocalEvent(
-      globalEventId,
-      dtime,
-      getCasuActorId(),
-      undefined,
-      senderId,
-      msgs.join('\n'),
-      RadioType.CASU,
-      true
-    );
+    const evt = new AddRadioMessageLocalEvent({
+      parentEventId: globalEventId,
+      simTimeStamp: dtime,
+      senderId: getCasuActorId(),
+      recipientId: senderId,
+      message: msgs.join('\n'),
+      channel: RadioType.CASU,
+      omitTranslation: true,
+    });
     getLocalEventManager().queueLocalEvent(evt);
   });
 }

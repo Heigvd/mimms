@@ -44,25 +44,9 @@ var TimeManager = (function () {
     if (Variable.find(gameModel, 'running_global').getValue(thePlayer)) {
       // Is globally running
 
-      var realLifeTime = MimmsHelper.isRealLifeGame();
-      if (realLifeTime) {
-        return computeRawSimulationTime(thePlayer);
-      }
-
       if (Variable.find(gameModel, 'running').getValue(thePlayer)) {
         // Is locally running
-        var replayMode = Variable.find(gameModel, 'replay').getValue(thePlayer);
         var currentRawSimTime = computeRawSimulationTime(thePlayer);
-
-        if (replayMode) {
-          // in replay mode, auto stop if limit has been reached
-          var replayUpTo = Variable.find(gameModel, 'upTo_inSim_ref').getValue(thePlayer);
-          if (currentRawSimTime < replayUpTo) {
-            return currentRawSimTime;
-          } else {
-            return replayUpTo;
-          }
-        }
 
         var keepalive = Variable.find(gameModel, 'keepalive').getValue(thePlayer);
 
@@ -109,12 +93,7 @@ var TimeManager = (function () {
      * Trainer starts the simulation for all teams
      */
     globalStart: function () {
-      var shouldRun = MimmsHelper.shouldRunScenarioOnFirstStart();
       runForAllTeams(function (player) {
-        if (shouldRun) {
-          EventManager.runScenario(player);
-        }
-
         var currentInSim = computeEffectiveSimulationTime(player);
         var currentEpoch = new Date().getTime();
         Variable.find(gameModel, 'epoch_ref').setValue(player, currentEpoch);
@@ -134,53 +113,14 @@ var TimeManager = (function () {
       Variable.find(gameModel, 'running_global').setValue(self, false);
     },
     toggleRunningGlobal: function () {
-      // TODO Move this logic to gameMode selection screen !
-      var props = gameModel.getProperties();
-      if (!props.getFreeForAll()) {
-        props.setFreeForAll(true);
-      }
-
-      var runningGlobal = Variable.find(gameModel, 'running_global').getValue(self);
-      var shouldRun = MimmsHelper.shouldRunScenarioOnFirstStart();
-      runForAllTeams(function (player) {
+      if (MimmsHelper.isDrillMode()) {
+        var runningGlobal = Variable.find(gameModel, 'running_global').getValue(self);
         if (runningGlobal) {
-          if (shouldRun) {
-            EventManager.runScenario(player);
-          }
-          var currentEpoch = new Date().getTime();
-          Variable.find(gameModel, 'epoch_ref').setValue(player, currentEpoch);
+          this.globalPause();
+        } else {
+          this.globalStart();
         }
-
-        var currentInSim = computeEffectiveSimulationTime(player);
-        Variable.find(gameModel, 'inSim_ref').setValue(player, currentInSim);
-      });
-      Variable.find(gameModel, 'running_global').setValue(self, !runningGlobal);
-    },
-    /**
-     * Team enters "replay" mode
-     */
-    enterReplay: function (player) {
-      var thePlayer = player || self;
-      // make sure to pause the simulation
-      TimeManager.pause(thePlayer);
-      var simTime = Variable.find(gameModel, 'inSim_ref').getValue(thePlayer);
-
-      Variable.find(gameModel, 'upTo_inSim_ref').setValue(thePlayer, simTime);
-      Variable.find(gameModel, 'replay').setValue(thePlayer, true);
-      Variable.find(gameModel, 'inSim_ref').setValue(thePlayer, 0);
-    },
-    /**
-     * Team quits the "replay" mode
-     */
-    quitReplay: function (player) {
-      var thePlayer = player || self;
-      // make sure to pause the simulation
-      TimeManager.pause(thePlayer);
-      var simTime = Variable.find(gameModel, 'upTo_inSim_ref').getValue(thePlayer);
-
-      Variable.find(gameModel, 'upTo_inSim_ref').setValue(thePlayer, 0);
-      Variable.find(gameModel, 'replay').setValue(thePlayer, false);
-      Variable.find(gameModel, 'inSim_ref').setValue(thePlayer, simTime);
+      }
     },
     /**
      * Restore simulation when players return
@@ -217,11 +157,6 @@ var TimeManager = (function () {
      */
     fastForward: function (value, player) {
       var thePlayer = player || self;
-      var isInReplay = Variable.find(gameModel, 'replay').getValue(thePlayer);
-      if (isInReplay) {
-        print('Cannot fast forward while in replay mode');
-        return;
-      }
       var parse = /^(\d+)([smhd])?$/;
       var parsed = parse.exec(value);
       if (parsed) {

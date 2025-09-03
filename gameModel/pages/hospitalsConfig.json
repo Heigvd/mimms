@@ -236,6 +236,18 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "layoutClassName" : "hospitals-tooltip",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  I18n.translate(Context.service.name);",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
                                 "className" : "",
                                 "layoutClassName" : "hospital-header-input",
                                 "layoutStyle" : { },
@@ -276,7 +288,7 @@
                               "className" : "noDisplay",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "!Context.UIState.state.services && !Context.UIState.state.edit;",
+                                "content" : "!Context.UIState.state.services&&\n!Context.UIState.state.edit;",
                                 "language" : "typescript"
                               }
                             } ],
@@ -286,6 +298,7 @@
                               "language" : "typescript"
                             },
                             "layout" : { },
+                            "layoutClassName" : "services-header-edit",
                             "layoutStyle" : { },
                             "name" : "edit",
                             "style" : { }
@@ -377,6 +390,25 @@
                 "children" : [ {
                   "props" : {
                     "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.UIState.state.hospitals;",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "hospitals-short-name",
+                        "layoutStyle" : { },
+                        "name" : "shortName",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  `${Context.hospital.shortName}`;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
                       "props" : {
                         "children" : [ {
                           "props" : {
@@ -970,7 +1002,9 @@
                     "layoutClassName" : "line-container",
                     "layoutStyle" : { },
                     "name" : "line",
-                    "style" : { }
+                    "style" : {
+                      "position" : "relative"
+                    }
                   },
                   "type" : "FlexList"
                 } ],

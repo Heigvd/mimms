@@ -53,6 +53,10 @@ html{
 	padding: 0;
 }
 
+.noMargin > p {
+  margin: 0;
+}
+
 .noPadMargingParagraph>p{
 	padding: 0px;
 	margin: 0px;
