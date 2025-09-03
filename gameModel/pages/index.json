@@ -74,13 +74,13 @@
           "@class" : "Page",
           "id" : "5",
           "name" : "pretriMainPage",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "12",
           "name" : "preTriDrill",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         } ],
         "name" : "Pretri"
@@ -90,7 +90,7 @@
           "@class" : "Page",
           "id" : "43",
           "name" : "main simulation page",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
@@ -254,7 +254,7 @@
         "@class" : "Page",
         "id" : "42",
         "name" : "Dashboard",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : true
       }, {
         "@class" : "Page",
@@ -265,7 +265,7 @@
       }, {
         "@class" : "Page",
         "id" : "7",
-        "name" : "Setup",
+        "name" : "Game Setup",
         "scenaristPage" : true,
         "trainerPage" : true
       }, {
@@ -308,7 +308,7 @@
         "@class" : "Page",
         "id" : "scenaristMainMenu",
         "name" : "Menu",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -320,7 +320,7 @@
         "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
@@ -350,7 +350,7 @@
         "@class" : "Page",
         "id" : "mapConfiguration",
         "name" : "Map Configuration",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Folder",
@@ -406,7 +406,7 @@
         "@class" : "Page",
         "id" : "30",
         "name" : "Main Scenarist Page",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"
@@ -444,7 +444,7 @@
         "@class" : "Page",
         "id" : "41",
         "name" : "mainSimEventsDebug",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Folder",
@@ -482,7 +482,7 @@
           "@class" : "Page",
           "id" : "52",
           "name" : "mainSim_stateSave",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
@@ -498,19 +498,19 @@
           "@class" : "Page",
           "id" : "57",
           "name" : "patients summary",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "61",
           "name" : "resources summary",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "53",
           "name" : "local event summary",
-          "scenaristPage" : true,
+          "scenaristPage" : false,
           "trainerPage" : null
         } ],
         "name" : "summary"
@@ -522,7 +522,7 @@
         "@class" : "Page",
         "id" : "9",
         "name" : "Patients details",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",
