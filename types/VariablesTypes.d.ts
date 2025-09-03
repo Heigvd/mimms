@@ -70,6 +70,7 @@ interface VariableClasses {
   "time_management": SListDescriptor;
   "team": SListDescriptor;
   "inSim_ref": SNumberDescriptor;
+  "latest_pretri_time": SNumberDescriptor;
   "epoch_ref": SNumberDescriptor;
   "running": SBooleanDescriptor;
   "keepalive": SNumberDescriptor;

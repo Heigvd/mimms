@@ -21,9 +21,8 @@ var MimmsHelper = (function () {
     return allCharactersByTeamId;
   }
 
-  // TODO better metric, see issue https://github.com/Heigvd/mimms/issues/59
-  function simRefs() {
-    return Variable.getInstancesByKeyId(Variable.find(gameModel, 'inSim_ref'));
+  function latestPretriTimes() {
+    return Variable.getInstancesByKeyId(Variable.find(gameModel, 'latest_pretri_time'));
   }
 
   return {
@@ -31,7 +30,7 @@ var MimmsHelper = (function () {
     getDrillType: getDrillType,
     getPlayers: getPlayers,
     charactersInfo: charactersInfo,
-    getEndTimes: simRefs,
+    getEndTimes: latestPretriTimes,
   };
 })();
 

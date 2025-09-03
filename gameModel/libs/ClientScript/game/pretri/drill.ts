@@ -109,6 +109,8 @@ export function selectNextPatient(): Promise<IManagedResponse | void> {
 
         const toPost: string[] = [getSetDrillStatusScript('ongoing')];
 
+        toPost.push(getStoreCurrentTimeScript(currentTime));
+
         // stop time for the "previous" patient
         toPost.push(getFreezePatientEventScript(emitter, currentTime));
 
@@ -164,14 +166,20 @@ function emptyPromise(): Promise<void> {
   });
 }
 
+function getStoreCurrentTimeScript(currentTime: number): string {
+  return `Variable.find(gameModel, 'latest_pretri_time').setValue(self, ${currentTime});`;
+}
+
 export function toSummaryScreen(): Promise<IManagedResponse> {
   const currentTime = getCurrentSimulationTime();
   const emitter = initEmitterIds();
 
+  const storetime = getStoreCurrentTimeScript(currentTime);
   const freeze = getFreezePatientEventScript(emitter, currentTime);
 
   return APIMethods.runScript(
-    freeze +
+    storetime +
+      freeze +
       getSetDrillStatusScript('completed_summary') +
       `Variable.find(gameModel, 'currentPatient').setValue(self, '');`,
     {}
