@@ -1,7 +1,7 @@
 import { FullyConfigurableTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
-import { ALL_EDITABLE, Definition } from '../../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../../typeDefinitions/definition';
 
 /**
  * Scenarist fully configurable template, including choices and impacts
@@ -23,6 +23,7 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       title: 'some default title', // TODO multilang
       uid: generateId(10),
       durationSec: TimeSliceDuration,
+      index: 0
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
@@ -39,6 +40,7 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       mandatory: ALL_EDITABLE,
       repeatable: ALL_EDITABLE,
       durationSec: ALL_EDITABLE,
+      index: EXPERT_ONLY
     },
   };
 }

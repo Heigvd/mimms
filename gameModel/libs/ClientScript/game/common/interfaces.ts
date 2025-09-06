@@ -28,6 +28,20 @@ export interface Typed {
 }
 
 /**
+ * For more general types (e.g. Impact)
+ */
+export interface SuperTyped {
+  superType: string;
+}
+
+/**
+ *
+ */
+export interface Parented {
+  parent: Uid;
+}
+
+/**
  * To sort (for display as well as processing)
  */
 export interface Indexed {

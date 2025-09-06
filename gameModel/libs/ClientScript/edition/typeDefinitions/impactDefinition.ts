@@ -13,9 +13,24 @@ import { ActivationImpact } from '../../game/common/impacts/implementation/activ
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
+import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
 
 type ImpactTypeName = MapToTypeNames<Impact>;
 type ImpactDefinition = MapToDefinition<Impact>;
+export type FlatImpact = Impact & Parented & SuperTyped & { superType: 'impact' };
+
+export function toFlatImpact(imp: Impact, parentId: Uid): FlatImpact {
+  return {
+    ...imp,
+    parent: parentId,
+    superType: 'impact',
+  };
+}
+
+export function fromFlatImpact(fimp: FlatImpact): Impact {
+  const { superType: _ignored, parent: _ignore, ...impact } = fimp;
+  return impact;
+}
 
 export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
   let definition: ImpactDefinition;

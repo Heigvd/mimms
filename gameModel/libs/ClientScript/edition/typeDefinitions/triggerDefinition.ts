@@ -1,8 +1,32 @@
+import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
 import { ALL_EDITABLE, Definition } from './definition';
 
 type TriggerDefinition = Definition<Trigger>;
+
+export type FlatTrigger = Omit<Trigger, 'impacts' | 'conditions'> &
+  Parented &
+  SuperTyped & { superType: 'trigger' };
+
+export function toFlatTrigger(trigger: Trigger, parentId: Uid): FlatTrigger {
+  const { conditions: c, impacts: i, ...flatTrigger } = trigger;
+
+  return {
+    ...flatTrigger,
+    superType: 'trigger',
+    parent: parentId,
+  };
+}
+
+export function fromFlatTrigger(ftrigger: FlatTrigger): Trigger {
+  const { superType: s, parent: p, ...trigger } = ftrigger;
+  return {
+    ...trigger,
+    impacts: [],
+    conditions: [],
+  };
+}
 
 export function getTriggerDefinition(): TriggerDefinition {
   return {

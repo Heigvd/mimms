@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1756902257925,
+  "createdTime" : 1757149090793,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5072,6 +5072,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/dataController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2477604:vZygE3",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/GameModelerHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5130,6 +5139,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990712:AnBdrO",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/effectDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2477605:tBJCCY",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5202,6 +5220,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1743352:WDHods",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/undoRedoContext",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2476605:CqhQVQ",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7086,7 +7113,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO Release 7.0.0",
+  "name" : "MIMMS - XGO MIM-468",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

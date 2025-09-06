@@ -285,3 +285,5 @@ export type FilterTypeProperties<Source, Condition> = Pick<
   Source,
   { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
 >;
+
+export type ObjectVariableClasses = FilterTypeProperties<VariableClasses, SObjectDescriptor>;

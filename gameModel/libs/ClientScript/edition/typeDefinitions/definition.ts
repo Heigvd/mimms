@@ -1,4 +1,4 @@
-import { Typed } from '../../game/common/interfaces';
+import { SuperTyped, Typed } from '../../game/common/interfaces';
 
 /**
  * Unboxes the type contained in an array
@@ -20,6 +20,12 @@ export const ALL_EDITABLE: Record<ViewConfig, EditionLevel> = {
   expert: 'editable',
 };
 
+export const EXPERT_ONLY: Record<ViewConfig, EditionLevel> = {
+  basic: 'hidden',
+  advanced: 'hidden',
+  expert: 'editable',
+};
+
 /**
  * Recursive type mapping
  * Primitives and types that extend Type become configuration views
@@ -35,6 +41,9 @@ type ToConfigurationViewType<O extends object> = {
 
 export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
 export type MapToTypeNames<U> = U extends Typed ? U['type'] : never;
+
+export type MapToSuperTypeNames<U> = U extends SuperTyped ? U['superType'] : never;
+
 //export type MapToRecordByType<U> = [U] extends [Typed] ? Record<U['type'], Definition<U>> : never;
 
 export interface ValidationResult {

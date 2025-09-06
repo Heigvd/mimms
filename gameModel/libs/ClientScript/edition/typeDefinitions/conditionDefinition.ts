@@ -1,3 +1,4 @@
+import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
 import {
@@ -17,6 +18,20 @@ import {
 
 type ConditionTypeName = MapToTypeNames<Condition>;
 export type ConditionDefinition = MapToDefinition<Condition>;
+export type FlatCondition = Condition & Parented & SuperTyped & { superType: 'condition' };
+
+export function toFlatCondition(cond: Condition, parentId: Uid): FlatCondition {
+  return {
+    ...cond,
+    parent: parentId,
+    superType: 'condition',
+  };
+}
+
+export function fromFlatCondition(fcond: FlatCondition): Condition {
+  const { superType: _ignored, parent: _ignore, ...condition } = fcond;
+  return condition;
+}
 
 export function getConditionDefinition(type: ConditionTypeName): ConditionDefinition {
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
