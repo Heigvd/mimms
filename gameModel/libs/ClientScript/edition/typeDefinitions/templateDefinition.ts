@@ -1,7 +1,7 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
-import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
-import { MapToDefinition, MapToTypeNames } from '../typeDefinitions/definition';
+import { MapToDefinition, MapToFlatType, MapToTypeNames } from '../typeDefinitions/definition';
 import { getFixedMapEntityTemplate } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
@@ -9,9 +9,10 @@ import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveT
 type TemplateDescriptorTypeName = MapToTypeNames<TemplateDescriptor>;
 type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
 
-export type FlatActionTemplate = Omit<TemplateDescriptor, 'choices'> &
+export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'>;
+/*Omit<TemplateDescriptor, 'choices'> &
   Parented &
-  SuperTyped & { superType: 'action' };
+  SuperTyped & { superType: 'action' };*/
 
 export function toFlatActionTemplate(
   action: TemplateDescriptor,
@@ -30,7 +31,7 @@ export function fromFlatActionTemplate(flatAction: FlatActionTemplate): Template
   return {
     ...action,
     choices: [],
-  } as TemplateDescriptor;
+  };
 }
 
 export function getTemplateDef(type: TemplateDescriptorTypeName): TemplateDefinition | undefined {

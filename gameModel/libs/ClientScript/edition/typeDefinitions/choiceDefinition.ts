@@ -41,7 +41,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       parent: 'no parent',
       placeHolder: 'no placeholder', // should there be a default one ?
       tag: 'define tag',
-      index: 0
+      index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
@@ -52,16 +52,16 @@ export function getChoiceDefinition(): ChoiceDefinition {
       defaultEffect: ALL_EDITABLE,
       description: ALL_EDITABLE,
       effects: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-        //parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-        //impacts: ALL_EDITABLE,
-        //tag: ALL_EDITABLE,
-        //uid: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      //parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      //impacts: ALL_EDITABLE,
+      //tag: ALL_EDITABLE,
+      //uid: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
 
       title: ALL_EDITABLE,
       parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       placeHolder: ALL_EDITABLE,
       tag: ALL_EDITABLE,
-      index: EXPERT_ONLY
+      index: EXPERT_ONLY,
     },
   };
 }

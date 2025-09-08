@@ -1,13 +1,11 @@
-import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition } from './definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from './definition';
 
 type TriggerDefinition = Definition<Trigger>;
 
-export type FlatTrigger = Omit<Trigger, 'impacts' | 'conditions'> &
-  Parented &
-  SuperTyped & { superType: 'trigger' };
+export type FlatTrigger = MapToFlatType<Trigger, 'trigger'>;
 
 export function toFlatTrigger(trigger: Trigger, parentId: Uid): FlatTrigger {
   const { conditions: c, impacts: i, ...flatTrigger } = trigger;

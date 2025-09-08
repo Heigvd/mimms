@@ -1,4 +1,4 @@
-import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
 import {
@@ -12,13 +12,14 @@ import {
   ALL_EDITABLE,
   Definition,
   MapToDefinition,
+  MapToFlatType,
   MapToTypeNames,
   ValidationResult,
 } from './definition';
 
 type ConditionTypeName = MapToTypeNames<Condition>;
 export type ConditionDefinition = MapToDefinition<Condition>;
-export type FlatCondition = Condition & Parented & SuperTyped & { superType: 'condition' };
+export type FlatCondition = MapToFlatType<Condition, 'condition'>;
 
 export function toFlatCondition(cond: Condition, parentId: Uid): FlatCondition {
   return {
