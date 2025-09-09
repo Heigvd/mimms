@@ -1,0 +1,70 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "  //return JSON.stringify(Context.item);\n    `${Context.item.uid} at ${Context.item.index}`;",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "icon" : "arrow-up",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "icon" : "trash",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "icon" : "arrow-down",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : { },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

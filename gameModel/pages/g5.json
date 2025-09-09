@@ -1,0 +1,867 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Trigger(s)</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.trigger.tag;",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTypedTriggerState } from \"./edition/triggerConfiguration\";\ngetTypedTriggerState().selectedTrigger === Context.trigger.uid;",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : { },
+                                    "layoutStyle" : {
+                                      "border" : "1px solid"
+                                    },
+                                    "name" : "closed",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "name" : "tag",
+                                        "onCancel" : { },
+                                        "onVariableChange" : {
+                                          "client" : {
+                                            "@class" : "Script",
+                                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({tag : Context.newValue});",
+                                            "language" : "TypeScript"
+                                          },
+                                          "exposeVariableAs" : {
+                                            "@class" : "Script",
+                                            "content" : "\"newValue\"",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "script" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.trigger.tag;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "style" : { }
+                                      },
+                                      "type" : "String input"
+                                    }, {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "name" : "comment",
+                                        "onCancel" : { },
+                                        "onVariableChange" : {
+                                          "client" : {
+                                            "@class" : "Script",
+                                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({comment : Context.newValue});",
+                                            "language" : "TypeScript"
+                                          },
+                                          "exposeVariableAs" : {
+                                            "@class" : "Script",
+                                            "content" : "\"newValue\"",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "rows" : 3,
+                                        "script" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.trigger.comment;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "style" : { }
+                                      },
+                                      "type" : "String input"
+                                    }, {
+                                      "props" : {
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"active\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "name" : "activeAtStart",
+                                        "onVariableChange" : {
+                                          "client" : {
+                                            "@class" : "Script",
+                                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({activeAtStart : Context.newValue});",
+                                            "language" : "TypeScript"
+                                          },
+                                          "exposeVariableAs" : {
+                                            "@class" : "Script",
+                                            "content" : "\"newValue\"",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "script" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.trigger.activeAtStart;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "style" : { },
+                                        "type" : "checkbox"
+                                      },
+                                      "type" : "Boolean"
+                                    }, {
+                                      "props" : {
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"everytime\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutStyle" : { },
+                                        "name" : "Repeatable",
+                                        "onVariableChange" : {
+                                          "client" : {
+                                            "@class" : "Script",
+                                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({repeatable : Context.newValue});",
+                                            "language" : "TypeScript"
+                                          },
+                                          "exposeVariableAs" : {
+                                            "@class" : "Script",
+                                            "content" : "\"newValue\"",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "script" : {
+                                          "@class" : "Script",
+                                          "content" : "  Context.trigger.repeatable;",
+                                          "language" : "TypeScript"
+                                        },
+                                        "style" : { },
+                                        "type" : "checkbox"
+                                      },
+                                      "type" : "Boolean"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTypedTriggerState } from \"./edition/triggerConfiguration\";\ngetTypedTriggerState().selectedTrigger !== Context.trigger.uid;",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : {
+                                      "border" : "1px solid"
+                                    },
+                                    "name" : "open",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "layout" : { },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { selectTrigger } from \"./edition/triggerConfiguration\";\n\nselectTrigger(Context.trigger.uid);",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "stopPropagation" : true,
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "icon" : "trash",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "''",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { deleteTrigger } from \"./edition/triggerConfiguration\";\n\ndeleteTrigger();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "stopPropagation" : true,
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : { },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "trigger",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getTriggersSorted } from \"./edition/triggerConfiguration\";\n  getTriggersSorted();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "icon" : "plus",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>trigger</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { addTrigger } from \"./edition/triggerConfiguration\";\n\naddTrigger();",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "add",
+                        "stopPropagation" : true,
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { unselectTrigger } from \"./edition/triggerConfiguration\";\n\nunselectTrigger();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "triggers",
+                    "stopPropagation" : true,
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Condition(s)</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "choices" : {
+                          "@class" : "Script",
+                          "content" : "import { getTriggerOperatorChoices } from \"./edition/triggerConfiguration\";\ngetTriggerOperatorChoices();",
+                          "language" : "typescript"
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "and | or",
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({operator : Context.newValue});",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"newValue\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "import { getDefaultTriggerOperatorChoice, getSelectedTrigger } from \"./edition/triggerConfiguration\";\n    getSelectedTrigger()?.operator ?? getDefaultTriggerOperatorChoice();",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Select input"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "choices" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getConditionTypeChoices } from \"./edition/triggerConfiguration\";\ngetConditionTypeChoices();",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "type",
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({type: Context.newValue});",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"newValue\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Select input"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>time</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "choices" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getTimeOperatorChoices } from \"./edition/triggerConfiguration\";\ngetTimeOperatorChoices();",
+                                                  "language" : "typescript"
+                                                },
+                                                "layoutStyle" : { },
+                                                "name" : "< | = | >",
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({operator: Context.newValue});",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"newValue\"",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  Context.condition.operator;",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "Select input"
+                                            }, {
+                                              "props" : {
+                                                "layoutStyle" : { },
+                                                "onVariableChange" : {
+                                                  "client" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({timeSeconds: Context.newValue * 60});",
+                                                    "language" : "TypeScript"
+                                                  },
+                                                  "exposeVariableAs" : {
+                                                    "@class" : "Script",
+                                                    "content" : "\"newValue\"",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "script" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  Math.round(Context.condition.timeSeconds / 60);",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "style" : { }
+                                              },
+                                              "type" : "Number input"
+                                            }, {
+                                              "props" : {
+                                                "layoutStyle" : { },
+                                                "name" : "min",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "\"<p>min</p>\"",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ]
+                                          },
+                                          "type" : "FlexList"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "layoutStyle" : { },
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "Context.message.message;",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "Context.message.logLevel !== 'ERROR';",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "exclamation-circle",
+                                                        "layoutStyle" : { },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Icon"
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutStyle" : {
+                                                      "color" : "red"
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "exposeAs" : "message",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { validateTimeCondition } from \"./edition/triggerConfiguration\";\nvalidateTimeCondition(Context.condition).messages;",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "itemKey" : "message",
+                                                "layout" : { },
+                                                "layoutStyle" : { },
+                                                "style" : { }
+                                              },
+                                              "type" : "For each"
+                                            } ],
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { validateTimeCondition } from \"./edition/triggerConfiguration\";\nvalidateTimeCondition(Context.condition).success;",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : { },
+                                            "layoutStyle" : { },
+                                            "name" : "validation messages",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
+                                        "layoutStyle" : { },
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type !== 'time';",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "time",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>action</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type !== 'action';",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "action",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>choice</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type !== 'choice';",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "choice",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>trigger</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type !== 'trigger';",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "trigger",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "layoutStyle" : { },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>mapEntity</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.condition.type !== 'mapEntity';",
+                                      "language" : "typescript"
+                                    },
+                                    "layout" : { },
+                                    "layoutStyle" : { },
+                                    "name" : "mapEntity",
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutStyle" : { },
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "icon" : "trash",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "''",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { deleteCondition } from \"./edition/triggerConfiguration\";\n\ndeleteCondition();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "trash",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "layout" : { },
+                            "layoutStyle" : {
+                              "border" : "1px solid"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "condition",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getConditionsSorted } from \"./edition/triggerConfiguration\";\n  getConditionsSorted();",
+                          "language" : "TypeScript"
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger();",
+                          "language" : "typescript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger();",
+                          "language" : "typescript"
+                        },
+                        "icon" : "plus",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>condition</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { addFakeTimeCondition } from \"./edition/triggerConfiguration\";\n\naddFakeTimeCondition();",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "add",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "conditions",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Impact(s)</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger() || true;",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\nJSON.stringify(getSelectedTrigger()!.impacts);",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "impacts",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "data",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "icon" : "recycle",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Reload triggers from variable</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { reloadTriggersFromVariable } from \"./edition/triggerConfiguration\";\n\nreloadTriggersFromVariable();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "reload",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "icon" : "save",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Save</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { saveTriggersToVariable } from \"./edition/triggerConfiguration\";\n\nsaveTriggersToVariable();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "save",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "buttons",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "debug",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTypedTriggerState } from \"./edition/triggerConfiguration\";\n'*** in page state ***<br>' + JSON.stringify(getTypedTriggerState()) + '<br> ***';",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "debug",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTriggers } from \"./game/loaders/triggerLoader\";\n'--- in variable --- <br>' + JSON.stringify(getTriggers()) + '<br> ---';",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "triggerConfig",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getInitialTriggerConfigState } from \"./edition/triggerConfiguration\";\ngetInitialTriggerConfigState();",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localState" : true,
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : { },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

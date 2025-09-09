@@ -1,0 +1,252 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "debug",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "/*JSON.stringify(getState().selected);*/ '';",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "Title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Triggers</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposePageSizeAs" : "",
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"21\"",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "actionPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { select } from \"./edition/UIfacade/genericConfigState\";\n\nselect('trigger', Context.item.uid);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getConfigData } from \"./edition/UIfacade/genericConfigState\";\n  getConfigData('trigger');",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Triggers",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "Title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Conditions</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposePageSizeAs" : "",
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"21\"",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "actionPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { select } from \"./edition/UIfacade/genericConfigState\";\n\nselect('condition', Context.item.uid);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getConfigData } from \"./edition/UIfacade/genericConfigState\";\n  getConfigData('condition', 'trigger');",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Conditions",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : { },
+                    "name" : "Title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Impacts</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "exposePageSizeAs" : "",
+                            "initialSelectedPageId" : {
+                              "@class" : "Script",
+                              "content" : "\"21\"",
+                              "language" : "typescript"
+                            },
+                            "layoutStyle" : { },
+                            "name" : "actionPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "layout" : { },
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { select } from \"./edition/UIfacade/genericConfigState\";\n\nselect('impact', Context.item.uid);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getConfigData } from \"./edition/UIfacade/genericConfigState\";\n  getConfigData('impact', 'trigger');",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Impacts",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : { },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "genericConfigState",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { loadInitialState } from \"./edition/UIfacade/genericConfigState\";\nloadInitialState('trigger');",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "localState" : false,
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
