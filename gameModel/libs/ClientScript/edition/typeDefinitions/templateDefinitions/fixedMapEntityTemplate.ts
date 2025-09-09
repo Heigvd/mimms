@@ -23,7 +23,7 @@ export function getFixedMapEntityTemplate(): Definition<FixedMapEntityTemplateDe
       title: 'some default title', // TODO multilang
       uid: generateId(10),
       durationSec: TimeSliceDuration,
-      index: 0
+      index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
@@ -40,7 +40,7 @@ export function getFixedMapEntityTemplate(): Definition<FixedMapEntityTemplateDe
       mandatory: ALL_EDITABLE,
       repeatable: ALL_EDITABLE,
       durationSec: ALL_EDITABLE,
-      index: EXPERT_ONLY
+      index: EXPERT_ONLY,
     },
   };
 }

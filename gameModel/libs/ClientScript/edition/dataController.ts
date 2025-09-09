@@ -1,9 +1,16 @@
 import { TemplateDescriptor } from '../game/common/actions/actionTemplateDescriptor/templateDescriptor';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { IDescriptor, Indexed, Parented, SuperTyped, Typed, Uid } from '../game/common/interfaces';
 import { Trigger } from '../game/common/triggers/trigger';
+import { Effect } from '../game/common/impacts/effect';
 import { ObjectVariableClasses } from '../tools/helper';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
-import { FlatChoice, getChoiceDefinition, toFlatChoice } from './typeDefinitions/choiceDefinition';
+import {
+  FlatChoice,
+  fromFlatChoice,
+  getChoiceDefinition,
+  toFlatChoice,
+} from './typeDefinitions/choiceDefinition';
 import {
   FlatCondition,
   fromFlatCondition,
@@ -11,7 +18,7 @@ import {
   toFlatCondition,
 } from './typeDefinitions/conditionDefinition';
 import { MapToSuperTypeNames } from './typeDefinitions/definition';
-import { FlatEffect, toFlatEffect } from './typeDefinitions/effectDefinition';
+import { FlatEffect, fromFlatEffect, toFlatEffect } from './typeDefinitions/effectDefinition';
 import {
   FlatImpact,
   fromFlatImpact,
@@ -20,6 +27,7 @@ import {
 } from './typeDefinitions/impactDefinition';
 import {
   FlatActionTemplate,
+  fromFlatActionTemplate,
   getTemplateDef,
   toFlatActionTemplate,
 } from './typeDefinitions/templateDefinition';
@@ -30,6 +38,9 @@ import {
   toFlatTrigger,
 } from './typeDefinitions/triggerDefinition';
 import { UndoRedoContext } from './undoRedoContext';
+import { Impact } from '../game/common/impacts/impact';
+import { group } from '../tools/groupBy';
+import { scenarioEditionLogger } from '../tools/logger';
 
 type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -66,19 +77,36 @@ export abstract class DataControllerBase<
     this.undoRedo.onSave();
   }
 
-  public remove(id: Uid, interfaceState: IState): void {
+  public delete(id: Uid, interfaceState: IState): void {
     const flatData = this.getFlatDataClone();
     this.removeRecursively(id, flatData);
     // TODO recursively remove children
     this.refresh(interfaceState, flatData);
   }
 
+  public canUndo(): boolean{
+    return this.undoRedo.canUndo();
+  }
+
+  public canRedo(): boolean{
+    return this.undoRedo.canRedo();
+  }
+
+  public undo(): void {
+    this.undoRedo.undo();
+    // TODO interface state
+  }
+
+  public redo(): void {
+    this.undoRedo.redo();
+  }
+
   public createNew(
     parentId: Uid,
-    type: MapToSuperTypeNames<FlatType>,
+    superType: MapToSuperTypeNames<FlatType>,
     interfaceState: IState
   ): FlatType {
-    const newObject = this.createNewInternal(parentId, type);
+    const newObject = this.createNewInternal(parentId, superType);
     const updatedData = this.getFlatDataClone();
     updatedData[newObject.uid] = newObject;
     this.refresh(interfaceState, updatedData);
@@ -97,12 +125,13 @@ export abstract class DataControllerBase<
   private refresh(interfaceState: IState, newData: Record<Uid, FlatType>): void {
     this.undoRedo.storeState(interfaceState, newData);
     // TODO inject interface ctx like in patient generation
+    // or return the state and let other parts of the code do the setState()
     //const newState = Helpers.cloneDeep(interfaceState);
   }
 
-  private removeRecursively(parentId: Uid, data: Record<Uid, FlatType>): void {
-    const parentList: Uid[] = [parentId];
-    let markedForRemoval: Uid[] = [parentId];
+  private removeRecursively(id: Uid, data: Record<Uid, FlatType>): void {
+    const parentList: Uid[] = [id];
+    let markedForRemoval: Uid[] = [id];
     while (parentList.length > 0) {
       const parent = parentList.pop();
       Object.entries(data)
@@ -166,24 +195,25 @@ export class TriggerDataController extends DataControllerBase<
       .filter(elem => elem.superType === 'impact' || elem.superType === 'condition')
       .forEach((element: TriggerFlatType) => {
         const parentTrigger = tree[element.parent];
-        if(parentTrigger){
+        if (parentTrigger) {
           if (element.superType === 'condition') {
             parentTrigger.conditions.push(fromFlatCondition(element));
           } else if (element.superType === 'impact') {
             parentTrigger.impacts.push(fromFlatImpact(element));
           }
         } else {
-          // TODO warning message (orphan condition or impact)
+          scenarioEditionLogger.error('Found some orphan impact/condition in trigger data', element);
         }
-    });
+      });
     return tree;
   }
 
   public override createNewInternal(
     parentId: Uid,
-    type: MapToSuperTypeNames<TriggerFlatType>
+    superType: MapToSuperTypeNames<TriggerFlatType>
   ): TriggerFlatType {
-    switch (type) {
+    // TODO we might want to define an "empty NoOp" type for conditions and impacts and give at as default
+    switch (superType) {
       case 'trigger':
         return toFlatTrigger(getTriggerDefinition().getDefault(), parentId);
       case 'condition':
@@ -205,54 +235,82 @@ export class ActionTemplateDataController extends DataControllerBase<
   ActionTemplateFlatType,
   ActionTemplateInterfaceState
 > {
+  private static readonly ACTION_ROOT: string = 'ACTION_ROOT';
+
   protected override flatten(
-    _input: Record<Uid, TemplateDescriptor>
+    tree: Record<Uid, TemplateDescriptor>
   ): Record<Uid, ActionTemplateFlatType> {
     const flattened: Record<Uid, ActionTemplateFlatType> = {};
-    /*
-    TODO
-    Object.entries(input).forEach(([uid, trigger]) => {
-      flattened[uid] = toFlatTrigger(trigger, TriggerDataController.TRIGGER_ROOT);
-      trigger.impacts.forEach(impact => {
-        flattened[impact.uid] = toFlatImpact(impact, uid);
+    Object.entries(tree).forEach(([uid, tpld]) => {
+      flattened[uid] = toFlatActionTemplate(tpld, ActionTemplateDataController.ACTION_ROOT);
+      // choices
+      tpld.choices.forEach((choice: ChoiceDescriptor) => {
+        flattened[choice.uid] = toFlatChoice(choice, tpld.uid);
+        // effects
+        choice.effects.forEach((effect: Effect) => {
+          flattened[effect.uid] = toFlatEffect(choice.uid);
+          // impacts
+          effect.impacts.forEach((impact: Impact) => {
+            flattened[impact.uid] = toFlatImpact(impact, effect.uid);
+          });
+        });
       });
-      trigger.conditions.forEach(condition => {
-        flattened[condition.uid] = toFlatCondition(condition, uid)
-      })
-    });*/
+    });
     return flattened;
   }
 
   protected override recompose(
-    _flattened: Record<Uid, ActionTemplateFlatType>
+    flattened: Record<Uid, ActionTemplateFlatType>
   ): Record<Uid, TemplateDescriptor> {
     const tree: Record<Uid, TemplateDescriptor> = {};
-    /** TODO
-    Object.values(flattened)
-      .filter(element => element.superType === 'trigger')
-      .map(e => e as FlatTrigger) // safe cast
-      .forEach((trigger : FlatTrigger) => {
-        tree[trigger.uid] = fromFlatTrigger(trigger);
-      });
 
-    // fill in impacts and conditions
-    Object.values(flattened)
-      .forEach((element: TriggerFlatType) => {
-        if(element.superType === 'condition'){
-          tree[element.uid].conditions.push(fromFlatCondition(element));
-        }else if(element.superType === 'impact'){
-          tree[element.uid].impacts.push(fromFlatImpact(element));
-        }
-      })
-      */
+    const groups = group(Object.values(flattened), elem => elem.superType);
+    groups.action.forEach(flatAction => {
+      tree[flatAction.uid] = fromFlatActionTemplate(flatAction as FlatActionTemplate);
+    });
+
+    const choices: Record<Uid, ChoiceDescriptor> = {};
+    groups.choice.forEach(flatChoice => {
+      const parent = tree[flatChoice.parent];
+      if(parent){
+        const c = fromFlatChoice(flatChoice as FlatChoice);
+        choices[c.uid] = c;
+        parent.choices.push(c);
+      }else {
+        scenarioEditionLogger.error('Found some orphan choice', flatChoice);
+      }
+    });
+
+    const effects: Record<Uid, Effect> = {};
+    groups.effect.forEach(flatEffect => {
+      const parent = choices[flatEffect.parent];
+      if(parent){
+        const ef = fromFlatEffect(flatEffect as FlatEffect);
+        effects[ef.uid] = ef;
+        parent.effects.push(ef);
+      }else {
+        scenarioEditionLogger.error('Found some orphan effect', flatEffect);
+      }
+    });
+
+    groups.impact.forEach(flatImpact => {
+      const parent = effects[flatImpact.parent];
+      if(parent){
+      const i = fromFlatImpact(flatImpact as FlatImpact);
+      parent.impacts.push(i);
+      } else {
+        scenarioEditionLogger.error('Found some orphan impact', flatImpact);
+      }
+    });
+
     return tree;
   }
 
   public override createNewInternal(
     parentId: Uid,
-    type: MapToSuperTypeNames<ActionTemplateFlatType>
+    superType: MapToSuperTypeNames<ActionTemplateFlatType>
   ): ActionTemplateFlatType {
-    switch (type) {
+    switch (superType) {
       case 'action':
         return toFlatActionTemplate(
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),

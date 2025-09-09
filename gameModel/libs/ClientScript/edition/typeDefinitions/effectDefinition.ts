@@ -7,7 +7,7 @@ import { MapToFlatType } from '../typeDefinitions/definition';
 
 export type FlatEffect = MapToFlatType<Effect, 'effect'>;
 
-// TODO that was quick and dirty coded. Do we need a real definition here ?
+// TODO that is quick and dirty coded. Do we need a real definition here ?
 export function toFlatEffect(parentId: Uid): FlatEffect {
   return {
     type: 'effect',
@@ -16,5 +16,13 @@ export function toFlatEffect(parentId: Uid): FlatEffect {
     tag: 'New effect',
     uid: generateId(10),
     index: 0,
+  };
+}
+
+export function fromFlatEffect(flatEffect: FlatEffect): Effect {
+  const { superType: _ignored, ...effect } = flatEffect;
+  return {
+    ...effect,
+    impacts: [],
   };
 }
