@@ -1,4 +1,4 @@
-import { Uid } from '../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 
 type StateType<IS, DataType> = [IS, Record<string, DataType>];
 

@@ -1,4 +1,4 @@
-import { ActionTemplateDataController, TriggerDataController } from '../dataController';
+import { ActionTemplateDataController, TriggerDataController } from './dataController';
 import { MapToSuperTypeNames } from '../typeDefinitions/definition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';

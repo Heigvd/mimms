@@ -1,9 +1,10 @@
 import { Uid } from '../../game/common/interfaces';
 import { getController, RootCategories } from '../controllers/controllerInstances';
-import { SuperTypeNames } from '../dataController';
+import { SuperTypeNames } from '../controllers/dataController';
 
 /**
  * Generic operations for deletion, creation, reordering, undo, redo and save
+ * For Actions, Triggers, MapEntities
  */
 
 export interface GenericScenaristInterfaceState {

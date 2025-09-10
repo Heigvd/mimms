@@ -1,53 +1,60 @@
-import { TemplateDescriptor } from '../game/common/actions/actionTemplateDescriptor/templateDescriptor';
-import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { IDescriptor, Indexed, Parented, SuperTyped, Typed, Uid } from '../game/common/interfaces';
-import { Trigger } from '../game/common/triggers/trigger';
-import { Effect } from '../game/common/impacts/effect';
-import { filterRecord, ObjectVariableClasses } from '../tools/helper';
-import { parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
+import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import {
+  IDescriptor,
+  Indexed,
+  Parented,
+  SuperTyped,
+  Typed,
+  Uid,
+} from '../../game/common/interfaces';
+import { Trigger } from '../../game/common/triggers/trigger';
+import { Effect } from '../../game/common/impacts/effect';
+import { filterRecord, ObjectVariableClasses } from '../../tools/helper';
+import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
 import {
   FlatChoice,
   fromFlatChoice,
   getChoiceDefinition,
   toFlatChoice,
-} from './typeDefinitions/choiceDefinition';
+} from '../typeDefinitions/choiceDefinition';
 import {
   FlatCondition,
   fromFlatCondition,
   getConditionDefinition,
   toFlatCondition,
-} from './typeDefinitions/conditionDefinition';
-import { MapToSuperTypeNames } from './typeDefinitions/definition';
-import { FlatEffect, fromFlatEffect, toFlatEffect } from './typeDefinitions/effectDefinition';
+} from '../typeDefinitions/conditionDefinition';
+import { MapToSuperTypeNames } from '../typeDefinitions/definition';
+import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
   fromFlatImpact,
   getImpactDefinition,
   toFlatImpact,
-} from './typeDefinitions/impactDefinition';
+} from '../typeDefinitions/impactDefinition';
 import {
   FlatActionTemplate,
   fromFlatActionTemplate,
   getTemplateDef,
   toFlatActionTemplate,
-} from './typeDefinitions/templateDefinition';
+} from '../typeDefinitions/templateDefinition';
 import {
   FlatTrigger,
   fromFlatTrigger,
   getTriggerDefinition,
   toFlatTrigger,
-} from './typeDefinitions/triggerDefinition';
+} from '../typeDefinitions/triggerDefinition';
 import { UndoRedoContext } from './undoRedoContext';
-import { Impact } from '../game/common/impacts/impact';
-import { group } from '../tools/groupBy';
-import { scenarioEditionLogger } from '../tools/logger';
-import { ContextHandler } from './controllers/stateHandler';
+import { Impact } from '../../game/common/impacts/impact';
+import { group } from '../../tools/groupBy';
+import { scenarioEditionLogger } from '../../tools/logger';
+import { ContextHandler } from '../controllers/stateHandler';
 import {
   ActionTemplateInterfaceState,
   GenericScenaristInterfaceState,
   TriggerInterfaceState,
-} from './UIfacade/genericFacade';
-import { moveElement, OperationType } from '../tools/indexedSorting';
+} from '../UIfacade/genericFacade';
+import { moveElement, OperationType } from '../../tools/indexedSorting';
 
 type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -93,7 +100,7 @@ export abstract class DataControllerBase<
     const updatedIState = this.contextHandler.getCurrentState();
 
     Object.entries(updatedIState.selected).forEach(([superType, id]) => {
-      if (removedIds.has(id)) {
+      if (id && removedIds.has(id)) {
         delete updatedIState.selected[superType as SuperTypeNames];
       }
     });
@@ -126,7 +133,9 @@ export abstract class DataControllerBase<
     const newObject = this.createNewInternal(parentId, superType);
     const updatedData = this.getFlatDataClone();
     updatedData[newObject.uid] = newObject;
+    // select new
     const updatedIState = this.contextHandler.getCurrentState();
+    updatedIState.selected[superType] = newObject.uid;
     this.applyChanges(updatedData, updatedIState);
     return newObject;
   }
