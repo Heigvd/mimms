@@ -1,7 +1,7 @@
 import { ViewConfig } from '../../../edition/typeDefinitions/definition';
 import { triggerLogger } from '../../../tools/logger';
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
-import { getTriggers } from '../../loaders/triggerLoader';
+import { getTriggersArray } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
@@ -27,7 +27,7 @@ export interface Trigger extends IActivableDescriptor, IDescriptor, Typed, Index
 }
 
 export function getSortedTriggers(): Trigger[] {
-  return getTriggers().sort(compareTriggers);
+  return getTriggersArray().sort(compareTriggers);
 }
 
 export function compareTriggers(a: Trigger, b: Trigger): number {

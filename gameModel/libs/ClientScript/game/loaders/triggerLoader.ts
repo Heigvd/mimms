@@ -1,18 +1,21 @@
-import { RadioType } from '../common/radio/communicationType';
-import { Trigger } from '../common/triggers/trigger';
+import { parseObjectDescriptor } from '../../tools/WegasHelper';
+import { Uid } from '../common/interfaces';
+import { getTriggersVariable, Trigger } from '../common/triggers/trigger';
 
-// FIXME if needed, change return type to Record<Uid, Trigger>
-export function getTriggers(): Trigger[] {
-  //const triggersVariable = getTriggersVariable();
-  //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
-  // TODO load from WEGAS variable
-  return [];
-  getTestTriggers();
+export function getTriggersArray(): Trigger[] {
+  const triggersVariable = getTriggersVariable();
+  return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
 }
 
-function getTestTriggers(): Trigger[] {
-  return [
-    {
+export function getTriggersRecord(): Record<Uid, Trigger> {
+  const triggersVariable = getTriggersVariable();
+  return parseObjectDescriptor<Trigger>(triggersVariable);
+}
+
+/*
+function getTestTriggers(): Record<Uid, Trigger> {
+  return {
+    'Test trigger UID here': {
       type: 'trigger',
       uid: 'Test trigger UID here',
       index: 0,
@@ -52,7 +55,7 @@ function getTestTriggers(): Trigger[] {
       ],
     },
     // RADIO IMPACT
-    {
+    'Other test trigger UID here': {
       uid: 'Other test trigger UID here',
       type: 'trigger',
       index: 1,
@@ -83,7 +86,7 @@ function getTestTriggers(): Trigger[] {
       impacts: [
         {
           type: 'radio',
-          uid: 'i1',
+          uid: 'i3',
           channel: RadioType.CASU,
           delaySeconds: 0,
           message: 'Triggers can talk in the radio too',
@@ -92,7 +95,7 @@ function getTestTriggers(): Trigger[] {
       ],
     },
     // zero timing
-    {
+    'zero timing try': {
       uid: 'zero timing try',
       type: 'trigger',
       index: 2,
@@ -122,5 +125,6 @@ function getTestTriggers(): Trigger[] {
         },
       ],
     },
-  ];
+  };
 }
+*/

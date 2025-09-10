@@ -9,7 +9,7 @@ import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/t
 import { Uid } from '../common/interfaces';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
 import { Trigger } from '../common/triggers/trigger';
-import { getTriggers } from './triggerLoader';
+import { getTriggersArray } from './triggerLoader';
 
 export function buildActivables(): Record<Uid, Activable> {
   const activables: Record<Uid, Activable> = {};
@@ -21,7 +21,7 @@ export function buildActivables(): Record<Uid, Activable> {
 }
 
 function addTriggerActivables(activables: Record<Uid, Activable>): void {
-  const allTriggers: Trigger[] = getTriggers();
+  const allTriggers: Trigger[] = getTriggersArray();
 
   allTriggers.forEach((trigger: Trigger) => {
     activables[trigger.uid] = fromDescriptor(trigger);

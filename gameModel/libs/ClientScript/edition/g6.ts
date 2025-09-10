@@ -1,8 +1,9 @@
+//import { Impact } from "../game/common/impacts/impact";
 import { Uid } from '../game/common/interfaces';
 import { compareConditions, Condition } from '../game/common/triggers/condition';
 import { TimeCondition } from '../game/common/triggers/implementation/timeCondition';
 import { compareTriggers, saveTriggers, Trigger } from '../game/common/triggers/trigger';
-import { getTriggers } from '../game/loaders/triggerLoader';
+import { getTriggersRecord } from '../game/loaders/triggerLoader';
 import { generateId } from '../tools/helper';
 import { ValidationResult } from './typeDefinitions/definition';
 import { getTriggerDefinition } from './typeDefinitions/triggerDefinition';
@@ -14,7 +15,7 @@ export interface TriggerConfigState {
 
 export function getInitialTriggerConfigState() {
   return {
-    triggers: getTriggers(),
+    triggers: getTriggersRecord(),
     selectedTrigger: undefined,
   };
 }
@@ -34,11 +35,7 @@ export function getSelectedTrigger(): Trigger | undefined {
 
 export function reloadTriggersFromVariable(): void {
   const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
-  newState.triggers = Object.fromEntries(
-    getTriggers().map(trigger => {
-      return [trigger.uid, trigger];
-    })
-  );
+  newState.triggers = getTriggersRecord();
   Context.triggerConfig.setState(newState);
 }
 
@@ -78,6 +75,8 @@ export function getTriggersSorted(): Trigger[] {
 export function selectTrigger(triggerUid: Uid) {
   const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
   newState.selectedTrigger = triggerUid;
+  //newState.conditions = Object.values(newState.triggers[triggerUid].conditions);
+  //newState.impacts = Object.values(newState.triggers[triggerUid].impacts);
   Context.triggerConfig.setState(newState);
 }
 
@@ -100,6 +99,8 @@ export function addTrigger(): void {
 export function deleteTrigger(): void {
   const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
   newState.selectedTrigger = undefined;
+  //const triggers = newState.triggers;
+  //delete triggers[Context.trigger.uid];
   delete newState.triggers[Context.trigger.uid];
   // TODO recompute indexes
   Context.triggerConfig.setState(newState);
@@ -107,10 +108,11 @@ export function deleteTrigger(): void {
 
 export function updateCurrentTrigger(newData: Partial<Trigger>): void {
   const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
-  newState.triggers[newState.selectedTrigger!] = {
+  const updatedTrigger: Trigger = {
     ...(newState.triggers[newState.selectedTrigger!] as Trigger),
     ...newData,
   };
+  newState.triggers[newState.selectedTrigger!] = updatedTrigger;
   Context.triggerConfig.setState(newState);
 }
 
@@ -138,8 +140,9 @@ export function addFakeTimeCondition(): void {
   Context.triggerConfig.setState(newState);
 }
 
+// TODO voir quoi faire si on change le type. voir si on garde les données.
+
 export function updateCurrentCondition(newData: any): void {
-  // TODO si on change le type, supprimer toutes les données intrinsèques.
   const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
   const conditions = newState.triggers[newState.selectedTrigger!]!.conditions;
   const condIndex = conditions.findIndex((cond: Condition) => cond.uid === Context.condition.uid);
@@ -185,7 +188,7 @@ export function getConditionTypeChoices(): { label: string; value: string }[] {
 }
 
 export function validateTimeCondition(condition: TimeCondition): ValidationResult {
-  // TODO make this compile and generalize: return getConditionDefinition(condition.type).validator(condition);
+  //return getConditionDefinition(condition.type).validator(condition);
   let success: boolean = true;
   const messages: ValidationResult['messages'] = [];
   if (condition.timeSeconds < 0) {
@@ -198,6 +201,19 @@ export function validateTimeCondition(condition: TimeCondition): ValidationResul
   }
   return { success, messages };
 }
+
+/*
+export function selectCondition(conditionUid: Uid) {
+  const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
+  newState.selectedCondition = conditionUid;
+  Context.triggerConfig.setState(newState);
+}
+
+export function unselectCondition() {
+  const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
+  newState.selectedCondition = undefined;
+  Context.triggerConfig.setState(newState);
+}*/
 
 export function getTimeOperatorChoices(): { label: string; value: string }[] {
   return [
@@ -215,3 +231,15 @@ export function getTimeOperatorChoices(): { label: string; value: string }[] {
     },
   ];
 }
+/*
+export function selectImpact(impactUid: Uid) {
+  const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
+  newState.selectedImpact = impactUid;
+  Context.triggerConfig.setState(newState);
+}
+
+export function unselectImpact() {
+  const newState: TriggerConfigState = Helpers.cloneDeep(Context.triggerConfig.state);
+  newState.selectedImpact = undefined;
+  Context.triggerConfig.setState(newState);
+}*/

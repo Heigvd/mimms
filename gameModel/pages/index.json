@@ -308,7 +308,7 @@
         "@class" : "Page",
         "id" : "scenaristMainMenu",
         "name" : "Menu",
-        "scenaristPage" : false,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -329,9 +329,55 @@
         "scenaristPage" : null,
         "trainerPage" : null
       }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "g5",
+          "name" : "tmp triggers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "g3",
+          "name" : "tmp generic triggers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "g4",
+          "name" : "tmp generics",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "old"
+      }, {
         "@class" : "Page",
         "id" : "triggersConfiguration",
-        "name" : "Triggers",
+        "name" : "Triggers Configuration",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "31",
+        "name" : "Generic Item",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "32",
+        "name" : "Trigger Item Detail",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "33",
+        "name" : "Condition Item Detail",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "34",
+        "name" : "Impact Item Detail",
         "scenaristPage" : null,
         "trainerPage" : null
       }, {

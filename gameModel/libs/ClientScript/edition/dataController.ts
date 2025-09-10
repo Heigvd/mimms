@@ -84,11 +84,11 @@ export abstract class DataControllerBase<
     this.refresh(interfaceState, flatData);
   }
 
-  public canUndo(): boolean{
+  public canUndo(): boolean {
     return this.undoRedo.canUndo();
   }
 
-  public canRedo(): boolean{
+  public canRedo(): boolean {
     return this.undoRedo.canRedo();
   }
 
@@ -202,7 +202,10 @@ export class TriggerDataController extends DataControllerBase<
             parentTrigger.impacts.push(fromFlatImpact(element));
           }
         } else {
-          scenarioEditionLogger.error('Found some orphan impact/condition in trigger data', element);
+          scenarioEditionLogger.error(
+            'Found some orphan impact/condition in trigger data',
+            element
+          );
         }
       });
     return tree;
@@ -272,11 +275,11 @@ export class ActionTemplateDataController extends DataControllerBase<
     const choices: Record<Uid, ChoiceDescriptor> = {};
     groups.choice.forEach(flatChoice => {
       const parent = tree[flatChoice.parent];
-      if(parent){
+      if (parent) {
         const c = fromFlatChoice(flatChoice as FlatChoice);
         choices[c.uid] = c;
         parent.choices.push(c);
-      }else {
+      } else {
         scenarioEditionLogger.error('Found some orphan choice', flatChoice);
       }
     });
@@ -284,20 +287,20 @@ export class ActionTemplateDataController extends DataControllerBase<
     const effects: Record<Uid, Effect> = {};
     groups.effect.forEach(flatEffect => {
       const parent = choices[flatEffect.parent];
-      if(parent){
+      if (parent) {
         const ef = fromFlatEffect(flatEffect as FlatEffect);
         effects[ef.uid] = ef;
         parent.effects.push(ef);
-      }else {
+      } else {
         scenarioEditionLogger.error('Found some orphan effect', flatEffect);
       }
     });
 
     groups.impact.forEach(flatImpact => {
       const parent = effects[flatImpact.parent];
-      if(parent){
-      const i = fromFlatImpact(flatImpact as FlatImpact);
-      parent.impacts.push(i);
+      if (parent) {
+        const i = fromFlatImpact(flatImpact as FlatImpact);
+        parent.impacts.push(i);
       } else {
         scenarioEditionLogger.error('Found some orphan impact', flatImpact);
       }

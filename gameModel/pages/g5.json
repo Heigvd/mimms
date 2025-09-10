@@ -100,7 +100,7 @@
                                         "rows" : 3,
                                         "script" : {
                                           "@class" : "Script",
-                                          "content" : "  Context.trigger.comment;",
+                                          "content" : "  Context.trigger.comment ?? '';",
                                           "language" : "TypeScript"
                                         },
                                         "style" : { }
@@ -208,7 +208,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { deleteTrigger } from \"./edition/triggerConfiguration\";\n\ndeleteTrigger();",
+                                    "content" : "import { deleteTrigger } from \"./edition/g6\";\n\ndeleteTrigger();",
                                     "language" : "TypeScript"
                                   }
                                 },
@@ -249,7 +249,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { addTrigger } from \"./edition/triggerConfiguration\";\n\naddTrigger();",
+                            "content" : "import { addTrigger } from \"./edition/g6\";\n\naddTrigger();",
                             "language" : "TypeScript"
                           }
                         },
@@ -266,7 +266,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { unselectTrigger } from \"./edition/triggerConfiguration\";\n\nunselectTrigger();",
+                        "content" : "import { unselectTrigger } from \"./edition/g6\";\n\nunselectTrigger();",
                         "language" : "TypeScript"
                       }
                     },
@@ -293,12 +293,12 @@
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
-                          "content" : "import { getTriggerOperatorChoices } from \"./edition/triggerConfiguration\";\ngetTriggerOperatorChoices();",
+                          "content" : "import { getTriggerOperatorChoices } from \"./edition/g6\";\ngetTriggerOperatorChoices();",
                           "language" : "typescript"
                         },
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger();",
+                          "content" : "import { getSelectedTrigger } from \"./edition/g6\";\n!getSelectedTrigger();",
                           "language" : "typescript"
                         },
                         "layoutStyle" : { },
@@ -306,7 +306,7 @@
                         "onVariableChange" : {
                           "client" : {
                             "@class" : "Script",
-                            "content" : "import { updateCurrentTrigger } from \"./edition/triggerConfiguration\";\nupdateCurrentTrigger({operator : Context.newValue});",
+                            "content" : "import { updateCurrentTrigger } from \"./edition/g6\";\nupdateCurrentTrigger({operator : Context.newValue});",
                             "language" : "TypeScript"
                           },
                           "exposeVariableAs" : {
@@ -317,7 +317,7 @@
                         },
                         "script" : {
                           "@class" : "Script",
-                          "content" : "import { getDefaultTriggerOperatorChoice, getSelectedTrigger } from \"./edition/triggerConfiguration\";\n    getSelectedTrigger()?.operator ?? getDefaultTriggerOperatorChoice();",
+                          "content" : "import { getDefaultTriggerOperatorChoice, getSelectedTrigger } from \"./edition/g6\";\n    getSelectedTrigger()?.operator ?? getDefaultTriggerOperatorChoice();",
                           "language" : "TypeScript"
                         },
                         "style" : { }
@@ -333,7 +333,7 @@
                                   "props" : {
                                     "choices" : {
                                       "@class" : "Script",
-                                      "content" : "import { getConditionTypeChoices } from \"./edition/triggerConfiguration\";\ngetConditionTypeChoices();",
+                                      "content" : "import { getConditionTypeChoices } from \"./edition/g6\";\ngetConditionTypeChoices();",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
@@ -341,7 +341,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({type: Context.newValue});",
+                                        "content" : "import { updateCurrentCondition } from \"./edition/g6\";\n\nupdateCurrentCondition({type: Context.newValue});",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -379,7 +379,7 @@
                                               "props" : {
                                                 "choices" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getTimeOperatorChoices } from \"./edition/triggerConfiguration\";\ngetTimeOperatorChoices();",
+                                                  "content" : "import { getTimeOperatorChoices } from \"./edition/g6\";\ngetTimeOperatorChoices();",
                                                   "language" : "typescript"
                                                 },
                                                 "layoutStyle" : { },
@@ -387,7 +387,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({operator: Context.newValue});",
+                                                    "content" : "import { updateCurrentCondition } from \"./edition/g6\";\n\nupdateCurrentCondition({operator: Context.newValue});",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -410,7 +410,7 @@
                                                 "onVariableChange" : {
                                                   "client" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { updateCurrentCondition } from \"./edition/triggerConfiguration\";\n\nupdateCurrentCondition({timeSeconds: Context.newValue * 60});",
+                                                    "content" : "import { updateCurrentCondition } from \"./edition/g6\";\n\nupdateCurrentCondition({timeSeconds: Context.newValue * 60});",
                                                     "language" : "TypeScript"
                                                   },
                                                   "exposeVariableAs" : {
@@ -666,12 +666,12 @@
                         "exposeAs" : "condition",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getConditionsSorted } from \"./edition/triggerConfiguration\";\n  getConditionsSorted();",
+                          "content" : "import { getConditionsSorted } from \"./edition/g6\";\n  getConditionsSorted();",
                           "language" : "TypeScript"
                         },
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger();",
+                          "content" : "import { getSelectedTrigger } from \"./edition/g6\";\n!getSelectedTrigger();",
                           "language" : "typescript"
                         },
                         "itemKey" : "uid",
@@ -733,14 +733,14 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\n!getSelectedTrigger() || true;",
+                          "content" : "import { getSelectedTrigger } from \"./edition/g6\";\n!getSelectedTrigger() || true;",
                           "language" : "typescript"
                         },
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { getSelectedTrigger } from \"./edition/triggerConfiguration\";\nJSON.stringify(getSelectedTrigger()!.impacts);",
+                          "content" : "import { getSelectedTrigger } from \"./edition/g6\";\nJSON.stringify(getSelectedTrigger()!.impacts);",
                           "language" : "TypeScript"
                         }
                       },
@@ -846,7 +846,7 @@
         "exposeAs" : "triggerConfig",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { getInitialTriggerConfigState } from \"./edition/triggerConfiguration\";\ngetInitialTriggerConfigState();",
+          "content" : "import { getInitialTriggerConfigState } from \"./edition/g6\";\ngetInitialTriggerConfigState();",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },

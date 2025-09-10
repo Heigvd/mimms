@@ -1,5 +1,5 @@
 import { Uid } from '../../game/common/interfaces';
-import { ConfigData, ConfigDataBaseKind, ConfigDataKind, getInitialState } from '../generic';
+import { ConfigData, ConfigDataBaseKind, ConfigDataKind, getInitialState } from '../g1';
 
 //export type ConfigStateType = Partial<Record<ConfigDataKind, Record<Uid, ConfigData>>>;
 export type ConfigStateType = ConfigData[];
@@ -34,12 +34,12 @@ export function getConfigData(
   let result: ConfigData[] = [];
 
   if (parentKind == undefined) {
-    result = getState().data.filter(entry => entry.class === kind);
+    result = getState().data.filter(entry => entry.superType === kind);
   } else {
     const selectedParent = getState().selected[parentKind];
     if (selectedParent !== undefined) {
       result = getState().data.filter(
-        entry => entry.class === kind && entry.parent === selectedParent
+        entry => entry.superType === kind && entry.parent === selectedParent
       );
     }
   }
