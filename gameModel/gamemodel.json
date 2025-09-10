@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1757406540849,
+  "createdTime" : 1757518840631,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -864,6 +864,37 @@
       "name" : "triggers_data",
       "properties" : { },
       "refId" : "ObjectDescriptor:2623032:acjkg8",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:2480671:KUTTWO"
+      },
+      "description" : "<p>All action template descriptors data</p>",
+      "editorTag" : "action_template_data",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:2480672:YFTDiF",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:2480672:YFTDiF::FR",
+            "status" : "",
+            "translation" : "action_template_data"
+          }
+        }
+      },
+      "name" : "action_template_data",
+      "properties" : { },
+      "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -5072,6 +5103,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/controllerInstances",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2485517:V6FKnT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/stateHandler",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2484592:ZeDc35",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/dataController",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5202,6 +5251,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991692:OWj0Bg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/genericFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2480669:S1v6a4",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6422,6 +6480,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "tools/indexedSorting",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2484594:MahmjA",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "tools/logger",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7113,7 +7180,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-468",
+  "name" : "MIMMS - XGO MIM-468 2ND ATTEMPT ",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

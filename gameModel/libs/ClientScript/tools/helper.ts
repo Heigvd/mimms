@@ -287,3 +287,12 @@ export type FilterTypeProperties<Source, Condition> = Pick<
 >;
 
 export type ObjectVariableClasses = FilterTypeProperties<VariableClasses, SObjectDescriptor>;
+
+export function filterRecord<K extends string, V>(
+  record: Record<K, V>,
+  predicate: (value: V, key: K) => boolean
+): Record<K, V> {
+  return Object.fromEntries(
+    Object.entries(record).filter(([k, v]) => predicate(v as V, k as K))
+  ) as Record<K, V>;
+}
