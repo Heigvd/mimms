@@ -49,10 +49,14 @@ export function moveDown(category: RootCategories, id: Uid): void {
   getController(category).move(id, 'DOWN');
 }
 
-export interface TriggerInterfaceState extends GenericScenaristInterfaceState {
-  /* TODO in other file */
+export function canMoveUp(category: RootCategories, id: Uid): void {
+  getController(category).canMove(id, 'UP');
 }
 
-export interface ActionTemplateInterfaceState extends GenericScenaristInterfaceState {
+export function canMoveDown(category: RootCategories, id: Uid): void {
+  getController(category).canMove(id, 'DOWN');
+}
+
+export interface TriggerInterfaceState extends GenericScenaristInterfaceState {
   /* TODO in other file */
 }

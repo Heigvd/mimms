@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1757521969186,
+  "createdTime" : 1757590343446,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -803,8 +803,7 @@
         "s2BP15YOKg" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":20,\"travelTime\":5,\"name\":\"GE-009\",\"type\":\"AMB-T\"},\"index\":7}",
         "tQivP0ViG1" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":30,\"travelTime\":5,\"name\":\"SMUR-003\",\"type\":\"SMUR\"},\"index\":33}",
         "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}",
-        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"PICA-001\",\"type\":\"PICA\"},\"index\":28}",
-        "zSZVCpzoeq" : "{\"mandatory\":false,\"index\":31,\"payload\":{\"name\":\"unnamed\",\"type\":\"SMUR\",\"availabilityTime\":5,\"travelTime\":10}}"
+        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"PICA-001\",\"type\":\"PICA\"},\"index\":28}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
@@ -5121,6 +5120,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/parentedUtils",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2487502:JRT8vZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/stateHandler",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5260,6 +5268,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991692:OWj0Bg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/actionTemplateFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2487503:j9U4hL",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

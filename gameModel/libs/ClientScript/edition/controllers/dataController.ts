@@ -10,7 +10,7 @@ import {
 } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { Effect } from '../../game/common/impacts/effect';
-import { filterRecord, ObjectVariableClasses } from '../../tools/helper';
+import { entries, ObjectVariableClasses } from '../../tools/helper';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
 import {
   FlatChoice,
@@ -49,12 +49,10 @@ import { Impact } from '../../game/common/impacts/impact';
 import { group } from '../../tools/groupBy';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { ContextHandler } from '../controllers/stateHandler';
-import {
-  ActionTemplateInterfaceState,
-  GenericScenaristInterfaceState,
-  TriggerInterfaceState,
-} from '../UIfacade/genericFacade';
-import { moveElement, OperationType } from '../../tools/indexedSorting';
+import { GenericScenaristInterfaceState, TriggerInterfaceState } from '../UIfacade/genericFacade';
+import { canMove, moveElement, OperationType } from '../../tools/indexedSorting';
+import { getSiblings, removeRecursively } from './parentedUtils';
+import { ActionTemplateInterfaceState } from '../UIfacade/actionTemplateFacade';
 
 type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -94,14 +92,18 @@ export abstract class DataControllerBase<
     this.undoRedo.onSave();
   }
 
+  public isSaved(): boolean {
+    return this.undoRedo.isSaved();
+  }
+
   public remove(id: Uid): void {
     const flatData = this.getFlatDataClone();
-    const removedIds = this.removeRecursively(id, flatData);
+    const removedIds = removeRecursively(id, flatData);
     const updatedIState = this.contextHandler.getCurrentState();
 
-    Object.entries(updatedIState.selected).forEach(([superType, id]) => {
+    entries(updatedIState.selected).forEach(([superType, id]) => {
       if (id && removedIds.has(id)) {
-        delete updatedIState.selected[superType as SuperTypeNames];
+        delete updatedIState.selected[superType];
       }
     });
 
@@ -136,6 +138,10 @@ export abstract class DataControllerBase<
     // select new
     const updatedIState = this.contextHandler.getCurrentState();
     updatedIState.selected[superType] = newObject.uid;
+    // put at top
+    const siblings = getSiblings(newObject.uid, updatedData);
+    moveElement(newObject.uid, siblings, 'TOP');
+
     this.applyChanges(updatedData, updatedIState);
     return newObject;
   }
@@ -150,13 +156,14 @@ export abstract class DataControllerBase<
 
   public move(id: Uid, moveType: OperationType): void {
     const data = this.getFlatDataClone();
-    const target = data[id];
-    const siblings = filterRecord(
-      data,
-      e => e.parent === target?.parent && e.superType == target?.superType
-    );
+    const siblings = getSiblings(id, data);
     moveElement(id, siblings, moveType);
     this.updateData(data);
+  }
+
+  public canMove(id: Uid, moveType: OperationType): boolean {
+    const siblings = getSiblings(id, this.undoRedo.getCurrentState()[1]);
+    return canMove(id, siblings, moveType);
   }
 
   public updateData(
@@ -184,27 +191,6 @@ export abstract class DataControllerBase<
   private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState): void {
     this.undoRedo.storeState(newInterfaceState, newData);
     this.contextHandler.setState(newInterfaceState);
-  }
-
-  private removeRecursively(id: Uid, data: Record<Uid, FlatType>): Set<Uid> {
-    const parentList: Uid[] = [id];
-    const removed: Set<Uid> = new Set<Uid>();
-
-    while (parentList.length > 0) {
-      const parent = parentList.pop()!;
-      const toRemove = [parent];
-      Object.entries(data)
-        .filter(([_uid, obj]) => obj.parent === parent)
-        .forEach(([uid, _obj]) => {
-          toRemove.push(uid);
-          parentList.push(uid);
-        });
-      toRemove.forEach(uid => {
-        delete data[uid];
-        removed.add(uid);
-      });
-    }
-    return removed;
   }
 }
 

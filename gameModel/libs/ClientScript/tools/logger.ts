@@ -35,6 +35,7 @@ export const gameExecLogger = Helpers.getLogger('game.execution.context');
 export const triggerLogger = Helpers.getLogger('trigger');
 export const activableLogger = Helpers.getLogger('activable');
 export const scenarioEditionLogger = Helpers.getLogger('scenario.editor');
+export const sortingLogger = Helpers.getLogger('helpers.sorting');
 
 gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
