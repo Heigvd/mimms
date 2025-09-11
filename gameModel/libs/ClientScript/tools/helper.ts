@@ -296,3 +296,7 @@ export function filterRecord<K extends string, V>(
     Object.entries(record).filter(([k, v]) => predicate(v as V, k as K))
   ) as Record<K, V>;
 }
+
+export function patchX<T>(value: T, patch: Partial<T>): T {
+  return { ...value, ...patch };
+}

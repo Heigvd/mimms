@@ -1,0 +1,186 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "type",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { type: Context.newValue });",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"newValue\"",
+                "language" : "TypeScript"
+              }
+            },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Make your choice\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.item.type;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "< | = | >",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { operator: Context.newValue });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.operator;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.newValue * 60 });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Math.round(Context.item.timeSeconds / 60);",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "min",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>min</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'time';",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "row"
+            },
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "open",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  `${Context.item.type}`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'time';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  `${Context.item.operator} ${Math.round(Context.item.timeSeconds / 60)} min`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "closed",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}
