@@ -54,10 +54,10 @@ import { canMove, moveElement, OperationType } from '../../tools/indexedSorting'
 import { getSiblings, removeRecursively } from './parentedUtils';
 import { ActionTemplateInterfaceState } from '../UIfacade/actionTemplateFacade';
 
-type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
+export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
-type TriggerFlatType = FlatTrigger | FlatImpact | FlatCondition;
-type ActionTemplateFlatType = FlatActionTemplate | FlatChoice | FlatEffect | FlatImpact;
+export type TriggerFlatType = FlatTrigger | FlatImpact | FlatCondition;
+export type ActionTemplateFlatType = FlatActionTemplate | FlatChoice | FlatEffect | FlatImpact;
 // TODO map entities
 
 /**
@@ -74,6 +74,10 @@ export abstract class DataControllerBase<
   private readonly varKey: keyof ObjectVariableClasses;
   private readonly contextHandler: ContextHandler<IState>;
 
+  /**
+   * @param variableKey The "name" of the variable to store the data
+   * @param contextKey The "exposeAs" of the State Component (e.g. triggerConfigState, actionTemplateConfigState)
+   */
   constructor(variableKey: keyof ObjectVariableClasses, contextKey: string) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);

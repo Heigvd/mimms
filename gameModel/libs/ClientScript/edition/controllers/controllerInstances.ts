@@ -4,7 +4,7 @@ import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 
 // TODO add map entities controller
-type ControllerType = TriggerDataController | ActionTemplateDataController;
+export type ControllerType = TriggerDataController | ActionTemplateDataController;
 export type RootCategories = MapToSuperTypeNames<FlatTrigger | FlatActionTemplate>;
 
 export function getController(rootType: RootCategories): ControllerType {
@@ -22,13 +22,13 @@ let actionTplController: ActionTemplateDataController | undefined;
 
 export function getTriggerController(): TriggerDataController {
   return (triggerController =
-    triggerController || new TriggerDataController('triggers_data', 'TODO ctx key'));
+    triggerController || new TriggerDataController('triggers_data', 'triggerConfigState'));
 }
 
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
     actionTplController ||
-    new ActionTemplateDataController('action_template_data', 'TODO ctx key'));
+    new ActionTemplateDataController('action_template_data', 'actionTemplateConfigState'));
 }
 
 // Reset the controllers when saving scripts or restarting the game
