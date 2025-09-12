@@ -5273,7 +5273,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/UIfacade/actionTemplateFacade",
+    "contentKey" : "edition/UIfacade/actionConfigFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2487503:j9U4hL",
@@ -5291,10 +5291,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/UIfacade/genericFacade",
+    "contentKey" : "edition/UIfacade/mainMenuStateFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2480669:S1v6a4",
+    "refId" : "GameModelContent:2493377:tAcP8i",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6672,15 +6672,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:927245:4WzOpc",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "UIfacade/scenaristMenuFacade",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2348951:MpDZJI",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

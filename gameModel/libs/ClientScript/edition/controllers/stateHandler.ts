@@ -1,21 +1,23 @@
-export interface Context<IState> {
-  state: IState;
-  setState: (newState: IState) => void;
-}
+import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
+import {
+  GenericSubStateKey,
+  getMenuUISubState,
+  setMenuUISubState,
+} from '../UIfacade/mainMenuStateFacade';
 
-export class ContextHandler<IState> {
-  constructor(readonly key: string) {}
+export class ContextHandler<IPartialState extends GenericScenaristInterfaceState> {
+  constructor(readonly key: GenericSubStateKey) {}
 
-  public getTypedContext(): Context<IState> {
-    return Context[this.key] as Context<IState>;
+  public getTypedContext(): IPartialState {
+    return getMenuUISubState<IPartialState>(this.key);
   }
 
-  getCurrentState(): IState {
-    return Helpers.cloneDeep(this.getTypedContext().state);
+  getCurrentState(): IPartialState {
+    return Helpers.cloneDeep(this.getTypedContext());
   }
 
-  setState(modifiedState: IState) {
+  setState(modifiedState: IPartialState) {
     const clone = Helpers.cloneDeep(modifiedState);
-    this.getTypedContext().setState(clone);
+    setMenuUISubState<IPartialState>(this.key, clone);
   }
 }

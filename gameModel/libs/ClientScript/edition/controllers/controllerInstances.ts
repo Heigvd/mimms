@@ -1,7 +1,7 @@
-import { ActionTemplateDataController, TriggerDataController } from './dataController';
 import { MapToSuperTypeNames } from '../typeDefinitions/definition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { ActionTemplateDataController, TriggerDataController } from './dataController';
 
 // TODO add map entities controller
 export type ControllerType = TriggerDataController | ActionTemplateDataController;
@@ -22,13 +22,12 @@ let actionTplController: ActionTemplateDataController | undefined;
 
 export function getTriggerController(): TriggerDataController {
   return (triggerController =
-    triggerController || new TriggerDataController('triggers_data', 'triggerConfigState'));
+    triggerController || new TriggerDataController('triggers_data', 'trigger'));
 }
 
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
-    actionTplController ||
-    new ActionTemplateDataController('action_template_data', 'actionTemplateConfigState'));
+    actionTplController || new ActionTemplateDataController('action_template_data', 'action'));
 }
 
 // Reset the controllers when saving scripts or restarting the game

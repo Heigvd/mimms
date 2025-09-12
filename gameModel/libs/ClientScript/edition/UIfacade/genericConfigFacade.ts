@@ -5,48 +5,62 @@ import {
   RootCategories,
 } from '../controllers/controllerInstances';
 import { FlatTypeDef, SuperTypeNames } from '../controllers/dataController';
+import { getMenuUISubState, setMenuUISubState } from './mainMenuStateFacade';
 
 /**
  * Generic operations for deletion, creation, reordering, undo, redo and save
  * For Actions, Triggers, MapEntities
  */
 
-// TODO generic
-const INTERFACE_STATE_KEY = 'triggerConfigState';
-
 export interface GenericScenaristInterfaceState {
-  category: RootCategories;
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
-export function loadInitialState(category: RootCategories): GenericScenaristInterfaceState {
+export function loadInitialState(): GenericScenaristInterfaceState {
   return {
-    category,
     selected: {},
   };
 }
 
 export function getState(): GenericScenaristInterfaceState {
-  return Context[INTERFACE_STATE_KEY].state;
+  return getMenuUISubState(getCategory());
+}
+
+export interface PageState {
+  category: RootCategories;
+}
+
+export function loadInitialPageState(category: RootCategories): PageState {
+  return {
+    category,
+  };
+}
+
+export function getCategory(): RootCategories {
+  return Context.pageState.state.category;
 }
 
 function getController(): ControllerType {
-  return getTheController(getState().category);
+  return getTheController(getCategory());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 // selection
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  const newState = Helpers.cloneDeep(Context[INTERFACE_STATE_KEY].state);
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getMenuUISubState(getCategory())
+  );
   newState.selected[itemType] = uid;
-  Context[INTERFACE_STATE_KEY].setState(newState);
+  setMenuUISubState(getCategory(), newState);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  const newState = Helpers.cloneDeep(Context[INTERFACE_STATE_KEY].state);
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getMenuUISubState(getCategory())
+  );
   delete newState.selected[itemType];
-  Context[INTERFACE_STATE_KEY].setState(newState);
+  setMenuUISubState(getCategory(), newState);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {

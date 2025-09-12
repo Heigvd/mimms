@@ -401,14 +401,14 @@
           },
           "type" : "Text"
         } ],
-        "exposeAs" : "triggerConfigState",
+        "exposeAs" : "pageState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { loadInitialState } from \"./edition/UIfacade/genericConfigFacade\";\nloadInitialState('trigger');",
+          "content" : "import { loadInitialPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadInitialPageState('trigger');",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
-        "localState" : true,
+        "localState" : false,
         "style" : { }
       },
       "type" : "State"

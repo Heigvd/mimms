@@ -1,5 +1,7 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { Effect } from '../../game/common/impacts/effect';
+import { Impact } from '../../game/common/impacts/impact';
 import {
   IDescriptor,
   Indexed,
@@ -9,8 +11,10 @@ import {
   Uid,
 } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
-import { Effect } from '../../game/common/impacts/effect';
+import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
+import { canMove, moveElement, OperationType } from '../../tools/indexedSorting';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
 import {
   FlatChoice,
@@ -44,15 +48,13 @@ import {
   getTriggerDefinition,
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
-import { UndoRedoContext } from './undoRedoContext';
-import { Impact } from '../../game/common/impacts/impact';
-import { group } from '../../tools/groupBy';
-import { scenarioEditionLogger } from '../../tools/logger';
-import { ContextHandler } from '../controllers/stateHandler';
-import { GenericScenaristInterfaceState, TriggerInterfaceState } from '../UIfacade/genericFacade';
-import { canMove, moveElement, OperationType } from '../../tools/indexedSorting';
+import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
+import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
+import { GenericSubStateKey } from '../UIfacade/mainMenuStateFacade';
+import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { getSiblings, removeRecursively } from './parentedUtils';
-import { ActionTemplateInterfaceState } from '../UIfacade/actionTemplateFacade';
+import { ContextHandler } from './stateHandler';
+import { UndoRedoContext } from './undoRedoContext';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -74,11 +76,7 @@ export abstract class DataControllerBase<
   private readonly varKey: keyof ObjectVariableClasses;
   private readonly contextHandler: ContextHandler<IState>;
 
-  /**
-   * @param variableKey The "name" of the variable to store the data
-   * @param contextKey The "exposeAs" of the State Component (e.g. triggerConfigState, actionTemplateConfigState)
-   */
-  constructor(variableKey: keyof ObjectVariableClasses, contextKey: string) {
+  constructor(variableKey: keyof ObjectVariableClasses, contextKey: GenericSubStateKey) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);
     const data = parseObjectDescriptor<DataType>(desc) || {};
@@ -201,7 +199,7 @@ export abstract class DataControllerBase<
 export class TriggerDataController extends DataControllerBase<
   Trigger,
   TriggerFlatType,
-  TriggerInterfaceState
+  TriggerConfigUIState
 > {
   private static readonly TRIGGER_ROOT: string = 'TRIGGER_ROOT';
 
@@ -272,7 +270,7 @@ export class TriggerDataController extends DataControllerBase<
 export class ActionTemplateDataController extends DataControllerBase<
   TemplateDescriptor,
   ActionTemplateFlatType,
-  ActionTemplateInterfaceState
+  ActionTemplateConfigUIState
 > {
   private static readonly ACTION_ROOT: string = 'ACTION_ROOT';
 

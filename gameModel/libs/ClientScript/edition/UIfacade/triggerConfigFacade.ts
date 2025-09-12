@@ -2,6 +2,15 @@ import { Uid } from '../../game/common/interfaces';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { TriggerFlatType } from '../controllers/dataController';
+import { GenericScenaristInterfaceState } from './genericConfigFacade';
+
+export type TriggerConfigUIState = GenericScenaristInterfaceState;
+
+export function getInitialTriggersUIState(): TriggerConfigUIState {
+  return {
+    selected: {},
+  };
+}
 
 export function updateItem<T extends TriggerFlatType>(uid: Uid, newData: Partial<T>): void {
   const controller = getTriggerController();
