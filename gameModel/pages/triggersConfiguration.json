@@ -98,7 +98,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerFacade\";\ngetTriggerOperatorChoices();",
+                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTriggerOperatorChoices();",
                   "language" : "typescript"
                 },
                 "hideIf" : {
@@ -111,7 +111,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { updateItem } from \"./edition/UIfacade/triggerFacade\";\n\nconst selectedTrigger = getSelected('trigger') as FlatTrigger;\nif (selectedTrigger) {\n  updateItem<FlatTrigger>(selectedTrigger.uid, { operator: Context.newValue });\n}",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nconst selectedTrigger = getSelected('trigger') as FlatTrigger;\nif (selectedTrigger) {\n  updateItem<FlatTrigger>(selectedTrigger.uid, { operator: Context.newValue });\n}",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -334,6 +334,11 @@
               "type" : "Button"
             }, {
               "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\nisSaved();",
+                  "language" : "typescript"
+                },
                 "icon" : "save",
                 "label" : {
                   "@class" : "Script",
@@ -382,7 +387,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "false;",
+              "content" : "true;",
               "language" : "typescript"
             },
             "layoutStyle" : { },

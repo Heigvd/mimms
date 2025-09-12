@@ -138,7 +138,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  `${Context.item.type}`;",
+              "content" : "  Context.item.type;",
               "language" : "TypeScript"
             }
           },
