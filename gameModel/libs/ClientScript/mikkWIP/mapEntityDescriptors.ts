@@ -5,9 +5,9 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 
 ////// TYPES ///////
-
-export interface BaseMapObject<T> {
-  type: 'Point' | 'Line' | 'Polygon';
+// XGO moved to common/mapEntities
+export interface BaseMapObject<T> extends Typed{
+  //type: 'Point' | 'Line' | 'Polygon';
   geometry: T;
 }
 
@@ -25,7 +25,7 @@ export interface PolygonMapObject extends BaseMapObject<PointLikeObject[][]> {
   type: 'Polygon';
   geometry: PointLikeObject[][];
 }
-
+// XGO typing seems ok to me, just a doubt on the genericity parameter, otherwise the integration is likely the same as impacts inside triggers
 export type MapObject = PointMapObject | LineMapObject | PolygonMapObject;
 
 export type BuildStatus = 'pending' | 'built';
@@ -55,6 +55,8 @@ export function getTestMapEntityDescriptor(): MapEntityDescriptor {
 
 ///// MAP ENTITY DESCRIPTORS /////
 
+// XGO : Moved to loaders
+// XGO using the generic parameter parseObjectDescriptor<MapEntityDescriptor> should do the trick which would make this function a one liner (see commented return statement)
 // TODO Improve or have generic parsing
 // Load all descriptors from variable
 export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
@@ -64,8 +66,11 @@ export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> 
   }
 
   return descs as Record<string, MapEntityDescriptor>;
+  //return parseObjectDescriptor<MapEntityDescriptor>(Variable.find(gameModel, 'mapEntityDescriptors'));
+
 }
 
+// XGO : This will be automated in MapEntitiesController passing the variable key
 export function saveMapEntityDescriptors(record: Record<string, MapEntityDescriptor>): void {
   const v = Variable.find(gameModel, 'mapEntityDescriptors');
   const data: Record<string, string> = {};
@@ -81,6 +86,9 @@ export function reloadMapEntityDescriptors() {
   return mapEntityDescriptors;
 }
 
+// XGO : not 100% sure but we will likely do lazy loading pattern here
+// that is reset to {} with registerEffect (avoiding save script / restart issues)
+// and getMapEntityDescriptors() will initialize if needed
 /**
  * Singleton, used to load mapObjects. Readonly !
  */
@@ -94,6 +102,7 @@ export function getMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
   return mapEntityDescriptors;
 }
 
+// XGO those two will call the getMapEntityDescriptors() func
 export function getMapEntityDescriptor(uid: Uid): MapEntityDescriptor {
   return mapEntityDescriptors[uid]!;
 }
