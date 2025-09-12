@@ -8,7 +8,9 @@
           "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
           "language" : "typescript"
         },
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "border" : "1px solid"
+        },
         "name" : "genericItemPageLoader",
         "style" : { }
       },
@@ -106,7 +108,6 @@
     } ],
     "layout" : { },
     "layoutStyle" : {
-      "border" : "1px solid",
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
