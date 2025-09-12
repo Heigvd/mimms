@@ -83,10 +83,9 @@ export function canMove<T extends Indexed & IDescriptor>(
   }
 
   // if any bigger/smaller then we can move down/up respectively
-  if(moveType === 'BOTTOM' || moveType === 'DOWN'){
+  if (moveType === 'BOTTOM' || moveType === 'DOWN') {
     return Object.values(data).some(other => comparator(other, data[id]!) > 0);
-  }else {
+  } else {
     return Object.values(data).some(other => comparator(other, data[id]!) < 0);
   }
-
 }

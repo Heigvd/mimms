@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1757590343446,
+  "createdTime" : 1757672814261,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5228,6 +5228,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/typeDefinitions/mapEntityDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2489463:V8FI2n",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/typeDefinitions/mapObjectDefinition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2488511:VJJGmJ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/typeDefinitions/templateDefinition",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5282,10 +5300,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/activableFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2490451:W0UxJI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/genericFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2480669:S1v6a4",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/mapEntityFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2489464:S12L0e",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5646,6 +5682,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:752204:U4ZtDo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/mapEntities/mapEntityDescriptor",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2488508:dtVpYL",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6060,6 +6105,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724242:nv4rqc",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/mapEntitiesLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2488507:RJwapq",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7197,7 +7251,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-468",
+  "name" : "MIMMS - XGO MIM-487",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

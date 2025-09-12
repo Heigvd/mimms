@@ -30,6 +30,7 @@ function addTriggerActivables(activables: Record<Uid, Activable>): void {
 
 function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): void {
   // TODO action templates from WEGAS variable
+  // XGO TODO get data
   const tpls: Record<Uid, TemplateDescriptor> = {};
 
   Object.values(tpls).forEach((t: TemplateDescriptor) => {
@@ -39,5 +40,6 @@ function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): voi
 }
 
 function addMapEntitiesActivables(_activables: Record<Uid, Activable>): void {
-  // TODO map entities from WEGAS variable
+  // XGO TODO map entities from loadMapEntityDescriptors()
+  // XGO TODO build activables as above
 }

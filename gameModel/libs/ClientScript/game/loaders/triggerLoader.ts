@@ -2,6 +2,8 @@ import { RadioType } from '../common/radio/communicationType';
 import { Trigger } from '../common/triggers/trigger';
 
 // FIXME if needed, change return type to Record<Uid, Trigger>
+// XGO TODO filter out NoOp conditions and impacts here
+// XGO TODO singleton pattern (we don't wanna parse too often), reset the singleton with a useEffect
 export function getTriggers(): Trigger[] {
   //const triggersVariable = getTriggersVariable();
   //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));

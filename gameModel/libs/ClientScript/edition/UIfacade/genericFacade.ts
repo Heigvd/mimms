@@ -1,6 +1,10 @@
 import { Uid } from '../../game/common/interfaces';
-import { getController, RootCategories } from '../controllers/controllerInstances';
-import { SuperTypeNames } from '../controllers/dataController';
+import {
+  getAllControllers,
+  getController,
+  RootCategories,
+} from '../controllers/controllerInstances';
+import { FlatTypes, SuperTypeNames } from '../controllers/dataController';
 
 /**
  * Generic operations for deletion, creation, reordering, undo, redo and save
@@ -57,6 +61,12 @@ export function canMoveDown(category: RootCategories, id: Uid): void {
   getController(category).canMove(id, 'DOWN');
 }
 
-export interface TriggerInterfaceState extends GenericScenaristInterfaceState {
-  /* TODO in other file */
+/*********************** READ FUNCTIONS ************************/
+
+export function getFlatObjects(): Record<Uid, FlatTypes> {
+  let result: Record<Uid, FlatTypes> = {};
+  getAllControllers().forEach(controller => {
+    result = { ...result, ...controller.getFlatDataClone() };
+  });
+  return result;
 }

@@ -1,0 +1,2 @@
+// XGO TODO
+// loadMapEntityDescriptors here

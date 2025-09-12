@@ -1,11 +1,14 @@
-import { ActionTemplateDataController, TriggerDataController } from './dataController';
-import { MapToSuperTypeNames } from '../typeDefinitions/definition';
+import {
+  ActionTemplateDataController,
+  MapEntityController,
+  TriggerDataController,
+} from './dataController';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 
-// TODO add map entities controller
-type ControllerType = TriggerDataController | ActionTemplateDataController;
-export type RootCategories = MapToSuperTypeNames<FlatTrigger | FlatActionTemplate>;
+type ControllerType = TriggerDataController | ActionTemplateDataController | MapEntityController;
+export type RootCategories = (FlatTrigger | FlatActionTemplate | FlatMapEntity)['superType'];
 
 export function getController(rootType: RootCategories): ControllerType {
   switch (rootType) {
@@ -13,12 +16,15 @@ export function getController(rootType: RootCategories): ControllerType {
       return getTriggerController();
     case 'action':
       return getActionTemplateController();
+    case 'mapEntity':
+      return getMapEntityController();
     // TODO map entities
   }
 }
 
 let triggerController: TriggerDataController | undefined;
 let actionTplController: ActionTemplateDataController | undefined;
+let mapEntityController: MapEntityController | undefined;
 
 export function getTriggerController(): TriggerDataController {
   return (triggerController =
@@ -31,9 +37,19 @@ export function getActionTemplateController(): ActionTemplateDataController {
     new ActionTemplateDataController('action_template_data', 'TODO ctx key'));
 }
 
+// XGO TODO right var key and ctx key
+export function getMapEntityController(): MapEntityController {
+  return (mapEntityController =
+    mapEntityController || new MapEntityController('triggers_data', 'TODO ctx key'));
+}
+
 // Reset the controllers when saving scripts or restarting the game
 // comment if you want to keep controller's state while working
 Helpers.registerEffect(() => {
   triggerController = undefined;
   actionTplController = undefined;
 });
+
+export function getAllControllers(): ControllerType[] {
+  return [getTriggerController(), getActionTemplateController(), getMapEntityController()];
+}

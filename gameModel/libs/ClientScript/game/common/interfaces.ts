@@ -68,3 +68,13 @@ export interface IActivableDescriptor {
    */
   tag: Tag;
 }
+
+export function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.activableType === 'string' &&
+    typeof obj.activeAtStart === 'boolean' &&
+    typeof obj.tag === 'string'
+  );
+}

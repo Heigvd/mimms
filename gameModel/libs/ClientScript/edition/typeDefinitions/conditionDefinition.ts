@@ -13,11 +13,11 @@ import {
   Definition,
   MapToDefinition,
   MapToFlatType,
-  MapToTypeNames,
   ValidationResult,
 } from './definition';
 
-type ConditionTypeName = MapToTypeNames<Condition>;
+type ConditionTypeName = Condition['type'];
+
 export type ConditionDefinition = MapToDefinition<Condition>;
 export type FlatCondition = MapToFlatType<Condition, 'condition'>;
 
