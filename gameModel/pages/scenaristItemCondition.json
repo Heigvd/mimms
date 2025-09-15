@@ -116,7 +116,83 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "children" : [ ],
+            "children" : [ {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getActionTemplateSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getActionTemplateSelection();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "action",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select trigger\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.actionRef ?? '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "warningText",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.status === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.status.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "status",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getChoiceActionStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetChoiceActionStatusChoices();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'action';",
@@ -148,7 +224,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerChoices(getSelected('trigger')?.uid);",
+                  "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerSelection(getSelected('trigger')?.uid);",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },

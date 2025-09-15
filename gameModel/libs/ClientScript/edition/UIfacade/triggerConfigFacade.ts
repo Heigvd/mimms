@@ -1,4 +1,6 @@
+import { ActionTemplateId } from '../../game/common/baseTypes';
 import { Uid } from '../../game/common/interfaces';
+import { debugGetAllActionTemplates } from '../../game/mainSimulationLogic';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { TriggerFlatType } from '../controllers/dataController';
@@ -107,7 +109,7 @@ export function getTimeOperatorChoices(): { label: string; value: string }[] {
 }
 
 // TODO better
-export function getTriggerChoices(omittedUid?: Uid): { label: string; value: string }[] {
+export function getTriggerSelection(omittedUid?: Uid): { label: string; value: string }[] {
   return getItems('trigger')
     .map(item => item as FlatTrigger)
     .filter(item => item.uid !== omittedUid)
@@ -129,6 +131,26 @@ export function getTriggerTag(triggerUid: Uid): string | undefined {
 }
 
 // TODO better
+export function getActionTemplateSelection(): { label: string; value: string }[] {
+  // TODO make it work, see how to get the data
+  return debugGetAllActionTemplates().map(actionTmplt => {
+    return { label: actionTmplt.getTitle(), value: String(actionTmplt.Uid) };
+  });
+}
+
+// TODO better
+export function getActionTemplateTitle(actionTempltUid: ActionTemplateId): string | undefined {
+  // TODO make it work
+  const actionTmplt = debugGetAllActionTemplates().find(
+    actionTmplt => actionTmplt.Uid === actionTempltUid
+  );
+  if (actionTmplt) {
+    return actionTmplt.getTitle();
+  }
+  return undefined;
+}
+
+// TODO better
 export function getActiveInactiveStatusChoices(): { label: string; value: string }[] {
   return [
     {
@@ -138,6 +160,32 @@ export function getActiveInactiveStatusChoices(): { label: string; value: string
     {
       label: 'active',
       value: 'active',
+    },
+  ];
+}
+
+// TODO better
+export function getChoiceActionStatusChoices(): { label: string; value: string }[] {
+  return [
+    {
+      label: 'inactive',
+      value: 'inactive',
+    },
+    {
+      label: 'active',
+      value: 'active',
+    },
+    {
+      label: 'completed once',
+      value: 'completed once',
+    },
+    {
+      label: 'ongoing',
+      value: 'ongoing',
+    },
+    {
+      label: 'never planned',
+      value: 'never planned',
     },
   ];
 }
