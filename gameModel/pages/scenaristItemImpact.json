@@ -14,12 +14,12 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { type: Context.newValue });",
+                "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { type: Context.value });",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
                 "@class" : "Script",
-                "content" : "\"newValue\"",
+                "content" : "\"value\"",
                 "language" : "TypeScript"
               }
             },
@@ -46,12 +46,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: Context.newValue });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"newValue\"",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
@@ -83,12 +83,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { delaySeconds: Context.newValue * 60 });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { delaySeconds: Context.value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"newValue\"",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
@@ -126,22 +126,6 @@
             "style" : { }
           },
           "type" : "FlexList"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "true;",
-              "language" : "typescript"
-            },
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "  JSON.stringify(Context.item);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
         } ],
         "hideIf" : {
           "@class" : "Script",
@@ -149,6 +133,7 @@
           "language" : "typescript"
         },
         "layout" : { },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "open",
         "style" : { }
@@ -191,6 +176,7 @@
           "language" : "typescript"
         },
         "layout" : { },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "closed",
         "style" : { }
@@ -200,11 +186,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

@@ -98,12 +98,12 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTriggerOperatorChoices();",
+                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerOperatorChoices();",
                   "language" : "typescript"
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSomethingSelected('trigger');",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -158,7 +158,7 @@
               "props" : {
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSomethingSelected('trigger');",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
                 "icon" : "plus",
@@ -241,7 +241,7 @@
               "props" : {
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSomethingSelected('trigger');",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
                 "icon" : "plus",
@@ -286,7 +286,7 @@
               "props" : {
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n!canUndo();",
+                  "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
                   "language" : "typescript"
                 },
                 "icon" : "undo-alt",
@@ -311,7 +311,7 @@
               "props" : {
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n!canRedo();",
+                  "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
                   "language" : "typescript"
                 },
                 "icon" : "redo-alt",
@@ -336,7 +336,7 @@
               "props" : {
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\nisSaved();",
+                  "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\n  isSaved();",
                   "language" : "typescript"
                 },
                 "icon" : "save",
@@ -366,40 +366,6 @@
             "style" : { }
           },
           "type" : "FlexList"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "false;",
-              "language" : "typescript"
-            },
-            "layoutStyle" : { },
-            "name" : "debug",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getState } from \"./edition/UIfacade/genericConfigFacade\";\nJSON.stringify(getState());",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "true;",
-              "language" : "typescript"
-            },
-            "layoutStyle" : { },
-            "name" : "debug",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getData } from \"./edition/UIfacade/genericConfigFacade\";\nJSON.stringify(getData());",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
         } ],
         "exposeAs" : "pageState",
         "initialState" : {

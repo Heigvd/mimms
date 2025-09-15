@@ -2,19 +2,94 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "exposePageSizeAs" : "",
-        "initialSelectedPageId" : {
-          "@class" : "Script",
-          "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
-          "language" : "typescript"
+        "children" : [ {
+          "props" : {
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "  // always disabled\ntrue;",
+              "language" : "typescript"
+            },
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "!Editor.getFeatures().INTERNAL;",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "uid",
+            "onCancel" : { },
+            "onVariableChange" : {
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"newValue\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "  Context.item.uid;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "String input"
+        }, {
+          "props" : {
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "!Editor.getFeatures().INTERNAL;",
+              "language" : "typescript"
+            },
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "!Editor.getFeatures().ADVANCED && \n!Editor.getFeatures().INTERNAL;",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "index",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { index: Context.value });",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"value\"",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "  Context.item.index;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Number input"
+        }, {
+          "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "genericItemPageLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        } ],
+        "layout" : {
+          "flexDirection" : "column"
         },
         "layoutStyle" : {
           "border" : "1px solid"
         },
-        "name" : "genericItemPageLoader",
         "style" : { }
       },
-      "type" : "PageLoader"
+      "type" : "FlexList"
     }, {
       "props" : {
         "children" : [ {

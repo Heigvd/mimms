@@ -14,12 +14,12 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { type: Context.newValue });",
+                "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { type: Context.value });",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
                 "@class" : "Script",
-                "content" : "\"newValue\"",
+                "content" : "\"value\"",
                 "language" : "TypeScript"
               }
             },
@@ -50,12 +50,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { operator: Context.newValue });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { operator: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"newValue\"",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
@@ -73,12 +73,12 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.newValue * 60 });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
                     "@class" : "Script",
-                    "content" : "\"newValue\"",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
@@ -125,6 +125,7 @@
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "open",
         "style" : { }
@@ -167,6 +168,7 @@
           "language" : "typescript"
         },
         "layout" : { },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "closed",
         "style" : { }
@@ -176,11 +178,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }
