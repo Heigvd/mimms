@@ -5,7 +5,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../tools/WegasHelper';
 
 ////// TYPES ///////
-// XGO moved to common/mapEntities
+// XGO moved to common/mapEntities in MIM-487
 export interface BaseMapObject<T> extends Typed{
   //type: 'Point' | 'Line' | 'Polygon';
   geometry: T;
@@ -55,8 +55,9 @@ export function getTestMapEntityDescriptor(): MapEntityDescriptor {
 
 ///// MAP ENTITY DESCRIPTORS /////
 
-// XGO : Moved to loaders
+// XGO TODO move to loaders/mapEntitiesLoader MIM-487
 // XGO using the generic parameter parseObjectDescriptor<MapEntityDescriptor> should do the trick which would make this function a one liner (see commented return statement)
+
 // TODO Improve or have generic parsing
 // Load all descriptors from variable
 export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
@@ -102,7 +103,7 @@ export function getMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
   return mapEntityDescriptors;
 }
 
-// XGO those two will call the getMapEntityDescriptors() func
+// XGO those two functions will call the getMapEntityDescriptors() func
 export function getMapEntityDescriptor(uid: Uid): MapEntityDescriptor {
   return mapEntityDescriptors[uid]!;
 }
@@ -113,6 +114,8 @@ export function getMapEntityDescriptorUid(binding: LOCATION_ENUM): MapEntityDesc
 
 ///// ACTIVABLES /////
 
+// XGO TODO => make a function by type of activable
+// Type guards could help infer typing here to avoid casting but I see no other elegant solution
 /**
  * Get all mapActivables
  */

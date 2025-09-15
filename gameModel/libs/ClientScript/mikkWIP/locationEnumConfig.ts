@@ -7,6 +7,8 @@ type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
 /** Is it a place that can contain actors / resources / patients */
 type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
+
+// XGO moved to common/mapEntities
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
