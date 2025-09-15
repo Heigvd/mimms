@@ -2,7 +2,13 @@ import { Uid } from '../../game/common/interfaces';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { TriggerFlatType } from '../controllers/dataController';
-import { GenericScenaristInterfaceState } from './genericConfigFacade';
+import {
+  FlatCondition,
+  getConditionDefinition,
+  toFlatCondition,
+} from '../typeDefinitions/conditionDefinition';
+import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade';
 
 export type TriggerConfigUIState = GenericScenaristInterfaceState;
 
@@ -63,6 +69,26 @@ export function getConditionTypeChoices(): { label: string; value: string }[] {
   ];
 }
 
+// TODO better
+export function updateConditionType(
+  uid: FlatCondition['uid'],
+  newType: FlatCondition['type']
+): void {
+  const controller = getTriggerController();
+  const data: Record<Uid, TriggerFlatType> = controller.getFlatDataClone();
+  const itemSaved: FlatCondition = { ...(data[uid] as FlatCondition) };
+  if (data[uid] != undefined) {
+    // replace the condition by a new default one, but keep uid, parent and index
+    delete data[uid];
+    const newData: FlatCondition = {
+      ...toFlatCondition(getConditionDefinition(newType).getDefault(), itemSaved.parent),
+      ...{ uid: itemSaved.uid, index: itemSaved.index },
+    };
+    data[newData.uid] = newData;
+    controller.updateData(data);
+  }
+}
+
 export function getTimeOperatorChoices(): { label: string; value: string }[] {
   return [
     {
@@ -76,6 +102,42 @@ export function getTimeOperatorChoices(): { label: string; value: string }[] {
     {
       label: '>',
       value: '>',
+    },
+  ];
+}
+
+// TODO better
+export function getTriggerChoices(omittedUid?: Uid): { label: string; value: string }[] {
+  return getItems('trigger')
+    .map(item => item as FlatTrigger)
+    .filter(item => item.uid !== omittedUid)
+    .map(item => {
+      return { label: item.tag, value: item.uid };
+    });
+}
+
+// TODO better
+export function getTriggerTag(triggerUid: Uid): string | undefined {
+  const item = getItems('trigger')
+    .map(item => item as FlatTrigger)
+    .find(item => item.uid === triggerUid);
+  if (item) {
+    return item.tag;
+  }
+
+  return undefined;
+}
+
+// TODO better
+export function getActiveInactiveStatusChoices(): { label: string; value: string }[] {
+  return [
+    {
+      label: 'inactive',
+      value: 'inactive',
+    },
+    {
+      label: 'active',
+      value: 'active',
     },
   ];
 }

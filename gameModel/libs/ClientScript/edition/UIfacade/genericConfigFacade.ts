@@ -107,13 +107,13 @@ export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames):
   return result.sort((a: FlatTypeDef, b: FlatTypeDef) => a.index - b.index);
 }
 
-export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): void {
+export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypeDef {
   let parentId: Uid = '';
   if (parentType) {
     parentId = getSelected(parentType)?.uid ?? '';
   }
 
-  getController().createNew(parentId, itemType);
+  return getController().createNew(parentId, itemType);
 }
 
 export function deleteItem(itemId: Uid): void {
