@@ -293,6 +293,7 @@
                 "itemKey" : "value",
                 "layout" : { },
                 "layoutStyle" : { },
+                "name" : "status",
                 "style" : { }
               },
               "type" : "For each"
@@ -326,7 +327,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "false;",
+              "content" : "true;",
               "language" : "typescript"
             },
             "layoutStyle" : { },

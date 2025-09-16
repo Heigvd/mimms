@@ -9,6 +9,7 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
+import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade';
 
@@ -84,6 +85,24 @@ export function updateConditionType(
     delete data[uid];
     const newData: FlatCondition = {
       ...toFlatCondition(getConditionDefinition(newType).getDefault(), itemSaved.parent),
+      ...{ uid: itemSaved.uid, index: itemSaved.index },
+    };
+    data[newData.uid] = newData;
+    controller.updateData(data);
+  }
+}
+
+// TODO better
+// good luck for action > choice > effect. The type field is not enough to know if it is an ActivationImpact or a ChoiceEffectSelectionImpact
+export function updateImpactType(uid: FlatImpact['uid'], newType: FlatImpact['type']): void {
+  const controller = getTriggerController();
+  const data: Record<Uid, TriggerFlatType> = controller.getFlatDataClone();
+  const itemSaved: FlatImpact = { ...(data[uid] as FlatImpact) };
+  if (data[uid] != undefined) {
+    // replace the impact by a new default one, but keep uid, parent and index
+    delete data[uid];
+    const newData: FlatImpact = {
+      ...toFlatImpact(getImpactDefinition(newType).getDefault(), itemSaved.parent),
       ...{ uid: itemSaved.uid, index: itemSaved.index },
     };
     data[newData.uid] = newData;
@@ -190,7 +209,7 @@ export function getChoiceActionStatusChoices(): { label: string; value: string }
   ];
 }
 
-export function getImpactTypeChoices(): { label: string; value: string }[] {
+export function getImpactTypeSelection(): { label: string; value: string }[] {
   return [
     {
       label: 'activation',
@@ -207,6 +226,58 @@ export function getImpactTypeChoices(): { label: string; value: string }[] {
     {
       label: 'radio',
       value: 'radio',
+    },
+  ];
+}
+
+// TODO make it dynamic
+export function getRadioSelection(): { label: string; value: string }[] {
+  return [
+    {
+      label: 'CASU',
+      value: 'CASU',
+    },
+    {
+      label: 'ACTORS',
+      value: 'ACTORS',
+    },
+    {
+      label: 'RESOURCES',
+      value: 'RESOURCES',
+    },
+    {
+      label: 'EVASAN',
+      value: 'EVASAN',
+    },
+  ];
+}
+
+// TODO make it dynamic
+// Do not forget to kick out CASU
+export function getRolesSelection(): { label: string; value: string }[] {
+  // return Object.keys(notificationImpact.roles).map(role => { return { label: role, value: role } });
+  return [
+    {
+      label: 'ACS',
+      value: 'ACS',
+    },
+    {
+      label: 'MCS',
+      value: 'MCS',
+    },
+    {
+      label: 'AL',
+      value: 'AL',
+    },
+    /*{
+        label: 'CASU', value: 'CASU',
+ },*/ {
+      label: 'EVASAN',
+      value: 'EVASAN',
+    },
+    {
+      label: 'LEADPMA',
+      value: 'LEADPMA',
     },
   ];
 }
