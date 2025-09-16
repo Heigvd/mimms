@@ -277,7 +277,6 @@ export class TriggerDataController extends DataControllerBase<
         return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
     }
   }
-
 }
 
 export class ActionTemplateDataController extends DataControllerBase<

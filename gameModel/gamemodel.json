@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1757672814261,
+  "createdTime" : 1758021494587,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5682,6 +5682,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:752204:U4ZtDo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/mapEntities/locationEnumConfig",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2495384:VUTTHB",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
