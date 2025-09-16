@@ -28,7 +28,6 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
-import { MapToSuperTypeNames } from '../typeDefinitions/definition';
 import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
@@ -49,30 +48,38 @@ import {
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
 import { GenericSubStateKey } from '../UIfacade/mainMenuStateFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import { getSiblings, removeRecursively } from './parentedUtils';
-import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
+import { ContextHandler } from '../controllers/stateHandler';
+import { GenericScenaristInterfaceState } from '../UIfacade/genericFacade';
+import { getSiblings, removeRecursively } from './parentedUtils';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
+import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
+import { MapEntityInterfaceState } from '../UIfacade/mapEntityFacade';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
 export type TriggerFlatType = FlatTrigger | FlatImpact | FlatCondition;
 export type ActionTemplateFlatType = FlatActionTemplate | FlatChoice | FlatEffect | FlatImpact;
-// TODO map entities
+export type MapEntityFlatType = FlatMapEntity | FlatMapObject;
+
+export type FlatTypes = TriggerFlatType | ActionTemplateFlatType | MapEntityFlatType;
+
+export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | FlatMapEntity;
 
 /**
  * All the possible types of data objects (triggers, impacts, choices, ...)
  */
-export type SuperTypeNames = MapToSuperTypeNames<TriggerFlatType | ActionTemplateFlatType>;
+export type SuperTypeNames = FlatTypes['superType'];
 
 export abstract class DataControllerBase<
   DataType extends Typed,
-  FlatType extends FlatTypeDef,
+  FlatType extends FlatTypes,
   IState extends GenericScenaristInterfaceState
 > {
-  protected readonly undoRedo: UndoRedoContext<IState, FlatType>;
+  private readonly undoRedo: UndoRedoContext<IState, FlatType>;
   private readonly varKey: keyof ObjectVariableClasses;
   private readonly contextHandler: ContextHandler<IState>;
 
@@ -190,6 +197,10 @@ export abstract class DataControllerBase<
     type: SuperTypeNames //MapToSuperTypeNames<FlatType>
   ): FlatType;
 
+  protected getFlatData(): Readonly<Record<Uid, FlatType>> {
+    return this.undoRedo.getCurrentState()[1];
+  }
+
   private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState): void {
     this.undoRedo.storeState(newInterfaceState, newData);
     this.contextHandler.setState(newInterfaceState);
@@ -250,7 +261,7 @@ export class TriggerDataController extends DataControllerBase<
 
   protected override createNewInternal(
     parentId: Uid,
-    superType: MapToSuperTypeNames<TriggerFlatType>
+    superType: TriggerFlatType['superType']
   ): TriggerFlatType {
     // TODO we might want to define an "empty NoOp" type for conditions and impacts and give at as default
     switch (superType) {
@@ -345,7 +356,7 @@ export class ActionTemplateDataController extends DataControllerBase<
 
   protected override createNewInternal(
     parentId: Uid,
-    superType: MapToSuperTypeNames<ActionTemplateFlatType>
+    superType: ActionTemplateFlatType['superType']
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action':
@@ -363,4 +374,23 @@ export class ActionTemplateDataController extends DataControllerBase<
   }
 }
 
-// TODO same for map entities
+// XGO TODO implement
+export class MapEntityController extends DataControllerBase<
+  MapEntityDescriptor,
+  MapEntityFlatType,
+  MapEntityInterfaceState
+> {
+  protected flatten(
+    _input: Record<string, MapEntityDescriptor>
+  ): Record<string, MapEntityFlatType> {
+    throw new Error('Method not implemented.');
+  }
+  protected recompose(
+    _flattened: Record<string, MapEntityFlatType>
+  ): Record<string, MapEntityDescriptor> {
+    throw new Error('Method not implemented.');
+  }
+  protected createNewInternal(_parentId: string, _type: SuperTypeNames): MapEntityFlatType {
+    throw new Error('Method not implemented.');
+  }
+}

@@ -3,6 +3,8 @@ import { filterRecord } from '../../tools/helper';
 
 /**
  * Given a flat structure of parented elements, removes all children entries and self
+ * The input is modified
+ * Returns the ids of the removed elements
  */
 export function removeRecursively<T extends Parented>(id: Uid, data: Record<Uid, T>): Set<Uid> {
   const parentList: Uid[] = [id];

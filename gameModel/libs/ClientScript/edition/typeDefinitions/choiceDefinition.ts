@@ -1,13 +1,16 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../typeDefinitions/definition';
+import {
+  ALL_EDITABLE,
+  Definition,
+  EXPERT_ONLY,
+  MapToFlatType,
+} from '../typeDefinitions/definition';
 
 type ChoiceDefinition = Definition<ChoiceDescriptor>;
 
-export type FlatChoice = Omit<ChoiceDescriptor, 'effects'> &
-  Parented &
-  SuperTyped & { superType: 'choice' };
+export type FlatChoice = MapToFlatType<ChoiceDescriptor, 'choice'>;
 
 export function toFlatChoice(choice: ChoiceDescriptor, parentId: Uid): FlatChoice {
   const { effects: _ignore, ...fchoice } = choice;
