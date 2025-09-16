@@ -195,7 +195,6 @@ export function isSaved(): boolean {
   return getController().isSaved();
 }
 
-
 /*********************** READ FUNCTIONS ************************/
 
 export function getFlatObjects(): Record<Uid, FlatTypes> {

@@ -7,7 +7,10 @@ import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 
-export type ControllerType = TriggerDataController | ActionTemplateDataController | MapEntityController;
+export type ControllerType =
+  | TriggerDataController
+  | ActionTemplateDataController
+  | MapEntityController;
 export type RootCategories = (FlatTrigger | FlatActionTemplate | FlatMapEntity)['superType'];
 
 export function getController(rootType: RootCategories): ControllerType {

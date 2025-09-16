@@ -48,7 +48,6 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
   return defs[type]!;
 }
 
-
 function getEmptyConditionDef(): Definition<EmptyCondition> {
   return {
     type: 'empty',
@@ -57,7 +56,7 @@ function getEmptyConditionDef(): Definition<EmptyCondition> {
       index: 0,
       type: 'empty',
     }),
-    validator: (_condition: EmptyCondition) => ({success: true, messages: []}),
+    validator: (_condition: EmptyCondition) => ({ success: true, messages: [] }),
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

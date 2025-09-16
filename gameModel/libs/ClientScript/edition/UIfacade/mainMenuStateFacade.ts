@@ -1,7 +1,7 @@
 import { RootCategories } from '../controllers/controllerInstances';
 import { ActionTemplateConfigUIState, getInitialActionsUIState } from './actionConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
-import { getInitialMapEntityUIState, MapEntityInterfaceState } from './mapEntityFacade';
+import { getInitialMapEntityUIState, MapEntityUIState } from './mapEntityFacade';
 import { getInitialTriggersUIState, TriggerConfigUIState } from './triggerConfigFacade';
 
 /**
@@ -27,7 +27,7 @@ export interface MenuUIState {
   page: Page;
   trigger: TriggerConfigUIState;
   action: ActionTemplateConfigUIState;
-  mapEntity: MapEntityInterfaceState
+  mapEntity: MapEntityUIState;
 }
 
 export function getInitialMenuUIState(): MenuUIState {
@@ -36,7 +36,7 @@ export function getInitialMenuUIState(): MenuUIState {
     page: 'map',
     trigger: getInitialTriggersUIState(),
     action: getInitialActionsUIState(),
-    mapEntity : getInitialMapEntityUIState()
+    mapEntity: getInitialMapEntityUIState(),
   };
 }
 

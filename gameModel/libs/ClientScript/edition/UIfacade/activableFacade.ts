@@ -5,7 +5,7 @@
 import { isActivableDescriptor, Uid } from '../../game/common/interfaces';
 import { entries } from '../../tools/helper';
 import { FlatActivable } from '../controllers/dataController';
-import { getFlatObjects } from '../UIfacade/genericFacade';
+import { getFlatObjects } from '../UIfacade/genericConfigFacade';
 
 type ActivableTypeNames = FlatActivable['activableType'];
 

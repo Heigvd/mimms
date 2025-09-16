@@ -52,12 +52,12 @@ import { GenericSubStateKey } from '../UIfacade/mainMenuStateFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { UndoRedoContext } from './undoRedoContext';
 import { ContextHandler } from '../controllers/stateHandler';
-import { GenericScenaristInterfaceState } from '../UIfacade/genericFacade';
 import { getSiblings, removeRecursively } from './parentedUtils';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { MapEntityInterfaceState } from '../UIfacade/mapEntityFacade';
+import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
+import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -378,7 +378,7 @@ export class ActionTemplateDataController extends DataControllerBase<
 export class MapEntityController extends DataControllerBase<
   MapEntityDescriptor,
   MapEntityFlatType,
-  MapEntityInterfaceState
+  MapEntityUIState
 > {
   protected flatten(
     _input: Record<string, MapEntityDescriptor>

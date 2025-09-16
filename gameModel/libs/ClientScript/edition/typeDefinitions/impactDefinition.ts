@@ -63,15 +63,14 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
 // TODO somewhere check that all impacts are valid
 
 function getEmptyImpactDef(): Definition<EmptyImpact> {
-    return {
+  return {
     type: 'empty',
     getDefault: () => ({
       type: 'empty',
       uid: generateId(10),
       index: 0,
     }),
-    validator: (_impact: EmptyImpact) => (
-      { success : true, messages : []}),
+    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

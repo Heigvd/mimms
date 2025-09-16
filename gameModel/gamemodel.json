@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1758021494587,
+  "createdTime" : 1758052908830,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5651,6 +5651,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/impacts/implementation/emptyImpact",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#249:daiKQV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/impacts/implementation/notificationImpact",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6015,6 +6024,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991689:c3yhzC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/triggers/implementation/emptyCondition",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#250:JlFtRH",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7269,7 +7287,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-487",
+  "name" : "MIIM-471 XGO (2)",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
