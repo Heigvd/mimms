@@ -19,7 +19,7 @@ export interface LocationEnumConfig {
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   chantier: {
     id: LOCATION_ENUM.chantier,
-    name: 'location-pcFront',
+    name: 'location-chantier',
     leaderRoles: ['AL'],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
