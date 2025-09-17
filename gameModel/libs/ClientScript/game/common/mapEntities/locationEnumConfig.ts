@@ -20,7 +20,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   chantier: {
     id: LOCATION_ENUM.chantier,
     name: 'location-chantier',
-    leaderRoles: ['AL'],
+    leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
   nidDeBlesses: {
