@@ -1,4 +1,4 @@
-import { GenericScenaristInterfaceState } from "./genericConfigFacade";
+import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export interface MapEntityUIState extends GenericScenaristInterfaceState {}
 
