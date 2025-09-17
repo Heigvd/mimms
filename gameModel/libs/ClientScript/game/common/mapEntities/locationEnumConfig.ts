@@ -57,7 +57,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.helicopterPark,
     name: 'location-helicopterPark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: true },
   },
   remote: {
     id: LOCATION_ENUM.remote,
