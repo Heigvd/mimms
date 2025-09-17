@@ -21,7 +21,6 @@ export function getController(rootType: RootCategories): ControllerType {
       return getActionTemplateController();
     case 'mapEntity':
       return getMapEntityController();
-    // TODO map entities
   }
 }
 
