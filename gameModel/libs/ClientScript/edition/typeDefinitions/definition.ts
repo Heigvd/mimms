@@ -47,20 +47,15 @@ type ToConfigurationViewType<O extends object> = {
 };
 
 export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
-export type MapToTypeNames<U> = U extends Typed ? U['type'] : never;
-
-export type MapToSuperTypeNames<U> = U extends SuperTyped ? U['superType'] : never;
 
 /**
  * Omit all arrays (children) and adds required interfaces
  * (Note to devs: if removing all array fields is problematic,
  * then selecting specifically the removed fields could be an option)
  */
-export type MapToFlatType<T extends Typed & Indexed, S extends keyof any> = RemoveArrayFields<T> &
+export type MapToFlatType<T extends Typed & Indexed, SType extends string> = RemoveArrayFields<T> &
   Parented &
-  SuperTyped & { superType: S };
-
-//export type MapToRecordByType<U> = [U] extends [Typed] ? Record<U['type'], Definition<U>> : never;
+  SuperTyped & { superType: SType };
 
 export interface ValidationResult {
   success: boolean;

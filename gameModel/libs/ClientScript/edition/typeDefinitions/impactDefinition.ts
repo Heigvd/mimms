@@ -5,19 +5,19 @@ import {
   ALL_EDITABLE,
   Definition,
   MapToDefinition,
-  //MapToRecordByType,
-  MapToTypeNames,
+  MapToFlatType,
   ValidationResult,
 } from './definition';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
-import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
+import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 
-type ImpactTypeName = MapToTypeNames<Impact>;
+type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
-export type FlatImpact = Impact & Parented & SuperTyped & { superType: 'impact' };
+export type FlatImpact = MapToFlatType<Impact, 'impact'>;
 
 export function toFlatImpact(imp: Impact, parentId: Uid): FlatImpact {
   return {
@@ -47,6 +47,8 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
     case 'radio':
       definition = getRadioImpactDef();
       break;
+    case 'empty':
+      definition = getEmptyImpactDef();
   }
 
   if (definition?.type !== type) {
@@ -59,6 +61,23 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
 // TODO check all of that when the display is implemented
 
 // TODO somewhere check that all impacts are valid
+
+function getEmptyImpactDef(): Definition<EmptyImpact> {
+  return {
+    type: 'empty',
+    getDefault: () => ({
+      type: 'empty',
+      uid: generateId(10),
+      index: 0,
+    }),
+    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+    },
+  };
+}
 
 function getActivationImpactDef(): Definition<ActivationImpact> {
   return {

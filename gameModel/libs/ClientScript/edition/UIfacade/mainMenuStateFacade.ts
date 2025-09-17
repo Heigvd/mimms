@@ -1,6 +1,7 @@
 import { RootCategories } from '../controllers/controllerInstances';
 import { ActionTemplateConfigUIState, getInitialActionsUIState } from './actionConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
+import { getInitialMapEntityUIState, MapEntityUIState } from './mapEntityFacade';
 import { getInitialTriggersUIState, TriggerConfigUIState } from './triggerConfigFacade';
 
 /**
@@ -26,6 +27,7 @@ export interface MenuUIState {
   page: Page;
   trigger: TriggerConfigUIState;
   action: ActionTemplateConfigUIState;
+  mapEntity: MapEntityUIState;
 }
 
 export function getInitialMenuUIState(): MenuUIState {
@@ -34,6 +36,7 @@ export function getInitialMenuUIState(): MenuUIState {
     page: 'map',
     trigger: getInitialTriggersUIState(),
     action: getInitialActionsUIState(),
+    mapEntity: getInitialMapEntityUIState(),
   };
 }
 
@@ -102,6 +105,7 @@ export function setMenuUISubState<T extends GenericScenaristInterfaceState>(
   newData: T
 ): void {
   const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
+  // XGO that will not hold with polymporphic subtypes
   newState[subStateKey] = newData;
   Context[MENU_CONTEXT_KEY].setState(newState);
 }

@@ -101,6 +101,7 @@ export function getTriggersVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'triggers_data');
 }
 
+// XGO : TODO remove done in data controllers
 // Directly used in triggerEditor page
 export function saveTriggers(data: Record<Uid, Trigger>): void {
   const triggerDataVariableDescr = getTriggersVariable();

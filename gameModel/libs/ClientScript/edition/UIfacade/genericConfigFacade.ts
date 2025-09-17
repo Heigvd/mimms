@@ -1,10 +1,11 @@
 import { Uid } from '../../game/common/interfaces';
 import {
   ControllerType,
+  getAllControllers,
   getController as getTheController,
   RootCategories,
 } from '../controllers/controllerInstances';
-import { FlatTypeDef, SuperTypeNames } from '../controllers/dataController';
+import { FlatTypeDef, FlatTypes, SuperTypeNames } from '../controllers/dataController';
 import { getMenuUISubState, setMenuUISubState } from './mainMenuStateFacade';
 
 /**
@@ -192,4 +193,14 @@ export function saveToVariable(): void {
 
 export function isSaved(): boolean {
   return getController().isSaved();
+}
+
+/*********************** READ FUNCTIONS ************************/
+
+export function getFlatObjects(): Record<Uid, FlatTypes> {
+  let result: Record<Uid, FlatTypes> = {};
+  getAllControllers().forEach(controller => {
+    result = { ...result, ...controller.getFlatDataClone() };
+  });
+  return result;
 }
