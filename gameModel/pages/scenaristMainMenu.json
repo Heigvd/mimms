@@ -4,6 +4,24 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutStyle" : {
+              "max-width" : "200px"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getActivableOfType } from \"./edition/UIfacade/activableFacade\";\n'...' + JSON.stringify(getActivableOfType('choice'), null, '\\n');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "className" : "noPadding scenarist-menu__angle-button",

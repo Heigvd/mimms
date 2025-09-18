@@ -1,3 +1,4 @@
+import { ActionTemplateId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../condition';
@@ -7,7 +8,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 export interface ChoiceCondition extends ConditionBase {
   type: 'choice';
   choiceRef: Uid;
-  //actionTemplateId: Uid; // TODO needed ?
+  actionRef: ActionTemplateId; // TODO needed ?
   status: ChoiceActionStatus;
 }
 

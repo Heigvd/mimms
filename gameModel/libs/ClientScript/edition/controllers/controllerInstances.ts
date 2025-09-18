@@ -52,5 +52,5 @@ Helpers.registerEffect(() => {
 });
 
 export function getAllControllers(): ControllerType[] {
-  return [getTriggerController(), getActionTemplateController(), getMapEntityController()];
+  return [getTriggerController(), getActionTemplateController() /*, getMapEntityController()*/];
 }

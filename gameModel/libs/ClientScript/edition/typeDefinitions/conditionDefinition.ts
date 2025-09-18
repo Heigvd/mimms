@@ -147,6 +147,7 @@ function getChoiceConditionDef(): Definition<ChoiceCondition> {
       index: 0,
       type: 'choice',
       choiceRef: '',
+      actionRef: 0,
       status: 'active',
     }),
     validator: (condition: ChoiceCondition) => {
@@ -169,6 +170,7 @@ function getChoiceConditionDef(): Definition<ChoiceCondition> {
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: ALL_EDITABLE,
       choiceRef: ALL_EDITABLE,
+      actionRef: ALL_EDITABLE,
       status: ALL_EDITABLE,
     },
   };

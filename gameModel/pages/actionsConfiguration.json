@@ -11,6 +11,17 @@
         }
       },
       "type" : "Text"
+    }, {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getATTests } from \"./game/loaders/actionTemplateLoader\";\nJSON.stringify(getATTests(), null, '<br/>');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
     } ],
     "layout" : {
       "flexDirection" : "column"

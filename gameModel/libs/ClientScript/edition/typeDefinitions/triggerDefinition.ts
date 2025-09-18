@@ -46,19 +46,19 @@ export function getTriggerDefinition(): TriggerDefinition {
     }),
     validator: _t => ({ success: true, messages: [] }), // nothing to do, it cannot be misconfigured
     view: {
-      type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      type: { basic: 'hidden', advanced: 'visible', expert: 'visible' }, // actually never displayed
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      activableType: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
-      activeAtStart: ALL_EDITABLE,
-      tag: ALL_EDITABLE,
-      comment: ALL_EDITABLE,
-      accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      activableType: { basic: 'hidden', advanced: 'hidden', expert: 'visible' }, // actually never displayed
+      activeAtStart: ALL_EDITABLE, // actually always displayed
+      tag: ALL_EDITABLE, // actually always displayed
+      comment: ALL_EDITABLE, // actually always displayed
+      accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' }, // TODO
       mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
-      repeatable: ALL_EDITABLE,
-      operator: ALL_EDITABLE,
-      conditions: ALL_EDITABLE,
-      impacts: ALL_EDITABLE,
+      repeatable: ALL_EDITABLE, // actually always displayed
+      operator: ALL_EDITABLE, // actually always displayed
+      conditions: ALL_EDITABLE, // actually always displayed
+      impacts: ALL_EDITABLE, // actually always displayed
     },
   };
 }

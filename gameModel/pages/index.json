@@ -308,7 +308,7 @@
         "@class" : "Page",
         "id" : "30",
         "name" : "Main Scenarist Page",
-        "scenaristPage" : false,
+        "scenaristPage" : true,
         "trainerPage" : null
       }, {
         "@class" : "Page",
@@ -320,7 +320,7 @@
         "@class" : "Page",
         "id" : "scenaristMainMenu",
         "name" : "Menu",
-        "scenaristPage" : true,
+        "scenaristPage" : false,
         "trainerPage" : null
       }, {
         "@class" : "Page",

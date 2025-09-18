@@ -4,9 +4,25 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.item);",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "choices" : {
               "@class" : "Script",
-              "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
+              "content" : "import { getConditionSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getConditionSelection();",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -14,7 +30,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { updateConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateConditionType(Context.item.uid, Context.value);",
+                "content" : "import { fromUItypeToDataType, updateConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\nconst dataType = fromUItypeToDataType(Context.value);\n\nupdateConditionType(Context.item.uid, dataType);",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {
@@ -25,12 +41,12 @@
             },
             "placeholder" : {
               "@class" : "Script",
-              "content" : "\"Make your choice\"",
+              "content" : "\"Select type\"",
               "language" : "TypeScript"
             },
             "script" : {
               "@class" : "Script",
-              "content" : "Context.item.type;",
+              "content" : "  Context.item.type === 'empty' ? '' : Context.item.type;",
               "language" : "TypeScript"
             },
             "style" : { }
@@ -42,7 +58,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
+                  "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTimeOperatorChoices();",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -105,7 +121,7 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'time';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n  !isOfConditionType(Context.item, 'time');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -120,7 +136,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplateSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getActionTemplateSelection();",
+                  "content" : "import { getActivableSelection } from \"./edition/UIfacade/activableFacade\";\n  getActivableSelection('actionTemplate');",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -128,7 +144,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { actionRef: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -139,12 +155,51 @@
                 },
                 "placeholder" : {
                   "@class" : "Script",
-                  "content" : "\"Select trigger\"",
+                  "content" : "\"Select action\"",
                   "language" : "TypeScript"
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "  Context.item.actionRef ?? '';",
+                  "content" : "  /* Note : do not use ?? '', only || '' works */\n  Context.item.actionRef || '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getActivableSelection } from \"./edition/UIfacade/activableFacade\";\n  [\n    ...getActivableSelection('choice', Context.item.choiceRef),\n    { label: 'Any choice', value: 'all' }\n  ];",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "!Context.item.actionRef;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "choice",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "/*updateItem<FlatCondition>(Context.item.uid, { actionRef: Context.value });*/",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select choice\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  /* Note : do not use ?? '', only || '' works */\n  Context.item.choiceRef || 'all';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -156,7 +211,7 @@
                   "props" : {
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : "warningText",
+                      "className" : "warningText /* TO BE CHANGED OF COURSE */",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "Context.item.status === Context.status.value;",
@@ -165,7 +220,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "Context.status.label;",
+                      "content" : "  Context.status.label;",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : { },
@@ -183,24 +238,27 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getChoiceActionStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetChoiceActionStatusChoices();",
+                  "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getChoiceActionStatusSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
                 "layout" : { },
                 "layoutStyle" : { },
+                "name" : "status",
                 "style" : { }
               },
               "type" : "For each"
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'action';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n  !isOfConditionType(Context.item, 'action')",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutStyle" : { },
-            "name" : "action",
+            "name" : "action, choices",
             "style" : { }
           },
           "type" : "FlexList"
@@ -209,7 +267,7 @@
             "children" : [ ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'choice';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n  !isOfConditionType(Context.item, 'choice');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -224,7 +282,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerSelection(getSelected('trigger')?.uid);",
+                  "content" : "import { getActivableSelection } from \"./edition/UIfacade/activableFacade\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  getActivableSelection('trigger')\n    .filter(item => item.value !== getSelected('trigger')?.uid);",
                   "language" : "typescript"
                 },
                 "layoutStyle" : { },
@@ -260,7 +318,7 @@
                   "props" : {
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : "warningText",
+                      "className" : "warningText /* TO BE CHANGED OF COURSE */",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "Context.item.status === Context.status.value;",
@@ -300,10 +358,12 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'trigger';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n  !isOfConditionType(Context.item, 'trigger');",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutStyle" : { },
             "name" : "trigger",
             "style" : { }
@@ -314,7 +374,7 @@
             "children" : [ ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'mapEntity';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n!isOfConditionType(Context.item, 'mapEntity');",
               "language" : "typescript"
             },
             "layout" : { },
@@ -323,26 +383,10 @@
             "style" : { }
           },
           "type" : "FlexList"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "true;",
-              "language" : "typescript"
-            },
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "  JSON.stringify(Context.item);",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSelected(Context.item.superType, Context.item.uid);",
           "language" : "typescript"
         },
         "layout" : {
@@ -358,20 +402,9 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "layoutStyle" : { },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "  Context.item.type;",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'time';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n  !isOfConditionType(Context.item, 'time');",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -379,7 +412,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  `${Context.item.operator} ${Math.round(Context.item.timeSeconds / 60)} min`;",
+              "content" : "  Context.item.type + ' ' + Context.item.operator + ' ' + Math.round(Context.item.timeSeconds / 60) + '  min';",
               "language" : "TypeScript"
             }
           },
@@ -396,7 +429,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  '';",
+              "content" : "import { getActivableTag } from \"./edition/UIfacade/activableFacade\";\n  Context.item.type + ' ' + getActivableTag('actionTemplate', Context.item.actionRef);",
               "language" : "TypeScript"
             }
           },
@@ -413,7 +446,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  '';",
+              "content" : "import { getActivableTag } from \"./edition/UIfacade/activableFacade\";\n  Context.item.type + ' ' + getActivableTag('choice', Context.item.choiceRef);",
               "language" : "TypeScript"
             }
           },
@@ -422,7 +455,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'trigger';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n!isOfConditionType(Context.item, 'trigger');",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -430,7 +463,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "import { getTriggerTag } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerTag(Context.item.activableRef) + (Context.item.status === 'active' ? ' is active' : ' is inactive');",
+              "content" : "import { getActivableTag } from \"./edition/UIfacade/activableFacade\";\n  Context.item.type + ' ' + getActivableTag('trigger', Context.item.activableRef) + (Context.item.status === 'active' ? ' is active' : ' is inactive');",
               "language" : "TypeScript"
             }
           },
@@ -439,7 +472,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'mapEntity';",
+              "content" : "import { isOfConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n!isOfConditionType(Context.item, 'mapEntity');",
               "language" : "typescript"
             },
             "layoutStyle" : { },
@@ -447,7 +480,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  '';",
+              "content" : "import { getActivableTag } from \"./edition/UIfacade/activableFacade\";\nContext.item.type +  ' ' + getActivableTag('mapEntity', Context.item.activableRef);",
               "language" : "TypeScript"
             }
           },
@@ -455,7 +488,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  isSelected(Context.item.superType, Context.item.uid);",
           "language" : "typescript"
         },
         "layout" : {

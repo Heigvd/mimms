@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1758052908830,
+  "createdTime" : 1758210517184,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -861,7 +861,11 @@
         "translations" : { }
       },
       "name" : "triggers_data",
-      "properties" : { },
+      "properties" : {
+        "49nYj2qRR9" : "{\"type\":\"trigger\",\"uid\":\"49nYj2qRR9\",\"index\":1,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"ABC\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"repeatable\":true,\"operator\":\"AND\",\"impacts\":[],\"conditions\":[]}",
+        "W9Ggbmwnl9" : "{\"type\":\"trigger\",\"uid\":\"W9Ggbmwnl9\",\"index\":3,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"change the world\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"repeatable\":true,\"operator\":\"AND\",\"impacts\":[],\"conditions\":[{\"type\":\"trigger\",\"uid\":\"3Y74eZVcFv\",\"index\":4,\"activableRef\":\"49nYj2qRR9\",\"status\":\"active\"},{\"uid\":\"m6M5BJGo7s\",\"index\":6,\"type\":\"time\",\"operator\":\"<\",\"timeSeconds\":7200},{\"uid\":\"jOIovUg6XO\",\"index\":5,\"type\":\"action\",\"actionRef\":\"at1\",\"status\":\"active\"}]}",
+        "ovSXlv3XW7" : "{\"type\":\"trigger\",\"uid\":\"ovSXlv3XW7\",\"index\":0,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"D\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"repeatable\":true,\"operator\":\"AND\",\"impacts\":[],\"conditions\":[]}"
+      },
       "refId" : "ObjectDescriptor:2623032:acjkg8",
       "scopeType" : "GameModelScope",
       "version" : null,
@@ -869,7 +873,7 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
-      "comments" : "",
+      "comments" : "{\n      uid: 'at1',\n      index: 0,\n      type: 'FullyConfigurableTemplateDescriptor',\n      constructorType: 'FullyConfigurableActionTemplate',\n      activableType: 'actionTemplate',\n      activeAtStart: true,\n      tag: 'my 1st',\n      repeatable: 2,\n      mandatory: true,\n      title:'my first custom action',\n      description: 'oh what is it',\n      choices: [\n        {\n          uid: 'at1cA',\n          index: 0,\n          type: 'choice',\n          activableType: 'choice',\n          activeAtStart: true,\n          tag: 'A',\n          parent: 'at1',\n          description: 'A, the choice A',\n          title: 'A choice',\n          placeHolder: 'kkk',\n          defaultEffect: 'at1cAe1',\n          effects: [\n            {\n              uid: 'at1cAe1',\n              index: 0,\n              type: 'effect',\n              tag: 'E1',\n              parent: 'at1cA',\n              impacts: []\n            },\n            {\n              uid: 'at1cAe2',\n              index: 0,\n              type: 'effect',\n              tag: 'E2',\n              parent: 'at1cA',\n              impacts: []\n            }\n          ]\n        },\n        {\n          uid: 'at1cB',\n          index: 0,\n          type: 'choice',\n          activableType: 'choice',\n          activeAtStart: true,\n          tag: 'B',\n          parent: 'at1',\n          description: 'B, the choice B',\n          title: 'B choice',\n          placeHolder: 'kkk',\n          defaultEffect: 'at1cBe1',\n          effects: [\n            {\n              uid: 'at1cBe1',\n              index: 0,\n              type: 'effect',\n              tag: 'E1',\n              parent: 'at1cB',\n              impacts: []\n            }\n          ]\n        }\n      ],\n      binding: undefined,\n      durationSec: 120,\n    }",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
@@ -892,7 +896,10 @@
         }
       },
       "name" : "action_template_data",
-      "properties" : { },
+      "properties" : {
+        "at1" : "{       uid: 'at1',       index: 0,       type: 'FullyConfigurableTemplateDescriptor',       constructorType: 'FullyConfigurableActionTemplate',       activableType: 'actionTemplate',       activeAtStart: true,       tag: 'my 1st',       repeatable: 2,       mandatory: true,       title:'my first custom action',       description: 'oh what is it',       choices: [         {           uid: 'at1cA',           index: 0,           type: 'choice',           activableType: 'choice',           activeAtStart: true,           tag: 'A',           parent: 'at1',           description: 'A, the choice A',           title: 'A choice',           placeHolder: 'kkk',           defaultEffect: 'at1cAe1',           effects: [             {               uid: 'at1cAe1',               index: 0,               type: 'effect',               tag: 'E1',               parent: 'at1cA',               impacts: []             },             {               uid: 'at1cAe2',               index: 0,               type: 'effect',               tag: 'E2',               parent: 'at1cA',               impacts: []             }           ]         },         {           uid: 'at1cB',           index: 0,           type: 'choice',           activableType: 'choice',           activeAtStart: true,           tag: 'B',           parent: 'at1',           description: 'B, the choice B',           title: 'B choice',           placeHolder: 'kkk',           defaultEffect: 'at1cBe1',           effects: [             {               uid: 'at1cBe1',               index: 0,               type: 'effect',               tag: 'E1',               parent: 'at1cB',               impacts: []             }           ]         }       ],       binding: undefined,       durationSec: 120,     }",
+        "at2" : "{       uid: 'at2',       index: 1,       type: 'FullyConfigurableTemplateDescriptor',       constructorType: 'FullyConfigurableActionTemplate',       activableType: 'actionTemplate',       activeAtStart: true,       tag: 'my 2nd',       repeatable: 2,       mandatory: true,       title:'my second custom action',       description: 'ah ah',       choices: [],       binding: undefined,       durationSec: 180,     }"
+      },
       "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
       "version" : null,
@@ -7287,7 +7294,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIIM-471 XGO (2)",
+  "name" : "MIM-471",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

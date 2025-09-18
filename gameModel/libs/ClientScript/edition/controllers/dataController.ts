@@ -58,6 +58,7 @@ import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
 import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
+import { getATTests } from '../../game/loaders/actionTemplateLoader';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -244,9 +245,9 @@ export class TriggerDataController extends DataControllerBase<
       .forEach((element: TriggerFlatType) => {
         const parentTrigger = tree[element.parent];
         if (parentTrigger) {
-          if (element.superType === 'condition') {
+          if (element.superType === 'condition' && element.type !== 'empty') {
             parentTrigger.conditions.push(fromFlatCondition(element));
-          } else if (element.superType === 'impact') {
+          } else if (element.superType === 'impact' && element.type !== 'empty') {
             parentTrigger.impacts.push(fromFlatImpact(element));
           }
         } else {
@@ -271,9 +272,9 @@ export class TriggerDataController extends DataControllerBase<
           TriggerDataController.TRIGGER_ROOT
         );
       case 'condition':
-        return toFlatCondition(getConditionDefinition('time').getDefault(), parentId);
+        return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
     }
   }
 }
@@ -286,10 +287,10 @@ export class ActionTemplateDataController extends DataControllerBase<
   private static readonly ACTION_ROOT: string = 'ACTION_ROOT';
 
   protected override flatten(
-    tree: Record<Uid, TemplateDescriptor>
+    _tree: Record<Uid, TemplateDescriptor>
   ): Record<Uid, ActionTemplateFlatType> {
     const flattened: Record<Uid, ActionTemplateFlatType> = {};
-    Object.entries(tree).forEach(([uid, tpld]) => {
+    Object.entries(getATTests()).forEach(([uid, tpld]) => {
       flattened[uid] = toFlatActionTemplate(tpld, ActionTemplateDataController.ACTION_ROOT);
       // choices
       tpld.choices.forEach((choice: ChoiceDescriptor) => {

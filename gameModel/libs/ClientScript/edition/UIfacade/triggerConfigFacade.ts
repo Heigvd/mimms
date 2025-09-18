@@ -1,6 +1,4 @@
-import { ActionTemplateId } from '../../game/common/baseTypes';
 import { Uid } from '../../game/common/interfaces';
-import { debugGetAllActionTemplates } from '../../game/mainSimulationLogic';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { TriggerFlatType } from '../controllers/dataController';
@@ -10,8 +8,8 @@ import {
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
-import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
-import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade';
+import { getActivableOfType } from '../UIfacade/activableFacade';
+import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export type TriggerConfigUIState = GenericScenaristInterfaceState;
 
@@ -43,33 +41,84 @@ export function getTriggerOperatorChoices(): { label: string; value: string }[] 
   ];
 }
 
-export function getDefaultTriggerOperatorChoice(): string {
-  return 'AND';
+export interface UiConditionChoices {
+  label: string;
+  value: string;
+  isItemOfType: (item: TriggerFlatType) => boolean;
+  changeType: (uid: TriggerFlatType['uid']) => void;
 }
 
-export function getConditionTypeChoices(): { label: string; value: string }[] {
-  return [
-    {
-      label: 'time',
-      value: 'time',
+export const uiConditionSelection: UiConditionChoices[] = [
+  {
+    label: 'time',
+    value: 'time',
+    isItemOfType: (item: TriggerFlatType) => item.type === 'time',
+    changeType: (uid: Uid) => {
+      updateConditionType(uid, 'time');
     },
-    {
-      label: 'action',
-      value: 'action',
+  },
+
+  {
+    label: 'action',
+    value: 'action',
+    isItemOfType: (item: TriggerFlatType) => item.type === 'action' || item.type === 'choice',
+    changeType: (uid: Uid) => {
+      updateConditionType(uid, 'action');
     },
-    {
-      label: 'choice',
-      value: 'choice',
+  },
+  {
+    label: 'trigger',
+    value: 'trigger',
+    isItemOfType: (item: TriggerFlatType) => item.type === 'trigger',
+    changeType: (uid: Uid) => {
+      updateConditionType(uid, 'trigger');
     },
-    {
-      label: 'trigger',
-      value: 'trigger',
-    },
-    {
-      label: 'mapEntity',
-      value: 'mapEntity',
-    },
-  ];
+    /*},
+  {
+    label: 'map entity',
+    value: 'mapEntity',
+    isItemOfType: (item: TriggerFlatType) => item.type === 'mapEntity',
+    changeType: (uid: Uid) => { updateConditionType(uid, 'mapEntity') }*/
+  },
+];
+
+export function getConditionSelection(): { label: string; value: string }[] {
+  return uiConditionSelection.map(({ label, value }) => {
+    return { label, value };
+  });
+}
+
+// TODO better
+export function isOfConditionType(
+  condition: FlatCondition,
+  cType: UiConditionChoices['value']
+): boolean {
+  switch (cType) {
+    case 'time':
+      return condition.type === 'time';
+    case 'action':
+      return condition.type === 'action' || condition.type === 'choice';
+    case 'trigger':
+      return condition.type === 'trigger';
+    case 'mapEntity':
+      return condition.type === 'mapEntity';
+    default:
+      return false;
+  }
+}
+
+export function fromUItypeToDataType(cType: UiConditionChoices['value']): FlatCondition['type'] {
+  switch (cType) {
+    case 'time':
+      return 'time';
+    case 'action':
+      return 'action';
+    case 'trigger':
+      return 'trigger';
+    case 'mapEntity':
+      return 'mapEntity';
+  }
+  return 'empty';
 }
 
 // TODO better
@@ -128,45 +177,14 @@ export function getTimeOperatorChoices(): { label: string; value: string }[] {
 }
 
 // TODO better
-export function getTriggerSelection(omittedUid?: Uid): { label: string; value: string }[] {
-  return getItems('trigger')
-    .map(item => item as FlatTrigger)
-    .filter(item => item.uid !== omittedUid)
-    .map(item => {
-      return { label: item.tag, value: item.uid };
-    });
-}
-
-// TODO better
-export function getTriggerTag(triggerUid: Uid): string | undefined {
-  const item = getItems('trigger')
-    .map(item => item as FlatTrigger)
-    .find(item => item.uid === triggerUid);
-  if (item) {
-    return item.tag;
-  }
-
-  return undefined;
-}
-
-// TODO better
-export function getActionTemplateSelection(): { label: string; value: string }[] {
+export function getChoiceSelection(actionTemplateId: Uid): { label: string; value: string }[] {
+  const choices = getActivableOfType('choice');
   // TODO make it work, see how to get the data
-  return debugGetAllActionTemplates().map(actionTmplt => {
-    return { label: actionTmplt.getTitle(), value: String(actionTmplt.Uid) };
-  });
-}
-
-// TODO better
-export function getActionTemplateTitle(actionTempltUid: ActionTemplateId): string | undefined {
-  // TODO make it work
-  const actionTmplt = debugGetAllActionTemplates().find(
-    actionTmplt => actionTmplt.Uid === actionTempltUid
-  );
-  if (actionTmplt) {
-    return actionTmplt.getTitle();
-  }
-  return undefined;
+  return Object.values(choices)
+    .filter(choice => choice.parent === actionTemplateId)
+    .map(choice => {
+      return { label: choice.tag, value: String(choice.uid) };
+    });
 }
 
 // TODO better
@@ -184,7 +202,7 @@ export function getActiveInactiveStatusChoices(): { label: string; value: string
 }
 
 // TODO better
-export function getChoiceActionStatusChoices(): { label: string; value: string }[] {
+export function getChoiceActionStatusSelection(): { label: string; value: string }[] {
   return [
     {
       label: 'inactive',

@@ -107,7 +107,7 @@
           "props" : {
             "hideIf" : {
               "@class" : "Script",
-              "content" : "!Editor.getFeatures().ADVANCED&&\n!Editor.getFeatures().INTERNAL;",
+              "content" : "!Editor.getFeatures().ADVANCED &&\n!Editor.getFeatures().INTERNAL;",
               "language" : "typescript"
             },
             "label" : {
