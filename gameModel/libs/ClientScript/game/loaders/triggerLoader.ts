@@ -14,6 +14,45 @@ function getTestTriggers(): Trigger[] {
   return [
     {
       type: 'trigger',
+      uid: 'T0 trigger',
+      index: 0,
+      activableType: 'trigger',
+      activeAtStart: true,
+      tag: 'Test Trigger',
+      accessLevel: 'basic',
+      mandatory: false,
+      repeatable: false,
+      operator: 'OR',
+      conditions: [
+        {
+          uid: 'c1',
+          index: 1,
+          type: 'time',
+          operator: '=',
+          timeSeconds: 0,
+        },
+      ],
+
+      impacts: [
+        {
+          type: 'notification',
+          uid: 'T0 notif',
+          roles: {
+            AL: true,
+            ACS: false,
+            CASU: false,
+            EVASAN: false,
+            LEADPMA: false,
+            MCS: false,
+          },
+          delaySeconds: 0,
+          message: 'I am a T=0 trigger',
+          index: 0,
+        },
+      ],
+    },
+    {
+      type: 'trigger',
       uid: 'Test trigger UID here',
       index: 0,
       activableType: 'trigger',
@@ -28,7 +67,7 @@ function getTestTriggers(): Trigger[] {
           uid: 'c1',
           index: 1,
           type: 'time',
-          operator: '>',
+          operator: '=',
           timeSeconds: 120,
         },
       ],

@@ -13,6 +13,10 @@ import { notifyMainStateInitializationComplete } from '../executionContext/gameE
 import { loadResourceContainersConfiguration } from './resourceLoader';
 import { loadPatients } from './patientsLoader';
 import { buildActivables } from './activableLoader';
+import {
+  LocalEventBase,
+  T0TriggerEvaluationLocalEvent,
+} from '../common/localEvents/localEventBase';
 
 let singletonStartState: MainSimulationState;
 
@@ -88,4 +92,10 @@ export function shallowState(): MainSimulationState {
     },
     -1 // impossible state id : make sure no event can be applied on that state
   );
+}
+/**
+ * Returns events that should be evaluated on a newly built state
+ */
+export function getStartingLocalEvents(): LocalEventBase[] {
+  return [new T0TriggerEvaluationLocalEvent()];
 }
