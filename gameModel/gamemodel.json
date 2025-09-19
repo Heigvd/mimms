@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1758052908830,
+  "createdTime" : 1758276573546,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5147,6 +5147,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/viewsSelector",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2506520:JiVVQY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/GameModelerHelper",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7287,7 +7296,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIIM-471 XGO (2)",
+  "name" : "MIIM-471 XGO improvements generic views, filtering, setIState ",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
