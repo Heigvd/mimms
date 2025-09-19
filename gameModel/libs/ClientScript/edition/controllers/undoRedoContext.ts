@@ -60,4 +60,11 @@ export class UndoRedoContext<IState, DataT> {
     this.stateStack = this.stateStack.slice(0, this.currentStateIndex);
     this.stateStack.push([interfaceState, dataState]);
   }
+
+  /**
+   * updates the last stored state's interface state
+   */
+  public updateInterfaceState(interfaceState: IState): void {
+    this.stateStack[this.currentStateIndex]![0] = interfaceState;
+  }
 }
