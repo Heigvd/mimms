@@ -27,7 +27,9 @@ export function getLayerStyle(feature: any): LayerStyleObject {
   }
 }
 
-/* Needs to be updated every time the actor is changed!! */
+/**
+ * Returns per actor interface color
+ */
 export function setInterfaceColor(id: ActorId): string {
   const actor = getActor(id);
   if (actor) {

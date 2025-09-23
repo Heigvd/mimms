@@ -12,6 +12,7 @@ import { OnTheRoadAction } from '../game/common/actions/actionBase';
 import { InterfaceState } from '../gameInterface/interfaceState';
 import { canActorPlanAction } from '../gameInterface/main';
 import { getTranslation } from '../tools/translation';
+import { selectionLayerRef } from '../gameMap/main';
 
 /**
  * @returns All currently present actors
@@ -34,6 +35,7 @@ export function selectActor(id: ActorId): InterfaceState {
 export function selectActorAndOpenMapLocation(id: ActorId) {
   const newState = selectActor(id);
   openOverlayItem(getActorLocation(id)!);
+  selectionLayerRef.current.changed();
   return newState;
 }
 
@@ -114,7 +116,9 @@ export function getActor(id: number): Readonly<Actor> | undefined {
   return getCurrentState().getActorById(id);
 }
 
-// QUICK AND DIRTY
+/**
+ * Returns per actor interface color
+ */
 export function getInterfaceColorClass(id: ActorId): string {
   const actor = getActor(id);
   if (actor) {
