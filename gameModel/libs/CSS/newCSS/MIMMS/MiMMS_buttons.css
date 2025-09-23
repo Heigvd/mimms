@@ -35,15 +35,16 @@
 }
 
 .button-primaryColor:hover{
-	background-color: var(--primary_base);
+	background-color: var(--primary_60);
+  border-color: var(--primary_60);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
 	color: var(--grey_0);
 }
 
 .button-primaryColor:active{
-	background-color: var(--primary_50);
-	border: solid 2px var(--primary_50);
+	background-color: var(--primary_60);
+	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
  
@@ -53,8 +54,6 @@
 	font-weight: var(--boldWeight);
 	color: var(--grey_0);
 }
-
-
 
 .disabled.button-primaryColor{
 	background-color: var(--grey_50);
@@ -72,18 +71,19 @@
 
 /** secondary **/
 .button-secondaryColor{
-	background-color: var(--secondary_base);
+	/*background-color: var(--secondary_base);*/
+  background-color: var(--primary_base);
   color: var(--grey-white);
 }
 
 .button-secondaryColor:hover{
-	background-color: var(--secondary_60);
+  background-color: var(--primary_60);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
 }
 
 .button-secondaryColor:active{
-	background-color: var(--secondary_50);
+	background-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
 
@@ -148,8 +148,8 @@
 
 /* buttons in METHANE and in welcome page */
 .rectangleButton:hover{
-	background-color: var(--primary_50);
-	border: solid 2px var(--primary_50);
+	background-color: var(--primary_60);
+	border: solid 2px var(--primary_60);
 	box-shadow: var(--buttonShadow);
 	color: var(--grey_0);
 }
@@ -180,8 +180,8 @@
 }
 
 .rectangleButton:focus:hover{
-	background-color: var(--primary_50);
-	border: solid 2px var(--primary_50);
+	background-color: var(--primary_60);
+	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
 
@@ -219,12 +219,12 @@
   border-radius: 25px;
   font-weight: var(--boldWeight);
   color: var(--grey-white);
-  background: var(--secondary_base); 
+  background-color: var(--primary_base); 
   box-shadow: var(--buttonShadow);
 }
 
 .nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
-  background: var(--secondary_60);
+  background: var(--primary_60);
 	cursor: pointer;
 }
 
@@ -238,7 +238,7 @@
   height: fit-content;
   padding: 20px;
   font-size: var(--S_text);
-  color: var(--secondary_60);
+  color: var(--grey_100);
   background-color: var(--yellow_base);
   border-radius: var(--S_borderRadius);
   opacity: 0;

@@ -114,6 +114,24 @@ export function getActor(id: number): Readonly<Actor> | undefined {
   return getCurrentState().getActorById(id);
 }
 
+// QUICK AND DIRTY
+export function getInterfaceColorClass(id: ActorId): string {
+  const actor = getActor(id);
+  if (actor) {
+    switch (actor.Role) {
+      case 'ACS':
+        return 'theme-acs';
+      case 'MCS':
+        return 'theme-mcs';
+      case 'EVASAN':
+        return 'theme-evasan';
+      case 'LEADPMA':
+        return 'theme-leadpma';
+    }
+  }
+  return 'theme-al';
+}
+
 /**
  * Returns actors at given location
  * @param location
