@@ -54,6 +54,7 @@ export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
   );
   newState.selected[itemType] = uid;
   setMenuUISubState(getCategory(), newState);
+  getController().updateIState(newState);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
@@ -62,6 +63,7 @@ export function unselect(itemType: SuperTypeNames): void {
   );
   delete newState.selected[itemType];
   setMenuUISubState(getCategory(), newState);
+  getController().updateIState(newState);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
