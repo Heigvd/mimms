@@ -266,9 +266,9 @@ export class TriggerDataController extends DataControllerBase<
       .forEach((element: TriggerFlatType) => {
         const parentTrigger = tree[element.parent];
         if (parentTrigger) {
-          if (element.superType === 'condition') {
+          if (element.superType === 'condition' && element.type !== 'empty') {
             parentTrigger.conditions.push(fromFlatCondition(element));
-          } else if (element.superType === 'impact') {
+          } else if (element.superType === 'impact' && element.type !== 'empty') {
             parentTrigger.impacts.push(fromFlatImpact(element));
           }
         } else {
@@ -293,9 +293,9 @@ export class TriggerDataController extends DataControllerBase<
           TriggerDataController.TRIGGER_ROOT
         );
       case 'condition':
-        return toFlatCondition(getConditionDefinition('time').getDefault(), parentId);
+        return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
     }
   }
 

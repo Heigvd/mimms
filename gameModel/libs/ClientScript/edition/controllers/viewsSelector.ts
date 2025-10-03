@@ -38,7 +38,7 @@ type Views = {
     [T in Extract<
       FlatTypes,
       { superType: S }
-    >['type']] /** Map type to the configuration view type*/: StripFlatTypeFields<
+    >['type'] /** Map type to the configuration view type*/]: StripFlatTypeFields<
       ToConfigurationViewType<Extract<FlatTypes, { superType: S; type: T }>>
     >;
   };

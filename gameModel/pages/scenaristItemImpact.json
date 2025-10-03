@@ -273,6 +273,11 @@
               },
               "type" : "Text"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type === 'empty';",
+              "language" : "typescript"
+            },
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
