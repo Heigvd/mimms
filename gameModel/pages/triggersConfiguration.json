@@ -18,6 +18,18 @@
               "type" : "Text"
             }, {
               "props" : {
+                "layoutStyle" : { },
+                "name" : "Basic title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Basic</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "exposePageSizeAs" : "",
@@ -31,7 +43,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('trigger');",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
@@ -39,6 +51,46 @@
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
+                "name" : "Basic items",
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Custom title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Custom</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "triggerItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getCustomTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getCustomTriggers();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Custom items",
                 "style" : { }
               },
               "type" : "For each"

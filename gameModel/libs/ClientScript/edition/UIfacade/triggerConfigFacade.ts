@@ -21,6 +21,20 @@ export function getInitialTriggersUIState(): TriggerConfigUIState {
   };
 }
 
+export function getMandatoryTriggers(): FlatTrigger[] {
+  return getItems('trigger')
+    .filter(item => item.superType === 'trigger')
+    .map(trigger => trigger as FlatTrigger)
+    .filter(trigger => trigger.mandatory);
+}
+
+export function getCustomTriggers(): FlatTrigger[] {
+  return getItems('trigger')
+    .filter(item => item.superType === 'trigger')
+    .map(trigger => trigger as FlatTrigger)
+    .filter(trigger => !trigger.mandatory);
+}
+
 export function updateItem<T extends TriggerFlatType>(uid: Uid, newData: Partial<T>): void {
   const controller = getTriggerController();
   const data: Record<Uid, TriggerFlatType> = controller.getFlatDataClone();
