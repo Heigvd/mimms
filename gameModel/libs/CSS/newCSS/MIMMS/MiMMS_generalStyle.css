@@ -55,6 +55,42 @@
   --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+/* per actor interface color variables */
+.theme-al {
+  --primary_10: #d0e9f3ff;
+  --primary_base: #1591c2ff;
+  --primary_60: #1179a2ff;
+  --primary_filter: invert(43%) sepia(94%) saturate(464%) hue-rotate(152deg) brightness(93%) contrast(90%);
+}
+
+.theme-acs {
+  --primary_10: #DDDBEA;
+  --primary_base: #554994;
+  --primary_60: #473D7B;
+  --primary_filter: invert(30%) sepia(41%) saturate(807%) hue-rotate(209deg) brightness(91%) contrast(92%);
+}
+
+.theme-mcs {
+  --primary_10: #DDE9E0;
+  --primary_base: #539265;
+  --primary_60: #457A54;
+  --primary_filter: invert(51%) sepia(7%) saturate(2214%) hue-rotate(84deg) brightness(98%) contrast(91%);
+}
+
+.theme-evasan {
+  --primary_10: #FCDDE4;
+  --primary_base: #EF5777;
+  --primary_60: #C54661;
+  --primary_filter: invert(57%) sepia(70%) saturate(3181%) hue-rotate(312deg) brightness(93%) contrast(101%);
+}
+
+.theme-leadpma {
+  --primary_10: #FDE8DF;
+  --primary_base: #F78C60;
+  --primary_60: #CF734D;
+  --primary_filter: invert(74%) sepia(48%) saturate(2180%) hue-rotate(318deg) brightness(99%) contrast(95%);
+}
+
 /*** GENERAL STYLING ***/
 .stateInterface-container{
   height: 100%;

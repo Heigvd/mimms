@@ -80,6 +80,14 @@
           "type" : "Button"
         } ],
         "className" : "noPadding noMargin",
+        "computedClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : {
+            "@class" : "Script",
+            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+            "language" : "TypeScript"
+          }
+        } ],
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
@@ -176,6 +184,14 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
+                "computedClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : {
+                    "@class" : "Script",
+                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                    "language" : "TypeScript"
+                  }
+                } ],
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
                   "className" : "abort",
