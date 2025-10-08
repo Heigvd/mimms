@@ -242,13 +242,11 @@ export abstract class StartEndTemplate<
   UserInput = unknown
 > extends ActionTemplateBase<ActionT, EventT, UserInput> {
   public readonly duration: SimDuration;
-  public readonly message: TranslationKey;
 
   protected constructor(
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     replayable = false,
     category: ActionType = ActionType.ACTION,
     requiredFlags?: SimFlag[],
@@ -257,7 +255,6 @@ export abstract class StartEndTemplate<
   ) {
     super(title, description, replayable, category, requiredFlags, raisedFlags, availableToRoles);
     this.duration = duration;
-    this.message = message;
   }
 
   /** Default implementation : no custom conditions */
@@ -283,7 +280,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
+    readonly message: TranslationKey,
     replayable: boolean = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -294,7 +291,6 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.ACTION,
       requiredFlags,
@@ -345,7 +341,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -355,7 +350,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.CASU_RADIO,
       requiredFlags,
@@ -370,7 +364,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
     return new CasuMessageAction(
       payload.triggerTime,
       this.duration,
-      this.message,
       this.title,
       event.id,
       ownerId,
@@ -438,7 +431,6 @@ export class PretriageReportTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      feedbackWhenStarted,
       replayable,
       ActionType.RESOURCES_RADIO,
       requiredFlags,
@@ -505,7 +497,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    feedbackMessage: TranslationKey,
     readonly requestMessage: TranslationKey,
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
@@ -519,7 +510,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       title,
       description,
       duration,
-      feedbackMessage,
       replayable,
       ActionType.CASU_RADIO,
       requiredFlags,
@@ -539,7 +529,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       this.duration,
       event.id,
       this.title,
-      this.message,
       this.requestMessage,
       this.authorizedReplyMessage,
       this.unauthorizedReplyMessage,
@@ -593,7 +582,6 @@ export class SelectionFixedMapEntityTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     public readonly fixedMapEntity: FixedMapEntity,
     replayable = false,
     requiredFlags?: SimFlag[],
@@ -604,7 +592,6 @@ export class SelectionFixedMapEntityTemplate<
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.ACTION,
       requiredFlags,
@@ -639,7 +626,6 @@ export class SelectionFixedMapEntityTemplate<
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
@@ -682,7 +668,6 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
     replayable = false,
     requiredFlags?: SimFlag[],
@@ -693,7 +678,6 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
       title,
       description,
       duration,
-      message,
       fixedMapEntity,
       replayable,
       requiredFlags,
@@ -713,7 +697,6 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
@@ -734,7 +717,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
     replayable = false,
     requiredFlags?: SimFlag[],
@@ -745,7 +727,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
       title,
       description,
       duration,
-      message,
       fixedMapEntity,
       replayable,
       requiredFlags,
@@ -765,7 +746,6 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
@@ -786,7 +766,6 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     fixedMapEntity: FixedMapEntity,
     readonly vehicleType: VehicleType,
     replayable = false,
@@ -798,7 +777,6 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       title,
       description,
       duration,
-      message,
       fixedMapEntity,
       replayable,
       requiredFlags,
@@ -818,7 +796,6 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
@@ -855,7 +832,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -865,7 +841,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.RESOURCES_RADIO,
       requiredFlags,
@@ -908,7 +883,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     return new MoveResourcesAssignTaskAction(
       payload.triggerTime,
       this.duration,
-      this.message,
       this.title,
       event.id,
       ownerId,
@@ -937,7 +911,6 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     readonly radioChannel: RadioType,
     replayable: boolean = true,
     category: ActionType,
@@ -949,7 +922,6 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       title,
       description,
       duration,
-      message,
       replayable,
       category,
       requiredFlags,
@@ -966,7 +938,6 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     return new SendRadioMessageAction(
       payload.triggerTime,
       this.duration,
-      this.message,
       this.title,
       event.id,
       ownerId,
@@ -1022,7 +993,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -1032,7 +1002,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.ACTION,
       requiredFlags,
@@ -1049,7 +1018,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       [],
@@ -1090,7 +1058,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     replayable = true,
     readonly noResourceFailureMessageKey: TranslationKey,
     readonly refusalFailureMessageKey: TranslationKey,
@@ -1104,7 +1071,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.ACTION,
       requiredFlags,
@@ -1121,7 +1087,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.duration,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid,
       this.raisedFlags,
@@ -1177,8 +1142,8 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
   StandardActionEvent,
   SituationUpdatePayload
 > {
-  constructor(title: TranslationKey, description: TranslationKey, message: TranslationKey) {
-    super(title, description, 0, message, true, ActionType.ACTION);
+  constructor(title: TranslationKey, description: TranslationKey) {
+    super(title, description, 0, true, ActionType.ACTION);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
@@ -1189,7 +1154,6 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
       payload.durationSec,
       event.id,
       this.title,
-      this.message,
       ownerId,
       this.Uid
     );
@@ -1233,9 +1197,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    message: TranslationKey,
     readonly msgTaskRequest: TranslationKey,
-    readonly feedbackWhenStarted: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
@@ -1248,7 +1210,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      message,
       replayable,
       ActionType.EVASAN_RADIO,
       requiredFlags,
@@ -1273,9 +1234,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       this.duration,
       event.id,
       this.title,
-      this.message,
       this.msgTaskRequest,
-      this.feedbackWhenStarted,
       this.feedbackWhenReturning,
       this.msgEvacuationAbort,
       this.msgEvacuationRefused,

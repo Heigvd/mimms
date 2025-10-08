@@ -11,10 +11,5 @@ export function createFullyConfigurableTemplate(
   _descriptor: FullyConfigurableTemplateDescriptor
 ): MoveActorActionTemplate {
   // TODO implement the real class, wrong one here for compilation purposes
-  return new MoveActorActionTemplate(
-    'move-actor-title',
-    'move-actor-desc',
-    TimeSliceDuration,
-    'move-actor-feedback'
-  );
+  return new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration);
 }
