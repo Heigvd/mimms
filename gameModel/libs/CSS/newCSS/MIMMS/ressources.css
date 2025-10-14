@@ -78,7 +78,7 @@
 
 /* used to make one row of two blue*/
 .evenOddList-container:nth-of-type(even){
-  background-color: var(--primary_10);
+  background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
  }
 
 
