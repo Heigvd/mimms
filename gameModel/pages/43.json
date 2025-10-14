@@ -84,14 +84,6 @@
                                             "children" : [ {
                                               "props" : {
                                                 "className" : "mimms_h3title",
-                                                "computedClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "selectedFixedEntityHeader",
@@ -176,14 +168,6 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "resourceCounter squareCounter",
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Outside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "conditionnalClassNames" : [ {
                                                       "applyOn" : "Outside",
                                                       "className" : "currentResourcesCounter",
@@ -221,14 +205,6 @@
                                                   "type" : "Text"
                                                 }, {
                                                   "props" : {
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "conditionnalClassNames" : [ {
                                                       "applyOn" : "Outside",
                                                       "className" : "currentResources",
@@ -276,14 +252,6 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "resourceCounter squareCounter",
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Outside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
                                                     "layoutStyle" : { },
                                                     "style" : { },
@@ -296,14 +264,6 @@
                                                   "type" : "Text"
                                                 }, {
                                                   "props" : {
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "icon" : "truck",
                                                     "label" : {
                                                       "@class" : "Script",
@@ -332,14 +292,6 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "resourceCounter squareCounter",
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Outside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "layoutClassName" : "resourceCounter-container noPadding squareCounter-container",
                                                     "layoutStyle" : { },
                                                     "style" : { },
@@ -352,14 +304,6 @@
                                                   "type" : "Text"
                                                 }, {
                                                   "props" : {
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "icon" : "helicopter",
                                                     "label" : {
                                                       "@class" : "Script",
@@ -388,14 +332,6 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "button-S button-primaryColor",
-                                                    "computedClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                        "language" : "TypeScript"
-                                                      }
-                                                    } ],
                                                     "conditionnalClassNames" : [ {
                                                       "applyOn" : "Inside",
                                                       "className" : "current",
@@ -468,14 +404,6 @@
                                           "type" : "FlexList"
                                         } ],
                                         "className" : "fixedEntities",
-                                        "computedClassNames" : [ {
-                                          "applyOn" : "Outside",
-                                          "className" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                            "language" : "TypeScript"
-                                          }
-                                        } ],
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Outside",
                                           "className" : "selectedFixedMapEntity",
@@ -512,14 +440,6 @@
                                     }, {
                                       "props" : {
                                         "children" : [ ],
-                                        "computedClassNames" : [ {
-                                          "applyOn" : "Outside",
-                                          "className" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                            "language" : "TypeScript"
-                                          }
-                                        } ],
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Outside",
                                           "className" : "selectedFixedMapEntityArrow",
@@ -812,6 +732,14 @@
                               "type" : "WegasMap"
                             } ],
                             "className" : "noPadding noMargin",
+                            "computedClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : {
+                                "@class" : "Script",
+                                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                                "language" : "TypeScript"
+                              }
+                            } ],
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "Context.interfaceState == undefined;",
@@ -855,14 +783,6 @@
                                     }, {
                                       "props" : {
                                         "className" : "closeLeftPanelBtn",
-                                        "computedClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                            "language" : "TypeScript"
-                                          }
-                                        } ],
                                         "label" : {
                                           "@class" : "Script",
                                           "content" : "  if(Context.interfaceState.state.showLeftPanel === true){\n      return '<'\n    }\n    '>';",
@@ -882,14 +802,6 @@
                                       "type" : "Button"
                                     } ],
                                     "className" : "role",
-                                    "computedClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                        "language" : "TypeScript"
-                                      }
-                                    } ],
                                     "layout" : {
                                       "alignItems" : "center",
                                       "justifyContent" : "space-evenly"
@@ -982,14 +894,6 @@
                                 "children" : [ {
                                   "props" : {
                                     "className" : "menuItem",
-                                    "computedClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                        "language" : "TypeScript"
-                                      }
-                                    } ],
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
                                       "className" : "active-selected-item",
@@ -1026,14 +930,6 @@
                                 }, {
                                   "props" : {
                                     "className" : "",
-                                    "computedClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                        "language" : "TypeScript"
-                                      }
-                                    } ],
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
                                       "className" : "active-selected-item ",
@@ -1101,14 +997,6 @@
                                 }, {
                                   "props" : {
                                     "className" : "menuItem",
-                                    "computedClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                        "language" : "TypeScript"
-                                      }
-                                    } ],
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
                                       "className" : "active-selected-item",
@@ -1204,14 +1092,6 @@
                                     }, {
                                       "props" : {
                                         "className" : "nextActionBtn",
-                                        "computedClassNames" : [ {
-                                          "applyOn" : "Inside",
-                                          "className" : {
-                                            "@class" : "Script",
-                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                            "language" : "TypeScript"
-                                          }
-                                        } ],
                                         "hideIf" : {
                                           "@class" : "Script",
                                           "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
@@ -1354,14 +1234,6 @@
                                             }, {
                                               "props" : {
                                                 "className" : "notificationButton",
-                                                "computedClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "closedNotif-button",
@@ -1418,14 +1290,6 @@
                                             }, {
                                               "props" : {
                                                 "className" : "button-S button-primaryColor",
-                                                "computedClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "current",
@@ -1518,14 +1382,6 @@
                                       "type" : "Text"
                                     } ],
                                     "className" : "display",
-                                    "computedClassNames" : [ {
-                                      "applyOn" : "Inside",
-                                      "className" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                                        "language" : "TypeScript"
-                                      }
-                                    } ],
                                     "layout" : { },
                                     "layoutClassName" : "timeline-display",
                                     "layoutStyle" : {
@@ -1567,7 +1423,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : "",
-                                "attachedToId" : "mainSimulationPageId",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "className" : "modal-title",
@@ -1613,7 +1469,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : "",
-                                "attachedToId" : "mainSimulationPageId",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "className" : "modal-title",
@@ -1742,7 +1598,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : ".wegas-pageloader",
-                                "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "className" : "modal-title",
@@ -1809,7 +1665,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : "",
-                                "attachedToId" : "mainSimulationPageId",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "className" : "modal-image",
@@ -1868,7 +1724,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : "",
-                                "attachedToId" : "mainSimulationPageId",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "className" : "modal-title",
@@ -2000,7 +1856,7 @@
                             }, {
                               "props" : {
                                 "attachToMostDistant" : "",
-                                "attachedToId" : "mainSimulationPageId",
+                                "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
                                   "props" : {
                                     "exposePageSizeAs" : "",
@@ -2039,11 +1895,20 @@
                               "type" : "Modal"
                             } ],
                             "className" : "noPadding noMargin",
+                            "computedClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : {
+                                "@class" : "Script",
+                                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                                "language" : "TypeScript"
+                              }
+                            } ],
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "Context.interfaceState == undefined;",
                               "language" : "typescript"
                             },
+                            "id" : "globalInterfaceId",
                             "layout" : { },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : {
@@ -2086,7 +1951,6 @@
                     "layoutClassName" : "stateInterface-container noPadding noMargin",
                     "layoutStyle" : {
                       "height" : "100%",
-                      "pointerEvents" : "none",
                       "width" : "100%"
                     },
                     "localState" : true,

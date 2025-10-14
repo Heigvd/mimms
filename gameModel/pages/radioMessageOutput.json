@@ -50,14 +50,6 @@
               "type" : "Text"
             } ],
             "className" : "",
-            "computedClassNames" : [ {
-              "applyOn" : "Outside",
-              "className" : {
-                "@class" : "Script",
-                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                "language" : "TypeScript"
-              }
-            } ],
             "conditionnalClassNames" : [ {
               "applyOn" : "Outside",
               "className" : "radio-message-others tri-right left-top",
