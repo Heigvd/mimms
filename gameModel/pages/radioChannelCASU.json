@@ -281,14 +281,6 @@
               "type" : "Button"
             } ],
             "className" : "noPadding",
-            "computedClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : {
-                "@class" : "Script",
-                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                "language" : "TypeScript"
-              }
-            } ],
             "layout" : {
               "alignItems" : "flex-start",
               "flexDirection" : "column"

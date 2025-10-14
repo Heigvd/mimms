@@ -205,14 +205,6 @@
                 }, {
                   "props" : {
                     "className" : " button-S button-secondaryColor ",
-                    "computedClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : {
-                        "@class" : "Script",
-                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                        "language" : "TypeScript"
-                      }
-                    } ],
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
                       "className" : "abort",
