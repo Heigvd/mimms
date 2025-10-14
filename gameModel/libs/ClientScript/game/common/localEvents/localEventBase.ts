@@ -387,7 +387,6 @@ export class AddActorLocalEvent extends LocalEventBase {
       const travelAction = new OnTheRoadAction(
         now,
         this.props.travelTime,
-        'actor-arrival',
         'on-the-road',
         0,
         actor.Uid,

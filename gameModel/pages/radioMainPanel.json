@@ -23,6 +23,14 @@
         "children" : [ {
           "props" : {
             "className" : "button-channel ",
+            "computedClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : {
+                "@class" : "Script",
+                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                "language" : "TypeScript"
+              }
+            } ],
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
               "className" : "button-channel_selected",

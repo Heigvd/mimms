@@ -151,10 +151,6 @@ export abstract class StartEndAction extends ActionBase {
    */
   public readonly actionNameKey: TranslationKey;
   /**
-   * Translation key to the message received at the end of the action
-   */
-  public readonly messageKey: TranslationKey;
-  /**
    * Adds SimFlags values to state at the end of the action
    */
   public provideFlagsToState: SimFlag[];
@@ -164,7 +160,6 @@ export abstract class StartEndAction extends ActionBase {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -172,7 +167,6 @@ export abstract class StartEndAction extends ActionBase {
     super(startTimeSec, eventId, ownerId, uuidTemplate);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
-    this.messageKey = messageKey;
     this.provideFlagsToState = provideFlagsToState;
   }
 
@@ -231,7 +225,6 @@ export abstract class RadioDrivenAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -241,7 +234,6 @@ export abstract class RadioDrivenAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -270,7 +262,7 @@ export class DisplayMessageAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
+    readonly messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState?: SimFlag[],
@@ -281,7 +273,6 @@ export class DisplayMessageAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -317,13 +308,12 @@ export class OnTheRoadAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -336,15 +326,6 @@ export class OnTheRoadAction extends StartEndAction {
     // Once actor arrives, we change location from remote
     const actor = state.getActorById(this.ownerId)!;
     actor.setLocation(actor.getComputedSymbolicLocation(state));
-
-    getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        recipientId: this.ownerId,
-        message: this.messageKey,
-      })
-    );
   }
 
   protected cancelInternal(_state: Readonly<MainSimulationState>): void {
@@ -359,14 +340,13 @@ export class CasuMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     private casuMessagePayload: CasuMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
     if (this.casuMessagePayload.messageType === 'R') {
       this.hospitalRequestPayload = this.casuMessagePayload;
     }
@@ -506,7 +486,6 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    feedbackMessageKey: TranslationKey,
     readonly requestMessage: TranslationKey,
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
@@ -520,7 +499,6 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      feedbackMessageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -614,7 +592,6 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
@@ -625,7 +602,6 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -654,14 +630,6 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
         fixedMapEntity: this.fixedMapEntity,
       })
     );
-    getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        recipientId: this.ownerId,
-        message: this.messageKey,
-      })
-    );
   }
 
   protected cancelInternal(state: Readonly<MainSimulationState>): void {
@@ -685,7 +653,6 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
@@ -696,7 +663,6 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       fixedMapEntity,
@@ -747,7 +713,6 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
@@ -758,7 +723,6 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       fixedMapEntity,
@@ -816,7 +780,6 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     fixedMapEntity: FixedMapEntity,
@@ -828,7 +791,6 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       fixedMapEntity,
@@ -868,7 +830,6 @@ export class MoveActorAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -879,7 +840,6 @@ export class MoveActorAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -927,7 +887,6 @@ export class AppointActorAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -941,7 +900,6 @@ export class AppointActorAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -1059,7 +1017,6 @@ export class SituationUpdateAction extends StartEndAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -1069,7 +1026,6 @@ export class SituationUpdateAction extends StartEndAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -1111,7 +1067,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
@@ -1123,15 +1078,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     sourceTaskId: TaskId,
     targetTaskId: TaskId
   ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      globalEventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate
-    );
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
     this.commMedia = commMedia;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
@@ -1256,9 +1203,8 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         this.sendFeedbackMessage(state, 'move-res-task-no-resource');
       } else if (!isEnoughResources) {
         this.sendFeedbackMessage(state, 'move-res-task-not-enough-resources');
-      } else {
-        this.sendFeedbackMessage(state, this.messageKey);
       }
+      // no feed-back if everything works as expected
     }
   }
 
@@ -1355,15 +1301,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     uuidTemplate: ActionTemplateId,
     private pretriageLocation: LOCATION_ENUM
   ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      feedbackWhenStarted,
-      ownerId,
-      uuidTemplate
-    );
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1431,7 +1369,6 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    messageKey: TranslationKey,
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
@@ -1439,7 +1376,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     private radioChannel: RadioType,
     private radioMessagePayload: RadioMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, messageKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1513,9 +1450,7 @@ export class EvacuationAction extends RadioDrivenAction {
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
     actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
     readonly msgTaskRequest: TranslationKey,
-    readonly feedbackWhenStarted: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
@@ -1529,7 +1464,6 @@ export class EvacuationAction extends RadioDrivenAction {
       durationSeconds,
       eventId,
       actionNameKey,
-      messageKey,
       ownerId,
       uuidTemplate,
       provideFlagsToState
@@ -1643,17 +1577,6 @@ export class EvacuationAction extends RadioDrivenAction {
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
-      );
-
-      getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent({
-          parentEventId: this.eventId,
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          recipientId: this.ownerId,
-          message: this.feedbackWhenStarted,
-          channel: this.getChannel(),
-        })
       );
     }
   }

@@ -678,6 +678,14 @@
           "type" : "FlexList"
         } ],
         "className" : "scrollableCasuTransmission",
+        "computedClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : {
+            "@class" : "Script",
+            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+            "language" : "TypeScript"
+          }
+        } ],
         "layout" : {
           "flexDirection" : "column",
           "justifyContent" : "flex-start"
