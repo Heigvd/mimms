@@ -407,7 +407,7 @@
                                                     } ],
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors();\n  !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);",
+                                                      "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : {
@@ -1279,11 +1279,7 @@
                                                       "props" : {
                                                         "className" : "noPadding noMargin",
                                                         "exposePageSizeAs" : "",
-                                                        "initialSelectedPageId" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"64\"",
-                                                          "language" : "typescript"
-                                                        },
+                                                        "initialSelectedPageId" : "64",
                                                         "layoutClassName" : "notificationPageloader-container noPadding noMargin",
                                                         "layoutStyle" : {
                                                           "overflow" : "auto",
@@ -1337,7 +1333,7 @@
                                                 "className" : "counterCircle",
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount(Context.actor.Uid) === 0;",
+                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\nimport { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\n  getUnreadNotificationsCount(Context.actor.Uid) === 0\n    ||\n    !canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                   "language" : "typescript"
                                                 },
                                                 "layoutClassName" : "noPadding counterCircle-container",
@@ -1353,7 +1349,7 @@
                                               "type" : "Text"
                                             }, {
                                               "props" : {
-                                                "className" : "notificationButton",
+                                                "className" : "button-primaryColor notificationButton",
                                                 "computedClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : {
@@ -1375,7 +1371,7 @@
                                                   "className" : "newNotif",
                                                   "condition" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\ngetUnreadNotificationsCount(Context.actor.Uid) !== 0;",
+                                                    "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\nimport { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\n  getUnreadNotificationsCount(Context.actor.Uid) !== 0\n    &&\n    canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                     "language" : "typescript"
                                                   }
                                                 }, {
@@ -1391,10 +1387,15 @@
                                                   "className" : "unselectedNotif-button",
                                                   "condition" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\nContext.interfaceState.state.currentActorUid != Context.actor.Uid && getUnreadNotificationsCount(Context.actor.Uid) == 0;",
+                                                    "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\nimport { getUnreadNotificationsCount } from \"./UIfacade/radioFacade\";\n  Context.interfaceState.state.currentActorUid != Context.actor.Uid\n    &&\n    getUnreadNotificationsCount(Context.actor.Uid) == 0\n    &&\n    canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                     "language" : "typescript"
                                                   }
                                                 } ],
+                                                "disableIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
+                                                  "language" : "typescript"
+                                                },
                                                 "icon" : "mail-bulk",
                                                 "label" : {
                                                   "@class" : "Script",
@@ -1438,7 +1439,7 @@
                                                 "confirm" : false,
                                                 "disableIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors()\n  if (isGodView()) {\n    return !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);\n  }\n    false;",
+                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                   "language" : "typescript"
                                                 },
                                                 "label" : {
