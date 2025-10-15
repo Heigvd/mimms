@@ -6,12 +6,6 @@
 	overflow: auto;
 }
 
-/*
-.resourcesPanel {
-	gap: 10px;
-}*/
-
-
 .resourcesDropdowns{
   padding-top: 0px;
   padding-bottom: 0px;
@@ -30,29 +24,6 @@
   align-items: center;
 }
 
-/*** check what is needed */
-/* unused probably
-.oneResourceType {
-	width: 55px;
-}
-
-.oneActionResource {
-	width: 55px;
-}
-
-.resourceTypeIcon-container {
-	font-size: 1.5rem;
-}
-
-.actionResourceIcon-container {
-	font-size: 1.5rem;
-}
-
-.resourceIcon {
-	font-size: var(--L_text);
-	color: var(--primary_base);
-}
-*/
 .resourceCounter-container {
 	width: 1.5em;
 	height: 1.5em;
@@ -68,23 +39,17 @@
 	font-weight: var(--boldWeight);
 }
 
-/*
-.lightIconCounter-container {
-	position: absolute;
-	top: -0.8em;
-	right: -.3em;
-
-}*/
-
 /* used to make one row of two blue*/
 .evenOddList-container:nth-of-type(even){
   background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
  }
 
-
-.resourceTypeChosenNumber-container{
-  width: 2rem;
-  height: 2rem;
+.resourceTypeChosenNumber {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  height: 1.25rem;
+  min-height: 1.25rem;
+  font-size: 12px;
 }
 
 /****** ressources ******/
@@ -97,7 +62,6 @@
 .greyRessources > *{
 	color: var(--grey_0);
 	border-color: var(--grey_0);
-	
 }
 
 .presentResources{
