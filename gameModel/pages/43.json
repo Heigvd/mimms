@@ -1548,7 +1548,7 @@
                                                     } ],
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\n  const currentPlayerActors = getCurrentPlayerActors();\n  !currentPlayerActors.find(a => a.Uid === Context.actor.Uid);",
+                                                      "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : {
