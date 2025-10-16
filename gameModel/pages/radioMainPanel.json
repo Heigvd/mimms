@@ -22,7 +22,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "button-channel ",
+            "className" : "fullWidth button-channel ",
             "conditionnalClassNames" : [ {
               "applyOn" : "Inside",
               "className" : "button-channel_selected",
@@ -60,7 +60,9 @@
                 "returnType" : "Promise<unknown> | undefined"
               }
             },
-            "style" : { },
+            "style" : {
+              "margin" : "0"
+            },
             "unreadCount" : {
               "@class" : "Script",
               "content" : "import { getUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetUnreadMessagesCountBullet(Context.channel.type);",
@@ -69,7 +71,7 @@
           },
           "type" : "Button"
         } ],
-        "className" : "noPadding",
+        "className" : "noPadding fullWidth",
         "exposeAs" : "channel",
         "getItemsFn" : {
           "@class" : "Script",
@@ -84,7 +86,9 @@
           "height" : "auto"
         },
         "name" : "Channel choice",
-        "style" : { }
+        "style" : {
+          "gap" : "5px"
+        }
       },
       "type" : "For each"
     }, {
