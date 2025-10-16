@@ -21,6 +21,7 @@ export function getInitialTriggersUIState(): TriggerConfigUIState {
   };
 }
 
+// TODO merge into one function getMandatoryTriggers(mandatory : boolean)
 export function getMandatoryTriggers(): FlatTrigger[] {
   return getItems('trigger')
     .filter(item => item.superType === 'trigger')
@@ -166,9 +167,16 @@ export function getTriggerTag(triggerUid: Uid): string | undefined {
 // TODO better
 export function getActionTemplateSelection(): { label: string; value: string }[] {
   // TODO make it work, see how to get the data
-  return debugGetAllActionTemplates().map(actionTmplt => {
+  // XGO @Sandra : we will either deserialize the actiontemplate descriptors variable
+  // or retrieve the current state from the actionTemplate controller (design decision here)
+  // I just put some random data now
+  return [
+    { label: 'Place PMA', value: 'id-placePMA' },
+    { label: 'Look at the sky', value: 'id-lookatthesky' },
+  ];
+  /*return debugGetAllActionTemplates().map(actionTmplt => {
     return { label: actionTmplt.getTitle(), value: String(actionTmplt.Uid) };
-  });
+  });*/
 }
 
 // TODO better
