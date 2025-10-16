@@ -50,7 +50,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "aNotification-container",
+                    "layoutClassName" : "noPadding aNotification-container",
                     "layoutStyle" : { },
                     "name" : "aMessage",
                     "style" : { }
@@ -68,11 +68,12 @@
                 "layout" : {
                   "flexDirection" : "column-reverse"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : {
                   "width" : "100%"
                 },
                 "style" : {
+                  "gap" : "10px",
                   "width" : "18rem"
                 }
               },
@@ -84,7 +85,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "radioMessage-container",
+                "layoutClassName" : "noPadding radioMessage-container",
                 "layoutStyle" : { },
                 "style" : {
                   "margin" : "5px",
@@ -120,7 +121,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "notificationPageloader",
+    "layoutClassName" : "noPadding notificationPageloader",
     "layoutStyle" : { },
     "style" : { }
   },

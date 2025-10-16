@@ -158,3 +158,17 @@
 .unauthorizedAction{
   cursor: not-allowed;
 }
+
+.checkbox .iconOnly {
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.checkbox:hover .iconOnly {
+  color: var(--primary_60);
+}
+
+.mainSimulationPage input:hover,
+.mainSimulationPage input:focus {
+  border: 1px solid var(--primary_base);
+}

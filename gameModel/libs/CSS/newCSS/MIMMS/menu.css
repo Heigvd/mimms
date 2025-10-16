@@ -25,6 +25,7 @@
 	margin-top: 3.2rem;
 	padding: 0px;
   position:absolute;
+  z-index: 4;
 }
 
 .menuItem-container{

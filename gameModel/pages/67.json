@@ -112,7 +112,7 @@
                               "className" : "presentResources",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
                                 "language" : "typescript"
                               }
                             } ],
@@ -134,8 +134,13 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "noPadding noMargin",
-                                "layoutClassName" : "resourceTypeChosenNumber-container noPadding noMargin",
+                                "className" : "noPadding noMargin resourceTypeChosenNumber",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() == 0 && isGodView();",
+                                  "language" : "typescript"
+                                },
+                                "layoutClassName" : "noPadding noMargin",
                                 "layoutStyle" : { },
                                 "onCancel" : { },
                                 "onVariableChange" : {
@@ -160,11 +165,7 @@
                                   "content" : "import { getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n  const key = getStateKeyForResource();\nContext.interfaceState.state.resources[key][Context.resourceType.enum] || '';",
                                   "language" : "TypeScript"
                                 },
-                                "style" : {
-                                  "fontSize" : "10px",
-                                  "height" : "10px",
-                                  "lineHeight" : "10px"
-                                }
+                                "style" : { }
                               },
                               "type" : "Number input"
                             }, {
@@ -175,7 +176,7 @@
                                   "className" : "presentResources",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\n\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\nparseInt(countAvailableResourcesToAllocate(location, taskId, resourceType)) > 0",
+                                    "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -184,10 +185,8 @@
                                   "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\n!isGodView();",
                                   "language" : "typescript"
                                 },
-                                "layoutClassName" : "selectableRessources ",
-                                "layoutStyle" : {
-                                  "paddingTop" : "0px"
-                                },
+                                "layoutClassName" : "noPadding selectableRessources ",
+                                "layoutStyle" : { },
                                 "name" : "availableResourcesByType",
                                 "style" : {
                                   "alignItems" : "center",
@@ -195,7 +194,7 @@
                                 },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { ResourceType } from \"./game/common/resources/resourceType\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nimport { countAvailableResourcesToAllocate, getAllocateResourcesCurrentLocation, getStateKeyForResource } from \"./UIfacade/resourceFacade\";\nconst key = getStateKeyForResource();\nconst location : LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();\nconst taskId = +Context.interfaceState.state.resources[key].currentTaskId;\nconst resourceType: ResourceType = Context.resourceType.enum;\n'/ ' + countAvailableResourcesToAllocate(location, taskId, resourceType);",
+                                  "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\n  const resource = currentCountAvailableResources();\n  if (resource > 0) {\n    return '/ ' + currentCountAvailableResources();\n  }\n'0';",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -203,28 +202,18 @@
                             } ],
                             "className" : "noPadding noMargin",
                             "layout" : {
-                              "alignContent" : "center",
-                              "justifyContent" : "space-between"
+                              "alignItems" : "center"
                             },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
                             "name" : "numbers",
                             "style" : {
-                              "height" : "2rem",
-                              "width" : "4rem"
+                              "gap" : "5px"
                             }
                           },
                           "type" : "FlexList"
                         } ],
                         "className" : "",
-                        "computedClassNames" : [ {
-                          "applyOn" : "Outside",
-                          "className" : {
-                            "@class" : "Script",
-                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                            "language" : "TypeScript"
-                          }
-                        } ],
                         "layout" : {
                           "alignContent" : "center",
                           "justifyContent" : "space-between"
@@ -386,14 +375,6 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
-                "computedClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : {
-                    "@class" : "Script",
-                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                    "language" : "TypeScript"
-                  }
-                } ],
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
                   "className" : "abort",

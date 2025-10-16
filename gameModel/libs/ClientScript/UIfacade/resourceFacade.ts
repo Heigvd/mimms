@@ -56,20 +56,16 @@ export function countAvailableResourcesToAllocate(
   location: LOCATION_ENUM | undefined,
   taskId: number | undefined,
   resourceType: ResourceType
-) {
+): number {
   if (
     location == undefined ||
     taskId == undefined ||
     (!isGodView() && !canViewLocation(location))
   ) {
-    return '0';
+    return 0;
   } else {
-    return getFreeResourcesByTypeLocationAndTask(
-      getCurrentState(),
-      resourceType,
-      location,
-      taskId
-    ).length.toString();
+    return getFreeResourcesByTypeLocationAndTask(getCurrentState(), resourceType, location, taskId)
+      .length;
   }
 }
 
@@ -204,4 +200,14 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
       );
     Context.interfaceState.setState(newState);
   }
+}
+
+// used in page 67
+/** Calculate the total number of each type's on site resource */
+export function currentCountAvailableResources(): number {
+  const key = getStateKeyForResource();
+  const location: LOCATION_ENUM | undefined = getAllocateResourcesCurrentLocation();
+  const taskId = +Context.interfaceState.state.resources[key].currentTaskId;
+  const resourceType: ResourceType = Context.resourceType.enum;
+  return countAvailableResourcesToAllocate(location, taskId, resourceType);
 }

@@ -25,7 +25,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','assign-task');",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "rectangleButton-container",
+            "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "5px 5px 0 0"
             },
@@ -63,7 +63,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-reports');",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "rectangleButton-container",
+            "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "5px 0 0 5px"
             },
@@ -80,14 +80,6 @@
           "type" : "Button"
         } ],
         "className" : "noPadding noMargin",
-        "computedClassNames" : [ {
-          "applyOn" : "Inside",
-          "className" : {
-            "@class" : "Script",
-            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-            "language" : "TypeScript"
-          }
-        } ],
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
@@ -184,14 +176,6 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
-                "computedClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : {
-                    "@class" : "Script",
-                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                    "language" : "TypeScript"
-                  }
-                } ],
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
                   "className" : "abort",

@@ -3,7 +3,7 @@
 .notificationPanel-container {
   position: absolute;
   bottom: 0;
-  left: -22.25rem;
+  left: -21.85rem;
 	width: 21rem;
 }
 
@@ -11,8 +11,7 @@
   position: absolute;
   bottom: 5px;
   max-height: 21rem;
-  padding: 5px 5px 15px 5px;
-  background-color: var(--yellow_base);
+  background-color: var(--primary_10);
 	border-radius: var(--XS_borderRadius);
   box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
@@ -24,16 +23,25 @@
   padding: 0;
   border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
-  border-top: 15px solid var(--yellow_base);
+  border-top: 15px solid var(--primary_10);
   filter: drop-shadow(-2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
   transform: rotate(-90deg);
+  z-index: -1;
 }
 
 /*** HEADER ***/
 .notificationPanelHeader {
-  margin: 5px 0 15px 5px;
+  margin: 0;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
+}
+
+.notificationPanel .close-button {
+  color: var(--colors-darktextcolor);
+}
+
+.notificationPanel .close-button:hover {
+  color: var(--colors-darktextcolor);
 }
 
 .notificationPageloader {
@@ -66,6 +74,7 @@
 
 .notificationButton-container .unselectedNotif-button {
   border: 3px solid var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
 .notificationButton-container .unselectedNotif-button:hover {
@@ -75,6 +84,7 @@
 
 .notificationButton-container .unselectedNotif-button svg {
   color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .notificationButton-container .unselectedNotif-button:hover svg {
@@ -109,22 +119,24 @@
 /***** A NOTIFICATION *****/
 
 .aNotification-container{
-	background-color: var(--grey_10);
+	background-color: var(--grey_0);
 	border-radius: var(--XS_borderRadius);
-  margin-bottom: 10px;
+}
+
+.aNotification {
+  padding: 5px;
 }
 
 @keyframes notifHighlight {
  	0% {
-	background-color: var(--grey_10);
-	}
-  	50% {
-	background-color: var(--yellow_10);
-	}
-
-	100% {
-	background-color: var(--grey_10);
-	}
+     background-color: color-mix(in srgb, var(--grey_0) 50%, transparent);
+     }
+  50% {
+    background-color: color-mix(in srgb, var(--grey_0) 50%, transparent);
+    }
+  100% {
+    background-color: var(--grey_0);
+    }
 }
 
 .aMessage-animation{
