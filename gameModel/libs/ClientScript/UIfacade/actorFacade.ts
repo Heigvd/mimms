@@ -35,7 +35,9 @@ export function selectActor(id: ActorId): InterfaceState {
 export function selectActorAndOpenMapLocation(id: ActorId) {
   const newState = selectActor(id);
   openOverlayItem(getActorLocation(id)!);
-  selectionLayerRef.current.changed();
+  if (selectionLayerRef != undefined && selectionLayerRef.current != undefined) {
+    selectionLayerRef.current.changed();
+  }
   return newState;
 }
 
