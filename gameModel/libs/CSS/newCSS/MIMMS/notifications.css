@@ -71,6 +71,7 @@
 
 .notificationButton-container .unselectedNotif-button:hover {
   background-color: var(--primary_base);
+	border: none;
   box-shadow: var(--buttonShadow);
 }
 
