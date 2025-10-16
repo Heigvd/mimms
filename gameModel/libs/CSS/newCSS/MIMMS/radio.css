@@ -37,6 +37,7 @@
 
 /* not active */
 .not-active-channel {
+  color: var(--primary_90);
   background-color: var(--grey_10);
 }
 
