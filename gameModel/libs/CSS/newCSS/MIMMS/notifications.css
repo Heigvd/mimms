@@ -26,6 +26,7 @@
   border-top: 15px solid var(--primary_10);
   filter: drop-shadow(-2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
   transform: rotate(-90deg);
+  z-index: -1;
 }
 
 /*** HEADER ***/

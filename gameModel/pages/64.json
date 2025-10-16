@@ -85,7 +85,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "radioMessage-container",
+                "layoutClassName" : "noPadding radioMessage-container",
                 "layoutStyle" : { },
                 "style" : {
                   "margin" : "5px",
