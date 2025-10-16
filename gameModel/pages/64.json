@@ -50,7 +50,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "aNotification-container",
+                    "layoutClassName" : "noPadding aNotification-container",
                     "layoutStyle" : { },
                     "name" : "aMessage",
                     "style" : { }
@@ -68,11 +68,12 @@
                 "layout" : {
                   "flexDirection" : "column-reverse"
                 },
-                "layoutClassName" : "",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : {
                   "width" : "100%"
                 },
                 "style" : {
+                  "gap" : "10px",
                   "width" : "18rem"
                 }
               },
@@ -120,7 +121,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "notificationPageloader",
+    "layoutClassName" : "noPadding notificationPageloader",
     "layoutStyle" : { },
     "style" : { }
   },

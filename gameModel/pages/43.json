@@ -1144,20 +1144,60 @@
                                                   "props" : {
                                                     "children" : [ {
                                                       "props" : {
-                                                        "className" : "notificationPanelHeader",
-                                                        "layoutClassName" : "notificationPanelHeader-container",
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "className" : "notificationPanelHeader",
+                                                            "layoutClassName" : "noPadding notificationPanelHeader-container",
+                                                            "layoutStyle" : { },
+                                                            "name" : "notifications title",
+                                                            "style" : { },
+                                                            "text" : {
+                                                              "@class" : "Script",
+                                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'notifications')}`",
+                                                              "language" : "TypeScript"
+                                                            }
+                                                          },
+                                                          "type" : "Text"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "noPadding close-button",
+                                                            "icon" : "times",
+                                                            "label" : {
+                                                              "@class" : "Script",
+                                                              "content" : "return",
+                                                              "language" : "TypeScript"
+                                                            },
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "close button",
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "Button"
+                                                        } ],
+                                                        "layout" : {
+                                                          "alignItems" : "center",
+                                                          "justifyContent" : "space-between"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
-                                                        "style" : { },
-                                                        "text" : {
-                                                          "@class" : "Script",
-                                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'notifications')}`",
-                                                          "language" : "TypeScript"
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { selectNotificationsAndUpdateInterfaceState } from \"./UIfacade/radioFacade\";\n/* Please always respect the return type : Promise<unknown> | undefined */\n\t    selectNotificationsAndUpdateInterfaceState(Context.actor.Uid);",
+                                                            "language" : "TypeScript",
+                                                            "returnType" : "Promise<unknown> | undefined"
+                                                          }
+                                                        },
+                                                        "name" : "header",
+                                                        "style" : {
+                                                          "cursor" : "pointer",
+                                                          "padding" : "15px"
                                                         }
                                                       },
-                                                      "type" : "Text"
+                                                      "type" : "FlexList"
                                                     }, {
                                                       "props" : {
-                                                        "className" : "noPadding noMargin",
+                                                        "className" : "noMargin",
                                                         "exposePageSizeAs" : "",
                                                         "initialSelectedPageId" : {
                                                           "@class" : "Script",
@@ -1170,13 +1210,16 @@
                                                           "width" : "100%"
                                                         },
                                                         "name" : "notif",
-                                                        "style" : { }
+                                                        "style" : {
+                                                          "padding" : "0 15px 15px 15px"
+                                                        }
                                                       },
                                                       "type" : "PageLoader"
                                                     } ],
                                                     "layout" : {
                                                       "flexDirection" : "column"
                                                     },
+                                                    "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
                                                     "style" : { }
                                                   },
@@ -1189,7 +1232,7 @@
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
-                                                "layoutClassName" : "notificationPanel-container",
+                                                "layoutClassName" : "noPadding notificationPanel-container",
                                                 "layoutStyle" : {
                                                   "leftMargin" : "auto"
                                                 },
