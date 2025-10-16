@@ -66,7 +66,7 @@
                       "content" : "\"<p>METHANE</p>\"",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -97,7 +97,7 @@
                       "content" : "\"<p>MET</p>\"",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -128,7 +128,7 @@
                       "content" : "\"<p>HANE</p>\"",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -159,7 +159,7 @@
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-resources');",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -199,7 +199,7 @@
                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-hospital-info');",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "rectangleButton-container",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -235,7 +235,7 @@
                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','activate-radio-schema-title');",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "rectangleButton-container",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -266,7 +266,7 @@
                   "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','send-radio-title');",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "rectangleButton-container",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {

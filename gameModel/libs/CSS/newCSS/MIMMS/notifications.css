@@ -73,6 +73,7 @@
 
 .notificationButton-container .unselectedNotif-button {
   border: 3px solid var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
 .notificationButton-container .unselectedNotif-button:hover {
@@ -82,6 +83,7 @@
 
 .notificationButton-container .unselectedNotif-button svg {
   color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .notificationButton-container .unselectedNotif-button:hover svg {

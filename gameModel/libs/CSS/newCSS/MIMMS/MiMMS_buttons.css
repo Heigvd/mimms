@@ -1,5 +1,5 @@
 /************************* Button size ****************************/
-.button-S{
+.button-S {
   border-radius: var(--L_borderRadius);
   padding: 8px 15px;
   font-size: var(--S_text);
@@ -8,7 +8,7 @@
 	cursor: pointer;
 }
 
-.button-M{
+.button-M {
 	border-radius: var(--L_borderRadius);
   padding: 8px 15px;
   font-size: var(--SM_text);
@@ -17,7 +17,7 @@
 	cursor: pointer;
 }
 
-.button-L{
+.button-L {
   border-radius: var(--L_borderRadius);
   padding: 15px 20px;
   font-size: var(--M_text);
@@ -28,87 +28,88 @@
 
 /************************* Button color ****************************/
 /** primary **/
-.button-primaryColor{
-	border: solid 3px var(--primary_base);
+.button-primaryColor {
+  color: var(--primary_base);
 	background-color: var(--grey_0);
-	color: var(--primary_base);
+	border: solid 3px var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-.button-primaryColor:hover{
+.button-primaryColor:hover {
+  color: var(--grey_0);
 	background-color: var(--primary_60);
   border-color: var(--primary_60);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
-	color: var(--grey_0);
 }
 
-.button-primaryColor:active{
+.button-primaryColor:active {
 	background-color: var(--primary_60);
 	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
  
-.button-primaryColor.current{
-	border: solid 3px var(--primary_base);
+.button-primaryColor.current {
+  font-weight: var(--boldWeight);
+  color: var(--grey_0);
 	background-color: var(--primary_base);
-	font-weight: var(--boldWeight);
-	color: var(--grey_0);
+  border: solid 3px var(--primary_base);
 }
 
-.disabled.button-primaryColor{
-	background-color: var(--grey_50);
+.disabled.button-primaryColor {
 	color: var(--grey_0);
-	cursor: not-allowed;
+  background-color: var(--grey_50);
   border-color: var(--grey_50);
+	cursor: not-allowed;
 }
 
-.disabled.button-primaryColor:hover{
-	background-color: var(--grey_30);
+.disabled.button-primaryColor:hover {
   color: var(--grey40);
-  cursor: not-allowed;
+	background-color: var(--grey_30);
   border-color: var(--grey_30);
+  cursor: not-allowed;
 }
 
 /** secondary **/
-.button-secondaryColor{
-	/*background-color: var(--secondary_base);*/
-  background-color: var(--primary_base);
+.button-secondaryColor {
   color: var(--grey-white);
+  background-color: var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-.button-secondaryColor:hover{
+.button-secondaryColor:hover {
   background-color: var(--primary_60);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
 }
 
-.button-secondaryColor:active{
+.button-secondaryColor:active {
 	background-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
 
-
-.disabled.button-secondaryColor{
+.disabled.button-secondaryColor {
+  color: var(--grey_10);
 	background-color: var(--grey_20);
-	color: var(--grey_10);
 	cursor: not-allowed;
 }
 
-.disabled.button-secondaryColor:hover{
-	background-color: var(--grey_30);
+.disabled.button-secondaryColor:hover {
   color: var(--grey_40);
+	background-color: var(--grey_30);
   cursor: not-allowed;
 }
 
 /** quaternary **/
 .quaternary-button {
-  padding: 0;
   margin: 0;
+  padding: 0;
   font-size: var(--XS_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
   text-decoration: underline;
   background-color: transparent;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
 .quaternary-button:hover {
@@ -120,66 +121,61 @@
 /************************* Special button  ****************************/
 
 /***** ABORT *****/
-.abort{
+.abort {
 	background-color: var(--grey_60);
 }
 
-.abort:hover{
+.abort:hover {
 	background-color: var(--grey_70);
 	box-shadow: var(--buttonShadow);
 }
 
 /**** rectangles buttons ****/
-.rectangleButton{
-	border-radius: var(--XXS_borderRadius);
+.rectangleButton {
+  margin: 0px;
 	font-size: var(--S_text);
-	color: var(--primary_base);
 	font-weight: var(--boldWeight);
+  color: var(--primary_base);
 	background-color: var(--grey_0);
 	border: solid 2px var(--primary_base);
-	margin: 0px;
+  border-radius: var(--XXS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
-
-/* used in 48 et 46, check if double
-.rectangleButton-container{
-	margin: 0px;
-}
-*/
 
 /* buttons in METHANE and in welcome page */
-.rectangleButton:hover{
+.rectangleButton:hover {
+  color: var(--grey_0);
 	background-color: var(--primary_60);
 	border: solid 2px var(--primary_60);
 	box-shadow: var(--buttonShadow);
-	color: var(--grey_0);
 }
 
-.disabled.rectangleButton{
-  background-color:transparent;
+.disabled.rectangleButton {
   color: var(--grey_50);
+  background-color:transparent;
   border-color: var(--grey_50);
   cursor: not-allowed;
 }
 
-.disabled.rectangleButton:hover{
-  background-color: var(--grey_10);
+.disabled.rectangleButton:hover {
   color: var(--grey_50);
+  background-color: var(--grey_10);
 }
 
-.selected.rectangleButton{
+.selected.rectangleButton {
 	color: var(--grey_0);
 	background-color: var(--primary_base);
 	border: solid 2px var(--primary_base);
 }
 
-.rectangleButton:focus{
+.rectangleButton:focus {
+  margin: 0px;
+  color: var(--grey_0);
 	background-color: var(--primary_base);
-	color: var(--grey_0);
 	border: solid 2px var(--primary_base);
-	margin: 0px;
 }
 
-.rectangleButton:focus:hover{
+.rectangleButton:focus:hover {
 	background-color: var(--primary_60);
 	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
@@ -221,9 +217,10 @@
   color: var(--grey-white);
   background-color: var(--primary_base); 
   box-shadow: var(--buttonShadow);
+  transition: background-color .3s ease-in-out;
 }
 
-.nextActionBtn:hover{ /* à ajouter si on renlève le texte   > *    */
+.nextActionBtn:hover { /* à ajouter si on renlève le texte   > *    */
   background: var(--primary_60);
 	cursor: pointer;
 }

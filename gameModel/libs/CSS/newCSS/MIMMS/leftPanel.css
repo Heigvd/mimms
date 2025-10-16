@@ -20,6 +20,7 @@
   max-width: 30%;
   min-width: 360px;
   height: 100%;
+  z-index: 4;
 }
 
 /*** show & hide left panel ***/
@@ -55,7 +56,6 @@
 	padding: 0px;
   margin: auto;
 	background-color: var(--grey_0);
-	z-index: 4;
 }
 
 /******** SUBPANEL (Actions, radio resources) ********/

@@ -11,8 +11,8 @@
 /* default */
 
 .button-channel {
-  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
   margin-bottom: 0px;
+  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
 }
 
 .button-channel-container {
@@ -29,8 +29,9 @@
   width: 68px;
   height: 33px;
   padding: 8px 15px 8px 15px;
-  background-color: var(--primary_base);
   font-weight: var(--boldWeight);
+  background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out;
 }
 
 .button-channel_selected:hover {
@@ -42,13 +43,13 @@
   width: 68px;
   height: 33px;
   padding: 8px 15px 8px 15px;
-  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
-  background-color: var(--grey_10);
   color: var(--primary_90);
+  background-color: var(--grey_10);
 }
 
 .not-active-channel:hover {
   background-color: var(--primary_10);
+  transition: background-color .3s ease-in-out;
 }
 
 /* active*/

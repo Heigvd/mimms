@@ -20,26 +20,28 @@
 }
 
 /* Selected button */
-.menuABC .menuABC-button > button.selected{
+.menuABC .menuABC-button > button.selected {
 	font-weight: var(--boldWeight);
+  color: var(--grey-white); 
 	background-color: var(--primary_base);
-	color: var(--grey-white); 
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
-.menuABC .menuABC-button > button.selected:hover{
-  background-color:var(--primary_20);
+.menuABC .menuABC-button > button.selected:hover {
   color: var(--grey_100);
+  background-color:var(--primary_20);
 }
 
 
 /* Unselected buttons */
-.menuABC .menuABC-button > button{
+.menuABC .menuABC-button > button {
+  margin-bottom: 0px;
+  padding:  8px 15px 8px 15px;
 	font-weight: var(--boldWeight);
+  color: var(--grey_70);
 	background-color:var(--grey_20);
-	color: var(--grey_70);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px;
-	padding:  8px 15px 8px 15px;
-	margin-bottom: 0px;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
 .menuABC .menuABC-button > button:hover{

@@ -3,20 +3,22 @@
   white-space: nowrap;
   min-width: 8rem;
 }
-.actionMeasure-button{
-  background-color: var(--grey_20);
-  }
 
-.actionMeasure-button:hover{
+.actionMeasure-button {
+  background-color: var(--grey_20);
+  transition: background-color .3s ease-in-out;
+}
+
+.actionMeasure-button:hover {
   background-color: var(--grey_30);
 }
 
-.actionMeasure-button.selected{
-	background-color: var(--primary_base) ;
-	color: var(--grey-white);
+.actionMeasure-button.selected {
+  color: var(--grey-white);
+	background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out;
 }
 
-
-.actionMeasure-button.selected:hover{
+.actionMeasure-button.selected:hover {
 	background-color: var(--primary_30);
 }

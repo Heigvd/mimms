@@ -6,12 +6,13 @@
   
   /********************************* S *********************************/
   .s_button {
-    background-color: var(--primary_base);
-    border-radius: var(--L_borderRadius);
     padding: 8px 15px;
+    font-family: var(--mainFont);
     font-size: var(--SM_text);
     font-weight: var(--boldWeight);
-    font-family: var(--mainFont);
+    background-color: var(--primary_base);
+    border-radius: var(--L_borderRadius);
+    transition: background-color .3s ease-in-out;
   }
 
   .s_button:hover {
@@ -22,11 +23,11 @@
 
   .l_button {
     /*background-color: green;*/
-    border-radius: var(--L_borderRadius);
     padding: 15px 20px;
+    font-family: var(--mainFont);
     font-size: var(--M_text);
     font-weight: var(--boldWeight);
-    font-family: var(--mainFont);
+    border-radius: var(--L_borderRadius);
   }
 
   .l_button:hover {
@@ -38,14 +39,15 @@
   /* Assign the pink class to every action button of the interface */
 
   .pink {
-    background-color: var(--secondaryInterface_400);
     color: var(--grey-white);
+    background-color: var(--secondaryInterface_400);
+    transition: background-color .3s ease-in-out;
   }
 
   .pink:hover {
     background-color: var(--secondaryInterface_200);
-    cursor: pointer;
     text-decoration: none;
+    cursor: pointer;
   }
 
   .disabled.pink {
@@ -60,9 +62,10 @@
   /********************************* WHITE *********************************/
   /*to do rename whiteButton to white */
   .whiteButton {
+    color: var(--grey_70);
     background-color: var(--grey_10);
     border-radius: var(--L_borderRadius);
-    color: var(--grey_70);
+    transition: background-color .3s ease-in-out;
   }
 
   .whiteButton:hover {
@@ -71,11 +74,12 @@
 
   .disabled.whiteButton {
     color: var(--grey_40);
+    transition: color .3s ease-in-out;
   }
 
   .disabled.whiteButton:hover {
-    background-color: var(--grey_20);
     color: var(--grey_40);
+    background-color: var(--grey_20);
     cursor: not-allowed;
   }
 
@@ -119,6 +123,7 @@
 @media screen and (max-width: 1199px) {
 
 /********************************* S *********************************/
+  /* potentially unused */
   .s_button {
     background-color: var(--primary_base);
     border-radius: var(--L_borderRadius);

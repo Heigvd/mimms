@@ -572,7 +572,7 @@
                       "content" : " Context.hospitalProximityEntry.label;",
                       "language" : "TypeScript"
                     },
-                    "layoutClassName" : "rectangleButton-container",
+                    "layoutClassName" : "",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
