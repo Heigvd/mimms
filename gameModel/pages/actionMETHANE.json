@@ -379,6 +379,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "checkbox",
                         "disableIf" : {
                           "@class" : "Script",
                           "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
