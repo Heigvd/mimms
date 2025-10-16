@@ -65,6 +65,7 @@
 
 .notificationButton-container .openNotif-button {
 	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
+  border: none;
 }
 
 .notificationButton-container .openNotif-button,
@@ -79,6 +80,7 @@
 
 .notificationButton-container .unselectedNotif-button:hover {
   background-color: var(--primary_base);
+	border: none;
   box-shadow: var(--buttonShadow);
 }
 
@@ -93,6 +95,7 @@
 
 .notificationButton-container .newNotif {
 	background-color: var(--yellow_base);
+  border: var(--yellow_base);
 }
 
 .counterCircle-container {

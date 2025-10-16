@@ -108,6 +108,11 @@ export function getCurrentPlayerPlayableActorsCount(): number {
   ).length;
 }
 
+export function canBePlayedByCurrentPlayer(actorId: ActorId): boolean {
+  const currentPlayerActors = getCurrentPlayerActors();
+  return currentPlayerActors.some(a => a.Uid === actorId);
+}
+
 /**
  * @returns Actor with given id or undefined
  */
