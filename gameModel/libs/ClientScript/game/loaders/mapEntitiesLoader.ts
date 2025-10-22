@@ -1,18 +1,65 @@
-// XGO TODO
+import { parseObjectDescriptor } from '../../tools/WegasHelper';
+import { Uid } from '../common/interfaces';
+import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
+import { MapEntityActivable } from '../common/simulationState/activableState';
+import { LOCATION_ENUM } from '../common/simulationState/locationState';
+import { getCurrentState } from '../mainSimulationLogic';
 
-// XGO using the generic parameter parseObjectDescriptor<MapEntityDescriptor> should do the trick which would make this function a one liner (see commented return statement)
-
-// TODO Improve or have generic parsing
-// Load all descriptors from variable
-/*
 export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
-  const descs = parseObjectDescriptor(Variable.find(gameModel, 'mapEntityDescriptors'));
-  for (const [key, value] of Object.entries(descs)) {
-    descs[key] = JSON.parse(String(value));
+  return parseObjectDescriptor<MapEntityDescriptor>(Variable.find(gameModel, 'map_entity_data'));
+}
+
+// Singleton implementation, TODO other solution
+let mapEntityDescriptors: Record<string, MapEntityDescriptor> | undefined = {};
+
+Helpers.registerEffect(() => {
+  mapEntityDescriptors = undefined;
+});
+
+// MAP ENTITIES GETTERS
+
+// TODO Should this live here or elsewhere ?
+export function getMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
+  if (!mapEntityDescriptors) {
+    mapEntityDescriptors = loadMapEntityDescriptors();
+  }
+  return mapEntityDescriptors;
+}
+
+export function getMapEntityDescriptor(uid: Uid): MapEntityDescriptor {
+  return getMapEntityDescriptors()[uid]!;
+}
+
+export function getMapEntityDescriptorUid(binding: LOCATION_ENUM): MapEntityDescriptor | undefined {
+  return Object.values(getMapEntityDescriptors()).find(med => med.binding === binding);
+}
+
+export function getMapActivables(): MapEntityActivable[] {
+  const activables = getCurrentState().getInternalStateObject().activables;
+
+  return Object.values(activables).filter(
+    a => a.activableType === 'mapEntity'
+  ) as MapEntityActivable[];
+}
+
+export function getMapActivable(uid: Uid): MapEntityActivable | undefined {
+  return getMapActivables().find(ma => ma.uid === uid);
+}
+
+export function getActiveMapActivables(): MapEntityActivable[] {
+  return getMapActivables().filter(a => a.active);
+}
+
+export function getActiveMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
+  const activeUids = getActiveMapActivables().map(ma => ma.uid);
+  const meds = getMapEntityDescriptors();
+
+  const filtered: Record<string, MapEntityDescriptor> = {};
+  for (const uid of activeUids) {
+    if (uid in meds) {
+      filtered[uid] = meds[uid];
+    }
   }
 
-  return descs as Record<string, MapEntityDescriptor>;
-  //return parseObjectDescriptor<MapEntityDescriptor>(Variable.find(gameModel, 'mapEntityDescriptors'));
-
+  return filtered;
 }
-*/

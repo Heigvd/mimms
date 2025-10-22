@@ -236,6 +236,12 @@
             "name" : "map selection",
             "scenaristPage" : null,
             "trainerPage" : null
+          }, {
+            "@class" : "Page",
+            "id" : "31",
+            "name" : "mapAction selection",
+            "scenaristPage" : null,
+            "trainerPage" : null
           } ],
           "name" : "map"
         }, {

@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1758021494587,
+  "createdTime" : 1761131686397,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -897,6 +897,43 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:2505381:vUANKY"
+      },
+      "description" : "",
+      "editorTag" : "map_entity_data",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:2505382:6jfVw5",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:2505382:6jfVw5::FR",
+            "status" : "",
+            "translation" : "map_entity_data"
+          }
+        }
+      },
+      "name" : "map_entity_data",
+      "properties" : {
+        "PRsiLK30mT" : "{\"uid\":\"PRsiLK30mT\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Polygon\",\"label\":\"PMA\",\"geometry\":[[[2500109.999851025, 1118456.3699052047],[2500113.781500128, 1118461.010360654],[2500121.785907592, 1118470.828775529],[2500114.0474236254, 1118477.104916978],[2500105.0520694936, 1118484.3913443699],[2500096.448885649, 1118473.8379365443],[2500093.2659977684, 1118469.932506736],[2500109.999851025, 1118456.3699052047]]]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "Pe3YUgvVmV" : "{\"uid\":\"Pe3YUgvVmV\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500125,1118525]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"built\"}",
+        "Q3JL42XIBO" : "{\"uid\":\"Q3JL42XIBO\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"LineString\",\"parent\":\"Q3JL42XIBO\",\"label\":\"Access\",\"geometry\":[[2500052.6133020874, 1118449.2968644362],[2500087.3369474486, 1118503.6293053096]]},{\"type\":\"LineString\",\"parent\":\"Q3JL42XIBO\",\"label\":\"Regress\",\"geometry\":[[2500060.952470149, 1118523.9098080816],[2500029.950508212, 1118486.1465293542]]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "nKuZgArPyP" : "{\"uid\":\"nKuZgArPyP\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500054.1314548966,1118509.0099368845],\"icon\":\"Nest\"}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "pYdwC87Lbx" : "{\"uid\":\"pYdwC87Lbx\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500125,1118535]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"built\"}"
+      },
+      "refId" : "ObjectDescriptor:2505380:fCol0C",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1123,19 +1160,12 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298436:BVfOMu",
           "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:1298436:BVfOMu::EN",
-              "status" : "",
-              "translation" : "pretriMode"
-            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "pretriMode"
+              "translation" : "mainSimMode"
             }
           }
         }
@@ -5408,6 +5438,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2536234:cyro0F",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6110,6 +6149,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/loaders/choiceLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2532121:gcYUbj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/loaders/mainStateLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6308,6 +6356,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameMap/layers/activablesLayer",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2532007:p2qa0R",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameMap/layers/buildingsLayer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6339,6 +6396,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:931899:hOI0VK",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/styling/activablesLayerStyles",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2577928:bzcd4h",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7260,7 +7326,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - XGO MIM-487",
+  "name" : "MIMMS - Mikk MIM-487",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

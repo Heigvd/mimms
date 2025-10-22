@@ -8,6 +8,7 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
+  MapChoiceActionTemplate,
   SelectionFixedMapEntityTemplate,
   SelectionParkTemplate,
   SelectionPCFrontTemplate,
@@ -27,6 +28,7 @@ import {
 } from './common/events/defineMapObjectEvent';
 import { RadioType } from './common/radio/communicationType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
+import { getMapChoices } from './loaders/choiceLoader';
 
 export interface IUniqueActionTemplates {
   readonly SelectionPCFrontTemplate: SelectionPCFrontTemplate;
@@ -131,6 +133,19 @@ export function initActionTemplates(): {
     RadioType.CASU,
     true,
     ActionType.CASU_RADIO
+  );
+
+  const testRedux = new MapChoiceActionTemplate(
+    'redux-title',
+    'redux-desc',
+    TimeSliceDuration,
+    'redux-feedback',
+    false,
+    undefined,
+    undefined,
+    undefined,
+    getMapChoices(),
+    LOCATION_ENUM.PMA
   );
 
   const placePMA = new SelectionFixedMapEntityTemplate(
@@ -472,6 +487,7 @@ export function initActionTemplates(): {
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
+  templates[testRedux.Uid] = testRedux;
   templates[placePCFront.Uid] = placePCFront;
   templates[moveActor.Uid] = moveActor;
   templates[getInfo.Uid] = getInfo;

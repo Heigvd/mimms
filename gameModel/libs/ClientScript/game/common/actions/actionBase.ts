@@ -31,6 +31,7 @@ import {
 import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
+import { evaluateEffectImpacts } from '../impacts/effect';
 import {
   AddActorLocalEvent,
   AddFixedEntityLocalEvent,
@@ -52,6 +53,7 @@ import {
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
+  ChangeMapActivableStatusLocalEvent,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -66,6 +68,7 @@ import {
   ResourceTypeAndNumber,
   VehicleType,
 } from '../resources/resourceType';
+import { ChoiceActivable } from '../simulationState/activableState';
 import {
   canMoveToLocation,
   getMapLocationById,
@@ -75,6 +78,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
+import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -222,6 +226,49 @@ export abstract class StartEndAction extends ActionBase {
 
   public getTitle(): string {
     return this.actionNameKey;
+  }
+}
+
+export abstract class ChoiceAction extends StartEndAction {
+  // visibility ?
+  public readonly choice: ChoiceDescriptor;
+
+  protected constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[] = [],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState
+    );
+    this.choice = choice;
+  }
+
+  protected applyChoice(state: Readonly<MainSimulationState>): void {
+    // TODO Can we avoid type assertion ?
+    const choiceActivable = state.getActivable(this.choice.uid) as ChoiceActivable;
+    const selectedEffect = this.choice.effects.find(e => e.uid === choiceActivable?.selectedEffect);
+
+    if (selectedEffect) {
+      evaluateEffectImpacts(state, selectedEffect);
+    }
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>) {
+    this.applyChoice(state);
   }
 }
 
@@ -602,6 +649,95 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 // place map items
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+export class MapChoiceAction extends ChoiceAction {
+  public readonly binding?: LOCATION_ENUM;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor,
+    binding?: LOCATION_ENUM
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState,
+      choice
+    );
+    this.binding = binding;
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    if (!this.choice.placeholder) {
+      this.logger.error('Choice has no placeholder');
+      return;
+    }
+
+    getLocalEventManager().queueLocalEvent(
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.placeholder,
+          option: 'activate',
+        },
+        'pending'
+      )
+    );
+  }
+
+  override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+
+    if (!this.choice.placeholder) {
+      this.logger.error('Choice has no placeholder');
+      return;
+    }
+
+    getLocalEventManager().queueLocalEvent(
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.placeholder,
+          option: 'activate',
+        },
+        'built'
+      )
+    );
+  }
+
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
+    if (!this.choice.placeholder) {
+      this.logger.error('Choice has no placeholder');
+      return;
+    }
+
+    getLocalEventManager().queueLocalEvent(
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.placeholder,
+          option: 'deactivate',
+        },
+        'pending'
+      )
+    );
+  }
+}
 
 /**
  * Action to select a FixedMapEntity

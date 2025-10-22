@@ -12,6 +12,8 @@ import { FeatureCollection } from '../../gameMap/types/featureTypes';
 import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
 import { getTranslation } from '../../tools/translation';
 
+// TODO Remove this file once map is fully activables based
+
 /************
  *
  *  Helpers & Tools

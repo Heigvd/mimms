@@ -2,6 +2,7 @@ import {
   getDefaultSituationUpdateDuration,
   isAvailable,
   isCasuMessageActionTemplate,
+  isChoiceTemplate,
   isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
   isMoveActorActionTemplate,
@@ -30,7 +31,7 @@ import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { clearMapState, startMapChoice, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -43,6 +44,7 @@ import {
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -65,6 +67,13 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
       startMapSelect();
     } else {
       params = fetchSelectMapObjectValues()!;
+      clearMapState();
+    }
+  } else if (isChoiceTemplate(action)) {
+    if (!canPlanAction()) {
+      startMapChoice();
+    } else {
+      params = fetchChoiceActionValues()!;
       clearMapState();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
@@ -108,6 +117,10 @@ function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
   }
 
   return tmpFixedEntity;
+}
+
+function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
+  return JSON.parse(Context.interfaceState.state.selectedActionChoice);
 }
 
 /**

@@ -16,6 +16,7 @@ import {
   FixedMapEntity,
   SelectionFixedMapEntityEvent,
   createFixedMapEntityInstanceFromAnyObject,
+  MapChoiceEvent,
 } from '../events/defineMapObjectEvent';
 import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import {
@@ -52,8 +53,10 @@ import {
   SelectionParkAction,
   SendRadioMessageAction,
   SituationUpdateAction,
+  MapChoiceAction,
 } from './actionBase';
 import * as ActionLogic from './actionLogic';
+import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',
@@ -266,6 +269,40 @@ export abstract class StartEndTemplate<
     _actor: Readonly<Actor>
   ): boolean {
     return true;
+  }
+}
+
+export abstract class ChoiceTemplate<
+  ActionT extends ActionBase = ActionBase,
+  EventT extends ActionCreationEvent = ActionCreationEvent,
+  UserInput = unknown
+> extends StartEndTemplate<ActionT, EventT, UserInput> {
+  public readonly choices: ChoiceDescriptor[];
+
+  protected constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    category: ActionType = ActionType.ACTION,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices: ChoiceDescriptor[] = []
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      category,
+      raisedFlags,
+      requiredFlags,
+      availableToRoles
+    );
+    this.choices = choices;
   }
 }
 
@@ -644,6 +681,91 @@ export class SelectionFixedMapEntityTemplate<
       this.Uid,
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
       this.raisedFlags
+    ) as ActionT;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
+  }
+}
+
+export class MapChoiceActionTemplate<
+  ActionT extends MapChoiceAction = MapChoiceAction
+> extends ChoiceTemplate<MapChoiceAction, MapChoiceEvent, ChoiceDescriptor> {
+  public readonly binding?: LOCATION_ENUM;
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[],
+    binding?: LOCATION_ENUM
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+    this.binding = binding;
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    payload: ChoiceDescriptor
+  ): MapChoiceEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      choice: payload,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<MapChoiceEvent>): MapChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new MapChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice,
+      this.binding
     ) as ActionT;
   }
 
