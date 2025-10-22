@@ -3,7 +3,6 @@ import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { Uid } from '../interfaces';
-import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
 
@@ -35,40 +34,6 @@ export enum BuildingStatus {
 export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
 /** Is it a place that can contain actors / resources / patients */
 export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
-
-export class FixedMapEntityRedux {
-  id: LOCATION_ENUM;
-  buildingStatus: BuildingStatus;
-  mapEntityDescriptorUid?: Uid;
-
-  constructor(id: LOCATION_ENUM, buildingStatus: BuildingStatus, mapEntityDescriptorUid?: Uid) {
-    this.id = id;
-    (this.buildingStatus = buildingStatus), (this.mapEntityDescriptorUid = mapEntityDescriptorUid);
-  }
-
-  /**
-   * TODO Implement way of getting center point for map overlays from bound mapObject
-   * How do we handle multiple geometries ?
-   */
-  public getShapeCenter(): PointLikeObject {
-    return [0, 0];
-  }
-
-  public isBuiltAndAccessible(kind: LocationAccessibilityKind | 'anyKind'): boolean {
-    const isBuilt: boolean = this.buildingStatus === BuildingStatus.ready;
-    // TODO better way of getting accessibility ?
-    const accessibility = locationEnumConfig[this.id].accessibility;
-
-    let isAccessible: boolean;
-    if (kind !== 'anyKind') {
-      isAccessible = accessibility[kind];
-    } else {
-      isAccessible = Object.values(accessibility).some(b => b);
-    }
-
-    return isBuilt && isAccessible;
-  }
-}
 
 export abstract class FixedMapEntity {
   ownerId!: ActorId;

@@ -135,17 +135,30 @@ export function initActionTemplates(): {
     ActionType.CASU_RADIO
   );
 
-  const testRedux = new MapChoiceActionTemplate(
-    'redux-title',
-    'redux-desc',
+  const mapChoiceBinding = new MapChoiceActionTemplate(
+    'mapChoiceBinding-title',
+    'mapChoiceBinding-desc',
     TimeSliceDuration,
-    'redux-feedback',
+    'mapChoiceBinding-feedback',
     false,
     undefined,
     undefined,
     undefined,
     getMapChoices(),
     LOCATION_ENUM.PMA
+  );
+
+  const mapChoiceNoBinding = new MapChoiceActionTemplate(
+    'mapChoiceNoBinding-title',
+    'mapChoiceNoBinding-desc',
+    TimeSliceDuration,
+    'mapChoiceNoBinding-feedback',
+    false,
+    undefined,
+    undefined,
+    undefined,
+    getMapChoices(),
+    undefined
   );
 
   const placePMA = new SelectionFixedMapEntityTemplate(
@@ -487,7 +500,8 @@ export function initActionTemplates(): {
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
-  templates[testRedux.Uid] = testRedux;
+  templates[mapChoiceBinding.Uid] = mapChoiceBinding;
+  templates[mapChoiceNoBinding.Uid] = mapChoiceNoBinding;
   templates[placePCFront.Uid] = placePCFront;
   templates[moveActor.Uid] = moveActor;
   templates[getInfo.Uid] = getInfo;
