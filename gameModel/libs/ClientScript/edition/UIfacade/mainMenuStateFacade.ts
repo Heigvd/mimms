@@ -1,9 +1,3 @@
-import { RootCategories } from '../controllers/controllerInstances';
-import { ActionTemplateConfigUIState, getInitialActionsUIState } from './actionConfigFacade';
-import { GenericScenaristInterfaceState } from './genericConfigFacade';
-import { getInitialMapEntityUIState, MapEntityUIState } from './mapEntityFacade';
-import { getInitialTriggersUIState, TriggerConfigUIState } from './triggerConfigFacade';
-
 /**
  *  Main content loader page handler
  */
@@ -20,23 +14,15 @@ export type Page =
   | 'hospitals'
   | 'resources';
 
-export type GenericSubStateKey = keyof MenuUIState & RootCategories;
-
 export interface MenuUIState {
   menu: boolean;
   page: Page;
-  trigger: TriggerConfigUIState;
-  action: ActionTemplateConfigUIState;
-  mapEntity: MapEntityUIState;
 }
 
 export function getInitialMenuUIState(): MenuUIState {
   return {
     menu: true,
     page: 'map',
-    trigger: getInitialTriggersUIState(),
-    action: getInitialActionsUIState(),
-    mapEntity: getInitialMapEntityUIState(),
   };
 }
 
@@ -89,23 +75,4 @@ export function displayCurrentPage(): string {
     default:
       return 'mapConfiguration';
   }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// generic config pages specific
-
-export function getMenuUISubState<T extends GenericScenaristInterfaceState>(
-  subStateKey: GenericSubStateKey
-): T {
-  return Context[MENU_CONTEXT_KEY].state[subStateKey];
-}
-
-export function setMenuUISubState<T extends GenericScenaristInterfaceState>(
-  subStateKey: GenericSubStateKey,
-  newData: T
-): void {
-  const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
-  // XGO that will not hold with polymporphic subtypes
-  newState[subStateKey] = newData;
-  Context[MENU_CONTEXT_KEY].setState(newState);
 }

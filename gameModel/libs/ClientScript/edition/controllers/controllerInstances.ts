@@ -29,19 +29,17 @@ let actionTplController: ActionTemplateDataController | undefined;
 let mapEntityController: MapEntityController | undefined;
 
 export function getTriggerController(): TriggerDataController {
-  return (triggerController =
-    triggerController || new TriggerDataController('triggers_data', 'trigger'));
+  return (triggerController = triggerController || new TriggerDataController('triggers_data'));
 }
 
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
-    actionTplController || new ActionTemplateDataController('action_template_data', 'action'));
+    actionTplController || new ActionTemplateDataController('action_template_data'));
 }
 
 // XGO TODO right var key and ctx key
 export function getMapEntityController(): MapEntityController {
-  return (mapEntityController =
-    mapEntityController || new MapEntityController('triggers_data', 'mapEntity'));
+  return (mapEntityController = mapEntityController || new MapEntityController('triggers_data'));
 }
 
 // Reset the controllers when saving scripts or restarting the game

@@ -54,10 +54,9 @@ import {
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { GenericSubStateKey } from '../UIfacade/mainMenuStateFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { UndoRedoContext } from './undoRedoContext';
-import { ContextHandler } from '../controllers/stateHandler';
+import { ContextHandler } from './stateHandler';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
@@ -90,11 +89,11 @@ export abstract class DataControllerBase<
   private readonly contextHandler: ContextHandler<IState>;
   private transientIState: IState;
 
-  constructor(variableKey: keyof ObjectVariableClasses, contextKey: GenericSubStateKey) {
+  constructor(variableKey: keyof ObjectVariableClasses) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);
     const data = parseObjectDescriptor<DataType>(desc) || {};
-    this.contextHandler = new ContextHandler<IState>(contextKey);
+    this.contextHandler = new ContextHandler<IState>();
     this.transientIState = this.contextHandler.getCurrentState();
     this.undoRedo = new UndoRedoContext<IState, FlatType>(this.transientIState, this.flatten(data));
   }
