@@ -242,7 +242,7 @@
   visibility: hidden;
 }
 
-.next-container:hover .soft-warning {
+.next-container:hover:has(.nextActionBtn:hover) .soft-warning {
   animation: soft-warning-animation 2.6s forwards;
 }
 

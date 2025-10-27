@@ -58,11 +58,18 @@ export function getPlayerIdleActors(): Readonly<Actor[]> {
   return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
 }
 
+let hideSoftWarning = false;
+
+export function hideSoftWarningTemporarily(): void {
+  hideSoftWarning = true;
+  setTimeout(() => (hideSoftWarning = false), 1000);
+}
+
 /**
  * @returns true if there are actors available to the current player that can plan a new action
  */
-export function hasPlayerIdleActors(): boolean {
-  return getPlayerIdleActors().length > 0;
+export function isSoftWarningActive(): boolean {
+  return getPlayerIdleActors().length > 0 && hideSoftWarning == false;
 }
 
 /**
