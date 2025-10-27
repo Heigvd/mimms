@@ -129,12 +129,176 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "exposePageSizeAs" : "",
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "menuItem",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "active-selected-item",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "not-active-selected-item",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "icon" : "bolt",
+                                            "layoutClassName" : "menuItem-container",
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  newState.currentActionUid = 0;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "name" : "action",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "active-selected-item ",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "not-active-selected-item",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "walkieTalkie-selected",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "walkieTalkie",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nisPCFrontBuilt() === false;",
+                                              "language" : "typescript"
+                                            },
+                                            "layoutClassName" : "menuItem-container",
+                                            "layoutStyle" : {
+                                              "width" : "100%"
+                                            },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "script" : {
+                                              "@class" : "Script",
+                                              "content" : "\"/walkie-talkie-solid.svg\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "style" : {
+                                              "width" : "100%"
+                                            },
+                                            "unreadCount" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Image"
+                                        }, {
+                                          "props" : {
+                                            "className" : "menuItem",
+                                            "conditionnalClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : "active-selected-item",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Outside",
+                                              "className" : "not-active-selected-item",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
+                                                "language" : "typescript"
+                                              }
+                                            }, {
+                                              "applyOn" : "Inside",
+                                              "className" : "unauthorizedAction",
+                                              "condition" : {
+                                                "@class" : "Script",
+                                                "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
+                                                "language" : "typescript"
+                                              }
+                                            } ],
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "users",
+                                            "layoutClassName" : "menuItem-container",
+                                            "layoutStyle" : {
+                                              "pointerEvents" : "auto"
+                                            },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "name" : "resources",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        } ],
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "!Context.interfaceState.state.showLeftPanel",
+                                          "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().leftPanel.hidden;",
                                           "language" : "typescript"
                                         },
+                                        "layout" : {
+                                          "flexDirection" : "column"
+                                        },
+                                        "layoutClassName" : "menu-container",
+                                        "layoutStyle" : { },
+                                        "name" : "menu",
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    }, {
+                                      "props" : {
+                                        "exposePageSizeAs" : "",
                                         "initialSelectedPageId" : {
                                           "@class" : "Script",
                                           "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = 'radioMainPanel'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = '45';\n}\npage;",
@@ -152,18 +316,10 @@
                                     "className" : "contentLeftPanel",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Outside",
-                                      "className" : "hiddenLeftPanel",
+                                      "className" : "contentLeftPanel-container_hidden",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "!Context.interfaceState.state.showLeftPanel",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Outside",
-                                      "className" : "shownLeftPanel",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.interfaceState.state.showLeftPanel",
+                                        "content" : "!Context.interfaceState.state.showLeftPanel;",
                                         "language" : "typescript"
                                       }
                                     } ],
@@ -198,184 +354,6 @@
                                   "height" : "100%",
                                   "width" : "100%"
                                 }
-                              },
-                              "type" : "FlexList"
-                            }, {
-                              "props" : {
-                                "children" : [ {
-                                  "props" : {
-                                    "className" : "menuItem",
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : "active-selected-item",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.actions;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Outside",
-                                      "className" : "not-active-selected-item",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.actions;",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
-                                    "icon" : "bolt",
-                                    "layoutClassName" : "menuItem-container",
-                                    "layoutStyle" : {
-                                      "pointerEvents" : "auto"
-                                    },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\n  const newState = Helpers.cloneDeep(Context.interfaceState.state)\n  newState.selectedPanel = SelectedPanel.actions;\n  newState.showLeftPanel = true;\n  newState.currentActionUid = 0;\n  Context.interfaceState.setState(newState);\n  \n\n \n  ",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "name" : "action",
-                                    "style" : { }
-                                  },
-                                  "type" : "Icon"
-                                }, {
-                                  "props" : {
-                                    "className" : "",
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : "active-selected-item ",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Outside",
-                                      "className" : "not-active-selected-item",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "walkieTalkie-selected",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.radios;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "walkieTalkie",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.radios;",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
-                                    "disableIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nisPCFrontBuilt() === false;",
-                                      "language" : "typescript"
-                                    },
-                                    "layoutClassName" : "menuItem-container",
-                                    "layoutStyle" : {
-                                      "width" : "100%"
-                                    },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.showLeftPanel = true;\nnewState.selectedPanel = SelectedPanel.radios;\nContext.interfaceState.setState(newState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "script" : {
-                                      "@class" : "Script",
-                                      "content" : "\"/walkie-talkie-solid.svg\"",
-                                      "language" : "TypeScript"
-                                    },
-                                    "style" : {
-                                      "width" : "100%"
-                                    },
-                                    "unreadCount" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getAllUnreadMessagesCountBullet } from \"./UIfacade/radioFacade\";\ngetAllUnreadMessagesCountBullet();",
-                                      "language" : "TypeScript"
-                                    }
-                                  },
-                                  "type" : "Image"
-                                }, {
-                                  "props" : {
-                                    "className" : "menuItem",
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Outside",
-                                      "className" : "active-selected-item",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel === SelectedPanel.resources;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Outside",
-                                      "className" : "not-active-selected-item",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nContext.interfaceState.state.selectedPanel !== SelectedPanel.resources;",
-                                        "language" : "typescript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "unauthorizedAction",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
-                                    "disableIf" : {
-                                      "@class" : "Script",
-                                      "content" : "import { canPlanOrCancel, isPCFrontBuilt, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif(isPCFrontBuilt() === false)\n{\n  return true;\n}\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
-                                      "language" : "typescript"
-                                    },
-                                    "icon" : "users",
-                                    "layoutClassName" : "menuItem-container",
-                                    "layoutStyle" : {
-                                      "pointerEvents" : "auto"
-                                    },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { endMapAction } from \"./gameMap/main\";\n\nendMapAction();\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedPanel = SelectedPanel.resources;\nnewState.showLeftPanel = true;\nContext.interfaceState.setState(newState);",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "name" : "resources",
-                                    "style" : { }
-                                  },
-                                  "type" : "Icon"
-                                } ],
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Outside",
-                                  "className" : "menuItem-openPanel",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.interfaceState.state.showLeftPanel",
-                                    "language" : "typescript"
-                                  }
-                                } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\n  getInterfaceConfiguration().leftPanel.hidden;",
-                                  "language" : "typescript"
-                                },
-                                "layout" : {
-                                  "flexDirection" : "column"
-                                },
-                                "layoutClassName" : "menu-container",
-                                "layoutStyle" : { },
-                                "name" : "menu",
-                                "style" : { }
                               },
                               "type" : "FlexList"
                             }, {
@@ -750,10 +728,10 @@
                                 "className" : "timeline",
                                 "conditionnalClassNames" : [ {
                                   "applyOn" : "Outside",
-                                  "className" : "partialTimeline",
+                                  "className" : "timeline-container_leftPanel-hidden",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { getCurrentPlayerActors } from \"./UIfacade/actorFacade\";\nContext.interfaceState.state.showLeftPanel === true && getCurrentPlayerActors().length > 0;",
+                                    "content" : "!Context.interfaceState.state.showLeftPanel;",
                                     "language" : "typescript"
                                   }
                                 } ],
@@ -768,8 +746,7 @@
                                 "layoutClassName" : "timeline-container",
                                 "layoutStyle" : {
                                   "height" : "auto",
-                                  "marginTop" : "auto",
-                                  "width" : "100%"
+                                  "marginTop" : "auto"
                                 },
                                 "name" : "timeline",
                                 "style" : { }

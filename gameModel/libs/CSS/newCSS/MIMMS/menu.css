@@ -21,10 +21,11 @@
 	border-left: 2px solid var(--grey_20);
 }
 
-.menu-container{
-	margin-top: 3.2rem;
-	padding: 0px;
-  position:absolute;
+.menu-container {
+  position: absolute;
+  right: 0;
+  padding: 0;
+  transform: translateX(100%);
   z-index: 4;
 }
 
@@ -40,11 +41,6 @@
 }
 
 /*** for open left panel ***/
-.menuItem-openPanel{
-  position:relative;
-  left: 0;
-}
-
 .walkieTalkie{
   width: 1.25em;
   padding: .18rem; /* precise value, only change proportionally to padding in walkieTalkie-selected */

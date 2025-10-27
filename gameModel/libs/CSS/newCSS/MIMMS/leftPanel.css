@@ -25,12 +25,6 @@
 
 /*** show & hide left panel ***/
 /* make the bg of the left panel disapear independently from the header*/
-.hiddenLeftPanel{
-  left: -1000;
-  display: none;
-  width:0px;
-}
-
 .closeLeftPanelBtn{
   background-color: transparent;
   font-weight: var(--boldWeight);
@@ -45,17 +39,22 @@
 .contentLeftPanel {
 	height: 100%;
 	width: auto;
-  pointer-events: auto;
+  background-color: var(--grey_0);
   overflow: hidden;
-	/*border: solid 3px pink*/
+  pointer-events: auto;
 }
 
-.contentLeftPanel-container{
+.contentLeftPanel-container {
 	height: calc(100% - 3rem);
 	width: 100%;
-	padding: 0px;
+	padding: 0;
   margin: auto;
-	background-color: var(--grey_0);
+  transition: transform .3s ease-in-out;
+}
+
+.contentLeftPanel-container_hidden {
+  transform: translateX(-100%);
+  transition: transform .3s ease-in-out;
 }
 
 /******** SUBPANEL (Actions, radio resources) ********/

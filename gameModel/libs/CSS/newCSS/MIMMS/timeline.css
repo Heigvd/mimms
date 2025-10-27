@@ -2,6 +2,7 @@
 .timeline-container {
 	position: absolute;
 	height: auto;
+  width: 70%;
   max-width: calc(100% - 360px);
   padding: 0px;
 	bottom: 0px;
@@ -11,10 +12,13 @@
 	border-left: 2px solid var(--grey_20);
   overflow: visible;
 	z-index: 7;
+  transition: width .3s ease-in-out, max-width .3s ease-in-out;
 }
 
-.partialTimeline{
-  width: 70% !important;
+.timeline-container_leftPanel-hidden {
+  width: 100%;
+  max-width: 100%;
+  transition: width .3s ease-in-out, max-width .3s ease-in-out;
 }
 
 .timeline{
