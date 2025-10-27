@@ -25,7 +25,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','assign-task');",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "rectangleButton-container",
+            "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "5px 5px 0 0"
             },
@@ -63,7 +63,7 @@
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','request-reports');",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "rectangleButton-container",
+            "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "5px 0 0 5px"
             },

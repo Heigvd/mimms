@@ -73,6 +73,7 @@
 .fixedEntities-container .close-button {
 	background-color: transparent;
 	color: var(--grey_30);
+  transition: color .3s ease-in-out;
 }
 
 .fixedEntities-container .close-button:hover {
@@ -97,13 +98,13 @@
 
 /*** Buttons for resources in fixed map entities ***/
 .mimms_s_squareButton > button {
+  height: 2.2em;
+  font-family: var(--mainFont);
+  font-size: var(--SM_text);
   color: var(--grey_60);
 	background-color: var(--grey-10);
-  border-radius: var(--XS_borderRadius);
-  height: 2.2em;
   border: 2px solid var(--grey_60);
-  font-size: var(--SM_text);
-  font-family: var(--mainFont);
+  border-radius: var(--XS_borderRadius);
   }
 
 
@@ -113,6 +114,7 @@
     background-color: transparent;
     border-color: var(--grey_60);
     box-shadow: none;
+    transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
   }
 
   .mimms_s_squareButton > button:active {
@@ -137,38 +139,33 @@
 
 /* current resources */
 
-.mimms_s_squareButton.currentResources > button{
+.mimms_s_squareButton.currentResources > button {
+  color: var(--grey_0);
   background-color: var(--primary_base);
   border-color: var(--primary_base);
-  color: var(--grey_0);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-.mimms_s_squareButton.currentResources > button:hover{
+.mimms_s_squareButton.currentResources > button:hover {
+  color: var(--grey_0);
   border-color: var(--primary_base);
-  color: var(--grey_0);
 }
 
 
-.mimms_s_squareButton.currentResources > button:active{
+.mimms_s_squareButton.currentResources > button:active {
+  color: var(--grey_0);
   background-color: var(--primary_base);
   border-color: var(--primary_base);
   box-shadow: var(--buttonInsetShadow);
-  color: var(--grey_0);
 }
 
 /*  for resources at current actor's location while unselected */
-.mimms_s_squareButton.resourcesNearCurrentActor> button{
-  border-color: var(--primary_base);
+.mimms_s_squareButton.resourcesNearCurrentActor> button {
   color: var(--primary_base);
+  border-color: var(--primary_base);
 }
 
-
-/* counter for the rsrc square btn in fixed map entities */
-.squareCounter{
-	color: var(--grey_60);
-}
-
-.squareCounter-container{
+.squareCounter-container {
 	position: absolute;
 	top: -0.1em;
 	right: -.2em;
@@ -180,6 +177,7 @@
 
 /* counter for resources at current actor's location while selected */
 .squareCounter-container.currentResourcesCounter{
+  color: var(--primary_base);
   background-color: var(--primary_10);
   border: solid 1.5px var(--primary_base);
 }

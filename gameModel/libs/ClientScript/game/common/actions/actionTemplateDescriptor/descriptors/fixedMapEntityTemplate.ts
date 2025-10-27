@@ -29,7 +29,6 @@ export function createFixedMapEntityTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         {} as any, // FixedMapEntity
         false // replayable
       );
@@ -38,7 +37,6 @@ export function createFixedMapEntityTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         {} as any, // FixedMapEntity
         false // replayable));
       );
@@ -47,7 +45,6 @@ export function createFixedMapEntityTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         {} as any, // FixedMapEntity
         false // replayable));
       );
@@ -56,7 +53,6 @@ export function createFixedMapEntityTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         {} as any, // FixedMapEntity
         'ambulance', // TODO 2 types, figure out where to inject this information
         false

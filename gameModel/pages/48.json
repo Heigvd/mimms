@@ -379,7 +379,7 @@
         } ],
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nif (Context.mapState.state.selectionState && (Context.mapState.state.selectionState.id === LOCATION_ENUM.PMA || Context.mapState.state.selectionState.id === LOCATION_ENUM.PC)) {\n\treturn false;\n}\ntrue;",
+          "content" : "import { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nif (Context.mapState.state.selectionState && (Context.mapState.state.selectionState.id === LOCATION_ENUM.PMA /*|| Context.mapState.state.selectionState.id === LOCATION_ENUM.PC*/)) {\n\treturn false;\n}\ntrue;",
           "language" : "typescript"
         },
         "layout" : { },

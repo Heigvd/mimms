@@ -12,6 +12,7 @@ import { OnTheRoadAction } from '../game/common/actions/actionBase';
 import { InterfaceState } from '../gameInterface/interfaceState';
 import { canActorPlanAction } from '../gameInterface/main';
 import { getTranslation } from '../tools/translation';
+import { selectionLayerRef } from '../gameMap/main';
 
 /**
  * @returns All currently present actors
@@ -34,6 +35,9 @@ export function selectActor(id: ActorId): InterfaceState {
 export function selectActorAndOpenMapLocation(id: ActorId) {
   const newState = selectActor(id);
   openOverlayItem(getActorLocation(id)!);
+  if (selectionLayerRef != undefined && selectionLayerRef.current != undefined) {
+    selectionLayerRef.current.changed();
+  }
   return newState;
 }
 
@@ -54,11 +58,18 @@ export function getPlayerIdleActors(): Readonly<Actor[]> {
   return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
 }
 
+let hideSoftWarning = false;
+
+export function hideSoftWarningTemporarily(): void {
+  hideSoftWarning = true;
+  setTimeout(() => (hideSoftWarning = false), 1000);
+}
+
 /**
  * @returns true if there are actors available to the current player that can plan a new action
  */
-export function hasPlayerIdleActors(): boolean {
-  return getPlayerIdleActors().length > 0;
+export function isSoftWarningActive(): boolean {
+  return getPlayerIdleActors().length > 0 && hideSoftWarning == false;
 }
 
 /**
@@ -106,12 +117,37 @@ export function getCurrentPlayerPlayableActorsCount(): number {
   ).length;
 }
 
+export function canBePlayedByCurrentPlayer(actorId: ActorId): boolean {
+  const currentPlayerActors = getCurrentPlayerActors();
+  return currentPlayerActors.some(a => a.Uid === actorId);
+}
+
 /**
  * @returns Actor with given id or undefined
  */
 // used in page 66
 export function getActor(id: number): Readonly<Actor> | undefined {
   return getCurrentState().getActorById(id);
+}
+
+/**
+ * Returns per actor interface color
+ */
+export function getInterfaceColorClass(id: ActorId): string {
+  const actor = getActor(id);
+  if (actor) {
+    switch (actor.Role) {
+      case 'ACS':
+        return 'theme-acs';
+      case 'MCS':
+        return 'theme-mcs';
+      case 'EVASAN':
+        return 'theme-evasan';
+      case 'LEADPMA':
+        return 'theme-leadpma';
+    }
+  }
+  return 'theme-al';
 }
 
 /**

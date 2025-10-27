@@ -12,10 +12,5 @@ export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
 export function createMoveActorTemplate(
   _descriptor: MoveActorTemplateDescriptor
 ): MoveActorActionTemplate {
-  return new MoveActorActionTemplate(
-    'move-actor-title',
-    'move-actor-desc',
-    TimeSliceDuration,
-    'move-actor-feedback'
-  );
+  return new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration);
 }

@@ -1,4 +1,6 @@
+import { ActorId } from '../../game/common/baseTypes';
 import { getLetterRepresentationOfIndex } from '../../tools/helper';
+import { getActor } from '../../UIfacade/actorFacade';
 
 /**
  * Generate layer style according to geometry type
@@ -23,6 +25,26 @@ export function getLayerStyle(feature: any): LayerStyleObject {
     default:
       return {};
   }
+}
+
+/**
+ * Returns per actor interface color
+ */
+export function setInterfaceColor(id: ActorId): string {
+  const actor = getActor(id);
+  if (actor) {
+    switch (actor.Role) {
+      case 'ACS':
+        return '#554994';
+      case 'MCS':
+        return '#539265';
+      case 'EVASAN':
+        return '#EF5777';
+      case 'LEADPMA':
+        return '#F78C60';
+    }
+  }
+  return '#3CA3CC';
 }
 
 /**
@@ -56,6 +78,7 @@ function getPointStyle(feature: any): LayerStyleObject {
       !duration
     ) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
+      iconStyle.color = setInterfaceColor(Context.interfaceState.state.currentActorUid);
     }
 
     const textStyle: TextStyleObject = {
@@ -66,7 +89,8 @@ function getPointStyle(feature: any): LayerStyleObject {
     if (rotation) {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
-      iconStyle.src = '/maps/mapIcons/arrow.svg';
+      iconStyle.src = `/maps/mapIcons/arrow.svg`;
+      iconStyle.color = setInterfaceColor(Context.interfaceState.state.currentActorUid);
       iconStyle.scale = 0.08;
 
       textStyle.text = properties.accessType;
@@ -80,7 +104,7 @@ function getPointStyle(feature: any): LayerStyleObject {
       textStyle.stroke = {
         type: 'StrokeStyle',
         width: 3,
-        color: '#3CA3CC',
+        color: setInterfaceColor(Context.interfaceState.state.currentActorUid),
         lineCap: 'round',
         lineJoin: 'round',
       };
@@ -137,7 +161,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#3CA3CC',
+    color: setInterfaceColor(Context.interfaceState.state.currentActorUid),
     width: 6,
     lineCap: 'round',
     lineJoin: 'round',
@@ -149,7 +173,7 @@ function getLineStringStyle(feature: any): LayerStyleObject {
     Context.mapState.state.mapSelect &&
     !duration
   ) {
-    strokeStyle.color = '#3CA3CC00';
+    strokeStyle.color = setInterfaceColor(Context.interfaceState.state.currentActorUid) + '00';
   }
 
   return { stroke: strokeStyle };
@@ -203,8 +227,8 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     name === Context.interfaceState.state.selectedMapObjectId &&
     Context.mapState.state.mapSelect
   ) {
-    stroke.color = '#3CA3CC';
-    fill.color = '#3CA3CC';
+    stroke.color = setInterfaceColor(Context.interfaceState.state.currentActorUid);
+    fill.color = setInterfaceColor(Context.interfaceState.state.currentActorUid);
   }
 
   // If we're currently performing a selection - for the other choices
@@ -212,8 +236,8 @@ function getPolygonStyle(feature: any): LayerStyleObject {
     name !== Context.interfaceState.state.selectedMapObjectId &&
     Context.mapState.state.mapSelect
   ) {
-    stroke.color = '#3CA3CC80';
-    fill.color = '#3CA3CC80';
+    stroke.color = setInterfaceColor(Context.interfaceState.state.currentActorUid) + '50';
+    fill.color = setInterfaceColor(Context.interfaceState.state.currentActorUid) + '50';
   }
 
   return { fill, stroke, text };
@@ -235,7 +259,7 @@ function getMultiPolygonStyle(feature: any): LayerStyleObject {
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#3CA3CC',
+    color: setInterfaceColor(Context.interfaceState.state.currentActorUid),
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,
