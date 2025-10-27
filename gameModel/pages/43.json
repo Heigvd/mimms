@@ -364,7 +364,7 @@
                                       "props" : {
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { hasPlayerIdleActors } from \"./UIfacade/actorFacade\";\n!hasPlayerIdleActors();",
+                                          "content" : "import { isSoftWarningActive } from \"./UIfacade/actorFacade\";\n!isSoftWarningActive();",
                                           "language" : "typescript"
                                         },
                                         "layoutClassName" : "soft-warning",
@@ -396,7 +396,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { timeForward } from \"./UIfacade/timeFacade\";\n\ntimeForward();",
+                                            "content" : "import { hideSoftWarningTemporarily } from \"./UIfacade/actorFacade\";\nimport { timeForward } from \"./UIfacade/timeFacade\";\nhideSoftWarningTemporarily();\ntimeForward();",
                                             "language" : "TypeScript",
                                             "returnType" : "Promise<unknown> | undefined"
                                           }
