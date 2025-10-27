@@ -175,6 +175,9 @@ export function selectNotificationsAndUpdateInterfaceState(
     newState = Helpers.cloneDeep(Context.interfaceState.state);
     newState.showNotificationsPanel = !newState.showNotificationsPanel;
   }
+  if (newState.showNotificationsPanel) {
+    newState.showLeftPanel = true;
+  }
   Context.interfaceState.setState(newState);
 
   return updateReadMessages(NotifType.NOTIF, getNotifications(actorUid).length, actorUid);
