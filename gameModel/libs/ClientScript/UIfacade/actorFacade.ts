@@ -66,7 +66,7 @@ let hideSoftWarning = false;
 
 export function hideSoftWarningTemporarily(): void {
   hideSoftWarning = true;
-  setTimeout(() => (hideSoftWarning = false), 5000);
+  setTimeout(() => (hideSoftWarning = false), 2000);
 }
 
 /**
