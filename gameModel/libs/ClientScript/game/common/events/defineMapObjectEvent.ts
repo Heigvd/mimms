@@ -1,3 +1,5 @@
+// SUNSET ... ?
+
 import { getLineStringMiddlePoint, getPolygonCentroid } from '../../../gameMap/utils/mapUtils';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';

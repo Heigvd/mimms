@@ -49,13 +49,13 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.ambulancePark,
     name: 'location-ambulancePark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: true },
   },
   helicopterPark: {
     id: LOCATION_ENUM.helicopterPark,
     name: 'location-helicopterPark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: true },
   },
   remote: {
     id: LOCATION_ENUM.remote,
@@ -71,11 +71,10 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   },
   // XGO TODO adaptation, it seems ok to have this custom for now,
   //we will likely go for a fully dynamic string record in the some distant future
-  /*
   custom: {
     id: LOCATION_ENUM.custom,
-    name: 'location-pcFront',
+    name: 'custom',
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
-  },*/
+  },
 };

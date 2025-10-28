@@ -1,3 +1,5 @@
+// TODO Remove, choices are to be hardcoded in ActionTemplates
+
 import { ChoiceDescriptor } from '../common/actions/choiceDescriptor/choiceDescriptor';
 
 ///// MOCK DATA /////

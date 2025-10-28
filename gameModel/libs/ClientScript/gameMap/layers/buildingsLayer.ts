@@ -1,3 +1,5 @@
+// SUNSET - Sunset tagged code should be removed once mapActivables integration is completed
+
 export function getBuildingsLayer(feature: any, _resolution: number) {
   let buildingStyle: LayerStyleObject = {
     fill: {

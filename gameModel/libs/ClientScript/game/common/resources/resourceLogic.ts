@@ -76,6 +76,8 @@ export function doesOrderRespectHierarchy(
     .filter(a => a.Location !== LOCATION_ENUM.remote)
     .map(a => a.Role);
   const locationLeaderRoles = getMapLocationById(state, sourceLocation)!.leaderRoles;
+  // TODO Activable replacement call
+  // const locationLeaderRoles = locationEnumConfig[sourceLocation].leaderRoles;
 
   return currentActors
     .filter(a => locationLeaderRoles.includes(a))

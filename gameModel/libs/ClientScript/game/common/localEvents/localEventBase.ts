@@ -1192,9 +1192,9 @@ export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLoc
     const so = state.getInternalStateObject();
     const target: Activable | undefined = so.activables[this.props.target];
     if (target != undefined && target.activableType === 'mapEntity') {
+      target.buildStatus = this.buildStatus;
       if (this.props.option === 'activate') {
         target.active = true;
-        target.buildStatus = this.buildStatus;
       } else if (this.props.option === 'deactivate') {
         target.active = false;
       } else {

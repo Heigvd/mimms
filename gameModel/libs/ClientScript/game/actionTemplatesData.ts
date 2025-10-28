@@ -54,6 +54,7 @@ export function initActionTemplates(): {
 } {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
+  // SUNSET
   const placePCFront = new SelectionPCFrontTemplate(
     'define-pcFront-title',
     'define-pcFront-desc',
@@ -161,6 +162,7 @@ export function initActionTemplates(): {
     undefined
   );
 
+  // SUNSET
   const placePMA = new SelectionFixedMapEntityTemplate(
     'define-PMA-title',
     'define-PMA-desc',
@@ -221,7 +223,7 @@ export function initActionTemplates(): {
     undefined,
     [SimFlag.PMA_BUILT]
   );
-
+  // SUNSET
   const placePC = new SelectionPCTemplate(
     'define-PC-title',
     'define-PC-desc',
@@ -244,7 +246,7 @@ export function initActionTemplates(): {
     [SimFlag.PCS_ARRIVED],
     [SimFlag.PC_BUILT]
   );
-
+  // SUNSET
   const placeNest = new SelectionFixedMapEntityTemplate(
     'define-Nest-title',
     'define-Nest-desc',
@@ -264,7 +266,7 @@ export function initActionTemplates(): {
       'Nest'
     )
   );
-
+  // SUNSET
   const placeAccessRegress = new SelectionFixedMapEntityTemplate(
     'define-accreg-title',
     'define-accreg-desc',
@@ -316,7 +318,7 @@ export function initActionTemplates(): {
       }
     )
   );
-
+  // SUNSET
   const placeAmbulancePark = new SelectionParkTemplate(
     'define-ambulance-park-title',
     'define-ambulance-park-desc',
@@ -345,7 +347,7 @@ export function initActionTemplates(): {
     undefined,
     [SimFlag.AMBULANCE_PARK_BUILT]
   );
-
+  // SUNSET
   const placeHelicopterPark = new SelectionParkTemplate(
     'define-helicopter-park-title',
     'define-helicopter-park-desc',

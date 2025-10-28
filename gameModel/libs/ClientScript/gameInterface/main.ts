@@ -134,15 +134,14 @@ export function actionChangeHandler(): void {
   const action = Context.action as ActionTemplateBase;
 
   if (isChoiceTemplate(action) && canPlanAction()) {
-    // TODO improve, maybe only rely on UID ?
-    setInterfaceState({
-      currentActionUid: Context.action.Uid,
-      selectedActionChoice: JSON.stringify((action as ChoiceTemplate).choices[0]),
-    });
+    const choiceUid = (action as ChoiceTemplate).choices[0]!.uid;
+
+    setInterfaceState({ currentActionUid: Context.action.Uid, selectedActionChoiceUid: choiceUid });
     startMapChoice();
     return;
   }
 
+  // SUNSET
   // If action is SelectMapObject we begin routine
   if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();

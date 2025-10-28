@@ -1,3 +1,5 @@
+// SUNSET
+
 import { getLetterRepresentationOfIndex } from '../../tools/helper';
 
 /**

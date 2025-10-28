@@ -616,6 +616,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of a fixed map entity.
  */

@@ -1,8 +1,5 @@
 import { MapChoiceActionTemplate } from '../../game/common/actions/actionTemplateBase';
-import {
-  LineMapObject,
-  MapEntityDescriptor,
-} from '../../game/common/mapEntities/mapEntityDescriptor';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import {
   getActiveMapEntityDescriptors,
   getMapActivable,
@@ -14,69 +11,20 @@ import { getAvailableActionTemplateById } from '../../UIfacade/actionFacade';
 
 export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
 
-// Used in Map/ActivablesLayer
+// Used in page 43, Map/ActivablesLayer
 export function getMapActivablesLayer() {
   return getLayer(getActiveMapEntityDescriptors(), 'active');
 }
 
+// To be used in Scenarist Tools page
 export function getScenaristLayer(activables: Record<string, MapEntityDescriptor>) {
   return getLayer(activables, 'activables');
 }
 
-function getLayer(
-  activables: Record<string, MapEntityDescriptor>,
-  name: string
-): FeatureCollection {
-  let layer = getEmptyFeatureCollection(name);
-
-  const meds = Object.values(activables);
-  for (let i = 0; i < meds.length; i++) {
-    getGenericFeature(meds[i], i, layer);
-  }
-
-  return layer;
-}
-
-function getGenericFeature(
-  descriptor: MapEntityDescriptor,
-  index: number, // TODO Improve ? Used for letter generation
-  layer: FeatureCollection
-): FeatureCollection {
-  const activable = getMapActivable(descriptor.uid);
-
-  for (const mapObject of descriptor.mapObjects) {
-    const feature: any = {
-      type: 'Feature',
-      geometry: {
-        type: mapObject.type,
-        coordinates: mapObject.geometry,
-      },
-      properties: {
-        type: mapObject.type,
-        id: descriptor.uid, // TODO Better id ?
-        name: descriptor.tag, // TODO Better name ?
-        index: index, // TODO Handle indexing here ?
-        icon: mapObject.type === 'Point' ? mapObject.icon : undefined,
-        buildStatus: activable?.buildStatus, // TODO handle undefined case
-        label: mapObject.label,
-        labelOffset: mapObject.labelOffset,
-      },
-    };
-
-    layer.features.push(feature);
-
-    // Add arrowheads in case of LineString
-    if (mapObject.type === 'LineString') {
-      addArrowHeads(mapObject, layer);
-    }
-  }
-
-  return layer;
-}
-
-///// SELECTION LAYER /////
-
-// TODO Convoluted way of getting what we need, improve ?
+/**
+ * Create FeatureCollection for current MapChoiceAction selection
+ * TODO Could be improved ?
+ */
 export function getMapActivableSelectionLayer() {
   const currentTemplate = getAvailableActionTemplateById(
     Context.interfaceState.state.currentActionUid
@@ -90,11 +38,99 @@ export function getMapActivableSelectionLayer() {
     const meds = getMapEntityDescriptors();
 
     for (const medUid of medUids) {
-      record[medUid] = meds[medUid];
+      record[medUid] = meds[medUid]!;
     }
   }
 
   return getLayer(record, 'activableSelection');
+}
+
+/**
+ * Create FeatureCollection for given MapEntityDescriptors
+ *
+ * @params descriptors: Record<string, MapEntityDescriptor>
+ * @params name: string
+ *
+ * @returns layer: FeatureCollection
+ */
+function getLayer(
+  descriptors: Record<string, MapEntityDescriptor>,
+  name: string
+): FeatureCollection {
+  let layer = getEmptyFeatureCollection(name);
+
+  const meds = Object.values(descriptors);
+  for (let i = 0; i < meds.length; i++) {
+    getGenericFeature(meds[i]!, i, layer);
+  }
+
+  return layer;
+}
+
+/**
+ * Convert MapEntityDescriptor to feature and add to layer
+ *
+ * @params descriptor: MapEntityDescriptor
+ * @params index: number
+ * @params layer: FeatureCollection
+ *
+ * @returns layer: FeatureCollection
+ */
+function getGenericFeature(
+  descriptor: MapEntityDescriptor,
+  index: number, // Used for selection
+  layer: FeatureCollection
+): FeatureCollection {
+  const activable = getMapActivable(descriptor.uid);
+
+  for (const mapObject of descriptor.mapObjects) {
+    const properties = {
+      id: descriptor.uid,
+      tag: descriptor.tag,
+      buildStatus: activable?.buildStatus,
+      label: mapObject.label,
+      labelOffset: mapObject.labelOffset,
+      index: index,
+    };
+
+    const feature: any = {
+      type: 'Feature',
+      geometry: {
+        type: mapObject.type,
+        coordinates: mapObject.geometry,
+      },
+      properties: {
+        ...properties,
+        type: mapObject.type, // d
+        icon: mapObject.type === 'Point' ? mapObject.icon : undefined, // d
+      },
+    };
+
+    layer.features.push(feature);
+
+    // Add arrowheads in case of LineString
+    if (mapObject.type === 'LineString') {
+      const { end, rotation } = getLineEndAndRotation(mapObject.geometry);
+      const feature: any = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: end,
+        },
+        properties: {
+          ...properties,
+          type: 'Point',
+          icon: 'arrow',
+          src: `/maps/mapIcons/arrow.svg`,
+          rotation: -rotation,
+        },
+      };
+
+      layer.features.push(feature);
+    }
+  }
+
+  return layer;
 }
 
 ///// HELPERS /////
@@ -121,26 +157,4 @@ function getLineEndAndRotation(segment: PointLikeObject[]): {
   }
   end = end || [0, 0];
   return { end, rotation };
-}
-
-function addArrowHeads(lineMapObject: LineMapObject, layer: FeatureCollection) {
-  const { end, rotation } = getLineEndAndRotation(lineMapObject.geometry);
-  const feature: any = {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates: end,
-    },
-    properties: {
-      type: 'Point',
-      id: lineMapObject.parent,
-      icon: 'arrow',
-      src: `/maps/mapIcons/arrow.svg`,
-      rotation: -rotation,
-      label: lineMapObject.label,
-    },
-  };
-
-  layer.features.push(feature);
-  return layer;
 }

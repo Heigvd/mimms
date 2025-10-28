@@ -180,7 +180,9 @@ export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefine
   return template instanceof SelectionFixedMapEntityTemplate;
 }
 
-export function isChoiceTemplate(template: ActionTemplateBase | undefined): boolean {
+export function isChoiceTemplate(
+  template: ActionTemplateBase | undefined
+): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
 }
 

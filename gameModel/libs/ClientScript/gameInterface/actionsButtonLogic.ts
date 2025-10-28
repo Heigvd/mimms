@@ -45,6 +45,7 @@ import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -61,6 +62,7 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
 
   let params = {};
 
+  // SUNSET
   if (isFixedMapEntityTemplate(action)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
@@ -120,7 +122,10 @@ function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
 }
 
 function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
-  return JSON.parse(Context.interfaceState.state.selectedActionChoice);
+  return getChoiceDescriptor(
+    Context.interfaceState.state.currentActionUid,
+    Context.interfaceState.state.selectedActionChoiceUid
+  );
 }
 
 /**

@@ -1,4 +1,5 @@
 import { ActorId } from '../../game/common/baseTypes';
+import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getLetterRepresentationOfIndex } from '../../tools/helper';
 import { getActor } from '../../UIfacade/actorFacade';
 
@@ -22,7 +23,7 @@ export function getInterfaceColor(id: ActorId): string {
 export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const properties = feature.getProperties();
   const geometryType = properties.type;
-  // TODO Implement all styles
+
   switch (geometryType) {
     case 'Point':
       return getPointStyle(feature);
@@ -36,12 +37,9 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
 }
 
 function getPointStyle(feature: any): LayerStyleObject {
-  const properties = feature.getProperties();
-  const index = properties.index;
-  const icon = properties.icon;
-  const isInProgress = properties.buildStatus === 'pending';
-  const rotation = properties.rotation;
-  const label = properties.label;
+  // Unused but all availables properties, can be freely extended in activablesLayer
+  const { index, icon, buildStatus, label, rotation } = feature.getProperties();
+  const isInProgress = buildStatus === 'pending';
 
   if (icon) {
     const iconStyle: IconStyleObject = {
@@ -57,12 +55,15 @@ function getPointStyle(feature: any): LayerStyleObject {
 
     const textStyle: TextStyleObject = {
       type: 'TextStyle',
+      opacity: isInProgress ? 0.5 : 1,
     };
 
     // Selection
-    const isSelected =
-      feature.values_.id ===
-      JSON.parse(Context.interfaceState.state.selectedActionChoice).placeholder;
+    const choiceDescriptor = getChoiceDescriptor(
+      Context.interfaceState.state.currentActionUid,
+      Context.interfaceState.state.selectedActionChoiceUid
+    );
+    const isSelected = feature.values_.id === choiceDescriptor?.placeholder;
 
     if (Context.mapState.state.mapSelect && !rotation) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
@@ -118,9 +119,15 @@ function getPointStyle(feature: any): LayerStyleObject {
 }
 
 function getLineStringStyle(feature: any): LayerStyleObject {
+  // Unused but all availables properties, can be freely extended in activablesLayer
+  const { buildStatus } = feature.getProperties();
+  const isInProgress = buildStatus === 'pending';
+
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: getInterfaceColor(Context.interfaceState.state.currentActorUid),
+    color:
+      getInterfaceColor(Context.interfaceState.state.currentActorUid) +
+      (isInProgress ? '50' : 'ff'),
     width: 6,
     lineCap: 'round',
     lineJoin: 'round',
@@ -128,9 +135,11 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 
   // Selection
   if (Context.mapState.state.mapSelect) {
-    const isSelected =
-      feature.values_.id ===
-      JSON.parse(Context.interfaceState.state.selectedActionChoice).placeholder;
+    const choiceDescriptor = getChoiceDescriptor(
+      Context.interfaceState.state.currentActionUid,
+      Context.interfaceState.state.selectedActionChoiceUid
+    );
+    const isSelected = feature.values_.id === choiceDescriptor?.placeholder;
     strokeStyle.color =
       getInterfaceColor(Context.interfaceState.state.currentActorUid) + (isSelected ? 'ff' : '50');
   }
@@ -139,9 +148,8 @@ function getLineStringStyle(feature: any): LayerStyleObject {
 }
 
 function getPolygonStyle(feature: any): LayerStyleObject {
-  const properties = feature.getProperties();
-  const index = properties.index;
-  const label = properties.label; // TODO Handle translation
+  // Unused but all availables properties, can be freely extended in activablesLayer
+  const { index, label } = feature.getProperties();
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
@@ -173,9 +181,11 @@ function getPolygonStyle(feature: any): LayerStyleObject {
 
   // Selection
   if (Context.mapState.state.mapSelect) {
-    const isSelected =
-      feature.values_.id ===
-      JSON.parse(Context.interfaceState.state.selectedActionChoice).placeholder;
+    const choiceDescriptor = getChoiceDescriptor(
+      Context.interfaceState.state.currentActionUid,
+      Context.interfaceState.state.selectedActionChoiceUid
+    );
+    const isSelected = feature.values_.id === choiceDescriptor?.placeholder;
     stroke.color =
       getInterfaceColor(Context.interfaceState.state.currentActorUid) + (isSelected ? 'ff' : '50');
     fill.color =

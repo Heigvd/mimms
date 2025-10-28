@@ -2,6 +2,7 @@ import { TemplateDescriptor } from '../actions/actionTemplateDescriptor/template
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { IActivableDescriptor, Uid } from '../interfaces';
 import { BuildStatus, MapEntityDescriptor } from '../mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { Trigger } from '../triggers/trigger';
 
 /**
@@ -33,6 +34,7 @@ export interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {
 
 export interface MapEntityActivable extends ActivableState<MapEntityDescriptor> {
   buildStatus: BuildStatus;
+  binding: LOCATION_ENUM;
 }
 
 // TODO map entities objects, there might be a sub state such as 'building' as in current implementation
@@ -82,6 +84,7 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
       const mae: MapEntityActivable = {
         uid: descriptor.uid,
         activableType: descriptor.activableType,
+        binding: descriptor.binding,
         active: descriptor.activeAtStart,
         buildStatus: descriptor.buildStatus,
       };

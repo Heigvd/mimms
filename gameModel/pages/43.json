@@ -496,7 +496,7 @@
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "!Context.mapState?.state.selectionState",
+                                      "content" : "!Context.mapState?.state.selectionState;",
                                       "language" : "typescript"
                                     },
                                     "layerId" : "selectionLayer",
@@ -520,7 +520,7 @@
                                       "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
                                     },
                                     "layoutStyle" : { },
-                                    "name" : "selectionLayer",
+                                    "name" : "selectionLayer - SUNSET",
                                     "onLayerReady" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "layer", "map" ],
@@ -553,7 +553,7 @@
                                       "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
                                     },
                                     "layoutStyle" : { },
-                                    "name" : "UnavailableLayer",
+                                    "name" : "UnavailableLayer - SUNSET",
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
@@ -580,7 +580,7 @@
                                       "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
                                     },
                                     "layoutStyle" : { },
-                                    "name" : "AvailableLayer",
+                                    "name" : "AvailableLayer - SUNSET",
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
