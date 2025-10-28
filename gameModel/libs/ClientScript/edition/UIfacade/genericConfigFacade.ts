@@ -3,33 +3,17 @@ import {
   ControllerType,
   getAllControllers,
   getController as getTheController,
-  RootCategories,
 } from '../controllers/controllerInstances';
 import { FlatTypeDef, FlatTypes, SuperTypeNames } from '../controllers/dataController';
+import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
  * Generic operations for deletion, creation, reordering, undo, redo and save
  * For Actions, Triggers, MapEntities
  */
 
-// Note : must match the "exposeAs" of the state
-export const CATEGORY_CONTEXT_KEY = 'categoryState';
-
-export interface PageState {
-  category: RootCategories;
-}
-
-// Directly used in the page
-export function loadInitialCategoryState(category: RootCategories): PageState {
-  return { category: category };
-}
-
-export function getCategory(): RootCategories {
-  return Context[CATEGORY_CONTEXT_KEY].state.category;
-}
-
 function getController(): ControllerType {
-  return getTheController(getCategory());
+  return getTheController(getCurrentPage());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
