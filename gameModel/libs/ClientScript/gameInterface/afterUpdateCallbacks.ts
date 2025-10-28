@@ -2,6 +2,8 @@ import { MainSimulationState } from '../game/common/simulationState/mainSimulati
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { InterfaceState } from '../gameInterface/interfaceState';
 import { openOverlayItem } from '../gameMap/mapEntities';
+import { mainSimInterfaceLogger } from '../tools/logger';
+import { hideSoftWarningTemporarily } from '../UIfacade/actorFacade';
 
 export type AfterUpdateCallback = (
   prevState: Readonly<MainSimulationState>,
@@ -43,6 +45,7 @@ export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partia
   if (previousState) {
     const ps = previousState;
     const interfaceStateClone = Helpers.cloneDeep(current);
+    mainSimInterfaceLogger.debug('Applying callbacks');
     afterUpdateCallbacks.forEach(callback => {
       callback(ps, getCurrentState(), interfaceStateClone);
     });
@@ -52,6 +55,8 @@ export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partia
   }
   return current;
 }
+
+/************** CALLBACKS IMPLEMENTATIONS ************** */
 
 /**
  * opens the position of the selected actor if it has moved since the previous reference state
@@ -73,5 +78,22 @@ export function registerOpenSelectedActorPanelAfterMove(): void {
     }
   };
 
+  addAfterUpdateCallback(f);
+}
+
+/**
+ * Hides the inactive actor soft warning for a few seconds right after a time forward
+ */
+export function registerHideInactiveActorWarning(): void {
+  const f: AfterUpdateCallback = function (
+    oldState: Readonly<MainSimulationState>,
+    current: Readonly<MainSimulationState>,
+    _intState: Partial<InterfaceState>
+  ) {
+    if (oldState.getSimTime() < current.getSimTime()) {
+      mainSimInterfaceLogger.debug('Hiding soft warnings');
+      hideSoftWarningTemporarily();
+    }
+  };
   addAfterUpdateCallback(f);
 }

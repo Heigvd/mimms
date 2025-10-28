@@ -1,4 +1,7 @@
-import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
+import {
+  registerHideInactiveActorWarning,
+  registerOpenSelectedActorPanelAfterMove,
+} from '../../../gameInterface/afterUpdateCallbacks';
 import { entries, keys } from '../../../tools/helper';
 import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
@@ -237,6 +240,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       getLocalEventManager().queueLocalEvents(generatedLocalEvents);
 
       registerOpenSelectedActorPanelAfterMove();
+      registerHideInactiveActorWarning();
 
       state.updateForwardTimeFrame();
 

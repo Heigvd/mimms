@@ -58,11 +58,15 @@ export function getPlayerIdleActors(): Readonly<Actor[]> {
   return getCurrentPlayerActors().filter(actor => canActorPlanAction(actor.Uid));
 }
 
+/**
+ * When the player clicks on continue a soft warning is shown if an actor is idle
+ * This boolean forces deactivation of this warning
+ */
 let hideSoftWarning = false;
 
 export function hideSoftWarningTemporarily(): void {
   hideSoftWarning = true;
-  setTimeout(() => (hideSoftWarning = false), 1000);
+  setTimeout(() => (hideSoftWarning = false), 5000);
 }
 
 /**
