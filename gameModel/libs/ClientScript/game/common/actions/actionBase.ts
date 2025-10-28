@@ -698,7 +698,7 @@ export class MapChoiceAction extends ChoiceAction {
     );
   }
 
-  override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
     if (!this.choice.placeholder) {
@@ -815,6 +815,68 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 // place PC Front
 // -------------------------------------------------------------------------------------------------
 
+export class PCFrontChoiceAction extends MapChoiceAction {
+  // The binding is always pcFront
+  public declare readonly binding = LOCATION_ENUM.pcFront;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState,
+      choice
+    );
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+
+    getLocalEventManager().queueLocalEvent(
+      new MoveActorLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        actorUid: this.ownerId,
+        location: LOCATION_ENUM.pcFront,
+      })
+    );
+
+    // First and only resource on scene comes with
+    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
+    getLocalEventManager().queueLocalEvent(
+      new MoveResourcesLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        resourcesId: [resourceUid],
+        targetLocation: LOCATION_ENUM.pcFront,
+      })
+    );
+    getLocalEventManager().queueLocalEvent(
+      new AssignResourcesToWaitingTaskLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        resourcesId: [resourceUid],
+      })
+    );
+  }
+}
+
+// SUNSET
 export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
   constructor(
     startTimeSec: SimTime,
@@ -877,6 +939,75 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
 // place PC
 // -------------------------------------------------------------------------------------------------
 
+export class PCChoiceAction extends MapChoiceAction {
+  // The binding is always PC
+  public declare readonly binding = LOCATION_ENUM.PC;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState,
+      choice
+    );
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+    // Move actors to PC
+    const actors = state
+      .getInternalStateObject()
+      .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
+
+    for (const actor of actors) {
+      getLocalEventManager().queueLocalEvent(
+        new MoveActorLocalEvent({
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          actorUid: actor.Uid,
+          location: this.binding,
+        })
+      );
+    }
+    // Move human resources to PC
+    getLocalEventManager().queueLocalEvent(
+      new MoveFreeHumanResourcesByLocationLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        sourceLocation: LOCATION_ENUM.pcFront,
+        targetLocation: this.binding,
+      })
+    );
+    // Remove PC Front once all actors and resources have been moved
+    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
+    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
+    getLocalEventManager().queueLocalEvent(
+      new RemoveFixedEntityLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        fixedMapEntity: pcFrontFixedEntity!,
+      })
+    );
+  }
+}
+
+// SUNSET
 export class SelectionPCAction extends SelectionFixedMapEntityAction {
   constructor(
     startTimeSec: SimTime,
@@ -946,6 +1077,55 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 // place park
 // -------------------------------------------------------------------------------------------------
 
+export class ParkChoiceAction extends MapChoiceAction {
+  // The binding is always ambulancePark or helicopterPark
+  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
+  public readonly vehicleType: VehicleType;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey,
+    messageKey: TranslationKey,
+    ownerId: ActorId,
+    uuidTemplate: ActionTemplateId,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor,
+    binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
+    vehicleType: VehicleType
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      messageKey,
+      ownerId,
+      uuidTemplate,
+      provideFlagsToState,
+      choice
+    );
+    this.binding = binding;
+    this.vehicleType = vehicleType;
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+
+    getLocalEventManager().queueLocalEvent(
+      new MoveFreeWaitingResourcesByTypeLocalEvent({
+        parentEventId: this.eventId,
+        simTimeStamp: state.getSimTime(),
+        ownerUid: this.ownerId,
+        resourceType: this.vehicleType,
+        targetLocation: this.binding,
+      })
+    );
+  }
+}
+
+// SUNSET
 export class SelectionParkAction extends SelectionFixedMapEntityAction {
   constructor(
     startTimeSec: SimTime,

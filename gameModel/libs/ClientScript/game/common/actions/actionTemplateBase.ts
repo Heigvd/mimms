@@ -54,6 +54,9 @@ import {
   SendRadioMessageAction,
   SituationUpdateAction,
   MapChoiceAction,
+  PCFrontChoiceAction,
+  PCChoiceAction,
+  ParkChoiceAction,
 } from './actionBase';
 import * as ActionLogic from './actionLogic';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
@@ -797,6 +800,7 @@ export class MapChoiceActionTemplate<
 // place PC Front
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of the Meeting Point
  */
@@ -845,10 +849,54 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
   }
 }
 
+export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoiceAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCFrontChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new PCFrontChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice
+    );
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // place PC San
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of the PC San
  */
@@ -897,10 +945,54 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
   }
 }
 
+export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new PCChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice
+    );
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // place a park item
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of a parking
  */
@@ -947,6 +1039,58 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
       this.vehicleType,
       this.raisedFlags
+    );
+  }
+}
+
+export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction> {
+  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
+  public readonly vehicleType: VehicleType;
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
+    vehicleType: VehicleType,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices,
+      binding
+    );
+    this.vehicleType = vehicleType;
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): ParkChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new ParkChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice,
+      this.binding,
+      this.vehicleType
     );
   }
 }
