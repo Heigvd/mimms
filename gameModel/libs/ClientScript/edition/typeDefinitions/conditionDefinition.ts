@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';

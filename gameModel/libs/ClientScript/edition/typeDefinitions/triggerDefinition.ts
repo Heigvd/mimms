@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
