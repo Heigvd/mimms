@@ -43,7 +43,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers();",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
@@ -82,7 +82,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getCustomTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getCustomTriggers();",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",

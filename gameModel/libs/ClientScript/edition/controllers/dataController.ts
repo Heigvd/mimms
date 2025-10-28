@@ -315,7 +315,6 @@ export class TriggerDataController extends DataControllerBase<
     parentId: Uid,
     superType: TriggerFlatType['superType']
   ): TriggerFlatType {
-    // TODO we might want to define an "empty NoOp" type for conditions and impacts and give at as default
     switch (superType) {
       case 'trigger':
         return toFlatTrigger(
