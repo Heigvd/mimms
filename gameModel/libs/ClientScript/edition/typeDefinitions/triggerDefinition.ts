@@ -35,7 +35,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      tag: 'change the world',
+      tag: 'trigger ' + generateId(3),
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
