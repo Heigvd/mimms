@@ -28,7 +28,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: false,
+      deactivateItself: true,
       operator: 'OR',
       conditions: [
         {
@@ -68,7 +68,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: true,
+      deactivateItself: false,
       operator: 'AND',
       conditions: [
         {
@@ -108,7 +108,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger timing',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: false,
+      deactivateItself: true,
       operator: 'AND',
       conditions: [],
       impacts: [
