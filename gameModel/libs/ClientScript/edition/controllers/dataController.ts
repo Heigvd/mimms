@@ -183,6 +183,9 @@ export abstract class DataControllerBase<
 
   public canMove(id: Uid, moveType: OperationType): boolean {
     const siblings = this.filterSiblings(id, this.undoRedo.getCurrentState()[1]);
+    if (Object.values(siblings).length == 0) {
+      return false;
+    }
     return canMove(id, siblings, moveType);
   }
 
