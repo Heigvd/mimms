@@ -13,7 +13,13 @@ import {
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
-import { canMove, moveElement, OperationType } from '../../tools/indexedSorting';
+import {
+  canMove,
+  moveElement,
+  OperationType,
+  recomputeIndexes,
+  recomputeIndexesFromArray,
+} from '../../tools/indexedSorting';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
 import {
@@ -48,11 +54,10 @@ import {
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { GenericSubStateKey } from '../UIfacade/mainMenuStateFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { UndoRedoContext } from './undoRedoContext';
-import { ContextHandler } from '../controllers/stateHandler';
-import { getSiblings, removeRecursively } from './parentedUtils';
+import { ContextHandler } from './stateHandler';
+import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
@@ -82,16 +87,15 @@ export abstract class DataControllerBase<
   private readonly undoRedo: UndoRedoContext<IState, FlatType>;
   private readonly varKey: keyof ObjectVariableClasses;
   private readonly contextHandler: ContextHandler<IState>;
+  private transientIState: IState;
 
-  constructor(variableKey: keyof ObjectVariableClasses, contextKey: GenericSubStateKey) {
+  constructor(variableKey: keyof ObjectVariableClasses) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);
     const data = parseObjectDescriptor<DataType>(desc) || {};
-    this.contextHandler = new ContextHandler<IState>(contextKey);
-    this.undoRedo = new UndoRedoContext<IState, FlatType>(
-      this.contextHandler.getCurrentState(),
-      this.flatten(data)
-    );
+    this.contextHandler = new ContextHandler<IState>();
+    this.transientIState = this.contextHandler.getCurrentState();
+    this.undoRedo = new UndoRedoContext<IState, FlatType>(this.transientIState, this.flatten(data));
   }
 
   public save(): void {
@@ -107,6 +111,7 @@ export abstract class DataControllerBase<
 
   public remove(id: Uid): void {
     const flatData = this.getFlatDataClone();
+    const siblings = getSiblings(id, flatData);
     const removedIds = removeRecursively(id, flatData);
     const updatedIState = this.contextHandler.getCurrentState();
 
@@ -115,6 +120,10 @@ export abstract class DataControllerBase<
         delete updatedIState.selected[superType];
       }
     });
+
+    // re-index
+    delete siblings[id];
+    recomputeIndexes(siblings);
 
     this.applyChanges(flatData, updatedIState);
   }
@@ -129,11 +138,13 @@ export abstract class DataControllerBase<
 
   public undo(): void {
     const previous = this.undoRedo.undo();
+    this.transientIState = previous[0];
     this.contextHandler.setState(previous[0]);
   }
 
   public redo(): void {
     const next = this.undoRedo.redo();
+    this.transientIState = next[0];
     this.contextHandler.setState(next[0]);
   }
 
@@ -172,22 +183,40 @@ export abstract class DataControllerBase<
 
   public canMove(id: Uid, moveType: OperationType): boolean {
     const siblings = this.filterSiblings(id, this.undoRedo.getCurrentState()[1]);
+    if (Object.values(siblings).length == 0) {
+      return false;
+    }
     return canMove(id, siblings, moveType);
   }
 
   public updateData(
     newData: Record<Uid, FlatType>,
+    indexesUpdate: boolean = true,
     newInterfaceState: IState | undefined = undefined
   ): void {
     const iState = newInterfaceState || this.contextHandler.getCurrentState();
+    if (indexesUpdate) {
+      // get siblings grouped by same parent and supertype
+      const allSiblings = getAllSiblings(newData);
+      // cluster siblings in their specific subgroups (e.g. mandatory / optional, map categories)
+      Object.values(allSiblings).forEach(group => {
+        clusterSiblings(group, this.isSibling).forEach(cluster =>
+          recomputeIndexesFromArray(cluster)
+        );
+      });
+    }
     this.applyChanges(newData, iState);
   }
 
   /**
-   * Updates the interface state only in the last stored state
+   * Updates the transient interface state
    */
   public updateIState(newInterfaceState: IState): void {
-    this.undoRedo.updateInterfaceState(newInterfaceState);
+    this.transientIState = newInterfaceState;
+  }
+
+  public getLatestIState(): IState {
+    return this.transientIState;
   }
 
   private filterSiblings(id: Uid, data: Record<string, FlatType>): Record<string, FlatType> {
@@ -225,6 +254,7 @@ export abstract class DataControllerBase<
 
   private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState): void {
     this.undoRedo.storeState(newInterfaceState, newData);
+    this.transientIState = newInterfaceState;
     this.contextHandler.setState(newInterfaceState);
   }
 }
@@ -266,9 +296,9 @@ export class TriggerDataController extends DataControllerBase<
       .forEach((element: TriggerFlatType) => {
         const parentTrigger = tree[element.parent];
         if (parentTrigger) {
-          if (element.superType === 'condition') {
+          if (element.superType === 'condition' && element.type !== 'empty') {
             parentTrigger.conditions.push(fromFlatCondition(element));
-          } else if (element.superType === 'impact') {
+          } else if (element.superType === 'impact' && element.type !== 'empty') {
             parentTrigger.impacts.push(fromFlatImpact(element));
           }
         } else {
@@ -285,7 +315,6 @@ export class TriggerDataController extends DataControllerBase<
     parentId: Uid,
     superType: TriggerFlatType['superType']
   ): TriggerFlatType {
-    // TODO we might want to define an "empty NoOp" type for conditions and impacts and give at as default
     switch (superType) {
       case 'trigger':
         return toFlatTrigger(
@@ -293,9 +322,9 @@ export class TriggerDataController extends DataControllerBase<
           TriggerDataController.TRIGGER_ROOT
         );
       case 'condition':
-        return toFlatCondition(getConditionDefinition('time').getDefault(), parentId);
+        return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
     }
   }
 
@@ -315,7 +344,7 @@ export class ActionTemplateDataController extends DataControllerBase<
   ActionTemplateConfigUIState
 > {
   // TODO filter by mandatory
-  protected isSibling(
+  protected override isSibling(
     _target: ActionTemplateFlatType,
     _candidate: ActionTemplateFlatType
   ): boolean {
@@ -418,8 +447,8 @@ export class MapEntityController extends DataControllerBase<
   MapEntityFlatType,
   MapEntityUIState
 > {
-  protected isSibling(_target: MapEntityFlatType, _candidate: MapEntityFlatType): boolean {
-    // TODO filter by category
+  protected override isSibling(_target: MapEntityFlatType, _candidate: MapEntityFlatType): boolean {
+    // TODO filter by category (LocationEnum)
     return true;
   }
   protected flatten(

@@ -6,8 +6,14 @@ export type OperationType = 'UP' | 'DOWN' | 'TOP' | 'BOTTOM';
 /**
  * Recomputes consecutive indexes starting from 0
  */
-function recomputeIndexes<T extends Indexed & IDescriptor>(data: Record<Uid, T>): T[] {
-  const values = Object.values(data);
+export function recomputeIndexes<T extends Indexed & IDescriptor>(data: Record<Uid, T>): T[] {
+  return recomputeIndexesFromArray(Object.values(data));
+}
+
+/**
+ * Recomputes consecutive indexes starting from 0
+ */
+export function recomputeIndexesFromArray<T extends Indexed & IDescriptor>(values: T[]): T[] {
   values.sort(comparator);
   let i = 0;
   values.forEach(v => (v.index = i++));

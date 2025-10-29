@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { MoveActorTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
