@@ -183,6 +183,9 @@ export abstract class DataControllerBase<
 
   public canMove(id: Uid, moveType: OperationType): boolean {
     const siblings = this.filterSiblings(id, this.undoRedo.getCurrentState()[1]);
+    if (Object.values(siblings).length == 0) {
+      return false;
+    }
     return canMove(id, siblings, moveType);
   }
 
@@ -312,7 +315,6 @@ export class TriggerDataController extends DataControllerBase<
     parentId: Uid,
     superType: TriggerFlatType['superType']
   ): TriggerFlatType {
-    // TODO we might want to define an "empty NoOp" type for conditions and impacts and give at as default
     switch (superType) {
       case 'trigger':
         return toFlatTrigger(

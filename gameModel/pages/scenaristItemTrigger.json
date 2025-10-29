@@ -86,17 +86,17 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : { },
-            "name" : "Repeatable",
+            "name" : "Deactivate itself",
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { repeatable: !Context.item.repeatable });",
+                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: !Context.item.deactivateItself });",
                 "language" : "TypeScript"
               }
             },
             "script" : {
               "@class" : "Script",
-              "content" : "  Context.item.repeatable;",
+              "content" : "  !Context.item.deactivateItself;",
               "language" : "TypeScript"
             },
             "style" : { },

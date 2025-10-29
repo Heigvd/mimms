@@ -21,19 +21,11 @@ export function getInitialTriggersUIState(): TriggerConfigUIState {
   };
 }
 
-// TODO merge into one function getMandatoryTriggers(mandatory : boolean)
-export function getMandatoryTriggers(): FlatTrigger[] {
+export function getMandatoryTriggers(mandatory: boolean): FlatTrigger[] {
   return getItems('trigger')
     .filter(item => item.superType === 'trigger')
     .map(trigger => trigger as FlatTrigger)
-    .filter(trigger => trigger.mandatory);
-}
-
-export function getCustomTriggers(): FlatTrigger[] {
-  return getItems('trigger')
-    .filter(item => item.superType === 'trigger')
-    .map(trigger => trigger as FlatTrigger)
-    .filter(trigger => !trigger.mandatory);
+    .filter(trigger => trigger.mandatory == mandatory);
 }
 
 export function updateItem<T extends TriggerFlatType>(uid: Uid, newData: Partial<T>): void {

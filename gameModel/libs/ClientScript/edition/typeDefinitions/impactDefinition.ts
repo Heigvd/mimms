@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Impact } from '../../game/common/impacts/impact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { generateId } from '../../tools/helper';
@@ -192,6 +194,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       delaySeconds: 0,
       message: '',
       roles: {
+        // TODO make it dynamic
         ACS: false,
         MCS: false,
         AL: false,

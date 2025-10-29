@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 import { FixedMapEntity, LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { MainSimulationState } from './mainSimulationState';
 
