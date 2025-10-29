@@ -1,9 +1,10 @@
-import { IDescriptor, Tag, Uid } from '../interfaces';
+import { IDescriptor, Indexed, Tag, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { convertToLocalEvents, Impact } from './impact';
 
-export interface Effect extends IDescriptor {
+export interface Effect extends IDescriptor, Indexed, Typed {
+  type: 'effect';
   /**
    * Friendly name for scenarist
    */

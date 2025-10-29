@@ -28,6 +28,20 @@ export interface Typed {
 }
 
 /**
+ * For more general types (e.g. Impact)
+ */
+export interface SuperTyped {
+  superType: string;
+}
+
+/**
+ *
+ */
+export interface Parented {
+  parent: Uid;
+}
+
+/**
  * To sort (for display as well as processing)
  */
 export interface Indexed {
@@ -53,4 +67,14 @@ export interface IActivableDescriptor {
    * Friendly name used by scenarist
    */
   tag: Tag;
+}
+
+export function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.activableType === 'string' &&
+    typeof obj.activeAtStart === 'boolean' &&
+    typeof obj.tag === 'string'
+  );
 }

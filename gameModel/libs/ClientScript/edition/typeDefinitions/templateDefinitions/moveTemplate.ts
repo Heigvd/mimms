@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { MoveActorTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
@@ -21,6 +23,7 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
       title: 'Move to a location', // TODO multilang
       uid: generateId(10),
       durationSec: TimeSliceDuration,
+      index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {} as any, // TODO hide almost all fields for the move template

@@ -1,7 +1,7 @@
 import { Effect } from '../../impacts/effect';
-import { IActivableDescriptor, IDescriptor, Typed, Uid } from '../../interfaces';
+import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../../interfaces';
 
-export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typed {
+export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typed, Indexed {
   type: 'choice';
   activableType: 'choice';
   parent: Uid; // owning action template descriptor

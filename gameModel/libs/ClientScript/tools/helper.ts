@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 /*
  * License to be defined
  *
@@ -285,3 +287,18 @@ export type FilterTypeProperties<Source, Condition> = Pick<
   Source,
   { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
 >;
+
+export type ObjectVariableClasses = FilterTypeProperties<VariableClasses, SObjectDescriptor>;
+
+export function filterRecord<K extends string, V>(
+  record: Record<K, V>,
+  predicate: (value: V, key: K) => boolean
+): Record<K, V> {
+  return Object.fromEntries(
+    Object.entries(record).filter(([k, v]) => predicate(v as V, k as K))
+  ) as Record<K, V>;
+}
+
+export function patchX<T>(value: T, patch: Partial<T>): T {
+  return { ...value, ...patch };
+}

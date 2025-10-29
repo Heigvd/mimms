@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Impact } from '../../game/common/impacts/impact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { generateId } from '../../tools/helper';
@@ -5,17 +7,32 @@ import {
   ALL_EDITABLE,
   Definition,
   MapToDefinition,
-  //MapToRecordByType,
-  MapToTypeNames,
+  MapToFlatType,
   ValidationResult,
 } from './definition';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
+import { Uid } from '../../game/common/interfaces';
+import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 
-type ImpactTypeName = MapToTypeNames<Impact>;
+type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
+export type FlatImpact = MapToFlatType<Impact, 'impact'>;
+
+export function toFlatImpact(imp: Impact, parentId: Uid): FlatImpact {
+  return {
+    ...imp,
+    parent: parentId,
+    superType: 'impact',
+  };
+}
+
+export function fromFlatImpact(fimp: FlatImpact): Impact {
+  const { superType: _ignored, parent: _ignore, ...impact } = fimp;
+  return impact;
+}
 
 export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
   let definition: ImpactDefinition;
@@ -32,6 +49,8 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
     case 'radio':
       definition = getRadioImpactDef();
       break;
+    case 'empty':
+      definition = getEmptyImpactDef();
   }
 
   if (definition?.type !== type) {
@@ -45,7 +64,24 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
 
 // TODO somewhere check that all impacts are valid
 
-function getActivationImpactDef(): Definition<ActivationImpact> {
+export function getEmptyImpactDef(): Definition<EmptyImpact> {
+  return {
+    type: 'empty',
+    getDefault: () => ({
+      type: 'empty',
+      uid: generateId(10),
+      index: 0,
+    }),
+    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+    },
+  };
+}
+
+export function getActivationImpactDef(): Definition<ActivationImpact> {
   return {
     type: 'activation',
     getDefault: () => ({
@@ -93,7 +129,7 @@ function getActivationImpactDef(): Definition<ActivationImpact> {
   };
 }
 
-function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
+export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
   return {
     type: 'effectSelection',
     getDefault: () => ({
@@ -148,7 +184,7 @@ function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionIm
   };
 }
 
-function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
+export function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -158,6 +194,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       delaySeconds: 0,
       message: '',
       roles: {
+        // TODO make it dynamic
         ACS: false,
         MCS: false,
         AL: false,
@@ -211,7 +248,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
   };
 }
 
-function getRadioImpactDef(): Definition<RadioMessageImpact> {
+export function getRadioImpactDef(): Definition<RadioMessageImpact> {
   return {
     type: 'radio',
     getDefault: () => ({

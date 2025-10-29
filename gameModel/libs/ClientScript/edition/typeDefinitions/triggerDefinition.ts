@@ -1,8 +1,32 @@
+// EVALUATION_PRIORITY 0
+
+import { Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition } from './definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from './definition';
 
 type TriggerDefinition = Definition<Trigger>;
+
+export type FlatTrigger = MapToFlatType<Trigger, 'trigger'>;
+
+export function toFlatTrigger(trigger: Trigger, parentId: Uid): FlatTrigger {
+  const { conditions: c, impacts: i, ...flatTrigger } = trigger;
+
+  return {
+    ...flatTrigger,
+    superType: 'trigger',
+    parent: parentId,
+  };
+}
+
+export function fromFlatTrigger(ftrigger: FlatTrigger): Trigger {
+  const { superType: s, parent: p, ...trigger } = ftrigger;
+  return {
+    ...trigger,
+    impacts: [],
+    conditions: [],
+  };
+}
 
 export function getTriggerDefinition(): TriggerDefinition {
   return {
@@ -13,11 +37,11 @@ export function getTriggerDefinition(): TriggerDefinition {
       index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      tag: 'change the world',
+      tag: 'trigger ' + generateId(3),
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: true,
+      deactivateItself: false,
       operator: 'AND',
       conditions: [],
       impacts: [],
@@ -33,7 +57,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       comment: ALL_EDITABLE,
       accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
-      repeatable: ALL_EDITABLE,
+      deactivateItself: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       conditions: ALL_EDITABLE,
       impacts: ALL_EDITABLE,

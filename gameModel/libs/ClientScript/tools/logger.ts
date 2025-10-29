@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 export const logger = Helpers.getLogger('human');
 export const visitorLogger = Helpers.getLogger('human.visitor');
 export const patchLogger = Helpers.getLogger('human.patch');
@@ -35,6 +36,7 @@ export const gameExecLogger = Helpers.getLogger('game.execution.context');
 export const triggerLogger = Helpers.getLogger('trigger');
 export const activableLogger = Helpers.getLogger('activable');
 export const scenarioEditionLogger = Helpers.getLogger('scenario.editor');
+export const sortingLogger = Helpers.getLogger('helpers.sorting');
 
 gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');

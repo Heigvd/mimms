@@ -1,15 +1,22 @@
-import { RadioType } from '../common/radio/communicationType';
-import { Trigger } from '../common/triggers/trigger';
+import { parseObjectDescriptor } from '../../tools/WegasHelper';
+import { getTriggersVariable, Trigger } from '../common/triggers/trigger';
 
 // FIXME if needed, change return type to Record<Uid, Trigger>
+// XGO TODO singleton pattern (we don't wanna parse too often), reset the singleton with a useEffect
 export function getTriggers(): Trigger[] {
-  //const triggersVariable = getTriggersVariable();
-  //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
-  // TODO load from WEGAS variable
+  const triggersVariable = getTriggersVariable();
+  const triggers = Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
 
-  return []; getTestTriggers();
+  triggers.forEach(t => {
+    t.impacts = t.impacts.filter(i => i.type !== 'empty');
+    t.conditions = t.conditions.filter(c => c.type !== 'empty');
+  });
+  return triggers;
+
+  // return getTestTriggers();
 }
 
+/*
 function getTestTriggers(): Trigger[] {
   return [
     {
@@ -60,7 +67,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: false,
+      deactivateItself: true,
       operator: 'OR',
       conditions: [
         {
@@ -100,7 +107,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: true,
+      deactivateItself: false,
       operator: 'AND',
       conditions: [
         {
@@ -122,7 +129,7 @@ function getTestTriggers(): Trigger[] {
       impacts: [
         {
           type: 'radio',
-          uid: 'i1',
+          uid: 'i3',
           channel: RadioType.CASU,
           delaySeconds: 0,
           message: 'Triggers can talk in the radio too',
@@ -140,7 +147,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger timing',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: false,
+      deactivateItself: true,
       operator: 'AND',
       conditions: [],
       impacts: [
@@ -163,3 +170,4 @@ function getTestTriggers(): Trigger[] {
     },
   ];
 }
+*/

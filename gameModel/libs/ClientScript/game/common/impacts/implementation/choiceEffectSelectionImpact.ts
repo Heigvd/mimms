@@ -9,6 +9,7 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
   targetEffect: Uid;
 }
 
+// XGO TODO
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,

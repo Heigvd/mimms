@@ -155,6 +155,7 @@ interface VariableClasses {
   "map": SListDescriptor;
   "mapConfiguration": SObjectDescriptor;
   "triggers_data": SObjectDescriptor;
+  "action_template_data": SObjectDescriptor;
 }
 
 type FindFN = <T extends keyof VariableClasses>(

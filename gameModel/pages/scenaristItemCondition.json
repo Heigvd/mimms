@@ -1,0 +1,483 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "choices" : {
+              "@class" : "Script",
+              "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "type",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "import { updateConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateConditionType(Context.item.uid, Context.value);",
+                "language" : "TypeScript"
+              },
+              "exposeVariableAs" : {
+                "@class" : "Script",
+                "content" : "\"value\"",
+                "language" : "TypeScript"
+              }
+            },
+            "placeholder" : {
+              "@class" : "Script",
+              "content" : "\"Make your choice\"",
+              "language" : "TypeScript"
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Context.item.type;",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Select input"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "< | = | >",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { operator: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.operator;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.value * 60 });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Math.round(Context.item.timeSeconds / 60);",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "min",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>min</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'time';",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getActionTemplateSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getActionTemplateSelection();",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "action",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select trigger\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.actionRef ?? '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "warningText",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.status === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.status.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "status",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getChoiceActionStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetChoiceActionStatusChoices();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'action';",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "action",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'choice';",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "choice",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerSelection(getSelected('trigger')?.uid);",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "trigger",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select trigger\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.activableRef ?? '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "warningText",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.status === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.status.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "status",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getActiveInactiveStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetActiveInactiveStatusChoices();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutStyle" : { },
+                "name" : "status",
+                "style" : { }
+              },
+              "type" : "For each"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'trigger';",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "trigger",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'mapEntity';",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "mapEntity",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.item);",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "open",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  Context.item.type;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'time';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "time",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  `${Context.item.operator} ${Math.round(Context.item.timeSeconds / 60)} min`;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'action';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "action",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  '';",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'choice';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "choice",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  '';",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'trigger';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "trigger",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTriggerTag } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerTag(Context.item.activableRef) + (Context.item.status === 'active' ? ' is active' : ' is inactive');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type !== 'mapEntity';",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "mapEntity",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  '';",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "closed",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

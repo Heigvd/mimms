@@ -1,12 +1,35 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
+import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
-import { MapToDefinition, MapToTypeNames } from '../typeDefinitions/definition';
+import { MapToDefinition, MapToFlatType } from '../typeDefinitions/definition';
 import { getFixedMapEntityTemplate } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 
-type TemplateDescriptorTypeName = MapToTypeNames<TemplateDescriptor>;
+type TemplateDescriptorTypeName = TemplateDescriptor['type'];
 type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
+
+export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'>;
+
+export function toFlatActionTemplate(
+  action: TemplateDescriptor,
+  parentId: Uid
+): FlatActionTemplate {
+  const { choices: _ignore, ...flatAction } = action;
+  return {
+    ...flatAction,
+    parent: parentId,
+    superType: 'action',
+  };
+}
+
+export function fromFlatActionTemplate(flatAction: FlatActionTemplate): TemplateDescriptor {
+  const { superType: _ignored, parent: _ignore2, ...action } = flatAction;
+  return {
+    ...action,
+    choices: [],
+  };
+}
 
 export function getTemplateDef(type: TemplateDescriptorTypeName): TemplateDefinition | undefined {
   switch (type) {

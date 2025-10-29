@@ -2,15 +2,455 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Triggers</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Basic title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Basic</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "triggerItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Basic items",
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Custom title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Custom</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "triggerItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Custom items",
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>trigger</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('trigger');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('trigger');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Triggers",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Conditions</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerOperatorChoices();",
+                  "language" : "typescript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "name" : "and | or",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nconst selectedTrigger = getSelected('trigger') as FlatTrigger;\nif (selectedTrigger) {\n  updateItem<FlatTrigger>(selectedTrigger.uid, { operator: Context.newValue });\n}",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"newValue\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  const selectedTrigger = getSelected('trigger') as FlatTrigger;\n  if (selectedTrigger) {\n    return selectedTrigger['operator'];\n  }\n  '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "conditionItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('condition', 'trigger');",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>condition</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('condition', 'trigger');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('condition');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Conditions",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Impacts</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "impactItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('impact', 'trigger');",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>impact</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('impact', 'trigger');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('impact');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Impacts",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
+                  "language" : "typescript"
+                },
+                "icon" : "undo-alt",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>undo</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { undo } from \"./edition/UIfacade/genericConfigFacade\";\n\nundo();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Undo",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
+                  "language" : "typescript"
+                },
+                "icon" : "redo-alt",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>redo</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { redo } from \"./edition/UIfacade/genericConfigFacade\";\n\nredo();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Redo",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\n  isSaved();",
+                  "language" : "typescript"
+                },
+                "icon" : "save",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>save all</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { saveToVariable } from \"./edition/UIfacade/genericConfigFacade\";\n\nsaveToVariable();",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Save",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "name" : "buttons",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "pageState",
+        "initialState" : {
           "@class" : "Script",
-          "content" : "\"<p>Triggers</p>\"",
+          "content" : "import { loadPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadPageState();",
           "language" : "TypeScript"
-        }
+        },
+        "layoutStyle" : { },
+        "localState" : false,
+        "name" : "pageState",
+        "style" : { }
       },
-      "type" : "Text"
+      "type" : "State"
     } ],
     "layout" : {
       "flexDirection" : "column"
