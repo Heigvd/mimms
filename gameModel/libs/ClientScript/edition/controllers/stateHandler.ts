@@ -1,15 +1,14 @@
-import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
 import {
-  GenericSubStateKey,
-  getMenuUISubState,
-  setMenuUISubState,
-} from '../UIfacade/mainMenuStateFacade';
+  GenericScenaristInterfaceState,
+  getInitialPageState,
+  PAGE_CONTEXT_KEY,
+} from '../UIfacade/genericConfigFacade';
 
 export class ContextHandler<IPartialState extends GenericScenaristInterfaceState> {
-  constructor(readonly key: GenericSubStateKey) {}
+  constructor() {}
 
   public getTypedContext(): IPartialState {
-    return getMenuUISubState<IPartialState>(this.key);
+    return Context[PAGE_CONTEXT_KEY]?.state ?? getInitialPageState();
   }
 
   getCurrentState(): IPartialState {
@@ -18,6 +17,6 @@ export class ContextHandler<IPartialState extends GenericScenaristInterfaceState
 
   setState(modifiedState: IPartialState) {
     const clone = Helpers.cloneDeep(modifiedState);
-    setMenuUISubState<IPartialState>(this.key, clone);
+    Context[PAGE_CONTEXT_KEY].setState(clone);
   }
 }

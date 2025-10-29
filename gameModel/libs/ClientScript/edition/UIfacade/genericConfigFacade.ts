@@ -3,65 +3,66 @@ import {
   ControllerType,
   getAllControllers,
   getController as getTheController,
-  RootCategories,
 } from '../controllers/controllerInstances';
 import { FlatTypeDef, FlatTypes, SuperTypeNames } from '../controllers/dataController';
-import { getMenuUISubState, setMenuUISubState } from './mainMenuStateFacade';
+import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
  * Generic operations for deletion, creation, reordering, undo, redo and save
  * For Actions, Triggers, MapEntities
  */
 
+function getController(): ControllerType {
+  return getTheController(getCurrentPage());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// page state
+
+// Note : must match the "exposeAs" of the state
+export const PAGE_CONTEXT_KEY = 'pageState';
+
 export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
-export function loadInitialState(): GenericScenaristInterfaceState {
-  return {
-    selected: {},
-  };
+export function getInitialPageState() {
+  return { selected: {} };
+}
+
+// Directly used in the page
+export function loadPageState(): GenericScenaristInterfaceState {
+  const storedState = getController()?.getLatestIState();
+  if (storedState) {
+    return { ...storedState };
+  }
+
+  return getInitialPageState();
 }
 
 export function getState(): GenericScenaristInterfaceState {
-  return getMenuUISubState(getCategory());
+  return Context[PAGE_CONTEXT_KEY].state;
 }
 
-export interface PageState {
-  category: RootCategories;
-}
-
-export function loadInitialPageState(category: RootCategories): PageState {
-  return {
-    category,
-  };
-}
-
-export function getCategory(): RootCategories {
-  return Context.pageState.state.category;
-}
-
-function getController(): ControllerType {
-  return getTheController(getCategory());
+export function setState(newState: GenericScenaristInterfaceState): void {
+  Context[PAGE_CONTEXT_KEY].setState(newState);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 // selection
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
-    getMenuUISubState(getCategory())
-  );
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
   newState.selected[itemType] = uid;
-  setMenuUISubState(getCategory(), newState);
+  setState(newState);
+  getController().updateIState(newState);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
-    getMenuUISubState(getCategory())
-  );
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
   delete newState.selected[itemType];
-  setMenuUISubState(getCategory(), newState);
+  setState(newState);
+  getController().updateIState(newState);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {

@@ -1,9 +1,8 @@
 import { ViewConfig } from '../../../edition/typeDefinitions/definition';
 import { triggerLogger } from '../../../tools/logger';
-import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
-import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
+import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
 import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
@@ -20,7 +19,7 @@ export interface Trigger extends IActivableDescriptor, IDescriptor, Typed, Index
   comment?: string; // free text
   accessLevel: ViewConfig; // if the scenarist can see / edit
   mandatory: boolean;
-  repeatable: boolean; // TODO voir avec Dom si boolean / number / si on ajoute boolean "Disable itself" / ?? (update UML)
+  deactivateItself: boolean;
   operator: 'OR' | 'AND'; // operator between conditions
   conditions: Condition[];
   impacts: Impact[];
@@ -74,8 +73,7 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
     triggerLogger.info(`trigger '${trigger.uid}' is triggered`);
     const impacts: LocalEventBase[] = evaluateTriggerImpacts(state, trigger);
 
-    // Deactivate if not repeatable
-    if (!trigger.repeatable) {
+    if (trigger.deactivateItself) {
       impacts.push(
         new ChangeActivableStatusLocalEvent({
           parentEventId: state.getLastEventId(),
@@ -99,11 +97,4 @@ export function evaluateAllTriggers(state: Readonly<MainSimulationState>): Local
 
 export function getTriggersVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'triggers_data');
-}
-
-// XGO : TODO remove done in data controllers
-// Directly used in triggerEditor page
-export function saveTriggers(data: Record<Uid, Trigger>): void {
-  const triggerDataVariableDescr = getTriggersVariable();
-  saveToObjectDescriptor(triggerDataVariableDescr, data);
 }

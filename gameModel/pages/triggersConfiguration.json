@@ -18,6 +18,18 @@
               "type" : "Text"
             }, {
               "props" : {
+                "layoutStyle" : { },
+                "name" : "Basic title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Basic</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "exposePageSizeAs" : "",
@@ -31,7 +43,7 @@
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('trigger');",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "uid",
@@ -39,6 +51,46 @@
                   "flexDirection" : "column"
                 },
                 "layoutStyle" : { },
+                "name" : "Basic items",
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "Custom title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Custom</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "exposePageSizeAs" : "",
+                    "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutStyle" : { },
+                    "name" : "triggerItemPageLoader",
+                    "style" : { }
+                  },
+                  "type" : "PageLoader"
+                } ],
+                "exposeAs" : "item",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutStyle" : { },
+                "name" : "Custom items",
                 "style" : { }
               },
               "type" : "For each"
@@ -64,6 +116,11 @@
               },
               "type" : "Button"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -181,6 +238,11 @@
               },
               "type" : "Button"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -264,6 +326,11 @@
               },
               "type" : "Button"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -358,6 +425,11 @@
               },
               "type" : "Button"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context?.pageState?.state == undefined;",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },
@@ -370,11 +442,12 @@
         "exposeAs" : "pageState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { loadInitialPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadInitialPageState('trigger');",
+          "content" : "import { loadPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadPageState();",
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
         "localState" : false,
+        "name" : "pageState",
         "style" : { }
       },
       "type" : "State"

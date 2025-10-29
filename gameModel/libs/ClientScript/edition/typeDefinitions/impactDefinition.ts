@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Impact } from '../../game/common/impacts/impact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { generateId } from '../../tools/helper';
@@ -62,7 +64,7 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
 
 // TODO somewhere check that all impacts are valid
 
-function getEmptyImpactDef(): Definition<EmptyImpact> {
+export function getEmptyImpactDef(): Definition<EmptyImpact> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -79,7 +81,7 @@ function getEmptyImpactDef(): Definition<EmptyImpact> {
   };
 }
 
-function getActivationImpactDef(): Definition<ActivationImpact> {
+export function getActivationImpactDef(): Definition<ActivationImpact> {
   return {
     type: 'activation',
     getDefault: () => ({
@@ -127,7 +129,7 @@ function getActivationImpactDef(): Definition<ActivationImpact> {
   };
 }
 
-function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
+export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
   return {
     type: 'effectSelection',
     getDefault: () => ({
@@ -182,7 +184,7 @@ function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionIm
   };
 }
 
-function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
+export function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -192,6 +194,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
       delaySeconds: 0,
       message: '',
       roles: {
+        // TODO make it dynamic
         ACS: false,
         MCS: false,
         AL: false,
@@ -245,7 +248,7 @@ function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
   };
 }
 
-function getRadioImpactDef(): Definition<RadioMessageImpact> {
+export function getRadioImpactDef(): Definition<RadioMessageImpact> {
   return {
     type: 'radio',
     getDefault: () => ({

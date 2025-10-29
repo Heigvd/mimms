@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
@@ -48,7 +50,7 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
   return defs[type]!;
 }
 
-function getEmptyConditionDef(): Definition<EmptyCondition> {
+export function getEmptyConditionDef(): Definition<EmptyCondition> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -69,7 +71,7 @@ function getEmptyConditionDef(): Definition<EmptyCondition> {
 
 // TODO somewhere check that all impacts are valid
 
-function getTimeConditionDef(): Definition<TimeCondition> {
+export function getTimeConditionDef(): Definition<TimeCondition> {
   return {
     type: 'time',
     getDefault: () => ({
@@ -104,7 +106,7 @@ function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
-function getActionConditionDef(): Definition<ActionCondition> {
+export function getActionConditionDef(): Definition<ActionCondition> {
   return {
     type: 'action',
     getDefault: () => ({
@@ -139,7 +141,7 @@ function getActionConditionDef(): Definition<ActionCondition> {
   };
 }
 
-function getChoiceConditionDef(): Definition<ChoiceCondition> {
+export function getChoiceConditionDef(): Definition<ChoiceCondition> {
   return {
     type: 'choice',
     getDefault: () => ({
@@ -174,7 +176,7 @@ function getChoiceConditionDef(): Definition<ChoiceCondition> {
   };
 }
 
-function getTriggerConditionDef(): Definition<TriggerCondition> {
+export function getTriggerConditionDef(): Definition<TriggerCondition> {
   return {
     type: 'trigger',
     getDefault: () => ({
@@ -209,7 +211,7 @@ function getTriggerConditionDef(): Definition<TriggerCondition> {
   };
 }
 
-function getMapEntityConditionDef(): Definition<MapEntityCondition> {
+export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
   return {
     type: 'mapEntity',
     getDefault: () => ({

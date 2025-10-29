@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { FixedMapEntityTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
