@@ -14,6 +14,7 @@ import { MapState } from './main';
 import { mainSimMapLogger } from '../tools/logger';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from '../gameMap/utils/shapeUtils';
+import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 
 let wasGodView = true;
 
@@ -105,14 +106,14 @@ export function getOverlayItems2(actorId: ActorId | undefined) {
     overlayItems.push({
       overlayProps: {
         // Overlay centered over the first mapObject
-        position: getShapeCenter(firstMapObject),
+        position: getShapeCenter(firstMapObject!),
         positioning: 'bottom-center',
         offset: [0, -60],
       },
       payload: {
         id: mapActivable.binding,
         name: mapDescriptor.tag,
-        icon: firstMapObject.type === 'Point' ? firstMapObject.icon : '',
+        icon: firstMapObject!.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
         actors: getActorsByLocation(mapActivable.binding),
         resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
           getCurrentState(),

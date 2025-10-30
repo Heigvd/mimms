@@ -24,7 +24,7 @@ function getLineStringCenter(geometry: PointLikeObject[]): PointLikeObject {
  * assumption : every vertice is non null and has defined x,y coordinates
  */
 function getPolygonCenter(geometry: PointLikeObject[][]): PointLikeObject {
-  const vertices = geometry[0];
+  const vertices = geometry[0]!;
   const centroid: PointLikeObject = [0, 0];
   const vertexCount: number = vertices.length;
 
