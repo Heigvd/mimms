@@ -121,6 +121,11 @@ function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
   return tmpFixedEntity;
 }
 
+/**
+ * Get the chosen ChoiceDescriptor based on interface state
+ *
+ * @returns ChoiceDescriptor | undefined
+ */
 function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
   return getChoiceDescriptor(
     Context.interfaceState.state.currentActionUid,

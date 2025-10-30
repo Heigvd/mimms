@@ -159,7 +159,7 @@ export function initActionTemplates(): {
     undefined,
     undefined,
     getMapChoices(),
-    undefined
+    LOCATION_ENUM.custom
   );
 
   // SUNSET

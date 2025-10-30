@@ -413,6 +413,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Actors', this.props.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
@@ -815,6 +816,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;

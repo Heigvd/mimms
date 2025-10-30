@@ -13,7 +13,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedActionChoiceUid = Context.actionChoiceUid;\nContext.interfaceState.setState(newState);\nactivableSelectionRef.current.changed();\n\nwlog(newState)",
+            "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedActionChoiceUid = Context.actionChoiceUid;\nContext.interfaceState.setState(newState);\nactivableSelectionRef.current.changed();",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {

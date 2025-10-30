@@ -11,6 +11,7 @@ import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 export function getActorTargetLocationChoices(): { label: string; value: string }[] {
   const actorLocation = getSelectedActorLocation();
 
+  // Todo replace with getAvailableMapActivables()
   const locations: FixedMapEntity[] = getAvailableMapLocations(getCurrentState(), 'Actors')
     /* filter out the current location */
     .filter((fixedEntity: FixedMapEntity) => fixedEntity.id != actorLocation);
@@ -22,6 +23,7 @@ export function getActorTargetLocationChoices(): { label: string; value: string 
 export function getResourceSourceLocationChoices(): { label: string; value: string }[] {
   const currentActorId = getTypedInterfaceState().currentActorUid;
   if (currentActorId) {
+    // Todo replace with getAvailableMapActivables()
     const locations: FixedMapEntity[] = getAvailableMapLocations(
       getCurrentState(),
       'Resources'
@@ -41,6 +43,7 @@ export function getResourceSourceLocationChoices(): { label: string; value: stri
 export function getResourceTargetLocationChoices(
   actorId: ActorId
 ): { label: string; value: string }[] {
+  // Todo replace with getAvailableMapActivables()
   const locations = getAvailableMapLocations(getCurrentState(), 'Resources').filter(
     (mapEntity: FixedMapEntity) =>
       // Check that there is at least one task that can be selected

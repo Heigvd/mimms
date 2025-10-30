@@ -1206,6 +1206,7 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Actors', this.location)) {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
@@ -1525,6 +1526,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     if (!this.compliantWithHierarchy) {
       // Resources refused the order due to hierarchy conflict
       this.sendFeedbackMessage(state, 'move-res-task-refused');
+      // TODO Replace with canMoveToLocation2
     } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       this.sendFeedbackMessage(state, 'move-res-task-no-location');
