@@ -12,7 +12,7 @@ export function toFlatMapObject(obj: MapObject): FlatMapObject {
 }
 
 export function fromFlatMapObject(flat: FlatMapObject): MapObject {
-  const { superType: _ignored, ...obj } = flat;
+  const { superType: _ignored, parent: _ignore, ...obj } = flat;
   return obj;
 }
 

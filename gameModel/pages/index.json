@@ -312,8 +312,8 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
-        "id" : "scenaristMainMenu",
-        "name" : "Menu",
+        "id" : "30",
+        "name" : "Main Scenarist Page",
         "scenaristPage" : false,
         "trainerPage" : null
       }, {
@@ -324,32 +324,8 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "2",
-        "name" : "Data Edition",
-        "scenaristPage" : false,
-        "trainerPage" : false
-      }, {
-        "@class" : "Page",
-        "id" : "locationsConfiguration",
-        "name" : "Locations",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "triggersConfiguration",
-        "name" : "Triggers",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "actionsConfiguration",
-        "name" : "Actions",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "hospitalsConfig",
-        "name" : "Hospital Configuration",
+        "id" : "scenaristMainMenu",
+        "name" : "Menu",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
@@ -357,7 +333,59 @@
         "id" : "mapConfiguration",
         "name" : "Map Configuration",
         "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "locationsConfiguration",
+        "name" : "Locations Configuration",
+        "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "triggersConfiguration",
+        "name" : "Triggers Configuration",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "actionsConfiguration",
+        "name" : "Action Templates Configuration",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "scenaristItemGeneric",
+          "name" : "Generic Item",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemTrigger",
+          "name" : "Trigger Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemCondition",
+          "name" : "Condition Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemImpact",
+          "name" : "Impact Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemUnknown",
+          "name" : "Unknown Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        } ],
+        "name" : "Data Items"
       }, {
         "@class" : "Folder",
         "items" : [ {
@@ -388,6 +416,12 @@
         "name" : "Patient Generation"
       }, {
         "@class" : "Page",
+        "id" : "hospitalsConfig",
+        "name" : "Hospital Configuration",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "resourcesConfiguration",
         "name" : "Resources Configuration",
         "scenaristPage" : true,
@@ -410,10 +444,10 @@
         "name" : "Legacy"
       }, {
         "@class" : "Page",
-        "id" : "30",
-        "name" : "Main Scenarist Page",
+        "id" : "2",
+        "name" : "Data Edition",
         "scenaristPage" : false,
-        "trainerPage" : null
+        "trainerPage" : false
       } ],
       "name" : "Scenarist"
     }, {

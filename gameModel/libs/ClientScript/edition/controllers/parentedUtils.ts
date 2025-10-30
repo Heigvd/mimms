@@ -1,4 +1,5 @@
 import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
+import { group } from '../../tools/groupBy';
 import { filterRecord } from '../../tools/helper';
 
 /**
@@ -36,4 +37,36 @@ export function getSiblings<T extends Parented & SuperTyped>(
 ): Record<Uid, T> {
   const target = data[id];
   return filterRecord(data, e => e.parent === target?.parent && e.superType == target?.superType);
+}
+
+/**
+ * Given a flat structure of parented element, group all siblings of same type
+ * returns a record parent+supertype -> children record
+ */
+export function getAllSiblings<T extends Parented & SuperTyped>(
+  data: Record<Uid, T>
+): Record<string, T[]> {
+  return group(Object.values(data), e => {
+    return e.parent + e.superType;
+  });
+}
+
+export function clusterSiblings<T>(siblings: T[], isSiblingFunc: (a: T, b: T) => boolean): T[][] {
+  const clusters: T[][] = [];
+  for (const child of Object.values(siblings)) {
+    let placed = false;
+    for (const cluster of clusters) {
+      if (isSiblingFunc(cluster[0]!, child)) {
+        placed = true;
+        cluster.push(child);
+        break;
+      }
+    }
+    if (!placed) {
+      // create new cluster
+      clusters.push([child]);
+    }
+  }
+
+  return clusters;
 }

@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';

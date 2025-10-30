@@ -11,6 +11,7 @@ import {
   ChoiceEffectSelectionImpact,
   convertChoiceEffectSelectionImpact,
 } from './implementation/choiceEffectSelectionImpact';
+import { EmptyImpact } from './implementation/emptyImpact';
 import {
   convertNotificationImpact,
   NotificationMessageImpact,
@@ -29,7 +30,8 @@ export type Impact =
   | MapActivationImpact
   | ChoiceEffectSelectionImpact
   | NotificationMessageImpact
-  | RadioMessageImpact;
+  | RadioMessageImpact
+  | EmptyImpact;
 
 export function convertToLocalEvents(
   state: Readonly<MainSimulationState>,

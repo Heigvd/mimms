@@ -28,10 +28,12 @@ export class UndoRedoContext<IState, DataT> {
   }
 
   public undo(): StateType<IState, DataT> {
+    const iState: IState = this.getCurrentState()[0];
     if (this.canUndo()) {
       this.currentStateIndex--;
     }
-    return this.getCurrentState();
+    const dataState = this.getCurrentState()[1];
+    return [iState, dataState];
   }
 
   public redo(): StateType<IState, DataT> {
@@ -55,7 +57,7 @@ export class UndoRedoContext<IState, DataT> {
 
   public storeState(interfaceState: IState, dataState: Record<string, DataT>): void {
     this.currentStateIndex++;
-    this.stateStack.slice(0, this.currentStateIndex);
+    this.stateStack = this.stateStack.slice(0, this.currentStateIndex);
     this.stateStack.push([interfaceState, dataState]);
   }
 }
