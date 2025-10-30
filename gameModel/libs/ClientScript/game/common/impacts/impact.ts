@@ -42,7 +42,7 @@ export function convertToLocalEvents(
     case 'activation':
       return convertActivationImpact(state, impact, parentTriggerId);
     case 'mapActivation':
-      return convertMapActivationImpact(state, impact as MapActivationImpact, parentTriggerId);
+      return convertMapActivationImpact(state, impact, parentTriggerId);
     case 'effectSelection':
       return convertChoiceEffectSelectionImpact(state, impact, parentTriggerId);
     case 'notification':

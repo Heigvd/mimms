@@ -16,6 +16,7 @@ import {
   getActivationImpactDef,
   getChoiceEffectSelectionImpactDef,
   getEmptyImpactDef,
+  getMapActivationImpactDef,
   getNotificationImpactDef,
   getRadioImpactDef,
 } from '../typeDefinitions/impactDefinition';
@@ -58,6 +59,7 @@ const viewTree: Views = {
   },
   impact: {
     activation: getActivationImpactDef().view,
+    mapActivation: getMapActivationImpactDef().view,
     effectSelection: getChoiceEffectSelectionImpactDef().view,
     notification: getNotificationImpactDef().view,
     radio: getRadioImpactDef().view,
@@ -76,7 +78,7 @@ const viewTree: Views = {
   },
   geometry: {
     Point: {} as any, // TODO
-    Line: {} as any, // TODO
+    LineString: {} as any, // TODO
     Polygon: {} as any, // TODO
   },
   mapEntity: {
