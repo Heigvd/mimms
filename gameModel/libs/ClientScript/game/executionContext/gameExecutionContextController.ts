@@ -5,7 +5,6 @@ import { getStartingMainState } from '../loaders/mainStateLoader';
 import {
   GameExecutionContext,
   GlobalToLocalEventFunction,
-  InitializeLocalEventFunction,
   TeamId,
   UidGenerator,
 } from './gameExecutionContext';
@@ -43,11 +42,7 @@ function unlockTeamId(): void {
   lockedTeamId = undefined;
 }
 
-function createNewContext(
-  teamId: TeamId,
-  eventBoxId: number,
-  initEventsProvider: InitializeLocalEventFunction
-): GameExecutionContext {
+function createNewContext(teamId: TeamId, eventBoxId: number): GameExecutionContext {
   if (executionContexts[teamId]) {
     throw new Error('Context with id ' + teamId + ' is already created');
   }
@@ -56,7 +51,6 @@ function createNewContext(
   const uidProvider = mainStateDefaultUidGenerator.clone();
   const ctx = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
   executionContexts[teamId] = ctx;
-  ctx.applyInitialEvents(initEventsProvider());
   return ctx;
 }
 
@@ -64,11 +58,10 @@ export function createOrUpdateExecutionContext(
   teamId: TeamId,
   eventBoxId: number,
   events: FullEvent<TimedEventPayload>[],
-  convertFunc: GlobalToLocalEventFunction,
-  initEventsProvider: InitializeLocalEventFunction
+  convertFunc: GlobalToLocalEventFunction
 ): boolean {
   const ctx: GameExecutionContext =
-    executionContexts[teamId] || createNewContext(teamId, eventBoxId, initEventsProvider);
+    executionContexts[teamId] || createNewContext(teamId, eventBoxId);
   return updateExecutionContext(ctx, events, convertFunc);
 }
 
@@ -105,7 +98,7 @@ function updateExecutionContext(
   }
 }
 
-export function createPlayerContext(initEventsProvider: InitializeLocalEventFunction): void {
+export function createPlayerContext(): void {
   const teamId = getPlayerTeamId();
   if (executionContexts[teamId]) {
     gameExecLogger.warn(
@@ -114,7 +107,7 @@ export function createPlayerContext(initEventsProvider: InitializeLocalEventFunc
     );
   } else {
     const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId()!;
-    createNewContext(teamId, eventBoxId, initEventsProvider);
+    createNewContext(teamId, eventBoxId);
   }
 }
 

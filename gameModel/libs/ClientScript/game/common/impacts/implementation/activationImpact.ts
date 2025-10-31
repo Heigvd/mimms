@@ -11,7 +11,8 @@ import { ImpactBase } from '../impact';
 export type ActivationOperator = 'activate' | 'deactivate';
 
 export interface ActivationImpact extends ImpactBase {
-  type: 'activation';
+  type: 'activation' | 'mapActivation';
+  activableType: string; // TODO see if useful
   target: Uid;
   option: ActivationOperator;
 }
@@ -33,11 +34,9 @@ export function convertActivationImpact(
   ];
 }
 
-export interface MapActivationImpact extends ImpactBase {
+export interface MapActivationImpact extends ActivationImpact {
   type: 'mapActivation';
   buildStatus: BuildStatus;
-  target: Uid;
-  option: ActivationOperator;
 }
 
 export function convertMapActivationImpact(

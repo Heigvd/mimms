@@ -6,26 +6,20 @@ import {
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { Page } from '../UIfacade/mainMenuStateFacade';
 
-export type ControllerType =
-  | TriggerDataController
-  | ActionTemplateDataController
-  | MapEntityController;
+type ControllerType = TriggerDataController | ActionTemplateDataController | MapEntityController;
 export type RootCategories = (FlatTrigger | FlatActionTemplate | FlatMapEntity)['superType'];
 
-export function getController(page: Page): ControllerType {
-  switch (page) {
-    case 'triggers':
+export function getController(rootType: RootCategories): ControllerType {
+  switch (rootType) {
+    case 'trigger':
       return getTriggerController();
-    case 'actions':
+    case 'action':
       return getActionTemplateController();
-    case 'locations':
+    case 'mapEntity':
       return getMapEntityController();
+    // TODO map entities
   }
-
-  const caller = new Error().stack;
-  throw new Error('No controller exists for page ' + page + '; caller ' + caller);
 }
 
 let triggerController: TriggerDataController | undefined;
@@ -33,17 +27,20 @@ let actionTplController: ActionTemplateDataController | undefined;
 let mapEntityController: MapEntityController | undefined;
 
 export function getTriggerController(): TriggerDataController {
-  return (triggerController = triggerController || new TriggerDataController('triggers_data'));
+  return (triggerController =
+    triggerController || new TriggerDataController('triggers_data', 'TODO ctx key'));
 }
 
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
-    actionTplController || new ActionTemplateDataController('action_template_data'));
+    actionTplController ||
+    new ActionTemplateDataController('action_template_data', 'TODO ctx key'));
 }
 
-// XGO TODO right var key
+// XGO TODO right var key and ctx key
 export function getMapEntityController(): MapEntityController {
-  return (mapEntityController = mapEntityController || new MapEntityController('triggers_data'));
+  return (mapEntityController =
+    mapEntityController || new MapEntityController('triggers_data', 'TODO ctx key'));
 }
 
 // Reset the controllers when saving scripts or restarting the game
@@ -51,7 +48,6 @@ export function getMapEntityController(): MapEntityController {
 Helpers.registerEffect(() => {
   triggerController = undefined;
   actionTplController = undefined;
-  mapEntityController = undefined;
 });
 
 export function getAllControllers(): ControllerType[] {

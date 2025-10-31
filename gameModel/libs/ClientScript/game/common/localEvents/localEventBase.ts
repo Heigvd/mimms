@@ -1235,28 +1235,3 @@ export class GameOptionsUpdateLocalEvent extends LocalEventBase {
 //
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * This local event is to be emitted and evaluated right after the creation of an evaluation context
- */
-export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
-  constructor() {
-    super({
-      type: 'T0TriggerEvaluationLocalEvent',
-      parentEventId: 0,
-      simTimeStamp: 0,
-      parentTriggerId: 'T0 initial trigger evaluation',
-    });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (state.getLastEventId() === 0) {
-      getLocalEventManager().queueLocalEvents(evaluateAllTriggers(state));
-    } else {
-      mainSimLogger.warn(
-        'Ignoring the T0 trigger evaluation event. It is only applied on the initial state',
-        state.getLastEventId()
-      );
-    }
-  }
-}

@@ -12,14 +12,14 @@ type RemoveArrayFields<T> = {
   [K in keyof T as T[K] extends any[] ? never : K]: T[K];
 };
 
-export type EditionLevel = 'hidden' | 'visible' | 'editable';
+type EditionLevel = 'hidden' | 'visible' | 'editable';
 
 export type ViewConfig = 'basic' | 'advanced' | 'expert';
 
 /**
  * Might be directly mapped to WEGAS ADVANCED and INTERNAL views
  */
-export type ConfigurationView = Record<ViewConfig, EditionLevel>;
+type ConfigurationView = Record<ViewConfig, EditionLevel>;
 
 export const ALL_EDITABLE: Record<ViewConfig, EditionLevel> = {
   basic: 'editable',
@@ -38,7 +38,7 @@ export const EXPERT_ONLY: Record<ViewConfig, EditionLevel> = {
  * Primitives and types that extend Type become configuration views
  * otherwise => recurse
  */
-export type ToConfigurationViewType<O extends object> = {
+type ToConfigurationViewType<O extends object> = {
   [K in keyof O]: Unarray<O[K]> extends object
     ? Unarray<O[K]> extends Typed
       ? ConfigurationView

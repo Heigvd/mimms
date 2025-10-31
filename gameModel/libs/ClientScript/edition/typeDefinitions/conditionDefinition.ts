@@ -1,5 +1,3 @@
-// EVALUATION_PRIORITY 0
-
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
@@ -8,7 +6,6 @@ import {
   TriggerCondition,
 } from '../../game/common/triggers/implementation/activableCondition';
 import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
-import { EmptyCondition } from '../../game/common/triggers/implementation/emptyCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
 import {
@@ -40,38 +37,20 @@ export function fromFlatCondition(fcond: FlatCondition): Condition {
 export function getConditionDefinition(type: ConditionTypeName): ConditionDefinition {
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
     time: getTimeConditionDef(),
-    action: getActionConditionDef(),
-    choice: getChoiceConditionDef(),
+    action: getActionCondition(),
+    choice: getChoiceCondition(),
     trigger: getTriggerConditionDef(),
-    mapEntity: getMapEntityConditionDef(),
-    empty: getEmptyConditionDef(),
+    mapEntity: getMapEntityCondition(),
   };
 
   return defs[type]!;
-}
-
-export function getEmptyConditionDef(): Definition<EmptyCondition> {
-  return {
-    type: 'empty',
-    getDefault: () => ({
-      uid: generateId(10),
-      index: 0,
-      type: 'empty',
-    }),
-    validator: (_condition: EmptyCondition) => ({ success: true, messages: [] }),
-    view: {
-      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
-      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      type: ALL_EDITABLE,
-    },
-  };
 }
 
 // TODO check all of that when the display is implemented
 
 // TODO somewhere check that all impacts are valid
 
-export function getTimeConditionDef(): Definition<TimeCondition> {
+function getTimeConditionDef(): Definition<TimeCondition> {
   return {
     type: 'time',
     getDefault: () => ({
@@ -106,7 +85,7 @@ export function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
-export function getActionConditionDef(): Definition<ActionCondition> {
+function getActionCondition(): Definition<ActionCondition> {
   return {
     type: 'action',
     getDefault: () => ({
@@ -141,7 +120,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
   };
 }
 
-export function getChoiceConditionDef(): Definition<ChoiceCondition> {
+function getChoiceCondition(): Definition<ChoiceCondition> {
   return {
     type: 'choice',
     getDefault: () => ({
@@ -176,7 +155,7 @@ export function getChoiceConditionDef(): Definition<ChoiceCondition> {
   };
 }
 
-export function getTriggerConditionDef(): Definition<TriggerCondition> {
+function getTriggerConditionDef(): Definition<TriggerCondition> {
   return {
     type: 'trigger',
     getDefault: () => ({
@@ -211,7 +190,7 @@ export function getTriggerConditionDef(): Definition<TriggerCondition> {
   };
 }
 
-export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
+function getMapEntityCondition(): Definition<MapEntityCondition> {
   return {
     type: 'mapEntity',
     getDefault: () => ({
