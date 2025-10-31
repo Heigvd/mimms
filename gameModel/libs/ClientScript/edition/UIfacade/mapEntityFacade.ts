@@ -1,3 +1,9 @@
-import { GenericScenaristInterfaceState } from '../UIfacade/genericFacade';
+import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
-export interface MapEntityInterfaceState extends GenericScenaristInterfaceState {}
+export interface MapEntityUIState extends GenericScenaristInterfaceState {}
+
+export function getInitialMapEntityUIState(): MapEntityUIState {
+  return {
+    selected: {},
+  };
+}

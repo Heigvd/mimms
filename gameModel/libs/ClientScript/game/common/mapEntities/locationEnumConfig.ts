@@ -1,11 +1,13 @@
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
-import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
+// TODO Duplicata
+type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
 /** Is it a place that can contain actors / resources / patients */
 type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
+// XGO move to common/mapEntities
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
@@ -17,8 +19,8 @@ export interface LocationEnumConfig {
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   chantier: {
     id: LOCATION_ENUM.chantier,
-    name: 'location-pcFront',
-    leaderRoles: ['AL'],
+    name: 'location-chantier',
+    leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
   nidDeBlesses: {

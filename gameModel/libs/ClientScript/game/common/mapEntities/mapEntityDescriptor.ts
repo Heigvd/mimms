@@ -24,7 +24,7 @@ export interface PolygonMapObject extends BaseMapObject<PointLikeObject[][], 'Po
   type: 'Polygon';
   geometry: PointLikeObject[][];
 }
-// XGO typing seems ok to me, just a doubt on the genericity parameter, otherwise the integration is likely the same as impacts inside triggers
+
 export type MapObject = PointMapObject | LineMapObject | PolygonMapObject;
 
 export type BuildStatus = 'pending' | 'built';

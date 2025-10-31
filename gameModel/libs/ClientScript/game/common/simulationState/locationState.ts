@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 import { getMapEntityDescriptorUid } from '../../loaders/mapEntitiesLoader';
 import { FixedMapEntity, LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';

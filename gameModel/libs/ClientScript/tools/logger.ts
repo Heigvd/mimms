@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 export const logger = Helpers.getLogger('human');
 export const visitorLogger = Helpers.getLogger('human.visitor');
 export const patchLogger = Helpers.getLogger('human.patch');

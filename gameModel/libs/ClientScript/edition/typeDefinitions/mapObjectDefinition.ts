@@ -1,13 +1,13 @@
-import { Parented, SuperTyped } from '../../game/common/interfaces';
+import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
 import { MapObject } from '../../game/common/mapEntities/mapEntityDescriptor';
 
 export type FlatMapObject = MapObject & Parented & SuperTyped & { superType: 'geometry' };
 
-export function toFlatMapObject(obj: MapObject): FlatMapObject {
+export function toFlatMapObject(obj: MapObject, parentId: Uid): FlatMapObject {
   return {
     ...obj,
     superType: 'geometry',
-    parent: '',
+    parent: parentId,
   };
 }
 

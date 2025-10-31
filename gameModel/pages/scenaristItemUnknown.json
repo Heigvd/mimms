@@ -1,0 +1,42 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "  `${Context.item.superType} are not handled for the moment`;",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "!Editor.getFeatures().ADVANCED;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "advanced debug",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "  JSON.stringify(Context.item);",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

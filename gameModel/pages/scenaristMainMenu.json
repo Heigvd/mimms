@@ -12,7 +12,7 @@
                   "className" : "scenarist-menu__angle-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -20,7 +20,7 @@
                   "className" : "scenarist-menu__angle-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n!getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -35,7 +35,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { toggleMenu } from \"./UIfacade/scenaristMenuFacade\";\n\ntoggleMenu();",
+                    "content" : "import { toggleMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n\ntoggleMenuState();",
                     "language" : "TypeScript"
                   }
                 },
@@ -54,7 +54,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'map';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'map';",
                     "language" : "typescript"
                   }
                 }, {
@@ -62,7 +62,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -70,7 +70,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -85,7 +85,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('map');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('map');",
                     "language" : "TypeScript"
                   }
                 },
@@ -101,7 +101,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'locations';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'locations';",
                     "language" : "typescript"
                   }
                 }, {
@@ -109,7 +109,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -117,7 +117,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -132,7 +132,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('locations');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('locations');",
                     "language" : "TypeScript"
                   }
                 },
@@ -148,7 +148,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'triggers';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'triggers';",
                     "language" : "typescript"
                   }
                 }, {
@@ -156,7 +156,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -164,7 +164,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -179,7 +179,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('triggers');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('triggers');",
                     "language" : "TypeScript"
                   }
                 },
@@ -195,7 +195,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'actions';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'actions';",
                     "language" : "typescript"
                   }
                 }, {
@@ -203,7 +203,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -211,7 +211,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -226,7 +226,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\n\nsetCurrentPage('actions');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('actions');",
                     "language" : "TypeScript"
                   }
                 },
@@ -242,7 +242,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'patients';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'patients';",
                     "language" : "typescript"
                   }
                 }, {
@@ -250,7 +250,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -258,7 +258,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -273,7 +273,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('patients');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('patients');",
                     "language" : "TypeScript"
                   }
                 },
@@ -289,7 +289,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'hospitals';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'hospitals';",
                     "language" : "typescript"
                   }
                 }, {
@@ -297,7 +297,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -305,7 +305,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -320,7 +320,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('hospitals');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('hospitals');",
                     "language" : "TypeScript"
                   }
                 },
@@ -336,7 +336,7 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentPage() === 'resources';",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'resources';",
                     "language" : "typescript"
                   }
                 }, {
@@ -344,7 +344,7 @@
                   "className" : "scenarist-menu-button--open",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
                     "language" : "typescript"
                   }
                 }, {
@@ -352,7 +352,7 @@
                   "className" : "scenarist-menu-button--closed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
                     "language" : "typescript"
                   }
                 } ],
@@ -367,7 +367,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\nsetCurrentPage('resources');",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('resources');",
                     "language" : "TypeScript"
                   }
                 },
@@ -382,7 +382,7 @@
               "className" : "scenarist-menu-container--open",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetMenuState();",
                 "language" : "typescript"
               }
             }, {
@@ -390,7 +390,7 @@
               "className" : "scenarist-menu-container--closed",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n!getMenuState();",
                 "language" : "typescript"
               }
             }, {
@@ -398,7 +398,7 @@
               "className" : "scenarist-menu-item--open",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\ngetCurrentMenuState();",
+                "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetMenuState();",
                 "language" : "typescript"
               }
             }, {
@@ -406,7 +406,7 @@
               "className" : "scenarist-menu-item--closed",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { getCurrentMenuState } from \"./UIfacade/scenaristMenuFacade\";\n!getCurrentMenuState();",
+                "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n!getMenuState();",
                 "language" : "typescript"
               }
             } ],
@@ -426,7 +426,7 @@
             "exposePageSizeAs" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "import { displayCurrentPage } from \"./UIfacade/scenaristMenuFacade\";\ndisplayCurrentPage();",
+              "content" : "import { displayCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\ndisplayCurrentPage();",
               "language" : "typescript"
             },
             "layoutClassName" : "scenarist-page-loader",
@@ -439,10 +439,10 @@
           },
           "type" : "PageLoader"
         } ],
-        "exposeAs" : "menu",
+        "exposeAs" : "mainMenu",
         "initialState" : {
           "@class" : "Script",
-          "content" : "({ \n    page: \"map\"\n  });",
+          "content" : "import { getInitialMenuUIState } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetInitialMenuUIState();",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding fullSize",
