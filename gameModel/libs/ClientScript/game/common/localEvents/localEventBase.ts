@@ -33,6 +33,7 @@ import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
 import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
+import { BuildStatus } from '../mapEntities/mapEntityDescriptor';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -45,7 +46,7 @@ import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
 import { Activable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
-import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
+import { canMoveToLocation2, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { changePatientLocation, PatientLocation } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -412,7 +413,8 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
-    if (!canMoveToLocation(state, 'Actors', this.props.location)) {
+    // TODO Replace with canMoveToLocation2
+    if (!canMoveToLocation2(state, 'Actors', this.props.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
       so.actors
@@ -814,7 +816,8 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
+    // TODO Replace with canMoveToLocation2
+    if (!canMoveToLocation2(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
     }
@@ -1173,6 +1176,38 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
   }
 }
 
+export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLocalEvent {
+  constructor(
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    },
+    readonly buildStatus: BuildStatus
+  ) {
+    super({ ...extensionProps });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined && target.activableType === 'mapEntity') {
+      target.buildStatus = this.buildStatus;
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // GAME OPTIONS
@@ -1200,28 +1235,3 @@ export class GameOptionsUpdateLocalEvent extends LocalEventBase {
 //
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * This local event is to be emitted and evaluated right after the creation of an evaluation context
- */
-export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
-  constructor() {
-    super({
-      type: 'T0TriggerEvaluationLocalEvent',
-      parentEventId: 0,
-      simTimeStamp: 0,
-      parentTriggerId: 'T0 initial trigger evaluation',
-    });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (state.getLastEventId() === 0) {
-      getLocalEventManager().queueLocalEvents(evaluateAllTriggers(state));
-    } else {
-      mainSimLogger.warn(
-        'Ignoring the T0 trigger evaluation event. It is only applied on the initial state',
-        state.getLastEventId()
-      );
-    }
-  }
-}

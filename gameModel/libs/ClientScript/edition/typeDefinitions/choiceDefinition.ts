@@ -1,5 +1,3 @@
-// EVALUATION_PRIORITY 0
-
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
@@ -64,7 +62,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
 
       title: ALL_EDITABLE,
       parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      placeHolder: ALL_EDITABLE,
+      placeholder: ALL_EDITABLE,
       tag: ALL_EDITABLE,
       index: EXPERT_ONLY,
     },

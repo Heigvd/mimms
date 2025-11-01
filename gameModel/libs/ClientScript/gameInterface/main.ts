@@ -1,5 +1,6 @@
 import {
   ActionTemplateBase,
+  ChoiceTemplate,
   MoveActorActionTemplate,
   SelectionFixedMapEntityTemplate,
   SituationUpdateActionTemplate,
@@ -7,10 +8,12 @@ import {
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { endMapAction, startMapSelect } from '../gameMap/main';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import { endMapAction, startMapChoice, startMapSelect } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
+  isChoiceTemplate,
   isFixedMapEntityTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
@@ -129,6 +132,16 @@ export function actionChangeHandler(): void {
   endMapAction();
 
   const action = Context.action as ActionTemplateBase;
+
+  if (isChoiceTemplate(action) && canPlanAction()) {
+    const choiceUid = (action as ChoiceTemplate).choices[0]!.uid;
+
+    setInterfaceState({ currentActionUid: Context.action.Uid, selectedActionChoiceUid: choiceUid });
+    startMapChoice();
+    return;
+  }
+
+  // SUNSET
   // If action is SelectMapObject we begin routine
   if (isFixedMapEntityTemplate(action) && canPlanAction()) {
     startMapSelect();
@@ -195,6 +208,8 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
     return '66';
   } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
     return 'actionSituationUpdateParam';
+  } else if (actionTemplate instanceof ChoiceTemplate) {
+    return '31';
   }
   return '';
 }

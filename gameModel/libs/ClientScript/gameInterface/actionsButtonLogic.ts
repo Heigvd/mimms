@@ -2,6 +2,7 @@ import {
   getDefaultSituationUpdateDuration,
   isAvailable,
   isCasuMessageActionTemplate,
+  isChoiceTemplate,
   isEvacuationActionTemplate,
   isFixedMapEntityTemplate,
   isMoveActorActionTemplate,
@@ -30,7 +31,7 @@ import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { clearMapState, startMapChoice, startMapSelect } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -43,6 +44,8 @@ import {
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -59,12 +62,20 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
 
   let params = {};
 
+  // SUNSET
   if (isFixedMapEntityTemplate(action)) {
     // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
     if (!canPlanAction()) {
       startMapSelect();
     } else {
       params = fetchSelectMapObjectValues()!;
+      clearMapState();
+    }
+  } else if (isChoiceTemplate(action)) {
+    if (!canPlanAction()) {
+      startMapChoice();
+    } else {
+      params = fetchChoiceActionValues()!;
       clearMapState();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
@@ -108,6 +119,18 @@ function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
   }
 
   return tmpFixedEntity;
+}
+
+/**
+ * Get the chosen ChoiceDescriptor based on interface state
+ *
+ * @returns ChoiceDescriptor | undefined
+ */
+function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
+  return getChoiceDescriptor(
+    Context.interfaceState.state.currentActionUid,
+    Context.interfaceState.state.selectedActionChoiceUid
+  );
 }
 
 /**

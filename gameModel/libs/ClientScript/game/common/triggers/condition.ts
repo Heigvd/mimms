@@ -4,7 +4,6 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
 import { MapEntityCondition, TriggerCondition } from './implementation/activableCondition';
 import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
-import { EmptyCondition } from './implementation/emptyCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
 
 export interface ConditionBase extends IDescriptor, Typed, Indexed {
@@ -27,8 +26,7 @@ export type Condition =
   | ActionCondition
   | ChoiceCondition
   | TriggerCondition
-  | MapEntityCondition
-  | EmptyCondition;
+  | MapEntityCondition;
 
 export function evaluateCondition(state: Readonly<MainSimulationState>, condition: Condition) {
   let result = false;
@@ -47,15 +45,12 @@ export function evaluateCondition(state: Readonly<MainSimulationState>, conditio
     case 'mapEntity':
       result = evaluateActivable(state, condition.activableRef, condition.status);
       break;
-    case 'empty':
-      triggerLogger.error('Empty condition : This condition should not be evaluated');
-      break;
     default:
       triggerLogger.error('Unknown condition type', condition);
       return false;
   }
 
-  if (condition.type !== 'empty' && condition.invert) {
+  if (condition.invert) {
     return !result;
   }
 

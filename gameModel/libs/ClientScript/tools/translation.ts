@@ -1,4 +1,3 @@
-// EVALUATION_PRIORITY 1
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { lowerCaseFirst, upperCaseFirst } from './helper';
 import { translationLogger } from './logger';

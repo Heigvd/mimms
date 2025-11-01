@@ -1,5 +1,3 @@
-// EVALUATION_PRIORITY 0
-
 import { Impact } from '../../game/common/impacts/impact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { generateId } from '../../tools/helper';
@@ -10,12 +8,14 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
+import {
+  ActivationImpact,
+  MapActivationImpact,
+} from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
 import { Uid } from '../../game/common/interfaces';
-import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -40,6 +40,9 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
     case 'activation':
       definition = getActivationImpactDef();
       break;
+    case 'mapActivation':
+      definition = getMapActivationImpactDef();
+      break;
     case 'effectSelection':
       definition = getChoiceEffectSelectionImpactDef();
       break;
@@ -49,8 +52,6 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
     case 'radio':
       definition = getRadioImpactDef();
       break;
-    case 'empty':
-      definition = getEmptyImpactDef();
   }
 
   if (definition?.type !== type) {
@@ -64,24 +65,7 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
 
 // TODO somewhere check that all impacts are valid
 
-export function getEmptyImpactDef(): Definition<EmptyImpact> {
-  return {
-    type: 'empty',
-    getDefault: () => ({
-      type: 'empty',
-      uid: generateId(10),
-      index: 0,
-    }),
-    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
-    view: {
-      type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
-    },
-  };
-}
-
-export function getActivationImpactDef(): Definition<ActivationImpact> {
+function getActivationImpactDef(): Definition<ActivationImpact> {
   return {
     type: 'activation',
     getDefault: () => ({
@@ -129,7 +113,57 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
   };
 }
 
-export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
+function getMapActivationImpactDef(): Definition<MapActivationImpact> {
+  return {
+    type: 'mapActivation',
+    getDefault: () => ({
+      type: 'mapActivation',
+      uid: generateId(10),
+      index: 0,
+      delaySeconds: 0,
+      activableType: '',
+      target: '',
+      option: 'activate',
+      buildStatus: 'pending',
+    }),
+    validator: (impact: MapActivationImpact) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (impact.delaySeconds < 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Delay cannot be negative',
+          isTranslateKey: false,
+        });
+      }
+
+      if (impact.target.trim().length === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select something',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      delaySeconds: ALL_EDITABLE,
+      activableType: ALL_EDITABLE,
+      option: ALL_EDITABLE,
+      target: ALL_EDITABLE,
+      buildStatus: ALL_EDITABLE,
+    },
+  };
+}
+
+function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
   return {
     type: 'effectSelection',
     getDefault: () => ({
@@ -184,7 +218,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
   };
 }
 
-export function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
+function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -194,7 +228,6 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       delaySeconds: 0,
       message: '',
       roles: {
-        // TODO make it dynamic
         ACS: false,
         MCS: false,
         AL: false,
@@ -248,7 +281,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
   };
 }
 
-export function getRadioImpactDef(): Definition<RadioMessageImpact> {
+function getRadioImpactDef(): Definition<RadioMessageImpact> {
   return {
     type: 'radio',
     getDefault: () => ({

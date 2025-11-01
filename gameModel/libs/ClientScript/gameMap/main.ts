@@ -21,6 +21,7 @@ function printView(): void {
 
 export interface MapState {
   mapSelect: boolean;
+  // SUNSET
   selectionState: FixedMapEntity | undefined;
   overlayState: LOCATION_ENUM[];
 }
@@ -33,6 +34,7 @@ export interface MapState {
 export function getInitialMapState(): MapState {
   return {
     mapSelect: false,
+    // SUNSET
     selectionState: undefined,
     overlayState: [LOCATION_ENUM.chantier],
   };
@@ -55,6 +57,7 @@ export function endMapAction() {
   clearMapState();
 }
 
+//SUNSET
 /**
  * Start MapSelect routine
  */
@@ -69,6 +72,16 @@ export function startMapSelect() {
   const newState = Helpers.cloneDeep(Context.mapState.state);
   newState.mapSelect = true;
   newState.selectionState = params;
+  Context.mapState.setState(newState);
+}
+
+/**
+ * Start MapChoiceAction selection
+ */
+export function startMapChoice() {
+  clearMapState();
+  const newState = Helpers.cloneDeep(Context.mapState.state);
+  newState.mapSelect = true;
   Context.mapState.setState(newState);
 }
 

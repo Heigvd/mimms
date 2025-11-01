@@ -1,6 +1,10 @@
+// SUNSET ... ?
+
 import { getLineStringMiddlePoint, getPolygonCentroid } from '../../../gameMap/utils/mapUtils';
+import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
 import { ActorId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import { Uid } from '../interfaces';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ActionCreationEvent } from './eventTypes';
 
@@ -212,6 +216,16 @@ export class MultiPolygonGeometricalShape extends GeometricalShape {
 		return position;
 	}
 }*/
+
+export interface MapChoiceEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  choice: ChoiceDescriptor;
+}
+
+export interface SelectionFixedMapEntityReduxEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  mapDescriptorUid: Uid;
+}
 
 export interface SelectionFixedMapEntityEvent extends ActionCreationEvent {
   durationSec: SimDuration;

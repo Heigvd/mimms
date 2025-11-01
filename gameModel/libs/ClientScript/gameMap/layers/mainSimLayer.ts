@@ -1,3 +1,5 @@
+// SUNSET
+
 import {
   BuildingStatus,
   FixedMapEntity,
@@ -11,6 +13,8 @@ import { getCurrentState } from '../../game/mainSimulationLogic';
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
 import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
 import { getTranslation } from '../../tools/translation';
+
+// TODO Remove this file once map is fully activables based
 
 /************
  *

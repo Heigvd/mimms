@@ -36,7 +36,7 @@ import {
   debugRemovePlayerContext,
   getCurrentExecutionContext,
 } from './executionContext/gameExecutionContextController';
-import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
+import { shallowState } from './loaders/mainStateLoader';
 
 /* all defined action templates */
 let actionTemplates: Record<string, ActionTemplateBase>;
@@ -65,7 +65,7 @@ export function runUpdateLoop(): void {
 
   if (!initializationComplete) {
     tryLoadTemplates();
-    createPlayerContext(getStartingLocalEvents);
+    createPlayerContext();
     initializationComplete = true;
     mainSimLogger.info('****** STATE INIT DONE ******');
   }

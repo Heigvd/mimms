@@ -1,6 +1,6 @@
 import { TimedEventPayload } from '../game/common/events/eventTypes';
 import { FullEvent, parseSingleEvent } from '../game/common/events/eventUtils';
-import { getStartingLocalEvents, getStartingMainState } from '../game/loaders/mainStateLoader';
+import { getStartingMainState } from '../game/loaders/mainStateLoader';
 import { MainStateObject } from '../game/common/simulationState/mainSimulationState';
 import {
   createOrUpdateExecutionContext,
@@ -51,13 +51,7 @@ async function refreshAllTeamsState(): Promise<void> {
     const tid = teamId as unknown as number;
     const box = raw as RawEventBoxContent;
     const parsedEvents = box.events.map((rawEv: any) => parseSingleEvent<TimedEventPayload>(rawEv));
-    createOrUpdateExecutionContext(
-      tid,
-      box.eventBoxId,
-      parsedEvents,
-      convertToLocalEvent,
-      getStartingLocalEvents
-    );
+    createOrUpdateExecutionContext(tid, box.eventBoxId, parsedEvents, convertToLocalEvent);
   });
 }
 

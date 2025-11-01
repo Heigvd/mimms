@@ -7,8 +7,10 @@
 
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 import { Uid } from '../common/interfaces';
+import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
 import { Trigger } from '../common/triggers/trigger';
+import { loadMapEntityDescriptors } from './mapEntitiesLoader';
 import { getTriggers } from './triggerLoader';
 
 export function buildActivables(): Record<Uid, Activable> {
@@ -39,7 +41,9 @@ function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): voi
   });
 }
 
-function addMapEntitiesActivables(_activables: Record<Uid, Activable>): void {
-  // XGO TODO map entities from loadMapEntityDescriptors()
-  // XGO TODO build activables as above
+function addMapEntitiesActivables(activables: Record<Uid, Activable>): void {
+  const descriptors: Record<Uid, MapEntityDescriptor> = loadMapEntityDescriptors();
+  Object.values(descriptors).forEach((t: MapEntityDescriptor) => {
+    activables[t.uid] = fromDescriptor(t);
+  });
 }

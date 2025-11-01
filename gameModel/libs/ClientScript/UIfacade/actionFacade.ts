@@ -9,6 +9,7 @@ import { ActionBase } from '../game/common/actions/actionBase';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
+  ChoiceTemplate,
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
@@ -46,6 +47,11 @@ export function getAvailableActionTemplates(
   }
 
   return [];
+}
+
+// used for choice actions in page 31
+export function getAvailableActionTemplateById(uid: number) {
+  return getAvailableActionTemplates().find(t => t.Uid === uid);
 }
 
 export function isAvailable(template: ActionTemplateBase): boolean {
@@ -172,6 +178,12 @@ export function getActorsNotDoing<T extends ActionBase>(actionClass: {
 
 export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof SelectionFixedMapEntityTemplate;
+}
+
+export function isChoiceTemplate(
+  template: ActionTemplateBase | undefined
+): template is ChoiceTemplate {
+  return template instanceof ChoiceTemplate;
 }
 
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {

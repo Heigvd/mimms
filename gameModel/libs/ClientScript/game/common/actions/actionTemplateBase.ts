@@ -16,6 +16,7 @@ import {
   FixedMapEntity,
   SelectionFixedMapEntityEvent,
   createFixedMapEntityInstanceFromAnyObject,
+  MapChoiceEvent,
 } from '../events/defineMapObjectEvent';
 import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import {
@@ -52,8 +53,13 @@ import {
   SelectionParkAction,
   SendRadioMessageAction,
   SituationUpdateAction,
+  MapChoiceAction,
+  PCFrontChoiceAction,
+  PCChoiceAction,
+  ParkChoiceAction,
 } from './actionBase';
 import * as ActionLogic from './actionLogic';
+import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 export enum SimFlag {
   PCS_ARRIVED = 'PCS_ARRIVED',
@@ -266,6 +272,40 @@ export abstract class StartEndTemplate<
     _actor: Readonly<Actor>
   ): boolean {
     return true;
+  }
+}
+
+export abstract class ChoiceTemplate<
+  ActionT extends ActionBase = ActionBase,
+  EventT extends ActionCreationEvent = ActionCreationEvent,
+  UserInput = unknown
+> extends StartEndTemplate<ActionT, EventT, UserInput> {
+  public readonly choices: ChoiceDescriptor[];
+
+  protected constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    category: ActionType = ActionType.ACTION,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices: ChoiceDescriptor[] = []
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      category,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles
+    );
+    this.choices = choices;
   }
 }
 
@@ -579,6 +619,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of a fixed map entity.
  */
@@ -670,10 +711,96 @@ export class SelectionFixedMapEntityTemplate<
   }
 }
 
+export class MapChoiceActionTemplate<
+  ActionT extends MapChoiceAction = MapChoiceAction
+> extends ChoiceTemplate<MapChoiceAction, MapChoiceEvent, ChoiceDescriptor> {
+  public readonly binding?: LOCATION_ENUM;
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[],
+    binding?: LOCATION_ENUM
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      ActionType.ACTION,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+    this.binding = binding;
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    payload: ChoiceDescriptor
+  ): MapChoiceEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      choice: payload,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<MapChoiceEvent>): MapChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new MapChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice,
+      this.binding
+    ) as ActionT;
+  }
+
+  public getDescription(): string {
+    return getTranslation('mainSim-actions-tasks', this.description);
+  }
+
+  public getTitle(): string {
+    return getTranslation('mainSim-actions-tasks', this.title);
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // place PC Front
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of the Meeting Point
  */
@@ -722,10 +849,54 @@ export class SelectionPCFrontTemplate extends SelectionFixedMapEntityTemplate<Se
   }
 }
 
+export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoiceAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCFrontChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new PCFrontChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice
+    );
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // place PC San
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of the PC San
  */
@@ -774,10 +945,54 @@ export class SelectionPCTemplate extends SelectionFixedMapEntityTemplate<Selecti
   }
 }
 
+export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new PCChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice
+    );
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // place a park item
 // -------------------------------------------------------------------------------------------------
 
+// SUNSET
 /**
  * Template of an action to select the place of a parking
  */
@@ -824,6 +1039,58 @@ export class SelectionParkTemplate extends SelectionFixedMapEntityTemplate<Selec
       createFixedMapEntityInstanceFromAnyObject(payload.fixedMapEntity),
       this.vehicleType,
       this.raisedFlags
+    );
+  }
+}
+
+export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction> {
+  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
+  public readonly vehicleType: VehicleType;
+
+  constructor(
+    title: TranslationKey,
+    description: TranslationKey,
+    duration: SimDuration,
+    message: TranslationKey,
+    replayable = false,
+    binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
+    vehicleType: VehicleType,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      title,
+      description,
+      duration,
+      message,
+      replayable,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices,
+      binding
+    );
+    this.vehicleType = vehicleType;
+  }
+
+  protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): ParkChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new ParkChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      this.message,
+      ownerId,
+      this.Uid,
+      this.raisedFlags,
+      payload.choice,
+      this.binding,
+      this.vehicleType
     );
   }
 }

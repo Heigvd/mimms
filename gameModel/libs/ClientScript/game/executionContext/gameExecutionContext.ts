@@ -8,7 +8,6 @@ import { MainSimulationState } from '../common/simulationState/mainSimulationSta
 
 export type TeamId = number;
 export type GlobalToLocalEventFunction = (evt: FullEvent<TimedEventPayload>) => LocalEventBase[];
-export type InitializeLocalEventFunction = () => LocalEventBase[];
 
 export class GameExecutionContext {
   private stateHistory: MainSimulationState[] = [];
@@ -137,7 +136,8 @@ export class GameExecutionContext {
     let newState: MainSimulationState;
     try {
       const localEvents = conversionFunc(event);
-      newState = this.applyLocalEvents(localEvents, event.id);
+      this.getLocalEventManager().queueLocalEvents(localEvents);
+      newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
     } catch (error) {
       mainSimLogger.error('Error while processing event', event, error);
       // build a new state with the failed event's id anyway
@@ -145,16 +145,6 @@ export class GameExecutionContext {
       newState = currentState.createNext(event.id);
     }
     this.updateCurrentState(newState, event);
-  }
-
-  private applyLocalEvents(events: LocalEventBase[], globalEventId: number): MainSimulationState {
-    this.localEventManager.queueLocalEvents(events);
-    return this.localEventManager.processPendingEvents(this.getCurrentState(), globalEventId);
-  }
-
-  public applyInitialEvents(events: LocalEventBase[]): void {
-    const newState = this.applyLocalEvents(events, 0);
-    this.updateCurrentState(newState);
   }
 
   public getLocalEventManager(): LocalEventManager {

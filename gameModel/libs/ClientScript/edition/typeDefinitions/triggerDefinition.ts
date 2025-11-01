@@ -1,5 +1,3 @@
-// EVALUATION_PRIORITY 0
-
 import { Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
@@ -37,11 +35,11 @@ export function getTriggerDefinition(): TriggerDefinition {
       index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      tag: 'trigger ' + generateId(3),
+      tag: 'change the world',
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
-      deactivateItself: false,
+      repeatable: true,
       operator: 'AND',
       conditions: [],
       impacts: [],
@@ -57,7 +55,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       comment: ALL_EDITABLE,
       accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
-      deactivateItself: ALL_EDITABLE,
+      repeatable: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       conditions: ALL_EDITABLE,
       impacts: ALL_EDITABLE,
