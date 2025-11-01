@@ -112,7 +112,7 @@ export function getOverlayItems2(actorId: ActorId | undefined) {
       },
       payload: {
         id: mapActivable.binding,
-        name: mapDescriptor.tag,
+        name: firstMapObject.label,
         icon: firstMapObject!.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
         actors: getActorsByLocation(mapActivable.binding),
         resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(

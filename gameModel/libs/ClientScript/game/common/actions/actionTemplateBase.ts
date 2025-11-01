@@ -301,8 +301,8 @@ export abstract class ChoiceTemplate<
       message,
       replayable,
       category,
-      raisedFlags,
       requiredFlags,
+      raisedFlags,
       availableToRoles
     );
     this.choices = choices;
