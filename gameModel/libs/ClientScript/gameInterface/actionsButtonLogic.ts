@@ -4,7 +4,6 @@ import {
   isCasuMessageActionTemplate,
   isChoiceTemplate,
   isEvacuationActionTemplate,
-  isFixedMapEntityTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
@@ -24,14 +23,13 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { clearMapState, startMapChoice, startMapSelect } from '../gameMap/main';
+import { clearMapState, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -62,16 +60,7 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
 
   let params = {};
 
-  // SUNSET
-  if (isFixedMapEntityTemplate(action)) {
-    // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
-    if (!canPlanAction()) {
-      startMapSelect();
-    } else {
-      params = fetchSelectMapObjectValues()!;
-      clearMapState();
-    }
-  } else if (isChoiceTemplate(action)) {
+  if (isChoiceTemplate(action)) {
     if (!canPlanAction()) {
       startMapChoice();
     } else {
@@ -97,28 +86,6 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
   }
 
   actionClickHandler(action, params);
-}
-
-/**
- * Generate a SelectMapObjectPayload from interface state
- *
- * @returns SelectMapObjectPayload
- */
-function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
-  // TODO Add type
-
-  const mapState = Context.mapState.state;
-  let tmpFixedEntity;
-  if (mapState.selectionState instanceof FixedMapEntity) {
-    tmpFixedEntity = mapState.selectionState as FixedMapEntity;
-    tmpFixedEntity.buildingStatus = BuildingStatus.inProgress;
-    tmpFixedEntity.getGeometricalShape().selectedPosition =
-      mapState.selectionState.getGeometricalShape().availablePositions[
-        Context.interfaceState.state.selectedMapObjectId
-      ];
-  }
-
-  return tmpFixedEntity;
 }
 
 /**

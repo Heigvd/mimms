@@ -1,9 +1,4 @@
 import { getWaitingTaskId, loadTasks } from './taskLoader';
-import {
-  BuildingStatus,
-  GeometryBasedFixedMapEntity,
-  PointGeometricalShape,
-} from '../common/events/defineMapObjectEvent';
 import { getCurrentGameOptions } from '../common/gameOptions';
 import { Resource } from '../common/resources/resource';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
@@ -28,16 +23,6 @@ function buildStartingMainState(): MainSimulationState {
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-  const mainAccident = new GeometryBasedFixedMapEntity(
-    0,
-    'location-chantier',
-    LOCATION_ENUM.chantier,
-    [],
-    new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]),
-    BuildingStatus.ready,
-    'mainAccident'
-  );
-
   const tasks = loadTasks();
   const waitingTaskId = getWaitingTaskId(tasks);
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
@@ -49,7 +34,6 @@ function buildStartingMainState(): MainSimulationState {
       actions: [],
       cancelledActions: [],
       actors: [testAL, testCASU],
-      mapLocations: [mainAccident],
       patients: loadPatients(),
       tasks: tasks,
       radioMessages: [],
@@ -75,7 +59,6 @@ export function shallowState(): MainSimulationState {
       actions: [],
       cancelledActions: [],
       actors: [],
-      mapLocations: [],
       patients: [],
       tasks: [],
       radioMessages: [],

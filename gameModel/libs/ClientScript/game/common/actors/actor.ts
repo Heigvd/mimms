@@ -1,6 +1,6 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActorId } from '../baseTypes';
-import { getMapLocationById2, LOCATION_ENUM } from '../simulationState/locationState';
+import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getRoleLongTranslation, getRoleShortTranslation } from './actorLogic';
 
@@ -93,9 +93,9 @@ export class Actor {
    * @param state
    */
   public getComputedSymbolicLocation(state: Readonly<MainSimulationState>): LOCATION_ENUM {
-    if (getMapLocationById2(state, this.symbolicLocation)) {
+    if (getMapLocationById(state, this.symbolicLocation)) {
       return this.symbolicLocation;
-    } else if (getMapLocationById2(state, LOCATION_ENUM.PC)) {
+    } else if (getMapLocationById(state, LOCATION_ENUM.PC)) {
       return LOCATION_ENUM.PC;
     }
 

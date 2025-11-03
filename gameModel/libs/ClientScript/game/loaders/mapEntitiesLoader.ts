@@ -116,7 +116,7 @@ export function getMapActivables(): MapEntityActivable[] {
  *
  * @returns MapEntityActivable | undefined
  */
-export function getMapActivable(uid: Uid): MapEntityActivable | undefined {
+export function getMapActivableFromUid(uid: Uid): MapEntityActivable | undefined {
   return getMapActivables().find(ma => ma.uid === uid);
 }
 

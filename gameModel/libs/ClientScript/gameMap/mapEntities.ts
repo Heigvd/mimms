@@ -4,7 +4,6 @@ import { ActorId } from '../game/common/baseTypes';
 import * as ResourceLogic from '../game/common/resources/resourceLogic';
 import {
   getAvailableMapActivables,
-  getAvailableMapLocations,
   LOCATION_ENUM,
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
@@ -18,80 +17,8 @@ import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 
 let wasGodView = true;
 
-// used in page 43
-export function getOverlayItems(actorId: ActorId | undefined) {
-  // fetch all map locations entities where there can be actors / resources / patients
-  const mapEntities = getAvailableMapLocations(getCurrentState(), 'anyKind');
-  const overlayItems: OverlayItem[] = [];
-
-  for (const mapEntity of mapEntities) {
-    overlayItems.push({
-      overlayProps: {
-        position: mapEntity.getGeometricalShape().getShapeCenter(),
-        positioning: 'bottom-center',
-        offset: [0, -60],
-      },
-      payload: {
-        id: mapEntity.id,
-        name: mapEntity.name,
-        icon: mapEntity.icon,
-        actors: getActorsByLocation(mapEntity.id),
-        resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
-          getCurrentState(),
-          actorId,
-          mapEntity.id
-        ),
-        ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'ambulance',
-          mapEntity.id
-        ),
-        helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'helicopter',
-          mapEntity.id
-        ),
-      },
-    });
-  }
-
-  // detect change of view mode
-  if (wasGodView !== isGodView()) {
-    wasGodView = isGodView();
-    // Force close entities if role view enabled
-    if (!isGodView()) {
-      const newState: MapState = Helpers.cloneDeep<MapState>(Context.mapState.state);
-      newState.overlayState = newState.overlayState.filter((l: LOCATION_ENUM) =>
-        canViewLocation(l)
-      );
-      mainSimMapLogger.info('Role view map toggle', newState.overlayState);
-      Context.mapState.setState(newState);
-    }
-  }
-
-  const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
-
-  // Sort overlayItem according to order and open/close
-  overlayItems.sort((a, b) => {
-    const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
-
-    // Closed fixedEntities cases => after opened ones
-    if (indexA === -1) {
-      return 1;
-    }
-    const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
-    if (indexB === -1) {
-      return -1;
-    }
-
-    return indexA - indexB;
-  });
-
-  return overlayItems;
-}
-
 // Replacement based on activables/descriptors
-export function getOverlayItems2(actorId: ActorId | undefined) {
+export function getOverlayItems(actorId: ActorId | undefined) {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
     a => a.binding !== 'custom'

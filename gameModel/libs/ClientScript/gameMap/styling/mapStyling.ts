@@ -145,3 +145,30 @@ export function getWaterStyle(feature: any, _resolution: number): LayerStyleObje
   style.fill = { type: 'FillStyle', color: 'rgba(80,150,200,0.5)' };
   return style;
 }
+
+export function getBuildingStyle(_feature: any, _resolution: number): LayerStyleObject {
+  let buildingStyle: LayerStyleObject = {
+    fill: {
+      type: 'FillStyle',
+      color: '#C5C8C9',
+    },
+    stroke: {
+      type: 'StrokeStyle',
+      color: '#656E72',
+      width: 1,
+      lineCap: 'round',
+      lineJoin: 'round',
+      miterLimit: 10,
+    },
+    text: {
+      type: 'TextStyle',
+      scale: 1.6,
+      fill: {
+        type: 'FillStyle',
+        color: 'white',
+      },
+    },
+  };
+
+  return buildingStyle;
+}

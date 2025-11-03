@@ -92,6 +92,7 @@ function getGenericFeature(
       label: mapObject.label,
       labelOffset: mapObject.labelOffset,
       index: index,
+      binding: activable?.binding,
     };
 
     const feature: any = {

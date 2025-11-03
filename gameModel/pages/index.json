@@ -201,12 +201,6 @@
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
-          "@class" : "Page",
-          "id" : "68",
-          "name" : "resources management and reports",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
           "@class" : "Folder",
           "items" : [ {
             "@class" : "Page",
@@ -231,12 +225,6 @@
         }, {
           "@class" : "Folder",
           "items" : [ {
-            "@class" : "Page",
-            "id" : "48",
-            "name" : "map selection - SUNSET",
-            "scenaristPage" : false,
-            "trainerPage" : null
-          }, {
             "@class" : "Page",
             "id" : "31",
             "name" : "mapAction selection",
@@ -559,6 +547,12 @@
     }, {
       "@class" : "Folder",
       "items" : [ {
+        "@class" : "Page",
+        "id" : "68",
+        "name" : "resources management and reports",
+        "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
         "@class" : "Page",
         "id" : "50",
         "name" : "patient details",

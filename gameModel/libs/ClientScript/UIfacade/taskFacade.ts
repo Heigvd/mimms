@@ -3,6 +3,7 @@ import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { TaskType } from '../game/common/tasks/taskBase';
+import { getActiveMapEntityDescriptors } from '../game/loaders/mapEntitiesLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
@@ -78,10 +79,14 @@ export function getLocationChoicesForTaskType(
   taskType: TaskType
 ): { label: string; value: string }[] {
   const locations = TaskState.getLocationsByTaskType(getCurrentState(), taskType);
-  return getCurrentState()
-    .getMapLocations()
-    .filter(mapLocation => locations.includes(mapLocation.id))
+
+  return Object.values(getActiveMapEntityDescriptors())
+    .filter(descriptor => locations.includes(descriptor.binding))
     .map(location => {
-      return { label: getTranslation('mainSim-locations', location.name), value: location.id };
+      // TODO better way of getting object translation ?
+      return {
+        label: getTranslation('mainSim-locations', location.mapObjects[0].label),
+        value: location.binding,
+      };
     });
 }

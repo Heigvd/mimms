@@ -242,7 +242,6 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     locationSource: LOCATION_ENUM
   ): LOCATION_ENUM | undefined {
     if (
-      // TODO Replace with canMoveToLocation2
       canMoveToLocation(state, 'Patients', LOCATION_ENUM.PMA) &&
       state.hasFlag(SimFlag.PMA_OPEN)
     ) {
@@ -251,7 +250,6 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
     if (
       locationSource != LOCATION_ENUM.nidDeBlesses &&
-      // TODO Replace with canMoveToLocation2
       canMoveToLocation(state, 'Patients', LOCATION_ENUM.nidDeBlesses)
     ) {
       return LOCATION_ENUM.nidDeBlesses;

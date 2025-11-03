@@ -8,8 +8,8 @@ import { SimFlag } from '../game/common/actions/actionTemplateBase';
 import { InterventionRole } from '../game/common/actors/actor';
 import { getRoleLongTranslation, getRoleShortTranslation } from '../game/common/actors/actorLogic';
 import {
-  getIndexOfSelectedChoice,
-  getLocationLongTranslation,
+  // getIndexOfSelectedChoice,
+  // getLocationLongTranslation,
   getLocationShortTranslation,
 } from '../game/common/location/locationLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
@@ -56,6 +56,7 @@ import {
   triggerDashboardTimeForwardGame,
 } from './impacts';
 import { dashboardLogger } from '../tools/logger';
+import { MapEntityActivable } from '../game/common/simulationState/activableState';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -171,7 +172,8 @@ export function getLocationsContext(): {
     id: loc,
     location: loc,
     shortName: getLocationShortTranslation(loc),
-    longName: getLocationLongTranslation(loc),
+    // TODO Replacement
+    longName: '', // getLocationLongTranslation(loc),
   }));
 }
 
@@ -183,10 +185,13 @@ export function getLocationChoice(
   const teamState = state[teamId];
 
   if (teamState) {
-    const mapLocation = teamState.mapLocations.find(mapLoc => mapLoc.id === location);
+    const mapLocation = Object.values(teamState.activables)
+      .filter(a => a.active && a.activableType === 'mapEntity')
+      .find(mapLoc => (mapLoc as MapEntityActivable).binding === location);
 
     if (mapLocation) {
-      const index = getIndexOfSelectedChoice(mapLocation);
+      // TODO Replacement
+      const index = 1; // getIndexOfSelectedChoice(mapLocation);
 
       if (index !== undefined) {
         return getLetterRepresentationOfIndex(index);
