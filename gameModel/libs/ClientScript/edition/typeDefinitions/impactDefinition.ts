@@ -16,6 +16,7 @@ import { RadioMessageImpact } from '../../game/common/impacts/implementation/rad
 import { RadioType } from '../../game/common/radio/communicationType';
 import { Uid } from '../../game/common/interfaces';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
+import { createOrUpdateTranslation } from '../../tools/translation';
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -192,7 +193,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: createOrUpdateTranslation('', undefined),
       roles: {
         // TODO make it dynamic
         ACS: false,
@@ -216,7 +217,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (Object.entries(impact.message).length === 0) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -242,7 +243,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: ALL_EDITABLE,
+      message: {} as any, // TODO ALL_EDITABLE,
       roles: {} as any, // TODO ALL_EDITABLE,
     },
   };
@@ -256,7 +257,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: createOrUpdateTranslation('', undefined),
       channel: RadioType.CASU,
     }),
     validator: (impact: RadioMessageImpact) => {
@@ -272,7 +273,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (Object.entries(impact.message).length === 0) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -288,7 +289,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: ALL_EDITABLE,
+      message: {} as any, // TODO ALL_EDITABLE,
       channel: ALL_EDITABLE,
     },
   };

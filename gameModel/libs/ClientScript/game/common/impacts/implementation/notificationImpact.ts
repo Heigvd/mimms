@@ -6,7 +6,7 @@ import { ImpactBase } from '../impact';
 
 export interface NotificationMessageImpact extends ImpactBase {
   type: 'notification';
-  message: string | any; //TODO multilang
+  message: ITranslatableContent;
   roles: Record<InterventionRole, boolean>;
 }
 
@@ -25,7 +25,7 @@ export function convertNotificationImpact(
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,
-        message: impact.message,
+        message: I18n.translate(impact.message),
         omitTranslation: true,
       })
   );

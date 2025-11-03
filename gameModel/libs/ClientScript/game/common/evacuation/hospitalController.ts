@@ -343,7 +343,7 @@ function generateNewId(length: number, existing: string[]): string {
 }
 
 export function getDefaultHospitalPreposition(): ITranslatableContent {
-  const dflt = createOrUpdateTranslation('preposition', undefined);
+  const dflt = createOrUpdateTranslation('', undefined);
 
   dflt.translations = {
     EN: { '@class': 'Translation', lang: 'EN', status: '', translation: 'to' },
