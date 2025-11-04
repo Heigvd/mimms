@@ -1,5 +1,5 @@
 import { ActionTemplateBase } from '../common/actions/actionTemplateBase';
-import { createFixedMapEntityTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
+import { createMapChoiceActionTemplate as createMapChoiceActionTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate';
 import { createFullyConfigurableTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { createMoveActorTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
@@ -10,16 +10,19 @@ export function createInstance(tplDescriptor: TemplateDescriptor): ActionTemplat
     case 'MoveActorActionTemplate':
       return createMoveActorTemplate(tplDescriptor);
     case 'FullyConfigurableActionTemplate':
+      // TODO this might be a MapChoiceTemplate
       return createFullyConfigurableTemplate(tplDescriptor);
-    case 'SelectionFixedMapEntityTemplate':
-    case 'SelectionPCFrontTemplate':
-    case 'SelectionPCTemplate':
-    case 'SelectionParkTemplate':
-      return createFixedMapEntityTemplate(tplDescriptor);
+    case 'MapChoiceActionTemplate':
+    case 'AmbulanceParkChoiceTemplate':
+    case 'HelicopterParkChoiceTemplate':
+    case 'PCChoiceTemplate':
+    case 'PCFrontChoiceTemplate':
+      return createMapChoiceActionTemplate(tplDescriptor);
     default:
       // this makes sure a missing case induces a compilation error
       missingCase(ctorType);
   }
+  // TODO Log error
   return undefined as any;
 }
 

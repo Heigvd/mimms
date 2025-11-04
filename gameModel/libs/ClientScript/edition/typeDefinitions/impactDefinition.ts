@@ -10,7 +10,10 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
+import {
+  ActivationImpact,
+  MapActivationImpact,
+} from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
@@ -39,6 +42,9 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
   switch (type) {
     case 'activation':
       definition = getActivationImpactDef();
+      break;
+    case 'mapActivation':
+      definition = getMapActivationImpactDef();
       break;
     case 'effectSelection':
       definition = getChoiceEffectSelectionImpactDef();
@@ -122,7 +128,6 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      activableType: ALL_EDITABLE,
       option: ALL_EDITABLE,
       target: ALL_EDITABLE,
     },
@@ -290,6 +295,55 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
       channel: ALL_EDITABLE,
+    },
+  };
+}
+
+export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
+  return {
+    type: 'mapActivation',
+    getDefault: () => ({
+      type: 'mapActivation',
+      uid: generateId(10),
+      index: 0,
+      delaySeconds: 0,
+      activableType: '',
+      target: '',
+      option: 'activate',
+      buildStatus: 'pending',
+    }),
+    validator: (impact: MapActivationImpact) => {
+      let success: boolean = true;
+      const messages: ValidationResult['messages'] = [];
+
+      if (impact.delaySeconds < 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Delay cannot be negative',
+          isTranslateKey: false,
+        });
+      }
+
+      if (impact.target.trim().length === 0) {
+        success = false;
+        messages.push({
+          logLevel: 'ERROR',
+          message: 'Select something',
+          isTranslateKey: false,
+        });
+      }
+
+      return { success, messages };
+    },
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      delaySeconds: ALL_EDITABLE,
+      option: ALL_EDITABLE,
+      target: ALL_EDITABLE,
+      buildStatus: ALL_EDITABLE,
     },
   };
 }

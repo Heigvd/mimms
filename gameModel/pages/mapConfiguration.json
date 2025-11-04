@@ -203,7 +203,7 @@
                         "layerStyle" : {
                           "@class" : "ScriptCallback",
                           "args" : [ "feature", "resolution" ],
-                          "content" : "import { getViewSelectionStyle } from \"./gameMap/styling/layerStyles\";\ngetViewSelectionStyle(feature);"
+                          "content" : "import { getViewSelectionStyle } from \"./gameMap/styling/mapStyling\";\ngetViewSelectionStyle(feature);"
                         },
                         "layoutStyle" : { },
                         "name" : "control",
@@ -314,7 +314,7 @@
                         "layerStyle" : {
                           "@class" : "ScriptCallback",
                           "args" : [ "feature", "resolution" ],
-                          "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
+                          "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
                         },
                         "layoutStyle" : { },
                         "name" : "buildings",

@@ -36,7 +36,7 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
-  selectedMapObjectId: string;
+  selectedActionChoiceUid: string;
   selectedRadioChannel: RadioType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<RadioType, string>>;
@@ -114,8 +114,7 @@ export function getInitialInterfaceState(): InterfaceState {
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     showNotificationsPanel: false,
-    selectedMapObjectId: '0',
-    // selectedMapObject: '',
+    selectedActionChoiceUid: '',
     selectedPanel: SelectedPanel.actions,
     selectedRadioChannel: RadioType.CASU,
     updatedChannelMessagesAt: 0,

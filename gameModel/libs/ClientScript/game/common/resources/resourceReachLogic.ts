@@ -64,6 +64,9 @@ const communicationMatrix: Record<LOCATION_ENUM, Partial<Record<TaskType, Availa
   AccReg: {
     // no resource can be on access and egress, so no way to reach no one
   },
+  custom: {
+    // custom location are not part of game logic
+  },
   // no way to reach resources doing an evacuation
 };
 

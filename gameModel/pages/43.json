@@ -489,6 +489,7 @@
                                     "layoutStyle" : {
                                       "pointerEvents" : "auto"
                                     },
+                                    "name" : "ActivablesOverlay",
                                     "style" : { }
                                   },
                                   "type" : "WegasMapOverlays"
@@ -496,10 +497,10 @@
                                   "props" : {
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "!Context.mapState?.state.selectionState",
+                                      "content" : "!Context.mapState?.state.mapSelect;",
                                       "language" : "typescript"
                                     },
-                                    "layerId" : "selectionLayer",
+                                    "layerId" : "activableSelection",
                                     "layerProps" : {
                                       "zIndex" : 91
                                     },
@@ -507,7 +508,7 @@
                                       "dataType" : "GeoJSON",
                                       "source" : {
                                         "@class" : "Script",
-                                        "content" : "import { getSelectionLayer } from \"./gameMap/layers/mainSimLayer\";\ngetSelectionLayer();",
+                                        "content" : "import { getMapActivableSelectionLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivableSelectionLayer();",
                                         "language" : "typescript"
                                       },
                                       "sourceProjection" : "EPSG:2056",
@@ -517,30 +518,34 @@
                                     "layerStyle" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "feature", "resolution" ],
-                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                      "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
                                     },
                                     "layoutStyle" : { },
-                                    "name" : "selectionLayer",
+                                    "name" : "ActivableSelectionLayer",
                                     "onLayerReady" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "layer", "map" ],
-                                      "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
+                                      "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
                                     },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
                                 }, {
                                   "props" : {
-                                    "layerId" : "",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.mapState?.state.mapSelect;",
+                                      "language" : "typescript"
+                                    },
+                                    "layerId" : "activables",
                                     "layerProps" : {
-                                      "opacity" : 0.5,
                                       "zIndex" : 91
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
                                       "source" : {
                                         "@class" : "Script",
-                                        "content" : "import { getUnavailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetUnavailableLayer();",
+                                        "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
                                         "language" : "typescript"
                                       },
                                       "sourceProjection" : "EPSG:2056",
@@ -550,37 +555,10 @@
                                     "layerStyle" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "feature", "resolution" ],
-                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
+                                      "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
                                     },
                                     "layoutStyle" : { },
-                                    "name" : "UnavailableLayer",
-                                    "style" : { }
-                                  },
-                                  "type" : "WegasMapVectorLayer"
-                                }, {
-                                  "props" : {
-                                    "layerId" : "available",
-                                    "layerProps" : {
-                                      "zIndex" : 91
-                                    },
-                                    "layerSource" : {
-                                      "dataType" : "GeoJSON",
-                                      "source" : {
-                                        "@class" : "Script",
-                                        "content" : "import { getAvailableLayer } from \"./gameMap/layers/mainSimLayer\";\ngetAvailableLayer();",
-                                        "language" : "typescript"
-                                      },
-                                      "sourceProjection" : "EPSG:2056",
-                                      "type" : "VectorLayer",
-                                      "useSpatialIndex" : true
-                                    },
-                                    "layerStyle" : {
-                                      "@class" : "ScriptCallback",
-                                      "args" : [ "feature", "resolution" ],
-                                      "content" : "import { getLayerStyle } from \"./gameMap/styling/layerStyles\";\ngetLayerStyle(feature);"
-                                    },
-                                    "layoutStyle" : { },
-                                    "name" : "AvailableLayer",
+                                    "name" : "ActivablesLayer",
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
@@ -683,7 +661,7 @@
                                     "layerStyle" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "feature", "resolution" ],
-                                      "content" : "import { getBuildingsLayer } from \"./gameMap/layers/buildingsLayer\";\n getBuildingsLayer(feature, resolution);"
+                                      "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
                                     },
                                     "layoutStyle" : { },
                                     "name" : "buildings",

@@ -1,13 +1,11 @@
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
+import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
-// TODO Duplicata
-type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
 /** Is it a place that can contain actors / resources / patients */
 type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
-// XGO move to common/mapEntities
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
@@ -73,11 +71,10 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   },
   // XGO TODO adaptation, it seems ok to have this custom for now,
   //we will likely go for a fully dynamic string record in the some distant future
-  /*
   custom: {
     id: LOCATION_ENUM.custom,
-    name: 'location-pcFront',
+    name: 'custom',
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
-  },*/
+  },
 };

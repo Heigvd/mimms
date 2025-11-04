@@ -1,6 +1,8 @@
 import { TimeSliceDuration } from '../../../constants';
-import { MoveActorActionTemplate } from '../../actionTemplateBase';
+import { MapChoiceActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
+
+// TODO this might just be a MapChoiceActionTemplate instead
 
 export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor {
   type: 'FullyConfigurableTemplateDescriptor';
@@ -9,9 +11,8 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 
 export function createFullyConfigurableTemplate(
   _descriptor: FullyConfigurableTemplateDescriptor
-): MoveActorActionTemplate {
-  // TODO implement the real class, wrong one here for compilation purposes
-  return new MoveActorActionTemplate(
+): MapChoiceActionTemplate {
+  return new MapChoiceActionTemplate(
     'move-actor-title',
     'move-actor-desc',
     TimeSliceDuration,

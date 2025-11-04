@@ -8,29 +8,31 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
-  SelectionFixedMapEntityTemplate,
-  SelectionParkTemplate,
-  SelectionPCFrontTemplate,
-  SelectionPCTemplate,
+  MapChoiceActionTemplate,
   SendRadioMessageTemplate,
   SimFlag,
   SituationUpdateActionTemplate,
+  ParkChoiceTemplate,
+  PCChoiceTemplate,
+  PCFrontChoiceTemplate,
 } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { TimeSliceDuration } from './common/constants';
-import {
-  BuildingStatus,
-  GeometryBasedFixedMapEntity,
-  MultiLineStringGeometricalShape,
-  PointGeometricalShape,
-  PolygonGeometricalShape,
-} from './common/events/defineMapObjectEvent';
 import { RadioType } from './common/radio/communicationType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
+import {
+  getAccregChoices,
+  getAmbulanceChoices,
+  getHelicopterChoices,
+  getNestChoices,
+  getPCChoices,
+  getPCFrontChoices,
+  getPMAChoices,
+} from './loaders/choiceLoader';
 
 export interface IUniqueActionTemplates {
-  readonly SelectionPCFrontTemplate: SelectionPCFrontTemplate;
-  readonly SelectionPCSanTemplate: SelectionPCTemplate;
+  readonly PCFrontChoiceTemplate: PCFrontChoiceTemplate;
+  readonly PCChoiceTemplate: PCChoiceTemplate;
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
@@ -52,27 +54,18 @@ export function initActionTemplates(): {
 } {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
-  const placePCFront = new SelectionPCFrontTemplate(
+  // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
+
+  const pcFrontChoice = new PCFrontChoiceTemplate(
     'define-pcFront-title',
     'define-pcFront-desc',
     TimeSliceDuration,
     'define-pcFront-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-pcFront',
-      LOCATION_ENUM.pcFront,
-      ['AL'],
-      new PointGeometricalShape([
-        [2500075.549931927, 1118500.103111194],
-        [2500106.549931926, 1118550.103111192],
-        [2500106.549931926, 1118489.103111192],
-      ]),
-      BuildingStatus.selection,
-      'pcFront' /*_blue*/
-    ),
     false,
     [],
-    [SimFlag.PCFRONT_BUILT]
+    [SimFlag.PCFRONT_BUILT],
+    undefined,
+    getPCFrontChoices()
   );
 
   const moveActor = new MoveActorActionTemplate(
@@ -133,218 +126,83 @@ export function initActionTemplates(): {
     ActionType.CASU_RADIO
   );
 
-  const placePMA = new SelectionFixedMapEntityTemplate(
-    'define-PMA-title',
-    'define-PMA-desc',
-    TimeSliceDuration * 4,
-    'define-PMA-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-pma-short',
-      LOCATION_ENUM.PMA,
-      ['LEADPMA'],
-      new PolygonGeometricalShape([
-        [
-          [
-            [2499959.513377705, 1118456.6791527744], //'way/301355984'
-            [2499948.345528039, 1118442.755145481],
-            [2499928.9775556503, 1118418.871686022],
-            [2499947.162274424, 1118404.3729329833],
-            [2499992.1599490084, 1118459.7301378376],
-            [2500013.795503398, 1118486.3335680368],
-            [2500019.9726727167, 1118493.9362230333],
-            [2500057.0664169285, 1118539.5628896698],
-            [2500046.3844424966, 1118547.5332560872],
-            [2500038.334720112, 1118553.6478721495],
-            [2500031.238813536, 1118545.0931211817],
-            [2500012.837898292, 1118522.2385113093],
-            [2499959.513377705, 1118456.6791527744],
-          ],
-        ],
-        [
-          [
-            [2500109.999851025, 1118456.3699052047], //'way/82683752'
-            [2500113.781500128, 1118461.010360654],
-            [2500121.785907592, 1118470.828775529],
-            [2500114.0474236254, 1118477.104916978],
-            [2500105.0520694936, 1118484.3913443699],
-            [2500096.448885649, 1118473.8379365443],
-            [2500093.2659977684, 1118469.932506736],
-            [2500109.999851025, 1118456.3699052047],
-          ],
-        ], //'way/179543646'
-        [
-          [
-            [2500136.790143822, 1118548.3406066815],
-            [2500141.6760064885, 1118560.489763118],
-            [2500143.4792181817, 1118564.9850271842],
-            [2500124.888196066, 1118572.1742195904],
-            [2500121.81913271, 1118564.4089291636],
-            [2500118.355243353, 1118555.6384201094],
-            [2500133.0180577287, 1118549.8816207554],
-            [2500136.790143822, 1118548.3406066815],
-          ],
-        ],
-      ]),
-      BuildingStatus.selection,
-      'PMA'
-    ),
-    false,
-    undefined,
-    [SimFlag.PMA_BUILT]
-  );
-
-  const placePC = new SelectionPCTemplate(
-    'define-PC-title',
-    'define-PC-desc',
-    TimeSliceDuration * 2,
-    'define-PC-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-pc-short',
-      LOCATION_ENUM.PC,
-      ['ACS', 'MCS'],
-      new PointGeometricalShape([
-        [2500095.549931929, 1118489.103111194],
-        [2500009.75586577, 1118472.531405577],
-        [2500057.0688582086, 1118551.6205987816],
-      ]),
-      BuildingStatus.selection,
-      'PC'
-    ),
-    false,
-    [SimFlag.PCS_ARRIVED],
-    [SimFlag.PC_BUILT]
-  );
-
-  const placeNest = new SelectionFixedMapEntityTemplate(
-    'define-Nest-title',
-    'define-Nest-desc',
-    TimeSliceDuration * 3,
-    'define-Nest-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-niddeblesses',
-      LOCATION_ENUM.nidDeBlesses,
-      [],
-      new PointGeometricalShape([
-        [2500041.9170648125, 1118456.4054969894],
-        [2500106.9001576486, 1118532.2446804282],
-        [2499999.6045754217, 1118483.805125067],
-      ]),
-      BuildingStatus.selection,
-      'Nest'
-    )
-  );
-
-  const placeAccessRegress = new SelectionFixedMapEntityTemplate(
-    'define-accreg-title',
-    'define-accreg-desc',
-    TimeSliceDuration * 3,
-    'define-accreg-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'Accreg',
-      LOCATION_ENUM.AccReg,
-      [],
-      new MultiLineStringGeometricalShape([
-        [
-          [
-            [2500052.6133020874, 1118449.2968644362],
-            [2500087.3369474486, 1118503.6293053096],
-          ],
-          [
-            [2500060.952470149, 1118523.9098080816],
-            [2500029.950508212, 1118486.1465293542],
-          ],
-        ],
-        [
-          [
-            [2500113.647301364, 1118575.704815885],
-            [2500096.7293570912, 1118534.8226090078],
-          ],
-          [
-            [2500060.952470149, 1118523.9098080816],
-            [2500029.950508212, 1118486.1465293542],
-          ],
-        ],
-        [
-          [
-            [2500040.187860512, 1118562.59843714],
-            [2500065.949428312, 1118543.3339090333],
-          ],
-          [
-            [2500109.5966483564, 1118490.3921636103],
-            [2500134.8148273816, 1118469.6649961546],
-          ],
-        ],
-      ]),
-      BuildingStatus.selection,
-      'right-arrow',
-      {
-        Actors: false,
-        Resources: false,
-        Patients: false,
-      }
-    )
-  );
-
-  const placeAmbulancePark = new SelectionParkTemplate(
+  const ambulanceParkChoice = new ParkChoiceTemplate(
     'define-ambulance-park-title',
     'define-ambulance-park-desc',
     TimeSliceDuration,
     'define-ambulance-park-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-ambulancePark',
-      LOCATION_ENUM.ambulancePark,
-      ['EVASAN'],
-      new PointGeometricalShape([
-        [2499960, 1118580],
-        [2500070, 1118498],
-        [2499961, 1118388],
-      ]),
-      BuildingStatus.selection,
-      'ambulance-park',
-      {
-        Actors: false,
-        Resources: true,
-        Patients: true,
-      }
-    ),
-    'ambulance',
     false,
+    LOCATION_ENUM.ambulancePark,
+    'ambulance',
     undefined,
-    [SimFlag.AMBULANCE_PARK_BUILT]
+    [SimFlag.AMBULANCE_PARK_BUILT],
+    undefined,
+    getAmbulanceChoices()
   );
 
-  const placeHelicopterPark = new SelectionParkTemplate(
+  const helicopterParkChoice = new ParkChoiceTemplate(
     'define-helicopter-park-title',
     'define-helicopter-park-desc',
-    TimeSliceDuration * 2,
+    TimeSliceDuration,
     'define-helicopter-park-feedback',
-    new GeometryBasedFixedMapEntity(
-      0,
-      'location-helicopterPark',
-      LOCATION_ENUM.helicopterPark,
-      ['EVASAN'],
-      new PointGeometricalShape([
-        [2499956, 1118332],
-        [2499872, 1118614],
-        [2499925, 1118451],
-      ]),
-      BuildingStatus.selection,
-      'helicopter-park',
-      {
-        Actors: false,
-        Resources: true,
-        Patients: true,
-      }
-    ),
-    'helicopter',
+    false,
+    LOCATION_ENUM.helicopterPark,
+    'ambulance',
+    undefined,
+    [SimFlag.HELICOPTER_PARK_BUILT],
+    undefined,
+    getHelicopterChoices()
+  );
+
+  const nestChoice = new MapChoiceActionTemplate(
+    'define-Nest-title',
+    'define-Nest-desc',
+    TimeSliceDuration,
+    'define-Nest-feedback',
     false,
     undefined,
-    [SimFlag.HELICOPTER_PARK_BUILT]
+    undefined,
+    undefined,
+    getNestChoices(),
+    LOCATION_ENUM.nidDeBlesses
+  );
+
+  const accessRegressChoice = new MapChoiceActionTemplate(
+    'define-accreg-title',
+    'define-accreg-desc',
+    TimeSliceDuration,
+    'define-accreg-feedback',
+    false,
+    undefined,
+    undefined,
+    undefined,
+    getAccregChoices(),
+    LOCATION_ENUM.AccReg
+  );
+
+  const pmaChoice = new MapChoiceActionTemplate(
+    'define-PMA-title',
+    'define-PMA-desc',
+    TimeSliceDuration,
+    'define-PMA-feedback',
+    false,
+    undefined,
+    [SimFlag.PMA_BUILT],
+    undefined,
+    getPMAChoices(),
+    LOCATION_ENUM.PMA
+  );
+
+  const pcChoice = new PCChoiceTemplate(
+    'define-PC-title',
+    'define-PC-desc',
+    TimeSliceDuration * 2,
+    'define-PC-feedback',
+    false,
+    undefined,
+    [SimFlag.PC_BUILT],
+    undefined,
+    getPCChoices()
   );
 
   const openPMA = new DisplayMessageActionTemplate(
@@ -472,18 +330,18 @@ export function initActionTemplates(): {
   );
 
   const templates: Record<string, ActionTemplateBase> = {};
-  templates[placePCFront.Uid] = placePCFront;
+  templates[ambulanceParkChoice.Uid] = ambulanceParkChoice;
+  templates[helicopterParkChoice.Uid] = helicopterParkChoice;
+  templates[nestChoice.Uid] = nestChoice;
+  templates[accessRegressChoice.Uid] = accessRegressChoice;
+  templates[pmaChoice.Uid] = pmaChoice;
+  templates[pcChoice.Uid] = pcChoice;
+  templates[pcFrontChoice.Uid] = pcFrontChoice;
   templates[moveActor.Uid] = moveActor;
   templates[getInfo.Uid] = getInfo;
   templates[getInfo2.Uid] = getInfo2;
   templates[getPoliceInfos.Uid] = getPoliceInfos;
   templates[getFireFighterInfos.Uid] = getFireFighterInfos;
-  templates[placePMA.Uid] = placePMA;
-  templates[placePC.Uid] = placePC;
-  templates[placeNest.Uid] = placeNest;
-  templates[placeAccessRegress.Uid] = placeAccessRegress;
-  templates[placeAmbulancePark.Uid] = placeAmbulancePark;
-  templates[placeHelicopterPark.Uid] = placeHelicopterPark;
   templates[openPMA.Uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.Uid] = acsMcsArrivalAnnouncement;
   templates[evasanArrivalAnnouncement.Uid] = evasanArrivalAnnouncement;
@@ -504,8 +362,8 @@ export function initActionTemplates(): {
   return {
     actionTemplates: templates,
     uniqueActionTemplates: {
-      SelectionPCFrontTemplate: placePCFront,
-      SelectionPCSanTemplate: placePC,
+      PCFrontChoiceTemplate: pcFrontChoice,
+      PCChoiceTemplate: pcChoice,
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
       EvasanArrivalAnnouncement: evasanArrivalAnnouncement,
