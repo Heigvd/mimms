@@ -54,6 +54,8 @@ export function initActionTemplates(): {
 } {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
+  // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
+
   const pcFrontChoice = new PCFrontChoiceTemplate(
     'define-pcFront-title',
     'define-pcFront-desc',

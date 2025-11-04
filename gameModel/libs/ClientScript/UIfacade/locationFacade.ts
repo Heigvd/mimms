@@ -57,7 +57,7 @@ function getLocationChoicesData(
   return mapLocations.map((mapActivable: MapEntityActivable) => {
     const descriptor = getMapEntityDescriptor(mapActivable.uid)!;
     return {
-      label: getTranslation('mainSim-locations', descriptor.mapObjects[0].label),
+      label: getTranslation('mainSim-locations', descriptor?.mapObjects[0]?.label || ''),
       value: mapActivable.binding,
     };
   });

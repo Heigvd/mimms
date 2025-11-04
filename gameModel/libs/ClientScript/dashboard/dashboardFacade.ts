@@ -191,6 +191,14 @@ export function getLocationChoice(
 
     if (mapLocation) {
       // TODO Replacement
+      /* XGO : The following should be done: the templates associated with this task
+       * 1. find the template that have this location binding (one only)
+       * 2. find the non cancelled choice actions that have this binding (supposedly only one)
+       * 3. get its choice id
+       * 4. find its index in the template (sorting)
+       *
+       * Alternatively the payload of the choice action constructor could have the associated index/letter injected on playerside
+       */
       const index = 1; // getIndexOfSelectedChoice(mapLocation);
 
       if (index !== undefined) {

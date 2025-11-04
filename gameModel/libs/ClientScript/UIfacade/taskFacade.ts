@@ -85,7 +85,7 @@ export function getLocationChoicesForTaskType(
     .map(location => {
       // TODO better way of getting object translation ?
       return {
-        label: getTranslation('mainSim-locations', location.mapObjects[0].label),
+        label: getTranslation('mainSim-locations', location?.mapObjects[0]?.label || ''),
         value: location.binding,
       };
     });

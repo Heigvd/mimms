@@ -39,7 +39,7 @@ export function getOverlayItems(actorId: ActorId | undefined) {
       },
       payload: {
         id: mapActivable.binding,
-        name: firstMapObject.label,
+        name: firstMapObject?.label || '',
         icon: firstMapObject!.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
         actors: getActorsByLocation(mapActivable.binding),
         resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(

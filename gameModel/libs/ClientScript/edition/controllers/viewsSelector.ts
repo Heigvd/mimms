@@ -20,7 +20,7 @@ import {
   getNotificationImpactDef,
   getRadioImpactDef,
 } from '../typeDefinitions/impactDefinition';
-import { getFixedMapEntityTemplate } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
+import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
@@ -47,7 +47,7 @@ type Views = {
 
 const viewTree: Views = {
   action: {
-    FixedMapEntityTemplateDescriptor: getFixedMapEntityTemplate().view,
+    MapChoiceActionTemplateDescriptor: getMapChoiceActionTemplateDef().view,
     FullyConfigurableTemplateDescriptor: getFullyConfigurableTemplateDef().view,
     MoveActorTemplateDescriptor: getMoveTemplateDef().view,
   },

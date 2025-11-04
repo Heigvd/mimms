@@ -8,7 +8,10 @@ import { notifyMainStateInitializationComplete } from '../executionContext/gameE
 import { loadResourceContainersConfiguration } from './resourceLoader';
 import { loadPatients } from './patientsLoader';
 import { buildActivables } from './activableLoader';
-import { LocalEventBase, T0TriggerEvaluationLocalEvent } from '../common/localEvents/localEventBase';
+import {
+  LocalEventBase,
+  T0TriggerEvaluationLocalEvent,
+} from '../common/localEvents/localEventBase';
 
 let singletonStartState: MainSimulationState;
 

@@ -172,3 +172,30 @@ export function getBuildingStyle(_feature: any, _resolution: number): LayerStyle
 
   return buildingStyle;
 }
+
+export function getViewSelectionStyle(feature: any): LayerStyleObject {
+  const color = '#539265';
+  const props = feature.getProperties();
+
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: color,
+    width: 2,
+    lineJoin: 'round',
+  };
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: color + '25', // alpha
+  };
+  const text: TextStyleObject = {
+    type: 'TextStyle',
+    text: props.name,
+    textAlign: 'center',
+    fill: {
+      type: 'FillStyle',
+      color: color,
+    },
+    font: 'bold 20px sans-serif',
+  };
+  return { fill, stroke, text };
+}

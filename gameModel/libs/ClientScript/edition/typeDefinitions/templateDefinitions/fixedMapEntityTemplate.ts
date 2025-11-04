@@ -1,25 +1,25 @@
 // EVALUATION_PRIORITY 0
 
-import { FixedMapEntityTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
+import { MapChoiceActionTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../../typeDefinitions/definition';
 
 /**
- * Scenarist fixed map entity template
+ * Scenarist map choice descriptor
  */
-export function getFixedMapEntityTemplate(): Definition<FixedMapEntityTemplateDescriptor> {
+export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTemplateDescriptor> {
   return {
-    type: 'FixedMapEntityTemplateDescriptor',
+    type: 'MapChoiceActionTemplateDescriptor',
     getDefault: () => ({
-      type: 'FixedMapEntityTemplateDescriptor',
-      constructorType: 'SelectionFixedMapEntityTemplate',
+      type: 'MapChoiceActionTemplateDescriptor',
+      constructorType: 'MapChoiceActionTemplate',
       activableType: 'actionTemplate',
       activeAtStart: true,
       binding: undefined,
       choices: [],
       mandatory: false,
-      repeatable: 0,
+      repeatable: 1,
       tag: 'new fixed entity template',
       description: 'some default description', // multilang
       title: 'some default title', // TODO multilang
