@@ -2,7 +2,7 @@ import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDesc
 import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { MapToDefinition, MapToFlatType } from '../typeDefinitions/definition';
-import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
+import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 

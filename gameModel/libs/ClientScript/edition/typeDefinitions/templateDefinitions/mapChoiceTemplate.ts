@@ -1,9 +1,9 @@
 // EVALUATION_PRIORITY 0
 
-import { MapChoiceActionTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
+import { MapChoiceActionTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
-import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
 
 /**
  * Scenarist map choice descriptor

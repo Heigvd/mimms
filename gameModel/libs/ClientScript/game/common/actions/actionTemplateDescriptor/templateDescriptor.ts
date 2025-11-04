@@ -1,6 +1,6 @@
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../../interfaces';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { MapChoiceActionTemplateDescriptor } from '../actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
+import { MapChoiceActionTemplateDescriptor } from './descriptors/mapChoiceTemplate';
 import { FullyConfigurableTemplateDescriptor } from '../actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { MoveActorTemplateDescriptor } from '../actionTemplateDescriptor/descriptors/moveTemplate';
 import { ChoiceDescriptor } from '../choiceDescriptor/choiceDescriptor';

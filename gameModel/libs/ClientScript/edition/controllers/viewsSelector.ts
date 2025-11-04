@@ -20,7 +20,7 @@ import {
   getNotificationImpactDef,
   getRadioImpactDef,
 } from '../typeDefinitions/impactDefinition';
-import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
+import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';

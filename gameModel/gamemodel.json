@@ -5316,7 +5316,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/typeDefinitions/templateDefinitions/fixedMapEntityTemplate",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/mapChoiceTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276752:IeNZuB",
@@ -5469,7 +5469,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276802:PVO3dT",

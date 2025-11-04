@@ -1,5 +1,5 @@
 import { ActionTemplateBase } from '../common/actions/actionTemplateBase';
-import { createMapChoiceActionTemplate as createMapChoiceActionTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate';
+import { createMapChoiceActionTemplate as createMapChoiceActionTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate';
 import { createFullyConfigurableTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { createMoveActorTemplate } from '../common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';

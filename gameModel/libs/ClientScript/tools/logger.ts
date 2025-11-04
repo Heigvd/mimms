@@ -26,6 +26,7 @@ export const mainSimMapLogger = Helpers.getLogger('mainSim.map');
 localEventManagerLogger.setLevel('INFO');
 export const mainSimLogger = Helpers.getLogger('main.simulation.logic');
 export const mainSimStateLogger = Helpers.getLogger('main.simulation.state');
+export const mainSimLoaderLogger = Helpers.getLogger('main.simulation.loader');
 export const actionLogger = Helpers.getLogger('action');
 export const taskLogger = Helpers.getLogger('task');
 export const resourceLogger = Helpers.getLogger('resource');
