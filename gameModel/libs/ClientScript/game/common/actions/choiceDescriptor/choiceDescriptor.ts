@@ -20,3 +20,6 @@ export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typ
    */
   effects: Effect[];
 }
+
+// TODO Implement a MapChoiceDescriptor which has placeholder instead
+// TODO to avoid non-null assertions elsewhere

@@ -29,7 +29,6 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
 import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
@@ -285,72 +284,6 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
   applyStateUpdate(state: MainSimulationState): void {
     // decrement timeforward 'readiness'
     this.updateCurrentTimeFrame(state, -1);
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// map items
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/////////// TODO in own file
-export class AddFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'AddFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.push(this.props.fixedMapEntity);
-  }
-}
-
-export class RemoveFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'RemoveFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.splice(
-      so.mapLocations.findIndex(
-        f =>
-          f.id === this.props.fixedMapEntity.id && f.ownerId === this.props.fixedMapEntity.ownerId
-      ),
-      1
-    );
-  }
-}
-
-export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'CompleteBuildingFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations
-      .filter(mapEntity => mapEntity.id === this.props.fixedMapEntity.id)
-      .forEach(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
   }
 }
 

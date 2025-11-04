@@ -2,19 +2,17 @@ import {
   ActionTemplateBase,
   ChoiceTemplate,
   MoveActorActionTemplate,
-  SelectionFixedMapEntityTemplate,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { setInterfaceState } from '../gameInterface/interfaceState';
-import { endMapAction, startMapChoice, startMapSelect } from '../gameMap/main';
+import { endMapAction, startMapChoice } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
   isChoiceTemplate,
-  isFixedMapEntityTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -138,13 +136,6 @@ export function actionChangeHandler(): void {
 
     setInterfaceState({ currentActionUid: Context.action.Uid, selectedActionChoiceUid: choiceUid });
     startMapChoice();
-    return;
-  }
-
-  // SUNSET
-  // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(action) && canPlanAction()) {
-    startMapSelect();
   }
 }
 
@@ -202,9 +193,7 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
-    return '48';
-  } else if (actionTemplate instanceof MoveActorActionTemplate) {
+  if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
   } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
     return 'actionSituationUpdateParam';

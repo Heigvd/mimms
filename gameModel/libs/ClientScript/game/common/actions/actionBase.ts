@@ -28,20 +28,17 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { evaluateEffectImpacts } from '../impacts/effect';
 import {
   AddActorLocalEvent,
-  AddFixedEntityLocalEvent,
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
-  CompleteBuildingFixedEntityLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
@@ -49,7 +46,6 @@ import {
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
   PretriageReportResponseLocalEvent,
-  RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -739,78 +735,6 @@ export class MapChoiceAction extends ChoiceAction {
   }
 }
 
-/**
- * Action to select a FixedMapEntity
- */
-export class SelectionFixedMapEntityAction extends StartEndAction {
-  public readonly fixedMapEntity: FixedMapEntity;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[]
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      provideFlagsToState
-    );
-    this.fixedMapEntity = fixedMapEntity;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
-
-    getLocalEventManager().queueLocalEvent(
-      new AddFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
-    );
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    // ungrey the map element
-    getLocalEventManager().queueLocalEvent(
-      new CompleteBuildingFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
-    );
-    getLocalEventManager().queueLocalEvent(
-      new AddNotificationLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        recipientId: this.ownerId,
-        message: this.messageKey,
-      })
-    );
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
-    );
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // place PC Front
 // -------------------------------------------------------------------------------------------------
@@ -840,65 +764,6 @@ export class PCFrontChoiceAction extends MapChoiceAction {
       uuidTemplate,
       provideFlagsToState,
       choice
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new MoveActorLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        actorUid: this.ownerId,
-        location: LOCATION_ENUM.pcFront,
-      })
-    );
-
-    // First and only resource on scene comes with
-    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
-    getLocalEventManager().queueLocalEvent(
-      new MoveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        resourcesId: [resourceUid],
-        targetLocation: LOCATION_ENUM.pcFront,
-      })
-    );
-    getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        resourcesId: [resourceUid],
-      })
-    );
-  }
-}
-
-// SUNSET
-export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
     );
   }
 
@@ -995,80 +860,17 @@ export class PCChoiceAction extends MapChoiceAction {
       })
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
-    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
+    const pcFrontActivable = getMapLocationById(state, LOCATION_ENUM.pcFront);
     getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: pcFrontFixedEntity!,
-      })
-    );
-  }
-}
-
-// SUNSET
-export class SelectionPCAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-    // Move actors to PC
-    const actors = state
-      .getInternalStateObject()
-      .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
-
-    for (const actor of actors) {
-      getLocalEventManager().queueLocalEvent(
-        new MoveActorLocalEvent({
+      new ChangeMapActivableStatusLocalEvent(
+        {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
-          actorUid: actor.Uid,
-          location: this.fixedMapEntity.id,
-        })
-      );
-    }
-    // Move human resources to PC
-    getLocalEventManager().queueLocalEvent(
-      new MoveFreeHumanResourcesByLocationLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        sourceLocation: LOCATION_ENUM.pcFront,
-        targetLocation: this.fixedMapEntity.id,
-      })
-    );
-    // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
-    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
-    getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: pcFrontFixedEntity!,
-      })
+          target: pcFrontActivable!.uid,
+          option: 'deactivate',
+        },
+        'pending'
+      )
     );
   }
 }
@@ -1125,48 +927,6 @@ export class ParkChoiceAction extends MapChoiceAction {
   }
 }
 
-// SUNSET
-export class SelectionParkAction extends SelectionFixedMapEntityAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
-    messageKey: TranslationKey,
-    ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    readonly vehicleType: VehicleType,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      messageKey,
-      ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new MoveFreeWaitingResourcesByTypeLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        resourceType: this.vehicleType,
-        targetLocation: this.fixedMapEntity.id,
-      })
-    );
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // Actors
@@ -1206,7 +966,6 @@ export class MoveActorAction extends StartEndAction {
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Actors', this.location)) {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
@@ -1526,7 +1285,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     if (!this.compliantWithHierarchy) {
       // Resources refused the order due to hierarchy conflict
       this.sendFeedbackMessage(state, 'move-res-task-refused');
-      // TODO Replace with canMoveToLocation2
     } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       this.sendFeedbackMessage(state, 'move-res-task-no-location');

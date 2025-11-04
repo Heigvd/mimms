@@ -1,9 +1,4 @@
 import { getWaitingTaskId, loadTasks } from './taskLoader';
-import {
-  BuildingStatus,
-  GeometryBasedFixedMapEntity,
-  PointGeometricalShape,
-} from '../common/events/defineMapObjectEvent';
 import { getCurrentGameOptions } from '../common/gameOptions';
 import { Resource } from '../common/resources/resource';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
@@ -13,10 +8,7 @@ import { notifyMainStateInitializationComplete } from '../executionContext/gameE
 import { loadResourceContainersConfiguration } from './resourceLoader';
 import { loadPatients } from './patientsLoader';
 import { buildActivables } from './activableLoader';
-import {
-  LocalEventBase,
-  T0TriggerEvaluationLocalEvent,
-} from '../common/localEvents/localEventBase';
+import { LocalEventBase, T0TriggerEvaluationLocalEvent } from '../common/localEvents/localEventBase';
 
 let singletonStartState: MainSimulationState;
 
@@ -32,16 +24,6 @@ function buildStartingMainState(): MainSimulationState {
   const testAL = new Actor('AL', LOCATION_ENUM.chantier);
   const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
 
-  const mainAccident = new GeometryBasedFixedMapEntity(
-    0,
-    'location-chantier',
-    LOCATION_ENUM.chantier,
-    [],
-    new PointGeometricalShape([[2500100, 1118500]], [2500100, 1118500]),
-    BuildingStatus.ready,
-    'mainAccident'
-  );
-
   const tasks = loadTasks();
   const waitingTaskId = getWaitingTaskId(tasks);
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
@@ -53,7 +35,6 @@ function buildStartingMainState(): MainSimulationState {
       actions: [],
       cancelledActions: [],
       actors: [testAL, testCASU],
-      mapLocations: [mainAccident],
       patients: loadPatients(),
       tasks: tasks,
       radioMessages: [],
@@ -79,7 +60,6 @@ export function shallowState(): MainSimulationState {
       actions: [],
       cancelledActions: [],
       actors: [],
-      mapLocations: [],
       patients: [],
       tasks: [],
       radioMessages: [],
@@ -93,6 +73,7 @@ export function shallowState(): MainSimulationState {
     -1 // impossible state id : make sure no event can be applied on that state
   );
 }
+
 /**
  * Returns events that should be evaluated on a newly built state
  */

@@ -14,7 +14,6 @@ import {
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
-  SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
   SituationUpdateActionTemplate,
@@ -174,10 +173,6 @@ export function getActorsNotDoing<T extends ActionBase>(actionClass: {
   return playerActors.filter(
     (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, actionClass)
   );
-}
-
-export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof SelectionFixedMapEntityTemplate;
 }
 
 export function isChoiceTemplate(

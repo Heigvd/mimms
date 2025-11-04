@@ -3,7 +3,6 @@ import { ActionBase } from '../actions/actionBase';
 import { SimFlag } from '../actions/actionTemplateBase';
 import { Actor } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
-import { FixedMapEntity } from '../events/defineMapObjectEvent';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
 import { Resource } from '../resources/resource';
@@ -144,13 +143,6 @@ export class MainSimulationState {
     return group(this.internalState.actions, (a: ActionBase) => a.ownerId);
   }
 
-  /**
-   * @returns An array of all map locations
-   */
-  public getMapLocations(): FixedMapEntity[] {
-    return this.internalState.mapLocations;
-  }
-
   public getSimFlags(): Partial<Record<SimFlag, boolean>> {
     return this.internalState.flags;
   }
@@ -158,22 +150,6 @@ export class MainSimulationState {
   public isSimFlagEnabled(flag: SimFlag): boolean {
     if (this.internalState.flags[flag]) return this.internalState.flags[flag]!;
     return false;
-  }
-
-  /**
-   * @returns True if the zones are defined
-   */
-  // deprecated - loc.name === 'Triage Zone' won't work anymore
-  public areZonesAlreadyDefined(): boolean {
-    // TODO make it stronger when zones, PMA, PC, ... are more thant just places
-    return (
-      this.internalState.mapLocations.filter(
-        loc =>
-          loc.name === 'Triage Zone' &&
-          (loc.startTimeSec || 0) + (loc.durationTimeSec || 0) <=
-            this.internalState.simulationTimeSec
-      ).length > 0
-    );
   }
 
   /**
@@ -213,7 +189,6 @@ export interface MainStateObject {
   actions: ActionBase[];
   cancelledActions: ActionBase[];
   tasks: TaskBase[];
-  mapLocations: FixedMapEntity[];
   patients: PatientState[];
   actors: Actor[];
   radioMessages: RadioMessage[];

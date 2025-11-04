@@ -2,7 +2,7 @@ import { MapChoiceActionTemplate } from '../../game/common/actions/actionTemplat
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import {
   getActiveMapEntityDescriptors,
-  getMapActivable,
+  getMapActivableFromUid,
   getMapEntityDescriptors,
 } from '../../game/loaders/mapEntitiesLoader';
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
@@ -58,7 +58,7 @@ function getLayer(
   descriptors: Record<string, MapEntityDescriptor>,
   name: string
 ): FeatureCollection {
-  let layer = getEmptyFeatureCollection(name);
+  const layer = getEmptyFeatureCollection(name);
 
   const meds = Object.values(descriptors);
   for (let i = 0; i < meds.length; i++) {
@@ -82,7 +82,7 @@ function getGenericFeature(
   index: number, // Used for selection
   layer: FeatureCollection
 ): FeatureCollection {
-  const activable = getMapActivable(descriptor.uid);
+  const activable = getMapActivableFromUid(descriptor.uid);
 
   for (const mapObject of descriptor.mapObjects) {
     const properties = {
@@ -92,6 +92,7 @@ function getGenericFeature(
       label: mapObject.label,
       labelOffset: mapObject.labelOffset,
       index: index,
+      binding: activable?.binding,
     };
 
     const feature: any = {
