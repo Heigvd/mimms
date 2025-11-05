@@ -9,6 +9,7 @@
               "content" : "import { getImpactTypeSelection } from \"./edition/UIfacade/triggerConfigFacade\";\ngetImpactTypeSelection();",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "type",
             "onVariableChange" : {
@@ -86,6 +87,7 @@
                       "content" : "Context.role.label;",
                       "language" : "TypeScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -106,12 +108,14 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "For each"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "message",
                 "onCancel" : { },
@@ -160,6 +164,7 @@
                   "content" : "import { getRadioSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getRadioSelection();",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -183,6 +188,7 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "message",
                 "onCancel" : { },
@@ -226,6 +232,7 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "delay",
                 "style" : { },
@@ -238,6 +245,7 @@
               "type" : "Text"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "delay",
                 "onVariableChange" : {
@@ -262,6 +270,7 @@
               "type" : "Number input"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "min",
                 "style" : { },
@@ -292,6 +301,7 @@
               "content" : "true;",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -302,6 +312,7 @@
           },
           "type" : "Text"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
@@ -320,6 +331,8 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -336,6 +349,7 @@
               "content" : "Context.item.type !== 'notification';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "notification",
             "style" : { },
@@ -347,6 +361,7 @@
           },
           "type" : "Text"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",

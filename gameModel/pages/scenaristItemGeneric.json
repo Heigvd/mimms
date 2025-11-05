@@ -14,6 +14,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'uid');",
               "language" : "typescript"
             },
+            "layoutClassName" : "generic-item__index",
             "layoutStyle" : { },
             "name" : "uid",
             "onCancel" : { },
@@ -44,6 +45,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'index');",
               "language" : "typescript"
             },
+            "layoutClassName" : "generic-item__index",
             "layoutStyle" : { },
             "name" : "index",
             "onVariableChange" : {
@@ -81,12 +83,21 @@
           },
           "type" : "PageLoader"
         } ],
+        "className" : "generic-item",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "generic-item--selected ",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+            "language" : "typescript"
+          }
+        } ],
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutStyle" : {
-          "border" : "1px solid"
-        },
+        "layoutClassName" : "noPadding fullWidth",
+        "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"
@@ -110,6 +121,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -130,6 +142,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -160,6 +173,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -173,15 +187,19 @@
           },
           "type" : "Button"
         } ],
+        "className" : "generic-item__actions",
         "layout" : {
-          "flexDirection" : "column"
+          "flexDirection" : "column",
+          "justifyContent" : "center"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"
     } ],
     "layout" : { },
+    "layoutClassName" : "noPadding generic-item-container",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

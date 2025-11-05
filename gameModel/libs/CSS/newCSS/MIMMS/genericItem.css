@@ -1,0 +1,94 @@
+.generic-item {
+  height: fit-content;
+  margin-bottom: 10px;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  background-color: var(--grey05);
+  border-radius: var(--XS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.generic-item--selected {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+}
+
+/* generic item actions */
+.generic-item-container .generic-item__actions {
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.generic-item-container:hover .generic-item__actions {
+  opacity: 100%;
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions svg {
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions svg:hover {
+  color: var(--primary_70);
+}
+
+.generic-item__actions svg {
+  color: var(--grey_base);
+  transition: color .3s ease-in-out;
+}
+
+.generic-item__actions svg:hover {
+  color: var(--grey_70);
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions .disabled svg,
+.generic-item__actions .disabled svg {
+  color: var(--grey_30);
+}
+
+.generic-item__index {
+  padding: 1rem 1rem 0 1rem;
+}
+
+/* inputs */
+.generic-item input,
+.generic-item input:hover,
+.generic-item input:focus {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  border: 2px solid var(--grey_30);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.generic-item textarea,
+.generic-item textarea:hover,
+.generic-item textarea:focus {
+  font-size: var(--S_text);
+  color: var(--grey_base);
+  border: 2px solid var(--grey_30);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.generic-item--selected input,
+.generic-item--selected input:hover,
+.generic-item--selected input:focus,
+.generic-item--selected textarea,
+.generic-item--selected textarea:hover,
+.generic-item--selected textarea:focus {
+  color: var(--primary_base);
+  border-color: var(--primary_30);
+}
+
+/* input labels */
+.generic-item__label {
+  position: absolute;
+  top: -12px;
+  left: 5px;
+  font-size: .5rem;
+  padding: 0 7px;
+  background-color: var(--grey-white);
+  border-radius: var(--XS_borderRadius);
+  z-index: 1;
+}

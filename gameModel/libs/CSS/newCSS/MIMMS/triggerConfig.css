@@ -1,0 +1,20 @@
+.trigger {
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.basic__generic-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.basic__generic-item:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: calc(100% - 40px);
+  content: '';
+  background-color: var(--grey_20);
+}

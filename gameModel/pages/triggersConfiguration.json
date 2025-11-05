@@ -6,6 +6,8 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "scenarist-title",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
                 "style" : { },
@@ -18,12 +20,16 @@
               "type" : "Text"
             }, {
               "props" : {
-                "layoutStyle" : { },
+                "className" : "resources__undertitle",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "marginBottom" : "10px"
+                },
                 "name" : "Basic title",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Basic</p>\"",
+                  "content" : "\"Basic\"",
                   "language" : "TypeScript"
                 }
               },
@@ -32,14 +38,17 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "",
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "triggerItemPageLoader",
                     "style" : { }
                   },
                   "type" : "PageLoader"
                 } ],
+                "className" : "basic__generic-item",
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
@@ -50,6 +59,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Basic items",
                 "style" : { }
@@ -57,12 +67,16 @@
               "type" : "For each"
             }, {
               "props" : {
-                "layoutStyle" : { },
+                "className" : "resources__undertitle",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "marginBottom" : "10px"
+                },
                 "name" : "Custom title",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Custom</p>\"",
+                  "content" : "\"Custom\"",
                   "language" : "TypeScript"
                 }
               },
@@ -73,12 +87,14 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "triggerItemPageLoader",
                     "style" : { }
                   },
                   "type" : "PageLoader"
                 } ],
+                "className" : "",
                 "exposeAs" : "item",
                 "getItemsFn" : {
                   "@class" : "Script",
@@ -89,6 +105,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Custom items",
                 "style" : { }
@@ -96,13 +113,17 @@
               "type" : "For each"
             }, {
               "props" : {
+                "className" : "header-button",
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>trigger</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutStyle" : { },
+                "layoutClassName" : "noPadding scenarist-absolute-button",
+                "layoutStyle" : {
+                  "margin" : "0"
+                },
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
@@ -112,10 +133,13 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             } ],
+            "className" : "scenarist-column",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -124,6 +148,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding fullWidth fullHeight",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -134,13 +159,17 @@
             },
             "name" : "Triggers",
             "stopPropagation" : true,
-            "style" : { }
+            "style" : {
+              "paddingLeft" : "0"
+            }
           },
           "type" : "FlexList"
         }, {
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "scenarist-title",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
                 "style" : { },
@@ -158,11 +187,13 @@
                   "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerOperatorChoices();",
                   "language" : "typescript"
                 },
+                "className" : "",
                 "hideIf" : {
                   "@class" : "Script",
                   "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "and | or",
                 "onVariableChange" : {
@@ -191,6 +222,7 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "conditionItemPageLoader",
                     "style" : { }
@@ -207,23 +239,30 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "For each"
             }, {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
-                  "language" : "typescript"
-                },
+                "className" : "header-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "header-button--disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                    "language" : "typescript"
+                  }
+                } ],
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>condition</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding scenarist-absolute-button",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -234,10 +273,13 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             } ],
+            "className" : "scenarist-column",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -246,6 +288,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding fullWidth",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -263,6 +306,8 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "scenarist-title",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
                 "style" : { },
@@ -279,6 +324,7 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "impactItemPageLoader",
                     "style" : { }
@@ -295,23 +341,30 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
               "type" : "For each"
             }, {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
-                  "language" : "typescript"
-                },
+                "className" : "header-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "header-button--disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                    "language" : "typescript"
+                  }
+                } ],
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>impact</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding scenarist-absolute-button",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -322,10 +375,13 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             } ],
+            "className" : "scenarist-column",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -334,6 +390,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noPadding fullWidth",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -344,7 +401,9 @@
             },
             "name" : "Impacts",
             "stopPropagation" : true,
-            "style" : { }
+            "style" : {
+              "borderRight" : "none"
+            }
           },
           "type" : "FlexList"
         }, {
@@ -433,18 +492,21 @@
             "layout" : {
               "flexDirection" : "column"
             },
+            "layoutClassName" : "noDisplay",
             "layoutStyle" : { },
             "name" : "buttons",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
+        "className" : "fullWidth",
         "exposeAs" : "pageState",
         "initialState" : {
           "@class" : "Script",
           "content" : "import { loadPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadPageState();",
           "language" : "TypeScript"
         },
+        "layoutClassName" : "noPadding fullHeight",
         "layoutStyle" : { },
         "localState" : false,
         "name" : "pageState",
@@ -455,11 +517,13 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "style" : { }
   },
   "type" : "FlexList"
 }

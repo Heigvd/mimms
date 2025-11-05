@@ -9,6 +9,7 @@
               "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "type",
             "onVariableChange" : {
@@ -45,6 +46,7 @@
                   "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "< | = | >",
                 "onVariableChange" : {
@@ -69,6 +71,7 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -92,6 +95,7 @@
               "type" : "Number input"
             }, {
               "props" : {
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "min",
                 "style" : { },
@@ -109,6 +113,7 @@
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "time",
             "style" : { }
@@ -123,6 +128,7 @@
                   "content" : "import { getActionTemplateSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getActionTemplateSelection();",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "action",
                 "onVariableChange" : {
@@ -168,6 +174,7 @@
                       "content" : "Context.status.label;",
                       "language" : "TypeScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -188,6 +195,7 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -199,6 +207,7 @@
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "action",
             "style" : { }
@@ -213,6 +222,7 @@
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "choice",
             "style" : { }
@@ -227,6 +237,7 @@
                   "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerSelection(getSelected('trigger')?.uid);",
                   "language" : "typescript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "trigger",
                 "onVariableChange" : {
@@ -272,6 +283,7 @@
                       "content" : "Context.status.label;",
                       "language" : "TypeScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -292,6 +304,7 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "status",
                 "style" : { }
@@ -304,6 +317,7 @@
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "trigger",
             "style" : { }
@@ -318,6 +332,7 @@
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mapEntity",
             "style" : { }
@@ -330,6 +345,7 @@
               "content" : "true;",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -340,6 +356,7 @@
           },
           "type" : "Text"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
@@ -358,6 +375,7 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -374,6 +392,7 @@
               "content" : "Context.item.type !== 'time';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "time",
             "style" : { },
@@ -391,6 +410,7 @@
               "content" : "Context.item.type !== 'action';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "action",
             "style" : { },
@@ -408,6 +428,7 @@
               "content" : "Context.item.type !== 'choice';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "choice",
             "style" : { },
@@ -425,6 +446,7 @@
               "content" : "Context.item.type !== 'trigger';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "trigger",
             "style" : { },
@@ -442,6 +464,7 @@
               "content" : "Context.item.type !== 'mapEntity';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mapEntity",
             "style" : { },
@@ -453,6 +476,7 @@
           },
           "type" : "Text"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",

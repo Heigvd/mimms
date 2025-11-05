@@ -1,0 +1,50 @@
+.scenarist-column {
+  flex: 1 1 auto;
+  padding-left: 1rem;
+  border-right: 3px solid var(--grey_10);
+}
+
+.scenarist-absolute-button {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  margin: 0 0 0 1rem;
+  z-index: 1;
+}
+
+/* buttons */
+.boolean-container {
+  gap: 10px;
+}
+
+.boolean-button {
+  padding: 6px 5px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  white-space: nowrap;
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  border: 2px solid var(--primary_base);
+  border-radius: 0;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.boolean-button:hover {
+  background-color: var(--primary_10);
+}
+
+.boolean-button-left {
+  border-right: 1.25px solid var(--primary_base);
+  border-radius: var(--XXS_borderRadius) 0 0 var(--XXS_borderRadius);
+}
+
+.boolean-button-right {
+  border-left: 1.25px solid var(--primary_base);
+  border-radius: 0 var(--XXS_borderRadius) var(--XXS_borderRadius) 0;
+}
+
+.boolean-button--selected,
+.boolean-button--selected:hover {
+  color: var(--primary_10);
+  background-color: var(--primary_base);
+}
