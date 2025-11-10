@@ -6,7 +6,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "scenarist-title",
+                "className" : "noMargin scenarist-title",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
@@ -139,7 +139,7 @@
               },
               "type" : "Button"
             } ],
-            "className" : "scenarist-column",
+            "className" : "",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -148,7 +148,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding fullWidth fullHeight",
+            "layoutClassName" : "noPadding fullHeight scenarist-column",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -168,7 +168,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "scenarist-title",
+                "className" : "noMargin scenarist-title",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
@@ -187,14 +187,16 @@
                   "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerOperatorChoices();",
                   "language" : "typescript"
                 },
-                "className" : "",
+                "className" : "scenarist-dropdown",
                 "hideIf" : {
                   "@class" : "Script",
                   "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
+                "layoutClassName" : "noPadding and-or__dropdown",
+                "layoutStyle" : {
+                  "width" : "68px"
+                },
                 "name" : "and | or",
                 "onVariableChange" : {
                   "client" : {
@@ -279,7 +281,7 @@
               },
               "type" : "Button"
             } ],
-            "className" : "scenarist-column",
+            "className" : "",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -288,7 +290,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding fullWidth",
+            "layoutClassName" : "fullWidth scenarist-column",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -306,7 +308,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "scenarist-title",
+                "className" : "noMargin scenarist-title",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
@@ -381,7 +383,7 @@
               },
               "type" : "Button"
             } ],
-            "className" : "scenarist-column",
+            "className" : "",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
@@ -390,8 +392,10 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding fullWidth",
-            "layoutStyle" : { },
+            "layoutClassName" : "fullWidth scenarist-column",
+            "layoutStyle" : {
+              "borderRight" : "none"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
@@ -401,9 +405,7 @@
             },
             "name" : "Impacts",
             "stopPropagation" : true,
-            "style" : {
-              "borderRight" : "none"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {

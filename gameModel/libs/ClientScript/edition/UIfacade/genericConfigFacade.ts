@@ -115,11 +115,19 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
     parentId = getSelected(parentType)?.uid ?? '';
   }
 
-  return getController().createNew(parentId, itemType);
+  const newItem = getController().createNew(parentId, itemType);
+  lastGenericAdded = newItem.uid;
+  return newItem;
 }
 
 export function deleteItem(itemId: Uid): void {
   getController().remove(itemId);
+}
+
+let lastGenericAdded: string | null = null;
+
+export function getLastGenericAdded(uid: string): boolean {
+  return lastGenericAdded === uid;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

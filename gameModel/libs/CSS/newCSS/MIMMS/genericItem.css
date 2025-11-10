@@ -9,9 +9,21 @@
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
+.generic-item:has(.condition),
+.generic-item:has(.impact) {
+  min-height: 5.5rem;
+}
+
 .generic-item--selected {
   color: var(--primary_base);
   background-color: var(--primary_10);
+  z-index: 1;
+}
+
+.new-generic-item {
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  animation-name: new-generic-item;
+  animation-duration: 3s;
 }
 
 /* generic item actions */
@@ -91,4 +103,13 @@
   background-color: var(--grey-white);
   border-radius: var(--XS_borderRadius);
   z-index: 1;
+}
+
+
+/* - - - - A N I M A T I O N S - - - - */
+
+@keyframes new-generic-item {
+  0% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  50% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  100% {box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);}
 }

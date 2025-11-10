@@ -92,6 +92,14 @@
             "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
             "language" : "typescript"
           }
+        }, {
+          "applyOn" : "Inside",
+          "className" : "new-generic-item",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { getLastGenericAdded } from \"./edition/UIfacade/genericConfigFacade\";\ngetLastGenericAdded(Context.item.uid);",
+            "language" : "typescript"
+          }
         } ],
         "layout" : {
           "flexDirection" : "column"

@@ -1,6 +1,9 @@
+/* - - - - -  L A Y O U T  - - - */
+
 .scenarist-column {
-  flex: 1 1 auto;
-  padding-left: 1rem;
+  /*flex: 1 1 auto;*/
+  width: 33.3%;
+  padding: 0 0 0 1rem;
   border-right: 3px solid var(--grey_10);
 }
 
@@ -12,8 +15,57 @@
   z-index: 1;
 }
 
-/* buttons */
+
+/* - - - - -  T E X T S  - - - */
+
+.scenarist-title {
+  margin: 1.5rem 0;
+  font-size: var(--ML_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.scenarist-text {
+  font-size: var(--SM_text);
+  color: var(--grey_100);
+}
+
+.small-bold-grey-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+}
+
+.small-bold-grey05-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey05);
+}
+
+.small-regular-primary-text {
+  font-size: var(--S_text);
+  font-weight: var(--regularWeight);
+  color: var(--primary_base);
+}
+
+.small-bold-primary-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+}
+
+.small-bold-primary10-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_10);
+}
+
+
+/* - - - - -  B U T T O N S  - - - */
+
+/* boolean button */
 .boolean-container {
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -24,7 +76,9 @@
   white-space: nowrap;
   color: var(--primary_base);
   background-color: var(--primary_10);
-  border: 2px solid var(--primary_base);
+  border-width: 2px 1.5px;
+  border-style: solid;
+  border-color: var(--primary_base);
   border-radius: 0;
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
@@ -34,12 +88,12 @@
 }
 
 .boolean-button-left {
-  border-right: 1.25px solid var(--primary_base);
+  border-width: 2px 1.5px 2px 2px;
   border-radius: var(--XXS_borderRadius) 0 0 var(--XXS_borderRadius);
 }
 
 .boolean-button-right {
-  border-left: 1.25px solid var(--primary_base);
+  border-width: 2px 2px 2px 1.5px;
   border-radius: 0 var(--XXS_borderRadius) var(--XXS_borderRadius) 0;
 }
 
@@ -47,4 +101,129 @@
 .boolean-button--selected:hover {
   color: var(--primary_10);
   background-color: var(--primary_base);
+}
+
+
+/* - - - - -  D R O P D O W N S  - - - */
+
+/* scenarist dropdown */
+.scenarist-dropdown {
+  width: 125px;
+}
+
+.scenarist-dropdown .wegas-select__value-container,
+.scenarist-dropdown .wegas-select__value-container--has-value,
+.scenarist-dropdown .wegas-select__indicator {
+  align-items: center;
+  height: 15px;
+  min-height: 15px;
+  padding: 0;
+}
+
+.scenarist-dropdown .wegas-select__control {
+  height: 28.4px;
+  min-height: 28.4px;
+}
+
+.scenarist-dropdown .wegas-select__control {
+  padding: 5px;
+  background-color: transparent;
+  border: 2px solid var(--primary_base);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.scenarist-dropdown .wegas-select__single-value {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  /*text-transform: uppercase;*/
+  /*max-width: none;
+  text-overflow: initial;*/
+}
+
+.scenarist-dropdown .wegas-select__indicator-separator {
+  display: none;
+}
+
+.scenarist-dropdown svg {
+  color: var(--primary_base);
+}
+
+.scenarist-dropdown .wegas-select__menu-list {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-transform: uppercase;
+  background-color: var(--grey-white);
+  border: 2px solid var(--primary_base);
+  border-radius: var(--XXS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-dropdown .wegas-select__option--is-focused {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-dropdown .wegas-select__option--is-selected {
+  color: var(--grey-white);
+  background-color: var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+/* conditions & impacts dropdown */
+.generic-item--selected .condition-impact__dropdown {
+  z-index: 2;
+}
+
+.condition-impact__dropdown .wegas-select__control {
+  background-color: var(--grey_base);
+  border: none;
+  border-radius: var(--XXS_borderRadius) var(--XXS_borderRadius) 0 0;
+  transition: background-color .3s ease-in-out;
+}
+
+.generic-item--selected .condition-impact__dropdown .wegas-select__control {
+  background-color: var(--primary_base);
+}
+
+.condition-impact__dropdown .wegas-select__single-value {
+  font-size: var(--S_text);
+  color: var(--grey-white);
+  text-transform: uppercase;
+}
+
+.condition-impact__dropdown .wegas-select__indicator-separator {
+  display: none;
+}
+
+.condition-impact__dropdown svg {
+  color: var(--grey-white);
+}
+
+.condition-impact__dropdown .wegas-select__menu {
+  box-shadow: none;
+}
+
+.condition-impact__dropdown .wegas-select__menu-list {
+  font-size: var(--S_text);
+  color: var(--primary_base);
+  text-transform: uppercase;
+  background-color: var(--grey-white);
+  border: 1px solid var(--primary_base);
+  border-radius: 0 0 var(--XXS_borderRadius) var(--XXS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__option--is-focused {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__option--is-selected {
+  color: var(--grey-white);
+  background-color: var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
