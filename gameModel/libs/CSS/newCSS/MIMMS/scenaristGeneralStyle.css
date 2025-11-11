@@ -12,14 +12,18 @@
   margin-bottom: 57px;
 }
 
+.generic-item__page-loader {
+  margin-bottom: 10px;
+}
+
 .scenarist-absolute-button {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
+  /*width: 100%;*/
   padding: 1rem 0 1rem 1rem;
-  background-color: var(--grey-white);
-  z-index: 1;
+  /*background-color: var(--grey-white);
+  z-index: 1;*/
 }
 
 .scenarist-save-all-button {
@@ -27,11 +31,7 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  z-index: 2;
-}
-
-.scenarist-save-all-button button {
-  box-shadow: var(--buttonShadow);
+  /*z-index: 2;*/
 }
 
 
@@ -44,12 +44,20 @@
   color: var(--grey_100);
 }
 
+.scenarist__undertitle {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-transform: uppercase;
+}
+
 .scenarist-text {
   font-size: var(--SM_text);
   color: var(--grey_100);
 }
 
-.small-bold-grey-text {
+/* not needed as long as only the selected condition/impact is opened */
+/*.small-bold-grey-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--grey_base);
@@ -59,28 +67,36 @@
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--grey05);
-}
+}*/
 
 .small-regular-primary-text {
   font-size: var(--S_text);
   font-weight: var(--regularWeight);
   color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .small-bold-primary-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .small-bold-primary10-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_10);
+  transition: color .3s ease-in-out;
 }
 
 
 /* - - - - -  B U T T O N S  - - - */
+
+/* scenarist save all button */
+.scenarist-save-all-button button {
+  box-shadow: var(--buttonShadow);
+}
 
 /* boolean button */
 .boolean-container {
@@ -155,9 +171,6 @@
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
-  /*text-transform: uppercase;*/
-  /*max-width: none;
-  text-overflow: initial;*/
 }
 
 .scenarist-dropdown .wegas-select__indicator-separator {
@@ -172,7 +185,6 @@
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
-  text-transform: uppercase;
   background-color: var(--grey-white);
   border: 2px solid var(--primary_base);
   border-radius: var(--XXS_borderRadius);
@@ -230,7 +242,7 @@
   color: var(--primary_base);
   text-transform: uppercase;
   background-color: var(--grey-white);
-  border: 1px solid var(--primary_base);
+  border: 2px solid var(--primary_base);
   border-radius: 0 0 var(--XXS_borderRadius) var(--XXS_borderRadius);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }

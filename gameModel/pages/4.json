@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "resources__undertitle",
+        "className" : "scenarist__undertitle",
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "setup",
@@ -129,7 +129,7 @@
       "type" : "Boolean"
     }, {
       "props" : {
-        "className" : "resources__undertitle",
+        "className" : "scenarist__undertitle",
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "downloads",
@@ -211,7 +211,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "resources__undertitle",
+                "className" : "scenarist__undertitle",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "advanced options",

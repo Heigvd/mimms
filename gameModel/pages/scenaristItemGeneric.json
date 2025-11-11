@@ -14,7 +14,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'uid');",
               "language" : "typescript"
             },
-            "layoutClassName" : "generic-item__index",
+            "layoutClassName" : "generic-item__advanced-internal",
             "layoutStyle" : { },
             "name" : "uid",
             "onCancel" : { },
@@ -45,7 +45,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'index');",
               "language" : "typescript"
             },
-            "layoutClassName" : "generic-item__index",
+            "layoutClassName" : "generic-item__advanced-internal",
             "layoutStyle" : { },
             "name" : "index",
             "onVariableChange" : {

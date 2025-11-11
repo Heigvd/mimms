@@ -1,11 +1,9 @@
+/* - - - - -  L A Y O U T  - - - */
+
 .trigger {
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
   gap: 1rem;
   padding: 1rem;
-}
-
-.trigger-gap {
-  gap: 1rem;
 }
 
 .condition,
@@ -19,6 +17,24 @@
   padding: 0;
 }
 
+.generic-item__page-loader:first-of-type:has(.trigger) {
+  margin-top: 10px;
+}
+
+.generic-item:has(.condition),
+.generic-item:has(.impact) {
+  min-height: 5.5rem;
+}
+
+/* and or dropdown */
+.and-or__dropdown {
+  position: absolute;
+  top: 1.5rem;
+  right: 40px;
+}
+
+/* divider between basic and custom triggers.
+Could be moved in genericItem.css file if reused elsewhere */
 .basic__generic-item {
   position: relative;
   margin-bottom: 10px;
@@ -34,24 +50,10 @@
   background-color: var(--grey_20);
 }
 
-.and-or__dropdown {
-  position: absolute;
-  top: 1.5rem;
-  right: 40px;
-}
 
-.number-input {
-  width: 3rem;
-}
+/* - - - - -  B U T T O N S  - - - */
 
-.generic-item .number-input input,
-.generic-item .number-input input:hover,
-.generic-item .number-input input:focus {
-  font-size: var(--S_text);
-  font-weight: var(--regularWeight);
-}
-
-/* .notif-receiver */
+/* notif receiver */
 .notif-receiver-grey {
   gap: 5px;
   padding: 6px 12px;
@@ -75,12 +77,11 @@
 
 .notif-receiver--selected-grey {
   background-color: var(--grey_base);
-  transition: background-color .3s ease-in-out;
+  transition: background-color .3s ease-in-out, border .3s ease-in-out;
 }
 
 .notif-receiver--selected-primary {
   background-color: var(--primary_base);
-  border: 1px solid var(--primary_base);
   transition: background-color .3s ease-in-out, border .3s ease-in-out;
 }
 

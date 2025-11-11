@@ -20,7 +20,7 @@
               "type" : "Text"
             }, {
               "props" : {
-                "className" : "resources__undertitle",
+                "className" : "scenarist__undertitle",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
                   "marginBottom" : "10px"
@@ -69,7 +69,7 @@
               "type" : "For each"
             }, {
               "props" : {
-                "className" : "resources__undertitle",
+                "className" : "scenarist__undertitle",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
                   "marginBottom" : "10px"
