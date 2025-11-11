@@ -5487,15 +5487,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2536234:cyro0F",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
