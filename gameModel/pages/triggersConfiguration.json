@@ -60,7 +60,9 @@
                   "flexDirection" : "column"
                 },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
+                "layoutStyle" : {
+                  "overflow" : "auto"
+                },
                 "name" : "Basic items",
                 "style" : { }
               },
@@ -105,7 +107,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
                 "name" : "Custom items",
                 "style" : { }
@@ -120,9 +122,9 @@
                   "content" : "\"<p>trigger</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding scenarist-absolute-button",
+                "layoutClassName" : "scenarist-absolute-button",
                 "layoutStyle" : {
-                  "margin" : "0"
+                  "paddingLeft" : "0"
                 },
                 "localScriptEval" : {
                   "script" : {
@@ -241,7 +243,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -264,7 +266,7 @@
                   "content" : "\"<p>condition</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding scenarist-absolute-button",
+                "layoutClassName" : "scenarist-absolute-button",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -343,7 +345,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
                 "style" : { }
               },
@@ -366,7 +368,7 @@
                   "content" : "\"<p>impact</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding scenarist-absolute-button",
+                "layoutClassName" : "scenarist-absolute-button",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -412,17 +414,23 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
-                  "language" : "typescript"
-                },
+                "className" : "header-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "header-button--disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
+                    "language" : "typescript"
+                  }
+                } ],
                 "icon" : "undo-alt",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>undo</p>\"",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -432,22 +440,30 @@
                   }
                 },
                 "name" : "Undo",
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             }, {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
-                  "language" : "typescript"
-                },
+                "className" : "header-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "header-button--disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
+                    "language" : "typescript"
+                  }
+                } ],
                 "icon" : "redo-alt",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>redo</p>\"",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -457,22 +473,30 @@
                   }
                 },
                 "name" : "Redo",
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             }, {
               "props" : {
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\n  isSaved();",
-                  "language" : "typescript"
-                },
+                "className" : "header-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "header-button--disabled",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\n  isSaved();",
+                    "language" : "typescript"
+                  }
+                } ],
                 "icon" : "save",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>save all</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -482,19 +506,21 @@
                   }
                 },
                 "name" : "Save",
-                "style" : { }
+                "style" : {
+                  "margin" : "0"
+                }
               },
               "type" : "Button"
             } ],
+            "className" : "scenarist-save-all-button",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context?.pageState?.state == undefined;",
               "language" : "typescript"
             },
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noDisplay",
+            "id" : "",
+            "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "buttons",
             "style" : { }
@@ -522,7 +548,6 @@
     "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
     "style" : { }
