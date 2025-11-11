@@ -104,8 +104,10 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "noPadding fullWidth",
-        "layoutStyle" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : {
+          "width" : "calc(100% - 40px)"
+        },
         "style" : { }
       },
       "type" : "FlexList"
@@ -200,7 +202,7 @@
           "flexDirection" : "column",
           "justifyContent" : "center"
         },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "noPadding generic-item__actions-container",
         "layoutStyle" : { },
         "style" : { }
       },
@@ -210,7 +212,6 @@
     "layoutClassName" : "noPadding generic-item-container",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
     "localScriptEval" : {

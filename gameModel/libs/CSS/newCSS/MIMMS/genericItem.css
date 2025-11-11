@@ -1,6 +1,21 @@
+.generic-item__page-loader {
+  margin-bottom: 10px;
+}
+
+.generic-item__page-loader:first-of-type:has(.trigger) {
+  margin-top: 10px;
+}
+
+.generic-item__actions-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
 .generic-item {
   height: fit-content;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
   color: var(--grey_base);

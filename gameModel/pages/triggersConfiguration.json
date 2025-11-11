@@ -41,7 +41,7 @@
                     "className" : "",
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding generic-item__page-loader",
                     "layoutStyle" : { },
                     "name" : "triggerItemPageLoader",
                     "style" : { }
@@ -89,7 +89,7 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding generic-item__page-loader",
                     "layoutStyle" : { },
                     "name" : "triggerItemPageLoader",
                     "style" : { }
@@ -226,7 +226,7 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding generic-item__page-loader",
                     "layoutStyle" : { },
                     "name" : "conditionItemPageLoader",
                     "style" : { }
@@ -328,7 +328,7 @@
                   "props" : {
                     "exposePageSizeAs" : "",
                     "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding generic-item__page-loader",
                     "layoutStyle" : { },
                     "name" : "impactItemPageLoader",
                     "style" : { }
