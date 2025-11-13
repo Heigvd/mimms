@@ -6,6 +6,39 @@
   align-items: center;
 }
 
+.patient-time input,
+.patient-time input:hover,
+.patient-time input:focus {
+  width: calc(100% - 20px);
+  border: 2px solid var(--grey_30);
+}
+
+.patient-time__label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 0 7px;
+  font-size: .5rem;
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  background-color: var(--grey-white);
+  border-radius: var(--XS_borderRadius);
+}
+
+.patient-time button {
+  position: absolute;
+  right: 0;
+}
+
+.patient-time button svg {
+  color: var(--grey_base);
+  transition: color .3s ease-in-out;
+}
+
+.patient-time button:hover svg {
+  color: var(--grey_70);
+}
+
 .table-buttons {
   gap: 0.5rem;
   margin-left: 1.5rem;

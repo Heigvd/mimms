@@ -149,9 +149,10 @@ function getDayZero(): Date {
 export function getSimStartDateTime(): Date {
   const hours = Variable.find(gameModel, 'startHours').getValue(self);
   const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+  const delay = Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self);
 
   const startDateTime = getDayZero();
-  startDateTime.setHours(hours, minutes);
+  startDateTime.setHours(hours, minutes + delay);
   return startDateTime;
 }
 
