@@ -120,15 +120,15 @@ export function updateImpactType(uid: FlatImpact['uid'], newType: FlatImpact['ty
 export function getTimeOperatorChoices(): { label: string; value: string }[] {
   return [
     {
-      label: '<',
+      label: 'smaller than',
       value: '<',
     },
     {
-      label: '=',
+      label: 'equals',
       value: '=',
     },
     {
-      label: '>',
+      label: 'bigger than',
       value: '>',
     },
   ];

@@ -4,105 +4,268 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Tag\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "tag",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { tag: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.tag;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "tag",
-            "onCancel" : { },
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { tag: Context.value });",
-                "language" : "TypeScript"
-              },
-              "exposeVariableAs" : {
-                "@class" : "Script",
-                "content" : "\"value\"",
-                "language" : "TypeScript"
-              }
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "  Context.item.tag;",
-              "language" : "TypeScript"
-            },
             "style" : { }
           },
-          "type" : "String input"
+          "type" : "FlexList"
         }, {
           "props" : {
+            "children" : [ {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Notes\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "comment",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { comment: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "rows" : 3,
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.comment ?? '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "comment",
-            "onCancel" : { },
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { comment: Context.value });",
-                "language" : "TypeScript"
-              },
-              "exposeVariableAs" : {
-                "@class" : "Script",
-                "content" : "\"value\"",
-                "language" : "TypeScript"
-              }
-            },
-            "rows" : 3,
-            "script" : {
-              "@class" : "Script",
-              "content" : "  Context.item.comment ?? '';",
-              "language" : "TypeScript"
-            },
             "style" : { }
           },
-          "type" : "String input"
+          "type" : "FlexList"
         }, {
           "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"active\"",
-              "language" : "TypeScript"
-            },
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-left",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.item.activeAtStart;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Inactive\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "inactive",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.activeAtStart;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Active\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: true });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "active",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "activeAtStart",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-left",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.deactivateItself;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Only once\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: true });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "inactive",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.item.deactivateItself;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"Every time\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: false });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "active",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Deactivate itself",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "boolean-container",
+            "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "activeAtStart",
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: !Context.item.activeAtStart });",
-                "language" : "TypeScript"
-              }
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "  Context.item.activeAtStart;",
-              "language" : "TypeScript"
-            },
-            "style" : { },
-            "type" : "checkbox"
+            "name" : "Booleans",
+            "style" : { }
           },
-          "type" : "Boolean"
-        }, {
-          "props" : {
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"everytime\"",
-              "language" : "TypeScript"
-            },
-            "layoutStyle" : { },
-            "name" : "Deactivate itself",
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: !Context.item.deactivateItself });",
-                "language" : "TypeScript"
-              }
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "  !Context.item.deactivateItself;",
-              "language" : "TypeScript"
-            },
-            "style" : { },
-            "type" : "checkbox"
-          },
-          "type" : "Boolean"
+          "type" : "FlexList"
         }, {
           "props" : {
             "hideIf" : {
@@ -115,6 +278,7 @@
               "content" : "\"mandatory\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mandatory",
             "onVariableChange" : {
@@ -134,6 +298,7 @@
           },
           "type" : "Boolean"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
@@ -152,6 +317,7 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -162,6 +328,7 @@
           },
           "type" : "Text"
         } ],
+        "className" : "trigger",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",

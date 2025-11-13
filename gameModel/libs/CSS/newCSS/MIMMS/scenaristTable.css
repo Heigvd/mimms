@@ -88,10 +88,13 @@ div .button-closed {
   font-weight: var(--boldWeight);
   text-transform: uppercase;
   color: var(--primary_base);
+  white-space: nowrap;
+  transition: color .3s ease-in-out;
 }
 
 .header-button svg {
   color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .header-button:hover {

@@ -9,21 +9,6 @@
   color: var(--grey_base);
 }
 
-.setup-page div.wegas-toggler {
-  height: 20px;
-  width: 37.5px;
-  min-width: 35px;
-}
-
-.setup-page div.wegas-toggler-handle {
-  height: 13px;
-  width: 13px;
-}
-
-.setup-page div.wegas-toggler.checked {
-  background-color: var(--primary_base);
-}
-
 .advanced-options {
   justify-content: space-between;
   margin: 3rem 0 1.5rem 0;
