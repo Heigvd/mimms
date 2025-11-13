@@ -20,10 +20,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  /*width: 100%;*/
   padding: 1rem 0 1rem 1rem;
-  /*background-color: var(--grey-white);
-  z-index: 1;*/
 }
 
 .scenarist-save-all-button {
@@ -138,6 +135,31 @@
   background-color: var(--primary_base);
 }
 
+/* scenarist toggler */
+.scenarist-toggler-container {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.scenarist-toggler .wegas-toggler {
+  height: 20px;
+  width: 37.5px;
+  min-width: 35px;
+  margin-left: 0;
+  background-color: var(--grey_20);
+  transition: background-color .3s ease-in-out;
+}
+
+.scenarist-toggler .wegas-toggler-handle {
+  height: 13px;
+  width: 13px;
+}
+
+.scenarist-toggler .checked {
+  background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out;
+}
+
 
 /* - - - - -  D R O P D O W N S  - - - */
 
@@ -153,6 +175,7 @@
   height: 15px;
   min-height: 15px;
   padding: 0;
+  position: initial; /* fix ? */
 }
 
 .scenarist-dropdown .wegas-select__control {

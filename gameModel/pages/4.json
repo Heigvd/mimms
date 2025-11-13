@@ -77,7 +77,7 @@
       "type" : "FlexList"
     }, {
       "props" : {
-        "className" : "drill-setup-line",
+        "className" : "drill-setup-line scenarist-toggler",
         "label" : {
           "@class" : "Script",
           "content" : "\"Start / Stop\"",
@@ -106,7 +106,7 @@
       "type" : "Boolean"
     }, {
       "props" : {
-        "className" : "drill-setup-line",
+        "className" : "drill-setup-line scenarist-toggler",
         "label" : {
           "@class" : "Script",
           "content" : "\"Exam mode\"",
