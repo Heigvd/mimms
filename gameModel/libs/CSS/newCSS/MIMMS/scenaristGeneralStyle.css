@@ -7,9 +7,10 @@
 }
 
 .scenarist-column-scroll {
-  overflow: auto;
+  height: 100%;
   /* margin to counter-balance buttons in absolute position at the bottom of the page */
   margin-bottom: 57px;
+  overflow: auto;
 }
 
 .generic-item__page-loader {
@@ -165,7 +166,9 @@
 
 /* scenarist dropdown */
 .scenarist-dropdown {
-  width: 125px;
+  width: 100%;
+  min-width: 7.5rem;
+  max-width: 15rem;
 }
 
 .scenarist-dropdown .wegas-select__value-container,
@@ -191,6 +194,7 @@
 }
 
 .scenarist-dropdown .wegas-select__single-value {
+  width: calc(100% - 35px);
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);

@@ -4,6 +4,20 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "genericItemPageLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { isReadonly } from \"./edition/controllers/viewsSelector\";\nisReadonly(Context.item.superType, Context.item.type, 'uid');",
@@ -68,20 +82,6 @@
             "style" : { }
           },
           "type" : "Number input"
-        }, {
-          "props" : {
-            "exposePageSizeAs" : "",
-            "initialSelectedPageId" : {
-              "@class" : "Script",
-              "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
-              "language" : "typescript"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "genericItemPageLoader",
-            "style" : { }
-          },
-          "type" : "PageLoader"
         } ],
         "className" : "generic-item",
         "conditionnalClassNames" : [ {
@@ -97,7 +97,7 @@
           "className" : "new-generic-item",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { getLastGenericAdded } from \"./edition/UIfacade/genericConfigFacade\";\ngetLastGenericAdded(Context.item.uid);",
+            "content" : "import { isLastGenericAdded } from \"./edition/UIfacade/genericConfigFacade\";\nisLastGenericAdded(Context.item.uid);",
             "language" : "typescript"
           }
         } ],

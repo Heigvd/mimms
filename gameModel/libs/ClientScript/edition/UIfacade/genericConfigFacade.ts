@@ -126,7 +126,7 @@ export function deleteItem(itemId: Uid): void {
 
 let lastGenericAdded: string | null = null;
 
-export function getLastGenericAdded(uid: string): boolean {
+export function isLastGenericAdded(uid: string): boolean {
   return lastGenericAdded === uid;
 }
 

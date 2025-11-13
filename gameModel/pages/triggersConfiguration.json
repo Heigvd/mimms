@@ -20,99 +20,108 @@
               "type" : "Text"
             }, {
               "props" : {
-                "className" : "scenarist__undertitle",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "marginBottom" : "10px"
-                },
-                "name" : "Basic title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"Basic\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "scenarist__undertitle",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "marginBottom" : "10px"
+                    },
+                    "name" : "Basic title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Basic\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "exposePageSizeAs" : "",
+                        "initialSelectedPageId" : "scenaristItemGeneric",
+                        "layoutClassName" : "noPadding generic-item__page-loader",
+                        "layoutStyle" : { },
+                        "name" : "triggerItemPageLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "className" : "basic__generic-item",
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Basic items",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "className" : "scenarist__undertitle",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "marginBottom" : "10px"
+                    },
+                    "name" : "Custom title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Custom\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "exposePageSizeAs" : "",
+                        "initialSelectedPageId" : "scenaristItemGeneric",
+                        "layoutClassName" : "noPadding generic-item__page-loader",
+                        "layoutStyle" : { },
+                        "name" : "triggerItemPageLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
                     "className" : "",
-                    "exposePageSizeAs" : "",
-                    "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding generic-item__page-loader",
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "triggerItemPageLoader",
+                    "name" : "Custom items",
                     "style" : { }
                   },
-                  "type" : "PageLoader"
+                  "type" : "For each"
                 } ],
-                "className" : "basic__generic-item",
-                "exposeAs" : "item",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "uid",
-                "layout" : {
-                  "flexDirection" : "column"
-                },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "overflow" : "auto"
-                },
-                "name" : "Basic items",
-                "style" : { }
-              },
-              "type" : "For each"
-            }, {
-              "props" : {
-                "className" : "scenarist__undertitle",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "marginBottom" : "10px"
-                },
-                "name" : "Custom title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"Custom\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "exposePageSizeAs" : "",
-                    "initialSelectedPageId" : "scenaristItemGeneric",
-                    "layoutClassName" : "noPadding generic-item__page-loader",
-                    "layoutStyle" : { },
-                    "name" : "triggerItemPageLoader",
-                    "style" : { }
-                  },
-                  "type" : "PageLoader"
-                } ],
-                "className" : "",
-                "exposeAs" : "item",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "uid",
                 "layout" : {
                   "flexDirection" : "column"
                 },
                 "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
-                "name" : "Custom items",
                 "style" : { }
               },
-              "type" : "For each"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "className" : "header-button",
@@ -135,9 +144,7 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : {
-                  "margin" : "0"
-                }
+                "style" : { }
               },
               "type" : "Button"
             } ],
@@ -161,9 +168,7 @@
             },
             "name" : "Triggers",
             "stopPropagation" : true,
-            "style" : {
-              "paddingLeft" : "0"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -196,9 +201,7 @@
                   "language" : "typescript"
                 },
                 "layoutClassName" : "noPadding and-or__dropdown",
-                "layoutStyle" : {
-                  "width" : "68px"
-                },
+                "layoutStyle" : { },
                 "name" : "and | or",
                 "onVariableChange" : {
                   "client" : {
@@ -217,7 +220,9 @@
                   "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  const selectedTrigger = getSelected('trigger') as FlatTrigger;\n  if (selectedTrigger) {\n    return selectedTrigger['operator'];\n  }\n  '';",
                   "language" : "TypeScript"
                 },
-                "style" : { }
+                "style" : {
+                  "width" : "68px"
+                }
               },
               "type" : "Select input"
             }, {
@@ -277,9 +282,7 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : {
-                  "margin" : "0"
-                }
+                "style" : { }
               },
               "type" : "Button"
             } ],
@@ -379,9 +382,7 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : {
-                  "margin" : "0"
-                }
+                "style" : { }
               },
               "type" : "Button"
             } ],
