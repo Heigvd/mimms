@@ -421,6 +421,16 @@ function savePatients(): void {
   saveToObjectDescriptor(patientDesc, patientsBodyParamsCache);
 }
 
+interface UIState {
+  edit: boolean;
+}
+
+export function getDefaultUIState(): UIState {
+  return {
+    edit: false,
+  };
+}
+
 /**
  * Html formated pre-triage category
  */

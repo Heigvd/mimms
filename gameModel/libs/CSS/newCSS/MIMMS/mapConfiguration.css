@@ -3,6 +3,16 @@
   margin-top: 1.5rem;
 }
 
+.map-configuration-page input,
+.map-configuration-page input:hover,
+.map-configuration-page input:focus {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  margin: 0 5px;
+  padding: 5px;
+  border: 2px solid var(--primary_30);
+}
+
 .scenarist-title {
   font-size: var(--ML_text);
   font-weight: var(--boldWeight);
@@ -26,6 +36,17 @@
   border: 2px solid var(--grey_30);
   background-color: #E4E6E7;
   overflow: hidden;
+}
+
+.time-config-text {
+  margin-right: 5px;
+}
+
+.small-bold-primary-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .scenarist-dropdown {
