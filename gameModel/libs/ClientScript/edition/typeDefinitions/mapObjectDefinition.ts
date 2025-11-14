@@ -28,7 +28,7 @@ export function toFlatMapObject(obj: MapObject, parentId: Uid): FlatMapObject {
 }
 
 export function fromFlatMapObject(flat: FlatMapObject): MapObject {
-  const { superType: _ignored, ...obj } = flat;
+  const { superType: _s, parent: _p, ...obj } = flat;
   return obj;
 }
 
@@ -59,7 +59,6 @@ export function getMapObjectDefinition(type: MapObjectTypeName): MapObjectDefini
 type CommonView = ToConfigurationViewType<
   Pick<MapObject, 'type' | 'uid' | 'index' | 'label' | 'labelOffset'>
 >;
-
 function getCommonView(): CommonView {
   return {
     type: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -89,7 +88,7 @@ export function getPointMapObjectDef(): Definition<PointMapObject> {
       icon: 'empty', // TODO some default icon or fall back as a computed round dot?
       geometry: [0, 0], // TODO inject created geometry in interface
     }),
-    validator: (_impact: PointMapObject) => ({ success: true, messages: [] }),
+    validator: (_point: PointMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
       ...getCommonView(),
       icon: ALL_EDITABLE,
@@ -104,10 +103,9 @@ export function getLineMapObjectDef(): Definition<LineMapObject> {
     getDefault: () => ({
       ...getCommonDefault(),
       type: 'LineString',
-      icon: 'empty', // TODO some default icon or fall back as a computed round dot?
       geometry: [], // TODO inject created geometry in interface
     }),
-    validator: (_impact: LineMapObject) => ({ success: true, messages: [] }),
+    validator: (_line: LineMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
       ...getCommonView(),
       geometry: ALL_EDITABLE,
@@ -121,10 +119,9 @@ export function getPolygonMapObjectDef(): Definition<PolygonMapObject> {
     getDefault: () => ({
       ...getCommonDefault(),
       type: 'Polygon',
-      icon: 'empty', // TODO some default icon or fall back as a computed round dot?
       geometry: [], // TODO inject created geometry in interface
     }),
-    validator: (_impact: PolygonMapObject) => ({ success: true, messages: [] }),
+    validator: (_polygon: PolygonMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
       ...getCommonView(),
       geometry: ALL_EDITABLE,

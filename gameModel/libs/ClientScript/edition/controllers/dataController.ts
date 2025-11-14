@@ -61,6 +61,7 @@ import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from 
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import {
   FlatMapObject,
+  fromFlatMapObject,
   getMapObjectDefinition,
   toFlatMapObject,
 } from '../typeDefinitions/mapObjectDefinition';
@@ -472,9 +473,11 @@ export class MapEntityController extends DataControllerBase<
     const flattened: Record<Uid, MapEntityFlatType> = {};
 
     Object.entries(input).forEach(([uid, mapEntity]) => {
+      // map entities
       flattened[uid] = toFlatMapEntity(mapEntity, MapEntityController.MAP_ENTITY_ROOT);
-      mapEntity.mapObjects.forEach(impact => {
-        flattened[impact.uid] = toFlatMapObject(impact, uid);
+      // break down map objects
+      mapEntity.mapObjects.forEach(mapObject => {
+        flattened[mapObject.uid] = toFlatMapObject(mapObject, uid);
       });
     });
     return flattened;
@@ -484,7 +487,7 @@ export class MapEntityController extends DataControllerBase<
     flattened: Record<string, MapEntityFlatType>
   ): Record<string, MapEntityDescriptor> {
     const tree: Record<Uid, MapEntityDescriptor> = {};
-    // create map entities descriptors with empty map objects
+    // create map entities descriptors with empty map objects array
     Object.values(flattened)
       .filter(element => element.superType === 'mapEntity')
       .map(e => e as FlatMapEntity) // safe cast
@@ -499,9 +502,12 @@ export class MapEntityController extends DataControllerBase<
       .forEach((mapObj: FlatMapObject) => {
         const parentMapEntity = tree[mapObj.parent];
         if (parentMapEntity) {
-          parentMapEntity.mapObjects.push(mapObj);
+          parentMapEntity.mapObjects.push(fromFlatMapObject(mapObj));
         } else {
-          scenarioEditionLogger.error('Found some orphan map object in map entity data', mapObj);
+          scenarioEditionLogger.error(
+            'Found some orphan map object in map entity data, it will be lost when saving',
+            mapObj
+          );
         }
       });
 

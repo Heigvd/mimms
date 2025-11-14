@@ -1,9 +1,11 @@
 import { Indexed, Parented, SuperTyped, Typed } from '../../game/common/interfaces';
 
 /**
- * Unboxes the type contained in an array
+ * Unboxes the type contained in an array up to 3 levels of array
  */
-type Unarray<T> = T extends Array<infer U> ? U : T;
+type Unarray<T> = T extends Array<infer U> | Array<Array<infer U>> | Array<Array<Array<infer U>>>
+  ? U
+  : T;
 
 /**
  * Removes all array fields in type
@@ -40,7 +42,7 @@ export const EXPERT_ONLY: Record<ViewConfig, EditionLevel> = {
  */
 export type ToConfigurationViewType<O extends object> = {
   [K in keyof O]: Unarray<O[K]> extends object
-    ? Unarray<O[K]> extends Typed | [number, number] | [number, number][]
+    ? Unarray<O[K]> extends Typed
       ? ConfigurationView
       : ToConfigurationViewType<Unarray<O[K]>>
     : ConfigurationView;

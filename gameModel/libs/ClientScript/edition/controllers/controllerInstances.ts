@@ -41,9 +41,8 @@ export function getActionTemplateController(): ActionTemplateDataController {
     actionTplController || new ActionTemplateDataController('action_template_data'));
 }
 
-// XGO TODO right var key
 export function getMapEntityController(): MapEntityController {
-  return (mapEntityController = mapEntityController || new MapEntityController('triggers_data'));
+  return (mapEntityController = mapEntityController || new MapEntityController('map_entity_data'));
 }
 
 // Reset the controllers when saving scripts or restarting the game
