@@ -19,6 +19,7 @@ import { RadioMessageImpact } from '../../game/common/impacts/implementation/rad
 import { RadioType } from '../../game/common/radio/communicationType';
 import { Uid } from '../../game/common/interfaces';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
+import { scenarioEditionLogger } from '../../tools/logger';
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -57,10 +58,11 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
       break;
     case 'empty':
       definition = getEmptyImpactDef();
+      break;
   }
 
   if (definition?.type !== type) {
-    // TODO error or warning,
+    scenarioEditionLogger.error('Could not provide a type definition for type', type);
   }
 
   return definition;
