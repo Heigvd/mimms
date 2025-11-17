@@ -42,3 +42,4 @@ gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
 mainSimLogger.setLevel('INFO');
 mainSimStateLogger.setLevel('DEBUG');
+scenarioEditionLogger.setLevel('INFO');

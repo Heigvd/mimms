@@ -66,6 +66,16 @@ export interface ValidationResult {
   }[];
 }
 
+export function mergeValidationResults(
+  initial: ValidationResult,
+  complement: ValidationResult
+): ValidationResult {
+  return {
+    success: initial.success && complement.success,
+    messages: initial.messages.concat(complement.messages),
+  };
+}
+
 export interface Definition<T extends Typed> {
   type: T['type'];
   view: ToConfigurationViewType<T>;

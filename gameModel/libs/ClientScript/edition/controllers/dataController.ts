@@ -10,6 +10,7 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -34,6 +35,7 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
+import { mergeValidationResults, ValidationResult } from '../typeDefinitions/definition';
 import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
@@ -41,6 +43,8 @@ import {
   getImpactDefinition,
   toFlatImpact,
 } from '../typeDefinitions/impactDefinition';
+import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
+import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import {
   FlatActionTemplate,
   fromFlatActionTemplate,
@@ -54,15 +58,12 @@ import {
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import { UndoRedoContext } from './undoRedoContext';
-import { ContextHandler } from './stateHandler';
-import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
-import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
-import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
 import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
+import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
+import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
+import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
+import { ContextHandler } from './stateHandler';
+import { UndoRedoContext } from './undoRedoContext';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -99,7 +100,14 @@ export abstract class DataControllerBase<
   }
 
   public save(): void {
-    // Validation here ?
+    const validation: ValidationResult = this.validate();
+    if (validation.success) {
+      scenarioEditionLogger.info('validation is successful');
+    } else {
+      scenarioEditionLogger.error('validation denotes some problems');
+    }
+    Object.values(validation.messages).forEach(msg => scenarioEditionLogger.error(msg.message));
+
     const desc = Variable.find(gameModel, this.varKey);
     saveToObjectDescriptor(desc, this.recompose(this.undoRedo.getCurrentState()[1]));
     this.undoRedo.onSave();
@@ -188,6 +196,21 @@ export abstract class DataControllerBase<
     }
     return canMove(id, siblings, moveType);
   }
+
+  public validate(): ValidationResult {
+    let result: ValidationResult = {
+      success: true,
+      messages: [],
+    };
+
+    Object.values(this.getTreeData()).forEach((item: DataType) => {
+      result = mergeValidationResults(result, this.getValidator()(item));
+    });
+
+    return result;
+  }
+
+  protected abstract getValidator(): (value: DataType) => ValidationResult;
 
   public updateData(
     newData: Record<Uid, FlatType>,
@@ -328,6 +351,10 @@ export class TriggerDataController extends DataControllerBase<
     }
   }
 
+  protected getValidator(): (value: Trigger) => ValidationResult {
+    return getTriggerDefinition().validator;
+  }
+
   protected override isSibling(target: TriggerFlatType, candidate: TriggerFlatType): boolean {
     if (target.type === 'trigger' && candidate.type === 'trigger') {
       const t = target as FlatTrigger;
@@ -439,6 +466,10 @@ export class ActionTemplateDataController extends DataControllerBase<
         return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
     }
   }
+
+  protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
+    throw new Error('Method not implemented.');
+  }
 }
 
 // XGO TODO implement
@@ -462,6 +493,9 @@ export class MapEntityController extends DataControllerBase<
     throw new Error('Method not implemented.');
   }
   protected createNewInternal(_parentId: string, _type: SuperTypeNames): MapEntityFlatType {
+    throw new Error('Method not implemented.');
+  }
+  protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
     throw new Error('Method not implemented.');
   }
 }

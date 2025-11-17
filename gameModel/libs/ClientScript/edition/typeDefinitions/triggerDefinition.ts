@@ -1,9 +1,19 @@
 // EVALUATION_PRIORITY 0
 
+import { Impact } from '../../game/common/impacts/impact';
 import { Uid } from '../../game/common/interfaces';
+import { Condition } from '../../game/common/triggers/condition';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition, MapToFlatType } from './definition';
+import { getConditionDefinition } from './conditionDefinition';
+import {
+  ALL_EDITABLE,
+  Definition,
+  MapToFlatType,
+  mergeValidationResults,
+  ValidationResult,
+} from './definition';
+import { getImpactDefinition } from './impactDefinition';
 
 type TriggerDefinition = Definition<Trigger>;
 
@@ -46,7 +56,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       conditions: [],
       impacts: [],
     }),
-    validator: _t => ({ success: true, messages: [] }), // nothing to do, it cannot be misconfigured
+    validator: triggerCompleteValidator,
     view: {
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -63,4 +73,43 @@ export function getTriggerDefinition(): TriggerDefinition {
       impacts: ALL_EDITABLE,
     },
   };
+}
+
+function triggerCompleteValidator(trigger: Trigger): ValidationResult {
+  // for the trigger itself
+  let result: ValidationResult = triggerShadowValidator(trigger);
+
+  // for each condition
+  trigger.conditions.forEach((cond: Condition) => {
+    const validator = getConditionDefinition(cond.type).validator as (
+      value: Condition
+    ) => ValidationResult;
+    result = mergeValidationResults(result, validator(cond));
+  });
+
+  // for each impact
+  trigger.impacts.forEach((imp: Impact) => {
+    const validator = getImpactDefinition(imp.type).validator as (
+      value: Impact
+    ) => ValidationResult;
+    result = mergeValidationResults(result, validator(imp));
+  });
+
+  return result;
+}
+
+function triggerShadowValidator(trigger: Trigger): ValidationResult {
+  let success: boolean = true;
+  const messages: ValidationResult['messages'] = [];
+
+  if (trigger.impacts.length === 0) {
+    success = false;
+    messages.push({
+      logLevel: 'WARN',
+      message: 'A trigger should have an impact',
+      isTranslateKey: false,
+    });
+  }
+
+  return { success, messages };
 }
