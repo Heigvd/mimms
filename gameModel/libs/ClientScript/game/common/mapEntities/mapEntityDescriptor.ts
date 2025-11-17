@@ -1,10 +1,10 @@
-import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
+import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
 export interface BaseMapObject<T, TType extends string> extends Typed, Indexed, IDescriptor {
   type: TType;
   geometry: T;
-  //parent: Uid;
+  parent: Uid;
   label: string;
   labelOffset: string; // XGO TODO ?? strange typing here
 }

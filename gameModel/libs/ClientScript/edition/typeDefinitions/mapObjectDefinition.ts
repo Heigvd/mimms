@@ -28,7 +28,7 @@ export function toFlatMapObject(obj: MapObject, parentId: Uid): FlatMapObject {
 }
 
 export function fromFlatMapObject(flat: FlatMapObject): MapObject {
-  const { superType: _s, parent: _p, ...obj } = flat;
+  const { superType: _s, ...obj } = flat;
   return obj;
 }
 
@@ -57,7 +57,7 @@ export function getMapObjectDefinition(type: MapObjectTypeName): MapObjectDefini
 }
 
 type CommonView = ToConfigurationViewType<
-  Pick<MapObject, 'type' | 'uid' | 'index' | 'label' | 'labelOffset'>
+  Pick<MapObject, 'type' | 'uid' | 'index' | 'label' | 'labelOffset' | 'parent'>
 >;
 function getCommonView(): CommonView {
   return {
@@ -66,16 +66,18 @@ function getCommonView(): CommonView {
     index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
     label: ALL_EDITABLE,
     labelOffset: ALL_EDITABLE,
+    parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
   };
 }
 
-type CommonDefault = Pick<MapObject, 'index' | 'uid' | 'label' | 'labelOffset'>;
+type CommonDefault = Pick<MapObject, 'index' | 'uid' | 'label' | 'labelOffset' | 'parent'>;
 function getCommonDefault(): CommonDefault {
   return {
     index: 0,
     uid: generateId(10),
     label: 'New geometry', // TODO certainly multilang
     labelOffset: '[0,0]', // TODO figure out why typed as string ??
+    parent: 'default-parent',
   };
 }
 
