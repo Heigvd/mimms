@@ -71,7 +71,7 @@
                             },
                             "placeholder" : {
                               "@class" : "Script",
-                              "content" : "\"16\"",
+                              "content" : "\"HH\"",
                               "language" : "TypeScript"
                             },
                             "script" : {
@@ -115,7 +115,7 @@
                             },
                             "placeholder" : {
                               "@class" : "Script",
-                              "content" : "\"00\"",
+                              "content" : "\"MM\"",
                               "language" : "TypeScript"
                             },
                             "script" : {
@@ -170,7 +170,7 @@
                             },
                             "placeholder" : {
                               "@class" : "Script",
-                              "content" : "\"30\"",
+                              "content" : "\"MM\"",
                               "language" : "TypeScript"
                             },
                             "script" : {

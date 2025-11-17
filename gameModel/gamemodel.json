@@ -817,9 +817,9 @@
         "@class" : "NumberInstance",
         "history" : [ ],
         "refId" : "NumberInstance:1580620:QZXCS4",
-        "value" : 15.0
+        "value" : 0.0
       },
-      "defaultValue" : 15.0,
+      "defaultValue" : 0.0,
       "editorTag" : "patients-elapsed-minutes",
       "historySize" : 20,
       "isolation" : "OPEN",
@@ -4675,9 +4675,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49486:epfRL6",
-            "value" : 16.0
+            "value" : 0.0
           },
-          "defaultValue" : 16.0,
+          "defaultValue" : 0.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",
