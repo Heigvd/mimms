@@ -1,4 +1,5 @@
 import { Uid } from '../../game/common/interfaces';
+import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
   getAllControllers,
@@ -32,9 +33,13 @@ export function getInitialPageState() {
 
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
-  const storedState = getController()?.getLatestIState();
-  if (storedState) {
-    return { ...storedState };
+  try {
+    const storedState = getController()?.getLatestIState();
+    if (storedState) {
+      return { ...storedState };
+    }
+  } catch (error) {
+    scenarioEditionLogger.error(error);
   }
 
   return getInitialPageState();

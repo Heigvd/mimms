@@ -530,6 +530,11 @@
         } ],
         "className" : "fullWidth",
         "exposeAs" : "pageState",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "  let result: boolean = false;\n  try {\n    // If the mainMenu state is not initialized, the page cannot be displayed\n    // Open the Menu page to have all needed context\n    result = Context.mainMenu?.state == undefined;\n  } catch (err) {\n    result = true;\n  }\n\n  result;",
+          "language" : "typescript"
+        },
         "initialState" : {
           "@class" : "Script",
           "content" : "import { loadPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadPageState();",
