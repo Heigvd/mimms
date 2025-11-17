@@ -803,7 +803,7 @@
                                 "impactVariable" : {
                                   "impact" : {
                                     "@class" : "Script",
-                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = variableDescriptor.getValue(self);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
                                     "language" : "javascript"
                                   }
                                 },
@@ -819,7 +819,7 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.UIState.state);\n\nnewState.edit = !newState.edit;\n\nContext.UIState.setState(newState);",
+                                    "content" : "import { forceCacheRebuild } from \"./edition/UIfacade/patientGenFacade\";\n\nconst newState = Helpers.cloneDeep(Context.UIState.state);\nnewState.edit = !newState.edit;\nContext.UIState.setState(newState);\nforceCacheRebuild();\n",
                                     "language" : "TypeScript"
                                   }
                                 },

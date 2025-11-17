@@ -214,6 +214,14 @@ export function initCache(genCtx: GenerationCtx): void {
   });
 }
 
+export function forceCacheRebuild() {
+  const ctx = getGenCtx();
+  ctx.state.cacheInitStatus = 'not-started';
+  patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  initCache(ctx);
+}
+
 function incrementLoaded(genState: GenerationCtx): void {
   const clone = Helpers.cloneDeep(genState.state);
   clone.loaded++;
