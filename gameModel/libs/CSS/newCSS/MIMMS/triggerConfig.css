@@ -1,7 +1,6 @@
 /* - - - - -  L A Y O U T  - - - */
 
 .trigger {
-  /*flex-wrap: wrap;*/
   gap: 1rem;
   padding: 1rem;
 }
@@ -54,16 +53,7 @@ Could be moved in genericItem.css file if reused elsewhere */
 
 /* - - - - -  B U T T O N S  - - - */
 
-/* notif receiver */
-.notif-receiver-grey {
-  gap: 5px;
-  padding: 6px 12px;
-  border: 1px solid var(--grey_base);
-  border-radius: var(--S_borderRadius);
-  transition: background-color .3s ease-in-ou, border .3s ease-in-out;
-}
-
-.notif-receiver-primary {
+.notif-receiver {
   gap: 5px;
   padding: 6px 12px;
   border: 1px solid var(--primary_base);
@@ -71,35 +61,22 @@ Could be moved in genericItem.css file if reused elsewhere */
   transition: background-color .3s ease-in-ou, border .3s ease-in-out;
 }
 
-.notif-receiver-grey:hover,
-.notif-receiver-primary:hover {
+.notif-receiver:hover {
   cursor: pointer;
 }
 
-.notif-receiver--selected-grey {
-  background-color: var(--grey_base);
-  transition: background-color .3s ease-in-out, border .3s ease-in-out;
-}
-
-.notif-receiver--selected-primary {
-  background-color: var(--primary_base);
-  transition: background-color .3s ease-in-out, border .3s ease-in-out;
-}
-
-.notif-receiver-grey button,
-.notif-receiver-grey button:hover,
-.notif-receiver-primary button,
-.notif-receiver-primary button:hover {
+.notif-receiver button,
+.notif-receiver button:hover {
   padding: 0;
   background-color: transparent;
 }
 
-.notif-receiver--selected-grey svg {
-  color: var(--grey05);
-  transition: color .3s ease-in-out;
+.notif-receiver--selected {
+  background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out, border .3s ease-in-out;
 }
 
-.notif-receiver--selected-primary svg {
+.notif-receiver--selected svg {
   color: var(--primary_10);
   transition: color .3s ease-in-out;
 }

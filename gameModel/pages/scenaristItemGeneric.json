@@ -84,20 +84,28 @@
           "type" : "Number input"
         } ],
         "className" : "generic-item",
-        "conditionnalClassNames" : [ {
-          "applyOn" : "Inside",
-          "className" : "generic-item--selected ",
-          "condition" : {
+        "computedClassNames" : [ {
+          "applyOn" : "Outside",
+          "className" : {
             "@class" : "Script",
-            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
-            "language" : "typescript"
+            "content" : "import { getSelectionColorClass } from \"./edition/UIfacade/genericConfigFacade\";\n  getSelectionColorClass(Context.item.superType, Context.item.uid);",
+            "language" : "TypeScript"
           }
-        }, {
+        } ],
+        "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
           "className" : "new-generic-item",
           "condition" : {
             "@class" : "Script",
             "content" : "import { isLastGenericAdded } from \"./edition/UIfacade/genericConfigFacade\";\nisLastGenericAdded(Context.item.uid);",
+            "language" : "typescript"
+          }
+        }, {
+          "applyOn" : "Inside",
+          "className" : "generic-item--selected",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
             "language" : "typescript"
           }
         } ],

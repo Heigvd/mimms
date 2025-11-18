@@ -54,19 +54,6 @@
   color: var(--grey_100);
 }
 
-/* not needed as long as only the selected condition/impact is opened */
-/*.small-bold-grey-text {
-  font-size: var(--S_text);
-  font-weight: var(--boldWeight);
-  color: var(--grey_base);
-}
-
-.small-bold-grey05-text {
-  font-size: var(--S_text);
-  font-weight: var(--boldWeight);
-  color: var(--grey05);
-}*/
-
 .small-regular-primary-text {
   font-size: var(--S_text);
   font-weight: var(--regularWeight);
@@ -236,14 +223,10 @@
 }
 
 .condition-impact__dropdown .wegas-select__control {
-  background-color: var(--grey_base);
+  background-color: var(--primary_base);
   border: none;
   border-radius: var(--XXS_borderRadius) var(--XXS_borderRadius) 0 0;
   transition: background-color .3s ease-in-out;
-}
-
-.generic-item--selected .condition-impact__dropdown .wegas-select__control {
-  background-color: var(--primary_base);
 }
 
 .condition-impact__dropdown .wegas-select__single-value {

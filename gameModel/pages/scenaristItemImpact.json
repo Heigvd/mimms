@@ -86,32 +86,16 @@
                         "icon" : "check",
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "name" : "noPadding",
+                        "name" : "",
                         "style" : { }
                       },
                       "type" : "Icon"
                     }, {
                       "props" : {
-                        "className" : "small-bold-grey-text",
+                        "className" : "small-bold-primary-text",
                         "conditionnalClassNames" : [ {
                           "applyOn" : "Inside",
-                          "className" : "small-bold-primary-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
-                            "language" : "typescript"
-                          }
-                        }, {
-                          "applyOn" : "Inside",
                           "className" : "small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item.roles[Context.role.value] && isSelected(Context.item.superType, Context.item.uid);",
-                            "language" : "typescript"
-                          }
-                        }, {
-                          "applyOn" : "Inside",
-                          "className" : "small-bold-grey05-text",
                           "condition" : {
                             "@class" : "Script",
                             "content" : "Context.item.roles[Context.role.value];",
@@ -129,29 +113,13 @@
                       },
                       "type" : "Button"
                     } ],
-                    "className" : "notif-receiver-grey",
+                    "className" : "notif-receiver",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : "notif-receiver--selected-grey",
+                      "className" : " notif-receiver--selected",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "Context.item.roles[Context.role.value];",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Inside",
-                      "className" : " notif-receiver--selected-primary",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item.roles[Context.role.value] && isSelected(Context.item.superType, Context.item.uid);",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Inside",
-                      "className" : "notif-receiver-primary",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
                         "language" : "typescript"
                       }
                     } ],
@@ -189,19 +157,6 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutClassName" : "generic-item__label",
-                    "layoutStyle" : { },
-                    "name" : "label",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Message\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
                     "className" : "",
                     "layoutClassName" : "noPadding fullWidth",
                     "layoutStyle" : { },
@@ -228,6 +183,19 @@
                     "style" : { }
                   },
                   "type" : "String input"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "generic-item__label",
+                    "layoutStyle" : { },
+                    "name" : "label",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Message\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutClassName" : "noPadding",
@@ -292,19 +260,6 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "layoutClassName" : "generic-item__label",
-                    "layoutStyle" : { },
-                    "name" : "label",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Message\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
                     "className" : "",
                     "layoutClassName" : "noPadding fullWidth",
                     "layoutStyle" : { },
@@ -331,6 +286,19 @@
                     "style" : { }
                   },
                   "type" : "String input"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "generic-item__label",
+                    "layoutStyle" : { },
+                    "name" : "label",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Message\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ],
                 "layout" : { },
                 "layoutClassName" : "noPadding",
@@ -449,11 +417,6 @@
           "type" : "Text"
         } ],
         "className" : "",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
-          "language" : "typescript"
-        },
         "layout" : {
           "flexDirection" : "column"
         },
@@ -505,7 +468,7 @@
         "className" : "impact",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "content" : "true;",
           "language" : "typescript"
         },
         "layout" : { },

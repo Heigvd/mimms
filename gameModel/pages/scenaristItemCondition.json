@@ -293,7 +293,7 @@
                   "content" : "\"Invert\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding fullWidth",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "invert",
                 "onVariableChange" : {
@@ -478,11 +478,6 @@
           "type" : "Text"
         } ],
         "className" : "",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
-          "language" : "typescript"
-        },
         "layout" : {
           "flexDirection" : "column"
         },
@@ -605,7 +600,7 @@
         "className" : "condition",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "content" : "true;",
           "language" : "typescript"
         },
         "layout" : {

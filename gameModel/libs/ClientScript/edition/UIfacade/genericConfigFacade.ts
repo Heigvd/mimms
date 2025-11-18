@@ -86,6 +86,13 @@ export function isSomethingSelected(itemType: SuperTypeNames): boolean {
   return getSelected(itemType) != undefined;
 }
 
+export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): string {
+  if (isSelected(itemType, uid)) {
+    return 'theme-selected';
+  }
+  return 'theme-unselected';
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // items
 

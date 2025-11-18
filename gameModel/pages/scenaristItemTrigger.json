@@ -6,19 +6,6 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "generic-item__label",
-                "layoutStyle" : { },
-                "name" : "label",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"Tag\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "className" : "",
                 "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
@@ -49,6 +36,19 @@
                 "style" : { }
               },
               "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Tag\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             } ],
             "layout" : { },
             "layoutClassName" : "noPadding",
@@ -60,19 +60,6 @@
         }, {
           "props" : {
             "children" : [ {
-              "props" : {
-                "layoutClassName" : "generic-item__label",
-                "layoutStyle" : { },
-                "name" : "label",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"Notes\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
               "props" : {
                 "className" : "",
                 "layoutClassName" : "noPadding fullWidth",
@@ -105,6 +92,19 @@
                 "style" : { }
               },
               "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Notes\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
             } ],
             "layout" : { },
             "layoutClassName" : "noPadding",

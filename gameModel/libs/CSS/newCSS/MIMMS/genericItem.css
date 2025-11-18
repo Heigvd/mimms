@@ -2,7 +2,6 @@
 
 /* generic item */
 .generic-item {
-  /*height: fit-content;*/
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
   color: var(--grey_base);
@@ -77,8 +76,8 @@
 .generic-item input:focus {
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
-  color: var(--grey_base);
-  border: 2px solid var(--grey_30);
+  color: var(--primary_base);
+  border: 2px solid var(--primary_30);
   transition: color .3s ease-in-out, border .3s ease-in-out;
 }
 
@@ -86,19 +85,9 @@
 .generic-item textarea:hover,
 .generic-item textarea:focus {
   font-size: var(--S_text);
-  color: var(--grey_base);
-  border: 2px solid var(--grey_30);
-  transition: color .3s ease-in-out, border .3s ease-in-out;
-}
-
-.generic-item--selected input,
-.generic-item--selected input:hover,
-.generic-item--selected input:focus,
-.generic-item--selected textarea,
-.generic-item--selected textarea:hover,
-.generic-item--selected textarea:focus {
   color: var(--primary_base);
   border: 2px solid var(--primary_30);
+  transition: color .3s ease-in-out, border .3s ease-in-out;
 }
 
 /* number input */
@@ -122,7 +111,7 @@
   padding: 0 7px;
   background-color: var(--grey-white);
   border-radius: var(--XS_borderRadius);
-  z-index: 1;
+  /*z-index: 1;*/
 }
 
 
