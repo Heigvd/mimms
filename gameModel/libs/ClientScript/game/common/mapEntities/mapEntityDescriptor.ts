@@ -5,7 +5,7 @@ export interface BaseMapObject<T, TType extends string> extends Typed, Indexed, 
   type: TType;
   geometry: T;
   parent: Uid;
-  label: string;
+  label: ITranslatableContent;
   labelOffset: string; // XGO TODO ?? strange typing here
 }
 

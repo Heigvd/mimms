@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';

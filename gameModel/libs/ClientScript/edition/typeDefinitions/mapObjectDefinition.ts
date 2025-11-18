@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 0
+
 import { Parented, SuperTyped, Uid } from '../../game/common/interfaces';
 import {
   LineMapObject,
@@ -7,6 +9,7 @@ import {
 } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
+import { createOrUpdateTranslation } from '../../tools/translation';
 import {
   ALL_EDITABLE,
   Definition,
@@ -29,6 +32,7 @@ export function toFlatMapObject(obj: MapObject, parentId: Uid): FlatMapObject {
 
 export function fromFlatMapObject(flat: FlatMapObject): MapObject {
   const { superType: _s, ...obj } = flat;
+  //obj.label = createOrUpdateTranslation(obj.label, undefined);
   return obj;
 }
 
@@ -75,7 +79,7 @@ function getCommonDefault(): CommonDefault {
   return {
     index: 0,
     uid: generateId(10),
-    label: 'New geometry', // TODO certainly multilang
+    label: createOrUpdateTranslation('', undefined),
     labelOffset: '[0,0]', // TODO figure out why typed as string ??
     parent: 'default-parent',
   };

@@ -89,8 +89,8 @@ function getGenericFeature(
       id: descriptor.uid,
       tag: descriptor.tag,
       buildStatus: activable?.buildStatus,
-      label: mapObject.label,
-      labelOffset: mapObject.labelOffset,
+      label: I18n.translate(mapObject.label),
+      //labelOffset: mapObject.labelOffset,
       index: index,
       binding: activable?.binding,
     };
