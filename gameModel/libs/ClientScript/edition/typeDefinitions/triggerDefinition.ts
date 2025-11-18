@@ -77,7 +77,7 @@ export function getTriggerDefinition(): TriggerDefinition {
 
 function triggerCompleteValidator(trigger: Trigger): ValidationResult {
   // for the trigger itself
-  let result: ValidationResult = triggerShadowValidator(trigger);
+  let result: ValidationResult = checkTriggerHasImpact(trigger);
 
   // for each condition
   trigger.conditions.forEach((cond: Condition) => {
@@ -98,7 +98,7 @@ function triggerCompleteValidator(trigger: Trigger): ValidationResult {
   return result;
 }
 
-function triggerShadowValidator(trigger: Trigger): ValidationResult {
+function checkTriggerHasImpact(trigger: Trigger): ValidationResult {
   let success: boolean = true;
   const messages: ValidationResult['messages'] = [];
 
