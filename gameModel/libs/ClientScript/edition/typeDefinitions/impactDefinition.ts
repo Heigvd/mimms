@@ -1,8 +1,15 @@
 // EVALUATION_PRIORITY 0
 
 import { Impact } from '../../game/common/impacts/impact';
+import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
+import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
+import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
+import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
+import { Uid } from '../../game/common/interfaces';
+import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
+import { createOrUpdateTranslation } from '../../tools/translation';
 import {
   ALL_EDITABLE,
   Definition,
@@ -10,13 +17,6 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
-import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
-import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
-import { RadioType } from '../../game/common/radio/communicationType';
-import { Uid } from '../../game/common/interfaces';
-import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
-import { createOrUpdateTranslation } from '../../tools/translation';
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -217,7 +217,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
         });
       }
 
-      if (Object.entries(impact.message).length === 0) {
+      if (checkIsMessageEmpty(impact.message)) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -273,7 +273,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
         });
       }
 
-      if (Object.entries(impact.message).length === 0) {
+      if (checkIsMessageEmpty(impact.message)) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -293,4 +293,13 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       channel: ALL_EDITABLE,
     },
   };
+}
+
+function checkIsMessageEmpty(message: ITranslatableContent | undefined): boolean {
+  return (
+    message == undefined ||
+    Object.values(message.translations).every(
+      (transl: ITranslation) => transl?.translation?.trim().length === 0
+    )
+  );
 }

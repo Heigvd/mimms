@@ -35,7 +35,7 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
-import { mergeValidationResults, ValidationResult } from '../typeDefinitions/definition';
+import { logValidationResult, ValidationResult } from '../typeDefinitions/definition';
 import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
@@ -100,13 +100,9 @@ export abstract class DataControllerBase<
   }
 
   public save(): void {
-    const validation: ValidationResult = this.validate();
-    if (validation.success) {
-      scenarioEditionLogger.info('validation is successful');
-    } else {
-      scenarioEditionLogger.error('validation denotes some problems');
-    }
-    Object.values(validation.messages).forEach(msg => scenarioEditionLogger.error(msg.message));
+    this.validate().forEach((validationResult: ValidationResult) =>
+      logValidationResult(validationResult)
+    );
 
     const desc = Variable.find(gameModel, this.varKey);
     saveToObjectDescriptor(desc, this.recompose(this.undoRedo.getCurrentState()[1]));
@@ -197,14 +193,11 @@ export abstract class DataControllerBase<
     return canMove(id, siblings, moveType);
   }
 
-  public validate(): ValidationResult {
-    let result: ValidationResult = {
-      success: true,
-      messages: [],
-    };
+  public validate(): ValidationResult[] {
+    const result: ValidationResult[] = [];
 
     Object.values(this.getTreeData()).forEach((item: DataType) => {
-      result = mergeValidationResults(result, this.getValidator()(item));
+      result.push({ ...this.getValidator()(item) });
     });
 
     return result;
