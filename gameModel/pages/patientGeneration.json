@@ -705,132 +705,147 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "header-text",
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel, 'gameMode').getValue(self) === \"pretriMode\"&&\nContext.UIState.state.edit;",
-                                  "language" : "typescript"
-                                },
-                                "layoutClassName" : "header-text-container",
-                                "layoutStyle" : { },
-                                "name" : "t + x",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n'T + ' + getSampleTimesSec()[0]/60;",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "className" : "header-text",
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel, 'gameMode').getValue(self) === \"mainSimMode\"||\n!Context.UIState.state.edit;",
-                                  "language" : "typescript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "name" : "t + x",
-                                "onVariableChange" : { },
-                                "placeholder" : {
-                                  "@class" : "Script",
-                                  "content" : "\"30\"",
-                                  "language" : "TypeScript"
-                                },
-                                "script" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel,'patients-elapsed-minutes')",
-                                  "language" : "TypeScript"
-                                },
-                                "style" : { }
-                              },
-                              "type" : "Number input"
-                            }, {
-                              "props" : {
-                                "className" : "noMargin",
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "Variable.find(gameModel, 'gameMode').getValue(self) === \"mainSimMode\"||\n!Context.UIState.state.edit;",
-                                  "language" : "typescript"
-                                },
-                                "layoutClassName" : "patient-time__label",
-                                "layoutStyle" : { },
-                                "name" : "label",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Start of the pretriage</p>\"",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "header-text",
+                                    "layoutClassName" : "header-text-container",
+                                    "layoutStyle" : { },
+                                    "name" : "t + x",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n'T + ' + getSampleTimesSec()[0]/60;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "APP_CONTEXT == 'Trainer';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "pen",
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.UIState.state);\n\nnewState.edit = !newState.edit;\n\nContext.UIState.setState(newState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "pen",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "Variable.find(gameModel, 'gameMode').getValue(self) === \"mainSimMode\"||\nContext.UIState.state.edit;",
                                   "language" : "typescript"
                                 },
-                                "icon" : "pen",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding header-text-container",
                                 "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "const newState = Helpers.cloneDeep(Context.UIState.state);\n\nnewState.edit = !newState.edit;\n\nContext.UIState.setState(newState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "pen",
+                                "name" : "readonly",
                                 "style" : { }
                               },
-                              "type" : "Button"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "header-text",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : {
+                                      "textAlign" : "left"
+                                    },
+                                    "name" : "t + x",
+                                    "onVariableChange" : { },
+                                    "placeholder" : {
+                                      "@class" : "Script",
+                                      "content" : "\"30\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "Variable.find(gameModel,'patients-elapsed-minutes')",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Number input"
+                                }, {
+                                  "props" : {
+                                    "className" : "noMargin",
+                                    "layoutClassName" : "patient-time__label",
+                                    "layoutStyle" : { },
+                                    "name" : "label",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "\"<p>Start of the pretriage</p>\"",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "icon" : "check",
+                                    "impactVariable" : {
+                                      "impact" : {
+                                        "@class" : "Script",
+                                        "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = variableDescriptor.getValue(self);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                        "language" : "javascript"
+                                      }
+                                    },
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "\"\"",
+                                      "language" : "TypeScript"
+                                    },
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : {
+                                      "alignItems" : "center"
+                                    },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { forceCacheRebuild } from \"./edition/UIfacade/patientGenFacade\";\n\nconst newState = Helpers.cloneDeep(Context.UIState.state);\nnewState.edit = !newState.edit;\nContext.UIState.setState(newState);\nforceCacheRebuild();\n",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "name" : "check",
+                                    "style" : { }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "className" : "header-text",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "Variable.find(gameModel, 'gameMode').getValue(self) === \"mainSimMode\"||\n!Context.UIState.state.edit;",
+                                  "content" : "APP_CONTEXT == 'Trainer'||\nVariable.find(gameModel, 'gameMode').getValue(self) === \"mainSimMode\"||\n!Context.UIState.state.edit;",
                                   "language" : "typescript"
                                 },
-                                "icon" : "check",
-                                "impactVariable" : {
-                                  "impact" : {
-                                    "@class" : "Script",
-                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = variableDescriptor.getValue(self);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
-                                    "language" : "javascript"
-                                  }
-                                },
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding header-text-container",
                                 "layoutStyle" : {
-                                  "alignItems" : "center"
+                                  "textAlign" : "left"
                                 },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { forceCacheRebuild } from \"./edition/UIfacade/patientGenFacade\";\n\nconst newState = Helpers.cloneDeep(Context.UIState.state);\nnewState.edit = !newState.edit;\nContext.UIState.setState(newState);\nforceCacheRebuild();\n",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "check",
+                                "name" : "edit",
                                 "style" : { }
                               },
-                              "type" : "Button"
+                              "type" : "FlexList"
                             } ],
                             "className" : "patient-time",
                             "layout" : { },
-                            "layoutClassName" : "noPadding header-text-container",
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "1st t + x",
                             "style" : { }
