@@ -243,7 +243,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: {} as any, // TODO ALL_EDITABLE,
+      message: ALL_EDITABLE,
       roles: {} as any, // TODO ALL_EDITABLE,
     },
   };
@@ -289,7 +289,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      message: {} as any, // TODO ALL_EDITABLE,
+      message: ALL_EDITABLE,
       channel: ALL_EDITABLE,
     },
   };

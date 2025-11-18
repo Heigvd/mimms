@@ -40,7 +40,7 @@ export const EXPERT_ONLY: Record<ViewConfig, EditionLevel> = {
  */
 export type ToConfigurationViewType<O extends object> = {
   [K in keyof O]: Unarray<O[K]> extends object
-    ? Unarray<O[K]> extends Typed
+    ? Unarray<O[K]> extends Typed | ITranslatableContent
       ? ConfigurationView
       : ToConfigurationViewType<Unarray<O[K]>>
     : ConfigurationView;
