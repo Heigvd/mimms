@@ -90,7 +90,7 @@ function getGenericFeature(
       tag: descriptor.tag,
       buildStatus: activable?.buildStatus,
       label: I18n.translate(mapObject.label),
-      //labelOffset: mapObject.labelOffset,
+      labelOffset: mapObject.labelOffset || [0, 0],
       index: index,
       binding: activable?.binding,
     };

@@ -32,7 +32,6 @@ export function toFlatMapObject(obj: MapObject, parentId: Uid): FlatMapObject {
 
 export function fromFlatMapObject(flat: FlatMapObject): MapObject {
   const { superType: _s, ...obj } = flat;
-  //obj.label = createOrUpdateTranslation(obj.label, undefined);
   return obj;
 }
 
@@ -80,7 +79,7 @@ function getCommonDefault(): CommonDefault {
     index: 0,
     uid: generateId(10),
     label: createOrUpdateTranslation('', undefined),
-    labelOffset: '[0,0]', // TODO figure out why typed as string ??
+    labelOffset: [0, 0],
     parent: 'default-parent',
   };
 }
