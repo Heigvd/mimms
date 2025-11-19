@@ -39,7 +39,7 @@ export function loadPageState(): GenericScenaristInterfaceState {
       return { ...storedState };
     }
   } catch (error) {
-    scenarioEditionLogger.error(error);
+    scenarioEditionLogger.warn(error);
   }
 
   return getInitialPageState();
