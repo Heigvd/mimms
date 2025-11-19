@@ -4641,9 +4641,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49481:QaEwQu",
-            "value" : 0.0
+            "value" : 15.0
           },
-          "defaultValue" : 0.0,
+          "defaultValue" : 15.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",
