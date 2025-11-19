@@ -768,7 +768,18 @@
                                       "textAlign" : "left"
                                     },
                                     "name" : "t + x",
-                                    "onVariableChange" : { },
+                                    "onVariableChange" : {
+                                      "client" : {
+                                        "@class" : "Script",
+                                        "content" : "import { updatePatientInitialTimeAndUpdateCache } from \"./edition/UIfacade/patientGenFacade\";\n\nupdatePatientInitialTimeAndUpdateCache(Context.value);",
+                                        "language" : "TypeScript"
+                                      },
+                                      "exposeVariableAs" : {
+                                        "@class" : "Script",
+                                        "content" : "\"value\"",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
                                     "placeholder" : {
                                       "@class" : "Script",
                                       "content" : "\"30\"",
@@ -799,13 +810,6 @@
                                 }, {
                                   "props" : {
                                     "icon" : "check",
-                                    "impactVariable" : {
-                                      "impact" : {
-                                        "@class" : "Script",
-                                        "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = variableDescriptor.getValue(self);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
-                                        "language" : "javascript"
-                                      }
-                                    },
                                     "label" : {
                                       "@class" : "Script",
                                       "content" : "\"\"",
@@ -818,7 +822,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { forceCacheRebuild } from \"./edition/UIfacade/patientGenFacade\";\n\nconst newState = Helpers.cloneDeep(Context.UIState.state);\nnewState.edit = !newState.edit;\nContext.UIState.setState(newState);\nforceCacheRebuild();\n",
+                                        "content" : "const newState = Helpers.cloneDeep(Context.UIState.state);\nnewState.edit = !newState.edit;\nContext.UIState.setState(newState);\n",
                                         "language" : "TypeScript"
                                       }
                                     },

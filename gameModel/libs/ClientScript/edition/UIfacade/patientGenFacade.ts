@@ -28,6 +28,7 @@ import {
   getPatientsBodyFactoryParams,
   parseObjectDescriptor,
   saveToObjectDescriptor,
+  updateNumberDescriptor,
 } from '../../tools/WegasHelper';
 
 /**
@@ -214,8 +215,14 @@ export function initCache(genCtx: GenerationCtx): void {
   });
 }
 
-export function forceCacheRebuild() {
-  const ctx = getGenCtx();
+export function updatePatientInitialTimeAndUpdateCache(newValue: number): void {
+  const genCtx = getGenCtx();
+  updateNumberDescriptor('patients-elapsed-minutes', newValue).then((_: any) => {
+    forceCacheRebuild(genCtx);
+  });
+}
+
+function forceCacheRebuild(ctx: GenerationCtx) {
   ctx.state.cacheInitStatus = 'not-started';
   patientsSamplesCache = {};
   patientsBodyParamsCache = {};

@@ -17,7 +17,8 @@ export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
     | 'MapChoiceActionTemplate'
     | 'PCChoiceTemplate'
     | 'PCFrontChoiceTemplate'
-    | 'AmbulanceParkChoiceTemplate' | 'HelicopterParkChoiceTemplate';
+    | 'AmbulanceParkChoiceTemplate'
+    | 'HelicopterParkChoiceTemplate';
 }
 
 // TODO instead of a constructor type the LocationEnum binding could be used instead to infer the constructor ?
@@ -77,9 +78,12 @@ export function createMapChoiceActionTemplate(
   }
 }
 
-function createParkTemplate(desc: MapChoiceActionTemplateDescriptor, vtype: VehicleType): ParkChoiceTemplate{
-
-  const location = vtype === 'ambulance' ? LOCATION_ENUM.ambulancePark : LOCATION_ENUM.helicopterPark;
+function createParkTemplate(
+  desc: MapChoiceActionTemplateDescriptor,
+  vtype: VehicleType
+): ParkChoiceTemplate {
+  const location =
+    vtype === 'ambulance' ? LOCATION_ENUM.ambulancePark : LOCATION_ENUM.helicopterPark;
   const flag = vtype === 'ambulance' ? SimFlag.AMBULANCE_PARK_BUILT : SimFlag.HELICOPTER_PARK_BUILT;
   return new ParkChoiceTemplate(
     desc.title,
