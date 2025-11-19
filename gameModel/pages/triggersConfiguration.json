@@ -532,7 +532,7 @@
         "exposeAs" : "pageState",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "  let result: boolean = false;\n  try {\n    // If the mainMenu state is not initialized, the page cannot be displayed\n    // Open the Menu page to have all needed context\n    result = Context.mainMenu?.state == undefined;\n  } catch (err) {\n    result = true;\n  }\n\n  result;",
+          "content" : "Context.mainMenu == undefined;",
           "language" : "typescript"
         },
         "initialState" : {
