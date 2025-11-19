@@ -272,6 +272,10 @@ export function getRolesSelection(): { label: string; value: string }[] {
   // return Object.keys(notificationImpact.roles).map(role => { return { label: role, value: role } });
   return [
     {
+      label: 'AL',
+      value: 'AL',
+    },
+    {
       label: 'ACS',
       value: 'ACS',
     },
@@ -280,18 +284,12 @@ export function getRolesSelection(): { label: string; value: string }[] {
       value: 'MCS',
     },
     {
-      label: 'AL',
-      value: 'AL',
-    },
-    /*{
-        label: 'CASU', value: 'CASU',
- },*/ {
-      label: 'EVASAN',
-      value: 'EVASAN',
-    },
-    {
       label: 'LEADPMA',
       value: 'LEADPMA',
+    },
+    {
+      label: 'EVASAN',
+      value: 'EVASAN',
     },
   ];
 }
