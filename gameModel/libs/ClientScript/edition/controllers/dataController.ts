@@ -90,11 +90,11 @@ export abstract class DataControllerBase<
   private readonly contextHandler: ContextHandler<IState>;
   private transientIState: IState;
 
-  constructor(variableKey: keyof ObjectVariableClasses) {
+  constructor(variableKey: keyof ObjectVariableClasses, contextKey: string) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);
     const data = parseObjectDescriptor<DataType>(desc) || {};
-    this.contextHandler = new ContextHandler<IState>();
+    this.contextHandler = new ContextHandler<IState>(contextKey);
     this.transientIState = this.contextHandler.getCurrentState();
     this.undoRedo = new UndoRedoContext<IState, FlatType>(this.transientIState, this.flatten(data));
   }
@@ -229,6 +229,7 @@ export abstract class DataControllerBase<
    */
   public updateIState(newInterfaceState: IState): void {
     this.transientIState = newInterfaceState;
+    this.contextHandler.setState(this.transientIState);
   }
 
   public getLatestIState(): IState {

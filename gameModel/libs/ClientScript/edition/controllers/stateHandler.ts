@@ -1,22 +1,21 @@
-import {
-  GenericScenaristInterfaceState,
-  getInitialPageState,
-  PAGE_CONTEXT_KEY,
-} from '../UIfacade/genericConfigFacade';
+export interface Context<IState> {
+  state: IState;
+  setState: (newState: IState) => void;
+}
 
-export class ContextHandler<IPartialState extends GenericScenaristInterfaceState> {
-  constructor() {}
+export class ContextHandler<IState> {
+  constructor(readonly key: string) {}
 
-  public getTypedContext(): IPartialState {
-    return Context[PAGE_CONTEXT_KEY]?.state ?? getInitialPageState();
+  public getTypedContext(): Context<IState> {
+    return Context[this.key] as Context<IState>;
   }
 
-  getCurrentState(): IPartialState {
-    return Helpers.cloneDeep(this.getTypedContext());
+  getCurrentState(): IState {
+    return Helpers.cloneDeep(this.getTypedContext()?.state);
   }
 
-  setState(modifiedState: IPartialState) {
+  setState(modifiedState: IState) {
     const clone = Helpers.cloneDeep(modifiedState);
-    Context[PAGE_CONTEXT_KEY].setState(clone);
+    this.getTypedContext()?.setState(clone);
   }
 }

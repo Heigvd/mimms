@@ -18,10 +18,7 @@ function getController(): ControllerType {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-// page state
-
-// Note : must match the "exposeAs" of the state
-export const PAGE_CONTEXT_KEY = 'pageState';
+// page state = selection
 
 export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
@@ -34,44 +31,37 @@ export function getInitialPageState() {
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
   try {
-    const storedState = getController()?.getLatestIState();
+    const storedState = getController().getLatestIState();
     if (storedState) {
       return { ...storedState };
+    } else {
+      getController().updateIState(getInitialPageState());
     }
   } catch (error) {
     scenarioEditionLogger.warn(error);
   }
 
-  return getInitialPageState();
+  return getController().getLatestIState();
 }
-
-export function getState(): GenericScenaristInterfaceState {
-  return Context[PAGE_CONTEXT_KEY].state;
-}
-
-export function setState(newState: GenericScenaristInterfaceState): void {
-  Context[PAGE_CONTEXT_KEY].setState(newState);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-// selection
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getController().getLatestIState()
+  );
   newState.selected[itemType] = uid;
-  setState(newState);
   getController().updateIState(newState);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getController().getLatestIState()
+  );
   delete newState.selected[itemType];
-  setState(newState);
   getController().updateIState(newState);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
-  const selectedUid = getState().selected[itemType];
+  const selectedUid = getController().getLatestIState().selected[itemType];
   if (selectedUid) {
     return getData()[selectedUid];
   }
