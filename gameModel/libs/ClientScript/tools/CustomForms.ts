@@ -1,9 +1,7 @@
 // THIS IS NOT A MODULE
 
-import { getBlocksSelector, getSkillsDefinitionsAsChoices } from '../edition/GameModelerHelper';
+import { getSkillsDefinitionsAsChoices } from '../edition/GameModelerHelper';
 
-import { getItems, getPathologies } from '../HUMAn/registries';
-import { getItemActionTranslation } from './translation';
 
 Helpers.registerEffect(() => {
   const skillChoices = getSkillsDefinitionsAsChoices();
@@ -346,7 +344,7 @@ Helpers.registerEffect(() => {
 				blocks: BlockName[],
 				time: number;
 			}[];*/
-
+        /*
         const newSchema = Helpers.cloneDeep(schema);
 
         hideProperty(newSchema, 'description');
@@ -378,7 +376,7 @@ Helpers.registerEffect(() => {
 				}
 			}
 			*/
-
+        /*
         const eventSelector = [
           ...allPathologies.map(p => ({
             label: p.label,
@@ -462,6 +460,7 @@ Helpers.registerEffect(() => {
           },
         };
         return newSchema;
+        */
       } else if (od.name === 'generation_settings') {
         const newSchema = Helpers.cloneDeep(schema);
         hideProperty(newSchema, 'description');

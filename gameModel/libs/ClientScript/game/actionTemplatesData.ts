@@ -60,7 +60,7 @@ export function initActionTemplates(): {
     'define-pcFront-title',
     'define-pcFront-desc',
     TimeSliceDuration,
-    'define-pcFront-feedback',
+    //'define-pcFront-feedback',
     false,
     [],
     [SimFlag.PCFRONT_BUILT],
@@ -71,8 +71,7 @@ export function initActionTemplates(): {
   const moveActor = new MoveActorActionTemplate(
     'move-actor-title',
     'move-actor-desc',
-    TimeSliceDuration,
-    'move-actor-feedback'
+    TimeSliceDuration
   );
 
   const getInfo = new DisplayMessageActionTemplate(
@@ -102,15 +101,13 @@ export function initActionTemplates(): {
   const casuMessage = new CasuMessageTemplate(
     'casu-message-title',
     'casu-message-desc',
-    TimeSliceDuration,
-    'casu-message-feedback'
+    TimeSliceDuration
   );
 
   const actorFreeRadioMessage = new SendRadioMessageTemplate(
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
-    'send-radio-feedback',
     RadioType.ACTORS,
     true,
     ActionType.ACTORS_RADIO
@@ -120,7 +117,6 @@ export function initActionTemplates(): {
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
-    'send-radio-feedback',
     RadioType.CASU,
     true,
     ActionType.CASU_RADIO
@@ -130,7 +126,6 @@ export function initActionTemplates(): {
     'define-ambulance-park-title',
     'define-ambulance-park-desc',
     TimeSliceDuration,
-    'define-ambulance-park-feedback',
     false,
     LOCATION_ENUM.ambulancePark,
     'ambulance',
@@ -144,7 +139,6 @@ export function initActionTemplates(): {
     'define-helicopter-park-title',
     'define-helicopter-park-desc',
     TimeSliceDuration,
-    'define-helicopter-park-feedback',
     false,
     LOCATION_ENUM.helicopterPark,
     'ambulance',
@@ -158,7 +152,6 @@ export function initActionTemplates(): {
     'define-Nest-title',
     'define-Nest-desc',
     TimeSliceDuration,
-    'define-Nest-feedback',
     false,
     undefined,
     undefined,
@@ -171,7 +164,6 @@ export function initActionTemplates(): {
     'define-accreg-title',
     'define-accreg-desc',
     TimeSliceDuration,
-    'define-accreg-feedback',
     false,
     undefined,
     undefined,
@@ -184,7 +176,6 @@ export function initActionTemplates(): {
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration,
-    'define-PMA-feedback',
     false,
     undefined,
     [SimFlag.PMA_BUILT],
@@ -197,7 +188,6 @@ export function initActionTemplates(): {
     'define-PC-title',
     'define-PC-desc',
     TimeSliceDuration * 2,
-    'define-PC-feedback',
     false,
     undefined,
     [SimFlag.PC_BUILT],
@@ -257,7 +247,6 @@ export function initActionTemplates(): {
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
-    'activate-radio-schema-feedback',
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
@@ -269,7 +258,6 @@ export function initActionTemplates(): {
     'appoint-EVASAN-title',
     'appoint-EVASAN-desc',
     TimeSliceDuration,
-    'appoint-EVASAN-feedback',
     true,
     'appoint-EVASAN-no-resource-feedback',
     'appoint-refusal-feedback',
@@ -283,7 +271,6 @@ export function initActionTemplates(): {
     'appoint-LeadPMA-title',
     'appoint-LeadPMA-desc',
     TimeSliceDuration,
-    'appoint-LeadPMA-feedback',
     true,
     'appoint-LeadPMA-no-resource-feedback',
     'appoint-refusal-feedback',
@@ -297,7 +284,6 @@ export function initActionTemplates(): {
     'move-res-task-title',
     'move-res-task-desc',
     TimeSliceDuration,
-    'move-res-task-feedback',
     true
   );
 
@@ -305,9 +291,7 @@ export function initActionTemplates(): {
     'evacuate-title',
     'evacuate-desc',
     TimeSliceDuration,
-    'evacuate-feedback',
     'evacuate-task-request',
-    'evacuate-task-started',
     'evacuate-feedback-return',
     'evacuate-task-abort',
     'evacuate-task-refused',
@@ -325,8 +309,7 @@ export function initActionTemplates(): {
 
   const situationUpdate = new SituationUpdateActionTemplate(
     'situation-update-title',
-    'situation-update-desc',
-    'situation-update-feedback'
+    'situation-update-desc'
   );
 
   const templates: Record<string, ActionTemplateBase> = {};

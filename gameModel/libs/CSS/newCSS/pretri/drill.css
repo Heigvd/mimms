@@ -1,20 +1,21 @@
 /* DRILL BUTTONS */ 
-.tagCategory{
+.tagCategory {
 	padding: 8px;
+  font-weight: var(--boldWeight);
+  text-align: center;
 	border-radius: var(--L_borderRadius);
-	text-align: center;
-	font-weight: var(--boldWeight);
 	cursor: pointer;
+  transition: outline .3s ease-in-out;
 }
-.tagCategory:hover{
+
+.tagCategory:hover {
 	outline: 3px solid var(--grey_100);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
 
-
-.tagCategory.current{
+.tagCategory.current {
 	outline: 3px solid var(--grey_100);
 }
 

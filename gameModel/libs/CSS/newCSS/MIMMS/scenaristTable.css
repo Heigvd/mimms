@@ -89,7 +89,7 @@ div .button-closed {
   text-transform: uppercase;
   color: var(--primary_base);
   white-space: nowrap;
-  transition: color .3s ease-in-out;
+  transition: color .3s ease-in-out, border .3s ease-in-out;
 }
 
 .header-button svg {
@@ -216,7 +216,7 @@ div .button-closed {
 
 .hospitals .wegas-select__control,
 .hospitals .wegas-select__control div,
-.resources .wegas-select__control, 
+.resources .wegas-select__control,
 .resources .wegas-select__control div {
   align-items: center;
   height: 28px;

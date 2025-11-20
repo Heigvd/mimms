@@ -11,44 +11,39 @@
 /* default */
 
 .button-channel {
+  justify-content: center;
+  height: 33px;
+  padding: 8px;
   border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
-  margin-bottom: 0px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
 }
 
 .button-channel-container {
-  margin: 0px;
-  padding: 0px 5px 0px;
-}
-
-.button-channel-container:first-child {
-  padding-left: 0px;
+  width: 25%;
+  margin: 0;
+  padding: 0;
 }
 
 /* selected */
 .button-channel_selected {
-  width: 68px;
-  height: 33px;
-  padding: 8px 15px 8px 15px;
   background-color: var(--primary_base);
-  font-weight: var(--boldWeight);
+  transition: background-color .3s ease-in-out;
 }
 
 .button-channel_selected:hover {
-  background-color: var(--primary_50);
+  background-color: var(--primary_60);
 }
 
 /* not active */
 .not-active-channel {
-  width: 68px;
-  height: 33px;
-  padding: 8px 15px 8px 15px;
-  border-radius: var(--XS_borderRadius) var(--XS_borderRadius) 0px 0px;
-  background-color: var(--grey_10);
   color: var(--primary_90);
+  background-color: var(--grey_10);
 }
 
 .not-active-channel:hover {
   background-color: var(--primary_10);
+  transition: background-color .3s ease-in-out;
 }
 
 /* active*/
@@ -60,10 +55,9 @@
 
 .messageArea-container {
   border: 1px solid var(--grey_30);
-  border-radius: 0px var(--XXS_borderRadius) var(--XXS_borderRadius) var(--XXS_borderRadius);
+  border-radius: 0px 0 var(--XXS_borderRadius) var(--XXS_borderRadius);
   height: 100%;
   min-height: 10em;
-
   background-color: white;
   overflow-y: auto;
 }

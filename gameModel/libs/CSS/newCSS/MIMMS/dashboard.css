@@ -359,7 +359,7 @@ div .button-closed-locations {
   border-radius: 5px;
   background-color: transparent;
   opacity: 100%;
-  transition: opacity 0.3s ease-in-out;
+  transition: color .3s ease-in-out, border .3s ease-in-out, opacity .3s ease-in-out;
 }
 
 .line:hover .tertiary-button {
@@ -604,6 +604,7 @@ div .button-closed-locations {
 .cancel-button {
   color: var(--grey_70);
   background-color: var(--grey_20);
+  transition: background-color .3s ease-in-out;
 }
 
 .cancel-button:hover {

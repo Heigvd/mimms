@@ -16,6 +16,6 @@ export function createFullyConfigurableTemplate(
     'move-actor-title',
     'move-actor-desc',
     TimeSliceDuration,
-    'move-actor-feedback'
+    //'move-actor-feedback'
   );
 }

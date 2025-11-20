@@ -14,18 +14,19 @@ export const pmaDetails = [
   [false, false, 40, '9/10', true, true],
 ];
 
-// used in page 48
+/*
 export const pcDetails = [
   [true, true, 50, '6/10', false, true],
   [false, false, 10, '9/10', false, true],
   [true, false, 15, '3/10', true, false],
-];
+];*/
 
 // TODO implement a more flexible system for custom fields ?
 export function getBuildingDetails(location: LOCATION_ENUM) {
   switch (location) {
-    case LOCATION_ENUM.PC:
-      return pcDetails;
+    /* // the PC and PMA info must not give the same kind of data. Just remove these of the PC SAN for the moment. It will be done smartly in the new scenarist way.
+      case LOCATION_ENUM.PC:
+      return pcDetails;*/
     case LOCATION_ENUM.PMA:
       return pmaDetails;
     default:

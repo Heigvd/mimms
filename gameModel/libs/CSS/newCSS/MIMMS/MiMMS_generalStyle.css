@@ -15,7 +15,7 @@
 
   --grey-white: #ffffffff;
   --grey_0: #f6f7f9ff;
-  --grey05: #F0F1F3; 
+  --grey05: #F0F1F3;
   --grey_10: #e0e2e3ff;
   --grey_20: #cccfd0ff;
   --grey_30: #b2b6b8ff;
@@ -39,36 +39,68 @@
   --secondary_80: #2B254A;
   --secondary_90: #1C1831;
   --secondary_100: #110F1E;
-  
+
 /* color for hurt bodyParts*/
   --orange_100: #fee5be;
 
 /* yellows for notifications */
   --yellow_10: #fee5be ;
   --yellow_base: #FBB13C;
-  
+
 /*shadows on buttons */
-  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   --buttonShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
 /* used for modals and fixedMapEntities */
   --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-/* per actor interface color variables */
-.theme-al,
+
 .theme-selected {
   --primary_10: #d0e9f3ff;
   --primary_30: #8ac8e0ff;
-  --primary_base: #1591c2ff;
-  --primary_60: #1179a2ff;
-  --primary_filter: invert(43%) sepia(94%) saturate(464%) hue-rotate(152deg) brightness(93%) contrast(90%);
 }
 
 .theme-unselected {
   --primary_10: #F0F1F3;
   --primary_30: #b2b6b8ff;
   --primary_base: #656e72ff;
+}
+
+/* per actor interface color variables */
+.theme-al {
+  --primary_10: #d0e9f3ff;
+  --primary_base: #1591c2ff;
+  --primary_60: #1179a2ff;
+  --primary_filter: invert(43%) sepia(94%) saturate(464%) hue-rotate(152deg) brightness(93%) contrast(90%);
+}
+
+.theme-acs {
+  --primary_10: #DDDBEA;
+  --primary_base: #554994;
+  --primary_60: #473D7B;
+  --primary_filter: invert(30%) sepia(41%) saturate(807%) hue-rotate(209deg) brightness(91%) contrast(92%);
+}
+
+.theme-mcs {
+  --primary_10: #DDE9E0;
+  --primary_base: #539265;
+  --primary_60: #457A54;
+  --primary_filter: invert(51%) sepia(7%) saturate(2214%) hue-rotate(84deg) brightness(98%) contrast(91%);
+}
+
+.theme-evasan {
+  --primary_10: #FCDDE4;
+  --primary_base: #EF5777;
+  --primary_60: #C54661;
+  --primary_filter: invert(57%) sepia(70%) saturate(3181%) hue-rotate(312deg) brightness(93%) contrast(101%);
+}
+
+.theme-leadpma {
+  --primary_10: #FDE8DF;
+  --primary_base: #F78C60;
+  --primary_60: #CF734D;
+  --primary_filter: invert(74%) sepia(48%) saturate(2180%) hue-rotate(318deg) brightness(99%) contrast(95%);
 }
 
 /*** GENERAL STYLING ***/
@@ -137,4 +169,18 @@
 /*** Unclassables ***/
 .unauthorizedAction{
   cursor: not-allowed;
+}
+
+.checkbox .iconOnly {
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.checkbox:hover .iconOnly {
+  color: var(--primary_60);
+}
+
+.mainSimulationPage input:hover,
+.mainSimulationPage input:focus {
+  border: 1px solid var(--primary_base);
 }

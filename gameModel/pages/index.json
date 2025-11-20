@@ -232,12 +232,6 @@
           "@class" : "Folder",
           "items" : [ {
             "@class" : "Page",
-            "id" : "48",
-            "name" : "map selection - SUNSET",
-            "scenaristPage" : false,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
             "id" : "31",
             "name" : "mapAction selection",
             "scenaristPage" : null,

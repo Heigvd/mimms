@@ -31,7 +31,7 @@
                   "content" : "\"<p>Clear</p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "rectangleButton-container",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -57,7 +57,7 @@
                   "content" : "\"<p>Select all<br></p>\"",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "rectangleButton-container",
+                "layoutClassName" : "",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {

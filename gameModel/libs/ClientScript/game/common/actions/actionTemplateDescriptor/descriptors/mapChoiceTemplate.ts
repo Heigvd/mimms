@@ -39,7 +39,6 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         desc.repeatable > 1, // TODO replayable refactoring
         undefined, // TODO req flags if any
         [], // raised flags
@@ -52,7 +51,6 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         false,
         undefined, // required flags
         [SimFlag.PC_BUILT],
@@ -64,7 +62,6 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        'figure out feedback',
         false,
         [],
         [SimFlag.PCFRONT_BUILT],
@@ -89,7 +86,6 @@ function createParkTemplate(
     desc.title,
     desc.description,
     desc.durationSec,
-    'figure out feedback',
     false,
     location,
     vtype,
