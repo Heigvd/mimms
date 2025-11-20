@@ -40,7 +40,8 @@ export function getTriggerController(): TriggerDataController {
 // TODO right context key
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
-    actionTplController || new ActionTemplateDataController('action_template_data', 'actionPageState'));
+    actionTplController ||
+    new ActionTemplateDataController('action_template_data', 'actionPageState'));
 }
 
 // XGO TODO right var key + context key

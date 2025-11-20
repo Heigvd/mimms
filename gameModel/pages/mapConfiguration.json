@@ -20,20 +20,6 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "noMargin scenarist-title",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "Title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Map</p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
                 "children" : [ {
                   "props" : {
                     "className" : "noMargin scenarist-text",

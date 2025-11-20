@@ -1,7 +1,6 @@
 // EVALUATION_PRIORITY 0
 
 import { Impact } from '../../game/common/impacts/impact';
-import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
@@ -21,11 +20,7 @@ import {
   ActivationImpact,
   MapActivationImpact,
 } from '../../game/common/impacts/implementation/activationImpact';
-import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
-import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
-import { RadioType } from '../../game/common/radio/communicationType';
-import { Uid } from '../../game/common/interfaces';
-import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
+
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;

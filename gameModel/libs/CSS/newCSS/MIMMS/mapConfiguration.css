@@ -1,6 +1,15 @@
 .map-configuration-page {
   gap: 1.5rem;
-  /*margin-top: 1.5rem;*/
+}
+
+.map-configuration-page input,
+.map-configuration-page input:hover,
+.map-configuration-page input:focus {
+  width: 2.5rem;
+  min-width: 2.5rem;
+  margin: 0 5px;
+  padding: 5px;
+  border: 2px solid var(--primary_30);
 }
 
 .map-configuration-gap {
@@ -19,44 +28,4 @@
 
 .time-config-text {
   margin-right: 5px;
-}
-
-.small-bold-primary-text {
-  font-size: var(--S_text);
-  font-weight: var(--boldWeight);
-  color: var(--primary_base);
-  transition: color .3s ease-in-out;
-}
-
-.scenarist-dropdown {
-  width: 135px;
-  font-size: var(--SM_text);
-  font-weight: var(--boldWeight);
-}
-
-.scenarist-dropdown .wegas-select__control,
-.scenarist-dropdown .wegas-select__value-container,
-.scenarist-dropdown .wegas-select__value-container--has-value,
-.scenarist-dropdown .wegas-select__indicators {
-  height: 25px;
-  min-height: 25px;
-}
-
-.scenarist-dropdown .wegas-select__control {
-  border: 1px solid var(--primary_base);
-  border-radius: var(--XXS_borderRadius);
-}
-
-.scenarist-dropdown svg {
-  fill: var(--primary_base);
-}
-
-.scenarist-dropdown div {
-  padding: 0;
-  color: var(--primary_base);
-  border: 1px solid rgba(0, 0, 0, 0);
-}
-
-.scenarist-dropdown span {
-  background-color: rgba(0, 0, 0, 0);
 }
