@@ -65,14 +65,17 @@ function getPointStyle(feature: any): LayerStyleObject {
     );
     const isSelected = feature.values_.id === choiceDescriptor?.placeholder;
 
+    const offsetX = isNaN(+feature.values_.labelOffset[0]) ? 0 : +feature.values_.labelOffset[0];
+    const offsetY = isNaN(+feature.values_.labelOffset[1]) ? 0 : +feature.values_.labelOffset[1];
+
     if (Context.mapState.state.mapSelect && !rotation) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
       iconStyle.color = getInterfaceColor(Context.interfaceState.state.currentActorUid);
       iconStyle.opacity = isSelected ? 1 : 0.5;
 
       textStyle.text = getLetterRepresentationOfIndex(parseInt(index, 10));
-      textStyle.offsetX = 12;
-      (textStyle.offsetY = -38), (textStyle.scale = 1.6);
+      textStyle.offsetX = 12 + offsetX;
+      (textStyle.offsetY = -38 + offsetY), (textStyle.scale = 1.6);
       textStyle.opacity = isSelected ? 1 : 0.5;
       textStyle.fill = {
         type: 'FillStyle',
@@ -88,8 +91,8 @@ function getPointStyle(feature: any): LayerStyleObject {
       iconStyle.scale = 0.08;
 
       textStyle.text = label;
-      textStyle.offsetX = 0.5;
-      textStyle.offsetY = -18;
+      textStyle.offsetX = 0.5 + offsetX;
+      textStyle.offsetY = -18 + offsetY;
       textStyle.scale = 1.6;
       textStyle.fill = {
         type: 'FillStyle',

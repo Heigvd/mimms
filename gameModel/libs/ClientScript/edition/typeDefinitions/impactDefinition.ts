@@ -20,6 +20,7 @@ import {
   ActivationImpact,
   MapActivationImpact,
 } from '../../game/common/impacts/implementation/activationImpact';
+import { scenarioEditionLogger } from '../../tools/logger';
 
 
 type ImpactTypeName = Impact['type'];
@@ -59,10 +60,11 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
       break;
     case 'empty':
       definition = getEmptyImpactDef();
+      break;
   }
 
   if (definition?.type !== type) {
-    // TODO error or warning,
+    scenarioEditionLogger.error('Could not provide a type definition for type', type);
   }
 
   return definition;

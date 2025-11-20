@@ -10,7 +10,6 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -43,8 +42,6 @@ import {
   getImpactDefinition,
   toFlatImpact,
 } from '../typeDefinitions/impactDefinition';
-import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import {
   FlatActionTemplate,
   fromFlatActionTemplate,
@@ -62,6 +59,19 @@ import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade'
 import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import {
+  FlatMapObject,
+  fromFlatMapObject,
+  getMapObjectDefinition,
+  toFlatMapObject,
+} from '../typeDefinitions/mapObjectDefinition';
+import {
+  FlatMapEntity,
+  fromFlatMapEntity,
+  getMapEntityDefinition,
+  toFlatMapEntity,
+} from '../typeDefinitions/mapEntityDefinition';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 
@@ -257,6 +267,11 @@ export abstract class DataControllerBase<
    */
   protected abstract recompose(flattened: Record<Uid, FlatType>): Record<Uid, DataType>;
 
+  /**
+   * Advanced sibling filtering. Given a target and a candidate that share the same parent,
+   * this function has to determine if those natural siblings belong to the same group
+   * (example : triggers are split between mandatory and non-mandatory)
+   */
   protected abstract isSibling(target: FlatType, candidate: FlatType): boolean;
 
   /** Creates a new object of the desired type */
@@ -466,28 +481,74 @@ export class ActionTemplateDataController extends DataControllerBase<
   }
 }
 
-// XGO TODO implement
 export class MapEntityController extends DataControllerBase<
   MapEntityDescriptor,
   MapEntityFlatType,
   MapEntityUIState
 > {
-  protected override isSibling(_target: MapEntityFlatType, _candidate: MapEntityFlatType): boolean {
-    // TODO filter by category (LocationEnum)
+  private static readonly MAP_ENTITY_ROOT: string = 'MAP_ENTITY_ROOT';
+
+  protected override isSibling(target: MapEntityFlatType, candidate: MapEntityFlatType): boolean {
+    if (target.type === 'mapEntity' && candidate.type === 'mapEntity') {
+      return target.binding === candidate.binding;
+    }
     return true;
   }
-  protected flatten(
-    _input: Record<string, MapEntityDescriptor>
-  ): Record<string, MapEntityFlatType> {
-    throw new Error('Method not implemented.');
+  protected flatten(input: Record<string, MapEntityDescriptor>): Record<string, MapEntityFlatType> {
+    const flattened: Record<Uid, MapEntityFlatType> = {};
+
+    Object.entries(input).forEach(([uid, mapEntity]) => {
+      // map entities
+      flattened[uid] = toFlatMapEntity(mapEntity, MapEntityController.MAP_ENTITY_ROOT);
+      // break down map objects
+      mapEntity.mapObjects.forEach(mapObject => {
+        flattened[mapObject.uid] = toFlatMapObject(mapObject, uid);
+      });
+    });
+    return flattened;
   }
+
   protected recompose(
-    _flattened: Record<string, MapEntityFlatType>
+    flattened: Record<string, MapEntityFlatType>
   ): Record<string, MapEntityDescriptor> {
-    throw new Error('Method not implemented.');
+    const tree: Record<Uid, MapEntityDescriptor> = {};
+    // create map entities descriptors with empty map objects array
+    Object.values(flattened)
+      .filter(element => element.superType === 'mapEntity')
+      .map(e => e as FlatMapEntity) // safe cast
+      .forEach((fme: FlatMapEntity) => {
+        tree[fme.uid] = fromFlatMapEntity(fme);
+      });
+
+    // fill in map objects
+    Object.values(flattened)
+      .filter(elem => elem.superType === 'geometry')
+      .map(e => e as FlatMapObject) // safe cast
+      .forEach((mapObj: FlatMapObject) => {
+        const parentMapEntity = tree[mapObj.parent];
+        if (parentMapEntity) {
+          parentMapEntity.mapObjects.push(fromFlatMapObject(mapObj));
+        } else {
+          scenarioEditionLogger.error(
+            'Found some orphan map object in map entity data, it will be lost when saving',
+            mapObj
+          );
+        }
+      });
+
+    return tree;
   }
-  protected createNewInternal(_parentId: string, _type: SuperTypeNames): MapEntityFlatType {
-    throw new Error('Method not implemented.');
+
+  protected createNewInternal(
+    parentId: string,
+    type: MapEntityFlatType['superType']
+  ): MapEntityFlatType {
+    switch (type) {
+      case 'mapEntity':
+        return toFlatMapEntity(getMapEntityDefinition().getDefault(), parentId);
+      case 'geometry':
+        return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
+    }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
     throw new Error('Method not implemented.');

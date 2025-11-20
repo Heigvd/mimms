@@ -2,9 +2,11 @@ import { Indexed, Parented, SuperTyped, Typed } from '../../game/common/interfac
 import { scenarioEditionLogger } from '../../tools/logger';
 
 /**
- * Unboxes the type contained in an array
+ * Unboxes the type contained in an array up to 3 levels of array
  */
-type Unarray<T> = T extends Array<infer U> ? U : T;
+type Unarray<T> = T extends Array<infer U> | Array<Array<infer U>> | Array<Array<Array<infer U>>>
+  ? U
+  : T;
 
 /**
  * Removes all array fields in type

@@ -1,4 +1,7 @@
-import { getAvailableMapActivables } from '../game/common/simulationState/locationState';
+import {
+  getAvailableMapActivables,
+  LOCATION_ENUM,
+} from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTranslation } from '../tools/translation';
 import { getSelectedActorLocation } from './actorFacade';
@@ -6,7 +9,7 @@ import { ActorId } from '../game/common/baseTypes';
 import * as TaskFacade from './taskFacade';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
-import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 
 // used in page 66
 export function getActorTargetLocationChoices(): { label: string; value: string }[] {
@@ -55,10 +58,13 @@ function getLocationChoicesData(
   mapLocations: MapEntityActivable[]
 ): { label: string; value: string }[] {
   return mapLocations.map((mapActivable: MapEntityActivable) => {
-    const descriptor = getMapEntityDescriptor(mapActivable.uid)!;
     return {
-      label: getTranslation('mainSim-locations', descriptor?.mapObjects[0]?.label || ''),
+      label: getLocationTranslation(mapActivable.binding),
       value: mapActivable.binding,
     };
   });
+}
+
+export function getLocationTranslation(binding: LOCATION_ENUM): string {
+  return getTranslation('mainSim-locations', locationEnumConfig[binding].name);
 }

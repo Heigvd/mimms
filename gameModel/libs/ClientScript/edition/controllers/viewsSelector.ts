@@ -25,6 +25,12 @@ import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefi
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
 import { FlatTypes, SuperTypeNames } from './dataController';
+import {
+  getLineMapObjectDef,
+  getPointMapObjectDef,
+  getPolygonMapObjectDef,
+} from '../typeDefinitions/mapObjectDefinition';
+import { getMapEntityDefinition } from '../typeDefinitions/mapEntityDefinition';
 
 /**
  * Removes the superType and parent fields
@@ -77,12 +83,12 @@ const viewTree: Views = {
     effect: {} as any, //TODO
   },
   geometry: {
-    Point: {} as any, // TODO
-    LineString: {} as any, // TODO
-    Polygon: {} as any, // TODO
+    Point: getPointMapObjectDef().view,
+    LineString: getLineMapObjectDef().view,
+    Polygon: getPolygonMapObjectDef().view,
   },
   mapEntity: {
-    mapEntity: {} as any, // TODO
+    mapEntity: getMapEntityDefinition().view,
   },
 };
 

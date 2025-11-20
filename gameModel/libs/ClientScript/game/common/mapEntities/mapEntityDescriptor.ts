@@ -5,8 +5,8 @@ export interface BaseMapObject<T, TType extends string> extends Typed, Indexed, 
   type: TType;
   geometry: T;
   parent: Uid;
-  label: string;
-  labelOffset: string;
+  label: ITranslatableContent;
+  labelOffset: PointLikeObject;
 }
 
 export interface PointMapObject extends BaseMapObject<PointLikeObject, 'Point'> {

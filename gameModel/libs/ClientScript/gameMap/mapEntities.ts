@@ -14,6 +14,8 @@ import { mainSimMapLogger } from '../tools/logger';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from '../gameMap/utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
+import { MapEntityActivable } from '../game/common/simulationState/activableState';
 
 let wasGodView = true;
 
@@ -21,44 +23,51 @@ let wasGodView = true;
 export function getOverlayItems(actorId: ActorId | undefined) {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
-    a => a.binding !== 'custom'
+    (a: MapEntityActivable) => {
+      const accessibility = locationEnumConfig[a.binding]?.accessibility;
+      return (
+        a.active && a.buildStatus === 'built' && (accessibility?.Actors || accessibility?.Resources)
+      );
+    }
   );
   const overlayItems: OverlayItem[] = [];
 
   for (const mapActivable of mapActivables) {
-    // TODO Avoid assertion
-    const mapDescriptor = getMapEntityDescriptor(mapActivable.uid)!;
-    const firstMapObject = mapDescriptor.mapObjects[0];
+    const mapDescriptor = getMapEntityDescriptor(mapActivable.uid);
+    // by convention the overlays are placed on the first map object if any
+    const firstMapObject = mapDescriptor?.mapObjects[0];
 
-    overlayItems.push({
-      overlayProps: {
-        // Overlay centered over the first mapObject
-        position: getShapeCenter(firstMapObject!),
-        positioning: 'bottom-center',
-        offset: [0, -60],
-      },
-      payload: {
-        id: mapActivable.binding,
-        name: firstMapObject?.label || '',
-        icon: firstMapObject!.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
-        actors: getActorsByLocation(mapActivable.binding),
-        resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
-          getCurrentState(),
-          actorId,
-          mapActivable.binding
-        ),
-        ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'ambulance',
-          mapActivable.binding
-        ),
-        helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'helicopter',
-          mapActivable.binding
-        ),
-      },
-    });
+    if (firstMapObject) {
+      overlayItems.push({
+        overlayProps: {
+          // Overlay centered over the first mapObject
+          position: getShapeCenter(firstMapObject),
+          positioning: 'bottom-center',
+          offset: [0, -60],
+        },
+        payload: {
+          id: mapActivable.binding,
+          name: I18n.translate(firstMapObject.label) || '',
+          icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
+          actors: getActorsByLocation(mapActivable.binding),
+          resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
+            getCurrentState(),
+            actorId,
+            mapActivable.binding
+          ),
+          ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
+            getCurrentState(),
+            'ambulance',
+            mapActivable.binding
+          ),
+          helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
+            getCurrentState(),
+            'helicopter',
+            mapActivable.binding
+          ),
+        },
+      });
+    }
   }
 
   // detect change of view mode

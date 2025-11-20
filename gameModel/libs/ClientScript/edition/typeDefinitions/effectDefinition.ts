@@ -20,7 +20,7 @@ export function toFlatEffect(parentId: Uid): FlatEffect {
 }
 
 export function fromFlatEffect(flatEffect: FlatEffect): Effect {
-  const { superType: _ignored, ...effect } = flatEffect;
+  const { superType: st, ...effect } = flatEffect;
   return {
     ...effect,
     impacts: [],
