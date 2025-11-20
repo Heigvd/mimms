@@ -4,21 +4,21 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "noMargin scenarist-title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "Title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Map</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
-              "props" : {
-                "className" : "noMargin scenarist-title",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "Title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Map</p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
               "props" : {
                 "children" : [ {
                   "props" : {
@@ -261,7 +261,9 @@
                           "content" : "  Context.state.state.mapId || 'GVA-center';",
                           "language" : "TypeScript"
                         },
-                        "style" : { }
+                        "style" : {
+                          "width" : "135px"
+                        }
                       },
                       "type" : "Select input"
                     }, {
@@ -590,7 +592,9 @@
           "language" : "TypeScript"
         },
         "layoutClassName" : "fullSize noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flexDirection" : "column"
+        },
         "localState" : true,
         "name" : "State",
         "style" : { }

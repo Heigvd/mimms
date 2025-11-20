@@ -33,17 +33,21 @@ let actionTplController: ActionTemplateDataController | undefined;
 let mapEntityController: MapEntityController | undefined;
 
 export function getTriggerController(): TriggerDataController {
-  return (triggerController = triggerController || new TriggerDataController('triggers_data'));
+  return (triggerController =
+    triggerController || new TriggerDataController('triggers_data', 'triggerPageState'));
 }
 
+// TODO right context key
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
-    actionTplController || new ActionTemplateDataController('action_template_data'));
+    actionTplController ||
+    new ActionTemplateDataController('action_template_data', 'actionPageState'));
 }
 
-// XGO TODO right var key
+// XGO TODO right var key + context key
 export function getMapEntityController(): MapEntityController {
-  return (mapEntityController = mapEntityController || new MapEntityController('triggers_data'));
+  return (mapEntityController =
+    mapEntityController || new MapEntityController('triggers_data', 'mapPageState'));
 }
 
 // Reset the controllers when saving scripts or restarting the game

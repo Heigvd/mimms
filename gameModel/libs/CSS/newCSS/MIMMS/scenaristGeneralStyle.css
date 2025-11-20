@@ -1,0 +1,270 @@
+/* - - - - -  L A Y O U T  - - - */
+
+.scenarist-column {
+  width: 33.3%;
+  padding: 0 0 0 1rem;
+  border-right: 3px solid var(--grey_10);
+}
+
+.scenarist-column-scroll {
+  height: 100%;
+  /* margin to counter-balance buttons in absolute position at the bottom of the page */
+  margin-bottom: 57px;
+  overflow: auto;
+}
+
+.generic-item__page-loader {
+  margin-bottom: 10px;
+}
+
+.scenarist-absolute-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1rem 0 1rem 1rem;
+}
+
+.scenarist-save-all-button {
+  gap: 10px;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  /*z-index: 2;*/
+}
+
+
+/* - - - - -  T E X T S  - - - */
+
+.scenarist-title {
+  margin: 1.5rem 0;
+  font-size: var(--ML_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+.scenarist__undertitle {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  text-transform: uppercase;
+}
+
+.scenarist-text {
+  font-size: var(--SM_text);
+  color: var(--grey_100);
+}
+
+.small-regular-primary-text {
+  font-size: var(--S_text);
+  font-weight: var(--regularWeight);
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.small-bold-primary-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.small-bold-primary10-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_10);
+  transition: color .3s ease-in-out;
+}
+
+
+/* - - - - -  B U T T O N S  - - - */
+
+/* scenarist save all button */
+.scenarist-save-all-button button {
+  box-shadow: var(--buttonShadow);
+}
+
+/* boolean button */
+.boolean-container {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.boolean-button {
+  padding: 6px 5px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  white-space: nowrap;
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  border-width: 2px 1.5px;
+  border-style: solid;
+  border-color: var(--primary_base);
+  border-radius: 0;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.boolean-button:hover {
+  background-color: var(--primary_10);
+}
+
+.boolean-button-left {
+  border-width: 2px 1.5px 2px 2px;
+  border-radius: var(--XXS_borderRadius) 0 0 var(--XXS_borderRadius);
+}
+
+.boolean-button-right {
+  border-width: 2px 2px 2px 1.5px;
+  border-radius: 0 var(--XXS_borderRadius) var(--XXS_borderRadius) 0;
+}
+
+.boolean-button--selected,
+.boolean-button--selected:hover {
+  color: var(--primary_10);
+  background-color: var(--primary_base);
+}
+
+/* scenarist toggler */
+.scenarist-toggler-container {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.scenarist-toggler .wegas-toggler {
+  height: 20px;
+  width: 37.5px;
+  min-width: 35px;
+  margin-left: 0;
+  background-color: var(--grey_20);
+  transition: background-color .3s ease-in-out;
+}
+
+.scenarist-toggler .wegas-toggler-handle {
+  height: 13px;
+  width: 13px;
+}
+
+.scenarist-toggler .checked {
+  background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out;
+}
+
+
+/* - - - - -  D R O P D O W N S  - - - */
+
+/* scenarist dropdown */
+.scenarist-dropdown {
+  width: 100%;
+  min-width: 7.5rem;
+  max-width: 15rem;
+}
+
+.scenarist-dropdown .wegas-select__value-container,
+.scenarist-dropdown .wegas-select__value-container--has-value,
+.scenarist-dropdown .wegas-select__indicator {
+  align-items: center;
+  height: 15px;
+  min-height: 15px;
+  padding: 0;
+  position: initial; /* fix ? */
+}
+
+.scenarist-dropdown .wegas-select__control {
+  height: 28.4px;
+  min-height: 28.4px;
+}
+
+.scenarist-dropdown .wegas-select__control {
+  padding: 5px;
+  background-color: transparent;
+  border: 2px solid var(--primary_base);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.scenarist-dropdown .wegas-select__single-value {
+  width: calc(100% - 35px);
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+}
+
+.scenarist-dropdown .wegas-select__indicator-separator {
+  display: none;
+}
+
+.scenarist-dropdown svg {
+  color: var(--primary_base);
+}
+
+.scenarist-dropdown .wegas-select__menu-list {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  background-color: var(--grey-white);
+  border: 2px solid var(--primary_base);
+  border-radius: var(--XXS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-dropdown .wegas-select__option--is-focused {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-dropdown .wegas-select__option--is-selected {
+  color: var(--grey-white);
+  background-color: var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+/* conditions & impacts dropdown */
+.generic-item--selected .condition-impact__dropdown {
+  z-index: 2;
+}
+
+.condition-impact__dropdown .wegas-select__control {
+  background-color: var(--primary_base);
+  border: none;
+  border-radius: var(--XXS_borderRadius) var(--XXS_borderRadius) 0 0;
+  transition: background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__single-value {
+  font-size: var(--S_text);
+  color: var(--grey-white);
+  text-transform: uppercase;
+}
+
+.condition-impact__dropdown .wegas-select__indicator-separator {
+  display: none;
+}
+
+.condition-impact__dropdown svg {
+  color: var(--grey-white);
+}
+
+.condition-impact__dropdown .wegas-select__menu {
+  box-shadow: none;
+}
+
+.condition-impact__dropdown .wegas-select__menu-list {
+  font-size: var(--S_text);
+  color: var(--primary_base);
+  text-transform: uppercase;
+  background-color: var(--grey-white);
+  border: 2px solid var(--primary_base);
+  border-radius: 0 0 var(--XXS_borderRadius) var(--XXS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__option--is-focused {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__option--is-selected {
+  color: var(--grey-white);
+  background-color: var(--primary_base);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}

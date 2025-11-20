@@ -4,6 +4,20 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "genericItemPageLoader",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
             "disableIf" : {
               "@class" : "Script",
               "content" : "import { isReadonly } from \"./edition/controllers/viewsSelector\";\nisReadonly(Context.item.superType, Context.item.type, 'uid');",
@@ -14,6 +28,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'uid');",
               "language" : "typescript"
             },
+            "layoutClassName" : "generic-item__advanced-internal",
             "layoutStyle" : { },
             "name" : "uid",
             "onCancel" : { },
@@ -44,6 +59,7 @@
               "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'index');",
               "language" : "typescript"
             },
+            "layoutClassName" : "generic-item__advanced-internal",
             "layoutStyle" : { },
             "name" : "index",
             "onVariableChange" : {
@@ -66,26 +82,39 @@
             "style" : { }
           },
           "type" : "Number input"
+        } ],
+        "className" : "generic-item",
+        "computedClassNames" : [ {
+          "applyOn" : "Outside",
+          "className" : {
+            "@class" : "Script",
+            "content" : "import { getSelectionColorClass } from \"./edition/UIfacade/genericConfigFacade\";\n  getSelectionColorClass(Context.item.superType, Context.item.uid);",
+            "language" : "TypeScript"
+          }
+        } ],
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "new-generic-item",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isLastGenericAdded } from \"./edition/UIfacade/genericConfigFacade\";\nisLastGenericAdded(Context.item.uid);",
+            "language" : "typescript"
+          }
         }, {
-          "props" : {
-            "exposePageSizeAs" : "",
-            "initialSelectedPageId" : {
-              "@class" : "Script",
-              "content" : "import { getDetailPage } from \"./edition/UIfacade/genericConfigFacade\";\ngetDetailPage(Context.item.superType);",
-              "language" : "typescript"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "genericItemPageLoader",
-            "style" : { }
-          },
-          "type" : "PageLoader"
+          "applyOn" : "Inside",
+          "className" : "generic-item--selected",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+            "language" : "typescript"
+          }
         } ],
         "layout" : {
           "flexDirection" : "column"
         },
+        "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "border" : "1px solid"
+          "width" : "calc(100% - 40px)"
         },
         "style" : { }
       },
@@ -110,6 +139,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -130,6 +160,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -160,6 +191,7 @@
               "content" : "\"\"",
               "language" : "TypeScript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -173,18 +205,21 @@
           },
           "type" : "Button"
         } ],
+        "className" : "generic-item__actions",
         "layout" : {
-          "flexDirection" : "column"
+          "flexDirection" : "column",
+          "justifyContent" : "center"
         },
+        "layoutClassName" : "noPadding generic-item__actions-container",
         "layoutStyle" : { },
         "style" : { }
       },
       "type" : "FlexList"
     } ],
     "layout" : { },
+    "layoutClassName" : "noPadding generic-item-container",
     "layoutStyle" : {
       "height" : "100%",
-      "overflow" : "auto",
       "width" : "100%"
     },
     "localScriptEval" : {

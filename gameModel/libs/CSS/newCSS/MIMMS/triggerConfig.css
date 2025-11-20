@@ -1,0 +1,82 @@
+/* - - - - -  L A Y O U T  - - - */
+
+.trigger {
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.condition,
+.impact {
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 1rem;
+}
+
+.condition:empty,
+.impact:empty {
+  padding: 0;
+}
+
+.generic-item__page-loader:first-of-type:has(.trigger) {
+  margin-top: 10px;
+}
+
+.generic-item:has(.condition),
+.generic-item:has(.impact) {
+  min-height: 5.5rem;
+}
+
+/* and or dropdown */
+.and-or__dropdown {
+  position: absolute;
+  top: 1.5rem;
+  right: 40px;
+}
+
+/* divider between basic and custom triggers.
+Could be moved in genericItem.css file if reused elsewhere */
+.basic__generic-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.basic__generic-item:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: calc(100% - 40px);
+  content: '';
+  background-color: var(--grey_20);
+}
+
+
+/* - - - - -  B U T T O N S  - - - */
+
+.notif-receiver {
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid var(--primary_base);
+  border-radius: var(--S_borderRadius);
+  transition: background-color .3s ease-in-ou, border .3s ease-in-out;
+}
+
+.notif-receiver:hover {
+  cursor: pointer;
+}
+
+.notif-receiver button,
+.notif-receiver button:hover {
+  padding: 0;
+  background-color: transparent;
+}
+
+.notif-receiver--selected {
+  background-color: var(--primary_base);
+  transition: background-color .3s ease-in-out, border .3s ease-in-out;
+}
+
+.notif-receiver--selected svg {
+  color: var(--primary_10);
+  transition: color .3s ease-in-out;
+}

@@ -8,7 +8,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "resources__undertitle",
+                    "className" : "scenarist__undertitle",
                     "layoutStyle" : { },
                     "style" : {
                       "marginTop" : "10px"
@@ -519,7 +519,7 @@
                   "type" : "For each"
                 }, {
                   "props" : {
-                    "className" : "resources__undertitle",
+                    "className" : "scenarist__undertitle",
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {

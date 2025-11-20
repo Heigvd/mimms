@@ -1,0 +1,124 @@
+/* - - - -  G E N E R I C   I T E M  - - - - */
+
+/* generic item */
+.generic-item {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+  background-color: var(--grey05);
+  border-radius: var(--XS_borderRadius);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.generic-item--selected {
+  color: var(--primary_base);
+  background-color: var(--primary_10);
+  z-index: 1;
+}
+
+.new-generic-item {
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  animation-name: new-generic-item;
+  animation-duration: 3s;
+}
+
+/* generic item actions */
+.generic-item__actions-container {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.generic-item-container .generic-item__actions {
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.generic-item-container:hover .generic-item__actions {
+  opacity: 100%;
+}
+
+.generic-item__actions svg {
+  color: var(--grey_base);
+  transition: color .3s ease-in-out;
+}
+
+.generic-item__actions svg:hover {
+  color: var(--grey_70);
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions svg {
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions svg:hover {
+  color: var(--primary_70);
+}
+
+.generic-item-container:has(.generic-item--selected) .generic-item__actions .disabled svg,
+.generic-item__actions .disabled svg {
+  color: var(--grey_30);
+}
+
+/* advanced and internal modes */
+.generic-item__advanced-internal {
+  padding: 0 1rem 1rem 1rem;
+}
+
+
+/* - - - - -  I N P U T S  - - - */
+
+/* string and textarea inputs */
+.generic-item input,
+.generic-item input:hover,
+.generic-item input:focus {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  border: 2px solid var(--primary_30);
+  transition: color .3s ease-in-out, border .3s ease-in-out;
+}
+
+.generic-item textarea,
+.generic-item textarea:hover,
+.generic-item textarea:focus {
+  font-size: var(--S_text);
+  color: var(--primary_base);
+  border: 2px solid var(--primary_30);
+  transition: color .3s ease-in-out, border .3s ease-in-out;
+}
+
+/* number input */
+.number-input {
+  width: 3rem;
+}
+
+.generic-item .number-input input,
+.generic-item .number-input input:hover,
+.generic-item .number-input input:focus {
+  font-size: var(--S_text);
+  font-weight: var(--regularWeight);
+}
+
+/* input labels */
+.generic-item__label {
+  position: absolute;
+  top: -12px;
+  left: 5px;
+  font-size: .5rem;
+  padding: 0 7px;
+  background-color: var(--grey-white);
+  border-radius: var(--XS_borderRadius);
+  /*z-index: 1;*/
+}
+
+
+/* - - - - A N I M A T I O N S - - - - */
+
+@keyframes new-generic-item {
+  0% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  50% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
+  100% {box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);}
+}
