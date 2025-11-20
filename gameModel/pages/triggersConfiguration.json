@@ -151,7 +151,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context?.pageState?.state == undefined;",
+              "content" : "Context?.triggerPageState?.state == undefined;",
               "language" : "typescript"
             },
             "layout" : {
@@ -289,7 +289,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context?.pageState?.state == undefined;",
+              "content" : "Context?.triggerPageState?.state == undefined;",
               "language" : "typescript"
             },
             "layout" : {
@@ -389,7 +389,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context?.pageState?.state == undefined;",
+              "content" : "Context?.triggerPageState?.state == undefined;",
               "language" : "typescript"
             },
             "layout" : {
@@ -516,7 +516,7 @@
             "className" : "scenarist-save-all-button",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context?.pageState?.state == undefined;",
+              "content" : "Context?.triggerPageState?.state == undefined;",
               "language" : "typescript"
             },
             "id" : "",
@@ -529,7 +529,7 @@
           "type" : "FlexList"
         } ],
         "className" : "fullWidth",
-        "exposeAs" : "pageState",
+        "exposeAs" : "triggerPageState",
         "hideIf" : {
           "@class" : "Script",
           "content" : "Context.mainMenu == undefined;",
@@ -543,7 +543,7 @@
         "layoutClassName" : "noPadding fullHeight",
         "layoutStyle" : { },
         "localState" : false,
-        "name" : "pageState",
+        "name" : "triggerPageState",
         "style" : { }
       },
       "type" : "State"
