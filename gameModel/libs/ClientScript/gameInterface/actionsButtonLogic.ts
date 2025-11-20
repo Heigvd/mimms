@@ -2,8 +2,8 @@ import {
   getDefaultSituationUpdateDuration,
   isAvailable,
   isCasuMessageActionTemplate,
+  isChoiceTemplate,
   isEvacuationActionTemplate,
-  isFixedMapEntityTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
@@ -23,14 +23,13 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { clearMapState, startMapSelect } from '../gameMap/main';
+import { clearMapState, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -43,6 +42,8 @@ import {
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -59,12 +60,11 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
 
   let params = {};
 
-  if (isFixedMapEntityTemplate(action)) {
-    // If the action is already planned we cancel it in actionClickHandler and reinitialise the selectionState
+  if (isChoiceTemplate(action)) {
     if (!canPlanAction()) {
-      startMapSelect();
+      startMapChoice();
     } else {
-      params = fetchSelectMapObjectValues()!;
+      params = fetchChoiceActionValues()!;
       clearMapState();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
@@ -89,25 +89,15 @@ export function runActionButton(action: ActionTemplateBase | undefined): void {
 }
 
 /**
- * Generate a SelectMapObjectPayload from interface state
+ * Get the chosen ChoiceDescriptor based on interface state
  *
- * @returns SelectMapObjectPayload
+ * @returns ChoiceDescriptor | undefined
  */
-function fetchSelectMapObjectValues(): FixedMapEntity | undefined {
-  // TODO Add type
-
-  const mapState = Context.mapState.state;
-  let tmpFixedEntity;
-  if (mapState.selectionState instanceof FixedMapEntity) {
-    tmpFixedEntity = mapState.selectionState as FixedMapEntity;
-    tmpFixedEntity.buildingStatus = BuildingStatus.inProgress;
-    tmpFixedEntity.getGeometricalShape().selectedPosition =
-      mapState.selectionState.getGeometricalShape().availablePositions[
-        Context.interfaceState.state.selectedMapObjectId
-      ];
-  }
-
-  return tmpFixedEntity;
+function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
+  return getChoiceDescriptor(
+    Context.interfaceState.state.currentActionUid,
+    Context.interfaceState.state.selectedActionChoiceUid
+  );
 }
 
 /**

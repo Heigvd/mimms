@@ -16,10 +16,11 @@ import {
   getActivationImpactDef,
   getChoiceEffectSelectionImpactDef,
   getEmptyImpactDef,
+  getMapActivationImpactDef,
   getNotificationImpactDef,
   getRadioImpactDef,
 } from '../typeDefinitions/impactDefinition';
-import { getFixedMapEntityTemplate } from '../typeDefinitions/templateDefinitions/fixedMapEntityTemplate';
+import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
@@ -46,7 +47,7 @@ type Views = {
 
 const viewTree: Views = {
   action: {
-    FixedMapEntityTemplateDescriptor: getFixedMapEntityTemplate().view,
+    MapChoiceActionTemplateDescriptor: getMapChoiceActionTemplateDef().view,
     FullyConfigurableTemplateDescriptor: getFullyConfigurableTemplateDef().view,
     MoveActorTemplateDescriptor: getMoveTemplateDef().view,
   },
@@ -58,6 +59,7 @@ const viewTree: Views = {
   },
   impact: {
     activation: getActivationImpactDef().view,
+    mapActivation: getMapActivationImpactDef().view,
     effectSelection: getChoiceEffectSelectionImpactDef().view,
     notification: getNotificationImpactDef().view,
     radio: getRadioImpactDef().view,
@@ -76,7 +78,7 @@ const viewTree: Views = {
   },
   geometry: {
     Point: {} as any, // TODO
-    Line: {} as any, // TODO
+    LineString: {} as any, // TODO
     Polygon: {} as any, // TODO
   },
   mapEntity: {

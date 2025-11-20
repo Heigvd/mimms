@@ -29,10 +29,10 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
 import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
+import { BuildStatus } from '../mapEntities/mapEntityDescriptor';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -289,72 +289,6 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// map items
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/////////// TODO in own file
-export class AddFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'AddFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.push(this.props.fixedMapEntity);
-  }
-}
-
-export class RemoveFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'RemoveFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.splice(
-      so.mapLocations.findIndex(
-        f =>
-          f.id === this.props.fixedMapEntity.id && f.ownerId === this.props.fixedMapEntity.ownerId
-      ),
-      1
-    );
-  }
-}
-
-export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'CompleteBuildingFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations
-      .filter(mapEntity => mapEntity.id === this.props.fixedMapEntity.id)
-      .forEach(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
 // actors
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -412,6 +346,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Actors', this.props.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
@@ -814,6 +749,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
@@ -1160,6 +1096,38 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
     const so = state.getInternalStateObject();
     const target: Activable | undefined = so.activables[this.props.target];
     if (target != undefined) {
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
+export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLocalEvent {
+  constructor(
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    },
+    readonly buildStatus: BuildStatus
+  ) {
+    super({ ...extensionProps });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined && target.activableType === 'mapEntity') {
+      target.buildStatus = this.buildStatus;
       if (this.props.option === 'activate') {
         target.active = true;
       } else if (this.props.option === 'deactivate') {

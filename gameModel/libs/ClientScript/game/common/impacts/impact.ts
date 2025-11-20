@@ -1,7 +1,12 @@
 import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { ActivationImpact, convertActivationImpact } from './implementation/activationImpact';
+import {
+  ActivationImpact,
+  convertActivationImpact,
+  convertMapActivationImpact,
+  MapActivationImpact,
+} from './implementation/activationImpact';
 import {
   ChoiceEffectSelectionImpact,
   convertChoiceEffectSelectionImpact,
@@ -22,6 +27,7 @@ export interface ImpactBase extends IDescriptor, Typed, Indexed {
 
 export type Impact =
   | ActivationImpact
+  | MapActivationImpact
   | ChoiceEffectSelectionImpact
   | NotificationMessageImpact
   | RadioMessageImpact
@@ -35,6 +41,8 @@ export function convertToLocalEvents(
   switch (impact.type) {
     case 'activation':
       return convertActivationImpact(state, impact, parentTriggerId);
+    case 'mapActivation':
+      return convertMapActivationImpact(state, impact, parentTriggerId);
     case 'effectSelection':
       return convertChoiceEffectSelectionImpact(state, impact, parentTriggerId);
     case 'notification':

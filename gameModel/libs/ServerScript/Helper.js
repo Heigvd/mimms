@@ -1,6 +1,3 @@
-/**
- * Server-side time manager
- */
 var MimmsHelper = (function () {
   function isDrillMode() {
     return Variable.find(gameModel, 'gameMode').getValue(self) === 'pretriMode';
@@ -25,12 +22,19 @@ var MimmsHelper = (function () {
     return Variable.getInstancesByKeyId(Variable.find(gameModel, 'latest_pretri_time'));
   }
 
+  function updateNumberDescriptor(varId, value) {
+    var variableDescriptor = Variable.find(gameModel, varId);
+    variableDescriptor.setValue(self, value);
+    variableDescriptor.getDefaultInstance().setValue(value);
+  }
+
   return {
     isDrillMode: isDrillMode,
     getDrillType: getDrillType,
     getPlayers: getPlayers,
     charactersInfo: charactersInfo,
     getEndTimes: latestPretriTimes,
+    updateNumberDescriptor: updateNumberDescriptor,
   };
 })();
 

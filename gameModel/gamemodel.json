@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1758279176851,
+  "createdTime" : 1762266096597,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -897,6 +897,65 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "PRIVATE"
+    }, {
+      "@class" : "ObjectDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "ObjectInstance",
+        "properties" : { },
+        "refId" : "ObjectInstance:2505381:vUANKY"
+      },
+      "description" : "",
+      "editorTag" : "map_entity_data",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:2505382:6jfVw5",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:2505382:6jfVw5::FR",
+            "status" : "",
+            "translation" : "map_entity_data"
+          }
+        }
+      },
+      "name" : "map_entity_data",
+      "properties" : {
+        "2mzbCg7nT6" : "{\"uid\":\"2mzbCg7nT6\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500075.549931927, 1118500.103111194],\"parent\":\"2mzbCg7nT6\",\"label\":\"location-pcFront\",\"labelOffset\":\"\",\"icon\":\"pcFront\"}],\"tag\":\"pcFront\",\"binding\":\"pcFront\",\"buildStatus\":\"pending\"}",
+        "6oKec7jgdJ" : "{\"uid\":\"6oKec7jgdJ\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500057.0688582086, 1118551.6205987816],\"parent\":\"6oKec7jgdJ\",\"label\":\"location-pc-short\",\"labelOffset\":\"\",\"icon\":\"PC\"}],\"tag\":\"PC\",\"binding\":\"PC\",\"buildStatus\":\"pending\"}",
+        "8i6LsDfsYz" : "{\"uid\":\"8i6LsDfsYz\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Polygon\",\"geometry\":[[[2500109.999851025,1118456.3699052047],[2500113.781500128,1118461.010360654],[2500121.785907592,1118470.828775529],[2500114.0474236254,1118477.104916978],[2500105.0520694936,1118484.3913443699],[2500096.448885649,1118473.8379365443],[2500093.2659977684,1118469.932506736],[2500109.999851025,1118456.3699052047]]],\"parent\":\"8i6LsDfsYz\",\"label\":\"location-pma-short\",\"labelOffset\":\"\",\"icon\":\"PMA\"}],\"tag\":\"PMA\",\"binding\":\"PMA\",\"buildStatus\":\"pending\"}",
+        "KC4efS22it" : "{\"uid\":\"KC4efS22it\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499961, 1118388],\"parent\":\"KC4efS22it\",\"label\":\"location-ambulancePark\",\"labelOffset\":\"\",\"icon\":\"ambulance-park\"}],\"tag\":\"ambulancePark\",\"binding\":\"ambulancePark\",\"buildStatus\":\"pending\"}",
+        "KUHp6kJARY" : "{\"uid\":\"KUHp6kJARY\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500106.549931926, 1118489.103111192],\"parent\":\"KUHp6kJARY\",\"label\":\"location-pcFront\",\"labelOffset\":\"\",\"icon\":\"pcFront\"}],\"tag\":\"pcFront\",\"binding\":\"pcFront\",\"buildStatus\":\"pending\"}",
+        "LdfKY679gU" : "{\"uid\":\"LdfKY679gU\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"LineString\",\"parent\":\"LdfKY679gU\",\"label\":\"Access\",\"geometry\":[[2500040.187860512,1118562.59843714],[2500065.949428312,1118543.3339090333]]},{\"type\":\"LineString\",\"parent\":\"LdfKY679gU\",\"label\":\"Regress\",\"geometry\":[[2500109.5966483564,1118490.3921636103],[2500134.8148273816,1118469.6649961546]]}],\"tag\":\"Accreg\",\"binding\":\"Accreg\",\"buildStatus\":\"pending\"}",
+        "MfCmerBAP5" : "{\"uid\":\"MfCmerBAP5\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499960, 1118580],\"parent\":\"MfCmerBAP5\",\"label\":\"location-ambulancePark\",\"labelOffset\":\"\",\"icon\":\"ambulance-park\"}],\"tag\":\"ambulancePark\",\"binding\":\"ambulancePark\",\"buildStatus\":\"pending\"}",
+        "OBZDZQzDHB" : "{\"uid\":\"OBZDZQzDHB\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500009.75586577, 1118472.531405577],\"parent\":\"OBZDZQzDHB\",\"label\":\"location-pc-short\",\"labelOffset\":\"\",\"icon\":\"PC\"}],\"tag\":\"PC\",\"binding\":\"PC\",\"buildStatus\":\"pending\"}",
+        "PRsiLK30mT" : "{\"uid\":\"PRsiLK30mT\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Polygon\",\"label\":\"PMA\",\"geometry\":[[[2500109.999851025, 1118456.3699052047],[2500113.781500128, 1118461.010360654],[2500121.785907592, 1118470.828775529],[2500114.0474236254, 1118477.104916978],[2500105.0520694936, 1118484.3913443699],[2500096.448885649, 1118473.8379365443],[2500093.2659977684, 1118469.932506736],[2500109.999851025, 1118456.3699052047]]]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "Pe3YUgvVmV" : "{\"uid\":\"Pe3YUgvVmV\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500125,1118525]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"built\"}",
+        "Q3JL42XIBO" : "{\"uid\":\"Q3JL42XIBO\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"LineString\",\"parent\":\"Q3JL42XIBO\",\"label\":\"Access\",\"geometry\":[[2500052.6133020874, 1118449.2968644362],[2500087.3369474486, 1118503.6293053096]]},{\"type\":\"LineString\",\"parent\":\"Q3JL42XIBO\",\"label\":\"Regress\",\"geometry\":[[2500060.952470149, 1118523.9098080816],[2500029.950508212, 1118486.1465293542]]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "RKW8zOJwm4" : "{\"uid\":\"RKW8zOJwm4\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"LineString\",\"parent\":\"RKW8zOJwm4\",\"label\":\"Access\",\"geometry\":[[2500113.647301364,1118575.704815885],[2500096.7293570912,1118534.8226090078]]},{\"type\":\"LineString\",\"parent\":\"RKW8zOJwm4\",\"label\":\"Regress\",\"geometry\":[[2500060.952470149,1118523.9098080816],[2500029.950508212,1118486.1465293542]]}],\"tag\":\"Accreg\",\"binding\":\"Accreg\",\"buildStatus\":\"pending\"}",
+        "WqfkE8WC5i" : "{\"uid\":\"WqfkE8WC5i\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500041.9170648125, 1118456.4054969894],\"parent\":\"WqfkE8WC5i\",\"label\":\"location-niddeblesses\",\"labelOffset\":\"\",\"icon\":\"Nest\"}],\"tag\":\"nidDeBlesses\",\"binding\":\"nidDeBlesses\",\"buildStatus\":\"pending\"}",
+        "XnWd8FFq6D" : "{\"uid\":\"XnWd8FFq6D\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499999.6045754217, 1118483.805125067],\"parent\":\"XnWd8FFq6D\",\"label\":\"location-niddeblesses\",\"labelOffset\":\"\",\"icon\":\"Nest\"}],\"tag\":\"nidDeBlesses\",\"binding\":\"nidDeBlesses\",\"buildStatus\":\"pending\"}",
+        "XoJsGyOSIj" : "{\"uid\":\"XoJsGyOSIj\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500070, 1118498],\"parent\":\"XoJsGyOSIj\",\"label\":\"location-ambulancePark\",\"labelOffset\":\"\",\"icon\":\"ambulance-park\"}],\"tag\":\"ambulancePark\",\"binding\":\"ambulancePark\",\"buildStatus\":\"pending\"}",
+        "YRUwaKZghG" : "{\"uid\":\"YRUwaKZghG\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500106.549931926, 1118550.103111192],\"parent\":\"YRUwaKZghG\",\"label\":\"location-pcFront\",\"labelOffset\":\"\",\"icon\":\"pcFront\"}],\"tag\":\"pcFront\",\"binding\":\"pcFront\",\"buildStatus\":\"pending\"}",
+        "aBjjEzktnx" : "{\"uid\":\"aBjjEzktnx\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Polygon\",\"geometry\":[[[2499959.513377705,1118456.6791527744],[2499948.345528039,1118442.755145481],[2499928.9775556503,1118418.871686022],[2499947.162274424,1118404.3729329833],[2499992.1599490084,1118459.7301378376],[2500013.795503398,1118486.3335680368],[2500019.9726727167,1118493.9362230333],[2500057.0664169285,1118539.5628896698],[2500046.3844424966,1118547.5332560872],[2500038.334720112,1118553.6478721495],[2500031.238813536,1118545.0931211817],[2500012.837898292,1118522.2385113093],[2499959.513377705,1118456.6791527744]]],\"parent\":\"aBjjEzktnx\",\"label\":\"location-pma-short\",\"labelOffset\":\"\",\"icon\":\"PMA\"}],\"tag\":\"PMA\",\"binding\":\"PMA\",\"buildStatus\":\"pending\"}",
+        "bSuKvJja5V" : "{\"uid\":\"bSuKvJja5V\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499872, 1118614],\"parent\":\"bSuKvJja5V\",\"label\":\"location-helicopterPark\",\"labelOffset\":\"\",\"icon\":\"helicopter-park\"}],\"tag\":\"helicopterPark\",\"binding\":\"helicopterPark\",\"buildStatus\":\"pending\"}",
+        "gA5y69LEIs" : "{\"uid\":\"gA5y69LEIs\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"LineString\",\"parent\":\"gA5y69LEIs\",\"label\":\"Access\",\"geometry\":[[2500052.6133020874,1118449.2968644362],[2500087.3369474486,1118503.6293053096]]},{\"type\":\"LineString\",\"parent\":\"gA5y69LEIs\",\"label\":\"Regress\",\"geometry\":[[2500060.952470149,1118523.9098080816],[2500029.950508212,1118486.1465293542]]}],\"tag\":\"Accreg\",\"binding\":\"Accreg\",\"buildStatus\":\"pending\"}",
+        "k5Noi7MRyi" : "{\"uid\":\"k5Noi7MRyi\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500095.549931929, 1118489.103111194],\"parent\":\"k5Noi7MRyi\",\"label\":\"location-pc-short\",\"labelOffset\":\"\",\"icon\":\"PC\"}],\"tag\":\"PC\",\"binding\":\"PC\",\"buildStatus\":\"pending\"}",
+        "nKuZgArPyP" : "{\"uid\":\"nKuZgArPyP\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500054.1314548966,1118509.0099368845],\"icon\":\"Nest\"}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"pending\"}",
+        "pYdwC87Lbx" : "{\"uid\":\"pYdwC87Lbx\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500125,1118535]}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"built\"}",
+        "pxEGgQEvqA" : "{\"uid\":\"pxEGgQEvqA\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500106.9001576486, 1118532.2446804282],\"parent\":\"pxEGgQEvqA\",\"label\":\"location-niddeblesses\",\"labelOffset\":\"\",\"icon\":\"Nest\"}],\"tag\":\"nidDeBlesses\",\"binding\":\"nidDeBlesses\",\"buildStatus\":\"pending\"}",
+        "qDMHx8x5V0" : "{\"uid\":\"qDMHx8x5V0\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Polygon\",\"geometry\":[[[2500136.790143822,1118548.3406066815],[2500141.6760064885,1118560.489763118],[2500143.4792181817,1118564.9850271842],[2500124.888196066,1118572.1742195904],[2500121.81913271,1118564.4089291636],[2500118.355243353,1118555.6384201094],[2500133.0180577287,1118549.8816207554],[2500136.790143822,1118548.3406066815]]],\"parent\":\"qDMHx8x5V0\",\"label\":\"location-pma-short\",\"labelOffset\":\"\",\"icon\":\"PMA\"}],\"tag\":\"PMA\",\"binding\":\"PMA\",\"buildStatus\":\"pending\"}",
+        "tEruSdoRlp" : "{\"uid\":\"tEruSdoRlp\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":true,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2500100, 1118500],\"parent\":\"tEruSdoRlp\",\"label\":\"location-chantier\",\"labelOffset\":\"\",\"icon\":\"mainAccident\"}],\"tag\":\"mainIncident\",\"binding\":\"chantier\",\"buildStatus\":\"built\"}",
+        "uJZng7tfJe" : "{\"uid\":\"uJZng7tfJe\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499925, 1118451],\"parent\":\"uJZng7tfJe\",\"label\":\"location-helicopterPark\",\"labelOffset\":\"\",\"icon\":\"helicopter-park\"}],\"tag\":\"helicopterPark\",\"binding\":\"helicopterPark\",\"buildStatus\":\"pending\"}",
+        "vfkH3Zwf3g" : "{\"uid\":\"vfkH3Zwf3g\",\"type\":\"mapEntity\",\"activableType\":\"mapEntity\",\"activeAtStart\":false,\"mapObjects\":[{\"type\":\"Point\",\"geometry\":[2499956, 1118332],\"parent\":\"vfkH3Zwf3g\",\"label\":\"location-helicopterPark\",\"labelOffset\":\"\",\"icon\":\"helicopter-park\"}],\"tag\":\"helicopterPark\",\"binding\":\"helicopterPark\",\"buildStatus\":\"pending\"}"
+      },
+      "refId" : "ObjectDescriptor:2505380:fCol0C",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1123,19 +1182,12 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298436:BVfOMu",
           "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:1298436:BVfOMu::EN",
-              "status" : "",
-              "translation" : "pretriMode"
-            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "pretriMode"
+              "translation" : "mainSimMode"
             }
           }
         }
@@ -4589,9 +4641,9 @@
             "@class" : "NumberInstance",
             "history" : [ ],
             "refId" : "NumberInstance:49481:QaEwQu",
-            "value" : 0.0
+            "value" : 15.0
           },
-          "defaultValue" : 0.0,
+          "defaultValue" : 15.0,
           "editorTag" : "",
           "historySize" : 20,
           "isolation" : "OPEN",
@@ -5264,7 +5316,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/typeDefinitions/templateDefinitions/fixedMapEntityTemplate",
+    "contentKey" : "edition/typeDefinitions/templateDefinitions/mapChoiceTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276752:IeNZuB",
@@ -5417,7 +5469,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/fixedMapEntityTemplate",
+    "contentKey" : "game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276802:PVO3dT",
@@ -6155,6 +6207,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/loaders/choiceLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2532121:gcYUbj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/loaders/mainStateLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6353,19 +6414,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameMap/layers/buildingsLayer",
+    "contentKey" : "gameMap/layers/activablesLayer",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:73401:JQLM2P",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameMap/layers/mainSimLayer",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:60471:KCOb6a",
+    "refId" : "GameModelContent:2532007:p2qa0R",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6389,10 +6441,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "gameMap/styling/layerStyles",
+    "contentKey" : "gameMap/styling/activablesLayerStyles",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:60398:f3eVTd",
+    "refId" : "GameModelContent:2577928:bzcd4h",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6429,6 +6481,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:46875:gUAz3z",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "gameMap/utils/shapeUtils",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2607161:HEqS5m",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7323,7 +7384,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIIM-471 XGO improvements generic views, filtering, setIState ",
+  "name" : "MIMMS XGO MIM-487 merge FIXED",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

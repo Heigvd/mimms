@@ -1,17 +1,18 @@
 import {
   ActionTemplateBase,
+  ChoiceTemplate,
   MoveActorActionTemplate,
-  SelectionFixedMapEntityTemplate,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateId } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { endMapAction, startMapSelect } from '../gameMap/main';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import { endMapAction, startMapChoice } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
-  isFixedMapEntityTemplate,
+  isChoiceTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -129,9 +130,12 @@ export function actionChangeHandler(): void {
   endMapAction();
 
   const action = Context.action as ActionTemplateBase;
-  // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(action) && canPlanAction()) {
-    startMapSelect();
+
+  if (isChoiceTemplate(action) && canPlanAction()) {
+    const choiceUid = (action as ChoiceTemplate).choices[0]!.uid;
+
+    setInterfaceState({ currentActionUid: Context.action.Uid, selectedActionChoiceUid: choiceUid });
+    startMapChoice();
   }
 }
 
@@ -145,9 +149,10 @@ function getDayZero(): Date {
 export function getSimStartDateTime(): Date {
   const hours = Variable.find(gameModel, 'startHours').getValue(self);
   const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+  const delay = Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self);
 
   const startDateTime = getDayZero();
-  startDateTime.setHours(hours, minutes);
+  startDateTime.setHours(hours, minutes + delay);
   return startDateTime;
 }
 
@@ -189,12 +194,12 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
-    return '48';
-  } else if (actionTemplate instanceof MoveActorActionTemplate) {
+  if (actionTemplate instanceof MoveActorActionTemplate) {
     return '66';
   } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
     return 'actionSituationUpdateParam';
+  } else if (actionTemplate instanceof ChoiceTemplate) {
+    return '31';
   }
   return '';
 }
