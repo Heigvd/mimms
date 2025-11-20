@@ -1,4 +1,5 @@
 import { Uid } from '../../game/common/interfaces';
+import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
   getAllControllers,
@@ -17,10 +18,7 @@ function getController(): ControllerType {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-// page state
-
-// Note : must match the "exposeAs" of the state
-export const PAGE_CONTEXT_KEY = 'pageState';
+// page state = selection
 
 export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
@@ -32,41 +30,38 @@ export function getInitialPageState() {
 
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
-  const storedState = getController()?.getLatestIState();
-  if (storedState) {
-    return { ...storedState };
+  try {
+    const storedState = getController().getLatestIState();
+    if (storedState) {
+      return { ...storedState };
+    } else {
+      getController().updateIState(getInitialPageState());
+    }
+  } catch (error) {
+    scenarioEditionLogger.warn(error);
   }
 
-  return getInitialPageState();
+  return getController().getLatestIState();
 }
-
-export function getState(): GenericScenaristInterfaceState {
-  return Context[PAGE_CONTEXT_KEY].state;
-}
-
-export function setState(newState: GenericScenaristInterfaceState): void {
-  Context[PAGE_CONTEXT_KEY].setState(newState);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-// selection
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getController().getLatestIState()
+  );
   newState.selected[itemType] = uid;
-  setState(newState);
   getController().updateIState(newState);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(getState());
+  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
+    getController().getLatestIState()
+  );
   delete newState.selected[itemType];
-  setState(newState);
   getController().updateIState(newState);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
-  const selectedUid = getState().selected[itemType];
+  const selectedUid = getController().getLatestIState().selected[itemType];
   if (selectedUid) {
     return getData()[selectedUid];
   }
@@ -79,6 +74,13 @@ export function isSelected(itemType: SuperTypeNames, uid: Uid): boolean {
 
 export function isSomethingSelected(itemType: SuperTypeNames): boolean {
   return getSelected(itemType) != undefined;
+}
+
+export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): string {
+  if (isSelected(itemType, uid)) {
+    return 'theme-selected';
+  }
+  return 'theme-unselected';
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -115,11 +117,19 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
     parentId = getSelected(parentType)?.uid ?? '';
   }
 
-  return getController().createNew(parentId, itemType);
+  const newItem = getController().createNew(parentId, itemType);
+  lastGenericAdded = newItem.uid;
+  return newItem;
 }
 
 export function deleteItem(itemId: Uid): void {
   getController().remove(itemId);
+}
+
+let lastGenericAdded: string | null = null;
+
+export function isLastGenericAdded(uid: string): boolean {
+  return lastGenericAdded === uid;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -1,8 +1,14 @@
 // EVALUATION_PRIORITY 0
 
 import { Impact } from '../../game/common/impacts/impact';
+import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
+import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
+import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
+import { Uid } from '../../game/common/interfaces';
+import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
+import { createOrUpdateTranslation } from '../../tools/translation';
 import {
   ALL_EDITABLE,
   Definition,
@@ -14,12 +20,8 @@ import {
   ActivationImpact,
   MapActivationImpact,
 } from '../../game/common/impacts/implementation/activationImpact';
-import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
-import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
-import { RadioType } from '../../game/common/radio/communicationType';
-import { Uid } from '../../game/common/interfaces';
-import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 import { scenarioEditionLogger } from '../../tools/logger';
+
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -199,7 +201,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: createOrUpdateTranslation('', undefined),
       roles: {
         // TODO make it dynamic
         ACS: false,
@@ -223,7 +225,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (checkIsMessageEmpty(impact.message)) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -263,7 +265,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      message: '',
+      message: createOrUpdateTranslation('', undefined),
       channel: RadioType.CASU,
     }),
     validator: (impact: RadioMessageImpact) => {
@@ -279,7 +281,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
         });
       }
 
-      if (impact.message.trim().length === 0) {
+      if (checkIsMessageEmpty(impact.message)) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
@@ -299,6 +301,15 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       channel: ALL_EDITABLE,
     },
   };
+}
+
+function checkIsMessageEmpty(message: ITranslatableContent | undefined): boolean {
+  return (
+    message == undefined ||
+    Object.values(message.translations).every(
+      (transl: ITranslation) => transl?.translation?.trim().length === 0
+    )
+  );
 }
 
 export function getMapActivationImpactDef(): Definition<MapActivationImpact> {

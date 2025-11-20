@@ -2,41 +2,43 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "children" : [ {
-          "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
-              "language" : "typescript"
-            },
-            "layoutStyle" : { },
-            "name" : "type",
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { updateConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateConditionType(Context.item.uid, Context.value);",
-                "language" : "TypeScript"
-              },
-              "exposeVariableAs" : {
-                "@class" : "Script",
-                "content" : "\"value\"",
-                "language" : "TypeScript"
-              }
-            },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Make your choice\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "Context.item.type;",
-              "language" : "TypeScript"
-            },
-            "style" : { }
+        "choices" : {
+          "@class" : "Script",
+          "content" : "import { getConditionTypeChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetConditionTypeChoices();",
+          "language" : "typescript"
+        },
+        "className" : "condition-impact__dropdown",
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "type",
+        "onVariableChange" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { updateConditionType } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateConditionType(Context.item.uid, Context.value);",
+            "language" : "TypeScript"
           },
-          "type" : "Select input"
-        }, {
+          "exposeVariableAs" : {
+            "@class" : "Script",
+            "content" : "\"value\"",
+            "language" : "TypeScript"
+          }
+        },
+        "placeholder" : {
+          "@class" : "Script",
+          "content" : "\"Make your choice\"",
+          "language" : "TypeScript"
+        },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Context.item.type;",
+          "language" : "TypeScript"
+        },
+        "style" : { }
+      },
+      "type" : "Select input"
+    }, {
+      "props" : {
+        "children" : [ {
           "props" : {
             "children" : [ {
               "props" : {
@@ -45,6 +47,8 @@
                   "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
                   "language" : "typescript"
                 },
+                "className" : "scenarist-dropdown",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "< | = | >",
                 "onVariableChange" : {
@@ -69,6 +73,8 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding number-input",
                 "layoutStyle" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -92,6 +98,8 @@
               "type" : "Number input"
             }, {
               "props" : {
+                "className" : "noMargin small-regular-primary-text",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "min",
                 "style" : { },
@@ -103,12 +111,16 @@
               },
               "type" : "Text"
             } ],
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'time';",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "time",
             "style" : { }
@@ -123,6 +135,8 @@
                   "content" : "import { getActionTemplateSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getActionTemplateSelection();",
                   "language" : "typescript"
                 },
+                "className" : "scenarist-dropdown",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "action",
                 "onVariableChange" : {
@@ -154,12 +168,29 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "boolean-button",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : "warningText",
+                      "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "Context.item.status === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-left",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getChoiceActionStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetChoiceActionStatusChoices()[0].value === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-right",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getChoiceActionStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  const buttonArray = getChoiceActionStatusChoices();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -168,6 +199,7 @@
                       "content" : "Context.status.label;",
                       "language" : "TypeScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -188,17 +220,58 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "style" : { }
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "rowGap" : "5px"
+                }
               },
               "type" : "For each"
+            }, {
+              "props" : {
+                "className" : "scenarist-toggler-container scenarist-toggler small-bold-primary-text",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "!Editor.getFeatures().ADVANCED;",
+                  "language" : "typescript"
+                },
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"Invert\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "invert",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { invert: !Context.item.invert});",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.invert || false;",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "toggler"
+              },
+              "type" : "Boolean"
             } ],
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'action';",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "action",
             "style" : { }
@@ -206,13 +279,48 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "children" : [ ],
+            "children" : [ {
+              "props" : {
+                "className" : "scenarist-toggler-container scenarist-toggler small-bold-primary-text",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "!Editor.getFeatures().ADVANCED;",
+                  "language" : "typescript"
+                },
+                "id" : "",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"Invert\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "invert",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { invert: !Context.item.invert});",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.invert || false;",
+                  "language" : "TypeScript"
+                },
+                "style" : { },
+                "type" : "toggler"
+              },
+              "type" : "Boolean"
+            } ],
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'choice';",
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "choice",
             "style" : { }
@@ -227,6 +335,8 @@
                   "content" : "import { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggerSelection } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerSelection(getSelected('trigger')?.uid);",
                   "language" : "typescript"
                 },
+                "className" : "scenarist-dropdown",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "trigger",
                 "onVariableChange" : {
@@ -258,12 +368,29 @@
               "props" : {
                 "children" : [ {
                   "props" : {
+                    "className" : "boolean-button",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : "warningText",
+                      "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "Context.item.status === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-left",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getActiveInactiveStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetActiveInactiveStatusChoices()[0].value === Context.status.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-right",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getActiveInactiveStatusChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  const buttonArray = getActiveInactiveStatusChoices();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -272,6 +399,7 @@
                       "content" : "Context.status.label;",
                       "language" : "TypeScript"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "localScriptEval" : {
                       "script" : {
@@ -292,18 +420,23 @@
                 },
                 "itemKey" : "value",
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "status",
                 "style" : { }
               },
               "type" : "For each"
             } ],
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'trigger';",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "trigger",
             "style" : { }
@@ -312,12 +445,14 @@
         }, {
           "props" : {
             "children" : [ ],
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Context.item.type !== 'mapEntity';",
               "language" : "typescript"
             },
             "layout" : { },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mapEntity",
             "style" : { }
@@ -325,11 +460,13 @@
           "type" : "FlexList"
         }, {
           "props" : {
+            "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
               "content" : "true;",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -340,11 +477,7 @@
           },
           "type" : "Text"
         } ],
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
-          "language" : "typescript"
-        },
+        "className" : "",
         "layout" : {
           "flexDirection" : "column"
         },
@@ -358,6 +491,12 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "style" : { },
             "text" : {
@@ -374,6 +513,7 @@
               "content" : "Context.item.type !== 'time';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "time",
             "style" : { },
@@ -391,6 +531,7 @@
               "content" : "Context.item.type !== 'action';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "action",
             "style" : { },
@@ -408,6 +549,7 @@
               "content" : "Context.item.type !== 'choice';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "choice",
             "style" : { },
@@ -425,6 +567,7 @@
               "content" : "Context.item.type !== 'trigger';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "trigger",
             "style" : { },
@@ -442,6 +585,7 @@
               "content" : "Context.item.type !== 'mapEntity';",
               "language" : "typescript"
             },
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mapEntity",
             "style" : { },
@@ -453,9 +597,10 @@
           },
           "type" : "Text"
         } ],
+        "className" : "condition",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "content" : "true;",
           "language" : "typescript"
         },
         "layout" : {

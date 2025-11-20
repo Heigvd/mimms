@@ -30,11 +30,14 @@ export function getSortedTriggers(): Trigger[] {
 }
 
 export function compareTriggers(a: Trigger, b: Trigger): number {
-  if (a.index === b.index) {
+  const idxA = a.index + (a.mandatory ? 0 : 1000000);
+  const idxB = b.index + (b.mandatory ? 0 : 1000000);
+
+  if (idxA === idxB) {
     return a.uid.localeCompare(b.uid);
   }
 
-  return a.index - b.index;
+  return idxA - idxB;
 }
 
 function evaluateTriggerConditions(

@@ -1,4 +1,5 @@
 import { Indexed, Parented, SuperTyped, Typed } from '../../game/common/interfaces';
+import { scenarioEditionLogger } from '../../tools/logger';
 
 /**
  * Unboxes the type contained in an array up to 3 levels of array
@@ -66,6 +67,47 @@ export interface ValidationResult {
     message: string;
     isTranslateKey: boolean; // TODO why translate key ? Scenarist is not all in english ?
   }[];
+}
+
+export function mergeValidationResults(
+  initial: ValidationResult,
+  complement: ValidationResult
+): ValidationResult {
+  return {
+    success: initial.success && complement.success,
+    messages: initial.messages.concat(complement.messages),
+  };
+}
+
+export function logValidationResult(validationResult: ValidationResult) {
+  if (validationResult.success) {
+    scenarioEditionLogger.info('validation is successful');
+  } else {
+    scenarioEditionLogger.warn('validation denotes some problems');
+  }
+  Object.values(validationResult.messages).forEach(msg => {
+    switch (msg.logLevel) {
+      case 'ERROR':
+        scenarioEditionLogger.error(msg.message);
+        break;
+      case 'WARN':
+        scenarioEditionLogger.warn(msg.message);
+        break;
+      case 'LOG':
+        scenarioEditionLogger.log(msg.message);
+        break;
+      case 'INFO':
+        scenarioEditionLogger.info(msg.message);
+        break;
+      case 'DEBUG':
+        scenarioEditionLogger.debug(msg.message);
+        break;
+      case 'OFF':
+      default:
+        // no logging
+        break;
+    }
+  });
 }
 
 export interface Definition<T extends Typed> {

@@ -4,34 +4,227 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "noMargin scenarist-title",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "Title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Map</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
-                "className" : "noMargin scenarist-title",
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin scenarist-text",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Text",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Please select the game map and the initial player view.</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin time-config-text small-bold-primary-text",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Incident time</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "small-bold-primary-text",
+                            "layoutClassName" : "noPadding number-input",
+                            "layoutStyle" : { },
+                            "name" : "Hours",
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newTime\"",
+                                "language" : "TypeScript"
+                              },
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "const variableDescriptor = Variable.find(gameModel, 'startHours');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                "language" : "javascript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"HH\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'startHours')",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Number input"
+                        }, {
+                          "props" : {
+                            "className" : "noMargin small-bold-primary-text",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>:</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "small-bold-primary-text number-input",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Minutes",
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newTime\"",
+                                "language" : "TypeScript"
+                              },
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "const variableDescriptor = Variable.find(gameModel, 'startMinutes');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                "language" : "javascript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"MM\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'startMinutes')",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Number input"
+                        } ],
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Start time",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "noMargin time-config-text small-bold-primary-text",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Arrival of the first ambulance after</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        }, {
+                          "props" : {
+                            "className" : "small-bold-primary-text number-input",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "onVariableChange" : {
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"newTime\"",
+                                "language" : "TypeScript"
+                              },
+                              "server" : {
+                                "@class" : "Script",
+                                "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                "language" : "javascript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"MM\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "Variable.find(gameModel,'patients-elapsed-minutes')",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Number input"
+                        }, {
+                          "props" : {
+                            "className" : "noMargin small-bold-primary-text",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>min</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "layout" : {
+                          "alignItems" : "center"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Patient time",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Time config",
+                    "style" : {
+                      "gap" : "15px"
+                    }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "alignItems" : "center",
+                  "justifyContent" : "space-between"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "Title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Map</p>\"",
-                  "language" : "TypeScript"
-                }
+                "name" : "Text & time config",
+                "style" : { }
               },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "noMargin scenarist-text",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "Text",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Please select the game map and the initial player view.</p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "children" : [ {
@@ -68,7 +261,9 @@
                           "content" : "  Context.state.state.mapId || 'GVA-center';",
                           "language" : "TypeScript"
                         },
-                        "style" : { }
+                        "style" : {
+                          "width" : "135px"
+                        }
                       },
                       "type" : "Select input"
                     }, {
@@ -397,7 +592,9 @@
           "language" : "TypeScript"
         },
         "layoutClassName" : "fullSize noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "flexDirection" : "column"
+        },
         "localState" : true,
         "name" : "State",
         "style" : { }

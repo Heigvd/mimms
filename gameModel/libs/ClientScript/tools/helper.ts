@@ -289,6 +289,7 @@ export type FilterTypeProperties<Source, Condition> = Pick<
 >;
 
 export type ObjectVariableClasses = FilterTypeProperties<VariableClasses, SObjectDescriptor>;
+export type NumberVariableClasses = FilterTypeProperties<VariableClasses, SNumberDescriptor>;
 
 export function filterRecord<K extends string, V>(
   record: Record<K, V>,
