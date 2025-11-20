@@ -1,6 +1,7 @@
 // TODO Remove, choices are to be hardcoded in ActionTemplates
 
 import { generateId } from '../../tools/helper';
+import { createOrUpdateTranslation } from '../../tools/translation';
 import { ChoiceDescriptor } from '../common/actions/choiceDescriptor/choiceDescriptor';
 
 ///// MOCK DATA /////
@@ -29,7 +30,7 @@ const mapChoice1: ChoiceDescriptor = {
           type: 'notification',
           uid: 'xS6FL6ptmQ',
           index: 0,
-          message: "Hello, is it me you're looking for ?",
+          message: createOrUpdateTranslation("Hello, is it me you're looking for ?", undefined),
           roles: {
             AL: true,
             ACS: true,
@@ -69,7 +70,7 @@ const mapChoice2: ChoiceDescriptor = {
           type: 'notification',
           uid: 'mDFvzt02e6',
           index: 0,
-          message: "Hello, is it me you're looking for ?",
+          message: createOrUpdateTranslation("Hello, is it me you're looking for ?", undefined),
           roles: {
             AL: true,
             ACS: true,
@@ -109,7 +110,7 @@ const mapChoice3: ChoiceDescriptor = {
           type: 'notification',
           uid: 'aQHk7MPKUT',
           index: 0,
-          message: "Hello, is it me you're looking for ?",
+          message: createOrUpdateTranslation("Hello, is it me you're looking for ?", undefined),
           roles: {
             AL: true,
             ACS: true,

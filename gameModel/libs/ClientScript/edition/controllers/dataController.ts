@@ -10,7 +10,6 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -43,8 +42,6 @@ import {
   getImpactDefinition,
   toFlatImpact,
 } from '../typeDefinitions/impactDefinition';
-import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import {
   FlatActionTemplate,
   fromFlatActionTemplate,
@@ -75,8 +72,6 @@ import {
   getMapEntityDefinition,
   toFlatMapEntity,
 } from '../typeDefinitions/mapEntityDefinition';
-import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
-import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 
