@@ -1,5 +1,6 @@
 import { ActionTemplateId } from '../../game/common/baseTypes';
 import { Uid } from '../../game/common/interfaces';
+import { getActionTemplatesMockData } from '../../game/loaders/actionTemplateLoader';
 import { debugGetAllActionTemplates } from '../../game/mainSimulationLogic';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
@@ -162,13 +163,13 @@ export function getActionTemplateSelection(): { label: string; value: string }[]
   // XGO @Sandra : we will either deserialize the actiontemplate descriptors variable
   // or retrieve the current state from the actionTemplate controller (design decision here)
   // I just put some random data now
-  return [
+  /*return [
     { label: 'Place PMA', value: 'id-placePMA' },
     { label: 'Look at the sky', value: 'id-lookatthesky' },
-  ];
-  /*return debugGetAllActionTemplates().map(actionTmplt => {
-    return { label: actionTmplt.getTitle(), value: String(actionTmplt.Uid) };
-  });*/
+  ];*/
+  return Object.values(getActionTemplatesMockData()).map(actionTmplt => {
+    return { label: actionTmplt.title, value: String(actionTmplt.uid) };
+  });
 }
 
 // TODO better
