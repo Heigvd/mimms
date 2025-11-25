@@ -378,6 +378,12 @@
           "name" : "Unknown Item Detail",
           "scenaristPage" : false,
           "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "32",
+          "name" : "Location Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
         } ],
         "name" : "Data Items"
       }, {

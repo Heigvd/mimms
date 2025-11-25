@@ -6968,6 +6968,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/locationConfig",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2681578:Zte4Bk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/map",
     "contentType" : "text/css",
     "libraryType" : "CSS",

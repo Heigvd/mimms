@@ -2,24 +2,1252 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "layoutStyle" : { },
-        "style" : { },
-        "text" : {
+        "children" : [ {
+          "props" : {
+            "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "OSMLayer" : false,
+                            "children" : [ {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.mapState?.state.mapSelect;",
+                                  "language" : "typescript"
+                                },
+                                "layerId" : "activableSelection",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getMapActivableSelectionLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivableSelectionLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:2056",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "ActivableSelectionLayer",
+                                "onLayerReady" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "layer", "map" ],
+                                  "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.mapState?.state.mapSelect;",
+                                  "language" : "typescript"
+                                },
+                                "layerId" : "activables",
+                                "layerProps" : {
+                                  "zIndex" : 91
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:2056",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "ActivablesLayer",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : { },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "return(`maps/GVA-center/water.geojson`)",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:4326",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "water",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : { },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "return(`maps/GVA-center/rails.geojson`)",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:4326",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "rails",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "layerId" : "",
+                                "layerProps" : {
+                                  "zIndex" : 10
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "return(`maps/GVA-center/roads.geojson`)",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:4326",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "roads",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            }, {
+                              "props" : {
+                                "layerId" : "buildings",
+                                "layerProps" : {
+                                  "@class" : "Script",
+                                  "content" : "({})",
+                                  "language" : "typescript"
+                                },
+                                "layerSource" : {
+                                  "dataType" : "GeoJSON",
+                                  "source" : {
+                                    "@class" : "Script",
+                                    "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                                    "language" : "typescript"
+                                  },
+                                  "sourceProjection" : "EPSG:4326",
+                                  "type" : "VectorLayer",
+                                  "useSpatialIndex" : true
+                                },
+                                "layerStyle" : {
+                                  "@class" : "ScriptCallback",
+                                  "args" : [ "feature", "resolution" ],
+                                  "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
+                                },
+                                "layoutStyle" : { },
+                                "name" : "buildings",
+                                "style" : { }
+                              },
+                              "type" : "WegasMapVectorLayer"
+                            } ],
+                            "debug" : false,
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.mapState == undefined;",
+                              "language" : "typescript"
+                            },
+                            "id" : "",
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "backgroundColor" : "#E4E6E7",
+                              "height" : "100%",
+                              "padding" : "0px",
+                              "pointerEvents" : "auto",
+                              "width" : "100%"
+                            },
+                            "mapOptions" : {
+                              "onClick" : {
+                                "@class" : "ScriptCallback",
+                                "args" : [ "coord", "features" ],
+                                "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                              }
+                            },
+                            "style" : {
+                              "height" : "100%",
+                              "width" : "100%"
+                            },
+                            "viewOptions" : {
+                              "center" : [ 2500000, 1118500 ],
+                              "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
+                              "maxZoom" : 21,
+                              "projection" : "EPSG:2056",
+                              "zoom" : {
+                                "@class" : "Script",
+                                "content" : "(18.5)",
+                                "language" : "typescript"
+                              }
+                            }
+                          },
+                          "type" : "WegasMap"
+                        } ],
+                        "className" : "noPadding noMargin",
+                        "computedClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : {
+                            "@class" : "Script",
+                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                            "language" : "TypeScript"
+                          }
+                        } ],
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.interfaceState == undefined;",
+                          "language" : "typescript"
+                        },
+                        "layout" : { },
+                        "layoutClassName" : "noPadding noMargin",
+                        "layoutStyle" : {
+                          "height" : "100%",
+                          "left" : "0",
+                          "pointerEvents" : "auto",
+                          "position" : "absolute",
+                          "top" : "0",
+                          "width" : "100%"
+                        },
+                        "name" : "map",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "exposeAs" : "mapState",
+                    "initialState" : {
+                      "@class" : "Script",
+                      "content" : "import { getInitialMapState } from \"./gameMap/main\";\ngetInitialMapState();",
+                      "language" : "TypeScript"
+                    },
+                    "layoutStyle" : {
+                      "height" : "100%",
+                      "padding" : "0px",
+                      "width" : "100%"
+                    },
+                    "localState" : true,
+                    "name" : "map",
+                    "style" : {
+                      "height" : "100%",
+                      "width" : "100%"
+                    }
+                  },
+                  "type" : "State"
+                } ],
+                "className" : "noPadding noMargin",
+                "exposeAs" : "interfaceState",
+                "initialState" : {
+                  "@class" : "Script",
+                  "content" : "import { getInitialInterfaceState } from \"./gameInterface/interfaceState\";\ngetInitialInterfaceState();",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "stateInterface-container noPadding noMargin",
+                "layoutStyle" : {
+                  "height" : "100%",
+                  "width" : "100%"
+                },
+                "localState" : true,
+                "name" : "interface",
+                "style" : { }
+              },
+              "type" : "State"
+            } ],
+            "className" : "modal fullHeight",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { shouldHideLocationModal } from \"./edition/UIfacade/locationConfigFacade\";\n  shouldHideLocationModal();",
+              "language" : "typescript"
+            },
+            "layout" : { },
+            "layoutStyle" : { },
+            "name" : "Location configuration modal",
+            "onExitActions" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "import { setLocationModalState } from \"./edition/UIfacade/locationConfigFacade\";\n\nsetLocationModalState('closed');",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Modal"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noPadding location-panel__angle-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "location-panel__angle-button--open",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\ngetLocationPannel();",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "location-panel__angle-button--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "angle-left",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n\ntoggleLocationPannel();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Open - Close",
+                    "style" : {
+                      "backgroundColor" : "var(--primary_30)",
+                      "position" : "absolute"
+                    }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "noMargin scenarist-title",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "scenarist-title--rotate",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Locations</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.chantier);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Incident<br></p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.chantier);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "incident",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.nidDeBlesses);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Survivor reception center</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.nidDeBlesses);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "survivor reception center",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.PMA);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Advanced medical post</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.PMA);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "advanced medical post",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.pcFront);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Forward command post</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.pcFront);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "forward command post",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.PC);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Medical command post</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.PC);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "medical command post",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.ambulancePark);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Ambulance park</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.ambulancePark);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "ambulance park",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.helicopterPark);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Helicopter park</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.helicopterPark);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "helicopter park",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.AccReg);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Access &amp; eggress</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.AccReg);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "access & eggress",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "location-tag small-bold-primary-text",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "location-tag--selected small-bold-primary10-text",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.custom);",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Custom</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.custom);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "custom",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "location-tag-container",
+                    "layout" : {
+                      "flexWrap" : "wrap"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "filters",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "",
+                            "exposePageSizeAs" : "",
+                            "initialSelectedPageId" : "scenaristItemGeneric",
+                            "layoutClassName" : "noPadding generic-item__page-loader",
+                            "layoutStyle" : { },
+                            "name" : "locationItemPageLoader",
+                            "style" : { }
+                          },
+                          "type" : "PageLoader"
+                        } ],
+                        "className" : "",
+                        "exposeAs" : "item",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getFilteredLocations(LOCATION_ENUM.ambulancePark);",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Basic items",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Context?.mapEntityPageState?.state == undefined;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding scenarist-column-scroll",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "header-button",
+                    "icon" : "plus",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>location</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "scenarist-absolute-button",
+                    "layoutStyle" : {
+                      "paddingLeft" : "0"
+                    },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('mapEntity');",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "add",
+                    "stopPropagation" : true,
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Outside",
+                  "className" : "scenarist-column--collapsed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding fullHeight scenarist-column",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('mapEntity');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "locations list",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "header-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Hide other categories</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "location-absolute__button",
+                                "layoutStyle" : { },
+                                "name" : "hide/show other categories",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "OSMLayer" : false,
+                                "children" : [ {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "!Context.mapState?.state.mapSelect;",
+                                      "language" : "typescript"
+                                    },
+                                    "layerId" : "activableSelection",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getMapActivableSelectionLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivableSelectionLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "ActivableSelectionLayer",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.mapState?.state.mapSelect;",
+                                      "language" : "typescript"
+                                    },
+                                    "layerId" : "activables",
+                                    "layerProps" : {
+                                      "zIndex" : 91
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:2056",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "ActivablesLayer",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : { },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/water.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "water",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : { },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/rails.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "rails",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : {
+                                      "zIndex" : 10
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "return(`maps/GVA-center/roads.geojson`)",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "roads",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "buildings",
+                                    "layerProps" : {
+                                      "@class" : "Script",
+                                      "content" : "({})",
+                                      "language" : "typescript"
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "buildings",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                } ],
+                                "debug" : false,
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.mapState == undefined;",
+                                  "language" : "typescript"
+                                },
+                                "id" : "",
+                                "layoutClassName" : "",
+                                "layoutStyle" : {
+                                  "backgroundColor" : "#E4E6E7",
+                                  "height" : "100%",
+                                  "padding" : "0px",
+                                  "pointerEvents" : "auto",
+                                  "width" : "100%"
+                                },
+                                "mapOptions" : {
+                                  "onClick" : {
+                                    "@class" : "ScriptCallback",
+                                    "args" : [ "coord", "features" ],
+                                    "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                                  }
+                                },
+                                "style" : {
+                                  "height" : "100%",
+                                  "width" : "100%"
+                                },
+                                "viewOptions" : {
+                                  "center" : [ 2500000, 1118500 ],
+                                  "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
+                                  "maxZoom" : 21,
+                                  "projection" : "EPSG:2056",
+                                  "zoom" : {
+                                    "@class" : "Script",
+                                    "content" : "(18.5)",
+                                    "language" : "typescript"
+                                  }
+                                }
+                              },
+                              "type" : "WegasMap"
+                            } ],
+                            "className" : "noPadding noMargin",
+                            "computedClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : {
+                                "@class" : "Script",
+                                "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
+                                "language" : "TypeScript"
+                              }
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "Context.interfaceState == undefined;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding noMargin",
+                            "layoutStyle" : {
+                              "height" : "100%",
+                              "left" : "0",
+                              "pointerEvents" : "auto",
+                              "position" : "absolute",
+                              "top" : "0",
+                              "width" : "100%"
+                            },
+                            "name" : "map",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "exposeAs" : "mapState",
+                        "initialState" : {
+                          "@class" : "Script",
+                          "content" : "import { getInitialMapState } from \"./gameMap/main\";\ngetInitialMapState();",
+                          "language" : "TypeScript"
+                        },
+                        "layoutStyle" : {
+                          "height" : "100%",
+                          "padding" : "0px",
+                          "width" : "100%"
+                        },
+                        "localState" : true,
+                        "name" : "map",
+                        "style" : {
+                          "height" : "100%",
+                          "width" : "100%"
+                        }
+                      },
+                      "type" : "State"
+                    } ],
+                    "className" : "noPadding noMargin",
+                    "exposeAs" : "interfaceState",
+                    "initialState" : {
+                      "@class" : "Script",
+                      "content" : "import { getInitialInterfaceState } from \"./gameInterface/interfaceState\";\ngetInitialInterfaceState();",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "stateInterface-container noPadding noMargin",
+                    "layoutStyle" : {
+                      "height" : "100%",
+                      "width" : "100%"
+                    },
+                    "localState" : true,
+                    "name" : "interface",
+                    "style" : { }
+                  },
+                  "type" : "State"
+                } ],
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Outside",
+                  "className" : "location-map-container--collapse",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : { },
+                "layoutClassName" : "noPadding location-map-container",
+                "layoutStyle" : { },
+                "name" : "map",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "header-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "header-button--disabled",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "undo-alt",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { undo } from \"./edition/UIfacade/genericConfigFacade\";\n\nundo();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Undo",
+                    "style" : {
+                      "margin" : "0"
+                    }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "header-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "header-button--disabled",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "redo-alt",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { redo } from \"./edition/UIfacade/genericConfigFacade\";\n\nredo();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Redo",
+                    "style" : {
+                      "margin" : "0"
+                    }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "header-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "header-button--disabled",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isSaved } from \"./edition/UIfacade/genericConfigFacade\";\n  isSaved();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "icon" : "save",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>save all</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { saveToVariable } from \"./edition/UIfacade/genericConfigFacade\";\n\nsaveToVariable();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Save",
+                    "style" : {
+                      "margin" : "0"
+                    }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "scenarist-save-all-button",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "Context?.mapEntityPageState?.state == undefined;",
+                  "language" : "typescript"
+                },
+                "id" : "",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "buttons",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding fullWidth",
+            "layoutStyle" : { },
+            "name" : "Location",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "fullWidth",
+        "exposeAs" : "mapEntityPageState",
+        "hideIf" : {
           "@class" : "Script",
-          "content" : "\"<p>Locations</p>\"",
+          "content" : "Context.mainMenu == undefined;",
+          "language" : "typescript"
+        },
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { loadPageState } from \"./edition/UIfacade/genericConfigFacade\";\n  loadPageState();",
           "language" : "TypeScript"
-        }
+        },
+        "layoutClassName" : "noPadding fullWidth fullHeight",
+        "layoutStyle" : { },
+        "localState" : false,
+        "name" : "mapEntityPageState",
+        "style" : { }
       },
-      "type" : "Text"
+      "type" : "State"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
-    }
+    },
+    "name" : "Locations Configuration",
+    "style" : { }
   },
   "type" : "FlexList"
 }

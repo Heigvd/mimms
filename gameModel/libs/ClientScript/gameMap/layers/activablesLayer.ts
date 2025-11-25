@@ -54,7 +54,7 @@ export function getMapActivableSelectionLayer() {
  *
  * @returns layer: FeatureCollection
  */
-function getLayer(
+export function getLayer(
   descriptors: Record<string, MapEntityDescriptor>,
   name: string
 ): FeatureCollection {
