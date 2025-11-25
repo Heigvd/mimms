@@ -10,6 +10,7 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -43,6 +44,18 @@ import {
   toFlatImpact,
 } from '../typeDefinitions/impactDefinition';
 import {
+  FlatMapEntity,
+  fromFlatMapEntity,
+  getMapEntityDefinition,
+  toFlatMapEntity,
+} from '../typeDefinitions/mapEntityDefinition';
+import {
+  FlatMapObject,
+  fromFlatMapObject,
+  getMapObjectDefinition,
+  toFlatMapObject,
+} from '../typeDefinitions/mapObjectDefinition';
+import {
   FlatActionTemplate,
   fromFlatActionTemplate,
   getTemplateDef,
@@ -59,19 +72,6 @@ import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade'
 import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
-import {
-  FlatMapObject,
-  fromFlatMapObject,
-  getMapObjectDefinition,
-  toFlatMapObject,
-} from '../typeDefinitions/mapObjectDefinition';
-import {
-  FlatMapEntity,
-  fromFlatMapEntity,
-  getMapEntityDefinition,
-  toFlatMapEntity,
-} from '../typeDefinitions/mapEntityDefinition';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 
@@ -181,7 +181,7 @@ export abstract class DataControllerBase<
   }
 
   public getTreeData(): Record<string, DataType> {
-    return this.recompose(this.undoRedo.getCurrentState()[1]);
+    return this.recompose(this.getFlatDataClone());
   }
 
   public getFlatDataClone(): Record<Uid, FlatType> {

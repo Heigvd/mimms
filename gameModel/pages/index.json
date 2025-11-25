@@ -357,25 +357,25 @@
         }, {
           "@class" : "Page",
           "id" : "scenaristItemTrigger",
-          "name" : "Trigger Item Detail",
+          "name" : "Trigger Detail",
           "scenaristPage" : false,
           "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "scenaristItemCondition",
-          "name" : "Condition Item Detail",
+          "name" : "Condition Detail",
           "scenaristPage" : false,
           "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "scenaristItemImpact",
-          "name" : "Impact Item Detail",
+          "name" : "Impact Detail",
           "scenaristPage" : false,
           "trainerPage" : false
         }, {
           "@class" : "Page",
           "id" : "scenaristItemUnknown",
-          "name" : "Unknown Item Detail",
+          "name" : "Unknown Item",
           "scenaristPage" : false,
           "trainerPage" : false
         } ],

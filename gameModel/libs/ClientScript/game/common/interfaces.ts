@@ -78,3 +78,7 @@ export function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
     typeof obj.tag === 'string'
   );
 }
+
+export function compareActivables(a: IActivableDescriptor, b: IActivableDescriptor): number {
+  return a.tag.localeCompare(b.tag);
+}

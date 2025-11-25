@@ -4,7 +4,9 @@ import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationSt
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getRoleLongTranslation, getRoleShortTranslation } from './actorLogic';
 
-export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
+export const InterventionRoleTypeArray = ['AL', 'ACS', 'MCS', 'LEADPMA', 'EVASAN', 'CASU'] as const;
+
+export type InterventionRole = typeof InterventionRoleTypeArray[number];
 
 /**
  * Associates roles to their respective symbolic locations
@@ -43,6 +45,10 @@ export function sortByHierarchyLevel(actors: Readonly<Actor[]>) {
   return [...actors]
     .sort((a, b) => hierarchyLevels[a.Role] - hierarchyLevels[b.Role])
     .filter(actor => actor.Role != 'CASU');
+}
+
+export function isPlayedByARealPlayer(role: InterventionRole): boolean {
+  return role !== 'CASU';
 }
 
 const ACTOR_SEED_ID: ActorId = 1000;

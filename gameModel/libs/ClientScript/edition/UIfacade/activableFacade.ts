@@ -9,6 +9,8 @@ import { getFlatObjects } from '../UIfacade/genericConfigFacade';
 
 type ActivableTypeNames = FlatActivable['activableType'];
 
+// It seems that it is deprecated as we don't have any common activable display for the user anymore
+
 // TODO more filtering might be needed if some elements are non impactable by scenarist
 
 export function getActivableOfType(type: ActivableTypeNames | 'all'): Record<Uid, FlatActivable> {

@@ -65,7 +65,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { index: Context.value });",
+                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { index: Context.value });",
                 "language" : "TypeScript"
               },
               "exposeVariableAs" : {

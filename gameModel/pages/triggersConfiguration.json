@@ -54,7 +54,7 @@
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
+                      "content" : "import { getTriggers } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n  getTriggers(true);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "uid",

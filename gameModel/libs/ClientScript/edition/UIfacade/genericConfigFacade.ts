@@ -18,7 +18,7 @@ function getController(): ControllerType {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-// page state = selection
+// UI state
 
 export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
@@ -28,7 +28,7 @@ export function getInitialPageState() {
   return { selected: {} };
 }
 
-// Directly used in the page
+// Directly used in pages
 export function loadPageState(): GenericScenaristInterfaceState {
   try {
     const storedState = getController().getLatestIState();
@@ -111,6 +111,8 @@ export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames):
   return result.sort((a: FlatTypeDef, b: FlatTypeDef) => a.index - b.index);
 }
 
+let lastGenericAdded: string | null = null;
+
 export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypeDef {
   let parentId: Uid = '';
   if (parentType) {
@@ -122,14 +124,12 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
   return newItem;
 }
 
-export function deleteItem(itemId: Uid): void {
-  getController().remove(itemId);
-}
-
-let lastGenericAdded: string | null = null;
-
 export function isLastGenericAdded(uid: string): boolean {
   return lastGenericAdded === uid;
+}
+
+export function deleteItem(itemId: Uid): void {
+  getController().remove(itemId);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ export function getDetailPage(itemType: SuperTypeNames): string {
 // in list change
 
 export function isAlone(itemId: Uid): boolean {
-  return !canMoveUp(itemId) && !canMoveDown(itemId); // for the moment, not handled
+  return !canMoveUp(itemId) && !canMoveDown(itemId);
 }
 
 export function canMoveUp(itemId: Uid): boolean {

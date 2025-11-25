@@ -1,10 +1,9 @@
-import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
-
 // Move the initActionTemplates here and delete actionsTemplatesData
 // use the factory to build action templates from scenario stored templates descriptors and let the rest be hardcoded
 
-// Just to try. Must be removed
+import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 
+// Just to try. Must be removed
 export function getActionTemplatesMockData(): Record<string, TemplateDescriptor> {
   return {
     at1: {
