@@ -7,6 +7,10 @@ import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { Page } from '../UIfacade/mainMenuStateFacade';
+import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
+import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 
 export type ControllerType =
   | TriggerDataController
@@ -34,19 +38,46 @@ let mapEntityController: MapEntityController | undefined;
 
 export function getTriggerController(): TriggerDataController {
   return (triggerController =
-    triggerController || new TriggerDataController('triggers_data', 'triggerPageState'));
+    triggerController ||
+    new TriggerDataController('triggers_data', 'triggerPageState', getInitialTriggerUIState()));
 }
 
-// TODO right context key
 export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
     actionTplController ||
-    new ActionTemplateDataController('action_template_data', 'actionPageState'));
+    new ActionTemplateDataController(
+      'action_template_data',
+      'actionPageState',
+      getInitialActionTemplateUIState()
+    ));
 }
 
 export function getMapEntityController(): MapEntityController {
   return (mapEntityController =
-    mapEntityController || new MapEntityController('map_entity_data', 'mapEntityPageState'));
+    mapEntityController ||
+    new MapEntityController('map_entity_data', 'mapEntityPageState', getInitialMapEntityUIState()));
+}
+
+function getInitialMapEntityUIState(): MapEntityUIState {
+  return {
+    selectedFilter: LOCATION_ENUM.chantier,
+    selected: {},
+    modal: 'closed',
+    pannel: false,
+    onlySelected: false,
+  };
+}
+
+function getInitialTriggerUIState(): TriggerConfigUIState {
+  return {
+    selected: {},
+  };
+}
+
+function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
+  return {
+    selected: {},
+  };
 }
 
 // Reset the controllers when saving scripts or restarting the game

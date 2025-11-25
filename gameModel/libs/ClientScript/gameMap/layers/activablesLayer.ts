@@ -1,5 +1,8 @@
 import { MapChoiceActionTemplate } from '../../game/common/actions/actionTemplateBase';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import {
+  BuildStatus,
+  MapEntityDescriptor,
+} from '../../game/common/mapEntities/mapEntityDescriptor';
 import {
   getActiveMapEntityDescriptors,
   getMapActivableFromUid,
@@ -14,12 +17,7 @@ export const activableSelectionRef = Helpers.useRef<any>('activableSelection', n
 
 // Used in page 43, Map/ActivablesLayer
 export function getMapActivablesLayer() {
-  return getLayer(getActiveMapEntityDescriptors(), 'active');
-}
-
-// To be used in Scenarist Tools page
-export function getScenaristLayer(activables: Record<string, MapEntityDescriptor>) {
-  return getLayer(activables, 'activables');
+  return getLayer(getActiveMapEntityDescriptors(), 'active', true);
 }
 
 /**
@@ -43,7 +41,7 @@ export function getMapActivableSelectionLayer() {
     }
   }
 
-  return getLayer(record, 'activableSelection');
+  return getLayer(record, 'activableSelection', true);
 }
 
 /**
@@ -51,18 +49,21 @@ export function getMapActivableSelectionLayer() {
  *
  * @params descriptors: Record<string, MapEntityDescriptor>
  * @params name: string
+ * @param runtime When true, will query the activables current state.
+ * Otherwise the game state will be ignored (used in scenarist)
  *
  * @returns layer: FeatureCollection
  */
 export function getLayer(
   descriptors: Record<string, MapEntityDescriptor>,
-  name: string
+  name: string,
+  runtime: boolean
 ): FeatureCollection {
   const layer = getEmptyFeatureCollection(name);
 
   const meds = Object.values(descriptors);
   for (let i = 0; i < meds.length; i++) {
-    getGenericFeature(meds[i]!, i, layer);
+    getGenericFeature(meds[i]!, i, layer, runtime);
   }
 
   return layer;
@@ -74,25 +75,31 @@ export function getLayer(
  * @params descriptor: MapEntityDescriptor
  * @params index: number
  * @params layer: FeatureCollection
+ * @param ignoreActivables will ignore current state of game (typical use : scenarist)
  *
  * @returns layer: FeatureCollection
  */
 function getGenericFeature(
   descriptor: MapEntityDescriptor,
   index: number, // Used for selection
-  layer: FeatureCollection
+  layer: FeatureCollection,
+  runtime: boolean
 ): FeatureCollection {
-  const activable = getMapActivableFromUid(descriptor.uid);
+  let buildStatus: BuildStatus = 'built';
+  if (runtime) {
+    const activable = getMapActivableFromUid(descriptor.uid);
+    buildStatus = activable?.buildStatus || 'built';
+  }
 
   for (const mapObject of descriptor.mapObjects) {
     const properties = {
       id: descriptor.uid,
       tag: descriptor.tag,
-      buildStatus: activable?.buildStatus,
+      buildStatus: buildStatus,
       label: I18n.translate(mapObject.label),
       labelOffset: mapObject.labelOffset || [0, 0],
       index: index,
-      binding: activable?.binding,
+      binding: descriptor?.binding,
     };
 
     const feature: any = {
@@ -111,6 +118,8 @@ function getGenericFeature(
     layer.features.push(feature);
 
     // Add arrowheads in case of LineString
+    // TODO read properties to add arrow head at beginning or end of feature
+    // TODO handle case of multiple segments in line
     if (mapObject.type === 'LineString') {
       const { end, rotation } = getLineEndAndRotation(mapObject.geometry);
       const feature: any = {

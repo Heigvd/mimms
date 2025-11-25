@@ -63,16 +63,6 @@ export interface MapEntityUIState extends GenericScenaristInterfaceState {
   onlySelected: boolean;
 }
 
-export function getInitialMapEntityUIState(): MapEntityUIState {
-  return {
-    selectedFilter: LOCATION_ENUM.chantier,
-    selected: {},
-    modal: 'closed',
-    pannel: false,
-    onlySelected: false,
-  };
-}
-
 export function getLocationUIState(): MapEntityUIState {
   return getMapEntityController().getLatestIState();
 }

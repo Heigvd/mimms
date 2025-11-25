@@ -8,5 +8,5 @@ export function getMapEntitiesLayer(onlySelected: boolean) {
     const location = getMapEntityController().getLatestIState().selectedFilter;
     mapEntities = filterRecord(mapEntities, me => (onlySelected ? me.binding === location : true));
   }
-  return getLayer(mapEntities, 'mapEntities');
+  return getLayer(mapEntities, 'mapEntities', false);
 }

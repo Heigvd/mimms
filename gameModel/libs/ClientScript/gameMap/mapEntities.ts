@@ -20,7 +20,7 @@ import { MapEntityActivable } from '../game/common/simulationState/activableStat
 let wasGodView = true;
 
 // Replacement based on activables/descriptors
-export function getOverlayItems(actorId: ActorId | undefined) {
+export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
     (a: MapEntityActivable) => {
@@ -38,6 +38,7 @@ export function getOverlayItems(actorId: ActorId | undefined) {
     const firstMapObject = mapDescriptor?.mapObjects[0];
 
     if (firstMapObject) {
+      const currentState = getCurrentState();
       overlayItems.push({
         overlayProps: {
           // Overlay centered over the first mapObject
@@ -47,21 +48,21 @@ export function getOverlayItems(actorId: ActorId | undefined) {
         },
         payload: {
           id: mapActivable.binding,
-          name: I18n.translate(firstMapObject.label) || '',
+          name: I18n.translate(firstMapObject.label) || 'XXX',
           icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
           actors: getActorsByLocation(mapActivable.binding),
           resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
-            getCurrentState(),
+            currentState,
             actorId,
             mapActivable.binding
           ),
           ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
-            getCurrentState(),
+            currentState,
             'ambulance',
             mapActivable.binding
           ),
           helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
-            getCurrentState(),
+            currentState,
             'helicopter',
             mapActivable.binding
           ),

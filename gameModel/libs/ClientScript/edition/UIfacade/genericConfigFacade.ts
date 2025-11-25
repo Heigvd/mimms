@@ -1,6 +1,4 @@
 import { Uid } from '../../game/common/interfaces';
-import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
-import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
   getAllControllers,
@@ -25,26 +23,8 @@ export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
-export function getInitialPageState() {
-  return {
-    selected: {},
-    selectedFilter: LOCATION_ENUM.chantier, // TODO get controller specific IState instance
-  };
-}
-
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
-  try {
-    const storedState = getController().getLatestIState();
-    if (storedState) {
-      return { ...storedState };
-    } else {
-      getController().updateIState(getInitialPageState());
-    }
-  } catch (error) {
-    scenarioEditionLogger.warn(error);
-  }
-
   return getController().getLatestIState();
 }
 

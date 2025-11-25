@@ -22,7 +22,6 @@ import {
 } from '../../game/common/impacts/implementation/activationImpact';
 import { scenarioEditionLogger } from '../../tools/logger';
 
-
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
 export type FlatImpact = MapToFlatType<Impact, 'impact'>;

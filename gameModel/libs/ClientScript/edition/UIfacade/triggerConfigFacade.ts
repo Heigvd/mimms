@@ -15,12 +15,6 @@ import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade'
 
 export type TriggerConfigUIState = GenericScenaristInterfaceState;
 
-export function getInitialTriggersUIState(): TriggerConfigUIState {
-  return {
-    selected: {},
-  };
-}
-
 export function getMandatoryTriggers(mandatory: boolean): FlatTrigger[] {
   return getItems('trigger')
     .filter(item => item.superType === 'trigger')
