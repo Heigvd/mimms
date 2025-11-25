@@ -56,11 +56,11 @@ export function shouldHideLocationModal(): boolean {
   return getLocationModalState() !== 'opened';
 }
 
-// Shrink Locations list pannel
 export interface MapEntityUIState extends GenericScenaristInterfaceState {
   selectedFilter: LOCATION_ENUM;
   modal: LocationModalState;
   pannel: boolean;
+  onlySelected: boolean;
 }
 
 export function getInitialMapEntityUIState(): MapEntityUIState {
@@ -68,7 +68,8 @@ export function getInitialMapEntityUIState(): MapEntityUIState {
     selectedFilter: LOCATION_ENUM.chantier,
     selected: {},
     modal: 'closed',
-    pannel: true,
+    pannel: false,
+    onlySelected: false,
   };
 }
 
@@ -76,6 +77,7 @@ export function getLocationUIState(): MapEntityUIState {
   return getMapEntityController().getLatestIState();
 }
 
+// Shrink Locations list pannel
 export function toggleLocationPannel() {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.pannel = !newState.pannel;
@@ -84,4 +86,21 @@ export function toggleLocationPannel() {
 
 export function getLocationPannel() {
   return getLocationUIState().pannel;
+}
+
+// Hide/show button
+type otherCategoriesState = true | false;
+
+export function getotherCategoriesState(): otherCategoriesState {
+  return getMapEntityController().getLatestIState().onlySelected;
+}
+
+export function toggleOtherCategories(): void {
+  const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
+  newState.onlySelected = !newState.onlySelected;
+  getMapEntityController().updateIState(newState);
+}
+
+export function shouldHideOtherCategories(): boolean {
+  return getotherCategoriesState() !== false;
 }

@@ -1,4 +1,5 @@
 import { Uid } from '../../game/common/interfaces';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
@@ -25,7 +26,10 @@ export interface GenericScenaristInterfaceState {
 }
 
 export function getInitialPageState() {
-  return { selected: {} };
+  return {
+    selected: {},
+    selectedFilter: LOCATION_ENUM.chantier, // TODO get controller specific IState instance
+  };
 }
 
 // Directly used in the page
@@ -49,7 +53,7 @@ export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
     getController().getLatestIState()
   );
   newState.selected[itemType] = uid;
-  getController().updateIState(newState);
+  getController().updateIState(newState as any); // TODO fix typing
 }
 
 export function unselect(itemType: SuperTypeNames): void {
@@ -57,7 +61,7 @@ export function unselect(itemType: SuperTypeNames): void {
     getController().getLatestIState()
   );
   delete newState.selected[itemType];
-  getController().updateIState(newState);
+  getController().updateIState(newState as any); // TODO fix typing
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
@@ -143,6 +147,8 @@ export function getDetailPage(itemType: SuperTypeNames): string {
       return 'scenaristItemCondition';
     case 'impact':
       return 'scenaristItemImpact';
+    case 'mapEntity':
+      return '32'; //'scenaristItemMapEntity'; // TODO rename to proper name
     default:
       return 'scenaristItemUnknown';
   }

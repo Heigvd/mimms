@@ -95,3 +95,22 @@
   background-color: var(--grey-white);
   box-shadow: var(--buttonShadow);
 }
+
+
+/* - - - - -  M O D A L  - - - */
+
+/* layout */
+.location-config-modal-container {
+  position: absolute;
+  top: 2.5rem;
+  left: 2.5rem;
+  z-index: 1;
+}
+
+.location-config-modal {
+  padding: 1rem;
+  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid #D0E9F399;
+  border-radius: var(--XS_borderRadius);
+}

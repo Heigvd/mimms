@@ -11,6 +11,46 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "exposePageSizeAs" : "",
+                        "initialSelectedPageId" : "scenaristItemGeneric",
+                        "layoutClassName" : "noPadding generic-item__page-loader",
+                        "layoutStyle" : { },
+                        "name" : "locationItemPageLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getFilteredLocations(LOCATION_ENUM.ambulancePark);",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Map object",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "className" : "location-config-modal",
+                "layout" : { },
+                "layoutClassName" : "noPadding location-config-modal-container",
+                "layoutStyle" : { },
+                "name" : "map objects list",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
                         "children" : [ {
                           "props" : {
                             "OSMLayer" : false,
@@ -781,11 +821,18 @@
                                 "className" : "header-button",
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"<p>Hide other categories</p>\"",
+                                  "content" : "import { getotherCategoriesState } from \"./edition/UIfacade/locationConfigFacade\";\n    getotherCategoriesState()\n        ? \"Show all categories\"\n        : \"Hide other categories\";",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "location-absolute__button",
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { toggleOtherCategories } from \"./edition/UIfacade/locationConfigFacade\";\n\ntoggleOtherCategories();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "name" : "hide/show other categories",
                                 "style" : { }
                               },
@@ -845,7 +892,7 @@
                                       "dataType" : "GeoJSON",
                                       "source" : {
                                         "@class" : "Script",
-                                        "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
+                                        "content" : "import { shouldHideOtherCategories } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(shouldHideOtherCategories());",
                                         "language" : "typescript"
                                       },
                                       "sourceProjection" : "EPSG:2056",
