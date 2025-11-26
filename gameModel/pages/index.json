@@ -380,7 +380,7 @@
           "trainerPage" : false
         }, {
           "@class" : "Page",
-          "id" : "32",
+          "id" : "scenaristItemMapEntity",
           "name" : "Location Item Detail",
           "scenaristPage" : false,
           "trainerPage" : false

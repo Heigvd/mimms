@@ -128,7 +128,7 @@ export function getDetailPage(itemType: SuperTypeNames): string {
     case 'impact':
       return 'scenaristItemImpact';
     case 'mapEntity':
-      return '32'; //'scenaristItemMapEntity'; // TODO rename to proper name
+      return 'scenaristItemMapEntity';
     default:
       return 'scenaristItemUnknown';
   }
