@@ -107,6 +107,7 @@ div .button-closed {
   color: var(--primary_70);
 }
 
+.disabled.header-button,
 .header-button--disabled {
   color: var(--grey_30);
   border: 1px solid var(--grey_30);
@@ -114,6 +115,7 @@ div .button-closed {
   pointer-events: none;
 }
 
+.disabled.header-button svg,
 .header-button--disabled svg {
   color: var(--grey_30);
 }
