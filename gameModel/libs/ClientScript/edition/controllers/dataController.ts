@@ -549,7 +549,10 @@ export class MapEntityController extends DataControllerBase<
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity':
-        return toFlatMapEntity(getMapEntityDefinition().getDefault(), parentId);
+        const dflt = getMapEntityDefinition().getDefault();
+        // Cheating here by looking up in the ui state to get the proper binding
+        dflt.binding = this.getLatestIState().selectedFilter;
+        return toFlatMapEntity(dflt, MapEntityController.MAP_ENTITY_ROOT);
       case 'geometry':
         return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
     }

@@ -384,6 +384,12 @@
           "name" : "Location Item Detail",
           "scenaristPage" : false,
           "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemMapObject",
+          "name" : "Map Object Item Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "Data Items"
       }, {

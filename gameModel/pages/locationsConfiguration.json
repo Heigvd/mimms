@@ -23,7 +23,7 @@
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getFilteredLocations(LOCATION_ENUM.ambulancePark);",
+                      "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('geometry', 'mapEntity');",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "uid",
@@ -52,48 +52,6 @@
                     "OSMLayer" : false,
                     "children" : [ {
                       "props" : {
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "!Context.mapState?.state.mapSelect;",
-                          "language" : "typescript"
-                        },
-                        "layerId" : "activableSelection",
-                        "layerProps" : {
-                          "zIndex" : 91
-                        },
-                        "layerSource" : {
-                          "dataType" : "GeoJSON",
-                          "source" : {
-                            "@class" : "Script",
-                            "content" : "import { getMapActivableSelectionLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivableSelectionLayer();",
-                            "language" : "typescript"
-                          },
-                          "sourceProjection" : "EPSG:2056",
-                          "type" : "VectorLayer",
-                          "useSpatialIndex" : true
-                        },
-                        "layerStyle" : {
-                          "@class" : "ScriptCallback",
-                          "args" : [ "feature", "resolution" ],
-                          "content" : "import { getActivableLayerStyle } from \"./gameMap/styling/activablesLayerStyles\";\ngetActivableLayerStyle(feature);"
-                        },
-                        "layoutStyle" : { },
-                        "name" : "ActivableSelectionLayer",
-                        "onLayerReady" : {
-                          "@class" : "ScriptCallback",
-                          "args" : [ "layer", "map" ],
-                          "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
-                        },
-                        "style" : { }
-                      },
-                      "type" : "WegasMapVectorLayer"
-                    }, {
-                      "props" : {
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.mapState?.state.mapSelect;",
-                          "language" : "typescript"
-                        },
                         "layerId" : "activables",
                         "layerProps" : {
                           "zIndex" : 91
@@ -102,7 +60,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
+                            "content" : "import { shouldHideOtherCategories } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(shouldHideOtherCategories());",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:2056",
@@ -115,7 +73,7 @@
                           "content" : "import { getScenaristLayerStyle } from \"./edition/UIfacade/map/styling\";\ngetScenaristLayerStyle(feature);"
                         },
                         "layoutStyle" : { },
-                        "name" : "ActivablesLayer",
+                        "name" : "MapEntities",
                         "style" : { }
                       },
                       "type" : "WegasMapVectorLayer"
@@ -262,16 +220,8 @@
                   "type" : "WegasMap"
                 } ],
                 "className" : "noPadding noMargin",
-                "computedClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : {
-                    "@class" : "Script",
-                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                    "language" : "TypeScript"
-                  }
-                } ],
                 "layout" : { },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "noPadding noMargin theme-al",
                 "layoutStyle" : {
                   "height" : "100%",
                   "left" : "0",
@@ -954,16 +904,8 @@
                       "type" : "WegasMap"
                     } ],
                     "className" : "noPadding noMargin",
-                    "computedClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : {
-                        "@class" : "Script",
-                        "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.interfaceState.state.currentActorUid);",
-                        "language" : "TypeScript"
-                      }
-                    } ],
                     "layout" : { },
-                    "layoutClassName" : "noPadding noMargin",
+                    "layoutClassName" : "noPadding noMargin theme-al",
                     "layoutStyle" : {
                       "height" : "100%",
                       "left" : "0",

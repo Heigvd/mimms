@@ -129,6 +129,8 @@ export function getDetailPage(itemType: SuperTypeNames): string {
       return 'scenaristItemImpact';
     case 'mapEntity':
       return 'scenaristItemMapEntity';
+    case 'geometry':
+      return 'scenaristItemMapObject';
     default:
       return 'scenaristItemUnknown';
   }

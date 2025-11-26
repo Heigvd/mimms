@@ -27,13 +27,18 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const { currentActorUid, currentActionUid, selectedActionChoiceUid } = getTypedInterfaceState();
   const interfaceColor = getInterfaceColor(currentActorUid);
   const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
-  const isSelected = feature.values_.id === choiceDescriptor?.placeholder;
-
+  const isSelected = feature?.getProperties()?.id === choiceDescriptor?.placeholder;
   const selectionActive = Context.mapState?.state?.mapSelect === true;
 
   return getFeatureStyle(feature, interfaceColor, isSelected, selectionActive);
 }
 
+/**
+ * computes the style of a given feature
+ * @param interfaceColor the dominant/selection color
+ * @param (player) indicate whether the feature is currently selected, ignored if selectionActive is false
+ * @param (player) true if in selection mode
+ */
 export function getFeatureStyle(
   feature: any,
   interfaceColor: string,
