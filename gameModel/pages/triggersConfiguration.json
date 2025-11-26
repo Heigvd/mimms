@@ -417,7 +417,7 @@
             "exposePageSizeAs" : "",
             "initialSelectedPageId" : {
               "@class" : "Script",
-              "content" : "\"32\"",
+              "content" : "\"undoRedoSave\"",
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",
