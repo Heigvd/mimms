@@ -442,6 +442,16 @@
         "name" : "Data Edition",
         "scenaristPage" : false,
         "trainerPage" : false
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "undoRedoSave",
+          "name" : "Undo/Redo/Save all",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "Components"
       } ],
       "name" : "Scenarist"
     }, {

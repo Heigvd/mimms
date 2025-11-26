@@ -199,11 +199,17 @@ export function canRedo(): boolean {
 // save
 
 export function saveToVariable(): void {
-  getController().save();
+  const controllers = getAllControllers();
+  for (const controller of controllers) {
+    if (!controller.isSaved()) {
+      controller.save();
+    }
+  }
 }
 
 export function isSaved(): boolean {
-  return getController().isSaved();
+  const controllers = getAllControllers();
+  return controllers.every(c => c.isSaved());
 }
 
 /*********************** READ FUNCTIONS ************************/
