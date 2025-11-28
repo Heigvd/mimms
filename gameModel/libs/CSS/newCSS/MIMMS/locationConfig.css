@@ -7,7 +7,7 @@
 
 .location-tag-container {
   gap: 5px;
-  margin: 0 2.5rem .75rem 0;
+  margin: 0 2.5rem .625rem 0;
 }
 
 .location-map-container {
@@ -33,6 +33,10 @@
 .scenarist-column--collapsed .scenarist-absolute-button {
   opacity: 0;
   transition: opacity .3s ease-in-out;
+}
+
+.generic-item__page-loader:first-of-type:has(.location) {
+    margin-top: 10px;
 }
 
 
@@ -100,17 +104,114 @@
 /* - - - - -  M O D A L  - - - */
 
 /* layout */
+.location-modal {
+  padding: 30px;
+}
+
+.location-modal-gap {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* due to a weird wegas layout, there is no selector
+for the gap between the modal elements */
+.location-modal > div:nth-of-type(2) {
+  gap: 1rem;
+}
+
 .location-config-modal-container {
   position: absolute;
-  top: 2.5rem;
-  left: 2.5rem;
-  z-index: 1;
+  top: 5rem;
+  left: 2.875rem;
 }
 
 .location-config-modal {
   padding: 1rem;
-  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
-  backdrop-filter: blur(20px);
+  background-image: linear-gradient(to bottom right, #D0E9F319 0%, #D0E9F30A 100%);
+  backdrop-filter: blur(8px);
   border: 1px solid #D0E9F399;
   border-radius: var(--XS_borderRadius);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .1);
+}
+
+.mapobject {
+  gap: 1rem;
+  padding: 10px 0;
+}
+
+/* better selectors could have been made with the .location class */
+.generic-item__page-loader:last-of-type .mapobject {
+  padding: 10px 0 0 0;
+}
+
+.generic-item__page-loader:has(.mapobject) {
+  margin-bottom: 0;
+}
+
+.generic-item__page-loader:last-of-type .generic-item:has(.mapobject) {
+  /*padding-bottom: 0;*/
+  border-bottom: none;
+}
+
+/* texts */
+.location-type__title {
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #D0E9F399;
+}
+
+/* buttons */
+/* close modal button */
+.location-modal > div > svg {
+  color: var(--grey_30);
+}
+
+/* map object */
+.theme-unselected:has(.mapobject) {
+  --primary_base: #1591c2ff;
+}
+
+.generic-item:has(.mapobject) {
+  color: var(--primary_base);
+  background-color: transparent;
+  border-bottom: 2px solid #D0E9F399;
+  border-radius: 0;
+}
+
+.mapobject .svg-inline--fa {
+  width: 26px;
+  height: 26px;
+  margin-right: 10px;
+}
+
+.mapobject .generic-item__label {
+  top: -8px;
+  left: 41px;
+}
+
+.mapobject .generic-item__label > div {
+  height: 14px;
+}
+
+/* inputs */
+.generic-item:has(.mapobject) input,
+.generic-item:has(.mapobject) input:hover,
+.generic-item:has(.mapobject) input:focus {
+  border: 2px solid #D0E9F399;
+}
+
+.mapobject .number-input, 
+.mapobject .number-input:hover,
+.mapobject .number-input:focus {
+  font-size: var(--S_text);
+  font-weight: var(--regularWeight);
+}
+
+/* generic item actions */
+.generic-item-container:has(.mapobject) .generic-item__actions svg {
+  color: var(--primary_base);
+}
+
+.generic-item-container:has(.mapobject) .generic-item__actions svg:hover {
+  color: var(--primary_70);
 }

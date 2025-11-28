@@ -4,6 +4,7 @@ import { patchX } from '../../tools/helper';
 import { getMapEntityController } from '../controllers/controllerInstances';
 import { MapEntityFlatType } from '../controllers/dataController';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
+import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { getItems } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
@@ -37,6 +38,11 @@ export function setLocationFilter(location: LOCATION_ENUM): void {
 export function isActiveLocation(location: LOCATION_ENUM): boolean {
   const state = getMapEntityController().getLatestIState();
   return state.selectedFilter === location;
+}
+
+export function currentLocation(): string {
+  const state = getMapEntityController().getLatestIState();
+  return state.selectedFilter.toString();
 }
 
 // Interface state
@@ -93,4 +99,16 @@ export function toggleOtherCategories(): void {
 
 export function shouldHideOtherCategories(): boolean {
   return getotherCategoriesState() !== false;
+}
+
+export function updateOffsetX(value: number, target: FlatMapObject): void {
+  const newValue = target.labelOffset || [0, 0];
+  newValue[0] = value;
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
+}
+
+export function updateOffsetY(value: number, target: FlatMapObject): void {
+  const newValue = target.labelOffset || [0, 0];
+  newValue[1] = value;
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
 }

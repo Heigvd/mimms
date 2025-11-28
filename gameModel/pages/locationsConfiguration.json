@@ -7,44 +7,18 @@
             "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "exposePageSizeAs" : "",
-                        "initialSelectedPageId" : "scenaristItemGeneric",
-                        "layoutClassName" : "noPadding generic-item__page-loader",
-                        "layoutStyle" : { },
-                        "name" : "locationItemPageLoader",
-                        "style" : { }
-                      },
-                      "type" : "PageLoader"
-                    } ],
-                    "exposeAs" : "item",
-                    "getItemsFn" : {
-                      "@class" : "Script",
-                      "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('geometry', 'mapEntity');",
-                      "language" : "TypeScript"
-                    },
-                    "itemKey" : "uid",
-                    "layout" : {
-                      "flexDirection" : "column"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "Map object",
-                    "style" : { }
-                  },
-                  "type" : "For each"
-                } ],
-                "className" : "location-config-modal",
-                "layout" : { },
-                "layoutClassName" : "noPadding location-config-modal-container",
+                "className" : "noMargin sm-bold-primary-text",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "map objects list",
-                "style" : { }
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Place your map object(s) on the map</p>\"",
+                  "language" : "TypeScript"
+                }
               },
-              "type" : "FlexList"
+              "type" : "Text"
             }, {
               "props" : {
                 "children" : [ {
@@ -226,7 +200,6 @@
                   "height" : "100%",
                   "left" : "0",
                   "pointerEvents" : "auto",
-                  "position" : "absolute",
                   "top" : "0",
                   "width" : "100%"
                 },
@@ -234,14 +207,221 @@
                 "style" : { }
               },
               "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "location-type__title sm-bold-primary-text",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Location type",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { currentLocation } from \"./edition/UIfacade/locationConfigFacade\";\n  currentLocation().charAt(0).toUpperCase()+currentLocation().slice(1);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "exposePageSizeAs" : "",
+                        "initialSelectedPageId" : "scenaristItemGeneric",
+                        "layoutClassName" : "noPadding generic-item__page-loader",
+                        "layoutStyle" : { },
+                        "name" : "locationItemPageLoader",
+                        "style" : { }
+                      },
+                      "type" : "PageLoader"
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('geometry', 'mapEntity');",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "uid",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Map object",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "className" : "location-config-modal",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding location-config-modal-container",
+                "layoutStyle" : { },
+                "name" : "map objects list",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor current",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>+ Point</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "add point",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor current",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>+ Line</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "add line",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor current",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>+ Polygon</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "add polygon",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "location-modal-gap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "left side",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
+                          "language" : "typescript"
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Undo</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { undo } from \"./edition/UIfacade/genericConfigFacade\";\n\nundo();",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "undo",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
+                          "language" : "typescript"
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Redo</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { redo } from \"./edition/UIfacade/genericConfigFacade\";\n\nredo();",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "redo",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin button-S button-primaryColor current",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Ok</p>\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setLocationModalState } from \"./edition/UIfacade/locationConfigFacade\";\n\nsetLocationModalState('closed');",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "ok",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "location-modal-gap",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "right side",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "buttons",
+                "style" : { }
+              },
+              "type" : "FlexList"
             } ],
-            "className" : "modal fullHeight",
+            "className" : "location-modal fullWidth fullHeight",
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { shouldHideLocationModal } from \"./edition/UIfacade/locationConfigFacade\";\n  shouldHideLocationModal();",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutStyle" : { },
             "name" : "Location configuration modal",
             "onExitActions" : {
@@ -606,6 +786,27 @@
                     "style" : { }
                   },
                   "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "className" : "noMargin small-bold-grey30-text",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\ngetFilteredLocations().length > 0;",
+                      "language" : "typescript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : " no locations message",
+                    "style" : {
+                      "fontStyle" : "italic"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { currentLocation } from \"./edition/UIfacade/locationConfigFacade\";\n  const location = currentLocation();\n`<p>There are no ${location} location at the moment.</p>`",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 }, {
                   "props" : {
                     "children" : [ {

@@ -75,6 +75,13 @@
   transition: color .3s ease-in-out;
 }
 
+.small-bold-grey30-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_30);
+  transition: color .3s ease-in-out;
+}
+
 .small-bold-primary-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
@@ -86,6 +93,13 @@
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
   color: var(--primary_10);
+  transition: color .3s ease-in-out;
+}
+
+.sm-bold-primary-text {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
   transition: color .3s ease-in-out;
 }
 
