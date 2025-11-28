@@ -14,7 +14,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { changeConditionType } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nchangeConditionType(Context.item.uid, Context.value);",
+            "content" : "import { changeConditionType } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nchangeConditionType(Context.item, Context.value);",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -30,7 +30,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "const type = Context.item.type;\n  if (type === 'empty') {\n    return '';\n  }\n  type || '';",
+          "content" : "  if (Context.item.type === 'choice') {\n    return 'action';\n  }\n  if (Context.item.type === 'empty') {\n    return '';\n  }\n  Context.item.type;",
           "language" : "TypeScript"
         },
         "style" : { }
@@ -92,6 +92,7 @@
                 "className" : "",
                 "layoutClassName" : "noPadding number-input",
                 "layoutStyle" : { },
+                "name" : "time",
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
@@ -158,7 +159,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { actionRef: Context.value });",
+                    "content" : "import { updateConditionActionRef } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nupdateConditionActionRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -174,7 +175,43 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "  Context.item.actionRef || '';",
+                  "content" : "import { getConditionActionUid } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getConditionActionUid(Context.item) || '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getEffectiveConditionChoicesOptions } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getEffectiveConditionChoicesOptions(Context.item);",
+                  "language" : "typescript"
+                },
+                "className" : "scenarist-dropdown",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "choice",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { updateConditionChoiceRef } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nupdateConditionChoiceRef(Context.item, Context.value);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select choice\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "import { getConditionChoiceUid } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getConditionChoiceUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -238,6 +275,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "status",
                 "style" : {
                   "flexWrap" : "wrap",
                   "rowGap" : "5px"
@@ -455,6 +493,7 @@
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
+                "name" : "open map",
                 "style" : { }
               },
               "type" : "Button"
@@ -544,6 +583,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
+            "name" : "debug",
             "style" : { },
             "text" : {
               "@class" : "Script",

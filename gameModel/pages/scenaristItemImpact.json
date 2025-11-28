@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getImpactDisplayTypeSelection } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\ngetImpactDisplayTypeSelection();",
+          "content" : "import { getImpactDisplayTypeSelection } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactDisplayTypeSelection();",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -14,7 +14,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { changeDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nchangeDisplayType(Context.item.uid, Context.value);",
+            "content" : "import { changeDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nchangeDisplayType(Context.item, Context.value);",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -30,7 +30,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  const displayType = inferDisplayType(Context.item);\n  if (displayType === 'empty') return '';\ninferDisplayType(Context.item) || '';",
+          "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  const displayType = inferDisplayType(Context.item);\n  if (displayType === 'empty') return '';\n  displayType || '';",
           "language" : "TypeScript"
         },
         "style" : { }
@@ -70,6 +70,7 @@
                 "layoutStyle" : {
                   "width" : "118px"
                 },
+                "name" : "channel",
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
@@ -175,7 +176,7 @@
                         "icon" : "check",
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "name" : "",
+                        "name" : "checked",
                         "style" : { }
                       },
                       "type" : "Icon"
@@ -239,6 +240,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "role",
                 "style" : { }
               },
               "type" : "For each"
@@ -327,7 +329,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
+                    "content" : "import { updateImpactActionRef } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nupdateImpactActionRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -343,7 +345,43 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "  Context.item.target || '';",
+                  "content" : "import { getImpactActionUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactActionUid(Context.item) || '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Select input"
+            }, {
+              "props" : {
+                "choices" : {
+                  "@class" : "Script",
+                  "content" : "import { getEffectiveImpactChoicesOptions } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getEffectiveImpactChoicesOptions(Context.item);",
+                  "language" : "typescript"
+                },
+                "className" : "scenarist-dropdown",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "choice",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { updateImpactChoiceRef } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nupdateImpactChoiceRef(Context.item, Context.value);",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select choice\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "import { getImpactChoiceUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactChoiceUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -353,27 +391,81 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "boolean-button",
+                    "children" : [ {
+                      "props" : {
+                        "className" : "boolean-button",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "boolean-button--selected",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.item.option === Context.option.value;",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "boolean-button-left",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "Context.option.label;",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, Context.option.value);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "exposeAs" : "option",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "value",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "option",
+                    "style" : {
+                      "flexWrap" : "wrap",
+                      "rowGap" : "5px"
+                    }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
                       "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "Context.item.option === Context.option.value;",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button-left",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                        "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\nisEffectSelectionMode(Context.item);",
                         "language" : "typescript"
                       }
                     } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n!canEnterEffectSelectionMode(Context.item);",
+                      "language" : "typescript"
+                    },
                     "label" : {
                       "@class" : "Script",
-                      "content" : "Context.option.label;",
+                      "content" : "\"<p>Set effect</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -381,64 +473,62 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
+                        "content" : "import { setChoiceEffectionSelectionType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nsetChoiceEffectionSelectionType(Context.item);",
                         "language" : "TypeScript"
                       }
                     },
+                    "name" : "select effect",
                     "style" : { }
                   },
                   "type" : "Button"
                 } ],
-                "exposeAs" : "option",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection();",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "value",
                 "layout" : { },
-                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "style" : {
-                  "flexWrap" : "wrap",
-                  "rowGap" : "5px"
-                }
+                "name" : "options + select effect",
+                "style" : { }
               },
-              "type" : "For each"
+              "type" : "FlexList"
             }, {
               "props" : {
-                "className" : "boolean-button boolean-button-right",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "boolean-button--selected",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "Context.item.activableType === 'choice';",
-                    "language" : "typescript"
-                  }
-                } ],
-                "hideIf" : {
+                "choices" : {
                   "@class" : "Script",
-                  "content" : "true;",
+                  "content" : "import { getEffectsOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  let result: { label: string, value: string, disabled?: boolean }[] = [];\n  if (Context.item.type === 'effectSelection') {\n    result = getEffectsOptions(Context.item.target);\n  }\n  result;",
                   "language" : "typescript"
                 },
-                "label" : {
+                "className" : "scenarist-dropdown",
+                "hideIf" : {
                   "@class" : "Script",
-                  "content" : "\"<p>select choice</p>\"",
-                  "language" : "TypeScript"
+                  "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n!isEffectSelectionMode(Context.item);",
+                  "language" : "typescript"
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { activableType: 'choice' });",
+                "name" : "effect",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { targetEffect: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
                     "language" : "TypeScript"
                   }
                 },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"Select effect\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "import { getImpactEffectUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactEffectUid(Context.item) ||'';",
+                  "language" : "TypeScript"
+                },
                 "style" : { }
               },
-              "type" : "Button"
+              "type" : "Select input"
             } ],
             "className" : "impact",
             "hideIf" : {
@@ -501,6 +591,7 @@
                   "language" : "TypeScript"
                 },
                 "layoutStyle" : { },
+                "name" : "open map",
                 "style" : { }
               },
               "type" : "Button"
@@ -562,6 +653,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "option",
                 "style" : {
                   "flexWrap" : "wrap",
                   "rowGap" : "5px"
@@ -680,6 +772,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "name" : "options",
                 "style" : {
                   "flexWrap" : "wrap",
                   "rowGap" : "5px"
@@ -709,7 +802,7 @@
                 "className" : "noMargin small-bold-primary-text",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "delay",
+                "name" : "title",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
@@ -784,6 +877,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
+            "name" : "debug",
             "style" : { },
             "text" : {
               "@class" : "Script",

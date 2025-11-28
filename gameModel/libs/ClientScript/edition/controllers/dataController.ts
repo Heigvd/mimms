@@ -36,7 +36,12 @@ import {
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
 import { logValidationResult, ValidationResult } from '../typeDefinitions/definition';
-import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
+import {
+  FlatEffect,
+  fromFlatEffect,
+  getDefaultEffect,
+  toFlatEffect,
+} from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
   fromFlatImpact,
@@ -214,6 +219,12 @@ export abstract class DataControllerBase<
   }
 
   protected abstract getValidator(): (value: DataType) => ValidationResult;
+
+  public updateItem(item: FlatType) {
+    const data: Record<Uid, FlatType> = this.getFlatDataClone();
+    data[item.uid] = item;
+    this.updateData(data);
+  }
 
   public updateData(
     newData: Record<Uid, FlatType>,
@@ -399,7 +410,7 @@ export class ActionTemplateDataController extends DataControllerBase<
         flattened[choice.uid] = toFlatChoice(choice, tpld.uid);
         // effects
         choice.effects.forEach((effect: Effect) => {
-          flattened[effect.uid] = toFlatEffect(choice.uid);
+          flattened[effect.uid] = toFlatEffect(effect, choice.uid);
           // impacts
           effect.impacts.forEach((impact: Impact) => {
             flattened[impact.uid] = toFlatImpact(impact, effect.uid);
@@ -470,7 +481,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'choice':
         return toFlatChoice(getChoiceDefinition().getDefault(), parentId);
       case 'effect':
-        return toFlatEffect(parentId);
+        return toFlatEffect(getDefaultEffect(parentId), parentId);
       case 'impact':
         return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
     }

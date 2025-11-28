@@ -79,6 +79,10 @@ export function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
   );
 }
 
-export function compareActivables(a: IActivableDescriptor, b: IActivableDescriptor): number {
+export function compareByTag(a: { tag: Tag }, b: { tag: Tag }): number {
   return a.tag.localeCompare(b.tag);
+}
+
+export function compareByIndex(a: Indexed, b: Indexed): number {
+  return a.index - b.index;
 }
