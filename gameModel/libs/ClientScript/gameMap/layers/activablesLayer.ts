@@ -75,7 +75,7 @@ export function getLayer(
  * @params descriptor: MapEntityDescriptor
  * @params index: number
  * @params layer: FeatureCollection
- * @param ignoreActivables will ignore current state of game (typical use : scenarist)
+ * @param runtime use true for player side (will query activables for current state), use false for scenarist
  *
  * @returns layer: FeatureCollection
  */
