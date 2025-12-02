@@ -344,6 +344,11 @@
       },
       "type" : "FlexList"
     } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "Context.item == undefined;",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },

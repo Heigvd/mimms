@@ -60,7 +60,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggerOperatorSelection } from \"./edition/UIfacade/selectableOptions\";\ngetTriggerOperatorSelection();",
+                  "content" : "import { getTimeOperatorSelection } from \"./edition/UIfacade/selectableOptions\";\ngetTimeOperatorSelection();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -729,6 +729,11 @@
       },
       "type" : "FlexList"
     } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "Context.item == undefined;",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },

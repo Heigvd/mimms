@@ -287,7 +287,11 @@ function changeChoiceImpactType(
 }
 
 export function updateImpactActionRef(impact: FlatImpact, actionRef: string): void {
-  if (getImpactActionUid(impact) === actionRef) {
+  if (
+    impact.type === 'activation' &&
+    impact.activableType === 'actionTemplate' &&
+    getImpactActionUid(impact) === actionRef
+  ) {
     // no change => nothing to do
     return;
   }
@@ -329,7 +333,7 @@ export function updateImpactChoiceRef(
       updateImpactActionRef(impact, newActionRef);
     }
   } else {
-    let newImpact: FlatImpact = { ...impact };
+    const newImpact: FlatImpact = { ...impact };
 
     if (newImpact.type === 'activation') {
       newImpact.activableType = 'choice';

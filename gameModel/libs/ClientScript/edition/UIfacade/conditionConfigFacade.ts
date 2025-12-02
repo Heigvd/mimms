@@ -135,7 +135,7 @@ export function getEffectiveConditionChoicesOptions(
 }
 
 export function updateConditionActionRef(condition: FlatCondition, actionRef: string): void {
-  if (getConditionActionUid(condition) === actionRef) {
+  if (condition.type === 'action' && getConditionActionUid(condition) === actionRef) {
     // no change => nothing to do
     return;
   }
@@ -203,9 +203,7 @@ function changeTypeBetweenActionAndChoice(
     return condition;
   }
 
-  const newCondition: FlatCondition = createSubstitutionCondition(condition, newType);
-
-  return newCondition;
+  return createSubstitutionCondition(condition, newType);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
