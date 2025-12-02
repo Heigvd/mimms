@@ -65,7 +65,7 @@ export function shouldHideLocationModal(): boolean {
 export interface MapEntityUIState extends GenericScenaristInterfaceState {
   selectedFilter: LOCATION_ENUM;
   modal: LocationModalState;
-  pannel: boolean;
+  panel: boolean;
   onlySelected: boolean;
 }
 
@@ -73,21 +73,19 @@ export function getLocationUIState(): MapEntityUIState {
   return getMapEntityController().getLatestIState();
 }
 
-// Shrink Locations list pannel
-export function toggleLocationPannel() {
+// Shrink Locations list panel
+export function toggleLocationPanel() {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
-  newState.pannel = !newState.pannel;
+  newState.panel = !newState.panel;
   getMapEntityController().updateIState(newState);
 }
 
-export function getLocationPannel() {
-  return getLocationUIState().pannel;
+export function getLocationPanel() {
+  return getLocationUIState().panel;
 }
 
 // Hide/show button
-type otherCategoriesState = true | false;
-
-export function getotherCategoriesState(): otherCategoriesState {
+export function showOnlySelected(): boolean {
   return getMapEntityController().getLatestIState().onlySelected;
 }
 
@@ -95,10 +93,6 @@ export function toggleOtherCategories(): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.onlySelected = !newState.onlySelected;
   getMapEntityController().updateIState(newState);
-}
-
-export function shouldHideOtherCategories(): boolean {
-  return getotherCategoriesState() !== false;
 }
 
 export function updateOffsetX(value: number, target: FlatMapObject): void {

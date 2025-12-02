@@ -34,7 +34,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "import { shouldHideOtherCategories } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(shouldHideOtherCategories());",
+                            "content" : "import { showOnlySelected } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(showOnlySelected());",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:2056",
@@ -446,7 +446,7 @@
                       "className" : "location-panel__angle-button--open",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\ngetLocationPannel();",
+                        "content" : "import { getLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\ngetLocationPanel();",
                         "language" : "typescript"
                       }
                     }, {
@@ -454,7 +454,7 @@
                       "className" : "location-panel__angle-button--closed",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                        "content" : "import { getLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPanel();",
                         "language" : "typescript"
                       }
                     } ],
@@ -469,7 +469,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { toggleLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n\ntoggleLocationPannel();",
+                        "content" : "import { toggleLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\n\ntoggleLocationPanel();",
                         "language" : "TypeScript"
                       }
                     },
@@ -488,7 +488,7 @@
                       "className" : "scenarist-title--rotate",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                        "content" : "import { getLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPanel();",
                         "language" : "typescript"
                       }
                     } ],
@@ -796,7 +796,7 @@
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : " no locations message",
+                    "name" : "no locations message",
                     "style" : {
                       "fontStyle" : "italic"
                     },
@@ -886,7 +886,7 @@
                   "className" : "scenarist-column--collapsed",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                    "content" : "import { getLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPanel();",
                     "language" : "typescript"
                   }
                 } ],
@@ -916,7 +916,7 @@
                         "className" : "header-button",
                         "label" : {
                           "@class" : "Script",
-                          "content" : "import { getotherCategoriesState } from \"./edition/UIfacade/locationConfigFacade\";\n    getotherCategoriesState()\n        ? \"Show all categories\"\n        : \"Hide other categories\";",
+                          "content" : "import { showOnlySelected } from \"./edition/UIfacade/locationConfigFacade\";\n    showOnlySelected()\n        ? \"Show all categories\"\n        : \"Hide other categories\";",
                           "language" : "TypeScript"
                         },
                         "layoutClassName" : "location-absolute__button",
@@ -945,7 +945,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "import { shouldHideOtherCategories } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(shouldHideOtherCategories());",
+                                "content" : "import { showOnlySelected } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(showOnlySelected());",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:2056",
@@ -1125,7 +1125,7 @@
                   "className" : "location-map-container--collapse",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getLocationPannel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPannel();",
+                    "content" : "import { getLocationPanel } from \"./edition/UIfacade/locationConfigFacade\";\n!getLocationPanel();",
                     "language" : "typescript"
                   }
                 } ],

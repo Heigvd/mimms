@@ -63,7 +63,7 @@ function getInitialMapEntityUIState(): MapEntityUIState {
     selectedFilter: LOCATION_ENUM.chantier,
     selected: {},
     modal: 'closed',
-    pannel: true,
+    panel: true,
     onlySelected: false,
   };
 }
