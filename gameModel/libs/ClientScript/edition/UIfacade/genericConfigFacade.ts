@@ -23,10 +23,6 @@ export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
-export function getInitialPageState() {
-  return { selected: {} };
-}
-
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
   return getController().getLatestIState();

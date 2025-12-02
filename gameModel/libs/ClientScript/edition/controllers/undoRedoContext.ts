@@ -47,8 +47,6 @@ export class UndoRedoContext<IState, DataT> {
     return this.currentSaveIndex === this.currentStateIndex;
   }
 
-  // TODO SAM could we have getCurrentUIState() + getCurrentData() instead ?
-
   public getCurrentState(): StateType<IState, DataT> {
     return this.stateStack[this.currentStateIndex]!;
   }
