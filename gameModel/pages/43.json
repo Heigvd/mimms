@@ -1335,7 +1335,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { canViewLocation, openOverlayItem } from \"./gameMap/mapEntities\";\n\nif (isGodView()) {\n  openOverlayItem(Context.overlayItem.id);\n} else if (canViewLocation(Context.overlayItem.id)) {\n  openOverlayItem(Context.overlayItem.id);\n}",
+                                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { canViewLocation, openOverlayItem } from \"./gameMap/mapEntities\";\n\nif (isGodView() || canViewLocation(Context.overlayItem.id)) {\n  openOverlayItem(Context.overlayItem.id);\n}",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -1659,7 +1659,7 @@
                                     },
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState().currentActorUid);",
+                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState()?.currentActorUid);",
                                       "language" : "TypeScript"
                                     },
                                     "hideIf" : {

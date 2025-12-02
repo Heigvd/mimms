@@ -5,11 +5,4 @@ import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export type ActionTemplateConfigUIState = GenericScenaristInterfaceState;
 
-export function getInitialActionUIState(): ActionTemplateConfigUIState {
-  return {
-    selected: {},
-  };
-}
-
 //////////////////////////////////////////////////////////////////////////////////////
-//

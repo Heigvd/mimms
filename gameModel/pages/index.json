@@ -378,6 +378,18 @@
           "name" : "Unknown Item",
           "scenaristPage" : false,
           "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemMapEntity",
+          "name" : "Location Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemMapObject",
+          "name" : "Map Object Item Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "Data Items"
       }, {
@@ -442,6 +454,16 @@
         "name" : "Data Edition",
         "scenaristPage" : false,
         "trainerPage" : false
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "undoRedoSave",
+          "name" : "Undo/Redo/Save all",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "Components"
       } ],
       "name" : "Scenarist"
     }, {

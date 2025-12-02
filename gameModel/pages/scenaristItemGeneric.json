@@ -112,9 +112,9 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "noPadding fullWidth",
         "layoutStyle" : {
-          "width" : "calc(100% - 40px)"
+          "paddingRight" : "2.5rem"
         },
         "style" : { }
       },

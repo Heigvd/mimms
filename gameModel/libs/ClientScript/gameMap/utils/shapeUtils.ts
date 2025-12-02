@@ -81,6 +81,7 @@ export function getLineEndAndRotation(segment: PointLikeObject[]): {
   end: PointLikeObject;
   rotation: number;
 } {
+  // TODO handle the n points case
   const start = segment[0];
   let end = segment[1];
 

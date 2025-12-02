@@ -10,12 +10,6 @@ import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade'
 
 export type TriggerConfigUIState = GenericScenaristInterfaceState;
 
-export function getInitialTriggerUIState(): TriggerConfigUIState {
-  return {
-    selected: {},
-  };
-}
-
 //////////////////////////////////////////////////////////////////////////////////////
 // get data
 
