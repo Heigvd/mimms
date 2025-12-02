@@ -56,7 +56,7 @@ import {
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
-import { MapEntityUIState } from '../UIfacade/mapEntityFacade';
+import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
@@ -100,12 +100,16 @@ export abstract class DataControllerBase<
   private readonly contextHandler: ContextHandler<IState>;
   private transientIState: IState;
 
-  constructor(variableKey: keyof ObjectVariableClasses, contextKey: string) {
+  constructor(
+    variableKey: keyof ObjectVariableClasses,
+    contextKey: string,
+    initialUIState: IState
+  ) {
     this.varKey = variableKey;
     const desc = Variable.find(gameModel, variableKey);
     const data = parseObjectDescriptor<DataType>(desc) || {};
     this.contextHandler = new ContextHandler<IState>(contextKey);
-    this.transientIState = this.contextHandler.getCurrentState();
+    this.transientIState = initialUIState;
     this.undoRedo = new UndoRedoContext<IState, FlatType>(this.transientIState, this.flatten(data));
   }
 
@@ -545,7 +549,10 @@ export class MapEntityController extends DataControllerBase<
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity':
-        return toFlatMapEntity(getMapEntityDefinition().getDefault(), parentId);
+        const dflt = getMapEntityDefinition().getDefault();
+        // Cheating here by looking up in the ui state to get the proper binding
+        dflt.binding = this.getLatestIState().selectedFilter;
+        return toFlatMapEntity(dflt, MapEntityController.MAP_ENTITY_ROOT);
       case 'geometry':
         return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
     }

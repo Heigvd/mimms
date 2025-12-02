@@ -4,6 +4,13 @@
   width: 33.3%;
   padding: 0 0 0 1rem;
   border-right: 3px solid var(--grey_10);
+  transition: width .3s ease-in-out;
+}
+
+.scenarist-column--collapsed {
+  width: 38.4px;
+  opacity: 1;
+  transition: width .3s ease-in-out, opacity .3s ease-in-out;
 }
 
 .scenarist-column-scroll {
@@ -40,6 +47,13 @@
   font-size: var(--ML_text);
   font-weight: var(--boldWeight);
   color: var(--grey_100);
+  transform-origin: 46px 46px;
+  transition: transform .3s ease-in-out;
+}
+
+.scenarist-title--rotate {
+  transform: rotate(-90deg);
+  transition: transform .3s ease-in-out;
 }
 
 .scenarist__undertitle {
@@ -61,6 +75,13 @@
   transition: color .3s ease-in-out;
 }
 
+.small-bold-grey30-text {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_30);
+  transition: color .3s ease-in-out;
+}
+
 .small-bold-primary-text {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
@@ -75,11 +96,20 @@
   transition: color .3s ease-in-out;
 }
 
+.sm-bold-primary-text {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
 
 /* - - - - -  B U T T O N S  - - - */
 
 /* scenarist save all button */
-.scenarist-save-all-button button {
+.scenarist-save-all-button button,
+.scenarist-save-all-button .iconOnly {
+  background-color: var(--grey-white);
   box-shadow: var(--buttonShadow);
 }
 

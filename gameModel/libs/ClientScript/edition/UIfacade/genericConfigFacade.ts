@@ -1,5 +1,4 @@
 import { Uid } from '../../game/common/interfaces';
-import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
   getAllControllers,
@@ -24,23 +23,8 @@ export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
-export function getInitialPageState() {
-  return { selected: {} };
-}
-
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
-  try {
-    const storedState = getController().getLatestIState();
-    if (storedState) {
-      return { ...storedState };
-    } else {
-      getController().updateIState(getInitialPageState());
-    }
-  } catch (error) {
-    scenarioEditionLogger.warn(error);
-  }
-
   return getController().getLatestIState();
 }
 
@@ -49,7 +33,7 @@ export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
     getController().getLatestIState()
   );
   newState.selected[itemType] = uid;
-  getController().updateIState(newState);
+  getController().updateIState(newState as any); // TODO fix typing
 }
 
 export function unselect(itemType: SuperTypeNames): void {
@@ -57,7 +41,7 @@ export function unselect(itemType: SuperTypeNames): void {
     getController().getLatestIState()
   );
   delete newState.selected[itemType];
-  getController().updateIState(newState);
+  getController().updateIState(newState as any); // TODO fix typing
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
@@ -143,6 +127,10 @@ export function getDetailPage(itemType: SuperTypeNames): string {
       return 'scenaristItemCondition';
     case 'impact':
       return 'scenaristItemImpact';
+    case 'mapEntity':
+      return 'scenaristItemMapEntity';
+    case 'geometry':
+      return 'scenaristItemMapObject';
     default:
       return 'scenaristItemUnknown';
   }

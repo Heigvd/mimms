@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1761581292258,
+  "createdTime" : 1764089625048,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5393,6 +5393,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/locationConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2680595:diVWdM",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/mainMenuStateFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5402,10 +5411,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/UIfacade/mapEntityFacade",
+    "contentKey" : "edition/UIfacade/map/layers",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2489464:S12L0e",
+    "refId" : "GameModelContent:#258:D5sL6B",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/map/styling",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2741366:OtIjTy",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6968,6 +6986,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/locationConfig",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2681578:Zte4Bk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/map",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7398,7 +7425,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS MainSim 7.1.0 Release",
+  "name" : "MIM-526 XGO layers styling refactoring",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

@@ -15,7 +15,7 @@ export function createFullyConfigurableTemplate(
   return new MapChoiceActionTemplate(
     'move-actor-title',
     'move-actor-desc',
-    TimeSliceDuration,
+    TimeSliceDuration
     //'move-actor-feedback'
   );
 }
