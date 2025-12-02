@@ -9,11 +9,11 @@ export type FlatEffect = MapToFlatType<Effect, 'effect'>;
 
 // TODO that is quick and dirty coded. Do we need a real definition here ?
 
-export function getDefaultEffect(parent: Uid): Effect {
+export function getDefaultEffect(parentId: Uid): Effect {
   return {
     type: 'effect',
     tag: 'New effect',
-    parent: parent,
+    parent: parentId,
     uid: generateId(10),
     index: 0,
     impacts: [],
