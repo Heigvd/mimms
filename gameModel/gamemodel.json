@@ -7456,7 +7456,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS MainSim 7.1.0 Release",
+  "name" : "MIM-521",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
