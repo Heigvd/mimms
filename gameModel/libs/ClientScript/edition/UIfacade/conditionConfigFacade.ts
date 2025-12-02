@@ -1,13 +1,13 @@
-import { ChoiceDescriptor } from '../../../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { Uid } from '../../../game/common/interfaces';
-import { Condition } from '../../../game/common/triggers/condition';
-import { ChoiceCondition } from '../../../game/common/triggers/implementation/choiceCondition';
-import { getTriggerController } from '../../controllers/controllerInstances';
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { Uid } from '../../game/common/interfaces';
+import { Condition } from '../../game/common/triggers/condition';
+import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
+import { getTriggerController } from '../controllers/controllerInstances';
 import {
   FlatCondition,
   getConditionDefinition,
   toFlatCondition,
-} from '../../typeDefinitions/conditionDefinition';
+} from '../typeDefinitions/conditionDefinition';
 import {
   ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,

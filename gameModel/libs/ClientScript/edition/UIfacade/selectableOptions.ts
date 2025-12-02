@@ -1,28 +1,28 @@
-import { TemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
-import { ChoiceDescriptor } from '../../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import {
   InterventionRole,
   InterventionRoleTypeArray,
   isPlayedByARealPlayer,
-} from '../../../game/common/actors/actor';
-import { Effect } from '../../../game/common/impacts/effect';
-import { ActivationOperator } from '../../../game/common/impacts/implementation/activationImpact';
-import { compareByIndex, compareByTag, Uid } from '../../../game/common/interfaces';
-import { MapEntityDescriptor } from '../../../game/common/mapEntities/mapEntityDescriptor';
-import { RadioType } from '../../../game/common/radio/communicationType';
-import { ActivableStatus, ChoiceActionStatus } from '../../../game/common/triggers/condition';
-import { TimeCondition } from '../../../game/common/triggers/implementation/timeCondition';
-import { Trigger } from '../../../game/common/triggers/trigger';
+} from '../../game/common/actors/actor';
+import { Effect } from '../../game/common/impacts/effect';
+import { ActivationOperator } from '../../game/common/impacts/implementation/activationImpact';
+import { compareByIndex, compareByTag, Uid } from '../../game/common/interfaces';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { RadioType } from '../../game/common/radio/communicationType';
+import { ActivableStatus, ChoiceActionStatus } from '../../game/common/triggers/condition';
+import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
+import { Trigger } from '../../game/common/triggers/trigger';
 import {
   getActionTemplateController,
   getMapEntityController,
   getTriggerController,
-} from '../../controllers/controllerInstances';
-import { FlatChoice } from '../../typeDefinitions/choiceDefinition';
-import { FlatEffect } from '../../typeDefinitions/effectDefinition';
-import { FlatMapEntity } from '../../typeDefinitions/mapEntityDefinition';
-import { FlatActionTemplate } from '../../typeDefinitions/templateDefinition';
-import { FlatTrigger } from '../../typeDefinitions/triggerDefinition';
+} from '../controllers/controllerInstances';
+import { FlatChoice } from '../typeDefinitions/choiceDefinition';
+import { FlatEffect } from '../typeDefinitions/effectDefinition';
+import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
+import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
+import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // triggers

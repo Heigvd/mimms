@@ -1,17 +1,10 @@
-import { ChoiceDescriptor } from '../../../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { Impact } from '../../../game/common/impacts/impact';
-import { ActivationImpact } from '../../../game/common/impacts/implementation/activationImpact';
-import { Uid } from '../../../game/common/interfaces';
-import { getTriggerController } from '../../controllers/controllerInstances';
-import {
-  ActionTemplateDataController,
-  TriggerDataController,
-} from '../../controllers/dataController';
-import {
-  FlatImpact,
-  getImpactDefinition,
-  toFlatImpact,
-} from '../../typeDefinitions/impactDefinition';
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { Impact } from '../../game/common/impacts/impact';
+import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
+import { Uid } from '../../game/common/interfaces';
+import { getTriggerController } from '../controllers/controllerInstances';
+import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
+import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import {
   ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,
@@ -19,7 +12,7 @@ import {
   getChoicesOptions,
   getDefaultEffect,
   getMatchingActionUid,
-} from '../../UIfacade/locationActionTrigger/selectableOptions';
+} from './selectableOptions';
 
 export function getController(): TriggerDataController | ActionTemplateDataController {
   // TODO either trigger controller or action template controller

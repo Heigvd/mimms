@@ -14,7 +14,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { tag: Context.value });",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { tag: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -69,7 +69,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { comment: Context.value });",
+                    "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { comment: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -139,7 +139,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
                         "language" : "TypeScript"
                       }
                     },
@@ -169,7 +169,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: true });",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: true });",
                         "language" : "TypeScript"
                       }
                     },
@@ -210,7 +210,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: true });",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: true });",
                         "language" : "TypeScript"
                       }
                     },
@@ -240,7 +240,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: false });",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { deactivateItself: false });",
                         "language" : "TypeScript"
                       }
                     },
@@ -284,7 +284,7 @@
             "onVariableChange" : {
               "client" : {
                 "@class" : "Script",
-                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { mandatory: !Context.item.mandatory });",
+                "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { mandatory: !Context.item.mandatory });",
                 "language" : "TypeScript"
               }
             },

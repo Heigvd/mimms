@@ -1,9 +1,15 @@
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
+//////////////////////////////////////////////////////////////////////////////////////
+// UI state
+
 export type ActionTemplateConfigUIState = GenericScenaristInterfaceState;
 
-export function getInitialActionsUIState(): ActionTemplateConfigUIState {
+export function getInitialActionUIState(): ActionTemplateConfigUIState {
   return {
     selected: {},
   };
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+//

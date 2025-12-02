@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getImpactDisplayTypeSelection } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactDisplayTypeSelection();",
+          "content" : "import { getImpactDisplayTypeSelection } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactDisplayTypeSelection();",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -14,7 +14,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { changeDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nchangeDisplayType(Context.item, Context.value);",
+            "content" : "import { changeDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\n\nchangeDisplayType(Context.item, Context.value);",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -30,7 +30,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  const displayType = inferDisplayType(Context.item);\n  if (displayType === 'empty') return '';\n  displayType || '';",
+          "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\n  const displayType = inferDisplayType(Context.item);\n  if (displayType === 'empty') return '';\n  displayType || '';",
           "language" : "TypeScript"
         },
         "style" : { }
@@ -62,7 +62,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getRadioSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getRadioSelection();",
+                  "content" : "import { getRadioSelection } from \"./edition/UIfacade/selectableOptions\";\n  getRadioSelection();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -74,7 +74,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { channel: Context.value });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { channel: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -103,7 +103,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
                         "language" : "TypeScript"
                       },
                       "exposeVariableAs" : {
@@ -146,7 +146,7 @@
             "className" : "trigger",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'radio';",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'radio';",
               "language" : "typescript"
             },
             "layout" : {
@@ -221,7 +221,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem<FlatImpact>(Context.item.uid, { roles: newRoles } );",
+                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem<FlatImpact>(Context.item.uid, { roles: newRoles } );",
                         "language" : "TypeScript"
                       }
                     },
@@ -233,7 +233,7 @@
                 "exposeAs" : "role",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getRolesSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetRolesSelection();",
+                  "content" : "import { getRolesSelection } from \"./edition/UIfacade/selectableOptions\";\ngetRolesSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -256,7 +256,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
                         "language" : "TypeScript"
                       },
                       "exposeVariableAs" : {
@@ -299,7 +299,7 @@
             "className" : "trigger",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  inferDisplayType(Context.item) !== 'notification';",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\n  inferDisplayType(Context.item) !== 'notification';",
               "language" : "typescript"
             },
             "layout" : {
@@ -319,7 +319,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getActionTemplatesOptions();",
+                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getActionTemplatesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -329,7 +329,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateImpactActionRef } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nupdateImpactActionRef(Context.item, Context.value);",
+                    "content" : "import { updateImpactActionRef } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateImpactActionRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -345,7 +345,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getImpactActionUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactActionUid(Context.item) || '';",
+                  "content" : "import { getImpactActionUid } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactActionUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -355,7 +355,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getEffectiveImpactChoicesOptions } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getEffectiveImpactChoicesOptions(Context.item);",
+                  "content" : "import { getEffectiveImpactChoicesOptions } from \"./edition/UIfacade/impactConfigFacade\";\n  getEffectiveImpactChoicesOptions(Context.item);",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -365,7 +365,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateImpactChoiceRef } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nupdateImpactChoiceRef(Context.item, Context.value);",
+                    "content" : "import { updateImpactChoiceRef } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateImpactChoiceRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -381,7 +381,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getImpactChoiceUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactChoiceUid(Context.item) || '';",
+                  "content" : "import { getImpactChoiceUid } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactChoiceUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -407,7 +407,7 @@
                           "className" : "boolean-button-left",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                            "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
                             "language" : "typescript"
                           }
                         } ],
@@ -421,7 +421,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, Context.option.value);",
+                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, Context.option.value);",
                             "language" : "TypeScript"
                           }
                         },
@@ -432,7 +432,7 @@
                     "exposeAs" : "option",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection();",
+                      "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "value",
@@ -454,13 +454,13 @@
                       "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\nisEffectSelectionMode(Context.item);",
+                        "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\nisEffectSelectionMode(Context.item);",
                         "language" : "typescript"
                       }
                     } ],
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { canEnterEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n!canEnterEffectSelectionMode(Context.item);",
+                      "content" : "import { canEnterEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterEffectSelectionMode(Context.item);",
                       "language" : "typescript"
                     },
                     "label" : {
@@ -473,7 +473,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { setChoiceEffectionSelectionType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n\nsetChoiceEffectionSelectionType(Context.item);",
+                        "content" : "import { setChoiceEffectionSelectionType } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetChoiceEffectionSelectionType(Context.item);",
                         "language" : "TypeScript"
                       }
                     },
@@ -492,13 +492,13 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getEffectsOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  let result: { label: string, value: string, disabled?: boolean }[] = [];\n  if (Context.item.type === 'effectSelection') {\n    result = getEffectsOptions(Context.item.target);\n  }\n  result;",
+                  "content" : "import { getEffectsOptions } from \"./edition/UIfacade/selectableOptions\";\n  let result: { label: string, value: string, disabled?: boolean }[] = [];\n  if (Context.item.type === 'effectSelection') {\n    result = getEffectsOptions(Context.item.target);\n  }\n  result;",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n!isEffectSelectionMode(Context.item);",
+                  "content" : "import { isEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!isEffectSelectionMode(Context.item);",
                   "language" : "typescript"
                 },
                 "layoutClassName" : "noPadding",
@@ -507,7 +507,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { targetEffect: Context.value });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { targetEffect: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -523,7 +523,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getImpactEffectUid } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\n  getImpactEffectUid(Context.item) ||'';",
+                  "content" : "import { getImpactEffectUid } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactEffectUid(Context.item) ||'';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -533,7 +533,7 @@
             "className" : "impact",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'actionTemplate';",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'actionTemplate';",
               "language" : "typescript"
             },
             "layout" : {
@@ -551,7 +551,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getMapEntitiesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -561,7 +561,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -613,7 +613,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -621,7 +621,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -635,7 +635,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
+                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -646,7 +646,7 @@
                 "exposeAs" : "option",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection();",
+                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -664,7 +664,7 @@
             "className" : "impact",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'mapEntity';",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'mapEntity';",
               "language" : "typescript"
             },
             "layout" : {
@@ -682,7 +682,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggersOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getTriggersOptions();",
+                  "content" : "import { getTriggersOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggersOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -692,7 +692,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
+                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -732,7 +732,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -740,7 +740,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -754,7 +754,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
+                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -765,7 +765,7 @@
                 "exposeAs" : "option",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActivateInactivateSelection();",
+                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -783,7 +783,7 @@
             "className" : "impact",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/locationActionTrigger/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'trigger';",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'trigger';",
               "language" : "typescript"
             },
             "layout" : {

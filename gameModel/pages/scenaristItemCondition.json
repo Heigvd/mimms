@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getConditionTypeSelection } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\ngetConditionTypeSelection();",
+          "content" : "import { getConditionTypeSelection } from \"./edition/UIfacade/conditionConfigFacade\";\ngetConditionTypeSelection();",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -14,7 +14,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { changeConditionType } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nchangeConditionType(Context.item, Context.value);",
+            "content" : "import { changeConditionType } from \"./edition/UIfacade/conditionConfigFacade\";\n\nchangeConditionType(Context.item, Context.value);",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -60,7 +60,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTimeOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\ngetTimeOperatorChoices();",
+                  "content" : "import { getTriggerOperatorSelection } from \"./edition/UIfacade/selectableOptions\";\ngetTriggerOperatorSelection();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -96,7 +96,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.value * 60 });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { timeSeconds: Context.value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -149,7 +149,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getActionTemplatesOptions();",
+                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getActionTemplatesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -159,7 +159,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateConditionActionRef } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nupdateConditionActionRef(Context.item, Context.value);",
+                    "content" : "import { updateConditionActionRef } from \"./edition/UIfacade/conditionConfigFacade\";\n\nupdateConditionActionRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -175,7 +175,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getConditionActionUid } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getConditionActionUid(Context.item) || '';",
+                  "content" : "import { getConditionActionUid } from \"./edition/UIfacade/conditionConfigFacade\";\n  getConditionActionUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -185,7 +185,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getEffectiveConditionChoicesOptions } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getEffectiveConditionChoicesOptions(Context.item);",
+                  "content" : "import { getEffectiveConditionChoicesOptions } from \"./edition/UIfacade/conditionConfigFacade\";\n  getEffectiveConditionChoicesOptions(Context.item);",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -195,7 +195,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateConditionChoiceRef } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n\nupdateConditionChoiceRef(Context.item, Context.value);",
+                    "content" : "import { updateConditionChoiceRef } from \"./edition/UIfacade/conditionConfigFacade\";\n\nupdateConditionChoiceRef(Context.item, Context.value);",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -211,7 +211,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getConditionChoiceUid } from \"./edition/UIfacade/locationActionTrigger/conditionConfigFacade\";\n  getConditionChoiceUid(Context.item) || '';",
+                  "content" : "import { getConditionChoiceUid } from \"./edition/UIfacade/conditionConfigFacade\";\n  getConditionChoiceUid(Context.item) || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -235,7 +235,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetChoiceActionStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetChoiceActionStatusSelection()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -243,7 +243,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  const buttonArray = getChoiceActionStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getChoiceActionStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -257,7 +257,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -268,7 +268,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetChoiceActionStatusSelection();",
+                  "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetChoiceActionStatusSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -302,7 +302,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { invert: !Context.item.invert});",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { invert: !Context.item.invert});",
                     "language" : "TypeScript"
                   }
                 },
@@ -337,7 +337,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger')?.uid });",
+                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger')?.uid });",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -347,7 +347,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -387,7 +387,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -395,7 +395,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -409,7 +409,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -420,7 +420,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActiveInactiveStatusSelection();",
+                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -453,7 +453,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getMapEntitiesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -463,7 +463,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { activableRef: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -515,7 +515,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -523,7 +523,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -537,7 +537,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationActionTrigger/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
+                        "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { status: Context.status.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -548,7 +548,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/locationActionTrigger/selectableOptions\";\ngetActiveInactiveStatusSelection();",
+                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
