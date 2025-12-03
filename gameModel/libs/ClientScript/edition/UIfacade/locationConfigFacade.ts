@@ -8,6 +8,17 @@ import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { getItems } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
+export type SupportedDrawType = Exclude<DrawType, 'Circle'>;
+
+export interface MapEntityUIState extends GenericScenaristInterfaceState {
+  selectedFilter: LOCATION_ENUM;
+  modal: LocationModalState;
+  panel: boolean;
+  onlySelected: boolean;
+  drawActive: boolean;
+  drawType: SupportedDrawType;
+}
+
 export function getFilteredLocations(): FlatMapEntity[] {
   const location = getMapEntityController().getLatestIState().selectedFilter;
 
@@ -60,13 +71,6 @@ export function setLocationModalState(state: LocationModalState): void {
 
 export function shouldHideLocationModal(): boolean {
   return getLocationModalState() !== 'opened';
-}
-
-export interface MapEntityUIState extends GenericScenaristInterfaceState {
-  selectedFilter: LOCATION_ENUM;
-  modal: LocationModalState;
-  panel: boolean;
-  onlySelected: boolean;
 }
 
 export function getLocationUIState(): MapEntityUIState {

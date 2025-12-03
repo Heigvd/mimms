@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1764089625048,
+  "createdTime" : 1764759065647,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5411,6 +5411,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/map/drawFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:269749:fjPDCl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/map/layers",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7425,7 +7434,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-526 XGO layers styling refactoring",
+  "name" : "MAIN SIM MIM-532",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
