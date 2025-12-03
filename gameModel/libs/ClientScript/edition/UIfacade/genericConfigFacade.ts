@@ -121,16 +121,22 @@ export function deleteItem(itemId: Uid): void {
 
 export function getDetailPage(itemType: SuperTypeNames): string {
   switch (itemType) {
+    case 'mapEntity':
+      return 'scenaristItemMapEntity';
+    case 'geometry':
+      return 'scenaristItemMapObject';
     case 'trigger':
       return 'scenaristItemTrigger';
     case 'condition':
       return 'scenaristItemCondition';
     case 'impact':
       return 'scenaristItemImpact';
-    case 'mapEntity':
-      return 'scenaristItemMapEntity';
-    case 'geometry':
-      return 'scenaristItemMapObject';
+    case 'action':
+      return 'scenaristItemAction';
+    case 'choice':
+      return 'scenaristItemChoice';
+    case 'effect':
+      return 'scenaristItemEffect';
     default:
       return 'scenaristItemUnknown';
   }

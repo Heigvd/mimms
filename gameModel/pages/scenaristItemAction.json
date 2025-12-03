@@ -1,0 +1,591 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "tag",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { tag: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.tag;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Tag\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "tag",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "title",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { title: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.title;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Title</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "title",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "description",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { description: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "rows" : 3,
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.description ?? '';",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Description</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "description",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.item.roles[Context.role.value];",
+                      "language" : "typescript"
+                    },
+                    "icon" : "check",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "checked",
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "small-bold-primary-text",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "small-bold-primary10-text",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.roles[Context.role.value];",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.role.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "notif-receiver",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : " notif-receiver--selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.item.roles[Context.role.value];",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : {
+                  "alignItems" : "center"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "/*import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem<FlatActionTemplate>(Context.item.uid, { roles: newRoles } );*/\n\n",
+                    "language" : "TypeScript"
+                  }
+                },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "boolean-container",
+            "exposeAs" : "role",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getActorRolesOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActorRolesOptions();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "value",
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "role",
+            "style" : { }
+          },
+          "type" : "For each"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "boolean-button boolean-button-left",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "boolean-button--selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "!Context.item.activeAtStart;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Inactive</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { activeAtStart: false });",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "inactive",
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "boolean-button boolean-button-right",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "boolean-button--selected",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "Context.item.activeAtStart;",
+                    "language" : "typescript"
+                  }
+                } ],
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Active</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { activeAtStart: true });",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "active",
+                "style" : { }
+              },
+              "type" : "Button"
+            } ],
+            "className" : "",
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "activeAtStart",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "noMargin small-bold-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Duration</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding number-input",
+                "layoutStyle" : { },
+                "name" : "time",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { durationSec: Context.value * 60 });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Math.round(Context.item.duractionSec / 60);",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "className" : "noMargin small-regular-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "min",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>min</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "duration",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "noMargin small-bold-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Maximum execution(s)</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding number-input",
+                "layoutStyle" : { },
+                "name" : "max executions",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { repeatable: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.repeatable;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "className" : "noMargin small-regular-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "times",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>time(s)</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "max executions",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isHidden } from \"./edition/controllers/viewsSelector\";\nisHidden(Context.item.superType, Context.item.type, 'mandatory');",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"mandatory\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "mandatory",
+            "onVariableChange" : {
+              "client" : {
+                "@class" : "Script",
+                "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { mandatory: !Context.item.mandatory });",
+                "language" : "TypeScript"
+              }
+            },
+            "script" : {
+              "@class" : "Script",
+              "content" : "  Context.item.mandatory;",
+              "language" : "TypeScript"
+            },
+            "style" : { },
+            "type" : "checkbox"
+          },
+          "type" : "Boolean"
+        }, {
+          "props" : {
+            "className" : "header-button",
+            "icon" : "plus",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>choice</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "add",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "condition",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "false;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "debug",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.item, undefined, '<br>');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "className" : "trigger /* TODO rename OR replace */",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "open",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "Context.item.tag;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "className" : "trigger /* TODO rename OR replace */",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "closed",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "  Context.item == undefined;",
+      "language" : "typescript"
+    },
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

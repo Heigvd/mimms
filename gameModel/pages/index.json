@@ -386,6 +386,24 @@
           "trainerPage" : false
         }, {
           "@class" : "Page",
+          "id" : "scenaristItemAction",
+          "name" : "Action Template Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemChoice",
+          "name" : "Choice Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemEffect",
+          "name" : "Effect Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "scenaristItemUnknown",
           "name" : "Unknown Item",
           "scenaristPage" : false,

@@ -45,7 +45,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       title: 'title',
       parent: 'no parent',
       placeHolder: 'no placeholder', // should there be a default one ?
-      tag: 'define tag',
+      tag: 'new choice',
       index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
