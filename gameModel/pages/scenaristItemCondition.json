@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getConditionTypeSelection } from \"./edition/UIfacade/conditionConfigFacade\";\ngetConditionTypeSelection();",
+          "content" : "import { getConditionTypeOptions } from \"./edition/UIfacade/conditionConfigFacade\";\ngetConditionTypeOptions();",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -60,7 +60,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTimeOperatorSelection } from \"./edition/UIfacade/selectableOptions\";\ngetTimeOperatorSelection();",
+                  "content" : "import { getTimeOperatorOptions } from \"./edition/UIfacade/selectableOptions\";\ngetTimeOperatorOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -149,7 +149,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getActionTemplatesOptions();",
+                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getActionTemplatesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -235,7 +235,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetChoiceActionStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getActionChoiceStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActionChoiceStatusOptions()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -243,7 +243,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getChoiceActionStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getActionChoiceStatusOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActionChoiceStatusOptions();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -268,7 +268,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getChoiceActionStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetChoiceActionStatusSelection();",
+                  "content" : "import { getActionChoiceStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActionChoiceStatusOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -337,7 +337,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger')?.uid });",
+                  "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getTriggersOptions } from \"./edition/UIfacade/dataFetcher\";\n  getTriggersOptions((trigger: FlatTrigger) => { return trigger.uid !== getSelected('trigger')?.uid });",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -387,7 +387,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusOptions()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -395,7 +395,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusOptions();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -420,7 +420,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection();",
+                  "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -453,7 +453,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -515,7 +515,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection()[0].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusOptions()[0].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -523,7 +523,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusSelection();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
+                        "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActiveInactiveStatusOptions();\nbuttonArray[buttonArray.length - 1].value === Context.status.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -548,7 +548,7 @@
                 "exposeAs" : "status",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActiveInactiveStatusSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusSelection();",
+                  "content" : "import { getActiveInactiveStatusOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActiveInactiveStatusOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",

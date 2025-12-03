@@ -6,8 +6,8 @@ import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/t
 // Just to try. Must be removed
 export function getActionTemplatesMockData(): Record<string, TemplateDescriptor> {
   return {
-    at1: {
-      uid: 'at1',
+    1: {
+      uid: '1',
       type: 'FullyConfigurableTemplateDescriptor',
       index: 0,
       activableType: 'actionTemplate',
@@ -42,7 +42,7 @@ export function getActionTemplatesMockData(): Record<string, TemplateDescriptor>
               type: 'effect',
               index: 0,
               parent: 'at1cA',
-              tag: 'E1',
+              tag: 'EA1',
               impacts: [],
             },
             {
@@ -50,7 +50,7 @@ export function getActionTemplatesMockData(): Record<string, TemplateDescriptor>
               type: 'effect',
               index: 0,
               parent: 'at1cA',
-              tag: 'E2',
+              tag: 'EA2',
               impacts: [],
             },
           ],
@@ -75,15 +75,15 @@ export function getActionTemplatesMockData(): Record<string, TemplateDescriptor>
               type: 'effect',
               index: 0,
               parent: 'at1cB',
-              tag: 'E1',
+              tag: 'EB1',
               impacts: [],
             },
           ],
         },
       ],
     },
-    at2: {
-      uid: 'at2',
+    2: {
+      uid: '2',
       type: 'FullyConfigurableTemplateDescriptor',
       index: 1,
       activableType: 'actionTemplate',

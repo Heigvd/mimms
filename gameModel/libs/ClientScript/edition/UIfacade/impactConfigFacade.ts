@@ -11,8 +11,8 @@ import {
   allChoicesOption,
   getChoicesOptions,
   getDefaultEffect,
-  getMatchingActionUid,
-} from './selectableOptions';
+  getMatchingActionTemplateUid,
+} from './dataFetcher';
 
 export function getController(): TriggerDataController | ActionTemplateDataController {
   // TODO either trigger controller or action template controller
@@ -31,7 +31,7 @@ export type DisplayType =
   | 'trigger';
 
 // Directly used in pages
-export function getImpactDisplayTypeSelection(): { label: string; value: DisplayType }[] {
+export function getImpactDisplayTypeOptions(): { label: string; value: DisplayType }[] {
   return [
     {
       label: 'radio message',
@@ -115,7 +115,7 @@ function createSubstitutionImpact(newType: FlatImpact['type'], baseImpact: FlatI
   return newItem;
 }
 
-// Given a display type, which type must be used to create a new impact
+// Given a display type, define which type must be used to create a new impact
 function getNewImpactType(displayType: DisplayType): Impact['type'] {
   switch (displayType) {
     case 'empty':
@@ -131,11 +131,11 @@ function getNewImpactType(displayType: DisplayType): Impact['type'] {
     case 'trigger':
       return 'activation';
     default:
-      throw new Error('Not handled dislay type ' + displayType);
+      throw new Error('Not handled display type ' + displayType);
   }
 }
 
-// Given a display type, which activableType must be used to create a new impact
+// Given a display type, define which activableType must be used to create a new impact
 function getNewActivableType(displayType: DisplayType): ActivationImpact['activableType'] {
   switch (displayType) {
     case 'actionTemplate':
@@ -148,7 +148,7 @@ function getNewActivableType(displayType: DisplayType): ActivationImpact['activa
     case 'radio':
     case 'notification':
     default:
-      throw new Error('Not handled dislay type ' + displayType);
+      throw new Error('Not handled display type ' + displayType);
   }
 }
 
@@ -162,10 +162,10 @@ export function getImpactActionUid(impact: FlatImpact): Uid | undefined {
     }
 
     if (impact.activableType === 'choice' && impact.target) {
-      return getMatchingActionUid(impact.target);
+      return getMatchingActionTemplateUid(impact.target);
     }
   } else if (impact.type === 'effectSelection' && impact.target) {
-    return getMatchingActionUid(impact.target);
+    return getMatchingActionTemplateUid(impact.target);
   }
 
   return undefined;
@@ -239,7 +239,7 @@ export function setActivationImpactOption(
   getController().updateItem(newImpact);
 }
 
-export function setChoiceEffectionSelectionType(impact: FlatImpact): void {
+export function setChoiceEffectSelectionType(impact: FlatImpact): void {
   const newImpact = changeChoiceImpactType(impact, 'effectSelection');
   getController().updateItem(newImpact);
 }
@@ -329,7 +329,7 @@ export function updateImpactChoiceRef(
     // if it is "any choice", make it be an action template activation
     const previousChoiceRef = getImpactChoiceUid(impact);
     if (previousChoiceRef && previousChoiceRef !== ALL_CHOICES_OPTION_VALUE) {
-      const newActionRef = getMatchingActionUid(previousChoiceRef);
+      const newActionRef = getMatchingActionTemplateUid(previousChoiceRef);
       updateImpactActionRef(impact, newActionRef);
     }
   } else {

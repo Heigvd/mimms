@@ -5397,6 +5397,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/dataFetcher",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2997058:JiOYTT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/genericConfigFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

@@ -191,7 +191,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggerOperatorSelection } from \"./edition/UIfacade/selectableOptions\";\n  getTriggerOperatorSelection();",
+                  "content" : "import { getTriggerOperatorOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggerOperatorOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",

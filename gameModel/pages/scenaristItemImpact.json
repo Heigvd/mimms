@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getImpactDisplayTypeSelection } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactDisplayTypeSelection();",
+          "content" : "import { getImpactDisplayTypeOptions } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactDisplayTypeOptions();",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -62,7 +62,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getRadioSelection } from \"./edition/UIfacade/selectableOptions\";\n  getRadioSelection();",
+                  "content" : "import { getRadioChannelOptions } from \"./edition/UIfacade/selectableOptions\";\n  getRadioChannelOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -233,7 +233,7 @@
                 "exposeAs" : "role",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getRolesSelection } from \"./edition/UIfacade/selectableOptions\";\ngetRolesSelection();",
+                  "content" : "import { getActorRolesOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActorRolesOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -319,7 +319,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getActionTemplatesOptions();",
+                  "content" : "import { getActionTemplatesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getActionTemplatesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -407,7 +407,7 @@
                           "className" : "boolean-button-left",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                            "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
                             "language" : "typescript"
                           }
                         } ],
@@ -432,7 +432,7 @@
                     "exposeAs" : "option",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
+                      "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "value",
@@ -473,7 +473,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { setChoiceEffectionSelectionType } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetChoiceEffectionSelectionType(Context.item);",
+                        "content" : "import { setChoiceEffectSelectionType } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetChoiceEffectSelectionType(Context.item);",
                         "language" : "TypeScript"
                       }
                     },
@@ -492,7 +492,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getEffectsOptions } from \"./edition/UIfacade/selectableOptions\";\n  let result: { label: string, value: string, disabled?: boolean }[] = [];\n  if (Context.item.type === 'effectSelection') {\n    result = getEffectsOptions(Context.item.target);\n  }\n  result;",
+                  "content" : "import { getEffectsOptions } from \"./edition/UIfacade/dataFetcher\";\n  let result: { label: string, value: string, disabled?: boolean }[] = [];\n  if (Context.item.type === 'effectSelection') {\n    result = getEffectsOptions(Context.item.target);\n  }\n  result;",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -551,7 +551,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/selectableOptions\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -613,7 +613,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -621,7 +621,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateOptions();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -646,7 +646,7 @@
                 "exposeAs" : "option",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
+                  "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",
@@ -682,7 +682,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggersOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggersOptions();",
+                  "content" : "import { getTriggersOptions } from \"./edition/UIfacade/dataFetcher\";\n  getTriggersOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
@@ -732,7 +732,7 @@
                       "className" : "boolean-button-left",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection()[0].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     }, {
@@ -740,7 +740,7 @@
                       "className" : "boolean-button-right",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateSelection();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateOptions();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
                         "language" : "typescript"
                       }
                     } ],
@@ -765,7 +765,7 @@
                 "exposeAs" : "option",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActivateInactivateSelection } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateSelection();",
+                  "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",

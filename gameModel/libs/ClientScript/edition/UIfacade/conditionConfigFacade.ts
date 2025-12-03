@@ -13,13 +13,13 @@ import {
   AllChoiceOptionType,
   allChoicesOption,
   getChoicesOptions,
-  getMatchingActionUid,
-} from './selectableOptions';
+  getMatchingActionTemplateUid,
+} from './dataFetcher';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // condition initialisation
 
-export function getConditionTypeSelection(): { label: string; value: Condition['type'] }[] {
+export function getConditionTypeOptions(): { label: string; value: Condition['type'] }[] {
   return [
     {
       label: 'time',
@@ -106,7 +106,7 @@ export function getConditionActionUid(condition: FlatCondition): Uid | undefined
     condition.choiceRef &&
     condition.choiceRef !== ALL_CHOICES_OPTION_VALUE
   ) {
-    return getMatchingActionUid(condition.choiceRef);
+    return getMatchingActionTemplateUid(condition.choiceRef);
   }
 
   return undefined;
@@ -174,7 +174,7 @@ export function updateConditionChoiceRef(
       condition.choiceRef &&
       condition.choiceRef !== ALL_CHOICES_OPTION_VALUE
     ) {
-      const newActionRef = getMatchingActionUid(condition.choiceRef);
+      const newActionRef = getMatchingActionTemplateUid(condition.choiceRef);
       updateConditionActionRef(condition, newActionRef);
     }
   } else {
