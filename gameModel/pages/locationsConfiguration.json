@@ -37,6 +37,11 @@
                             "args" : [ "event" ],
                             "content" : "import { saveNewMapObject } from \"./edition/UIfacade/map/drawFacade\";\n  saveNewMapObject(event);\n  return;"
                           },
+                          "style" : {
+                            "@class" : "ScriptCallback",
+                            "args" : [ "feature", "resolution" ],
+                            "content" : "import { getDrawStyle } from \"./edition/UIfacade/map/styling\";\ngetDrawStyle(feature);"
+                          },
                           "type" : {
                             "@class" : "Script",
                             "content" : "import { getDrawType } from \"./edition/UIfacade/map/drawFacade\";\ngetDrawType()",
