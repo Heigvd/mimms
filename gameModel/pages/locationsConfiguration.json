@@ -299,6 +299,13 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Point');",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "add point",
                         "style" : { }
                       },
@@ -313,6 +320,13 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('LineString');",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "add line",
                         "style" : { }
                       },
