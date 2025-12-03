@@ -1,10 +1,25 @@
 import { ActorId } from '../../game/common/baseTypes';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getTypedInterfaceState } from '../../gameInterface/interfaceState';
-import { getLetterRepresentationOfIndex } from '../../tools/helper';
+import { floatToHexByte, getLetterRepresentationOfIndex } from '../../tools/helper';
 import { getActor } from '../../UIfacade/actorFacade';
 
 export const DEFAULT_COLOR = '#3CA3CC';
+
+export interface MapColorConfig {
+  /**
+   * Highlight / selection color
+   */
+  highlight: string;
+  /**
+   * Unselected objects color
+   */
+  normal: string;
+  //inProgress: string,
+  inProgressOpacity: number;
+  unselectedOpacity: number;
+}
 
 export function getInterfaceColor(id: ActorId | undefined): string {
   const actor = getActor(id || 0);
@@ -29,8 +44,15 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
   const isSelected = feature?.getProperties()?.id === choiceDescriptor?.placeholder;
   const selectionActive = Context.mapState?.state?.mapSelect === true;
+  const isIncident = feature?.getProperties()?.binding === LOCATION_ENUM.chantier;
 
-  return getFeatureStyle(feature, interfaceColor, isSelected, selectionActive);
+  const colors: MapColorConfig = {
+    highlight: interfaceColor,
+    normal: isIncident ? '#FFFFFF' : '#7f868a', // TODO figure out depending on icons ?
+    inProgressOpacity: 0.5,
+    unselectedOpacity: 0.5,
+  };
+  return getFeatureStyle(feature, isSelected, selectionActive, colors);
 }
 
 /**
@@ -41,19 +63,19 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
  */
 export function getFeatureStyle(
   feature: any,
-  interfaceColor: string,
   isSelected: boolean,
-  selectionActive: boolean
+  selectionActive: boolean,
+  colors: MapColorConfig
 ): LayerStyleObject {
   const geometryType = feature.getProperties()?.type;
 
   switch (geometryType) {
     case 'Point':
-      return getPointStyle(feature, interfaceColor, isSelected, selectionActive);
+      return getPointStyle(feature, isSelected, selectionActive, colors);
     case 'LineString':
-      return getLineStringStyle(feature, interfaceColor, isSelected, selectionActive);
+      return getLineStringStyle(feature, isSelected, selectionActive, colors);
     case 'Polygon':
-      return getPolygonStyle(feature, interfaceColor, isSelected, selectionActive);
+      return getPolygonStyle(feature, isSelected, selectionActive, colors);
     default:
       return getUnsupportedFeatureStyle(feature);
   }
@@ -61,15 +83,16 @@ export function getFeatureStyle(
 
 function getPointStyle(
   feature: any,
-  interfaceColor: string,
   isSelected: boolean,
-  selectionActive: boolean
+  selectionActive: boolean,
+  colors: MapColorConfig
 ): LayerStyleObject {
   // Unused but all availables properties, can be freely extended in activablesLayer
   const { index, icon, buildStatus, label, rotation } = feature.getProperties();
   const isInProgress = buildStatus === 'pending';
 
   if (icon) {
+    // TODO icons svg are black thus color is useless
     const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
@@ -78,25 +101,27 @@ function getPointStyle(
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.1,
-      opacity: isInProgress ? 0.5 : 1,
+      opacity: isInProgress ? colors.inProgressOpacity : 1,
+      color: colors.normal,
     };
 
     const textStyle: TextStyleObject = {
       type: 'TextStyle',
-      opacity: isInProgress ? 0.5 : 1,
+      opacity: isInProgress ? colors.inProgressOpacity : 1,
     };
 
     const [offsetX, offsetY] = getLabelOffset(feature);
 
     if (selectionActive && rotation === undefined) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
-      iconStyle.color = interfaceColor;
-      iconStyle.opacity = isSelected ? 1 : 0.5;
+      iconStyle.color = colors.highlight;
+      iconStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
 
       textStyle.text = getLetterRepresentationOfIndex(parseInt(index, 10));
       textStyle.offsetX = 12 + offsetX;
-      (textStyle.offsetY = -38 + offsetY), (textStyle.scale = 1.6);
-      textStyle.opacity = isSelected ? 1 : 0.5;
+      textStyle.offsetY = -38 + offsetY;
+      textStyle.scale = 1.6;
+      textStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
       textStyle.fill = {
         type: 'FillStyle',
         color: 'white',
@@ -109,7 +134,7 @@ function getPointStyle(
     if (rotation !== undefined) {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
-      iconStyle.color = interfaceColor;
+      iconStyle.color = colors.highlight;
       iconStyle.scale = 0.08;
 
       textStyle.text = label;
@@ -118,20 +143,22 @@ function getPointStyle(
       textStyle.scale = 1.6;
       textStyle.fill = {
         type: 'FillStyle',
-        color: 'white',
+        color: '#ffffff',
       };
       textStyle.stroke = {
         type: 'StrokeStyle',
         width: 3,
-        color: interfaceColor,
+        color: colors.highlight,
         lineCap: 'round',
         lineJoin: 'round',
       };
 
       if (selectionActive) {
-        iconStyle.color = interfaceColor + (isSelected ? 'ff' : '50');
-        iconStyle.opacity = isSelected ? 1 : 0.5;
-        textStyle.text = '';
+        const alpha = floatToHexByte(colors.unselectedOpacity);
+        iconStyle.color = colors.highlight + (isSelected ? 'ff' : alpha);
+        iconStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
+        textStyle.opacity = iconStyle.opacity;
+        //textStyle.text = '';
       }
     }
 
@@ -143,23 +170,24 @@ function getPointStyle(
 
 function getLineStringStyle(
   feature: any,
-  interfaceColor: string,
   isSelected: boolean,
-  selectionActive: boolean
+  selectionActive: boolean,
+  colors: MapColorConfig
 ): LayerStyleObject {
   const { buildStatus } = feature.getProperties();
   const isInProgress = buildStatus === 'pending';
 
+  const alpha = floatToHexByte(colors.inProgressOpacity);
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: interfaceColor + (isInProgress ? '50' : 'ff'),
+    color: colors.highlight + (isInProgress ? alpha : 'ff'),
     width: 6,
     lineCap: 'round',
     lineJoin: 'round',
   };
 
   if (selectionActive) {
-    strokeStyle.color = interfaceColor + (isSelected ? 'ff' : '50');
+    strokeStyle.color = colors.highlight + (isSelected ? 'ff' : alpha);
   }
 
   return { stroke: strokeStyle };
@@ -167,9 +195,9 @@ function getLineStringStyle(
 
 function getPolygonStyle(
   feature: any,
-  interfaceColor: string,
   isSelected: boolean,
-  selectionActive: boolean
+  selectionActive: boolean,
+  colors: MapColorConfig
 ): LayerStyleObject {
   // TODO figure out why build status isn't needed for polygons
 
@@ -177,12 +205,12 @@ function getPolygonStyle(
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: '#7f868a',
+    color: colors.normal,
   };
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#7f868a',
+    color: colors.normal,
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,
@@ -208,8 +236,9 @@ function getPolygonStyle(
   };
 
   if (selectionActive) {
-    stroke.color = interfaceColor + (isSelected ? 'ff' : '50');
-    fill.color = interfaceColor + (isSelected ? 'ff' : '50');
+    const alpha = floatToHexByte(colors.unselectedOpacity);
+    stroke.color = colors.highlight + (isSelected ? 'ff' : alpha);
+    fill.color = colors.highlight + (isSelected ? 'ff' : alpha);
   }
 
   return { fill, stroke, text };

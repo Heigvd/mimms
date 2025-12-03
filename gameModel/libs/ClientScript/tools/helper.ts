@@ -303,3 +303,15 @@ export function filterRecord<K extends string, V>(
 export function patchX<T>(value: T, patch: Partial<T>): T {
   return { ...value, ...patch };
 }
+
+/** converts [0,1] numbers to hexa decimal 00 - FF value */
+export function floatToHexByte(value: number): string {
+  // Clamp the input between 0 and 1
+  const clamped = Math.min(1, Math.max(0, value));
+
+  // Convert to the 0–255 range
+  const intVal = Math.round(clamped * 255);
+
+  // Convert to hex and pad with leading zero if needed
+  return intVal.toString(16).padStart(2, '0').toUpperCase();
+}
