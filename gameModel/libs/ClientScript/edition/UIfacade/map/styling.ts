@@ -1,5 +1,6 @@
 import {
-  DEFAULT_COLOR,
+  DEFAULT_SELECTED_COLOR,
+  DEFAULT_UNSELECTED_COLOR,
   getFeatureStyle,
   MapColorConfig,
 } from '../../../gameMap/styling/activablesLayerStyles';
@@ -7,14 +8,11 @@ import { hasSelectedLocationBinding, isLinkedMapEntitySelected } from '../../UIf
 
 export function getScenaristLayerStyle(feature: any): LayerStyleObject {
   // TODO query scenarist context for selection
-  const mainColor = getFeatureColor(feature);
   const colors: MapColorConfig = {
-    normal: mainColor,
-    highlight: mainColor,
-    inProgressOpacity: 1,
-    unselectedOpacity: 1,
+    color : getFeatureColor(feature),
+    opacity: 0.8
   };
-  return getFeatureStyle(feature, false, false, colors);
+  return getFeatureStyle(feature, colors);
 }
 
 function getFeatureColor(feature: any): string {
@@ -23,12 +21,12 @@ function getFeatureColor(feature: any): string {
   //const currentMapObject = isLinkedMapObjectSelected(feature);
 
   if (currentMapEntity) {
-    return DEFAULT_COLOR;
+    return DEFAULT_SELECTED_COLOR;
   } else if (currentLocation) {
     return '#8AC8E0';
   }
   // TODO amazing stuff for color
-  return '#7F868A';
+  return DEFAULT_UNSELECTED_COLOR;
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {

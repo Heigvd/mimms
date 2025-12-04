@@ -1,24 +1,16 @@
 import { ActorId } from '../../game/common/baseTypes';
-import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getTypedInterfaceState } from '../../gameInterface/interfaceState';
-import { floatToHexByte, getLetterRepresentationOfIndex } from '../../tools/helper';
-import { getActor } from '../../UIfacade/actorFacade';
+import { floatToHexByte } from '../../tools/helper';
+import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
+import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
 
-export const DEFAULT_COLOR = '#3CA3CC';
+export const DEFAULT_SELECTED_COLOR = '#3CA3CC';
+export const DEFAULT_UNSELECTED_COLOR = '#7f868a';
 
 export interface MapColorConfig {
-  /**
-   * Highlight / selection color
-   */
-  highlight: string;
-  /**
-   * Unselected objects color
-   */
-  normal: string;
-  //inProgress: string,
-  inProgressOpacity: number;
-  unselectedOpacity: number;
+  color: string;
+  opacity: number;
 }
 
 export function getInterfaceColor(id: ActorId | undefined): string {
@@ -35,24 +27,43 @@ export function getInterfaceColor(id: ActorId | undefined): string {
         return '#F78C60';
     }
   }
-  return DEFAULT_COLOR;
+  return DEFAULT_SELECTED_COLOR;
 }
 
 export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const { currentActorUid, currentActionUid, selectedActionChoiceUid } = getTypedInterfaceState();
   const interfaceColor = getInterfaceColor(currentActorUid);
-  const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
-  const isSelected = feature?.getProperties()?.id === choiceDescriptor?.placeholder;
   const selectionActive = Context.mapState?.state?.mapSelect === true;
-  const isIncident = feature?.getProperties()?.binding === LOCATION_ENUM.chantier;
 
+  const { id, buildStatus, binding } = feature?.getProperties();
+  let isHighlighted = true;
+  let isSelected = false;
+
+  if (selectionActive) {
+    const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
+    isSelected = id === choiceDescriptor?.placeholder;
+    const currentTemplate = getAvailableActionTemplateById(currentActionUid);
+    if (currentTemplate && isChoiceTemplate(currentTemplate)) {
+      isHighlighted = currentTemplate.choices.some(c => c.placeholder === id);
+    }
+  } else {
+    isHighlighted = isCurrentActorAtLocation(binding);
+  }
+  //const isIncident = feature?.getProperties()?.binding === LOCATION_ENUM.chantier;
+
+  const color = isHighlighted ? interfaceColor : DEFAULT_UNSELECTED_COLOR;
+  let opacity = 1;
+  if (selectionActive && !isSelected) {
+    opacity = 0.5;
+  }
+  if (!isHighlighted && buildStatus === 'pending') {
+    opacity = 0.5;
+  }
   const colors: MapColorConfig = {
-    highlight: interfaceColor,
-    normal: isIncident ? '#FFFFFF' : '#7f868a', // TODO figure out depending on icons ?
-    inProgressOpacity: 0.5,
-    unselectedOpacity: 0.5,
+    color: color,
+    opacity: opacity,
   };
-  return getFeatureStyle(feature, isSelected, selectionActive, colors);
+  return getFeatureStyle(feature, colors);
 }
 
 /**
@@ -61,38 +72,26 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
  * @param (player) indicate whether the feature is currently selected, ignored if selectionActive is false
  * @param (player) true if in selection mode
  */
-export function getFeatureStyle(
-  feature: any,
-  isSelected: boolean,
-  selectionActive: boolean,
-  colors: MapColorConfig
-): LayerStyleObject {
+export function getFeatureStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
   const geometryType = feature.getProperties()?.type;
 
   switch (geometryType) {
     case 'Point':
-      return getPointStyle(feature, isSelected, selectionActive, colors);
+      return getPointStyle(feature, colors);
     case 'LineString':
-      return getLineStringStyle(feature, isSelected, selectionActive, colors);
+      return getLineStringStyle(feature, colors);
     case 'Polygon':
-      return getPolygonStyle(feature, isSelected, selectionActive, colors);
+      return getPolygonStyle(feature, colors);
     default:
-      return getUnsupportedFeatureStyle(feature);
+      return getUnsupportedFeatureStyle(feature, colors);
   }
 }
 
-function getPointStyle(
-  feature: any,
-  isSelected: boolean,
-  selectionActive: boolean,
-  colors: MapColorConfig
-): LayerStyleObject {
+function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
   // Unused but all availables properties, can be freely extended in activablesLayer
-  const { index, icon, buildStatus, label, rotation } = feature.getProperties();
-  const isInProgress = buildStatus === 'pending';
+  const { icon, label, rotation } = feature.getProperties();
 
   if (icon) {
-    // TODO icons svg are black thus color is useless
     const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
@@ -101,17 +100,20 @@ function getPointStyle(
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.1,
-      opacity: isInProgress ? colors.inProgressOpacity : 1,
-      color: colors.normal,
+      opacity: colors.opacity,
+      color: colors.color,
     };
 
     const textStyle: TextStyleObject = {
       type: 'TextStyle',
-      opacity: isInProgress ? colors.inProgressOpacity : 1,
+      opacity: colors.opacity,
+      text: label,
     };
 
     const [offsetX, offsetY] = getLabelOffset(feature);
 
+    /*
+  OLD CODE for phylactère / Speech scroll
     if (selectionActive && rotation === undefined) {
       iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
       iconStyle.color = colors.highlight;
@@ -127,14 +129,15 @@ function getPointStyle(
         color: 'white',
       };
     }
-
+*/
     // Arrowheads
     // TODO specifically designed for access and egress (text on arrow heads)
     // should be thought again (text centered on middle of feature instead ?)
+    // TODO we should rather emit a triangle when building the features
     if (rotation !== undefined) {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
-      iconStyle.color = colors.highlight;
+      iconStyle.color = colors.color;
       iconStyle.scale = 0.08;
 
       textStyle.text = label;
@@ -148,18 +151,10 @@ function getPointStyle(
       textStyle.stroke = {
         type: 'StrokeStyle',
         width: 3,
-        color: colors.highlight,
+        color: colors.color,
         lineCap: 'round',
         lineJoin: 'round',
       };
-
-      if (selectionActive) {
-        const alpha = floatToHexByte(colors.unselectedOpacity);
-        iconStyle.color = colors.highlight + (isSelected ? 'ff' : alpha);
-        iconStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
-        textStyle.opacity = iconStyle.opacity;
-        //textStyle.text = '';
-      }
     }
 
     return { image: iconStyle, text: textStyle };
@@ -168,49 +163,31 @@ function getPointStyle(
   return {}; // TODO Add fallback style for scenarist ?
 }
 
-function getLineStringStyle(
-  feature: any,
-  isSelected: boolean,
-  selectionActive: boolean,
-  colors: MapColorConfig
-): LayerStyleObject {
-  const { buildStatus } = feature.getProperties();
-  const isInProgress = buildStatus === 'pending';
-
-  const alpha = floatToHexByte(colors.inProgressOpacity);
+function getLineStringStyle(_feature: any, colors: MapColorConfig): LayerStyleObject {
+  const alpha = floatToHexByte(colors.opacity);
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: colors.highlight + (isInProgress ? alpha : 'ff'),
+    color: colors.color + alpha,
     width: 6,
     lineCap: 'round',
     lineJoin: 'round',
   };
 
-  if (selectionActive) {
-    strokeStyle.color = colors.highlight + (isSelected ? 'ff' : alpha);
-  }
-
   return { stroke: strokeStyle };
 }
 
-function getPolygonStyle(
-  feature: any,
-  isSelected: boolean,
-  selectionActive: boolean,
-  colors: MapColorConfig
-): LayerStyleObject {
-  // TODO figure out why build status isn't needed for polygons
+function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
+  const { label } = feature.getProperties();
 
-  const { index, label } = feature.getProperties();
-
+  const fillOpacity = colors.opacity * 0.5;
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: colors.normal,
+    color: colors.color + floatToHexByte(fillOpacity),
   };
 
   const stroke: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: colors.normal,
+    color: colors.color + floatToHexByte(colors.opacity),
     lineCap: 'round',
     lineJoin: 'round',
     width: 5,
@@ -220,10 +197,7 @@ function getPolygonStyle(
 
   const text: TextStyleObject = {
     type: 'TextStyle',
-    // If we are in a selection state we use alphabetical index, otherwise we apply the name
-    text: selectionActive
-      ? getLetterRepresentationOfIndex(parseInt(index, 10))
-      : label || 'No name',
+    text: label,
     font: 'bold 10px sans-serif',
     textAlign: 'center',
     scale: 1.6,
@@ -235,16 +209,10 @@ function getPolygonStyle(
     offsetY: offsetY,
   };
 
-  if (selectionActive) {
-    const alpha = floatToHexByte(colors.unselectedOpacity);
-    stroke.color = colors.highlight + (isSelected ? 'ff' : alpha);
-    fill.color = colors.highlight + (isSelected ? 'ff' : alpha);
-  }
-
   return { fill, stroke, text };
 }
 
-function getUnsupportedFeatureStyle(feature: any): LayerStyleObject {
+function getUnsupportedFeatureStyle(feature: any, _colors: MapColorConfig): LayerStyleObject {
   const { label, id } = feature.getProperties();
 
   const fill: FillStyleObject = {
