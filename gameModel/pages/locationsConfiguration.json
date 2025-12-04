@@ -40,7 +40,7 @@
                           "style" : {
                             "@class" : "ScriptCallback",
                             "args" : [ "feature", "resolution" ],
-                            "content" : "import { getDrawStyle } from \"./edition/UIfacade/map/styling\";\ngetDrawStyle(feature);"
+                            "content" : "import { getDrawStyle, getScenaristLayerStyle } from \"./edition/UIfacade/map/styling\";\nconst draw = getDrawStyle(feature);\n  const scenarist = getScenaristLayerStyle(feature);\n  if (draw && scenarist) return [draw, scenarist];\n  draw || scenarist || null;"
                           },
                           "type" : {
                             "@class" : "Script",

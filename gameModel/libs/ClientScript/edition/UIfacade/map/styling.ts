@@ -3,6 +3,7 @@ import {
   getFeatureStyle,
   MapColorConfig,
 } from '../../../gameMap/styling/activablesLayerStyles';
+import { hasSelectedLocationBinding, isLinkedMapEntitySelected } from '../../UIfacade/map/utils';
 
 export function getScenaristLayerStyle(feature: any): LayerStyleObject {
   // TODO query scenarist context for selection
@@ -17,8 +18,17 @@ export function getScenaristLayerStyle(feature: any): LayerStyleObject {
 }
 
 function getFeatureColor(feature: any): string {
+  const currentLocation = hasSelectedLocationBinding(feature);
+  const currentMapEntity = isLinkedMapEntitySelected(feature);
+  //const currentMapObject = isLinkedMapObjectSelected(feature);
+
+  if (currentMapEntity) {
+    return DEFAULT_COLOR;
+  } else if (currentLocation) {
+    return '#8AC8E0';
+  }
   // TODO amazing stuff for color
-  return DEFAULT_COLOR;
+  return '#7F868A';
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {
