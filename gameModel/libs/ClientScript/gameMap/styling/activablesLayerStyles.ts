@@ -41,10 +41,10 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
 
   if (selectionActive) {
     const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
-    isSelected = id === choiceDescriptor?.placeholder;
+    isSelected = id === choiceDescriptor?.displayedMapEntity;
     const currentTemplate = getAvailableActionTemplateById(currentActionUid);
     if (currentTemplate && isChoiceTemplate(currentTemplate)) {
-      isHighlighted = currentTemplate.choices.some(c => c.placeholder === id);
+      isHighlighted = currentTemplate.choices.some(c => c.displayedMapEntity === id);
     }
   } else {
     isHighlighted = isCurrentActorAtLocation(binding);

@@ -54,7 +54,7 @@ export function getActionTemplatesOptions(
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
     .sort(compareByTag)
     .map(actionTemplate => {
-      return { label: actionTemplate.title, value: String(actionTemplate.uid) };
+      return { label: actionTemplate.tag, value: String(actionTemplate.uid) };
     });
 }
 
@@ -118,6 +118,5 @@ export function getDefaultEffect(choiceUid: Uid): Effect['uid'] {
 function compareByTag(a: { tag: Tag }, b: { tag: Tag }): number {
   return a.tag.localeCompare(b.tag);
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

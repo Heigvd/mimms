@@ -28,7 +28,7 @@ function getTestTriggers(): Trigger[] {
       tag: 'Test Trigger',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: false,
+      deactivateItself: true,
       operator: 'OR',
       conditions: [
         {

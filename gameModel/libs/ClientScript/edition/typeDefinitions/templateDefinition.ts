@@ -2,14 +2,17 @@ import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDesc
 import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { MapToDefinition, MapToFlatType } from '../typeDefinitions/definition';
-import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
+import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
 
 type TemplateDescriptorTypeName = TemplateDescriptor['type'];
 type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
 
-export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'>;
+// TODO Fix hack : availableToRoles is added just because MapToFlatType removes every array
+export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'> & {
+  availableToRoles: TemplateDescriptor['availableToRoles'];
+};
 
 export function toFlatActionTemplate(
   action: TemplateDescriptor,

@@ -3,6 +3,7 @@
 import { MapChoiceActionTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/mapChoiceTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
+import { createOrUpdateTranslation } from '../../../tools/translation';
 import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
 
 /**
@@ -19,12 +20,15 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
       binding: undefined,
       choices: [],
       mandatory: false,
-      repeatable: 1,
+      repeats: 1,
       tag: 'new fixed entity template',
-      description: 'some default description', // multilang
-      title: 'some default title', // TODO multilang
+      description: createOrUpdateTranslation('some default description', undefined),
+      title: createOrUpdateTranslation('some default title', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
+      availableToRoles: [],
+      showAllChoices: true,
+      comment: '',
       index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
@@ -40,8 +44,11 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
       binding: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       constructorType: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       mandatory: ALL_EDITABLE,
-      repeatable: ALL_EDITABLE,
+      repeats: ALL_EDITABLE,
       durationSec: ALL_EDITABLE,
+      availableToRoles: ALL_EDITABLE,
+      showAllChoices: EXPERT_ONLY,
+      comment: ALL_EDITABLE,
       index: EXPERT_ONLY,
     },
   };

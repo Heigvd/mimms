@@ -38,16 +38,16 @@ import {
   CasuMessageAction,
   DisplayMessageAction,
   EvacuationAction,
+  MapChoiceAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
+  PCChoiceAction,
+  PCFrontChoiceAction,
+  ParkChoiceAction,
   RadioDrivenAction,
   RequestPretriageReportAction,
-  SituationUpdateAction,
-  MapChoiceAction,
-  PCFrontChoiceAction,
-  PCChoiceAction,
-  ParkChoiceAction,
   SendRadioMessageAction,
+  SituationUpdateAction,
 } from './actionBase';
 import * as ActionLogic from './actionLogic';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
@@ -94,8 +94,8 @@ export abstract class ActionTemplateBase<
    * @param availableToRoles list of roles admitted to launch the action, undefined or empty array means available to everyone
    */
   protected constructor(
-    protected readonly title: TranslationKey,
-    protected readonly description: TranslationKey,
+    protected readonly title: TranslationKey | ITranslatableContent,
+    protected readonly description: TranslationKey | ITranslatableContent,
     public replayable: boolean = false,
     public readonly category: ActionType = ActionType.ACTION,
     private requiredFlags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
@@ -170,11 +170,24 @@ export abstract class ActionTemplateBase<
   /**
    * @returns A translation to a short description of the action
    */
-  public abstract getDescription(): TranslationKey;
+  public getDescription(): string {
+    if (typeof this.description === 'string') {
+      return getTranslation('mainSim-actions-tasks', this.description);
+    } else {
+      return I18n.translate(this.description);
+    }
+  }
+
   /**
    * @returns A translation to the title of the action
    */
-  public abstract getTitle(): TranslationKey;
+  public getTitle(): string {
+    if (typeof this.title === 'string') {
+      return getTranslation('mainSim-actions-tasks', this.title);
+    } else {
+      return I18n.translate(this.title);
+    }
+  }
 
   protected initBaseEvent(timeStamp: SimTime, actorId: ActorId): ActionCreationEvent {
     return {
@@ -242,8 +255,8 @@ export abstract class StartEndTemplate<
   public readonly duration: SimDuration;
 
   protected constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     replayable = false,
     category: ActionType = ActionType.ACTION,
@@ -272,8 +285,8 @@ export abstract class ChoiceTemplate<
   public readonly choices: ChoiceDescriptor[];
 
   protected constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
     replayable = false,
@@ -354,14 +367,6 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       durationSec: this.duration,
     };
   }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
 }
 
 export class CasuMessageTemplate extends StartEndTemplate<
@@ -414,14 +419,6 @@ export class CasuMessageTemplate extends StartEndTemplate<
       durationSec: this.duration,
       casuMessagePayload: params,
     };
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
@@ -501,14 +498,6 @@ export class PretriageReportTemplate extends StartEndTemplate<
     };
   }
 
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
@@ -578,14 +567,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     };
   }
 
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     _actor: Readonly<Actor>
@@ -606,8 +587,8 @@ export class MapChoiceActionTemplate<
   public readonly binding?: LOCATION_ENUM;
 
   constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
     replayable = false,
@@ -660,14 +641,6 @@ export class MapChoiceActionTemplate<
     ) as ActionT;
   }
 
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>
@@ -689,8 +662,8 @@ export class MapChoiceActionTemplate<
 
 export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoiceAction> {
   constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
     replayable = false,
@@ -735,8 +708,8 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
 
 export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
   constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
     replayable = false,
@@ -784,8 +757,8 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
   public readonly vehicleType: VehicleType;
 
   constructor(
-    title: TranslationKey,
-    description: TranslationKey,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
     replayable = false,
@@ -872,14 +845,6 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       raisedFlags,
       availableToRoles
     );
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   public buildGlobalEvent(
@@ -984,12 +949,12 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     };
   }
 
-  public getDescription(): string {
-    return 'SendRadioMessageTemplateDescription';
+  public override getTitle(): string {
+    return 'SendRadioMessageTemplateTitle';
   }
 
-  public getTitle(): string {
-    return 'SendRadioMessageTemplateTitle';
+  public override getDescription(): string {
+    return 'SendRadioMessageTemplateDescription';
   }
 
   protected override customCanConcurrencyWiseBePlayed(
@@ -1059,14 +1024,6 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       location: params,
     };
-  }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
   }
 }
 
@@ -1145,14 +1102,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid)
     );
   }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
 }
 
 /**
@@ -1194,14 +1143,6 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
       durationSec: params.duration, // the duration is sent as a payload
     };
   }
-
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  public getTitle(): string {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1241,14 +1182,6 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       raisedFlags,
       availableToRoles
     );
-  }
-
-  public getTitle(): TranslationKey {
-    return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  public getDescription(): TranslationKey {
-    return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   protected createActionFromEvent(event: FullEvent<EvacuationActionEvent>): EvacuationAction {

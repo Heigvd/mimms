@@ -33,7 +33,7 @@ export function getMapActivableSelectionLayer() {
   const record: Record<string, MapEntityDescriptor> = {};
 
   if (currentTemplate instanceof MapChoiceActionTemplate) {
-    medUids = currentTemplate.choices.map(c => c.placeholder!);
+    medUids = currentTemplate.choices.map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
 
     for (const medUid of medUids) {
