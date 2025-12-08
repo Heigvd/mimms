@@ -23,11 +23,5 @@ export function isLinkedMapObjectSelected(feature: any): boolean {
  */
 export function isLinkedMapEntitySelected(feature: any): boolean {
   const props = feature.getProperties();
-
-  // TODO might be a ReadOnly without clone for efficiency
-  const mapObj = getMapEntityController().getFlatDataClone()[props.id];
-  if (mapObj) {
-    return isSelected('mapEntity', mapObj.parent);
-  }
-  return false;
+  return isSelected('mapEntity', props.id);
 }

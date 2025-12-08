@@ -89,7 +89,7 @@ export function getFeatureStyle(feature: any, colors: MapColorConfig): LayerStyl
 
 function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
   // Unused but all availables properties, can be freely extended in activablesLayer
-  const { icon, label, rotation } = feature.getProperties();
+  const { icon, rotation } = feature.getProperties();
 
   if (icon) {
     const iconStyle: IconStyleObject = {
@@ -99,18 +99,12 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       anchorXUnits: 'fraction',
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
-      scale: 0.1,
+      scale: 0.05,
       opacity: colors.opacity,
       color: colors.color,
     };
 
-    const textStyle: TextStyleObject = {
-      type: 'TextStyle',
-      opacity: colors.opacity,
-      text: label,
-    };
-
-    const [offsetX, offsetY] = getLabelOffset(feature);
+    const text = getTextStyle(feature, colors);
 
     /*
   OLD CODE for phylactère / Speech scroll
@@ -140,7 +134,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       iconStyle.color = colors.color;
       iconStyle.scale = 0.08;
 
-      textStyle.text = label;
+      /*textStyle.text = label;
       textStyle.offsetX = 0.5 + offsetX;
       textStyle.offsetY = -18 + offsetY;
       textStyle.scale = 1.6;
@@ -154,16 +148,17 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
         color: colors.color,
         lineCap: 'round',
         lineJoin: 'round',
-      };
+      };*/
+      return { image: iconStyle };
     }
 
-    return { image: iconStyle, text: textStyle };
+    return { image: iconStyle, text: text };
   }
 
   return {}; // TODO Add fallback style for scenarist ?
 }
 
-function getLineStringStyle(_feature: any, colors: MapColorConfig): LayerStyleObject {
+function getLineStringStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
   const alpha = floatToHexByte(colors.opacity);
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
@@ -173,12 +168,12 @@ function getLineStringStyle(_feature: any, colors: MapColorConfig): LayerStyleOb
     lineJoin: 'round',
   };
 
-  return { stroke: strokeStyle };
+  const text = getTextStyle(feature, colors);
+
+  return { stroke: strokeStyle, text: text };
 }
 
 function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
-  const { label } = feature.getProperties();
-
   const fillOpacity = colors.opacity * 0.5;
   const fill: FillStyleObject = {
     type: 'FillStyle',
@@ -193,23 +188,35 @@ function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject
     width: 5,
   };
 
-  const [offsetX, offsetY] = getLabelOffset(feature);
+  const text = getTextStyle(feature, colors);
 
+  return { fill, stroke, text };
+}
+
+function getTextStyle(feature: any, colors: MapColorConfig): TextStyleObject {
+  const [offsetX, offsetY] = getLabelOffset(feature);
+  const { label } = feature.getProperties();
+  const textBackground: FillStyleObject = {
+    type: 'FillStyle',
+    color: colors.color + floatToHexByte(colors.opacity),
+  };
+  const textPadding: ExtentLikeObject = [5, 5, 5, 5];
   const text: TextStyleObject = {
     type: 'TextStyle',
-    text: label,
     font: 'bold 10px sans-serif',
+    offsetX: offsetX,
+    offsetY: offsetY,
+    text: label,
     textAlign: 'center',
-    scale: 1.6,
     fill: {
       type: 'FillStyle',
       color: 'white',
     },
-    offsetX: offsetX,
-    offsetY: offsetY,
+    backgroundFill: textBackground,
+    padding: textPadding,
+    scale: 1.6,
   };
-
-  return { fill, stroke, text };
+  return text;
 }
 
 function getUnsupportedFeatureStyle(feature: any, _colors: MapColorConfig): LayerStyleObject {

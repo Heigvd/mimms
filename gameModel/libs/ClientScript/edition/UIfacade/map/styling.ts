@@ -8,25 +8,25 @@ import { hasSelectedLocationBinding, isLinkedMapEntitySelected } from '../../UIf
 
 export function getScenaristLayerStyle(feature: any): LayerStyleObject {
   // TODO query scenarist context for selection
-  const colors: MapColorConfig = {
-    color : getFeatureColor(feature),
-    opacity: 0.8
-  };
+  const colors: MapColorConfig = getFeatureColor(feature);
   return getFeatureStyle(feature, colors);
 }
 
-function getFeatureColor(feature: any): string {
+function getFeatureColor(feature: any): MapColorConfig {
   const currentLocation = hasSelectedLocationBinding(feature);
   const currentMapEntity = isLinkedMapEntitySelected(feature);
+  let currentColor = DEFAULT_UNSELECTED_COLOR;
+  let opacity = 0.5;
   //const currentMapObject = isLinkedMapObjectSelected(feature);
 
-  if (currentMapEntity) {
-    return DEFAULT_SELECTED_COLOR;
-  } else if (currentLocation) {
-    return '#8AC8E0';
+  if (currentLocation) {
+    currentColor = DEFAULT_SELECTED_COLOR;
+    if (currentMapEntity) {
+      opacity = 1;
+    }
   }
   // TODO amazing stuff for color
-  return DEFAULT_UNSELECTED_COLOR;
+  return { color: currentColor, opacity: opacity };
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {

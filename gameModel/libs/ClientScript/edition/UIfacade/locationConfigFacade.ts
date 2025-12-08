@@ -100,13 +100,13 @@ export function toggleOtherCategories(): void {
 }
 
 export function updateOffsetX(value: number, target: FlatMapObject): void {
-  const newValue = target.labelOffset || [0, 0];
-  newValue[0] = value;
-  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
+  const offsetY = target?.labelOffset?.length == 2 ? target.labelOffset[1] : 0;
+  const newOffset: [number, number] = [value, offsetY];
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }
 
 export function updateOffsetY(value: number, target: FlatMapObject): void {
-  const newValue = target.labelOffset || [0, 0];
-  newValue[1] = value;
-  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
+  const offsetX = target?.labelOffset?.length == 2 ? target.labelOffset[0] : 0;
+  const newOffset: [number, number] = [offsetX, value];
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }
