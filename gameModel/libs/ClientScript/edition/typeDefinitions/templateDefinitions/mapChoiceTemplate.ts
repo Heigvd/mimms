@@ -33,7 +33,8 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
@@ -49,7 +50,6 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
       availableToRoles: ALL_EDITABLE,
       showAllChoices: EXPERT_ONLY,
       comment: ALL_EDITABLE,
-      index: EXPERT_ONLY,
     },
   };
 }

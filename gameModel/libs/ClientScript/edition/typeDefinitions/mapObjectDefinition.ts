@@ -65,8 +65,8 @@ type CommonView = ToConfigurationViewType<
 function getCommonView(): CommonView {
   return {
     type: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-    uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-    index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+    uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+    index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
     label: ALL_EDITABLE,
     labelOffset: ALL_EDITABLE,
     parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

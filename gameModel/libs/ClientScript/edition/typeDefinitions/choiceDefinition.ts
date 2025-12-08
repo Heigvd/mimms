@@ -53,7 +53,8 @@ export function getChoiceDefinition(): ChoiceDefinition {
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
@@ -71,7 +72,6 @@ export function getChoiceDefinition(): ChoiceDefinition {
       tag: ALL_EDITABLE,
       repeats: ALL_EDITABLE,
       durationDeltaSec: EXPERT_ONLY,
-      index: EXPERT_ONLY,
     },
   };
 }
