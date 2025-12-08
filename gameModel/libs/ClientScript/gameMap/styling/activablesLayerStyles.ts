@@ -27,7 +27,7 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const { currentActorUid, currentActionUid, selectedActionChoiceUid } = getTypedInterfaceState();
   const interfaceColor = getInterfaceColor(currentActorUid);
   const choiceDescriptor = getChoiceDescriptor(currentActionUid, selectedActionChoiceUid);
-  const isSelected = feature?.getProperties()?.id === choiceDescriptor?.placeholder;
+  const isSelected = feature?.getProperties()?.id === choiceDescriptor?.displayedMapEntity;
   const selectionActive = Context.mapState?.state?.mapSelect === true;
 
   return getFeatureStyle(feature, interfaceColor, isSelected, selectionActive);

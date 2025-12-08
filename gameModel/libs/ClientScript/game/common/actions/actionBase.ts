@@ -39,6 +39,7 @@ import {
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
+  ChangeMapActivableStatusLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
@@ -49,7 +50,6 @@ import {
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
-  ChangeMapActivableStatusLocalEvent,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -149,7 +149,7 @@ export abstract class StartEndAction extends ActionBase {
   /**
    * Translation key for the name of the action (displayed in the timeline)
    */
-  public readonly actionNameKey: TranslationKey;
+  public readonly actionNameKey: TranslationKey | ITranslatableContent;
   /**
    * Adds SimFlags values to state at the end of the action
    */
@@ -159,7 +159,7 @@ export abstract class StartEndAction extends ActionBase {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -215,7 +215,11 @@ export abstract class StartEndAction extends ActionBase {
   }
 
   public getTitle(): string {
-    return this.actionNameKey;
+    if (typeof this.actionNameKey === 'string') {
+      return this.actionNameKey;
+    } else {
+      return I18n.translate(this.actionNameKey);
+    }
   }
 }
 
@@ -227,7 +231,7 @@ export abstract class ChoiceAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     //messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -267,7 +271,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -304,7 +308,7 @@ export class DisplayMessageAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly messageKey: TranslationKey,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -383,7 +387,7 @@ export class CasuMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -528,7 +532,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly requestMessage: TranslationKey,
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
@@ -631,7 +635,7 @@ export class MapChoiceAction extends ChoiceAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[],
@@ -652,8 +656,8 @@ export class MapChoiceAction extends ChoiceAction {
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    if (!this.choice.placeholder) {
-      this.logger.error('Choice has no placeholder');
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
       return;
     }
 
@@ -662,7 +666,7 @@ export class MapChoiceAction extends ChoiceAction {
         {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
-          target: this.choice.placeholder,
+          target: this.choice.displayedMapEntity,
           option: 'activate',
         },
         'pending'
@@ -673,8 +677,8 @@ export class MapChoiceAction extends ChoiceAction {
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
-    if (!this.choice.placeholder) {
-      this.logger.error('Choice has no placeholder');
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
       return;
     }
 
@@ -683,7 +687,7 @@ export class MapChoiceAction extends ChoiceAction {
         {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
-          target: this.choice.placeholder,
+          target: this.choice.displayedMapEntity,
           option: 'activate',
         },
         'built'
@@ -692,8 +696,8 @@ export class MapChoiceAction extends ChoiceAction {
   }
 
   protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    if (!this.choice.placeholder) {
-      this.logger.error('Choice has no placeholder');
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
       return;
     }
 
@@ -702,7 +706,7 @@ export class MapChoiceAction extends ChoiceAction {
         {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
-          target: this.choice.placeholder,
+          target: this.choice.displayedMapEntity,
           option: 'deactivate',
         },
         'pending'
@@ -723,7 +727,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[],
@@ -786,7 +790,7 @@ export class PCChoiceAction extends MapChoiceAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[],
@@ -860,7 +864,7 @@ export class ParkChoiceAction extends MapChoiceAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[],
@@ -913,7 +917,7 @@ export class MoveActorAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -970,7 +974,7 @@ export class AppointActorAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = [],
@@ -1100,7 +1104,7 @@ export class SituationUpdateAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
     provideFlagsToState: SimFlag[] = []
@@ -1151,7 +1155,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -1379,7 +1383,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     durationSeconds: SimDuration,
     private feedbackWhenStarted: TranslationKey,
     private feedbackWhenReport: TranslationKey,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -1453,7 +1457,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
     uuidTemplate: ActionTemplateId,
@@ -1533,7 +1537,7 @@ export class EvacuationAction extends RadioDrivenAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,

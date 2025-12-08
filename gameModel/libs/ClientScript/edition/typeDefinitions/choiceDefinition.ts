@@ -3,6 +3,7 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
+import { createOrUpdateTranslation } from '../../tools/translation';
 import {
   ALL_EDITABLE,
   Definition,
@@ -40,12 +41,14 @@ export function getChoiceDefinition(): ChoiceDefinition {
       activableType: 'choice',
       activeAtStart: true,
       defaultEffect: '',
-      description: 'description',
+      description: createOrUpdateTranslation('description', undefined),
       effects: [],
-      title: 'title',
+      title: createOrUpdateTranslation('title', undefined),
       parent: 'no parent',
-      placeHolder: 'no placeholder', // should there be a default one ?
+      displayedMapEntity: '', // should there be a default one ?
       tag: 'define tag',
+      repeats: 1,
+      durationDeltaSec: 0,
       index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
@@ -64,8 +67,10 @@ export function getChoiceDefinition(): ChoiceDefinition {
 
       title: ALL_EDITABLE,
       parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      placeholder: ALL_EDITABLE,
+      displayedMapEntity: ALL_EDITABLE,
       tag: ALL_EDITABLE,
+      repeats: ALL_EDITABLE,
+      durationDeltaSec: EXPERT_ONLY,
       index: EXPERT_ONLY,
     },
   };
