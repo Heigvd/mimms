@@ -2,7 +2,7 @@
  * Read queries on activable descriptor objects
  */
 
-import { isActivableDescriptor, Uid } from '../../game/common/interfaces';
+import { IActivableDescriptor, Uid } from '../../game/common/interfaces';
 import { entries } from '../../tools/helper';
 import { FlatActivable } from '../controllers/dataController';
 import { getFlatObjects } from '../UIfacade/genericConfigFacade';
@@ -22,4 +22,14 @@ export function getActivableOfType(type: ActivableTypeNames | 'all'): Record<Uid
   });
 
   return result;
+}
+
+function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.activableType === 'string' &&
+    typeof obj.activeAtStart === 'boolean' &&
+    typeof obj.tag === 'string'
+  );
 }

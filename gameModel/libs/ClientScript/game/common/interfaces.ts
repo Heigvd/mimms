@@ -68,21 +68,3 @@ export interface IActivableDescriptor {
    */
   tag: Tag;
 }
-
-export function isActivableDescriptor(obj: any): obj is IActivableDescriptor {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.activableType === 'string' &&
-    typeof obj.activeAtStart === 'boolean' &&
-    typeof obj.tag === 'string'
-  );
-}
-
-export function compareByTag(a: { tag: Tag }, b: { tag: Tag }): number {
-  return a.tag.localeCompare(b.tag);
-}
-
-export function compareByIndex(a: Indexed, b: Indexed): number {
-  return a.index - b.index;
-}

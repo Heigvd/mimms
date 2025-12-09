@@ -1,9 +1,10 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Effect } from '../../game/common/impacts/effect';
-import { compareByIndex, compareByTag, Uid } from '../../game/common/interfaces';
+import { Tag, Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
+import { compareByIndex } from '../../tools/indexedSorting';
 import {
   getActionTemplateController,
   getMapEntityController,
@@ -113,5 +114,10 @@ export function getDefaultEffect(choiceUid: Uid): Effect['uid'] {
   const choice = getChoice(choiceUid);
   return choice.defaultEffect;
 }
+
+function compareByTag(a: { tag: Tag }, b: { tag: Tag }): number {
+  return a.tag.localeCompare(b.tag);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
