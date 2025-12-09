@@ -259,7 +259,8 @@
   transition: background-color .3s ease-in-out;
 }
 
-.condition-impact__dropdown .wegas-select__single-value {
+.condition-impact__dropdown .wegas-select__single-value,
+.condition-impact__dropdown .wegas-select__placeholder {
   font-size: var(--S_text);
   color: var(--grey-white);
   text-transform: uppercase;

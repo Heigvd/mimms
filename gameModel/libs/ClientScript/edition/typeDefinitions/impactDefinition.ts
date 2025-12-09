@@ -98,7 +98,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      activableType: '',
+      activableType: undefined,
       target: '',
       option: 'activate',
     }),
@@ -131,8 +131,9 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      option: ALL_EDITABLE,
+      activableType: ALL_EDITABLE,
       target: ALL_EDITABLE,
+      option: ALL_EDITABLE,
     },
   };
 }
@@ -319,7 +320,7 @@ export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      activableType: '',
+      activableType: 'mapEntity',
       target: '',
       option: 'activate',
       buildStatus: 'pending',

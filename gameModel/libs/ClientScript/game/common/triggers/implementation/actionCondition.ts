@@ -12,6 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
+  // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
   actionRef: ActionTemplateId;
   status: ChoiceActionStatus;
 }

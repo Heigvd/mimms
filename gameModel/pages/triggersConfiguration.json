@@ -54,7 +54,7 @@
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(true);",
+                      "content" : "import { getTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggers(true);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "uid",
@@ -100,7 +100,7 @@
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getMandatoryTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getMandatoryTriggers(false);",
+                      "content" : "import { getTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggers(false);",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "uid",
@@ -191,7 +191,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getTriggerOperatorChoices } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggerOperatorChoices();",
+                  "content" : "import { getTriggerOperatorOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggerOperatorOptions();",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
