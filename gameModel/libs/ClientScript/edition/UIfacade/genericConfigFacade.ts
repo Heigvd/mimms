@@ -29,27 +29,15 @@ export function loadPageState(): GenericScenaristInterfaceState {
 }
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
-    getController().getLatestIState()
-  );
-  newState.selected[itemType] = uid;
-  getController().updateIState(newState as any); // TODO fix typing
+  getController().select(itemType, uid);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  const newState: GenericScenaristInterfaceState = Helpers.cloneDeep(
-    getController().getLatestIState()
-  );
-  delete newState.selected[itemType];
-  getController().updateIState(newState as any); // TODO fix typing
+  getController().unselect(itemType);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
-  const selectedUid = getController().getLatestIState().selected[itemType];
-  if (selectedUid) {
-    return getData()[selectedUid];
-  }
-  return undefined;
+  return getController().getSelected(itemType);
 }
 
 export function isSelected(itemType: SuperTypeNames, uid: Uid): boolean {

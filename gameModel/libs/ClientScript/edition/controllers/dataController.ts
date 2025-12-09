@@ -212,6 +212,35 @@ export abstract class DataControllerBase<
     return canMove(id, siblings, moveType);
   }
 
+  public getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
+    const selectedUid = this.getLatestIState().selected[itemType];
+    if (selectedUid) {
+      return this.getFlatDataClone()[selectedUid];
+    }
+    return undefined;
+  }
+
+  public select(itemType: SuperTypeNames, uid: Uid | undefined): void {
+    if (uid == undefined) {
+      this.unselect(itemType);
+    } else {
+      const selectedUid = this.getLatestIState().selected[itemType];
+      if (selectedUid !== uid) {
+        this.unselect(itemType); // used to cascade the unselect (see unselect overrides)
+
+        const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+        newState.selected[itemType] = uid;
+        this.updateIState(newState);
+      }
+    }
+  }
+
+  public unselect(itemType: SuperTypeNames): void {
+    const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+    delete newState.selected[itemType];
+    this.updateIState(newState);
+  }
+
   public validate(): ValidationResult[] {
     const result: ValidationResult[] = [];
 
@@ -387,6 +416,18 @@ export class TriggerDataController extends DataControllerBase<
     }
     return true;
   }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'trigger':
+        super.unselect(itemType);
+        this.unselect('condition');
+        this.unselect('impact');
+        break;
+      default:
+        super.unselect(itemType);
+    }
+  }
 }
 
 export class ActionTemplateDataController extends DataControllerBase<
@@ -496,6 +537,25 @@ export class ActionTemplateDataController extends DataControllerBase<
     return () => {
       return { success: true, messages: [] };
     };
+  }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'action':
+        super.unselect(itemType);
+        this.unselect('choice');
+        break;
+      case 'choice':
+        super.unselect(itemType);
+        this.unselect('effect');
+        break;
+      case 'effect':
+        super.unselect(itemType);
+        this.unselect('impact');
+        break;
+      default:
+        super.unselect(itemType);
+    }
   }
 }
 

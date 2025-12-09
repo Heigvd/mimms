@@ -162,7 +162,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('action');\nunselect('choice');\nunselect('effect');\nunselect('impact');",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('action');",
                 "language" : "TypeScript"
               }
             },
@@ -259,7 +259,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('choice');\nunselect('effect');\nunselect('impact');",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('choice');",
                 "language" : "TypeScript"
               }
             },
