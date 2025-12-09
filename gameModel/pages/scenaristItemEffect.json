@@ -1,0 +1,165 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding fullWidth",
+                "layoutStyle" : { },
+                "name" : "tag",
+                "onCancel" : { },
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { tag: Context.value });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "placeholder" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "  Context.item.tag;",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "String input"
+            }, {
+              "props" : {
+                "layoutClassName" : "generic-item__label",
+                "layoutStyle" : { },
+                "name" : "label",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"Tag\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "layout" : { },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "tag",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : "header-button",
+            "icon" : "plus",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"<p>impact</p>\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('impact', 'effect');",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "add",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "condition",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "debug",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.item, undefined, '<br>');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "className" : "/* TODO */",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\n!isSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "open",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "Context.item.tag;",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "className" : "/* TODO */",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected(Context.item.superType, Context.item.uid);",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "closed",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "Context.item == undefined;",
+      "language" : "typescript"
+    },
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

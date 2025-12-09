@@ -46,7 +46,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       title: createOrUpdateTranslation('title', undefined),
       parent: 'no parent',
       displayedMapEntity: '', // should there be a default one ?
-      tag: 'define tag',
+      tag: 'new choice',
       repeats: 1,
       durationDeltaSec: 0,
       index: 0,

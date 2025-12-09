@@ -63,7 +63,7 @@
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "Basic items",
+                    "name" : "Basic triggers",
                     "style" : { }
                   },
                   "type" : "For each"
@@ -109,7 +109,7 @@
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "Custom items",
+                    "name" : "Custom triggers",
                     "style" : { }
                   },
                   "type" : "For each"
