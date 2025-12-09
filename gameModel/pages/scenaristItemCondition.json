@@ -487,14 +487,25 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "className" : "header-button",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/conditionConfigFacade\";\n!canEnterShowOnMap(Context.item);",
+                  "language" : "typescript"
+                },
+                "icon" : "map-marker-alt",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>Show on map (TBD)</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "open map",
-                "style" : { }
+                "style" : {
+                  "margin" : "0",
+                  "textTransform" : "none"
+                }
               },
               "type" : "Button"
             }, {
@@ -566,7 +577,9 @@
               "content" : "Context.item.type !== 'mapEntity';",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "mapEntity",

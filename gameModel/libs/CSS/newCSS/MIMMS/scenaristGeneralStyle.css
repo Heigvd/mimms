@@ -126,7 +126,7 @@
   white-space: nowrap;
   color: var(--primary_base);
   background-color: var(--primary_10);
-  border-width: 2px 1.5px;
+  border-width: 1px .75px;
   border-style: solid;
   border-color: var(--primary_base);
   border-radius: 0;
@@ -138,12 +138,12 @@
 }
 
 .boolean-button-left {
-  border-width: 2px 1.5px 2px 2px;
+  border-width: 1px .75px 1px 1px;
   border-radius: var(--XXS_borderRadius) 0 0 var(--XXS_borderRadius);
 }
 
 .boolean-button-right {
-  border-width: 2px 2px 2px 1.5px;
+  border-width: 1px 1px 1px .75px;
   border-radius: 0 var(--XXS_borderRadius) var(--XXS_borderRadius) 0;
 }
 
@@ -151,6 +151,12 @@
 .boolean-button--selected:hover {
   color: var(--primary_10);
   background-color: var(--primary_base);
+}
+
+.disabled.boolean-button {
+  color: var(--primary_30);
+  border-color: var(--primary_30);
+  background-color: transparent;
 }
 
 /* scenarist toggler */
@@ -206,7 +212,7 @@
 .scenarist-dropdown .wegas-select__control {
   padding: 5px;
   background-color: transparent;
-  border: 2px solid var(--primary_base);
+  border: 1px solid var(--primary_base);
   border-radius: var(--XXS_borderRadius);
 }
 
@@ -230,7 +236,7 @@
   font-weight: var(--boldWeight);
   color: var(--primary_base);
   background-color: var(--grey-white);
-  border: 2px solid var(--primary_base);
+  border: 1px solid var(--primary_base);
   border-radius: var(--XXS_borderRadius);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
@@ -245,6 +251,10 @@
   color: var(--grey-white);
   background-color: var(--primary_base);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-dropdown .wegas-select__placeholder {
+  color: var(--primary_base);
 }
 
 /* conditions & impacts dropdown */
@@ -283,7 +293,7 @@
   color: var(--primary_base);
   text-transform: uppercase;
   background-color: var(--grey-white);
-  border: 2px solid var(--primary_base);
+  border: 1px solid var(--primary_base);
   border-radius: 0 0 var(--XXS_borderRadius) var(--XXS_borderRadius);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }

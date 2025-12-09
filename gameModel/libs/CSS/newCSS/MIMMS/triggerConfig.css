@@ -12,14 +12,14 @@
   padding: 1rem;
 }
 
-.condition:empty,
+/*.condition:empty,
 .impact:empty {
   padding: 0;
-}
+}*/
 
-.generic-item__page-loader:first-of-type:has(.trigger) {
+/*.generic-item__page-loader:first-of-type:has(.trigger) {
   margin-top: 10px;
-}
+}*/
 
 .generic-item:has(.condition),
 .generic-item:has(.impact) {
@@ -79,4 +79,12 @@ Could be moved in genericItem.css file if reused elsewhere */
 .notif-receiver--selected svg {
   color: var(--primary_10);
   transition: color .3s ease-in-out;
+}
+
+.condition .disabled.header-button,
+.impact .disabled.header-button,
+.condition .disabled.header-button svg,
+.impact .disabled.header-button svg {
+  color: var(--primary_30);
+  border-color: var(--primary_30);
 }
