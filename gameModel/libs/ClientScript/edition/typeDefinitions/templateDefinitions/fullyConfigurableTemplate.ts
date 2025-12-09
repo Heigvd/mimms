@@ -44,7 +44,7 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       choices: ALL_EDITABLE,
       binding: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       constructorType: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      mandatory: ALL_EDITABLE,
+      mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       repeats: ALL_EDITABLE,
       durationSec: ALL_EDITABLE,
       availableToRoles: ALL_EDITABLE,
