@@ -415,6 +415,7 @@
           "props" : {
             "className" : "",
             "exposePageSizeAs" : "",
+            "id" : "ButtonsTriggerPageLoader",
             "initialSelectedPageId" : {
               "@class" : "Script",
               "content" : "\"undoRedoSave\"",
@@ -422,7 +423,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "Buttons",
+            "name" : "ButtonsTriggerPageLoader",
             "style" : { }
           },
           "type" : "PageLoader"

@@ -162,7 +162,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('action');",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('action');\nunselect('choice');\nunselect('effect');\nunselect('impact');",
                 "language" : "TypeScript"
               }
             },
@@ -259,7 +259,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('choice');",
+                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('choice');\nunselect('effect');\nunselect('impact');",
                 "language" : "TypeScript"
               }
             },
@@ -313,38 +313,6 @@
                 "style" : { }
               },
               "type" : "For each"
-            }, {
-              "props" : {
-                "className" : "header-button",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "header-button--disabled",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
-                    "language" : "typescript"
-                  }
-                } ],
-                "icon" : "plus",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>impact</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "scenarist-absolute-button",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('impact', 'trigger');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "add",
-                "stopPropagation" : true,
-                "style" : { }
-              },
-              "type" : "Button"
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -372,6 +340,7 @@
           "props" : {
             "className" : "",
             "exposePageSizeAs" : "",
+            "id" : "ButtonsActionTemplatePageLoader",
             "initialSelectedPageId" : {
               "@class" : "Script",
               "content" : "\"undoRedoSave\"",
@@ -379,7 +348,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "Buttons",
+            "name" : "ButtonsActionTemplatePageLoader",
             "style" : { }
           },
           "type" : "PageLoader"

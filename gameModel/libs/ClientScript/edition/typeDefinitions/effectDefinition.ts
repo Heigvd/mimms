@@ -1,24 +1,13 @@
-// TODO def? and from/to flat
+// EVALUATION_PRIORITY 0
 
 import { Effect } from '../../game/common/impacts/effect';
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
-import { MapToFlatType } from '../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from '../typeDefinitions/definition';
+
+type EffectDefinition = Definition<Effect>;
 
 export type FlatEffect = MapToFlatType<Effect, 'effect'>;
-
-// TODO that is quick and dirty coded. Do we need a real definition here ?
-
-export function getDefaultEffect(parentId: Uid): Effect {
-  return {
-    type: 'effect',
-    tag: 'New effect',
-    parent: parentId,
-    uid: generateId(10),
-    index: 0,
-    impacts: [],
-  };
-}
 
 export function toFlatEffect(effect: Effect, parentId: Uid): FlatEffect {
   return {
@@ -33,5 +22,28 @@ export function fromFlatEffect(flatEffect: FlatEffect): Effect {
   return {
     ...effect,
     impacts: [],
+  };
+}
+
+export function getEffectDefinition(): EffectDefinition {
+  return {
+    type: 'effect',
+    getDefault: () => ({
+      type: 'effect',
+      uid: generateId(10),
+      index: 0,
+      tag: 'new effect',
+      parent: 'no parent',
+      impacts: [],
+    }),
+    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+      parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      tag: ALL_EDITABLE,
+      impacts: ALL_EDITABLE,
+    },
   };
 }

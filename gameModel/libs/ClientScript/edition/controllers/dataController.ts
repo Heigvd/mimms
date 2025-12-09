@@ -39,7 +39,7 @@ import { logValidationResult, ValidationResult } from '../typeDefinitions/defini
 import {
   FlatEffect,
   fromFlatEffect,
-  getDefaultEffect,
+  getEffectDefinition,
   toFlatEffect,
 } from '../typeDefinitions/effectDefinition';
 import {
@@ -485,14 +485,17 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'choice':
         return toFlatChoice(getChoiceDefinition().getDefault(), parentId);
       case 'effect':
-        return toFlatEffect(getDefaultEffect(parentId), parentId);
+        return toFlatEffect(getEffectDefinition().getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
     }
   }
 
   protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
-    throw new Error('Method not implemented.');
+    // TODO
+    return () => {
+      return { success: true, messages: [] };
+    };
   }
 }
 

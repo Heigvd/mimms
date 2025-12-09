@@ -53,7 +53,7 @@ export function getActionTemplatesOptions(
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
     .sort(compareByTag)
     .map(actionTemplate => {
-      return { label: actionTemplate.title, value: String(actionTemplate.uid) };
+      return { label: actionTemplate.tag, value: String(actionTemplate.uid) };
     });
 }
 
