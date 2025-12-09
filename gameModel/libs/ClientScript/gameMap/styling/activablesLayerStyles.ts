@@ -95,7 +95,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
     const iconStyle: IconStyleObject = {
       type: 'IconStyle',
       anchor: [0.5, 0.5],
-      displacement: [0, 30],
+      displacement: [0, 0],
       anchorXUnits: 'fraction',
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
@@ -104,7 +104,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       color: colors.color,
     };
 
-    const text = getTextStyle(feature, colors);
+    const text = getTextStyle(feature, colors, 30);
 
     /*
   OLD CODE for phylactère / Speech scroll
@@ -168,13 +168,13 @@ function getLineStringStyle(feature: any, colors: MapColorConfig): LayerStyleObj
     lineJoin: 'round',
   };
 
-  const text = getTextStyle(feature, colors);
+  const text = getTextStyle(feature, colors, 30);
 
   return { stroke: strokeStyle, text: text };
 }
 
 function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
-  const fillOpacity = colors.opacity * 0.5;
+  const fillOpacity = colors.opacity;
   const fill: FillStyleObject = {
     type: 'FillStyle',
     color: colors.color + floatToHexByte(fillOpacity),
@@ -188,33 +188,39 @@ function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject
     width: 5,
   };
 
-  const text = getTextStyle(feature, colors);
+  const text = getTextStyle(feature, colors, 0);
 
   return { fill, stroke, text };
 }
 
-function getTextStyle(feature: any, colors: MapColorConfig): TextStyleObject {
+function getTextStyle(
+  feature: any,
+  colors: MapColorConfig,
+  defaultOffsetY: number
+): TextStyleObject {
   const [offsetX, offsetY] = getLabelOffset(feature);
   const { label } = feature.getProperties();
-  const textBackground: FillStyleObject = {
-    type: 'FillStyle',
+  const textBackgroundStroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
     color: colors.color + floatToHexByte(colors.opacity),
+    lineCap: 'round',
+    lineJoin: 'round',
+    width: 12,
   };
-  const textPadding: ExtentLikeObject = [5, 5, 5, 5];
   const text: TextStyleObject = {
     type: 'TextStyle',
     font: 'bold 10px sans-serif',
     offsetX: offsetX,
-    offsetY: offsetY,
+    offsetY: offsetY + defaultOffsetY,
+    overflow: true,
     text: label,
     textAlign: 'center',
     fill: {
       type: 'FillStyle',
       color: 'white',
     },
-    backgroundFill: textBackground,
-    padding: textPadding,
-    scale: 1.6,
+    backgroundStroke: textBackgroundStroke,
+    //scale: 1.6,
   };
   return text;
 }

@@ -32,29 +32,29 @@ function getFeatureColor(feature: any): MapColorConfig {
 export function getDrawStyle(_feature: any): LayerStyleObject {
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#3CA3CC',
-    width: 3,
+    color: '#3CA3CC', // change la couleur de la ligne du polygone/ligne pendant le dessin
+    width: 3, // change la largeur de la ligne du polygone/ligne pendant le dessin
     lineCap: 'round',
     lineJoin: 'round',
   };
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: '#3CA3CC' + '50',
+    color: '#3CA3CC' + '50', // change la couleur en transparence à l'intérieur du polygone pendant le dessin
   };
 
   const circleStyle: CircleStyleObject = {
     type: 'CircleStyle',
     fill: {
       type: 'FillStyle',
-      color: '#3CA3CC',
+      color: '#3CA3CC', // change la couleur à l'intérieur du point pendant le dessin
     },
     stroke: {
       type: 'StrokeStyle',
-      color: '#FFFFFF',
-      width: 2,
+      color: '#FFFFFF', // change la couleur du contour du point pendant le dessin
+      width: 1.5, // change la largeur du contour du point pendant le dessin
     },
-    radius: 4,
+    radius: 6, // change le rayon du point pendant le dessin
     // opacity: 1, TODO Not working for some odd reason
   };
 
