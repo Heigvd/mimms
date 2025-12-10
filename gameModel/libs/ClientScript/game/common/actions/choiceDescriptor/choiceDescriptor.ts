@@ -5,12 +5,21 @@ export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typ
   type: 'choice';
   activableType: 'choice';
   parent: Uid; // owning action template descriptor
-  description: string; // TODO multilang
-  title: string; // TODO multilang
+  title: ITranslatableContent;
+  description: ITranslatableContent;
   /**
    * Displayed mapEntityDescriptor
    */
-  placeholder?: Uid;
+  displayedMapEntity?: Uid;
+  /**
+   * The number of times this template can generate an action
+   */
+  // TODO specifications for unlimited repetitions
+  repeats: number;
+  /**
+   * The delta of seconds regarding the duration defined in the action template descriptor
+   */
+  durationDeltaSec: number;
   /**
    * Selected effect at start
    */
@@ -21,5 +30,5 @@ export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typ
   effects: Effect[];
 }
 
-// TODO Implement a MapChoiceDescriptor which has placeholder instead
+// TODO Implement a MapChoiceDescriptor which has displayedMapEntity instead
 // TODO to avoid non-null assertions elsewhere

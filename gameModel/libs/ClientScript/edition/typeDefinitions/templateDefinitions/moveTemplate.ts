@@ -3,6 +3,7 @@
 import { MoveActorTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/moveTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
+import { createOrUpdateTranslation } from '../../../tools/translation';
 import { Definition } from '../../typeDefinitions/definition';
 
 // REMARK : Just as an example here, we might remove that MoveTemplate descriptor completetly
@@ -17,12 +18,15 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
       binding: undefined,
       choices: [],
       mandatory: true,
-      repeatable: 0,
+      repeats: 0,
       tag: 'Move Action',
-      description: 'TODO', // multilang
-      title: 'Move to a location', // TODO multilang
+      description: createOrUpdateTranslation('', undefined),
+      title: createOrUpdateTranslation('Move to a location', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
+      availableToRoles: [],
+      showAllChoices: true,
+      comment: '',
       index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation

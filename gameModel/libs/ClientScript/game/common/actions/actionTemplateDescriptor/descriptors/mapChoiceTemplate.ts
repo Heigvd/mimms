@@ -5,8 +5,8 @@ import { LOCATION_ENUM } from '../../../simulationState/locationState';
 import {
   MapChoiceActionTemplate,
   ParkChoiceTemplate,
-  PCFrontChoiceTemplate,
   PCChoiceTemplate,
+  PCFrontChoiceTemplate,
   SimFlag,
 } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../templateDescriptor';
@@ -39,7 +39,7 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        desc.repeatable > 1, // TODO replayable refactoring
+        desc.repeats > 1, // TODO replayable refactoring
         undefined, // TODO req flags if any
         [], // raised flags
         undefined, // TODO available to roles ?
@@ -102,13 +102,13 @@ function createParkTemplate(
  */
 function validateDescriptorBinding(desc: MapChoiceActionTemplateDescriptor) {
   for (const choice of desc.choices) {
-    // TODO Avoid non-null assertion, maybe extend choiceDescriptor to mapChoiceDescriptor with placeholder
-    const mapDescriptor = getMapEntityDescriptor(choice.placeholder!);
+    // TODO Avoid non-null assertion, maybe extend choiceDescriptor to mapChoiceDescriptor with displayedMapEntity
+    const mapDescriptor = getMapEntityDescriptor(choice.displayedMapEntity!);
 
     if (!mapDescriptor) {
       // TODO Handle undefined case, see comment above
       mainSimLoaderLogger.warn(
-        `ChoiceDescriptor for ChoiceDescriptor ${choice.placeholder} could not be found.`
+        `ChoiceDescriptor for ChoiceDescriptor ${choice.displayedMapEntity} could not be found.`
       );
     } else if (!mapDescriptor.binding) {
       mainSimLoaderLogger.warn(
