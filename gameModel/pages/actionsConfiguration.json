@@ -22,7 +22,7 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "scenarist__undertitle",
+                    "className" : "noMargin scenarist__undertitle",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "marginBottom" : "10px"
@@ -69,7 +69,7 @@
                   "type" : "For each"
                 }, {
                   "props" : {
-                    "className" : "scenarist__undertitle",
+                    "className" : "noMargin scenarist__undertitle",
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "marginBottom" : "10px"
@@ -254,7 +254,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding fullHeight scenarist-column",
+            "layoutClassName" : "fullWidth scenarist-column",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -322,8 +322,10 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "noPadding fullHeight scenarist-column",
-            "layoutStyle" : { },
+            "layoutClassName" : "fullWidth scenarist-column",
+            "layoutStyle" : {
+              "borderRight" : "none"
+            },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",

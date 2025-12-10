@@ -6992,6 +6992,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/actionsConfig",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2770685:ROwdmP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/actors",
     "contentType" : "text/css",
     "libraryType" : "CSS",

@@ -38,13 +38,14 @@
               "type" : "String input"
             }, {
               "props" : {
+                "className" : "noMargin",
                 "layoutClassName" : "generic-item__label",
                 "layoutStyle" : { },
                 "name" : "label",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"Tag\"",
+                  "content" : "\"<p>Tag</p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -66,7 +67,7 @@
               "content" : "\"<p>impact</p>\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "",
+            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
@@ -77,7 +78,9 @@
             },
             "name" : "add",
             "stopPropagation" : true,
-            "style" : { }
+            "style" : {
+              "margin" : "0"
+            }
           },
           "type" : "Button"
         }, {
@@ -100,7 +103,7 @@
           },
           "type" : "Text"
         } ],
-        "className" : "/* TODO */",
+        "className" : "effect",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item == undefined || !isSelected(Context.item.superType, Context.item.uid);",
@@ -130,7 +133,7 @@
           },
           "type" : "Text"
         } ],
-        "className" : "/* TODO */",
+        "className" : "effect",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item == undefined || isSelected(Context.item.superType, Context.item.uid);",
@@ -154,6 +157,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",
