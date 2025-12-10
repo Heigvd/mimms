@@ -33,23 +33,24 @@ interface SharedImageStyleProperties {
   rotation?: number;
   scale?: PointLikeObject | number;
   displacement?: PointLikeObject;
+  declutterMode?: 'declutter' | 'none' | 'obstacle'
 }
 
-interface CircleStyleObject extends SharedImageStyleProperties {
+interface CircleStyleObject extends Omit<SharedImageStyleProperties, 'opacity'> {
   type: 'CircleStyle';
   fill?: FillStyleObject;
   stroke?: StrokeStyleObject;
   radius: number;
 }
 
-interface RegularShapeStyleObject
-  extends Omit<CircleStyleObject, 'type' | 'radius'> {
+interface RegularShapeStyleObject extends Omit<SharedImageStyleProperties, 'opacity'>{
   type: 'RegularShape';
   points: number;
-  radius?: number;
-  radius1?: number;
+  radius: number;
   radius2?: number;
   angle?: number;
+  fill?: FillStyleObject;
+  stroke?: StrokeStyleObject;
 }
 
 type AnchorUnitsStyleObject = 'fraction' | 'pixels';
@@ -70,9 +71,8 @@ interface IconStyleObject extends SharedImageStyleProperties {
   crossOrigin?: CrossOriginStyleObject;
   img?: HTMLImageElement | HTMLCanvasElement;
   offset?: PointLikeObject;
-  offsetOrigin?: PointLikeObject;
+  offsetOrigin?: AnchorPositionStyleObject;
   size?: PointLikeObject;
-  imgSize?: PointLikeObject;
   src?: string;
 }
 
@@ -81,7 +81,7 @@ type ImageStyleObject =
   | RegularShapeStyleObject
   | IconStyleObject;
 
-interface TextStyleObject extends Partial<SharedImageStyleProperties> {
+interface TextStyleObject extends Omit<SharedImageStyleProperties, 'displacement' | 'opacity'> {
   type: 'TextStyle';
   font?: string;
   maxAngle?: number;

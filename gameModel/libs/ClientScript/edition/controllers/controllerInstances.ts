@@ -65,6 +65,8 @@ function getInitialMapEntityUIState(): MapEntityUIState {
     modal: 'closed',
     panel: true,
     onlySelected: false,
+    drawActive: false,
+    drawType: 'Point',
   };
 }
 

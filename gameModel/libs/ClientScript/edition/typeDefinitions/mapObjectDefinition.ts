@@ -42,7 +42,7 @@ export function getMapObjectDefinition(type: MapObjectTypeName): MapObjectDefini
 
   switch (type) {
     case 'Point':
-      definition = getLineMapObjectDef();
+      definition = getPointMapObjectDef();
       break;
     case 'LineString':
       definition = getLineMapObjectDef();

@@ -47,9 +47,7 @@
               "content" : "Context.item.type !== 'empty';",
               "language" : "typescript"
             },
-            "layout" : {
-              "alignItems" : "center"
-            },
+            "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "empty",
@@ -155,9 +153,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "radio",
-            "style" : {
-              "paddingBottom" : "0"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -308,9 +304,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "notification",
-            "style" : {
-              "paddingBottom" : "0"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         }, {
@@ -440,10 +434,7 @@
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "option",
-                    "style" : {
-                      "flexWrap" : "wrap",
-                      "rowGap" : "5px"
-                    }
+                    "style" : { }
                   },
                   "type" : "For each"
                 }, {
@@ -483,9 +474,13 @@
                   "type" : "Button"
                 } ],
                 "layout" : { },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "options + select effect",
-                "style" : { }
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "rowGap" : "5px"
+                }
               },
               "type" : "FlexList"
             }, {
@@ -585,14 +580,25 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "className" : "header-button",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterShowOnMap(Context.item);",
+                  "language" : "typescript"
+                },
+                "icon" : "map-marker-alt",
                 "label" : {
                   "@class" : "Script",
                   "content" : "\"<p>Show on map (TBD)</p>\"",
                   "language" : "TypeScript"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "open map",
-                "style" : { }
+                "style" : {
+                  "margin" : "0",
+                  "textTransform" : "none"
+                }
               },
               "type" : "Button"
             }, {
@@ -864,7 +870,9 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "delay for all",
-            "style" : { }
+            "style" : {
+              "paddingTop" : "0"
+            }
           },
           "type" : "FlexList"
         }, {

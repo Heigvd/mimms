@@ -8,6 +8,17 @@ import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
 import { getItems } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
+export type SupportedDrawType = Exclude<DrawType, 'Circle'>;
+
+export interface MapEntityUIState extends GenericScenaristInterfaceState {
+  selectedFilter: LOCATION_ENUM;
+  modal: LocationModalState;
+  panel: boolean;
+  onlySelected: boolean;
+  drawActive: boolean;
+  drawType: SupportedDrawType;
+}
+
 export function getFilteredLocations(): FlatMapEntity[] {
   const location = getMapEntityController().getLatestIState().selectedFilter;
 
@@ -62,13 +73,6 @@ export function shouldHideLocationModal(): boolean {
   return getLocationModalState() !== 'opened';
 }
 
-export interface MapEntityUIState extends GenericScenaristInterfaceState {
-  selectedFilter: LOCATION_ENUM;
-  modal: LocationModalState;
-  panel: boolean;
-  onlySelected: boolean;
-}
-
 export function getLocationUIState(): MapEntityUIState {
   return getMapEntityController().getLatestIState();
 }
@@ -96,13 +100,13 @@ export function toggleOtherCategories(): void {
 }
 
 export function updateOffsetX(value: number, target: FlatMapObject): void {
-  const newValue = target.labelOffset || [0, 0];
-  newValue[0] = value;
-  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
+  const offsetY = target?.labelOffset?.length == 2 ? target.labelOffset[1] : 0;
+  const newOffset: [number, number] = [value, offsetY];
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }
 
 export function updateOffsetY(value: number, target: FlatMapObject): void {
-  const newValue = target.labelOffset || [0, 0];
-  newValue[1] = value;
-  updateItem<FlatMapObject>(target.uid, { labelOffset: newValue });
+  const offsetX = target?.labelOffset?.length == 2 ? target.labelOffset[0] : 0;
+  const newOffset: [number, number] = [offsetX, value];
+  updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }

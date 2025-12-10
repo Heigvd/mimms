@@ -44,7 +44,7 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
           // Overlay centered over the first mapObject
           position: getShapeCenter(firstMapObject),
           positioning: 'bottom-center',
-          offset: [0, -60],
+          offset: [0, -20],
         },
         payload: {
           id: mapActivable.binding,

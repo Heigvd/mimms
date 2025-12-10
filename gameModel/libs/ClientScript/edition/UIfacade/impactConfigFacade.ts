@@ -2,6 +2,7 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Impact } from '../../game/common/impacts/impact';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { Uid } from '../../game/common/interfaces';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
@@ -213,6 +214,10 @@ export function canEnterEffectSelectionMode(impact: FlatImpact): boolean {
   );
 }
 
+export function canEnterShowOnMap(impact: FlatImpact): boolean {
+  return impact.type === 'mapActivation' && impact.target.length > 0;
+}
+
 export function setActivationImpactOption(
   impact: FlatImpact,
   newOption: ActivationImpact['option']
@@ -226,17 +231,18 @@ export function setActivationImpactOption(
 
   // in case it was a choice effect selection impact
   if (newImpact.type !== 'activation') {
+    // make it be a choice activation
     newImpact = changeChoiceImpactType(impact, 'activation');
   }
 
   // cannot happen ... but you know ... make it compile ...
-  if (newImpact.type !== 'activation') {
-    throw new Error('must be an activation impact');
+  if (newImpact.type === 'activation') {
+    newImpact.option = newOption;
+
+    getController().updateItem(newImpact);
+  } else {
+    scenarioEditionLogger.error('unexpected impact type');
   }
-
-  newImpact.option = newOption;
-
-  getController().updateItem(newImpact);
 }
 
 export function setChoiceEffectSelectionType(impact: FlatImpact): void {
@@ -269,6 +275,7 @@ function changeChoiceImpactType(
   const newImpact: FlatImpact = createSubstitutionImpact(newImpactType, impact);
 
   if (newImpact.type === 'activation') {
+    // make it be a choice activation
     newImpact.activableType = 'choice';
   }
 
@@ -304,16 +311,16 @@ export function updateImpactActionRef(impact: FlatImpact, actionRef: string): vo
   }
 
   // cannot happen ... but you know ... make it compile ...
-  if (newImpact.type !== 'activation') {
-    throw new Error('must be an activation impact');
+  if (newImpact.type === 'activation') {
+    // make it be an action template activation
+    newImpact.activableType = 'actionTemplate';
+
+    newImpact.target = actionRef;
+
+    getController().updateItem(newImpact);
+  } else {
+    scenarioEditionLogger.error('unexpected impact type');
   }
-
-  // make it be an action template activation
-  newImpact.activableType = 'actionTemplate';
-
-  newImpact.target = actionRef;
-
-  getController().updateItem(newImpact);
 }
 
 export function updateImpactChoiceRef(
@@ -336,6 +343,7 @@ export function updateImpactChoiceRef(
     const newImpact: FlatImpact = { ...impact };
 
     if (newImpact.type === 'activation') {
+      // make it be a choice activation
       newImpact.activableType = 'choice';
       newImpact.target = newChoiceRef;
     } else if (newImpact.type === 'effectSelection') {
