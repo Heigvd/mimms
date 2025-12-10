@@ -26,6 +26,39 @@
                     "OSMLayer" : false,
                     "children" : [ {
                       "props" : {
+                        "drawProps" : {
+                          "onDrawAbort" : {
+                            "@class" : "ScriptCallback",
+                            "args" : [ "event" ],
+                            "content" : "import { stopDraw } from \"./edition/UIfacade/map/drawFacade\";\n  stopDraw();\n  return;"
+                          },
+                          "onDrawEnd" : {
+                            "@class" : "ScriptCallback",
+                            "args" : [ "event" ],
+                            "content" : "import { saveNewMapObject } from \"./edition/UIfacade/map/drawFacade\";\n  saveNewMapObject(event);\n  return;"
+                          },
+                          "style" : {
+                            "@class" : "ScriptCallback",
+                            "args" : [ "feature", "resolution" ],
+                            "content" : "import { getDrawStyle } from \"./edition/UIfacade/map/styling\";\ngetDrawStyle(feature);"
+                          },
+                          "type" : {
+                            "@class" : "Script",
+                            "content" : "import { getDrawType } from \"./edition/UIfacade/map/drawFacade\";\ngetDrawType()",
+                            "language" : "typescript"
+                          }
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isDrawActive } from \"./edition/UIfacade/map/drawFacade\";\n!isDrawActive();",
+                          "language" : "typescript"
+                        },
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "WegasMapDraw"
+                    }, {
+                      "props" : {
                         "layerId" : "activables",
                         "layerProps" : {
                           "zIndex" : 91
@@ -168,13 +201,7 @@
                       "pointerEvents" : "auto",
                       "width" : "100%"
                     },
-                    "mapOptions" : {
-                      "onClick" : {
-                        "@class" : "ScriptCallback",
-                        "args" : [ "coord", "features" ],
-                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
-                      }
-                    },
+                    "mapOptions" : { },
                     "style" : {
                       "height" : "100%",
                       "width" : "100%"
@@ -277,6 +304,13 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Point');",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "add point",
                         "style" : { }
                       },
@@ -291,6 +325,13 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('LineString');",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "add line",
                         "style" : { }
                       },
@@ -305,6 +346,13 @@
                         },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Polygon');",
+                            "language" : "TypeScript"
+                          }
+                        },
                         "name" : "add polygon",
                         "style" : { }
                       },
@@ -1079,13 +1127,7 @@
                           "pointerEvents" : "auto",
                           "width" : "100%"
                         },
-                        "mapOptions" : {
-                          "onClick" : {
-                            "@class" : "ScriptCallback",
-                            "args" : [ "coord", "features" ],
-                            "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
-                          }
-                        },
+                        "mapOptions" : { },
                         "style" : {
                           "height" : "100%",
                           "width" : "100%"

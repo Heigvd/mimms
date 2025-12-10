@@ -565,7 +565,8 @@ export class MapEntityController extends DataControllerBase<
         dflt.binding = this.getLatestIState().selectedFilter;
         return toFlatMapEntity(dflt, MapEntityController.MAP_ENTITY_ROOT);
       case 'geometry':
-        return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
+        const shapeType = this.getLatestIState().drawType;
+        return toFlatMapObject(getMapObjectDefinition(shapeType).getDefault(), parentId);
     }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
