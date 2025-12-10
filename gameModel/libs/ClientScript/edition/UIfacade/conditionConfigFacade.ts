@@ -2,6 +2,7 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { getTriggerController } from '../controllers/controllerInstances';
 import {
   FlatCondition,
@@ -155,14 +156,14 @@ export function updateConditionActionRef(condition: FlatCondition, actionRef: st
   }
 
   // cannot happen ... but you know ... make it compile ...
-  if (newCondition.type !== 'action') {
-    throw new Error('must be an action condition');
+  if (newCondition.type === 'action') {
+    // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
+    newCondition.actionRef = Number(actionRef);
+
+    getTriggerController().updateItem(newCondition);
+  } else {
+    scenarioEditionLogger.error('unexpected condition type');
   }
-
-  // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
-  newCondition.actionRef = Number(actionRef);
-
-  getTriggerController().updateItem(newCondition);
 }
 
 export function updateConditionChoiceRef(
@@ -181,23 +182,25 @@ export function updateConditionChoiceRef(
       condition.choiceRef &&
       condition.choiceRef !== ALL_CHOICES_OPTION_VALUE
     ) {
+      // make it be an action condition
       const newActionRef = getMatchingActionTemplateUid(condition.choiceRef);
       updateConditionActionRef(condition, newActionRef);
     }
   } else {
     let newCondition: FlatCondition = { ...condition };
     if (newCondition.type !== 'choice') {
+      // make it be a choice condition
       newCondition = changeTypeBetweenActionAndChoice(condition, 'choice')!;
     }
 
     // cannot happen ... but you know ... make it compile ...
-    if (newCondition.type !== 'choice') {
-      throw new Error('changing type did not work');
+    if (newCondition.type === 'choice') {
+      newCondition.choiceRef = choiceRef;
+
+      getTriggerController().updateItem(newCondition);
+    } else {
+      scenarioEditionLogger.error('unexpected condition type');
     }
-
-    newCondition.choiceRef = choiceRef;
-
-    getTriggerController().updateItem(newCondition);
   }
 }
 
