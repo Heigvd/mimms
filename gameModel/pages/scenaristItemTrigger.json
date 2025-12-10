@@ -131,7 +131,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Inactive\"",
+                      "content" : "\"<p>Inactive</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -161,7 +161,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Active\"",
+                      "content" : "\"<p>Active</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -202,7 +202,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Only once\"",
+                      "content" : "\"<p>Only once</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -232,7 +232,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Every time\"",
+                      "content" : "\"<p>Every time</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -344,6 +344,11 @@
       },
       "type" : "FlexList"
     } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "Context.item == undefined;",
+      "language" : "typescript"
+    },
     "layout" : {
       "flexDirection" : "column"
     },

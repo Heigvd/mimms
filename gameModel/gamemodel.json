@@ -892,7 +892,11 @@
         }
       },
       "name" : "action_template_data",
-      "properties" : { },
+      "properties" : {
+        "1" : "{\"uid\":\"1\",\"type\":\"FullyConfigurableTemplateDescriptor\",\"index\":0,\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"tag\":\"my 1st\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"mandatory\":true,\"title\":\"my first custom action\",\"description\":\"oh what is it\",\"durationSec\":120,\"repeatable\":2,\"choices\":[{\"uid\":\"at1cA\",\"type\":\"choice\",\"index\":0,\"parent\":\"1\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"A\",\"title\":\"A choice\",\"description\":\"A, the choice A\",\"defaultEffect\":\"at1cAe1\",\"effects\":[{\"uid\":\"at1cAe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at1cA\",\"tag\":\"E1\",\"impacts\":[]},{\"uid\":\"at1cAe2\",\"type\":\"effect\",\"index\":0,\"parent\":\"at1cA\",\"tag\":\"E2\",\"impacts\":[]}]},{\"uid\":\"at1cB\",\"type\":\"choice\",\"index\":1,\"parent\":\"1\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"B\",\"title\":\"B choice\",\"description\":\"B, the choice B\",\"defaultEffect\":\"at1cBe1\",\"effects\":[{\"uid\":\"at1cBe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at1cB\",\"tag\":\"E1\",\"impacts\":[]}]}]}",
+        "2" : "{\"uid\":\"2\",\"type\":\"FullyConfigurableTemplateDescriptor\",\"index\":1,\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"tag\":\"my 2nd\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"mandatory\":true,\"title\":\"my second custom action\",\"description\":\"ah ah\",\"durationSec\":180,\"repeatable\":2,\"choices\":[]}",
+        "3" : "{\"uid\":\"3\",\"type\":\"FullyConfigurableTemplateDescriptor\",\"index\":0,\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"tag\":\"my 3rd\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"mandatory\":true,\"title\":\"my third custom action\",\"description\":\"so...\",\"durationSec\":120,\"repeatable\":2,\"choices\":[{\"uid\":\"at3cA\",\"type\":\"choice\",\"index\":0,\"parent\":\"3\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"AA\",\"title\":\"AA choice\",\"description\":\"A, the choice A\",\"defaultEffect\":\"at3cAe1\",\"effects\":[{\"uid\":\"at3cAe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at3cA\",\"tag\":\"E1\",\"impacts\":[]},{\"uid\":\"at3cAe2\",\"type\":\"effect\",\"index\":0,\"parent\":\"at3cA\",\"tag\":\"E2\",\"impacts\":[]}]},{\"uid\":\"at3cB\",\"type\":\"choice\",\"index\":1,\"parent\":\"3\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"BB\",\"title\":\"BB choice\",\"description\":\"B, the choice B\",\"defaultEffect\":\"at3cBe1\",\"effects\":[{\"uid\":\"at3cBe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at3cB\",\"tag\":\"E1\",\"impacts\":[]}]}]}"
+      },
       "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
       "version" : null,
@@ -5384,10 +5388,37 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/conditionConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#257:1tIFrY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/dataFetcher",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2997058:JiOYTT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/genericConfigFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2481654:CJI4Wj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/impactConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#258:e0qYr9",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5460,6 +5491,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1743352:WDHods",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/selectableOptions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#256:PKFpCU",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
