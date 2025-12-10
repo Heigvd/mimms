@@ -356,28 +356,10 @@
           "trainerPage" : false
         }, {
           "@class" : "Page",
-          "id" : "scenaristItemTrigger",
-          "name" : "Trigger Item Detail",
-          "scenaristPage" : false,
-          "trainerPage" : false
-        }, {
-          "@class" : "Page",
-          "id" : "scenaristItemCondition",
-          "name" : "Condition Item Detail",
-          "scenaristPage" : false,
-          "trainerPage" : false
-        }, {
-          "@class" : "Page",
-          "id" : "scenaristItemImpact",
-          "name" : "Impact Item Detail",
-          "scenaristPage" : false,
-          "trainerPage" : false
-        }, {
-          "@class" : "Page",
-          "id" : "scenaristItemUnknown",
-          "name" : "Unknown Item Detail",
-          "scenaristPage" : false,
-          "trainerPage" : false
+          "id" : "scenaristItemMapObject",
+          "name" : "Map Object Item Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
         }, {
           "@class" : "Page",
           "id" : "scenaristItemMapEntity",
@@ -386,10 +368,28 @@
           "trainerPage" : false
         }, {
           "@class" : "Page",
-          "id" : "scenaristItemMapObject",
-          "name" : "Map Object Item Detail",
-          "scenaristPage" : null,
-          "trainerPage" : null
+          "id" : "scenaristItemTrigger",
+          "name" : "Trigger Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemCondition",
+          "name" : "Condition Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemImpact",
+          "name" : "Impact Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemUnknown",
+          "name" : "Unknown Item",
+          "scenaristPage" : false,
+          "trainerPage" : false
         } ],
         "name" : "Data Items"
       }, {

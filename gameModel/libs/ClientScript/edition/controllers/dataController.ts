@@ -10,6 +10,7 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
+import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -35,13 +36,30 @@ import {
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
 import { logValidationResult, ValidationResult } from '../typeDefinitions/definition';
-import { FlatEffect, fromFlatEffect, toFlatEffect } from '../typeDefinitions/effectDefinition';
+import {
+  FlatEffect,
+  fromFlatEffect,
+  getDefaultEffect,
+  toFlatEffect,
+} from '../typeDefinitions/effectDefinition';
 import {
   FlatImpact,
   fromFlatImpact,
   getImpactDefinition,
   toFlatImpact,
 } from '../typeDefinitions/impactDefinition';
+import {
+  FlatMapEntity,
+  fromFlatMapEntity,
+  getMapEntityDefinition,
+  toFlatMapEntity,
+} from '../typeDefinitions/mapEntityDefinition';
+import {
+  FlatMapObject,
+  fromFlatMapObject,
+  getMapObjectDefinition,
+  toFlatMapObject,
+} from '../typeDefinitions/mapObjectDefinition';
 import {
   FlatActionTemplate,
   fromFlatActionTemplate,
@@ -59,19 +77,6 @@ import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade'
 import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
-import {
-  FlatMapObject,
-  fromFlatMapObject,
-  getMapObjectDefinition,
-  toFlatMapObject,
-} from '../typeDefinitions/mapObjectDefinition';
-import {
-  FlatMapEntity,
-  fromFlatMapEntity,
-  getMapEntityDefinition,
-  toFlatMapEntity,
-} from '../typeDefinitions/mapEntityDefinition';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 
@@ -185,7 +190,7 @@ export abstract class DataControllerBase<
   }
 
   public getTreeData(): Record<string, DataType> {
-    return this.recompose(this.undoRedo.getCurrentState()[1]);
+    return this.recompose(this.getFlatDataClone());
   }
 
   public getFlatDataClone(): Record<Uid, FlatType> {
@@ -218,6 +223,12 @@ export abstract class DataControllerBase<
   }
 
   protected abstract getValidator(): (value: DataType) => ValidationResult;
+
+  public updateItem(item: FlatType) {
+    const data: Record<Uid, FlatType> = this.getFlatDataClone();
+    data[item.uid] = item;
+    this.updateData(data);
+  }
 
   public updateData(
     newData: Record<Uid, FlatType>,
@@ -403,7 +414,7 @@ export class ActionTemplateDataController extends DataControllerBase<
         flattened[choice.uid] = toFlatChoice(choice, tpld.uid);
         // effects
         choice.effects.forEach((effect: Effect) => {
-          flattened[effect.uid] = toFlatEffect(choice.uid);
+          flattened[effect.uid] = toFlatEffect(effect, choice.uid);
           // impacts
           effect.impacts.forEach((impact: Impact) => {
             flattened[impact.uid] = toFlatImpact(impact, effect.uid);
@@ -474,7 +485,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'choice':
         return toFlatChoice(getChoiceDefinition().getDefault(), parentId);
       case 'effect':
-        return toFlatEffect(parentId);
+        return toFlatEffect(getDefaultEffect(parentId), parentId);
       case 'impact':
         return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
     }

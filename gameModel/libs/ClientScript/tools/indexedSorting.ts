@@ -69,6 +69,10 @@ export function sortIndexed<T extends Indexed & IDescriptor>(data: Record<Uid, T
   return Object.values(data).sort(comparator);
 }
 
+export function compareByIndex(a: Indexed, b: Indexed): number {
+  return a.index - b.index;
+}
+
 function comparator<T extends Indexed & IDescriptor>(a: T, b: T): number {
   if (a.index < b.index) {
     return -1;

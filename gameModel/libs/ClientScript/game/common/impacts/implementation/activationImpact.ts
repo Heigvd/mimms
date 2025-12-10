@@ -1,17 +1,26 @@
+import { ITemplateDescriptor } from '../../actions/actionTemplateDescriptor/templateDescriptor';
+import { ChoiceDescriptor } from '../../actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../interfaces';
 import {
   ChangeActivableStatusLocalEvent,
   ChangeMapActivableStatusLocalEvent,
   LocalEventBase,
 } from '../../localEvents/localEventBase';
-import { BuildStatus } from '../../mapEntities/mapEntityDescriptor';
+import { BuildStatus, MapEntityDescriptor } from '../../mapEntities/mapEntityDescriptor';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
+import { Trigger } from '../../triggers/trigger';
 import { ImpactBase } from '../impact';
 
 export type ActivationOperator = 'activate' | 'deactivate';
 
 export interface ActivationImpact extends ImpactBase {
   type: 'activation';
+  activableType:
+    | ITemplateDescriptor['activableType']
+    | ChoiceDescriptor['activableType']
+    | Trigger['activableType']
+    | MapEntityDescriptor['activableType']
+    | undefined;
   target: Uid;
   option: ActivationOperator;
 }

@@ -77,7 +77,7 @@
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
-  border: 2px solid var(--primary_30);
+  border: 1px solid var(--primary_30);
   transition: color .3s ease-in-out, border .3s ease-in-out;
 }
 
@@ -86,7 +86,7 @@
 .generic-item textarea:focus {
   font-size: var(--S_text);
   color: var(--primary_base);
-  border: 2px solid var(--primary_30);
+  border: 1px solid var(--primary_30);
   transition: color .3s ease-in-out, border .3s ease-in-out;
 }
 

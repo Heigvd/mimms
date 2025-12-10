@@ -7,7 +7,6 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 export interface ChoiceCondition extends ConditionBase {
   type: 'choice';
   choiceRef: Uid;
-  //actionTemplateId: Uid; // TODO needed ?
   status: ChoiceActionStatus;
 }
 

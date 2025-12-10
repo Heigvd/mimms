@@ -1,6 +1,10 @@
 // EVALUATION_PRIORITY 0
 
 import { Impact } from '../../game/common/impacts/impact';
+import {
+  ActivationImpact,
+  MapActivationImpact,
+} from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
@@ -8,6 +12,7 @@ import { RadioMessageImpact } from '../../game/common/impacts/implementation/rad
 import { Uid } from '../../game/common/interfaces';
 import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
 import {
   ALL_EDITABLE,
@@ -16,11 +21,6 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import {
-  ActivationImpact,
-  MapActivationImpact,
-} from '../../game/common/impacts/implementation/activationImpact';
-import { scenarioEditionLogger } from '../../tools/logger';
 
 type ImpactTypeName = Impact['type'];
 type ImpactDefinition = MapToDefinition<Impact>;
@@ -98,7 +98,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      activableType: '',
+      activableType: undefined,
       target: '',
       option: 'activate',
     }),
@@ -131,8 +131,9 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
-      option: ALL_EDITABLE,
+      activableType: ALL_EDITABLE,
       target: ALL_EDITABLE,
+      option: ALL_EDITABLE,
     },
   };
 }
@@ -319,7 +320,7 @@ export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
       uid: generateId(10),
       index: 0,
       delaySeconds: 0,
-      activableType: '',
+      activableType: 'mapEntity',
       target: '',
       option: 'activate',
       buildStatus: 'pending',
