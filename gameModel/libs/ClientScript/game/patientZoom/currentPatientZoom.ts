@@ -724,7 +724,7 @@ function formatBlockEntry(
     title = getTranslation(translationVar, title);
   }
   return `<div class='block-entry'>
-		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
+		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span>
 		<span class='block-entry-value'>${value || ''}</span>
 	</div>`;
 }
@@ -739,6 +739,9 @@ function getBlockDetails(
     output.push(formatBlockTitle(block.name, 'human-blocks'));
     logger.info('Block: ', block.params);
 
+    if (block.params.penetratingInjury) {
+      output.push('Penetrating injury');
+    }
     if (fullDetails && block.params.pain) {
       output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
     }
@@ -1486,7 +1489,6 @@ export function getAfflictedBlocksDetailsOfHuman(
   fullDetails: boolean = false
 ): AfflictedBlockDetails[] {
   const blocks = getAfflictedBlocksOfHuman(human, health, currentTime, fullDetails);
-
   return blocks.map(block => {
     return {
       block: block,

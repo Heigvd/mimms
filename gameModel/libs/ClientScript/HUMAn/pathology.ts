@@ -203,6 +203,16 @@ interface PainMeta extends BaseModule<typeof painArgKeys[number]> {
   };
 }
 
+interface PenetratingMeta extends BaseModule<never> {
+  config: {
+    type: 'Penetrating';
+    blocks: BlockName[];
+  };
+  args: {
+    type: 'NoArgs';
+  };
+}
+
 interface HematomaMeta extends BaseModule<never> {
   config: {
     type: 'Hematoma';
@@ -234,7 +244,8 @@ export type ModuleMeta =
   | IntercranialMassMeta
   | PainMeta
   | HematomaMeta
-  | UnableToWalkMeta;
+  | UnableToWalkMeta
+  | PenetratingMeta;
 
 export type ModuleDefinition = ModuleMeta['config'];
 
@@ -369,6 +380,8 @@ function prettyPrintModuleDef(mod: ModuleDefinition, block: string, _args: Modul
       return 'Hematoma';
     case 'UnableToWalk':
       return 'Unable to walk';
+    case 'Penetrating':
+      return 'Penetrating injury';
   }
 }
 
@@ -465,6 +478,11 @@ export function createRandomArgs(mod: ModuleDefinition): ModuleArgs {
     const args: PainMeta['args'] = {
       type: 'PainArgs',
       pain: getRandomValue(mod.pain, true),
+    };
+    return args;
+  } else if (mod.type === 'Penetrating') {
+    const args: PenetratingMeta['args'] = {
+      type: 'NoArgs',
     };
     return args;
   } else if (mod.type === 'Hematoma') {
@@ -741,6 +759,24 @@ export function instantiateModule(
           blockPatch: {},
           variablePatch: {
             unableToWalk: true,
+          },
+        },
+      ],
+    };
+  } else if (mod.type === 'Penetrating') {
+    return {
+      block: block,
+      visible: true,
+      rules: [
+        {
+          id: 'penetrating',
+          name: 'penetrating',
+          time: 0,
+          blockPatch: {
+            penetratingInjury: true,
+          },
+          variablePatch: {
+            //unableToWalk: true,
           },
         },
       ],

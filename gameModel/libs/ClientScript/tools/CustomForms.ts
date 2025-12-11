@@ -2,7 +2,6 @@
 
 import { getSkillsDefinitionsAsChoices } from '../edition/GameModelerHelper';
 
-
 Helpers.registerEffect(() => {
   const skillChoices = getSkillsDefinitionsAsChoices();
 

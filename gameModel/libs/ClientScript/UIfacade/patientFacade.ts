@@ -66,7 +66,7 @@ export function getAfflictedBlocksDetails(patient: PatientState): AfflictedBlock
   };
   const currentTime = patient.humanBody.state.time;
 
-  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, false);
+  return getAfflictedBlocksDetailsOfHuman(human, health, currentTime, true);
 }
 
 function getAfflictedBlocks(patient: PatientState): string[] {

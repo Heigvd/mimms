@@ -381,6 +381,58 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       ]
     )
   );
+  // TEST PENETRATING THINGY
+  // internal
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_ih_pen',
+        severity: 'dead',
+        name: 'PENETRATING catastrophic internal hemorrhage',
+        blockSelectionMode: 'any',
+        shortDescription: 'Pen. Cata. Int. Hem.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.075, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_ih_pen',
+        severity: 'immediate',
+        name: 'PENETRATING severe internal hemorrhage',
+        blockSelectionMode: 'any',
+        shortDescription: 'Pen. Internal Hem.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.0135, max: 0.075 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+  //// *******************
 
   registerPathology(
     buildPathology(

@@ -592,6 +592,8 @@ export interface Block {
      *
      */
     pneumothorax?: 'SIMPLE' | 'OPEN';
+
+    penetratingInjury?: boolean;
   };
   connections: Connection[];
 }
@@ -2828,6 +2830,9 @@ export function computeState(
                 } else if (key === 'arterialLosses_mlPerMin') {
                   // not impactable
                 } else if (key === 'venousLosses_mlPerMin') {
+                  // not impactable
+                } else if (key === 'penetratingInjury') {
+                  block.params.penetratingInjury = true;
                   // not impactable
                 } else {
                   checkUnreachable(key);

@@ -7,7 +7,8 @@ export function getTriggers(): Trigger[] {
   //return Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
   // TODO load from WEGAS variable
 
-  return []; getTestTriggers();
+  return [];
+  getTestTriggers();
 }
 
 function getTestTriggers(): Trigger[] {
