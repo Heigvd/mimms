@@ -570,6 +570,6 @@ export class MapEntityController extends DataControllerBase<
     }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
-    throw new Error('Method not implemented.');
+    return getMapEntityDefinition().validator;
   }
 }

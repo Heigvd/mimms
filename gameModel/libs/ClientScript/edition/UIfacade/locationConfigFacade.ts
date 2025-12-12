@@ -110,3 +110,20 @@ export function updateOffsetY(value: number, target: FlatMapObject): void {
   const newOffset: [number, number] = [offsetX, value];
   updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }
+
+// **************** MAP REFRESH *************
+
+export function notifyLayerChange(): void {
+  if (mapObjectsLayerRef?.current?.changed) {
+    mapObjectsLayerRef.current.changed();
+  }
+}
+
+export function notifyModalLayerChange(): void {
+  if (mapObjectsLayerModalRef?.current?.changed) {
+    mapObjectsLayerModalRef.current.changed();
+  }
+}
+
+export const mapObjectsLayerRef = Helpers.useRef<any>('mapObjectsLayerRef', null);
+export const mapObjectsLayerModalRef = Helpers.useRef<any>('mapObjectsLayerModalRef', null);

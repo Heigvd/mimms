@@ -575,7 +575,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.chantier);",
+                            "content" : "import { notifyLayerChange, setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.chantier);\nnotifyLayerChange();",
                             "language" : "TypeScript"
                           }
                         },
@@ -875,7 +875,7 @@
                         "exposeAs" : "item",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getFilteredLocations(LOCATION_ENUM.ambulancePark);",
+                          "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\n  getFilteredLocations();",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "uid",
@@ -1007,6 +1007,11 @@
                             },
                             "layoutStyle" : { },
                             "name" : "MapEntities",
+                            "onLayerReady" : {
+                              "@class" : "ScriptCallback",
+                              "args" : [ "layer", "map" ],
+                              "content" : "import { mapObjectsLayerRef } from \"./edition/UIfacade/locationConfigFacade\";\n  mapObjectsLayerRef.current = layer;\n  return;"
+                            },
                             "style" : { }
                           },
                           "type" : "WegasMapVectorLayer"

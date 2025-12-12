@@ -75,7 +75,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Inactive\"",
+                      "content" : "\"<p>Inactive</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -83,7 +83,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
+                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: false });",
                         "language" : "TypeScript"
                       }
                     },
@@ -105,7 +105,7 @@
                     } ],
                     "label" : {
                       "@class" : "Script",
-                      "content" : "\"Active\"",
+                      "content" : "\"<p>Active</p>\"",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
@@ -113,7 +113,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: true });",
+                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: true });",
                         "language" : "TypeScript"
                       }
                     },
@@ -217,6 +217,13 @@
       "height" : "100%",
       "overflow" : "auto",
       "width" : "100%"
+    },
+    "localScriptEval" : {
+      "script" : {
+        "@class" : "ClientScript",
+        "content" : "import { notifyLayerChange } from \"./edition/UIfacade/locationConfigFacade\"\n\nnotifyLayerChange()",
+        "language" : "TypeScript"
+      }
     },
     "style" : { }
   },
