@@ -7482,7 +7482,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MAIN SIM MIM-532",
+  "name" : "MIM-531",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

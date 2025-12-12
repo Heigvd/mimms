@@ -162,7 +162,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutClassName" : "noPadding aDescriptionAction",
+                        "layoutClassName" : "aDescriptionAction",
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
@@ -228,7 +228,7 @@
                     },
                     "layoutStyle" : {
                       "align-self" : "flex-end",
-                      "padding" : "15px 0px 10px 0px"
+                      "padding" : "0px 10px 10px 0px"
                     },
                     "localScriptEval" : {
                       "script" : {
