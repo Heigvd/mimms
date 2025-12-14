@@ -1,4 +1,3 @@
-import { MapChoiceActionTemplate } from '../../game/common/actions/actionTemplateBase';
 import {
   BuildStatus,
   MapEntityDescriptor,
@@ -11,7 +10,10 @@ import {
 import { FeatureCollection } from '../../gameMap/types/featureTypes';
 import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
 import { getLineEndAndRotation } from '../../gameMap/utils/shapeUtils';
-import { getAvailableActionTemplateById } from '../../UIfacade/actionFacade';
+import {
+  getAvailableActionTemplateById,
+  isMapChoiceActionTemplate,
+} from '../../UIfacade/actionFacade';
 
 export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
 
@@ -32,7 +34,7 @@ export function getMapActivableSelectionLayer() {
   let medUids = [];
   const record: Record<string, MapEntityDescriptor> = {};
 
-  if (currentTemplate instanceof MapChoiceActionTemplate) {
+  if (isMapChoiceActionTemplate(currentTemplate)) {
     medUids = currentTemplate.choices.map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
 

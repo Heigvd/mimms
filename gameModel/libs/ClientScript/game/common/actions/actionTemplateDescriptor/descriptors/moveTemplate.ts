@@ -10,7 +10,12 @@ export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
 // convert descriptor TODO complete implementation
 
 export function createMoveActorTemplate(
-  _descriptor: MoveActorTemplateDescriptor
+  descriptor: MoveActorTemplateDescriptor
 ): MoveActorActionTemplate {
-  return new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration);
+  return new MoveActorActionTemplate(
+    descriptor.uid,
+    'move-actor-title',
+    'move-actor-desc',
+    TimeSliceDuration
+  );
 }

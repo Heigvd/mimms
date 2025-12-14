@@ -10,9 +10,10 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 }
 
 export function createFullyConfigurableTemplate(
-  _descriptor: FullyConfigurableTemplateDescriptor
+  descriptor: FullyConfigurableTemplateDescriptor
 ): MapChoiceActionTemplate {
   return new MapChoiceActionTemplate(
+    descriptor.uid,
     'move-actor-title',
     'move-actor-desc',
     TimeSliceDuration

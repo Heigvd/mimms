@@ -6,7 +6,7 @@ import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
 import {
   ActionId,
-  ActionTemplateId,
+  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   HospitalId,
@@ -92,17 +92,14 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
-  protected readonly templateId;
-
   protected constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId,
-    protected readonly uuidTemplate: ActionTemplateId = -1
+    protected readonly templateId: ActionTemplateUid /* removed defaut value */
   ) {
     this.Uid = getContextUidGenerator().getNext('ActionBase', ACTION_SEED_ID);
     this.status = 'Uninitialized';
-    this.templateId = uuidTemplate;
   }
 
   /**
@@ -136,7 +133,7 @@ export abstract class ActionBase {
     return this.status;
   }
 
-  public getTemplateId(): ActionTemplateId {
+  public getTemplateId(): ActionTemplateUid {
     return this.templateId;
   }
 }
@@ -161,10 +158,10 @@ export abstract class StartEndAction extends ActionBase {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
-    super(startTimeSec, eventId, ownerId, uuidTemplate);
+    super(startTimeSec, eventId, ownerId, templateUid);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
     this.provideFlagsToState = provideFlagsToState;
@@ -234,7 +231,7 @@ export abstract class ChoiceAction extends StartEndAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     //messageKey: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     choice: ChoiceDescriptor
   ) {
@@ -245,7 +242,7 @@ export abstract class ChoiceAction extends StartEndAction {
       actionNameKey,
       //messageKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
     this.choice = choice;
@@ -273,7 +270,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -282,7 +279,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -311,7 +308,7 @@ export class DisplayMessageAction extends StartEndAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     readonly messageKey: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState?: SimFlag[],
     readonly channel?: RadioType
   ) {
@@ -321,7 +318,7 @@ export class DisplayMessageAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -358,9 +355,9 @@ export class OnTheRoadAction extends StartEndAction {
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId
+    templateUid: ActionTemplateUid
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -390,10 +387,10 @@ export class CasuMessageAction extends RadioDrivenAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private casuMessagePayload: CasuMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
     if (this.casuMessagePayload.messageType === 'R') {
       this.hospitalRequestPayload = this.casuMessagePayload;
     }
@@ -537,7 +534,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     readonly channel: RadioType,
     provideFlagsToState?: SimFlag[]
   ) {
@@ -547,7 +544,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -637,7 +634,7 @@ export class MapChoiceAction extends ChoiceAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor,
     binding?: LOCATION_ENUM
@@ -648,7 +645,7 @@ export class MapChoiceAction extends ChoiceAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState,
       choice
     );
@@ -729,7 +726,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor
   ) {
@@ -739,7 +736,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState,
       choice
     );
@@ -792,7 +789,7 @@ export class PCChoiceAction extends MapChoiceAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor
   ) {
@@ -802,7 +799,7 @@ export class PCChoiceAction extends MapChoiceAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState,
       choice
     );
@@ -866,7 +863,7 @@ export class ParkChoiceAction extends MapChoiceAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor,
     binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
@@ -878,7 +875,7 @@ export class ParkChoiceAction extends MapChoiceAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState,
       choice
     );
@@ -919,7 +916,7 @@ export class MoveActorAction extends StartEndAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     location: LOCATION_ENUM
   ) {
@@ -929,7 +926,7 @@ export class MoveActorAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
     this.location = location;
@@ -976,7 +973,7 @@ export class AppointActorAction extends StartEndAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
     readonly requiredResourceType: HumanResourceType[],
@@ -989,7 +986,7 @@ export class AppointActorAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
 
@@ -1106,7 +1103,7 @@ export class SituationUpdateAction extends StartEndAction {
     eventId: GlobalEventId,
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -1115,7 +1112,7 @@ export class SituationUpdateAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -1158,7 +1155,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     commMedia: CommMedia,
     sourceLocation: LOCATION_ENUM,
     targetLocation: LOCATION_ENUM,
@@ -1166,7 +1163,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     sourceTaskId: TaskId,
     targetTaskId: TaskId
   ) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, templateUid);
     this.commMedia = commMedia;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
@@ -1386,10 +1383,10 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private pretriageLocation: LOCATION_ENUM
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1460,11 +1457,11 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private radioChannel: RadioType,
     private radioMessagePayload: RadioMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1543,7 +1540,7 @@ export class EvacuationAction extends RadioDrivenAction {
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     readonly evacuationActionPayload: EvacuationActionPayload,
     provideFlagsToState?: SimFlag[]
   ) {
@@ -1553,7 +1550,7 @@ export class EvacuationAction extends RadioDrivenAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
     this.patientId = evacuationActionPayload.patientId;
