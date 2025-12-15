@@ -472,12 +472,12 @@ export class ActionTemplateDataController extends DataControllerBase<
     const tree: Record<Uid, TemplateDescriptor> = {};
 
     const groups = group(Object.values(flattened), elem => elem.superType);
-    groups.action.forEach(flatAction => {
+    groups.action?.forEach(flatAction => {
       tree[flatAction.uid] = fromFlatActionTemplate(flatAction as FlatActionTemplate);
     });
 
     const choices: Record<Uid, ChoiceDescriptor> = {};
-    groups.choice.forEach(flatChoice => {
+    groups.choice?.forEach(flatChoice => {
       const parent = tree[flatChoice.parent];
       if (parent) {
         const c = fromFlatChoice(flatChoice as FlatChoice);
@@ -489,7 +489,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     });
 
     const effects: Record<Uid, Effect> = {};
-    groups.effect.forEach(flatEffect => {
+    groups.effect?.forEach(flatEffect => {
       const parent = choices[flatEffect.parent];
       if (parent) {
         const ef = fromFlatEffect(flatEffect as FlatEffect);
@@ -500,7 +500,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       }
     });
 
-    groups.impact.forEach(flatImpact => {
+    groups.impact?.forEach(flatImpact => {
       const parent = effects[flatImpact.parent];
       if (parent) {
         const i = fromFlatImpact(flatImpact as FlatImpact);
