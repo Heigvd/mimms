@@ -96,7 +96,7 @@ export abstract class ActionBase {
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId,
-    protected readonly templateId: ActionTemplateUid /* removed defaut value */
+    protected readonly templateId: ActionTemplateUid
   ) {
     this.Uid = getContextUidGenerator().getNext('ActionBase', ACTION_SEED_ID);
     this.status = 'Uninitialized';
