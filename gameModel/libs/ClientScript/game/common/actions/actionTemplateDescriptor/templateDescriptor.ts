@@ -35,9 +35,9 @@ export interface ITemplateDescriptor extends IActivableDescriptor, IDescriptor, 
    */
   choices: ChoiceDescriptor[];
   /**
-   * Which roles are allowed to generate an action. Empty array means available to everyone
+   * Which roles are allowed to generate an action
    */
-  availableToRoles: InterventionRole[];
+  availableToRoles: Record<InterventionRole, boolean>;
   /**
    * In case of map entity placement, logical binding that should be used
    */

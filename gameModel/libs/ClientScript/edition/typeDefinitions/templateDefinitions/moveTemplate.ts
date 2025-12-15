@@ -24,7 +24,15 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
       title: createOrUpdateTranslation('Move to a location', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
-      availableToRoles: [],
+      availableToRoles: {
+        // TODO make it dynamic
+        ACS: true,
+        MCS: true,
+        AL: true,
+        CASU: false,
+        EVASAN: true,
+        LEADPMA: true,
+      },
       showAllChoices: true,
       comment: '',
       index: 0,
