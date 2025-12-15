@@ -229,7 +229,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "noPadding scenarist-column-scroll",
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "effects",
                         "style" : { }
@@ -239,6 +239,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "style" : { }
                   },
@@ -322,7 +323,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding scenarist-column-scroll",
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "impacts",
                 "style" : { }

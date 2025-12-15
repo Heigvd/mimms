@@ -11,6 +11,10 @@
   padding: 1rem;
 }
 
+.generic-item-container > div > div:has(.effect) {
+  width: calc(100% - 1.5rem);
+}
+
 .action-gap {
   flex-wrap: wrap;
   gap: 10px;

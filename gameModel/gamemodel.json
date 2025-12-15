@@ -7493,7 +7493,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-536 actions config page",
+  "name" : "MIM-536 action scenarist page - 15.12.2025",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
