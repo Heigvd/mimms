@@ -22,8 +22,8 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
       mandatory: false,
       repeats: 1,
       tag: 'new fixed entity template',
-      description: createOrUpdateTranslation('some default description', undefined),
-      title: createOrUpdateTranslation('some default title', undefined),
+      description: createOrUpdateTranslation('', undefined),
+      title: createOrUpdateTranslation('', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
       availableToRoles: {

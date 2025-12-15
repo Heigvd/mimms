@@ -41,9 +41,9 @@ export function getChoiceDefinition(): ChoiceDefinition {
       activableType: 'choice',
       activeAtStart: true,
       defaultEffect: '',
-      description: createOrUpdateTranslation('description', undefined),
+      description: createOrUpdateTranslation('', undefined),
       effects: [],
-      title: createOrUpdateTranslation('title', undefined),
+      title: createOrUpdateTranslation('', undefined),
       parent: 'no parent',
       displayedMapEntity: '', // should there be a default one ?
       tag: 'new choice',

@@ -22,8 +22,8 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       mandatory: false,
       repeats: 0,
       tag: 'new custom template',
-      description: createOrUpdateTranslation('some default description', undefined),
-      title: createOrUpdateTranslation('some default title', undefined),
+      description: createOrUpdateTranslation('', undefined),
+      title: createOrUpdateTranslation('', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
       availableToRoles: {

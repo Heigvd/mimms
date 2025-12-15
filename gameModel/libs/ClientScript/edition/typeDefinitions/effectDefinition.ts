@@ -32,7 +32,7 @@ export function getEffectDefinition(): EffectDefinition {
       type: 'effect',
       uid: generateId(10),
       index: 0,
-      tag: 'new effect',
+      tag: '',
       parent: 'no parent',
       impacts: [],
     }),
