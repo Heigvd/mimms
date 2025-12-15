@@ -36,6 +36,7 @@ export function createMapChoiceActionTemplate(
   switch (desc.constructorType) {
     case 'MapChoiceActionTemplate':
       return new MapChoiceActionTemplate(
+        desc.uid,
         desc.title,
         desc.description,
         desc.durationSec,
@@ -48,6 +49,7 @@ export function createMapChoiceActionTemplate(
       );
     case 'PCChoiceTemplate':
       return new PCChoiceTemplate(
+        desc.uid,
         desc.title,
         desc.description,
         desc.durationSec,
@@ -59,6 +61,7 @@ export function createMapChoiceActionTemplate(
       );
     case 'PCFrontChoiceTemplate':
       return new PCFrontChoiceTemplate(
+        desc.uid,
         desc.title,
         desc.description,
         desc.durationSec,
@@ -83,6 +86,7 @@ function createParkTemplate(
     vtype === 'ambulance' ? LOCATION_ENUM.ambulancePark : LOCATION_ENUM.helicopterPark;
   const flag = vtype === 'ambulance' ? SimFlag.AMBULANCE_PARK_BUILT : SimFlag.HELICOPTER_PARK_BUILT;
   return new ParkChoiceTemplate(
+    desc.uid,
     desc.title,
     desc.description,
     desc.durationSec,

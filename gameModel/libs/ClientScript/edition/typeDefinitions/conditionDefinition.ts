@@ -113,14 +113,14 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       uid: generateId(10),
       index: 0,
       type: 'action',
-      actionRef: 0,
+      actionRef: '',
       status: 'active',
     }),
     validator: (condition: ActionCondition) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
-      if (condition.actionRef === 0) {
+      if (condition.actionRef?.trim().length === 0) {
         success = false;
         messages.push({
           logLevel: 'ERROR',
