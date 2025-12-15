@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1765283987575,
+  "createdTime" : 1765807411684,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7493,7 +7493,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-536 action scenarist page - 15.12.2025",
+  "name" : "MIM-536",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

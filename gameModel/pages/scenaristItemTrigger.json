@@ -302,7 +302,7 @@
             "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "false;",
+              "content" : "true;",
               "language" : "typescript"
             },
             "layoutClassName" : "noPadding",
