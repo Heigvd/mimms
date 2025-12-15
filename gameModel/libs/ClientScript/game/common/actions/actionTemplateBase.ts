@@ -1,9 +1,8 @@
 import { getTranslation } from '../../../tools/translation';
-import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActionType } from '../actionType';
 import { Actor, InterventionRole } from '../actors/actor';
 import {
-  ActionTemplateId,
+  ActionTemplateUid,
   ActorId,
   SimDuration,
   SimTime,
@@ -70,8 +69,6 @@ export enum SimFlag {
   PMA_OPEN = 'PMA_OPEN',
 }
 
-const ACTION_TEMPLATE_SEED_ID: ActionTemplateId = 2000;
-
 /**
  * This class is the descriptor of an action, it represents the data of a playable action
  * It is meant to contain the generic information of an action as well as the conditions for this action to available
@@ -82,9 +79,8 @@ export abstract class ActionTemplateBase<
   EventT extends ActionCreationEvent = ActionCreationEvent,
   UserInput = unknown
 > {
-  public readonly Uid: ActionTemplateId;
-
   /**
+   * @param uid unique identifier
    * @param title action display title translation key
    * @param description short description of the action
    * @param replayable defaults to false, when true the action can be played multiple times
@@ -94,6 +90,7 @@ export abstract class ActionTemplateBase<
    * @param availableToRoles list of roles admitted to launch the action, undefined or empty array means available to everyone
    */
   protected constructor(
+    public readonly uid: ActionTemplateUid,
     protected readonly title: TranslationKey | ITranslatableContent,
     protected readonly description: TranslationKey | ITranslatableContent,
     public replayable: boolean = false,
@@ -102,8 +99,7 @@ export abstract class ActionTemplateBase<
     protected raisedFlags: SimFlag[] = [],
     protected availableToRoles: InterventionRole[] = []
   ) {
-    this.Uid = getContextUidGenerator().getNext('ActionTemplateBase', ACTION_TEMPLATE_SEED_ID);
-    // WTF
+    // empty constructor
   }
 
   /**
@@ -193,7 +189,7 @@ export abstract class ActionTemplateBase<
     return {
       ...initBaseEvent(actorId),
       type: 'ActionCreationEvent',
-      templateUid: this.Uid,
+      templateUid: this.uid,
       triggerTime: timeStamp,
     };
   }
@@ -221,7 +217,7 @@ export abstract class ActionTemplateBase<
 
     const action = state
       .getInternalStateObject()
-      .actions.find(action => action.getTemplateId() === this.Uid);
+      .actions.find(action => action.getTemplateId() === this.uid);
     //either action has not been played or it is planned but can still be cancelled
     return action == undefined || action.startTime === state.getSimTime();
   }
@@ -255,6 +251,7 @@ export abstract class StartEndTemplate<
   public readonly duration: SimDuration;
 
   protected constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -264,7 +261,16 @@ export abstract class StartEndTemplate<
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
-    super(title, description, replayable, category, requiredFlags, raisedFlags, availableToRoles);
+    super(
+      uid,
+      title,
+      description,
+      replayable,
+      category,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles
+    );
     this.duration = duration;
   }
 
@@ -285,6 +291,7 @@ export abstract class ChoiceTemplate<
   public readonly choices: ChoiceDescriptor[];
 
   protected constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -297,6 +304,7 @@ export abstract class ChoiceTemplate<
     choices: ChoiceDescriptor[] = []
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -322,6 +330,7 @@ export abstract class ChoiceTemplate<
  */
 export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessageAction> {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -333,6 +342,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     readonly channel?: RadioType | undefined
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -355,7 +365,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       this.title,
       this.message,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       this.channel
     );
@@ -375,6 +385,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
   CasuMessagePayload
 > {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -384,6 +395,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -404,7 +416,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
       this.title,
       event.id,
       ownerId,
-      this.Uid,
+      this.uid,
       payload.casuMessagePayload
     );
   }
@@ -446,6 +458,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
   PretriageReportActionPayload
 > {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -457,6 +470,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -481,7 +495,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
       this.title,
       event.id,
       ownerId,
-      this.Uid,
+      this.uid,
       payload.pretriageLocation
     );
   }
@@ -515,6 +529,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
 
 export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<ActivateRadioSchemaAction> {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -528,6 +543,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -554,7 +570,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       this.authorizedReplyMessage,
       this.unauthorizedReplyMessage,
       ownerId,
-      this.Uid,
+      this.uid,
       this.channel,
       this.raisedFlags
     );
@@ -587,6 +603,7 @@ export class MapChoiceActionTemplate<
   public readonly binding?: LOCATION_ENUM;
 
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -599,6 +616,7 @@ export class MapChoiceActionTemplate<
     binding?: LOCATION_ENUM
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -634,7 +652,7 @@ export class MapChoiceActionTemplate<
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       payload.choice,
       this.binding
@@ -645,14 +663,14 @@ export class MapChoiceActionTemplate<
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>
   ): boolean {
-    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actor.Uid);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
     actorUid: ActorId
   ): boolean {
-    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actorUid);
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actorUid);
   }
 }
 
@@ -662,6 +680,7 @@ export class MapChoiceActionTemplate<
 
 export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoiceAction> {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -673,6 +692,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     choices?: ChoiceDescriptor[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -695,7 +715,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       payload.choice
     );
@@ -708,6 +728,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
 
 export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -719,6 +740,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     choices?: ChoiceDescriptor[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -741,7 +763,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       payload.choice
     );
@@ -757,6 +779,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
   public readonly vehicleType: VehicleType;
 
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
@@ -770,6 +793,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
     choices?: ChoiceDescriptor[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -794,7 +818,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       payload.choice,
       this.binding,
@@ -827,6 +851,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   MoveResourcesAssignTaskActionInput
 > {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -836,6 +861,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -876,7 +902,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       this.title,
       event.id,
       ownerId,
-      this.Uid,
+      this.uid,
       payload.commMedia,
       payload.sourceLocation,
       payload.targetLocation,
@@ -898,6 +924,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
  */
 export class SendRadioMessageTemplate extends StartEndTemplate {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -909,6 +936,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -931,7 +959,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       this.title,
       event.id,
       ownerId,
-      this.Uid,
+      this.uid,
       this.radioChannel,
       payload.radioMessagePayload
     );
@@ -980,6 +1008,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
 
 export class MoveActorActionTemplate extends StartEndTemplate {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -989,6 +1018,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -1009,7 +1039,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       [],
       payload.location
     );
@@ -1037,6 +1067,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   InterventionRole
 > {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -1050,6 +1081,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -1070,7 +1102,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       ownerId,
-      this.Uid,
+      this.uid,
       this.raisedFlags,
       this.actorRole,
       this.typeOfResource,
@@ -1099,7 +1131,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   ): boolean {
     return (
       state.getAllActors().every(act => act.Role !== this.actorRole) &&
-      !ActionLogic.hasBeenPlannedByOtherActor(state, this.Uid, actor.Uid)
+      !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actor.Uid)
     );
   }
 }
@@ -1116,8 +1148,8 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
   StandardActionEvent,
   SituationUpdatePayload
 > {
-  constructor(title: TranslationKey, description: TranslationKey) {
-    super(title, description, 0, true, ActionType.ACTION);
+  constructor(uid: ActionTemplateUid, title: TranslationKey, description: TranslationKey) {
+    super(uid, title, description, 0, true, ActionType.ACTION);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
@@ -1129,7 +1161,7 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       ownerId,
-      this.Uid
+      this.uid
     );
   }
 
@@ -1160,6 +1192,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
   EvacuationActionPayload
 > {
   constructor(
+    uid: ActionTemplateUid,
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
@@ -1173,6 +1206,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     availableToRoles?: InterventionRole[]
   ) {
     super(
+      uid,
       title,
       description,
       duration,
@@ -1197,7 +1231,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       this.msgEvacuationAbort,
       this.msgEvacuationRefused,
       ownerId,
-      this.Uid,
+      this.uid,
       payload.evacuationActionPayload,
       this.raisedFlags
     );

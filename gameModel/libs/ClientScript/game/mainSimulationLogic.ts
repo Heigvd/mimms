@@ -5,7 +5,7 @@ import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
-import { ActorId, TemplateId } from './common/baseTypes';
+import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
@@ -39,7 +39,7 @@ import {
 import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 
 /* all defined action templates */
-let actionTemplates: Record<string, ActionTemplateBase>;
+let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase>;
 let uniqueActionTemplates: IUniqueActionTemplates;
 
 let initializationComplete: boolean;
@@ -300,7 +300,7 @@ export async function buildAndLaunchActionFromTemplate(
 
 export async function buildAndLaunchActionCancellation(
   selectedActor: ActorId,
-  templateId: TemplateId
+  templateId: ActionTemplateUid
 ): Promise<IManagedResponse | undefined> {
   const action = getCurrentState()
     .getAllActions()

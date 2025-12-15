@@ -10,6 +10,7 @@ import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
+  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   PatientUnitId,
@@ -18,7 +19,6 @@ import {
   SimDuration,
   SimTime,
   TaskId,
-  TemplateId,
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
@@ -151,7 +151,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
     readonly props: {
       readonly parentEventId: GlobalEventId;
       readonly simTimeStamp: SimTime;
-      readonly templateId: TemplateId;
+      readonly templateId: ActionTemplateUid;
       readonly actorUid: ActorId;
       readonly planTime: SimTime;
     }
@@ -328,7 +328,7 @@ export class AddActorLocalEvent extends LocalEventBase {
         'on-the-road',
         0,
         actor.Uid,
-        0
+        '' // TODO SAM add the template id (from UniqueActionTemplates list -> InternalActionTemplates)
       );
       state.getInternalStateObject().actions.push(travelAction);
     }

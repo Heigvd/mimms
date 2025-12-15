@@ -11,6 +11,7 @@ import {
   CasuMessageTemplate,
   ChoiceTemplate,
   EvacuationActionTemplate,
+  MapChoiceActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
@@ -20,7 +21,7 @@ import {
 } from '../game/common/actions/actionTemplateBase';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
-import { ActorId, TemplateId } from '../game/common/baseTypes';
+import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -49,8 +50,8 @@ export function getAvailableActionTemplates(
 }
 
 // used for choice actions in page 31
-export function getAvailableActionTemplateById(uid: number) {
-  return getAvailableActionTemplates().find(t => t.Uid === uid);
+export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
+  return getAvailableActionTemplates().find(t => t.uid === templateId);
 }
 
 export function isAvailable(template: ActionTemplateBase): boolean {
@@ -71,7 +72,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
  */
 export function canCancel(template: ActionTemplateBase | undefined): boolean {
   if (!template) return false;
-  return isAvailable(template) && isPlannedAction(template.Uid);
+  return isAvailable(template) && isPlannedAction(template.uid);
 }
 
 /**
@@ -112,7 +113,7 @@ export async function planAction(
  */
 export async function cancelAction(
   selectedActor: ActorId,
-  templateId: TemplateId
+  templateId: ActionTemplateUid
 ): Promise<IManagedResponse | undefined> {
   return await buildAndLaunchActionCancellation(selectedActor, templateId);
 }
@@ -179,6 +180,12 @@ export function isChoiceTemplate(
   template: ActionTemplateBase | undefined
 ): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
+}
+
+export function isMapChoiceActionTemplate(
+  template: ActionTemplateBase | undefined
+): template is MapChoiceActionTemplate {
+  return template instanceof MapChoiceActionTemplate;
 }
 
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {

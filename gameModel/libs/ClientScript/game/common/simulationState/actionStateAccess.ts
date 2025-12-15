@@ -1,6 +1,6 @@
 import { ActionBase } from '../actions/actionBase';
+import { ActionTemplateUid } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
-import { ActionTemplateId } from '../baseTypes';
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
@@ -41,7 +41,7 @@ function isActionOngoingAndStarted(
  */
 export function hasCompletedOnceAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid
 ): boolean {
   return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
 }
@@ -51,7 +51,7 @@ export function hasCompletedOnceAction(
  */
 export function hasOngoingAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid
 ): boolean {
   return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
 }
@@ -61,7 +61,7 @@ export function hasOngoingAction(
  */
 export function hasNoActionInTimeline(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid
 ): boolean {
   // Note : no need to check future actions, an action never starts after now
   return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);

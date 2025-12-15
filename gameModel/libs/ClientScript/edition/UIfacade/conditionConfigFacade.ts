@@ -1,6 +1,7 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
+import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
 import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { getTriggerController } from '../controllers/controllerInstances';
@@ -106,8 +107,7 @@ export function canEnterShowOnMap(condition: FlatCondition): boolean {
 export function getConditionActionUid(condition: FlatCondition): Uid | undefined {
   if (condition.type === 'action') {
     if (condition.actionRef) {
-      // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
-      return String(condition.actionRef);
+      return condition.actionRef;
     }
   } else if (
     condition.type === 'choice' &&
@@ -142,7 +142,10 @@ export function getEffectiveConditionChoicesOptions(
   return [allChoicesOption];
 }
 
-export function updateConditionActionRef(condition: FlatCondition, actionRef: string): void {
+export function updateConditionActionRef(
+  condition: FlatCondition,
+  actionRef: ActionCondition['actionRef']
+): void {
   if (condition.type === 'action' && getConditionActionUid(condition) === actionRef) {
     // no change => nothing to do
     return;
@@ -157,8 +160,7 @@ export function updateConditionActionRef(condition: FlatCondition, actionRef: st
 
   // cannot happen ... but you know ... make it compile ...
   if (newCondition.type === 'action') {
-    // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
-    newCondition.actionRef = Number(actionRef);
+    newCondition.actionRef = actionRef;
 
     getTriggerController().updateItem(newCondition);
   } else {

@@ -1,6 +1,7 @@
 import { parseObjectDescriptor } from '../../tools/WegasHelper';
 import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
 import { ChoiceDescriptor } from '../common/actions/choiceDescriptor/choiceDescriptor';
+import { ActionTemplateUid } from '../common/baseTypes';
 import { Uid } from '../common/interfaces';
 import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
 import { MapEntityActivable } from '../common/simulationState/activableState';
@@ -67,7 +68,7 @@ export function getMapEntityDescriptorUid(binding: LOCATION_ENUM): MapEntityDesc
  * @returns ChoiceDescriptor | undefined
  */
 export function getChoiceDescriptor(
-  templateUid: number,
+  templateUid: ActionTemplateUid,
   choiceUid: Uid
 ): ChoiceDescriptor | undefined {
   const template = getAvailableActionTemplateById(templateUid);

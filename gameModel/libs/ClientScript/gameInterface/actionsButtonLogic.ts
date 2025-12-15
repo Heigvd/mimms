@@ -17,7 +17,9 @@ import {
   ActionTemplateBase,
   PretriageReportActionPayload,
 } from '../game/common/actions/actionTemplateBase';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
+import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -29,6 +31,7 @@ import { RadioType } from '../game/common/radio/communicationType';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { clearMapState, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
@@ -41,9 +44,6 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
-import { HospitalProximity } from '../game/common/evacuation/hospitalType';
-import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -51,41 +51,41 @@ import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
  * @params ActionTemplateBase action being launched
  */
 // used in several pages
-export function runActionButton(action: ActionTemplateBase | undefined): void {
-  if (!action || !isAvailable(action)) {
-    actionLogger.debug('action not available ' + JSON.stringify(action?.getTitle()));
+export function runActionButton(actTemplate: ActionTemplateBase | undefined): void {
+  if (!actTemplate || !isAvailable(actTemplate)) {
+    actionLogger.debug('action not available ' + JSON.stringify(actTemplate?.getTitle()));
     return;
   }
-  actionLogger.debug('run action button for ' + JSON.stringify(action?.getTitle()));
+  actionLogger.debug('run action button for ' + JSON.stringify(actTemplate?.getTitle()));
 
   let params = {};
 
-  if (isChoiceTemplate(action)) {
+  if (isChoiceTemplate(actTemplate)) {
     if (!canPlanAction()) {
       startMapChoice();
     } else {
       params = fetchChoiceActionValues()!;
       clearMapState();
     }
-  } else if (isMoveResourcesAssignTaskActionTemplate(action)) {
+  } else if (isMoveResourcesAssignTaskActionTemplate(actTemplate)) {
     params = fetchMoveResourcesAssignTaskValues();
-  } else if (isCasuMessageActionTemplate(action)) {
+  } else if (isCasuMessageActionTemplate(actTemplate)) {
     params = fetchCasuMessageRequestValues();
-  } else if (isRadioActionTemplate(action, RadioType.CASU)) {
+  } else if (isRadioActionTemplate(actTemplate, RadioType.CASU)) {
     params = fetchRadioMessageRequestValues(RadioType.CASU);
-  } else if (isRadioActionTemplate(action, RadioType.ACTORS)) {
+  } else if (isRadioActionTemplate(actTemplate, RadioType.ACTORS)) {
     params = fetchRadioMessageRequestValues(RadioType.ACTORS);
-  } else if (isMoveActorActionTemplate(action)) {
+  } else if (isMoveActorActionTemplate(actTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (isSituationUpdateActionTemplate(action)) {
+  } else if (isSituationUpdateActionTemplate(actTemplate)) {
     params = fetchSituationUpdateValues();
-  } else if (isEvacuationActionTemplate(action)) {
+  } else if (isEvacuationActionTemplate(actTemplate)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(action)) {
+  } else if (isPretriageReportTemplate(actTemplate)) {
     params = fetchPretriageReportActionValues();
   }
 
-  actionClickHandler(action, params);
+  actionClickHandler(actTemplate, params);
 }
 
 /**
