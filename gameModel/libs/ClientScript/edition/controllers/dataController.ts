@@ -421,8 +421,8 @@ export class TriggerDataController extends DataControllerBase<
     switch (itemType) {
       case 'trigger':
         super.unselect(itemType);
-        this.unselect('condition');
-        this.unselect('impact');
+        super.unselect('condition');
+        super.unselect('impact');
         break;
       default:
         super.unselect(itemType);
