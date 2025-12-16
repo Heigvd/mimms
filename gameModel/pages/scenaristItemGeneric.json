@@ -216,7 +216,9 @@
       },
       "type" : "FlexList"
     } ],
-    "layout" : { },
+    "layout" : {
+      "justifyContent" : "flex-end"
+    },
     "layoutClassName" : "noPadding generic-item-container",
     "layoutStyle" : {
       "height" : "100%",

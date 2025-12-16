@@ -1,0 +1,31 @@
+/* - - - - -  L A Y O U T  - - - */
+
+.action,
+.choice {
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.effect {
+  gap: 10px;
+  padding: 1rem;
+}
+
+.generic-item-container > div > div:has(.effect) {
+  width: calc(100% - 1.5rem);
+}
+
+.action-gap {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+
+/* - - - - -  I N P U T S  - - - */
+
+.action-title input,
+.action-title input:hover,
+.action-title input:focus {
+  font-size: var(--S_text);
+  font-weight: var(--regularWeight);
+}

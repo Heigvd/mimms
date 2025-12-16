@@ -39,7 +39,7 @@ import { logValidationResult, ValidationResult } from '../typeDefinitions/defini
 import {
   FlatEffect,
   fromFlatEffect,
-  getDefaultEffect,
+  getEffectDefinition,
   toFlatEffect,
 } from '../typeDefinitions/effectDefinition';
 import {
@@ -210,6 +210,35 @@ export abstract class DataControllerBase<
       return false;
     }
     return canMove(id, siblings, moveType);
+  }
+
+  public getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
+    const selectedUid = this.getLatestIState().selected[itemType];
+    if (selectedUid) {
+      return this.getFlatDataClone()[selectedUid];
+    }
+    return undefined;
+  }
+
+  public select(itemType: SuperTypeNames, uid: Uid | undefined): void {
+    if (uid == undefined) {
+      this.unselect(itemType);
+    } else {
+      const selectedUid = this.getLatestIState().selected[itemType];
+      if (selectedUid !== uid) {
+        this.unselect(itemType); // used to cascade the unselect (see unselect overrides)
+
+        const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+        newState.selected[itemType] = uid;
+        this.updateIState(newState);
+      }
+    }
+  }
+
+  public unselect(itemType: SuperTypeNames): void {
+    const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+    delete newState.selected[itemType];
+    this.updateIState(newState);
   }
 
   public validate(): ValidationResult[] {
@@ -387,6 +416,18 @@ export class TriggerDataController extends DataControllerBase<
     }
     return true;
   }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'trigger':
+        super.unselect(itemType);
+        super.unselect('condition');
+        super.unselect('impact');
+        break;
+      default:
+        super.unselect(itemType);
+    }
+  }
 }
 
 export class ActionTemplateDataController extends DataControllerBase<
@@ -431,12 +472,12 @@ export class ActionTemplateDataController extends DataControllerBase<
     const tree: Record<Uid, TemplateDescriptor> = {};
 
     const groups = group(Object.values(flattened), elem => elem.superType);
-    groups.action.forEach(flatAction => {
+    groups.action?.forEach(flatAction => {
       tree[flatAction.uid] = fromFlatActionTemplate(flatAction as FlatActionTemplate);
     });
 
     const choices: Record<Uid, ChoiceDescriptor> = {};
-    groups.choice.forEach(flatChoice => {
+    groups.choice?.forEach(flatChoice => {
       const parent = tree[flatChoice.parent];
       if (parent) {
         const c = fromFlatChoice(flatChoice as FlatChoice);
@@ -448,7 +489,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     });
 
     const effects: Record<Uid, Effect> = {};
-    groups.effect.forEach(flatEffect => {
+    groups.effect?.forEach(flatEffect => {
       const parent = choices[flatEffect.parent];
       if (parent) {
         const ef = fromFlatEffect(flatEffect as FlatEffect);
@@ -459,7 +500,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       }
     });
 
-    groups.impact.forEach(flatImpact => {
+    groups.impact?.forEach(flatImpact => {
       const parent = effects[flatImpact.parent];
       if (parent) {
         const i = fromFlatImpact(flatImpact as FlatImpact);
@@ -485,14 +526,30 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'choice':
         return toFlatChoice(getChoiceDefinition().getDefault(), parentId);
       case 'effect':
-        return toFlatEffect(getDefaultEffect(parentId), parentId);
+        return toFlatEffect(getEffectDefinition().getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('activation').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
     }
   }
 
   protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
-    throw new Error('Method not implemented.');
+    // TODO
+    return () => {
+      return { success: true, messages: [] };
+    };
+  }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'action':
+        super.unselect('action');
+      case 'choice':
+        super.unselect('choice');
+      case 'effect':
+        super.unselect('effect');
+      default:
+        super.unselect('impact');
+    }
   }
 }
 

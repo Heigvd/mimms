@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1764774667238,
+  "createdTime" : 1765813125733,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -861,7 +861,10 @@
         "translations" : { }
       },
       "name" : "triggers_data",
-      "properties" : { },
+      "properties" : {
+        "DOvwhi1IWR" : "{\"type\":\"trigger\",\"uid\":\"DOvwhi1IWR\",\"index\":1,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Wind spreads the fire\",\"comment\":\"Triggered at 4:30 p.m. if no oe has spoken to the firefighters\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":true,\"operator\":\"AND\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"E14HoSSDxv\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"The wind spreads the fire  ! Be careful\"}},\"version\":10},\"roles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true}}],\"conditions\":[{\"uid\":\"3EI8ECUwZo\",\"index\":0,\"type\":\"time\",\"operator\":\"=\",\"timeSeconds\":1800}]}",
+        "Dm09aikB5N" : "{\"type\":\"trigger\",\"uid\":\"Dm09aikB5N\",\"index\":0,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Fire brigade truck is stuck by road construction\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":false,\"operator\":\"AND\",\"impacts\":[],\"conditions\":[]}"
+      },
       "refId" : "ObjectDescriptor:2623032:acjkg8",
       "scopeType" : "GameModelScope",
       "version" : null,
@@ -893,8 +896,8 @@
       },
       "name" : "action_template_data",
       "properties" : {
-        "1" : "{\"uid\":\"1\",\"type\":\"FullyConfigurableTemplateDescriptor\",\"index\":1,\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"tag\":\"my 1st\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"mandatory\":true,\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"my first custom action\"}},\"version\":0},\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"oh what is it\"}},\"version\":0},\"durationSec\":120,\"repeats\":2,\"comment\":\"Make it feel happy\",\"showAllChoices\":true,\"availableToRoles\":[],\"choices\":[{\"uid\":\"at1cA\",\"type\":\"choice\",\"index\":0,\"parent\":\"1\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":0},\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"desc A\"}},\"version\":0},\"defaultEffect\":\"at1cAe1\",\"effects\":[{\"uid\":\"at1cAe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at1cA\",\"tag\":\"E1 - 1\",\"impacts\":[{\"type\":\"radio\",\"uid\":\"at1cAe1I\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Impact at1cAe1I\"}},\"version\":1},\"channel\":\"CASU\"}]},{\"uid\":\"at1cAe2\",\"type\":\"effect\",\"index\":1,\"parent\":\"at1cA\",\"tag\":\"E2\",\"impacts\":[{\"type\":\"radio\",\"uid\":\"at1cAe2I\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Impact at1cAe2I\"}},\"version\":1},\"channel\":\"CASU\"}]}]},{\"uid\":\"at1cB\",\"type\":\"choice\",\"index\":1,\"parent\":\"1\",\"activableType\":\"choice\",\"activeAtStart\":true,\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":0},\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"desc B\"}},\"version\":0},\"defaultEffect\":\"at1cBe1\",\"effects\":[{\"uid\":\"at1cBe1\",\"type\":\"effect\",\"index\":0,\"parent\":\"at1cB\",\"tag\":\"E1\",\"impacts\":[{\"type\":\"radio\",\"uid\":\"at1cBe1I\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Impact at1cBe1I\"}},\"version\":1},\"channel\":\"CASU\"}]}]}]}",
-        "2" : "{\"uid\":\"2\",\"type\":\"FullyConfigurableTemplateDescriptor\",\"index\":2,\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"tag\":\"my 2nd\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"mandatory\":true,\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"my second custom action\"}},\"version\":0},\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"ah ha\"}},\"version\":0},\"durationSec\":180,\"repeats\":2,\"comment\":\"\",\"showAllChoices\":true,\"availableToRoles\":[],\"choices\":[]}"
+        "EbpJIgmOWV" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Position your ambulance\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":1},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Position your ambulance\"}},\"version\":1},\"uid\":\"EbpJIgmOWV\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"showAllChoices\":true,\"comment\":\"\",\"index\":1,\"choices\":[{\"type\":\"choice\",\"uid\":\"5T5sWdqRlS\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"LY0Lk0KjlH\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":1},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"EbpJIgmOWV\",\"displayedMapEntity\":\"\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"LY0Lk0KjlH\",\"index\":0,\"tag\":\"new effect\",\"parent\":\"5T5sWdqRlS\",\"impacts\":[]}]}]}",
+        "nFn2F3nj12" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":false,\"repeats\":0,\"tag\":\"Request information from a passerby - different options\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"You ask a passerby, who is visibly agitated, to tell you what happened.\"}},\"version\":1},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Request information from a passerby\"}},\"version\":1},\"uid\":\"nFn2F3nj12\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"showAllChoices\":true,\"comment\":\"Different effect if the action is performed before or after the explosion.\",\"index\":0,\"choices\":[{\"type\":\"choice\",\"uid\":\"8WOUIRVUfE\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":1},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Has the passerby heard something?\"}},\"version\":4},\"parent\":\"nFn2F3nj12\",\"displayedMapEntity\":\"\",\"tag\":\"Heard something?\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"Hon1DyqoBw\",\"index\":0,\"tag\":\"After the explosion\",\"parent\":\"8WOUIRVUfE\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"xwRQHkr68h\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"The passerby is so agitated that he cannot express himself. You learn nothing new.\"}},\"version\":8},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":true,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false}}]}]}]}"
       },
       "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
@@ -6989,6 +6992,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/actionsConfig",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2770685:ROwdmP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/actors",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7482,7 +7494,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-531",
+  "name" : "MIM-536",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

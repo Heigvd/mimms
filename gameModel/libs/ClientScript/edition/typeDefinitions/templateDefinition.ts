@@ -9,10 +9,7 @@ import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTe
 type TemplateDescriptorTypeName = TemplateDescriptor['type'];
 type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
 
-// TODO Fix hack : availableToRoles is added just because MapToFlatType removes every array
-export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'> & {
-  availableToRoles: TemplateDescriptor['availableToRoles'];
-};
+export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'>;
 
 export function toFlatActionTemplate(
   action: TemplateDescriptor,

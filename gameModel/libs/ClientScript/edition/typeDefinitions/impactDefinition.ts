@@ -84,8 +84,8 @@ export function getEmptyImpactDef(): Definition<EmptyImpact> {
     validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
     },
   };
 }
@@ -128,8 +128,8 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
     },
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       activableType: ALL_EDITABLE,
       target: ALL_EDITABLE,
@@ -184,8 +184,8 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
     },
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       target: ALL_EDITABLE,
       targetEffect: ALL_EDITABLE,
@@ -248,8 +248,8 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
     },
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
       roles: {} as any, // TODO ALL_EDITABLE,
@@ -294,8 +294,8 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
     },
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
       channel: ALL_EDITABLE,
@@ -351,8 +351,8 @@ export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
     },
     view: {
       type: ALL_EDITABLE,
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      index: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       option: ALL_EDITABLE,
       target: ALL_EDITABLE,

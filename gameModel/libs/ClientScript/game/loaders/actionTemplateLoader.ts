@@ -39,7 +39,14 @@ export function getActionTemplatesMockData(): Record<string, TemplateDescriptor>
       repeats: 2,
       comment: '',
       showAllChoices: true,
-      availableToRoles: [],
+      availableToRoles: {
+        ACS: true,
+        MCS: true,
+        AL: true,
+        CASU: false,
+        EVASAN: true,
+        LEADPMA: true,
+      },
       binding: undefined,
       choices: [
         {
@@ -216,7 +223,14 @@ export function getActionTemplatesMockData(): Record<string, TemplateDescriptor>
       repeats: 2,
       comment: '',
       showAllChoices: true,
-      availableToRoles: [],
+      availableToRoles: {
+        ACS: true,
+        MCS: false,
+        AL: true,
+        CASU: false,
+        EVASAN: false,
+        LEADPMA: true,
+      },
       binding: undefined,
       choices: [],
     },

@@ -41,19 +41,20 @@ export function getChoiceDefinition(): ChoiceDefinition {
       activableType: 'choice',
       activeAtStart: true,
       defaultEffect: '',
-      description: createOrUpdateTranslation('description', undefined),
+      description: createOrUpdateTranslation('', undefined),
       effects: [],
-      title: createOrUpdateTranslation('title', undefined),
+      title: createOrUpdateTranslation('', undefined),
       parent: 'no parent',
       displayedMapEntity: '', // should there be a default one ?
-      tag: 'define tag',
+      tag: 'new choice',
       repeats: 1,
       durationDeltaSec: 0,
       index: 0,
     }),
     validator: _t => ({ success: true, messages: [] }), // TODO validation
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
@@ -71,7 +72,6 @@ export function getChoiceDefinition(): ChoiceDefinition {
       tag: ALL_EDITABLE,
       repeats: ALL_EDITABLE,
       durationDeltaSec: EXPERT_ONLY,
-      index: EXPERT_ONLY,
     },
   };
 }
