@@ -1,6 +1,8 @@
 import { Uid } from '../../game/common/interfaces';
+import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { patchX } from '../../tools/helper';
+import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { getMapEntityController } from '../controllers/controllerInstances';
 import { MapEntityFlatType } from '../controllers/dataController';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
@@ -110,3 +112,26 @@ export function updateOffsetY(value: number, target: FlatMapObject): void {
   const newOffset: [number, number] = [offsetX, value];
   updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
 }
+
+export function getFilters(): { label: string; binding: LOCATION_ENUM }[] {
+  return Object.values(locationEnumConfig)
+    .filter(loc => loc.id !== LOCATION_ENUM.remote)
+    .map(loc => ({ label: getLocationTranslation(loc.id), binding: loc.id }));
+}
+
+// **************** MAP REFRESH *************
+
+export function notifyLayerChange(): void {
+  if (mapObjectsLayerRef?.current?.changed) {
+    mapObjectsLayerRef.current.changed();
+  }
+}
+
+export function notifyModalLayerChange(): void {
+  if (mapObjectsLayerModalRef?.current?.changed) {
+    mapObjectsLayerModalRef.current.changed();
+  }
+}
+
+export const mapObjectsLayerRef = Helpers.useRef<any>('mapObjectsLayerRef', null);
+export const mapObjectsLayerModalRef = Helpers.useRef<any>('mapObjectsLayerModalRef', null);

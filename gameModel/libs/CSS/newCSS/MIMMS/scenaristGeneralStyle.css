@@ -113,6 +113,10 @@
   box-shadow: var(--buttonShadow);
 }
 
+.scenarist-save-all-button button:hover {
+  background-color: var(--grey-white);
+}
+
 /* boolean button */
 .boolean-container {
   flex-wrap: wrap;

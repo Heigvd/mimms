@@ -174,7 +174,7 @@ function getLineStringStyle(feature: any, colors: MapColorConfig): LayerStyleObj
 }
 
 function getPolygonStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
-  const fillOpacity = colors.opacity;
+  const fillOpacity = colors.opacity * 0.5;
   const fill: FillStyleObject = {
     type: 'FillStyle',
     color: colors.color + floatToHexByte(fillOpacity),
