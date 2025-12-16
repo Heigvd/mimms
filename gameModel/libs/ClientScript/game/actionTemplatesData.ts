@@ -21,6 +21,7 @@ import { ActionTemplateUid } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
 import { RadioType } from './common/radio/communicationType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
+import { ActionTemplateData } from './loaders/actionTemplateLoader';
 import {
   getAccregChoices,
   getAmbulanceChoices,
@@ -49,10 +50,7 @@ export interface IUniqueActionTemplates {
   readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
-export function initActionTemplates(): {
-  actionTemplates: Record<ActionTemplateUid, ActionTemplateBase>;
-  uniqueActionTemplates: IUniqueActionTemplates;
-} {
+export function initActionTemplates(): ActionTemplateData {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory

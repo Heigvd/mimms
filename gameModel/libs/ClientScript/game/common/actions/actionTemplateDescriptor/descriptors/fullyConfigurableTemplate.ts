@@ -1,4 +1,3 @@
-import { TimeSliceDuration } from '../../../constants';
 import { MapChoiceActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
@@ -14,9 +13,14 @@ export function createFullyConfigurableTemplate(
 ): MapChoiceActionTemplate {
   return new MapChoiceActionTemplate(
     descriptor.uid,
-    'move-actor-title',
-    'move-actor-desc',
-    TimeSliceDuration
-    //'move-actor-feedback'
+    descriptor.title,
+    descriptor.description,
+    descriptor.durationSec,
+    undefined, // TODO repeats / replayable
+    undefined,
+    undefined,
+    [], // TODO availableToRoles
+    descriptor.choices
+    //LOCATION_ENUM.custom
   );
 }

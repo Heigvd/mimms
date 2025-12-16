@@ -2,7 +2,7 @@ import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
-import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
+import { IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid, ActorId } from './common/baseTypes';
@@ -36,6 +36,7 @@ import {
   debugRemovePlayerContext,
   getCurrentExecutionContext,
 } from './executionContext/gameExecutionContextController';
+import { loadActionTemplates } from './loaders/actionTemplateLoader';
 import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 
 /* all defined action templates */
@@ -93,7 +94,7 @@ export function runUpdateLoop(): void {
 
 function tryLoadTemplates(): void {
   if (!actionTemplates || !uniqueActionTemplates) {
-    ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+    ({ actionTemplates, uniqueActionTemplates } = loadActionTemplates());
     mainSimLogger.info('****** TEMPLATES LOADED ******');
   }
 }
