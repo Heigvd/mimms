@@ -68,3 +68,17 @@ function getLocationChoicesData(
 export function getLocationTranslation(binding: LOCATION_ENUM): string {
   return getTranslation('mainSim-locations', locationEnumConfig[binding].name);
 }
+
+export function getFilters(): { label: string; binding: LOCATION_ENUM }[] {
+  return [
+    { label: 'Incident', binding: LOCATION_ENUM.chantier },
+    { label: 'Survivor reception center', binding: LOCATION_ENUM.nidDeBlesses },
+    { label: 'Advanced medical post', binding: LOCATION_ENUM.PMA },
+    { label: 'Forward command post', binding: LOCATION_ENUM.pcFront },
+    { label: 'Medical command post', binding: LOCATION_ENUM.PC },
+    { label: 'Ambulance park', binding: LOCATION_ENUM.ambulancePark },
+    { label: 'Helicopter park', binding: LOCATION_ENUM.helicopterPark },
+    { label: 'Access & eggress', binding: LOCATION_ENUM.AccReg },
+    { label: 'Custom', binding: LOCATION_ENUM.custom },
+  ];
+}
