@@ -740,7 +740,7 @@ function getBlockDetails(
     logger.info('Block: ', block.params);
 
     if (block.params.penetratingInjury) {
-      output.push('Penetrating injury');
+      output.push(formatBlockEntry('penetrating', 'human-general'));
     }
     if (fullDetails && block.params.pain) {
       output.push(formatBlockEntry('pain', 'human-general', '' + block.params.pain));
@@ -900,6 +900,7 @@ export function getBlockDetailOfHuman(
   fullDetails: boolean = false
 ) {
   const output: string[] = [''];
+
 
   if (human != null && observedBlock) {
     const data: {

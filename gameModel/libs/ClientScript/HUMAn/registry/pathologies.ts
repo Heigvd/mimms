@@ -65,6 +65,31 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       ]
     )
   );
+  // penetrating version
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_ah_pen',
+        name: 'PENETRATING catastrophic arterial hemorrhage (thigh, neck)',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Art. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'arterial',
+          bleedingFactor: { min: 0.25, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
+        },
+      ]
+    )
+  );
 
   registerPathology(
     buildPathology(
@@ -81,6 +106,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'arterial',
           bleedingFactor: { min: 0.85, max: 1 },
           instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+      ]
+    )
+  );
+
+  // PEN VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_ah__2_pen',
+        name: 'PENETRATING catastrophic arterial hemorrhage (leg)',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Art. Hem.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'arterial',
+          bleedingFactor: { min: 0.85, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['LEFT_LEG', 'RIGHT_LEG'],
         },
       ]
@@ -108,6 +159,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_ah_pen',
+        name: 'PENETRATING severe arterial hemorrhage (thigh)',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Art. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'arterial',
+          bleedingFactor: { min: 0.08, max: 0.25 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH', 'NECK'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -123,6 +200,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'arterial',
           bleedingFactor: { min: 0.17, max: 0.85 },
           instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+      ]
+    )
+  );
+
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_ah__2_pen',
+        name: 'PENETRATING severe arterial hemorrhage (leg)',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Art. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'arterial',
+          bleedingFactor: { min: 0.17, max: 0.85 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['LEFT_LEG', 'RIGHT_LEG'],
         },
       ]
@@ -150,25 +253,31 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
-  /*registerPathology(
-		buildPathology(
-			{
-				id: 'minor_ah',
-				severity: 'non_urgent',
-				name: 'minor arterial hemorrhage',
-				blockSelectionMode: 'any',
-			},
-			[
-				{
-					type: 'Hemorrhage',
-					subtype: 'arterial',
-					bleedingFactor: { min: 0.0001, max: 1 },
-					instantaneousBloodLoss: undefined,
-					blocks: extremities,
-				},
-			],
-		),
-	);*/
+  //PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'urgent_ah_pen',
+        name: 'PENETRATING urgent arterial hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'urgent',
+        shortDescription: 'Art. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'arterial',
+          bleedingFactor: { min: 0.06, max: 0.3 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+      ]
+    )
+  );
 
   registerPathology(
     buildPathology(
@@ -185,6 +294,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'venous',
           bleedingFactor: { min: 0.2, max: 1 },
           instantaneousBloodLoss: undefined,
+          blocks: ['NECK'],
+        },
+      ]
+    )
+  );
+
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_vh_neck_pen',
+        name: 'PENETRATING catastrophic venous hemorrhage (neck)',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.2, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['NECK'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['NECK'],
         },
       ]
@@ -213,6 +348,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PEN venous
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_vh_pen',
+        name: 'PENETRATING catastrophic venous hemorrhage (thigh)',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.4, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -228,6 +389,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'venous',
           bleedingFactor: { min: 0.7, max: 1 },
           instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+      ]
+    )
+  );
+
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_vh__2_pen',
+        name: 'PENETRATING catastrophic venous hemorrhage (leg)',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.7, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['LEFT_LEG', 'RIGHT_LEG'],
         },
       ]
@@ -255,6 +442,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_vh_pen',
+        name: 'PENETRATING severe venous hemorrhage (thigh)',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.08, max: 0.24 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_THIGH', 'RIGHT_THIGH'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -270,6 +483,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'venous',
           bleedingFactor: { min: 0.2, max: 0.7 },
           instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+      ]
+    )
+  );
+
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_vh__2_pen',
+        name: 'PENETRATING severe venous hemorrhage (leg)',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.2, max: 0.7 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_LEG', 'RIGHT_LEG'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['LEFT_LEG', 'RIGHT_LEG'],
         },
       ]
@@ -297,6 +536,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_vh_arm_pen',
+        name: 'PENETRATING severe venous hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.2, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -318,6 +583,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'urgent_vh_pen',
+        name: 'PENETRATING moderate venous hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'urgent',
+        shortDescription: 'Ven. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.06, max: 0.2 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['LEFT_ARM', 'RIGHT_ARM'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -333,6 +624,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'venous',
           bleedingFactor: { min: 0.001, max: 0.1 },
           instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_FOREARM', 'RIGHT_FOREARM'],
+        },
+      ]
+    )
+  );
+
+  // PEN
+  registerPathology(
+    buildPathology(
+      {
+        id: 'minor_vh_pen',
+        name: 'PENETRATING minor venous hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'non_urgent',
+        shortDescription: 'Minor Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'venous',
+          bleedingFactor: { min: 0.001, max: 0.1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['LEFT_FOREARM', 'RIGHT_FOREARM'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['LEFT_FOREARM', 'RIGHT_FOREARM'],
         },
       ]
@@ -381,58 +698,6 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
       ]
     )
   );
-  // TEST PENETRATING THINGY
-  // internal
-  registerPathology(
-    buildPathology(
-      {
-        id: 'catastrophic_ih_pen',
-        severity: 'dead',
-        name: 'PENETRATING catastrophic internal hemorrhage',
-        blockSelectionMode: 'any',
-        shortDescription: 'Pen. Cata. Int. Hem.',
-      },
-      [
-        {
-          type: 'Hemorrhage',
-          subtype: 'internal',
-          bleedingFactor: { min: 0.075, max: 1 },
-          instantaneousBloodLoss: undefined,
-          blocks: ['ABDOMEN'],
-        },
-        {
-          type: 'Penetrating',
-          blocks: ['ABDOMEN'],
-        },
-      ]
-    )
-  );
-
-  registerPathology(
-    buildPathology(
-      {
-        id: 'severe_ih_pen',
-        severity: 'immediate',
-        name: 'PENETRATING severe internal hemorrhage',
-        blockSelectionMode: 'any',
-        shortDescription: 'Pen. Internal Hem.',
-      },
-      [
-        {
-          type: 'Hemorrhage',
-          subtype: 'internal',
-          bleedingFactor: { min: 0.0135, max: 0.075 },
-          instantaneousBloodLoss: undefined,
-          blocks: ['ABDOMEN'],
-        },
-        {
-          type: 'Penetrating',
-          blocks: ['ABDOMEN'],
-        },
-      ]
-    )
-  );
-  //// *******************
 
   registerPathology(
     buildPathology(
