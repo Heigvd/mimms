@@ -5,18 +5,19 @@ import {
   CasuMessageTemplate,
   DisplayMessageActionTemplate,
   EvacuationActionTemplate,
+  MapChoiceActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
-  PretriageReportTemplate,
-  MapChoiceActionTemplate,
-  SendRadioMessageTemplate,
-  SimFlag,
-  SituationUpdateActionTemplate,
   ParkChoiceTemplate,
   PCChoiceTemplate,
   PCFrontChoiceTemplate,
+  PretriageReportTemplate,
+  SendRadioMessageTemplate,
+  SimFlag,
+  SituationUpdateActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
+import { ActionTemplateUid } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
 import { RadioType } from './common/radio/communicationType';
 import { LOCATION_ENUM } from './common/simulationState/locationState';
@@ -49,7 +50,7 @@ export interface IUniqueActionTemplates {
 }
 
 export function initActionTemplates(): {
-  actionTemplates: Record<string, ActionTemplateBase>;
+  actionTemplates: Record<ActionTemplateUid, ActionTemplateBase>;
   uniqueActionTemplates: IUniqueActionTemplates;
 } {
   // TODO read from Variable
@@ -57,6 +58,7 @@ export function initActionTemplates(): {
   // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
 
   const pcFrontChoice = new PCFrontChoiceTemplate(
+    'define-pcFront-uid-qwe',
     'define-pcFront-title',
     'define-pcFront-desc',
     TimeSliceDuration,
@@ -69,42 +71,49 @@ export function initActionTemplates(): {
   );
 
   const moveActor = new MoveActorActionTemplate(
+    'move-actor-uid-wer',
     'move-actor-title',
     'move-actor-desc',
     TimeSliceDuration
   );
 
   const getInfo = new DisplayMessageActionTemplate(
+    'basic-info-uid-ert',
     'basic-info-title',
     'basic-info-desc',
     TimeSliceDuration * 2,
     'basic-info-feedback'
   );
   const getInfo2 = new DisplayMessageActionTemplate(
+    'other-basic-info-uid-rtz',
     'other-basic-info-title',
     'other-basic-info-desc',
     TimeSliceDuration,
     'other-basic-info-feedback'
   );
   const getPoliceInfos = new DisplayMessageActionTemplate(
+    'basic-info-police-uid-tzu',
     'basic-info-police-title',
     'basic-info-police-desc',
     TimeSliceDuration,
     'basic-info-police-feedback'
   );
   const getFireFighterInfos = new DisplayMessageActionTemplate(
+    'basic-info-firefighter-uid-zui',
     'basic-info-firefighter-title',
     'basic-info-firefighter-desc',
     TimeSliceDuration,
     'basic-info-firefighter-feedback'
   );
   const casuMessage = new CasuMessageTemplate(
+    'casu-message-uid-uio',
     'casu-message-title',
     'casu-message-desc',
     TimeSliceDuration
   );
 
   const actorFreeRadioMessage = new SendRadioMessageTemplate(
+    'send-radio-actor-uid-iop',
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
@@ -114,6 +123,7 @@ export function initActionTemplates(): {
   );
 
   const casuFreeRadioMessage = new SendRadioMessageTemplate(
+    'send-radio-casu-uid-asd',
     'send-radio-title',
     'send-radio-desc',
     TimeSliceDuration,
@@ -123,6 +133,7 @@ export function initActionTemplates(): {
   );
 
   const ambulanceParkChoice = new ParkChoiceTemplate(
+    'define-ambulance-park-uid-sdf',
     'define-ambulance-park-title',
     'define-ambulance-park-desc',
     TimeSliceDuration,
@@ -136,6 +147,7 @@ export function initActionTemplates(): {
   );
 
   const helicopterParkChoice = new ParkChoiceTemplate(
+    'define-helicopter-park-uid-dfg',
     'define-helicopter-park-title',
     'define-helicopter-park-desc',
     TimeSliceDuration,
@@ -149,6 +161,7 @@ export function initActionTemplates(): {
   );
 
   const nestChoice = new MapChoiceActionTemplate(
+    'define-Nest-uid-fgh',
     'define-Nest-title',
     'define-Nest-desc',
     TimeSliceDuration,
@@ -161,6 +174,7 @@ export function initActionTemplates(): {
   );
 
   const accessRegressChoice = new MapChoiceActionTemplate(
+    'define-accreg-uid-ghj',
     'define-accreg-title',
     'define-accreg-desc',
     TimeSliceDuration,
@@ -173,6 +187,7 @@ export function initActionTemplates(): {
   );
 
   const pmaChoice = new MapChoiceActionTemplate(
+    'define-PMA-uid-hjk',
     'define-PMA-title',
     'define-PMA-desc',
     TimeSliceDuration,
@@ -185,6 +200,7 @@ export function initActionTemplates(): {
   );
 
   const pcChoice = new PCChoiceTemplate(
+    'define-PC-uid-jkl',
     'define-PC-title',
     'define-PC-desc',
     TimeSliceDuration * 2,
@@ -196,6 +212,7 @@ export function initActionTemplates(): {
   );
 
   const openPMA = new DisplayMessageActionTemplate(
+    'open-PMA-uid-yxc',
     'open-PMA-title',
     'open-PMA-desc',
     TimeSliceDuration,
@@ -208,6 +225,7 @@ export function initActionTemplates(): {
   );
 
   const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-acsMcsArrival-uid-xcv',
     'define-acsMscArrival-title',
     'define-acsMscArrival-desc',
     TimeSliceDuration,
@@ -220,6 +238,7 @@ export function initActionTemplates(): {
   );
 
   const evasanArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-evasanArrival-uid-cvb',
     'define-evasanArrival-title',
     'define-evasanArrival-desc',
     TimeSliceDuration,
@@ -232,6 +251,7 @@ export function initActionTemplates(): {
   );
 
   const leadpmaArrivalAnnouncement = new DisplayMessageActionTemplate(
+    'define-leadpmaArrival-uid-vbn',
     'define-leadpmaArrival-title',
     'define-leadpmaArrival-desc',
     TimeSliceDuration,
@@ -244,6 +264,7 @@ export function initActionTemplates(): {
   );
 
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
+    'activate-radio-schema-uid-bnm',
     'activate-radio-schema-title',
     'activate-radio-schema-desc',
     TimeSliceDuration,
@@ -255,6 +276,7 @@ export function initActionTemplates(): {
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
+    'appoint-EVASAN-uid-qay',
     'appoint-EVASAN-title',
     'appoint-EVASAN-desc',
     TimeSliceDuration,
@@ -268,6 +290,7 @@ export function initActionTemplates(): {
   );
 
   const appointLeadPMA = new AppointActorActionTemplate(
+    'appoint-LeadPMA-uid-wsx',
     'appoint-LeadPMA-title',
     'appoint-LeadPMA-desc',
     TimeSliceDuration,
@@ -281,6 +304,7 @@ export function initActionTemplates(): {
   );
 
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
+    'move-res-task-uid-edc',
     'move-res-task-title',
     'move-res-task-desc',
     TimeSliceDuration,
@@ -288,6 +312,7 @@ export function initActionTemplates(): {
   );
 
   const evacuate = new EvacuationActionTemplate(
+    'evacuate-uid-rfv',
     'evacuate-title',
     'evacuate-desc',
     TimeSliceDuration,
@@ -299,6 +324,7 @@ export function initActionTemplates(): {
   );
 
   const pretriageReport = new PretriageReportTemplate(
+    'pretriage-report-task-uid-tgb',
     'pretriage-report-task-title',
     'pretriage-report-task-desc',
     TimeSliceDuration,
@@ -308,37 +334,38 @@ export function initActionTemplates(): {
   );
 
   const situationUpdate = new SituationUpdateActionTemplate(
+    'situation-update-uid-zhn',
     'situation-update-title',
     'situation-update-desc'
   );
 
-  const templates: Record<string, ActionTemplateBase> = {};
-  templates[ambulanceParkChoice.Uid] = ambulanceParkChoice;
-  templates[helicopterParkChoice.Uid] = helicopterParkChoice;
-  templates[nestChoice.Uid] = nestChoice;
-  templates[accessRegressChoice.Uid] = accessRegressChoice;
-  templates[pmaChoice.Uid] = pmaChoice;
-  templates[pcChoice.Uid] = pcChoice;
-  templates[pcFrontChoice.Uid] = pcFrontChoice;
-  templates[moveActor.Uid] = moveActor;
-  templates[getInfo.Uid] = getInfo;
-  templates[getInfo2.Uid] = getInfo2;
-  templates[getPoliceInfos.Uid] = getPoliceInfos;
-  templates[getFireFighterInfos.Uid] = getFireFighterInfos;
-  templates[openPMA.Uid] = openPMA;
-  templates[acsMcsArrivalAnnouncement.Uid] = acsMcsArrivalAnnouncement;
-  templates[evasanArrivalAnnouncement.Uid] = evasanArrivalAnnouncement;
-  templates[leadpmaArrivalAnnouncement.Uid] = leadpmaArrivalAnnouncement;
-  templates[activateRadioSchema.Uid] = activateRadioSchema;
-  templates[casuMessage.Uid] = casuMessage;
-  templates[actorFreeRadioMessage.Uid] = actorFreeRadioMessage;
-  templates[casuFreeRadioMessage.Uid] = casuFreeRadioMessage;
-  templates[appointEVASAN.Uid] = appointEVASAN;
-  templates[appointLeadPMA.Uid] = appointLeadPMA;
-  templates[allocateResources.Uid] = allocateResources;
-  templates[evacuate.Uid] = evacuate;
-  templates[pretriageReport.Uid] = pretriageReport;
-  templates[situationUpdate.Uid] = situationUpdate;
+  const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
+  templates[ambulanceParkChoice.uid] = ambulanceParkChoice;
+  templates[helicopterParkChoice.uid] = helicopterParkChoice;
+  templates[nestChoice.uid] = nestChoice;
+  templates[accessRegressChoice.uid] = accessRegressChoice;
+  templates[pmaChoice.uid] = pmaChoice;
+  templates[pcChoice.uid] = pcChoice;
+  templates[pcFrontChoice.uid] = pcFrontChoice;
+  templates[moveActor.uid] = moveActor;
+  templates[getInfo.uid] = getInfo;
+  templates[getInfo2.uid] = getInfo2;
+  templates[getPoliceInfos.uid] = getPoliceInfos;
+  templates[getFireFighterInfos.uid] = getFireFighterInfos;
+  templates[openPMA.uid] = openPMA;
+  templates[acsMcsArrivalAnnouncement.uid] = acsMcsArrivalAnnouncement;
+  templates[evasanArrivalAnnouncement.uid] = evasanArrivalAnnouncement;
+  templates[leadpmaArrivalAnnouncement.uid] = leadpmaArrivalAnnouncement;
+  templates[activateRadioSchema.uid] = activateRadioSchema;
+  templates[casuMessage.uid] = casuMessage;
+  templates[actorFreeRadioMessage.uid] = actorFreeRadioMessage;
+  templates[casuFreeRadioMessage.uid] = casuFreeRadioMessage;
+  templates[appointEVASAN.uid] = appointEVASAN;
+  templates[appointLeadPMA.uid] = appointLeadPMA;
+  templates[allocateResources.uid] = allocateResources;
+  templates[evacuate.uid] = evacuate;
+  templates[pretriageReport.uid] = pretriageReport;
+  templates[situationUpdate.uid] = situationUpdate;
 
   // Beware that the order of the actions of the standard list depends on the creation order
 

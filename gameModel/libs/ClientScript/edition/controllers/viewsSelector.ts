@@ -12,6 +12,7 @@ import {
   EditionLevel,
   ToConfigurationViewType,
 } from '../typeDefinitions/definition';
+import { getEffectDefinition } from '../typeDefinitions/effectDefinition';
 import {
   getActivationImpactDef,
   getChoiceEffectSelectionImpactDef,
@@ -20,17 +21,17 @@ import {
   getNotificationImpactDef,
   getRadioImpactDef,
 } from '../typeDefinitions/impactDefinition';
-import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
-import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
-import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
-import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
-import { FlatTypes, SuperTypeNames } from './dataController';
+import { getMapEntityDefinition } from '../typeDefinitions/mapEntityDefinition';
 import {
   getLineMapObjectDef,
   getPointMapObjectDef,
   getPolygonMapObjectDef,
 } from '../typeDefinitions/mapObjectDefinition';
-import { getMapEntityDefinition } from '../typeDefinitions/mapEntityDefinition';
+import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
+import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
+import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
+import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
+import { FlatTypes, SuperTypeNames } from './dataController';
 
 /**
  * Removes the superType and parent fields
@@ -63,6 +64,9 @@ const viewTree: Views = {
   choice: {
     choice: getChoiceDefinition().view,
   },
+  effect: {
+    effect: getEffectDefinition().view,
+  },
   impact: {
     activation: getActivationImpactDef().view,
     mapActivation: getMapActivationImpactDef().view,
@@ -78,9 +82,6 @@ const viewTree: Views = {
     action: getActionConditionDef().view,
     time: getTimeConditionDef().view,
     empty: getEmptyConditionDef().view,
-  },
-  effect: {
-    effect: {} as any, //TODO
   },
   geometry: {
     Point: getPointMapObjectDef().view,

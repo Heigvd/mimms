@@ -2,38 +2,84 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "choices" : {
-          "@class" : "Script",
-          "content" : "import { ChoiceDescriptor } from \"./game/common/actions/choiceDescriptor/choiceDescriptor\";\nimport { getLetterRepresentationOfIndex } from \"./tools/helper\";\n  const choices: { label: string, value: string }[] = [];\n  const uids = Context.action.choices.map((c: ChoiceDescriptor) => c.uid);\n\n  if (uids) {\n    uids.forEach((u: string, i: number) => {\n      choices.push({ label: getLetterRepresentationOfIndex(i), value: u })\n    })\n  }\n  choices;",
-          "language" : "typescript"
-        },
-        "layoutStyle" : {
-          "padding" : "10px 5px 0 0"
-        },
-        "onVariableChange" : {
-          "client" : {
-            "@class" : "Script",
-            "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedActionChoiceUid = Context.actionChoiceUid;\nContext.interfaceState.setState(newState);\nactivableSelectionRef.current.changed();",
-            "language" : "TypeScript"
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "choice-title",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  I18n.translate(Context.choice.title);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "choice-description",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "description",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  I18n.translate(Context.choice.description);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "className" : "choice-container",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "choice-container--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\ngetTypedInterfaceState().selectedActionChoiceUid == Context.choice.uid;",
+                "language" : "typescript"
+              }
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedActionChoiceUid = Context.choice.uid;\nContext.interfaceState.setState(newState);\nactivableSelectionRef.current.changed();\n",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
           },
-          "exposeVariableAs" : {
-            "@class" : "Script",
-            "content" : "\"actionChoiceUid\"",
-            "language" : "TypeScript"
-          }
-        },
-        "script" : {
+          "type" : "FlexList"
+        } ],
+        "className" : "choice-list",
+        "exposeAs" : "choice",
+        "getItemsFn" : {
           "@class" : "Script",
-          "content" : "Context.interfaceState.state.selectedActionChoiceUid;",
+          "content" : "Context.action.choices;",
           "language" : "TypeScript"
         },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
         "style" : { }
       },
-      "type" : "Select input"
+      "type" : "For each"
     } ],
     "layout" : {
       "flexDirection" : "column"
     },
+    "layoutClassName" : "noPadding",
     "layoutStyle" : {
       "height" : "100%",
       "overflow" : "auto",

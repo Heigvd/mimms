@@ -72,7 +72,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { channel: Context.value });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { channel: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -101,7 +101,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
                         "language" : "TypeScript"
                       },
                       "exposeVariableAs" : {
@@ -217,7 +217,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem<FlatImpact>(Context.item.uid, { roles: newRoles } );",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem(Context.item.uid, { roles: newRoles } );",
                         "language" : "TypeScript"
                       }
                     },
@@ -252,7 +252,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem<FlatImpact>(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
                         "language" : "TypeScript"
                       },
                       "exposeVariableAs" : {
@@ -502,7 +502,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { targetEffect: Context.value });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { targetEffect: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -556,7 +556,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { target: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -641,7 +641,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { option: Context.option.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -698,7 +698,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { target: Context.value });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { target: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -760,7 +760,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { option: Context.option.value });",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { option: Context.option.value });",
                         "language" : "TypeScript"
                       }
                     },
@@ -826,7 +826,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatImpact } from \"./edition/typeDefinitions/impactDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatImpact>(Context.item.uid, { delaySeconds: Context.value * 60 });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { delaySeconds: Context.value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {

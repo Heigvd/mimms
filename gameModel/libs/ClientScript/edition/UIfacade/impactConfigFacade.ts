@@ -3,9 +3,13 @@ import { Impact } from '../../game/common/impacts/impact';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
-import { getTriggerController } from '../controllers/controllerInstances';
+import {
+  getActionTemplateController,
+  getTriggerController,
+} from '../controllers/controllerInstances';
 import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
+import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
 import {
   ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,
@@ -14,10 +18,35 @@ import {
   getDefaultEffect,
   getMatchingActionTemplateUid,
 } from './dataFetcher';
+import { getCurrentPage } from './mainMenuStateFacade';
+import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
 
-export function getController(): TriggerDataController | ActionTemplateDataController {
-  // TODO either trigger controller or action template controller
-  return getTriggerController();
+function getController(): TriggerDataController | ActionTemplateDataController {
+  switch (getCurrentPage()) {
+    case 'triggers':
+      return getTriggerController();
+    case 'actions':
+      return getActionTemplateController();
+    default:
+      scenarioEditionLogger.warn(
+        'an impact should not be called from another page than trigger or action config page'
+      );
+      throw new Error(
+        'No controller exists for page ' + getCurrentPage() + '; caller ' + new Error().stack
+      );
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// update data
+
+export function updateItem(uid: Uid, newData: Partial<FlatImpact>): void {
+  const controller = getController();
+  if (controller instanceof TriggerDataController) {
+    updateTriggerPageItem<FlatImpact>(uid, newData);
+  } else if (controller instanceof ActionTemplateDataController) {
+    updateActionTemplatePageItem<FlatImpact>(uid, newData);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,7 +322,7 @@ function changeChoiceImpactType(
   return newImpact;
 }
 
-export function updateImpactActionRef(impact: FlatImpact, actionRef: string): void {
+export function updateImpactActionRef(impact: FlatImpact, actionRef: Uid): void {
   if (
     impact.type === 'activation' &&
     impact.activableType === 'actionTemplate' &&

@@ -1,3 +1,5 @@
+import { Uid } from './interfaces';
+
 /**
  * Represents the time in the simulation in seconds
  */
@@ -17,9 +19,7 @@ export type GlobalEventId = number;
 
 export type ActorId = number;
 
-export type TemplateId = number;
-
-export type ActionTemplateId = number;
+export type ActionTemplateUid = Uid;
 export type ActionId = number;
 
 export type TaskId = number;

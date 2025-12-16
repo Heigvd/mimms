@@ -297,6 +297,25 @@
             "type" : "checkbox"
           },
           "type" : "Boolean"
+        }, {
+          "props" : {
+            "className" : "condition",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "debug",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  JSON.stringify(Context.item, undefined, '<br>');",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "className" : "trigger",
         "hideIf" : {

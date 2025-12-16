@@ -38,7 +38,7 @@
         },
         "label" : {
           "@class" : "Script",
-          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = isPlannedAction(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate.Uid);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = isPlannedAction(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate.uid);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
           "language" : "TypeScript"
         },
         "layoutStyle" : {

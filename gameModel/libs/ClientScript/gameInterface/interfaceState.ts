@@ -1,5 +1,11 @@
 import { Actor } from '../game/common/actors/actor';
-import { HospitalId, PatientId, PatientUnitId, TaskId } from '../game/common/baseTypes';
+import {
+  ActionTemplateUid,
+  HospitalId,
+  PatientId,
+  PatientUnitId,
+  TaskId,
+} from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { RadioType } from '../game/common/radio/communicationType';
@@ -26,7 +32,7 @@ export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | 
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
-  currentActionUid: number;
+  currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   situationUpdateDuration: number;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -90,7 +96,7 @@ interface CasuMessage {
 export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
-    currentActionUid: 0,
+    currentActionUid: undefined,
     casuMessage: {
       messageType: '',
       major: '',

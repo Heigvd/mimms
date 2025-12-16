@@ -1,5 +1,5 @@
 import { triggerLogger } from '../../../../tools/logger';
-import { ActionTemplateId } from '../../baseTypes';
+import { ActionTemplateUid } from '../../baseTypes';
 import {
   hasCompletedOnceAction,
   hasNoActionInTimeline,
@@ -12,8 +12,7 @@ import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../conditi
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
-  // TODO deal with awful type conversion (ActionTemplateId is a number, Uid is a string)
-  actionRef: ActionTemplateId;
+  actionRef: ActionTemplateUid;
   status: ChoiceActionStatus;
 }
 
@@ -24,7 +23,7 @@ export function evaluateActionCondition(
   switch (condition.status) {
     case 'active':
     case 'inactive':
-      return evaluateActivable(state, String(condition.actionRef), condition.status); // TODO remove String( ) if we can (regarding actionTemplateId type)
+      return evaluateActivable(state, condition.actionRef, condition.status);
 
     case 'completed once':
       return hasCompletedOnceAction(state, condition.actionRef);

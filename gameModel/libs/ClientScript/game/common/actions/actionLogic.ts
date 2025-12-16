@@ -3,7 +3,7 @@
  */
 
 import { getUniqueActionTemplates } from '../../mainSimulationLogic';
-import { ActionTemplateId, ActorId } from '../baseTypes';
+import { ActionTemplateUid, ActorId } from '../baseTypes';
 import { RadioType } from '../radio/communicationType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -28,7 +28,7 @@ export function getSendRadioMessageTemplate(
  */
 export function hasBeenPlannedByOtherActor(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId,
+  actionTemplateId: ActionTemplateUid,
   actorId: ActorId
 ): boolean {
   return (
