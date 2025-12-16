@@ -3,12 +3,14 @@ import { patchX } from '../../tools/helper';
 import { getActionTemplateController } from '../controllers/controllerInstances';
 import { ActionTemplateFlatType } from '../controllers/dataController';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
-import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade';
+import { GenericScenaristInterfaceState, getItems, ModalState } from './genericConfigFacade';
 
 //////////////////////////////////////////////////////////////////////////////////////
 // UI state
 
-export type ActionTemplateConfigUIState = GenericScenaristInterfaceState;
+export interface ActionTemplateConfigUIState extends GenericScenaristInterfaceState {
+  modal: ModalState;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 // get data

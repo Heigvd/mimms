@@ -1,0 +1,240 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "attachedToId" : "PAGE_LOADER_DEFAULT_ID",
+        "children" : [ {
+          "props" : {
+            "className" : "noMargin sm-bold-primary-text",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Place your map object(s) on the map</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "OSMLayer" : false,
+                "children" : [ {
+                  "props" : {
+                    "layerId" : "activables",
+                    "layerProps" : {
+                      "zIndex" : 91
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "import { showOnlySelected } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(showOnlySelected());",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:2056",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "import { getScenaristLayerStyle } from \"./edition/UIfacade/map/styling\";\ngetScenaristLayerStyle(feature);"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "MapEntities",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "return(`maps/GVA-center/water.geojson`)",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:4326",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "water",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : { },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "return(`maps/GVA-center/rails.geojson`)",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:4326",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "rails",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "",
+                    "layerProps" : {
+                      "zIndex" : 10
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "return(`maps/GVA-center/roads.geojson`)",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:4326",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "roads",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                }, {
+                  "props" : {
+                    "layerId" : "buildings",
+                    "layerProps" : {
+                      "@class" : "Script",
+                      "content" : "({})",
+                      "language" : "typescript"
+                    },
+                    "layerSource" : {
+                      "dataType" : "GeoJSON",
+                      "source" : {
+                        "@class" : "Script",
+                        "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                        "language" : "typescript"
+                      },
+                      "sourceProjection" : "EPSG:4326",
+                      "type" : "VectorLayer",
+                      "useSpatialIndex" : true
+                    },
+                    "layerStyle" : {
+                      "@class" : "ScriptCallback",
+                      "args" : [ "feature", "resolution" ],
+                      "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
+                    },
+                    "layoutStyle" : { },
+                    "name" : "buildings",
+                    "style" : { }
+                  },
+                  "type" : "WegasMapVectorLayer"
+                } ],
+                "debug" : false,
+                "id" : "",
+                "layoutClassName" : "",
+                "layoutStyle" : {
+                  "backgroundColor" : "#E4E6E7",
+                  "height" : "100%",
+                  "padding" : "0px",
+                  "pointerEvents" : "auto",
+                  "width" : "100%"
+                },
+                "mapOptions" : { },
+                "style" : {
+                  "height" : "100%",
+                  "width" : "100%"
+                },
+                "viewOptions" : {
+                  "center" : [ 2500000, 1118500 ],
+                  "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
+                  "maxZoom" : 21,
+                  "projection" : "EPSG:2056",
+                  "zoom" : {
+                    "@class" : "Script",
+                    "content" : "(18.5)",
+                    "language" : "typescript"
+                  }
+                }
+              },
+              "type" : "WegasMap"
+            } ],
+            "className" : "noPadding noMargin",
+            "layout" : { },
+            "layoutClassName" : "noPadding noMargin theme-al",
+            "layoutStyle" : {
+              "height" : "100%",
+              "left" : "0",
+              "pointerEvents" : "auto",
+              "top" : "0",
+              "width" : "100%"
+            },
+            "name" : "map",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "location-modal fullWidth fullHeight",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getModalState } from \"./edition/UIfacade/impactConfigFacade\";\n  getModalState();",
+          "language" : "typescript"
+        },
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "name" : "Map modal",
+        "onExitActions" : {
+          "client" : {
+            "@class" : "Script",
+            "content" : "import { showOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n\nshowOnMap('closed');",
+            "language" : "TypeScript"
+          }
+        },
+        "style" : { }
+      },
+      "type" : "Modal"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

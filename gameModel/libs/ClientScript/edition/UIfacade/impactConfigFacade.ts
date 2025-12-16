@@ -9,7 +9,11 @@ import {
 } from '../controllers/controllerInstances';
 import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
-import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
+import { ModalState } from '../UIfacade/genericConfigFacade';
+import {
+  ActionTemplateConfigUIState,
+  updateItem as updateActionTemplatePageItem,
+} from './actionConfigFacade';
 import {
   ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,
@@ -19,7 +23,7 @@ import {
   getMatchingActionTemplateUid,
 } from './dataFetcher';
 import { getCurrentPage } from './mainMenuStateFacade';
-import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
+import { TriggerConfigUIState, updateItem as updateTriggerPageItem } from './triggerConfigFacade';
 
 function getController(): TriggerDataController | ActionTemplateDataController {
   switch (getCurrentPage()) {
@@ -381,5 +385,26 @@ export function updateImpactChoiceRef(
     }
 
     getController().updateItem(newImpact);
+  }
+}
+
+export function getModalState(): boolean {
+  return getController().getLatestIState().modal !== 'opened';
+}
+
+export function showOnMap(state: ModalState): void {
+  const controller = getController();
+  if (controller instanceof TriggerDataController) {
+    const newState: TriggerConfigUIState = Helpers.cloneDeep(
+      getTriggerController().getLatestIState()
+    );
+    newState.modal = state;
+    getTriggerController().updateIState(newState);
+  } else if (controller instanceof ActionTemplateDataController) {
+    const newState: ActionTemplateConfigUIState = Helpers.cloneDeep(
+      getActionTemplateController().getLatestIState()
+    );
+    newState.modal = state;
+    getActionTemplateController().updateIState(newState);
   }
 }

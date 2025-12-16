@@ -23,6 +23,8 @@ export interface GenericScenaristInterfaceState {
   selected: Partial<Record<SuperTypeNames, Uid>>;
 }
 
+export type ModalState = 'opened' | 'closed';
+
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
   return getController().getLatestIState();

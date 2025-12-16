@@ -594,6 +594,13 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { showOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n\nshowOnMap('opened');",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "open map",
                 "style" : {
                   "margin" : "0",
