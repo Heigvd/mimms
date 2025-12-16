@@ -320,7 +320,7 @@
                     "onVariableChange" : {
                       "client" : {
                         "@class" : "Script",
-                        "content" : "import { updateMapMarkerId } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateMapMarkerId(Context.item.uid, Context.value);",
+                        "content" : "import { FlatChoice } from \"./edition/typeDefinitions/choiceDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatChoice>(Context.item.uid, { displayedMapEntity: Context.value });",
                         "language" : "TypeScript"
                       },
                       "exposeVariableAs" : {

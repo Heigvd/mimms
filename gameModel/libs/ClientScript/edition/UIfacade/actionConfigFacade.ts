@@ -57,10 +57,6 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
   return getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid] || false;
 }
 
-export function updateMapMarkerId(choiceId: Uid, targetMapEntity: Uid): void {
-  updateItem<FlatChoice>(choiceId, { displayedMapEntity: targetMapEntity });
-}
-
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
   const state = getActionTemplateController().getLatestIState();
   if ((state.mapMarkerOn[choice.uid] || false) !== activate) {
