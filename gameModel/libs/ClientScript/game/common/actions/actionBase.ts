@@ -213,7 +213,7 @@ export abstract class StartEndAction extends ActionBase {
 
   public getTitle(): string {
     if (typeof this.actionNameKey === 'string') {
-      return this.actionNameKey;
+      return getTranslation('mainSim-actions-tasks', this.actionNameKey);
     } else {
       return I18n.translate(this.actionNameKey);
     }
@@ -500,7 +500,10 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   public override getTitle(): string {
-    return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+    return getTranslation(
+      'mainSim-actions-tasks',
+      this.actionNameKey + '-' + this.casuMessagePayload.messageType
+    );
   }
 
   public getChannel(): RadioType {
