@@ -588,7 +588,7 @@
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getFilters } from \"./UIfacade/locationFacade\";\n  getFilters();",
+                      "content" : "import { getFilters } from \"./edition/UIfacade/locationConfigFacade\";\ngetFilters();",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "binding",
