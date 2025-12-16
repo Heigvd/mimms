@@ -542,19 +542,13 @@ export class ActionTemplateDataController extends DataControllerBase<
   public override unselect(itemType: SuperTypeNames): void {
     switch (itemType) {
       case 'action':
-        super.unselect(itemType);
-        this.unselect('choice');
-        break;
+        super.unselect('action');
       case 'choice':
-        super.unselect(itemType);
-        this.unselect('effect');
-        break;
+        super.unselect('choice');
       case 'effect':
-        super.unselect(itemType);
-        this.unselect('impact');
-        break;
+        super.unselect('effect');
       default:
-        super.unselect(itemType);
+        super.unselect('impact');
     }
   }
 }
