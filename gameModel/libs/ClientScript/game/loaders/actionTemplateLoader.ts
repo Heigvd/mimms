@@ -29,8 +29,7 @@ export function loadActionTemplates(): ActionTemplateData {
 function initCustomActionTemplates(): ActionTemplateData['actionTemplates'] {
   const result: Record<Uid, ActionTemplateBase> = {};
 
-  const actionTemplateDescriptors = Variable.find(gameModel, ACTION_TEMPLATE_DATA);
-  const data = Object.values(parseObjectDescriptor<TemplateDescriptor>(actionTemplateDescriptors));
+  const data = Object.values(loadCustomActionTemplateDescriptors());
 
   let actionTemplate: ActionTemplateBase;
   data.forEach(actTemplateDescr => {
@@ -39,4 +38,9 @@ function initCustomActionTemplates(): ActionTemplateData['actionTemplates'] {
   });
 
   return result;
+}
+
+export function loadCustomActionTemplateDescriptors(): Record<Uid, TemplateDescriptor> {
+  const actionTemplateDescriptors = Variable.find(gameModel, ACTION_TEMPLATE_DATA);
+  return parseObjectDescriptor<TemplateDescriptor>(actionTemplateDescriptors);
 }
