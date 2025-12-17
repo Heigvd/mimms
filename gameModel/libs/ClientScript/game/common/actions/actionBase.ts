@@ -254,7 +254,8 @@ export abstract class ChoiceAction extends StartEndAction {
     const selectedEffect = this.choice.effects.find(e => e.uid === choiceActivable?.selectedEffect);
 
     if (selectedEffect) {
-      evaluateEffectImpacts(state, selectedEffect);
+      const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
+      eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
     }
   }
 
@@ -619,6 +620,87 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
   public getRecipientId(): ActorId | undefined {
     return getCasuActorId();
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// custom choice action
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class CustomChoiceAction extends ChoiceAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor,
+    binding: LOCATION_ENUM = LOCATION_ENUM.custom
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      ownerId,
+      templateUid,
+      provideFlagsToState,
+      choice
+    );
+  }
+
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    if (this.choice.displayedMapEntity) {
+      getLocalEventManager().queueLocalEvent(
+        new ChangeMapActivableStatusLocalEvent(
+          {
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            target: this.choice.displayedMapEntity,
+            option: 'activate',
+          },
+          'pending'
+        )
+      );
+    }
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+
+    if (this.choice.displayedMapEntity) {
+      getLocalEventManager().queueLocalEvent(
+        new ChangeMapActivableStatusLocalEvent(
+          {
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            target: this.choice.displayedMapEntity,
+            option: 'activate',
+          },
+          'built'
+        )
+      );
+    }
+  }
+
+  protected cancelInternal(state: Readonly<MainSimulationState>): void {
+    if (this.choice.displayedMapEntity) {
+      getLocalEventManager().queueLocalEvent(
+        new ChangeMapActivableStatusLocalEvent(
+          {
+            parentEventId: this.eventId,
+            simTimeStamp: state.getSimTime(),
+            target: this.choice.displayedMapEntity,
+            option: 'deactivate',
+          },
+          'pending'
+        )
+      );
+    }
   }
 }
 

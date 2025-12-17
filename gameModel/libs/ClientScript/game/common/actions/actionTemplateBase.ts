@@ -16,6 +16,7 @@ import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacua
 import {
   ActionCreationEvent,
   AppointActorEvent,
+  ChoiceEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   RequestPretriageReportEvent,
@@ -35,6 +36,7 @@ import {
   ActivateRadioSchemaAction,
   AppointActorAction,
   CasuMessageAction,
+  CustomChoiceAction,
   DisplayMessageAction,
   EvacuationAction,
   MapChoiceAction,
@@ -588,6 +590,87 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     _actor: Readonly<Actor>
   ): boolean {
     return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// custom choice
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class CustomChoiceActionTemplate<
+  ActionT extends CustomChoiceAction = CustomChoiceAction
+> extends ChoiceTemplate<CustomChoiceAction, ChoiceEvent, ChoiceDescriptor> {
+  constructor(
+    uid: ActionTemplateUid,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
+    duration: SimDuration,
+    //message: TranslationKey,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[],
+    binding?: LOCATION_ENUM
+  ) {
+    super(
+      uid,
+      title,
+      description,
+      duration,
+      replayable,
+      ActionType.ACTION,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    payload: ChoiceDescriptor
+  ): ChoiceEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      choice: payload,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ChoiceEvent>): CustomChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new CustomChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      ownerId,
+      this.uid,
+      this.raisedFlags,
+      payload.choice
+    ) as ActionT;
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    // TODO
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actor.Uid);
+  }
+
+  protected override customCanConcurrencyWiseBePlayed(
+    state: Readonly<MainSimulationState>,
+    actorUid: ActorId
+  ): boolean {
+    // TODO
+    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actorUid);
   }
 }
 

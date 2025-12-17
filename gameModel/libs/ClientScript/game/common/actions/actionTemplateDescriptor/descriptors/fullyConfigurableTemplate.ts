@@ -1,4 +1,4 @@
-import { MapChoiceActionTemplate } from '../../actionTemplateBase';
+import { CustomChoiceActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
 // TODO this might just be a MapChoiceActionTemplate instead
@@ -10,8 +10,8 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 
 export function createFullyConfigurableTemplate(
   descriptor: FullyConfigurableTemplateDescriptor
-): MapChoiceActionTemplate {
-  return new MapChoiceActionTemplate(
+): CustomChoiceActionTemplate {
+  return new CustomChoiceActionTemplate(
     descriptor.uid,
     descriptor.title,
     descriptor.description,
