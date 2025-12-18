@@ -98,6 +98,20 @@ export function getItemsTyped<S extends SuperTypeNames>(
   return getItems(superType, parentType) as FlatTypeBySuperType[S][];
 }
 
+/**
+ * Returns the item with specified super type and id or undefined if not found or type doesn't match
+ */
+export function getItemTyped<S extends SuperTypeNames>(
+  superType: S,
+  id: Uid
+): FlatTypeBySuperType[S] | undefined {
+  const item = getFlatObjects()[id];
+  if (item?.superType === superType) {
+    return item as FlatTypeBySuperType[S];
+  }
+  return undefined;
+}
+
 let lastGenericAdded: string | null = null;
 
 export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypes {
