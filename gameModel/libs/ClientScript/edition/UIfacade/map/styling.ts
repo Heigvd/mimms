@@ -22,16 +22,16 @@ export function getScenaristLayerStyle(feature: any): LayerStyleObject {
 function getFeatureColorMapView(feature: any): MapColorConfig {
   const sharesLocationBinding = hasSelectedLocationBinding(feature);
   const isSelected = isLinkedMapEntitySelected(feature);
-  let currentColor = DEFAULT_UNSELECTED_COLOR;
+  let color = DEFAULT_UNSELECTED_COLOR;
   let opacity = REDUCED_OPACITY;
 
   if (sharesLocationBinding) {
-    currentColor = DEFAULT_SELECTED_COLOR;
+    color = DEFAULT_SELECTED_COLOR;
     if (isSelected) {
       opacity = 1;
     }
   }
-  return { color: currentColor, opacity: opacity };
+  return { color, opacity };
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {
@@ -73,16 +73,14 @@ export function getScenaristLayerStyleShowOnMap(feature: any): LayerStyleObject 
 }
 
 function getFeatureColorShowOnMap(feature: any): MapColorConfig {
-  const isRelated = isShowOnMapTargetSibling(feature);
-  const isTarget = isShowOnMapTarget(feature);
-  let currentColor = DEFAULT_UNSELECTED_COLOR;
+  let color = DEFAULT_UNSELECTED_COLOR;
   let opacity = REDUCED_OPACITY;
 
-  if (isRelated) {
-    currentColor = DEFAULT_SELECTED_COLOR;
-    if (isTarget) {
-      opacity = 1;
-    }
+  if (isShowOnMapTarget(feature)) {
+    color = DEFAULT_SELECTED_COLOR;
+    opacity = 1;
+  } else if (isShowOnMapTargetSibling(feature)) {
+    color = DEFAULT_SELECTED_COLOR;
   }
-  return { color: currentColor, opacity: opacity };
+  return { color, opacity };
 }
