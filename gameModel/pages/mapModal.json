@@ -37,7 +37,7 @@
                       "dataType" : "GeoJSON",
                       "source" : {
                         "@class" : "Script",
-                        "content" : "import { showOnlySelected } from \"./edition/UIfacade/locationConfigFacade\";\nimport { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(showOnlySelected());",
+                        "content" : "import { getMapEntitiesLayer } from \"./edition/UIfacade/map/layers\";\ngetMapEntitiesLayer(false);",
                         "language" : "typescript"
                       },
                       "sourceProjection" : "EPSG:2056",
@@ -47,7 +47,7 @@
                     "layerStyle" : {
                       "@class" : "ScriptCallback",
                       "args" : [ "feature", "resolution" ],
-                      "content" : "import { getScenaristLayerStyle } from \"./edition/UIfacade/map/styling\";\ngetScenaristLayerStyle(feature);"
+                      "content" : "import { getScenaristLayerStyleShowOnMap } from \"./edition/UIfacade/map/styling\";\ngetScenaristLayerStyleShowOnMap(feature);"
                     },
                     "layoutStyle" : { },
                     "name" : "MapEntities",
@@ -208,7 +208,7 @@
         "className" : "location-modal fullWidth fullHeight",
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getModalState } from \"./edition/UIfacade/impactConfigFacade\";\n  getModalState();",
+          "content" : "import { isModalClosed } from \"./edition/UIfacade/map/modalState\";\n  isModalClosed();",
           "language" : "typescript"
         },
         "layout" : {
@@ -219,7 +219,7 @@
         "onExitActions" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { showOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n\nshowOnMap('closed');",
+            "content" : "import { toggleShowOnMap } from \"./edition/UIfacade/map/modalState\";\n\ntoggleShowOnMap('closed', undefined);",
             "language" : "TypeScript"
           }
         },

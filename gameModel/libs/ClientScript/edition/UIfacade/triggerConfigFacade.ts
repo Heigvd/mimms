@@ -10,6 +10,7 @@ import { GenericScenaristInterfaceState, getItems, ModalState } from './genericC
 
 export interface TriggerConfigUIState extends GenericScenaristInterfaceState {
   modal: ModalState;
+  viewOnMapItem?: Uid;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

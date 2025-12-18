@@ -88,6 +88,10 @@ export type MapEntityFlatType = FlatMapEntity | FlatMapObject;
 
 export type FlatTypes = TriggerFlatType | ActionTemplateFlatType | MapEntityFlatType;
 
+export type FlatTypeBySuperType = {
+  [K in FlatTypes['superType']]: Extract<FlatTypes, { superType: K }>;
+};
+
 export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | FlatMapEntity;
 
 /**
@@ -212,7 +216,7 @@ export abstract class DataControllerBase<
     return canMove(id, siblings, moveType);
   }
 
-  public getSelected(itemType: SuperTypeNames): FlatTypeDef | undefined {
+  public getSelected(itemType: SuperTypeNames): FlatTypes | undefined {
     const selectedUid = this.getLatestIState().selected[itemType];
     if (selectedUid) {
       return this.getFlatDataClone()[selectedUid];

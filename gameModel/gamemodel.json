@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1765813125733,
+  "createdTime" : 1766051367683,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5462,6 +5462,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/map/modalState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2785628:SAWbAr",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/map/styling",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7494,7 +7503,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-535",
+  "name" : "MIMMS MIM-535 XGO show on map data wiring",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

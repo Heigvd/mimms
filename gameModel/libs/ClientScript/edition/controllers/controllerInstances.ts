@@ -73,12 +73,16 @@ function getInitialMapEntityUIState(): MapEntityUIState {
 function getInitialTriggerUIState(): TriggerConfigUIState {
   return {
     selected: {},
+    modal: 'closed',
+    viewOnMapItem: undefined,
   };
 }
 
 function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
   return {
     selected: {},
+    modal: 'closed',
+    viewOnMapItem: undefined,
   };
 }
 
