@@ -7503,7 +7503,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-542",
+  "name" : "MIM-535",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

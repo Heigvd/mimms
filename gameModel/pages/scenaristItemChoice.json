@@ -373,17 +373,21 @@
                   },
                   "type" : "Button"
                 } ],
-                "className" : "condition",
+                "className" : "action-gap",
                 "hideIf" : {
                   "@class" : "Script",
                   "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n!isMapMarkerOn(Context.item);",
                   "language" : "typescript"
                 },
-                "layout" : { },
+                "layout" : {
+                  "alignItems" : "center"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "mapEntity",
-                "style" : { }
+                "style" : {
+                  "marginTop" : "11px"
+                }
               },
               "type" : "FlexList"
             } ],
