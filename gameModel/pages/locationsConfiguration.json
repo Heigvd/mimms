@@ -92,7 +92,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "return(`maps/GVA-center/water.geojson`)",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:4326",
@@ -117,7 +117,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "return(`maps/GVA-center/rails.geojson`)",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:4326",
@@ -144,7 +144,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "return(`maps/GVA-center/roads.geojson`)",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:4326",
@@ -173,7 +173,7 @@
                           "dataType" : "GeoJSON",
                           "source" : {
                             "@class" : "Script",
-                            "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
                             "language" : "typescript"
                           },
                           "sourceProjection" : "EPSG:4326",
@@ -207,10 +207,26 @@
                       "width" : "100%"
                     },
                     "viewOptions" : {
-                      "center" : [ 2500000, 1118500 ],
-                      "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
-                      "maxZoom" : 21,
-                      "projection" : "EPSG:2056",
+                      "center" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                        "language" : "typescript"
+                      },
+                      "extent" : {
+                        "@class" : "Script",
+                        "content" : "import { getScaledExtent } from \"./gameMap/utils/mapConfig\";\ngetScaledExtent();",
+                        "language" : "typescript"
+                      },
+                      "maxZoom" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.maxZoom;",
+                        "language" : "typescript"
+                      },
+                      "projection" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().projection;",
+                        "language" : "typescript"
+                      },
                       "zoom" : {
                         "@class" : "Script",
                         "content" : "(18.5)",
@@ -1018,7 +1034,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "return(`maps/GVA-center/water.geojson`)",
+                                "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:4326",
@@ -1043,7 +1059,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "return(`maps/GVA-center/rails.geojson`)",
+                                "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:4326",
@@ -1070,7 +1086,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "return(`maps/GVA-center/roads.geojson`)",
+                                "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:4326",
@@ -1099,7 +1115,7 @@
                               "dataType" : "GeoJSON",
                               "source" : {
                                 "@class" : "Script",
-                                "content" : "(\"maps/GVA-center/buildings.geojson\")",
+                                "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
                                 "language" : "typescript"
                               },
                               "sourceProjection" : "EPSG:4326",
@@ -1133,10 +1149,26 @@
                           "width" : "100%"
                         },
                         "viewOptions" : {
-                          "center" : [ 2500000, 1118500 ],
-                          "extent" : [ 2499286.1059294315, 1117992.48785842, 2500468.4624423133, 1118778.4582210586 ],
-                          "maxZoom" : 21,
-                          "projection" : "EPSG:2056",
+                          "center" : {
+                            "@class" : "Script",
+                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                            "language" : "typescript"
+                          },
+                          "extent" : {
+                            "@class" : "Script",
+                            "content" : "import { getScaledExtent } from \"./gameMap/utils/mapConfig\";\ngetScaledExtent();",
+                            "language" : "typescript"
+                          },
+                          "maxZoom" : {
+                            "@class" : "Script",
+                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.maxZoom;",
+                            "language" : "typescript"
+                          },
+                          "projection" : {
+                            "@class" : "Script",
+                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().projection;",
+                            "language" : "typescript"
+                          },
                           "zoom" : {
                             "@class" : "Script",
                             "content" : "(18.5)",
