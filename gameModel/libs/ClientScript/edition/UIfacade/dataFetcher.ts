@@ -3,6 +3,7 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Effect } from '../../game/common/impacts/effect';
 import { Tag, Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { compareByIndex } from '../../tools/indexedSorting';
 import {
@@ -10,15 +11,45 @@ import {
   getMapEntityController,
   getTriggerController,
 } from '../controllers/controllerInstances';
+import { FlatTypeDef } from '../controllers/dataController';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatEffect } from '../typeDefinitions/effectDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { getItem } from './genericConfigFacade';
 
-export function getMapEntitiesOptions(
+// TODO  MOVE / CHANGE WHERE IT BELONGS
+function getBindingFromChoice(choice: ChoiceDescriptor): LOCATION_ENUM {
+  const actionTemplate: FlatTypeDef | undefined = getItem('action', choice.parent);
+
+  if (actionTemplate && actionTemplate.superType === 'action') {
+    const assertedActionTemplate = actionTemplate as FlatActionTemplate;
+    if (assertedActionTemplate.binding) {
+      return assertedActionTemplate.binding;
+    }
+  }
+
+  // If no binding, return custom
+  return LOCATION_ENUM.custom;
+}
+
+export type MapEntitiesOptionType = { label: string; value: MapEntityDescriptor['uid'] }[];
+
+export function getMapEntitiesOptionsForChoice(choice: ChoiceDescriptor): MapEntitiesOptionType {
+  const binding: LOCATION_ENUM = getBindingFromChoice(choice);
+  return getMapEntitiesOptions(binding);
+}
+
+export function getMapEntitiesOptions(expectedBinding?: LOCATION_ENUM): MapEntitiesOptionType {
+  return internalGetMapEntitiesOptions(
+    (mapEntity: FlatMapEntity) => !expectedBinding || mapEntity.binding === expectedBinding
+  );
+}
+
+function internalGetMapEntitiesOptions(
   filterFn?: (mapEntity: FlatMapEntity) => boolean
-): { label: string; value: MapEntityDescriptor['uid'] }[] {
+): MapEntitiesOptionType {
   return Object.values(getMapEntityController().getFlatDataClone())
     .filter(item => item.superType === 'mapEntity')
     .map(mapEntity => mapEntity as FlatMapEntity)

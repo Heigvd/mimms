@@ -322,7 +322,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptionsForChoice } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptionsForChoice(Context.item);",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",

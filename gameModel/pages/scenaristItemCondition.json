@@ -453,7 +453,7 @@
               "props" : {
                 "choices" : {
                   "@class" : "Script",
-                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptions();",
+                  "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getMapEntitiesOptions(LOCATION_ENUM.custom);",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",

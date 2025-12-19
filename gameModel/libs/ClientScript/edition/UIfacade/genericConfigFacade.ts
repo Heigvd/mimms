@@ -83,6 +83,14 @@ export function getItems(itemType: SuperTypeNames, parentType?: SuperTypeNames):
   return result.sort((a: FlatTypeDef, b: FlatTypeDef) => a.index - b.index);
 }
 
+export function getItem(itemType: SuperTypeNames, uid: Uid): FlatTypeDef | undefined {
+  const item = getData()[uid];
+  if (item?.superType === itemType) {
+    return item;
+  }
+  return undefined;
+}
+
 let lastGenericAdded: string | null = null;
 
 export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypeDef {
