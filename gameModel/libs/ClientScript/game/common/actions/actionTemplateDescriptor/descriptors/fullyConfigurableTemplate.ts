@@ -1,3 +1,4 @@
+import { getFilteredAsArray } from '../../../../../tools/helper';
 import { CustomChoiceActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
@@ -17,10 +18,9 @@ export function createFullyConfigurableTemplate(
     descriptor.description,
     descriptor.durationSec,
     undefined, // TODO repeats / replayable
-    undefined,
-    undefined,
-    [], // TODO availableToRoles
+    undefined, // no required flag
+    undefined, // no raised flag
+    getFilteredAsArray(descriptor.availableToRoles),
     descriptor.choices
-    //LOCATION_ENUM.custom
   );
 }

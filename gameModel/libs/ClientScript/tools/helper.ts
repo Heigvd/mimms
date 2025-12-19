@@ -8,8 +8,8 @@
  *  - Hôpitaux Universitaires Genêve (HUG)
  */
 
-import { logger } from './logger';
 import { Point } from '../map/point2D';
+import { logger } from './logger';
 
 export function checkUnreachable(x: never): void {
   throw new Error('Unreachable code: ' + (x as unknown));
@@ -314,4 +314,10 @@ export function floatToHexByte(value: number): string {
 
   // Convert to hex and pad with leading zero if needed
   return intVal.toString(16).padStart(2, '0').toUpperCase();
+}
+
+export function getFilteredAsArray<T extends string>(enabledRecord: Record<T, boolean>): T[] {
+  return Object.entries(enabledRecord)
+    .filter(([_entryKey, enabled]) => enabled)
+    .map(([entryKey, _enabled]) => entryKey as T);
 }
