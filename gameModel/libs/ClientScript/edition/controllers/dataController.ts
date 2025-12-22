@@ -425,8 +425,8 @@ export class TriggerDataController extends DataControllerBase<
     switch (itemType) {
       case 'trigger':
         super.unselect(itemType);
-        this.unselect('condition');
-        this.unselect('impact');
+        super.unselect('condition');
+        super.unselect('impact');
         break;
       default:
         super.unselect(itemType);
@@ -546,19 +546,13 @@ export class ActionTemplateDataController extends DataControllerBase<
   public override unselect(itemType: SuperTypeNames): void {
     switch (itemType) {
       case 'action':
-        super.unselect(itemType);
-        this.unselect('choice');
-        break;
+        super.unselect('action');
       case 'choice':
-        super.unselect(itemType);
-        this.unselect('effect');
-        break;
+        super.unselect('choice');
       case 'effect':
-        super.unselect(itemType);
-        this.unselect('impact');
-        break;
+        super.unselect('effect');
       default:
-        super.unselect(itemType);
+        super.unselect('impact');
     }
   }
 }
@@ -637,6 +631,6 @@ export class MapEntityController extends DataControllerBase<
     }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
-    throw new Error('Method not implemented.');
+    return getMapEntityDefinition().validator;
   }
 }

@@ -29,7 +29,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   },
   PMA: {
     id: LOCATION_ENUM.PMA,
-    name: 'location-pma-short',
+    name: 'location-pma',
     leaderRoles: ['LEADPMA'],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
@@ -41,7 +41,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   },
   PC: {
     id: LOCATION_ENUM.PC,
-    name: 'location-pc-short',
+    name: 'location-pc',
     leaderRoles: ['ACS', 'MCS'],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
@@ -59,13 +59,13 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   },
   remote: {
     id: LOCATION_ENUM.remote,
-    name: 'location-pcFront',
+    name: 'location-remote',
     leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
   },
   AccReg: {
     id: LOCATION_ENUM.AccReg,
-    name: 'Accreg',
+    name: 'location-accreg',
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
   },
@@ -73,7 +73,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   //we will likely go for a fully dynamic string record in the some distant future
   custom: {
     id: LOCATION_ENUM.custom,
-    name: 'custom',
+    name: 'location-custom',
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
   },

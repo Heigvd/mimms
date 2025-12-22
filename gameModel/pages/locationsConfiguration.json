@@ -577,13 +577,13 @@
                           "className" : "location-tag--selected small-bold-primary10-text",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.chantier);",
+                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nisActiveLocation(Context.item.binding);",
                             "language" : "typescript"
                           }
                         } ],
                         "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Incident<br></p>\"",
+                          "content" : "Context.item.label;",
                           "language" : "TypeScript"
                         },
                         "layoutClassName" : "noPadding",
@@ -591,265 +591,32 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.chantier);",
+                            "content" : "import { notifyLayerChange, setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\n\nsetLocationFilter(Context.item.binding);\nnotifyLayerChange();",
                             "language" : "TypeScript"
                           }
                         },
-                        "name" : "incident",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.nidDeBlesses);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Survivor reception center</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.nidDeBlesses);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "survivor reception center",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.PMA);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Advanced medical post</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.PMA);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "advanced medical post",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.pcFront);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Forward command post</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.pcFront);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "forward command post",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.PC);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Medical command post</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.PC);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "medical command post",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.ambulancePark);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Ambulance park</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.ambulancePark);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "ambulance park",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.helicopterPark);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Helicopter park</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.helicopterPark);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "helicopter park",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.AccReg);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Access &amp; eggress</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.AccReg);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "access & eggress",
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    }, {
-                      "props" : {
-                        "className" : "location-tag small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "location-tag--selected small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "import { isActiveLocation } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\nisActiveLocation(LOCATION_ENUM.custom);",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "\"<p>Custom</p>\"",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "localScriptEval" : {
-                          "script" : {
-                            "@class" : "ClientScript",
-                            "content" : "import { setLocationFilter } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n\nsetLocationFilter(LOCATION_ENUM.custom);",
-                            "language" : "TypeScript"
-                          }
-                        },
-                        "name" : "custom",
+                        "name" : "",
                         "style" : { }
                       },
                       "type" : "Button"
                     } ],
                     "className" : "location-tag-container",
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getFilters } from \"./edition/UIfacade/locationConfigFacade\";\ngetFilters();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "binding",
                     "layout" : {
                       "flexWrap" : "wrap"
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "filters",
+                    "name" : "filter",
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "For each"
                 }, {
                   "props" : {
                     "className" : "noMargin small-bold-grey30-text",
@@ -891,7 +658,7 @@
                         "exposeAs" : "item",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getFilteredLocations(LOCATION_ENUM.ambulancePark);",
+                          "content" : "import { getFilteredLocations } from \"./edition/UIfacade/locationConfigFacade\";\n  getFilteredLocations();",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "uid",
@@ -1023,6 +790,11 @@
                             },
                             "layoutStyle" : { },
                             "name" : "MapEntities",
+                            "onLayerReady" : {
+                              "@class" : "ScriptCallback",
+                              "args" : [ "layer", "map" ],
+                              "content" : "import { mapObjectsLayerRef } from \"./edition/UIfacade/locationConfigFacade\";\n  mapObjectsLayerRef.current = layer;\n  return;"
+                            },
                             "style" : { }
                           },
                           "type" : "WegasMapVectorLayer"
