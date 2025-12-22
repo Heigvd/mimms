@@ -252,7 +252,7 @@
                   "className" : "boolean-button--selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n!isMapMarkerOn(Context.item);",
+                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n  !isMapMarkerOn(Context.item);",
                     "language" : "typescript"
                   }
                 } ],
@@ -282,7 +282,7 @@
                   "className" : "boolean-button--selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n  wlog('is marker on', isMapMarkerOn(Context.item));\nisMapMarkerOn(Context.item);",
+                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n  isMapMarkerOn(Context.item);",
                     "language" : "typescript"
                   }
                 } ],
