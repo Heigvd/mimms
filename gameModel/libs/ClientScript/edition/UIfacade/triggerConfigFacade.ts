@@ -3,12 +3,15 @@ import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
 import { TriggerFlatType } from '../controllers/dataController';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
-import { GenericScenaristInterfaceState, getItems } from './genericConfigFacade';
+import { GenericScenaristInterfaceState, getItems, ModalState } from './genericConfigFacade';
 
 //////////////////////////////////////////////////////////////////////////////////////
 // UI state
 
-export type TriggerConfigUIState = GenericScenaristInterfaceState;
+export interface TriggerConfigUIState extends GenericScenaristInterfaceState {
+  modal: ModalState;
+  viewOnMapItem?: Uid;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 // get data

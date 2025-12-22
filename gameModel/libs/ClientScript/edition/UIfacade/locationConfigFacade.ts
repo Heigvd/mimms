@@ -7,14 +7,14 @@ import { getMapEntityController } from '../controllers/controllerInstances';
 import { MapEntityFlatType } from '../controllers/dataController';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
-import { getItems } from '../UIfacade/genericConfigFacade';
+import { getItems, ModalState } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export type SupportedDrawType = Exclude<DrawType, 'Circle'>;
 
 export interface MapEntityUIState extends GenericScenaristInterfaceState {
   selectedFilter: LOCATION_ENUM;
-  modal: LocationModalState;
+  modal: ModalState;
   panel: boolean;
   onlySelected: boolean;
   drawActive: boolean;
@@ -59,13 +59,12 @@ export function currentLocation(): string {
 }
 
 // Interface state
-type LocationModalState = 'opened' | 'closed';
 
-export function getLocationModalState(): LocationModalState {
+export function getLocationModalState(): ModalState {
   return getMapEntityController().getLatestIState().modal;
 }
 
-export function setLocationModalState(state: LocationModalState): void {
+export function setLocationModalState(state: ModalState): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.modal = state;
   getMapEntityController().updateIState(newState);

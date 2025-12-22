@@ -98,7 +98,7 @@ function isInvertDisplayed(condition: FlatCondition): boolean {
 // map specificities
 
 export function canEnterShowOnMap(condition: FlatCondition): boolean {
-  return condition.type === 'mapEntity' && condition.activableRef.length > 0;
+  return condition?.type === 'mapEntity' && condition?.activableRef?.length > 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

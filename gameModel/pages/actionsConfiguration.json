@@ -4,6 +4,19 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "exposePageSizeAs" : "",
+            "initialSelectedPageId" : {
+              "@class" : "Script",
+              "content" : "\"mapModal\"",
+              "language" : "typescript"
+            },
+            "layoutStyle" : { },
+            "name" : "Map modal",
+            "style" : { }
+          },
+          "type" : "PageLoader"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
                 "className" : "noMargin scenarist-title",

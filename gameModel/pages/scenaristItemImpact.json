@@ -589,11 +589,18 @@
                 "icon" : "map-marker-alt",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Show on map (TBD)</p>\"",
+                  "content" : "\"<p>Show on map</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleShowOnMapFromImpact } from \"./edition/UIfacade/map/modalState\";\n\ntoggleShowOnMapFromImpact(Context.item);",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "open map",
                 "style" : {
                   "margin" : "0",

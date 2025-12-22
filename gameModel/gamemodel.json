@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1765894884789,
+  "createdTime" : 1766051367683,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5037,7 +5037,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":18.907871699377882,\"extent\":[2499696.2936464697,1118102.6796080722,2499972.5616214722,1118446.0276092258],\"center\":[2499834.427633971,1118274.353608649],\"projection\":\"EPSG:2056\",\"viewConfigured\":true}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":0,\"extent\":[2499286.105929431,1117873.1533189379,2500468.462442313,1118797.7898341562],\"center\":[2499877.284185872,1118335.471576547],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
         },
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",
@@ -5457,6 +5457,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#258:D5sL6B",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/map/modalState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:2785628:SAWbAr",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7494,7 +7503,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-532-bis PR check",
+  "name" : "MIM-535",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

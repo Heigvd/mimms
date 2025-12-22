@@ -252,7 +252,7 @@
                   "className" : "boolean-button--selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "!Context.item.displayedMapEntity;",
+                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n  !isMapMarkerOn(Context.item);",
                     "language" : "typescript"
                   }
                 } ],
@@ -266,7 +266,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "",
+                    "content" : "import { updateMapMarkerState } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateMapMarkerState(Context.item, false);",
                     "language" : "TypeScript"
                   }
                 },
@@ -282,7 +282,7 @@
                   "className" : "boolean-button--selected",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "Context.item.displayedMapEntity;",
+                    "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n  isMapMarkerOn(Context.item);",
                     "language" : "typescript"
                   }
                 } ],
@@ -296,7 +296,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "",
+                    "content" : "import { updateMapMarkerState } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateMapMarkerState(Context.item, true);",
                     "language" : "TypeScript"
                   }
                 },
@@ -304,6 +304,92 @@
                 "style" : { }
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "choices" : {
+                      "@class" : "Script",
+                      "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\n  getMapEntitiesOptions();",
+                      "language" : "typescript"
+                    },
+                    "className" : "scenarist-dropdown",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "mapEntity",
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { FlatChoice } from \"./edition/typeDefinitions/choiceDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatChoice>(Context.item.uid, { displayedMapEntity: Context.value });",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"value\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Select location\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "  Context.item.displayedMapEntity || '';",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Select input"
+                }, {
+                  "props" : {
+                    "className" : "header-button",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterShowOnMapChoice } from \"./edition/UIfacade/actionConfigFacade\";\n!canEnterShowOnMapChoice(Context.item);",
+                      "language" : "typescript"
+                    },
+                    "icon" : "map-marker-alt",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Show on map</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleShowOnMapFromChoice } from \"./edition/UIfacade/map/modalState\";\n\ntoggleShowOnMapFromChoice(Context.item);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "open map",
+                    "style" : {
+                      "margin" : "0",
+                      "textTransform" : "none"
+                    }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "action-gap",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isMapMarkerOn } from \"./edition/UIfacade/actionConfigFacade\";\n!isMapMarkerOn(Context.item);",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "alignItems" : "center"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "mapEntity",
+                "style" : {
+                  "marginTop" : "11px"
+                }
+              },
+              "type" : "FlexList"
             } ],
             "className" : "",
             "layout" : { },
