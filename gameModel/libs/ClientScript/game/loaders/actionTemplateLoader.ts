@@ -21,7 +21,7 @@ export function loadActionTemplates(): ActionTemplateData {
   const customActionTemplates = initCustomActionTemplates();
 
   return {
-    actionTemplates: { ...customActionTemplates, ...baseActionTemplates },
+    actionTemplates: { ...baseActionTemplates, ...customActionTemplates },
     uniqueActionTemplates,
   };
 }
@@ -29,7 +29,9 @@ export function loadActionTemplates(): ActionTemplateData {
 function initCustomActionTemplates(): ActionTemplateData['actionTemplates'] {
   const result: Record<Uid, ActionTemplateBase> = {};
 
-  const data = Object.values(loadCustomActionTemplateDescriptors());
+  const data = Object.values(loadCustomActionTemplateDescriptors()).sort(
+    compareActionTemplateDescriptors
+  );
 
   let actionTemplate: ActionTemplateBase;
   data.forEach(actTemplateDescr => {
@@ -43,4 +45,15 @@ function initCustomActionTemplates(): ActionTemplateData['actionTemplates'] {
 export function loadCustomActionTemplateDescriptors(): Record<Uid, TemplateDescriptor> {
   const actionTemplateDescriptors = Variable.find(gameModel, ACTION_TEMPLATE_DATA);
   return parseObjectDescriptor<TemplateDescriptor>(actionTemplateDescriptors);
+}
+
+function compareActionTemplateDescriptors(a: TemplateDescriptor, b: TemplateDescriptor): number {
+  const idxA = a.index + (a.mandatory ? 0 : 1000000);
+  const idxB = b.index + (b.mandatory ? 0 : 1000000);
+
+  if (idxA === idxB) {
+    return a.uid.localeCompare(b.uid);
+  }
+
+  return idxA - idxB;
 }
