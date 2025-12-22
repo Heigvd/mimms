@@ -4,34 +4,40 @@ import {
   getFeatureStyle,
   MapColorConfig,
 } from '../../../gameMap/styling/activablesLayerStyles';
-import { hasSelectedLocationBinding, isLinkedMapEntitySelected } from '../../UIfacade/map/utils';
+import {
+  hasSelectedLocationBinding,
+  isLinkedMapEntitySelected,
+  isShowOnMapTarget,
+  isShowOnMapTargetSibling,
+} from '../../UIfacade/map/utils';
 
+const REDUCED_OPACITY = 0.5;
+
+/******** LOCATION VIEW ********/
 export function getScenaristLayerStyle(feature: any): LayerStyleObject {
-  // TODO query scenarist context for selection
-  const colors: MapColorConfig = getFeatureColor(feature);
+  const colors: MapColorConfig = getFeatureColorMapView(feature);
   return getFeatureStyle(feature, colors);
 }
 
-function getFeatureColor(feature: any): MapColorConfig {
-  const currentLocation = hasSelectedLocationBinding(feature);
-  const currentMapEntity = isLinkedMapEntitySelected(feature);
-  let currentColor = DEFAULT_UNSELECTED_COLOR;
-  let opacity = 0.5;
-  //const currentMapObject = isLinkedMapObjectSelected(feature);
+function getFeatureColorMapView(feature: any): MapColorConfig {
+  const sharesLocationBinding = hasSelectedLocationBinding(feature);
+  const isSelected = isLinkedMapEntitySelected(feature);
+  let color = DEFAULT_UNSELECTED_COLOR;
+  let opacity = REDUCED_OPACITY;
 
-  if (currentLocation) {
-    currentColor = DEFAULT_SELECTED_COLOR;
-    if (currentMapEntity) {
+  if (sharesLocationBinding) {
+    color = DEFAULT_SELECTED_COLOR;
+    if (isSelected) {
       opacity = 1;
     }
   }
-  return { color: currentColor, opacity: opacity };
+  return { color, opacity };
 }
 
 export function getDrawStyle(_feature: any): LayerStyleObject {
   const strokeStyle: StrokeStyleObject = {
     type: 'StrokeStyle',
-    color: '#3CA3CC',
+    color: DEFAULT_SELECTED_COLOR,
     width: 3,
     lineCap: 'round',
     lineJoin: 'round',
@@ -39,14 +45,14 @@ export function getDrawStyle(_feature: any): LayerStyleObject {
 
   const fill: FillStyleObject = {
     type: 'FillStyle',
-    color: '#3CA3CC' + '50',
+    color: DEFAULT_SELECTED_COLOR + '50',
   };
 
   const circleStyle: CircleStyleObject = {
     type: 'CircleStyle',
     fill: {
       type: 'FillStyle',
-      color: '#3CA3CC',
+      color: DEFAULT_SELECTED_COLOR,
     },
     stroke: {
       type: 'StrokeStyle',
@@ -57,4 +63,24 @@ export function getDrawStyle(_feature: any): LayerStyleObject {
   };
 
   return { stroke: strokeStyle, fill, image: circleStyle };
+}
+
+/******** ACTION & TRIGGER VIEW ********/
+
+export function getScenaristLayerStyleShowOnMap(feature: any): LayerStyleObject {
+  const colors: MapColorConfig = getFeatureColorShowOnMap(feature);
+  return getFeatureStyle(feature, colors);
+}
+
+function getFeatureColorShowOnMap(feature: any): MapColorConfig {
+  let color = DEFAULT_UNSELECTED_COLOR;
+  let opacity = REDUCED_OPACITY;
+
+  if (isShowOnMapTarget(feature)) {
+    color = DEFAULT_SELECTED_COLOR;
+    opacity = 1;
+  } else if (isShowOnMapTargetSibling(feature)) {
+    color = DEFAULT_SELECTED_COLOR;
+  }
+  return { color, opacity };
 }

@@ -480,6 +480,12 @@
           "name" : "Undo/Redo/Save all",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "mapModal",
+          "name" : "Map Modal",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "Components"
       } ],

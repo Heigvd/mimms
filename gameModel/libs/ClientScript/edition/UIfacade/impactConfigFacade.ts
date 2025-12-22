@@ -244,7 +244,7 @@ export function canEnterEffectSelectionMode(impact: FlatImpact): boolean {
 }
 
 export function canEnterShowOnMap(impact: FlatImpact): boolean {
-  return impact.type === 'mapActivation' && impact.target.length > 0;
+  return impact?.type === 'mapActivation' && impact?.target?.length > 0;
 }
 
 export function setActivationImpactOption(
