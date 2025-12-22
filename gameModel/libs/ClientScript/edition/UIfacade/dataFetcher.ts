@@ -3,6 +3,7 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Effect } from '../../game/common/impacts/effect';
 import { Tag, Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { compareByIndex } from '../../tools/indexedSorting';
 import {
@@ -15,10 +16,33 @@ import { FlatEffect } from '../typeDefinitions/effectDefinition';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { getItemTyped } from './genericConfigFacade';
 
-export function getMapEntitiesOptions(
+export type MapEntitiesOptionType = { label: string; value: MapEntityDescriptor['uid'] }[];
+
+export function getMapEntitiesOptionsForChoice(choice: ChoiceDescriptor): MapEntitiesOptionType {
+  let binding: LOCATION_ENUM = LOCATION_ENUM.custom;
+
+  const actionTemplate: FlatActionTemplate | undefined = getItemTyped('action', choice.parent);
+  if (actionTemplate?.binding) {
+    binding = actionTemplate.binding;
+  }
+
+  return getMapEntitiesOptions(binding);
+}
+
+export function getMapEntitiesOptions(expectedBinding?: LOCATION_ENUM): MapEntitiesOptionType {
+  let filter: undefined | ((mapEntity: FlatMapEntity) => boolean) = undefined;
+  if (expectedBinding) {
+    filter = (mapEntity: FlatMapEntity) => mapEntity.binding === expectedBinding;
+  }
+
+  return internalGetMapEntitiesOptions(filter);
+}
+
+function internalGetMapEntitiesOptions(
   filterFn?: (mapEntity: FlatMapEntity) => boolean
-): { label: string; value: MapEntityDescriptor['uid'] }[] {
+): MapEntitiesOptionType {
   return Object.values(getMapEntityController().getFlatDataClone())
     .filter(item => item.superType === 'mapEntity')
     .map(mapEntity => mapEntity as FlatMapEntity)
