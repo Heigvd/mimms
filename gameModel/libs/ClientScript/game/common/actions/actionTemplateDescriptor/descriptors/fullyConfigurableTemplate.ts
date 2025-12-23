@@ -1,6 +1,6 @@
-import { TimeSliceDuration } from '../../../constants';
-import { MapChoiceActionTemplate } from '../../actionTemplateBase';
-import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
+import { getFilteredAsArray } from '../../../../../tools/helper';
+import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplateBase';
+import { ITemplateDescriptor } from '../templateDescriptor';
 
 // TODO this might just be a MapChoiceActionTemplate instead
 
@@ -11,12 +11,16 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 
 export function createFullyConfigurableTemplate(
   descriptor: FullyConfigurableTemplateDescriptor
-): MapChoiceActionTemplate {
-  return new MapChoiceActionTemplate(
+): FullyConfigurableChoiceActionTemplate {
+  return new FullyConfigurableChoiceActionTemplate(
     descriptor.uid,
-    'move-actor-title',
-    'move-actor-desc',
-    TimeSliceDuration
-    //'move-actor-feedback'
+    descriptor.title,
+    descriptor.description,
+    descriptor.durationSec,
+    undefined, // TODO repeats / replayable
+    undefined, // no required flag
+    undefined, // no raised flag
+    getFilteredAsArray(descriptor.availableToRoles),
+    descriptor.choices
   );
 }

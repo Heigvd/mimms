@@ -1,16 +1,17 @@
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { ACTION_TEMPLATE_DATA } from '../../game/loaders/actionTemplateLoader';
+import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
+import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
+import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
+import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
+import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
+import { Page } from '../UIfacade/mainMenuStateFacade';
+import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import {
   ActionTemplateDataController,
   MapEntityController,
   TriggerDataController,
 } from './dataController';
-import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
-import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
-import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
-import { Page } from '../UIfacade/mainMenuStateFacade';
-import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
-import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
-import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 
 export type ControllerType =
   | TriggerDataController
@@ -46,7 +47,7 @@ export function getActionTemplateController(): ActionTemplateDataController {
   return (actionTplController =
     actionTplController ||
     new ActionTemplateDataController(
-      'action_template_data',
+      ACTION_TEMPLATE_DATA,
       'actionPageState',
       getInitialActionTemplateUIState()
     ));
