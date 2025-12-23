@@ -1,6 +1,5 @@
 // TODO Remove, choices are to be hardcoded in ActionTemplates
 
-import { generateId } from '../../tools/helper';
 import { createOrUpdateTranslation } from '../../tools/translation';
 import { ChoiceDescriptor } from '../common/actions/choiceDescriptor/choiceDescriptor';
 
@@ -136,7 +135,7 @@ const mapChoice3: ChoiceDescriptor = {
 export function getMapChoices(): ChoiceDescriptor[] {
   return [mapChoice1, mapChoice2, mapChoice3];
 }
-
+/*
 /// AMBULANCE PARK ///
 const ambulanceParkChoice1: ChoiceDescriptor = {
   type: 'choice',
@@ -516,3 +515,4 @@ const accregChoice3: ChoiceDescriptor = {
 export function getAccregChoices(): ChoiceDescriptor[] {
   return [accregChoice1, accregChoice2, accregChoice3];
 }
+*/
