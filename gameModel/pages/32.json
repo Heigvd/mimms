@@ -1,0 +1,27 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "",
+        "layoutStyle" : { },
+        "name" : "Actions",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'ACTIVABLES ' + JSON.stringify(getCurrentState().internalState.activables);",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

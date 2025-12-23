@@ -538,6 +538,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "32",
+          "name" : "mainSim_activables",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "65",
           "name" : "mainSim_actors",
           "scenaristPage" : null,
