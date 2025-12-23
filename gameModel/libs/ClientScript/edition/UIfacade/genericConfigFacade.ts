@@ -183,6 +183,17 @@ export function moveDown(itemId: Uid): void {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+// deletion permission
+
+export function canBeDeleted(item: FlatTypes): boolean {
+  if (item.superType === 'action' || item.superType === 'trigger') {
+    return !item.mandatory;
+  }
+
+  return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 // validation
 
 export function validateItem(_itemType: SuperTypeNames, _uid: Uid) {}
