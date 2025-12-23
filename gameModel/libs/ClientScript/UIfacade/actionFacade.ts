@@ -11,7 +11,6 @@ import {
   CasuMessageTemplate,
   ChoiceTemplate,
   EvacuationActionTemplate,
-  MapChoiceActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
@@ -91,7 +90,7 @@ export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
  *
- * @param actionTemplate The template to instanciate
+ * @param actionTemplate The template to instantiate
  * @param selectedActor The actor the plans the action and will be its owner
  * @param params The additional optional parameters, related to the chosen action template
  * @returns a promise
@@ -180,12 +179,6 @@ export function isChoiceTemplate(
   template: ActionTemplateBase | undefined
 ): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
-}
-
-export function isMapChoiceActionTemplate(
-  template: ActionTemplateBase | undefined
-): template is MapChoiceActionTemplate {
-  return template instanceof MapChoiceActionTemplate;
 }
 
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {

@@ -7,13 +7,10 @@ import {
   getMapActivableFromUid,
   getMapEntityDescriptors,
 } from '../../game/loaders/mapEntitiesLoader';
-import { FeatureCollection } from '../../gameMap/types/featureTypes';
-import { getEmptyFeatureCollection } from '../../gameMap/utils/mapUtils';
-import { getLineEndAndRotation } from '../../gameMap/utils/shapeUtils';
-import {
-  getAvailableActionTemplateById,
-  isMapChoiceActionTemplate,
-} from '../../UIfacade/actionFacade';
+import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
+import { FeatureCollection } from '../types/featureTypes';
+import { getEmptyFeatureCollection } from '../utils/mapUtils';
+import { getLineEndAndRotation } from '../utils/shapeUtils';
 
 export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
 
@@ -23,7 +20,7 @@ export function getMapActivablesLayer() {
 }
 
 /**
- * Create FeatureCollection for current MapChoiceAction selection
+ * Create FeatureCollection for current ChoiceAction selection
  * TODO Could be improved ?
  */
 export function getMapActivableSelectionLayer() {
@@ -34,8 +31,10 @@ export function getMapActivableSelectionLayer() {
   let medUids = [];
   const record: Record<string, MapEntityDescriptor> = {};
 
-  if (isMapChoiceActionTemplate(currentTemplate)) {
-    medUids = currentTemplate.choices.map(c => c.displayedMapEntity!);
+  if (isChoiceTemplate(currentTemplate)) {
+    medUids = currentTemplate.choices
+      .filter(c => c.displayedMapEntity)
+      .map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
 
     for (const medUid of medUids) {
