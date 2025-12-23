@@ -612,8 +612,7 @@ export class FullyConfigurableChoiceActionTemplate<
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
-    binding?: LOCATION_ENUM
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,

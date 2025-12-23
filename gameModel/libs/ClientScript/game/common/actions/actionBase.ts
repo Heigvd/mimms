@@ -81,7 +81,7 @@ export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Complete
 const ACTION_SEED_ID: ActionId = 3000;
 
 /**
- * Instanciated action that lives in the state of the game and will generate local events that will change the game state
+ * Instantiated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
@@ -638,8 +638,7 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor,
-    binding: LOCATION_ENUM = LOCATION_ENUM.custom
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -653,7 +652,7 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
     );
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 
@@ -662,7 +661,7 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
     // nothing more to do
   }
 
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
     // nothing to do
   }
 }
