@@ -235,6 +235,11 @@
               "type" : "Button"
             } ],
             "className" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item) && !Editor.getFeatures().ADVANCED;",
+              "language" : "typescript"
+            },
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
@@ -460,6 +465,11 @@
               "type" : "Text"
             } ],
             "className" : "action-gap",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+              "language" : "typescript"
+            },
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
@@ -470,6 +480,11 @@
         }, {
           "props" : {
             "className" : "header-button",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+              "language" : "typescript"
+            },
             "icon" : "plus",
             "label" : {
               "@class" : "Script",
@@ -500,6 +515,11 @@
               "language" : "typescript"
             },
             "className" : "scenarist-dropdown",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+              "language" : "typescript"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "initial effect",
