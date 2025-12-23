@@ -173,7 +173,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
 
         if (timeJump % TimeSliceDuration !== 0) {
           mainSimLogger.error(
-            'time jump is not divisble by time slice duration',
+            'time jump is not divisible by time slice duration',
             timeJump,
             TimeSliceDuration
           );
@@ -407,7 +407,7 @@ export async function setCurrentStateDebug(stateId: number) {
   execContext.restoreState(stateId);
 
   // store the events that have to be omitted when recomputing the state
-  // i.e. the events that occured after the restored state
+  // i.e. the events that occurred after the restored state
   const ignored = getOmittedGlobalEvents();
   const lastEvtId = execContext.getCurrentState().getLastEventId();
   const all = getAllEvents();

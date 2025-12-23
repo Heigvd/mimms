@@ -90,7 +90,7 @@ export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
  *
- * @param actionTemplate The template to instanciate
+ * @param actionTemplate The template to instantiate
  * @param selectedActor The actor the plans the action and will be its owner
  * @param params The additional optional parameters, related to the chosen action template
  * @returns a promise

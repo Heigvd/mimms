@@ -5,7 +5,7 @@
  *
  * Copyright (2021-2022)
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
- *  - Hôpitaux Universitaires Genêve (HUG)
+ *  - Hôpitaux Universitaires Genève (HUG)
  */
 
 import { Point } from '../map/point2D';
@@ -61,7 +61,7 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
 /**
  * @param x the value on the x axis
  * @param points a list of 2D points sorted in ascending order by their x values.
- * Connecting these points with lines implicitely describes a 2D graph
+ * Connecting these points with lines implicitly describes a 2D graph
  * @return the y value corresponding to the intersection of the 2D graph and a vertical line going through x
  */
 export function interpolate(x: number, points: Point[], defaultValue: number = 0): number {

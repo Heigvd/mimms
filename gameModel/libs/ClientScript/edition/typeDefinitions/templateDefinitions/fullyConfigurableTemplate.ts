@@ -4,7 +4,7 @@ import { FullyConfigurableTemplateDescriptor } from '../../../game/common/action
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
-import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
 
 /**
  * Scenarist fully configurable template, including choices and impacts
