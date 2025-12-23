@@ -11,7 +11,6 @@ import {
   CasuMessageTemplate,
   ChoiceTemplate,
   EvacuationActionTemplate,
-  MapChoiceActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
@@ -180,12 +179,6 @@ export function isChoiceTemplate(
   template: ActionTemplateBase | undefined
 ): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
-}
-
-export function isMapChoiceActionTemplate(
-  template: ActionTemplateBase | undefined
-): template is MapChoiceActionTemplate {
-  return template instanceof MapChoiceActionTemplate;
 }
 
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {
