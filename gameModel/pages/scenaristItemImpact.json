@@ -166,7 +166,7 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "!Context.item.roles[Context.role.value];",
+                          "content" : "  if (Context.item?.roles) {\n    return !Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  true;",
                           "language" : "typescript"
                         },
                         "icon" : "check",
@@ -184,7 +184,7 @@
                           "className" : "small-bold-primary10-text",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "Context.item.roles[Context.role.value];",
+                            "content" : "  if (Context.item?.roles) {\n    return Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  false;",
                             "language" : "typescript"
                           }
                         } ],
@@ -205,7 +205,7 @@
                       "className" : " notif-receiver--selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "Context.item.roles[Context.role.value];",
+                        "content" : "  if (Context.item?.roles) {\n    return Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  false;",
                         "language" : "typescript"
                       }
                     } ],
