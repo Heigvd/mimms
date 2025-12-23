@@ -625,11 +625,11 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// custom choice action
+// fully configurable choice action
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class CustomChoiceAction extends ChoiceAction {
+export class FullyConfigurableChoiceAction extends ChoiceAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -654,53 +654,16 @@ export class CustomChoiceAction extends ChoiceAction {
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    if (this.choice.displayedMapEntity) {
-      getLocalEventManager().queueLocalEvent(
-        new ChangeMapActivableStatusLocalEvent(
-          {
-            parentEventId: this.eventId,
-            simTimeStamp: state.getSimTime(),
-            target: this.choice.displayedMapEntity,
-            option: 'activate',
-          },
-          'pending'
-        )
-      );
-    }
+    // nothing to do
   }
 
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
-
-    if (this.choice.displayedMapEntity) {
-      getLocalEventManager().queueLocalEvent(
-        new ChangeMapActivableStatusLocalEvent(
-          {
-            parentEventId: this.eventId,
-            simTimeStamp: state.getSimTime(),
-            target: this.choice.displayedMapEntity,
-            option: 'activate',
-          },
-          'built'
-        )
-      );
-    }
+    // nothing more to do
   }
 
   protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    if (this.choice.displayedMapEntity) {
-      getLocalEventManager().queueLocalEvent(
-        new ChangeMapActivableStatusLocalEvent(
-          {
-            parentEventId: this.eventId,
-            simTimeStamp: state.getSimTime(),
-            target: this.choice.displayedMapEntity,
-            option: 'deactivate',
-          },
-          'pending'
-        )
-      );
-    }
+    // nothing to do
   }
 }
 

@@ -1,6 +1,6 @@
 import { getFilteredAsArray } from '../../../../../tools/helper';
-import { CustomChoiceActionTemplate } from '../../actionTemplateBase';
-import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
+import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplateBase';
+import { ITemplateDescriptor } from '../templateDescriptor';
 
 // TODO this might just be a MapChoiceActionTemplate instead
 
@@ -11,8 +11,8 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 
 export function createFullyConfigurableTemplate(
   descriptor: FullyConfigurableTemplateDescriptor
-): CustomChoiceActionTemplate {
-  return new CustomChoiceActionTemplate(
+): FullyConfigurableChoiceActionTemplate {
+  return new FullyConfigurableChoiceActionTemplate(
     descriptor.uid,
     descriptor.title,
     descriptor.description,

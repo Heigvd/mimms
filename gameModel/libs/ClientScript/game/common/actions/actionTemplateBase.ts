@@ -36,9 +36,9 @@ import {
   ActivateRadioSchemaAction,
   AppointActorAction,
   CasuMessageAction,
-  CustomChoiceAction,
   DisplayMessageAction,
   EvacuationAction,
+  FullyConfigurableChoiceAction,
   MapChoiceAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
@@ -595,13 +595,13 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// custom choice
+// fully configurable choice action
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export class CustomChoiceActionTemplate<
-  ActionT extends CustomChoiceAction = CustomChoiceAction
-> extends ChoiceTemplate<CustomChoiceAction, ChoiceEvent, ChoiceDescriptor> {
+export class FullyConfigurableChoiceActionTemplate<
+  ActionT extends FullyConfigurableChoiceAction = FullyConfigurableChoiceAction
+> extends ChoiceTemplate<FullyConfigurableChoiceAction, ChoiceEvent, ChoiceDescriptor> {
   constructor(
     uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
@@ -641,11 +641,11 @@ export class CustomChoiceActionTemplate<
     };
   }
 
-  protected createActionFromEvent(event: FullEvent<ChoiceEvent>): CustomChoiceAction {
+  protected createActionFromEvent(event: FullEvent<ChoiceEvent>): FullyConfigurableChoiceAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
 
-    return new CustomChoiceAction(
+    return new FullyConfigurableChoiceAction(
       payload.triggerTime,
       this.duration,
       event.id,
