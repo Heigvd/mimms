@@ -1,10 +1,9 @@
 import { StartEndAction } from '../game/common/actions/actionBase';
-import { formatTime, getSimStartDateTime } from './main';
-import { getTranslation } from '../tools/translation';
 import { getAllActions } from '../UIfacade/actionFacade';
 import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { isGodView } from '../gameInterface/interfaceConfiguration';
+import { isGodView } from './interfaceConfiguration';
+import { formatTime, getSimStartDateTime } from './main';
 
 interface Action {
   startTime: number;
@@ -175,7 +174,7 @@ function createGridRow(row: number, current: boolean, actions: Action[]): string
         animationClassName
       );
 
-      const title = getTranslation('mainSim-actions-tasks', actions[actionIndex]!.title);
+      const title = actions[actionIndex]!.title;
       output += createGridSegment(row, row + 1, actionStartIndex, actionEndIndex, title, className);
 
       timer += actionDuration;

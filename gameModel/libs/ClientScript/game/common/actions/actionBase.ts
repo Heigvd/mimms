@@ -81,7 +81,7 @@ export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Complete
 const ACTION_SEED_ID: ActionId = 3000;
 
 /**
- * Instanciated action that lives in the state of the game and will generate local events that will change the game state
+ * Instantiated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
@@ -213,7 +213,7 @@ export abstract class StartEndAction extends ActionBase {
 
   public getTitle(): string {
     if (typeof this.actionNameKey === 'string') {
-      return this.actionNameKey;
+      return getTranslation('mainSim-actions-tasks', this.actionNameKey);
     } else {
       return I18n.translate(this.actionNameKey);
     }
@@ -500,7 +500,10 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   public override getTitle(): string {
-    return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+    return getTranslation(
+      'mainSim-actions-tasks',
+      this.actionNameKey + '-' + this.casuMessagePayload.messageType
+    );
   }
 
   public getChannel(): RadioType {
