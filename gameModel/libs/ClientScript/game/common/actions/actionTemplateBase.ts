@@ -607,7 +607,6 @@ export class FullyConfigurableChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
     replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -654,22 +653,6 @@ export class FullyConfigurableChoiceActionTemplate<
       this.raisedFlags,
       payload.choice
     ) as ActionT;
-  }
-
-  protected override isAvailableCustom(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>
-  ): boolean {
-    // TODO
-    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actor.Uid);
-  }
-
-  protected override customCanConcurrencyWiseBePlayed(
-    state: Readonly<MainSimulationState>,
-    actorUid: ActorId
-  ): boolean {
-    // TODO
-    return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actorUid);
   }
 }
 
