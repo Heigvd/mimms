@@ -624,6 +624,49 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+// fully configurable choice action
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class FullyConfigurableChoiceAction extends ChoiceAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      ownerId,
+      templateUid,
+      provideFlagsToState,
+      choice
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+    // nothing more to do
+  }
+
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // place map items
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------

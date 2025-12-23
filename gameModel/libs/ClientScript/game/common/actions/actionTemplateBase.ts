@@ -16,6 +16,7 @@ import { EvacuationActionEvent, EvacuationActionPayload } from '../events/evacua
 import {
   ActionCreationEvent,
   AppointActorEvent,
+  ChoiceEvent,
   MoveActorEvent,
   MoveResourcesAssignTaskEvent,
   RequestPretriageReportEvent,
@@ -37,6 +38,7 @@ import {
   CasuMessageAction,
   DisplayMessageAction,
   EvacuationAction,
+  FullyConfigurableChoiceAction,
   MapChoiceAction,
   MoveActorAction,
   MoveResourcesAssignTaskAction,
@@ -588,6 +590,69 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     _actor: Readonly<Actor>
   ): boolean {
     return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// fully configurable choice action
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class FullyConfigurableChoiceActionTemplate<
+  ActionT extends FullyConfigurableChoiceAction = FullyConfigurableChoiceAction
+> extends ChoiceTemplate<FullyConfigurableChoiceAction, ChoiceEvent, ChoiceDescriptor> {
+  constructor(
+    uid: ActionTemplateUid,
+    title: TranslationKey | ITranslatableContent,
+    description: TranslationKey | ITranslatableContent,
+    duration: SimDuration,
+    replayable = false,
+    requiredFlags?: SimFlag[],
+    raisedFlags?: SimFlag[],
+    availableToRoles?: InterventionRole[],
+    choices?: ChoiceDescriptor[]
+  ) {
+    super(
+      uid,
+      title,
+      description,
+      duration,
+      replayable,
+      ActionType.ACTION,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices
+    );
+  }
+
+  public buildGlobalEvent(
+    timeStamp: number,
+    initiator: Readonly<Actor>,
+    payload: ChoiceDescriptor
+  ): ChoiceEvent {
+    return {
+      ...this.initBaseEvent(timeStamp, initiator.Uid),
+      durationSec: this.duration,
+      choice: payload,
+    };
+  }
+
+  protected createActionFromEvent(event: FullEvent<ChoiceEvent>): FullyConfigurableChoiceAction {
+    const payload = event.payload;
+    const ownerId = payload.emitterCharacterId as ActorId;
+
+    return new FullyConfigurableChoiceAction(
+      payload.triggerTime,
+      this.duration,
+      event.id,
+      this.title,
+      ownerId,
+      this.uid,
+      this.raisedFlags,
+      payload.choice
+    ) as ActionT;
   }
 }
 
