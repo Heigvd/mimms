@@ -652,7 +652,7 @@ export class FullyConfigurableChoiceActionTemplate<
       this.uid,
       this.raisedFlags,
       payload.choice
-    ) as ActionT;
+    );
   }
 }
 
