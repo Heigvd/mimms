@@ -67,7 +67,7 @@ import {
 import { ChoiceActivable } from '../simulationState/activableState';
 import {
   canMoveToLocation,
-  getMapLocationById,
+  getActiveMapEntityFromBinding,
   LOCATION_ENUM,
 } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -880,7 +880,7 @@ export class PCChoiceAction extends MapChoiceAction {
       })
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontActivable = getMapLocationById(state, LOCATION_ENUM.pcFront);
+    const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
     getLocalEventManager().queueLocalEvent(
       new ChangeMapActivableStatusLocalEvent(
         {

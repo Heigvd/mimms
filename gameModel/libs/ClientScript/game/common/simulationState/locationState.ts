@@ -1,5 +1,4 @@
 // EVALUATION_PRIORITY 0
-import { getMapEntityDescriptorUid } from '../../loaders/mapEntitiesLoader';
 import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
 import { MapEntityActivable } from './activableState';
@@ -22,33 +21,53 @@ export enum LOCATION_ENUM {
   custom = 'custom', // non logical bindings
 }
 
-// Replacement function based on descriptors/activables
-// Often used to check if location is in state
-// locationEnumConfig used as replacement in resources/resourceLogic.ts
-export function getMapLocationById(
-  state: Readonly<MainSimulationState>,
-  locationKey: LOCATION_ENUM
-): MapEntityActivable | undefined {
-  const descriptorUid = getMapEntityDescriptorUid(locationKey)?.uid;
+/**
+ * Get all MapEntityActivables
+ *
+ * @returns MapEntityActivable[]
+ */
+function getMapEntityActivables(state: Readonly<MainSimulationState>): MapEntityActivable[] {
+  const activables = state.getInternalStateObject().activables;
 
-  if (descriptorUid) {
-    // TODO Avoid assertion ?
-    return state.getInternalStateObject().activables[descriptorUid] as MapEntityActivable;
-  }
-
-  return undefined;
+  return Object.values(activables).filter(
+    a => a.activableType === 'mapEntity'
+  ) as MapEntityActivable[];
 }
 
-// Replacement function based on descriptors/activables
+/**
+ * Get active MapEntityActivables
+ *
+ * @returns MapEntityActivable[]
+ */
+function getActiveMapEntities(state: Readonly<MainSimulationState>): MapEntityActivable[] {
+  return getMapEntityActivables(state).filter(a => a.active);
+}
+
+/**
+ * Get built and active MapEntityActivables
+ *
+ * @returns MapEntityActivable[]
+ */
+function getBuiltActiveMapEntities(state: Readonly<MainSimulationState>): MapEntityActivable[] {
+  return getActiveMapEntities(state).filter(a => a.buildStatus === 'built');
+}
+
+export function getActiveMapEntityFromBinding(
+  state: Readonly<MainSimulationState>,
+  bindingKey: LOCATION_ENUM
+): MapEntityActivable | undefined {
+  return getActiveMapEntities(state).find(
+    mapLoc => (mapLoc as MapEntityActivable).binding === bindingKey
+  );
+}
+
 // Used to check if the binding (LOCATION_ENUM) is accessible to actor / ressource / patients
+// The map entities must also be active and built
 export function getAvailableMapActivables(
   state: Readonly<MainSimulationState>,
   kind: LocationAccessibilityKind | 'anyKind'
 ): MapEntityActivable[] {
-  // TODO Avoid assertation ?
-  const mapActivables = Object.values(state.getInternalStateObject().activables).filter(
-    a => a.active && a.activableType === 'mapEntity' && a.buildStatus === 'built'
-  ) as MapEntityActivable[];
+  const mapActivables = getBuiltActiveMapEntities(state);
 
   if (kind === 'anyKind') {
     return mapActivables;
@@ -71,7 +90,10 @@ export function canMoveToLocation(
     return true;
   }
 
-  const mapActivable: MapEntityActivable | undefined = getMapLocationById(state, location);
+  const mapActivable: MapEntityActivable | undefined = getActiveMapEntityFromBinding(
+    state,
+    location
+  );
   return mapActivable != undefined && locationEnumConfig[location].accessibility[kind];
 }
 
