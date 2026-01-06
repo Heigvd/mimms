@@ -148,12 +148,18 @@
                 "language" : "TypeScript"
               }
             },
+            "name" : "up",
             "stopPropagation" : true,
             "style" : { }
           },
           "type" : "Button"
         }, {
           "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { canBeDeleted } from \"./edition/UIfacade/genericConfigFacade\";\n  !canBeDeleted(Context.item);",
+              "language" : "typescript"
+            },
             "icon" : "trash",
             "label" : {
               "@class" : "Script",
@@ -169,6 +175,7 @@
                 "language" : "TypeScript"
               }
             },
+            "name" : "bin",
             "stopPropagation" : true,
             "style" : { }
           },
@@ -200,6 +207,7 @@
                 "language" : "TypeScript"
               }
             },
+            "name" : "down",
             "stopPropagation" : true,
             "style" : { }
           },

@@ -81,7 +81,7 @@ export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Complete
 const ACTION_SEED_ID: ActionId = 3000;
 
 /**
- * Instanciated action that lives in the state of the game and will generate local events that will change the game state
+ * Instantiated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
@@ -213,7 +213,7 @@ export abstract class StartEndAction extends ActionBase {
 
   public getTitle(): string {
     if (typeof this.actionNameKey === 'string') {
-      return this.actionNameKey;
+      return getTranslation('mainSim-actions-tasks', this.actionNameKey);
     } else {
       return I18n.translate(this.actionNameKey);
     }
@@ -254,7 +254,8 @@ export abstract class ChoiceAction extends StartEndAction {
     const selectedEffect = this.choice.effects.find(e => e.uid === choiceActivable?.selectedEffect);
 
     if (selectedEffect) {
-      evaluateEffectImpacts(state, selectedEffect);
+      const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
+      eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
     }
   }
 
@@ -500,7 +501,10 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   public override getTitle(): string {
-    return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+    return getTranslation(
+      'mainSim-actions-tasks',
+      this.actionNameKey + '-' + this.casuMessagePayload.messageType
+    );
   }
 
   public getChannel(): RadioType {
@@ -616,6 +620,49 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
   public getRecipientId(): ActorId | undefined {
     return getCasuActorId();
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// fully configurable choice action
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class FullyConfigurableChoiceAction extends ChoiceAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      ownerId,
+      templateUid,
+      provideFlagsToState,
+      choice
+    );
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+    // nothing more to do
+  }
+
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
   }
 }
 

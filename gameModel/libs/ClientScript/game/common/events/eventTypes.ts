@@ -4,6 +4,7 @@ import { MeasureMetric } from '../../../HUMAn/registry/acts';
 import { Location } from '../../../map/locationTypes';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
+import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
 import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId } from '../baseTypes';
 import { GameOptions } from '../gameOptions';
@@ -180,6 +181,11 @@ export interface GameOptionsEvent extends BaseEvent, TimedPayload {
 
 export interface StandardActionEvent extends ActionCreationEvent {
   durationSec: SimDuration;
+}
+
+export interface ChoiceEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  choice: ChoiceDescriptor;
 }
 
 export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {

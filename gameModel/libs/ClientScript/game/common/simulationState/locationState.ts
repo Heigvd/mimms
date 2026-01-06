@@ -2,7 +2,7 @@
 import { getMapEntityDescriptorUid } from '../../loaders/mapEntitiesLoader';
 import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
-import { MapEntityActivable } from '../simulationState/activableState';
+import { MapEntityActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
 
 // TODO English naming

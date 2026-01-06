@@ -5,12 +5,8 @@ import {
   CasuMessageTemplate,
   DisplayMessageActionTemplate,
   EvacuationActionTemplate,
-  MapChoiceActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
-  ParkChoiceTemplate,
-  PCChoiceTemplate,
-  PCFrontChoiceTemplate,
   PretriageReportTemplate,
   SendRadioMessageTemplate,
   SimFlag,
@@ -20,20 +16,9 @@ import { ActionType } from './common/actionType';
 import { ActionTemplateUid } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
 import { RadioType } from './common/radio/communicationType';
-import { LOCATION_ENUM } from './common/simulationState/locationState';
-import {
-  getAccregChoices,
-  getAmbulanceChoices,
-  getHelicopterChoices,
-  getNestChoices,
-  getPCChoices,
-  getPCFrontChoices,
-  getPMAChoices,
-} from './loaders/choiceLoader';
+import { ActionTemplateData } from './loaders/actionTemplateLoader';
 
 export interface IUniqueActionTemplates {
-  readonly PCFrontChoiceTemplate: PCFrontChoiceTemplate;
-  readonly PCChoiceTemplate: PCChoiceTemplate;
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
@@ -49,14 +34,11 @@ export interface IUniqueActionTemplates {
   readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
-export function initActionTemplates(): {
-  actionTemplates: Record<ActionTemplateUid, ActionTemplateBase>;
-  uniqueActionTemplates: IUniqueActionTemplates;
-} {
+export function initActionTemplates(): ActionTemplateData {
   // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
-
+  /*
   const pcFrontChoice = new PCFrontChoiceTemplate(
     'define-pcFront-uid-qwe',
     'define-pcFront-title',
@@ -69,7 +51,7 @@ export function initActionTemplates(): {
     undefined,
     getPCFrontChoices()
   );
-
+*/
   const moveActor = new MoveActorActionTemplate(
     'move-actor-uid-wer',
     'move-actor-title',
@@ -131,7 +113,7 @@ export function initActionTemplates(): {
     true,
     ActionType.CASU_RADIO
   );
-
+  /*
   const ambulanceParkChoice = new ParkChoiceTemplate(
     'define-ambulance-park-uid-sdf',
     'define-ambulance-park-title',
@@ -210,7 +192,7 @@ export function initActionTemplates(): {
     undefined,
     getPCChoices()
   );
-
+*/
   const openPMA = new DisplayMessageActionTemplate(
     'open-PMA-uid-yxc',
     'open-PMA-title',
@@ -340,13 +322,6 @@ export function initActionTemplates(): {
   );
 
   const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
-  templates[ambulanceParkChoice.uid] = ambulanceParkChoice;
-  templates[helicopterParkChoice.uid] = helicopterParkChoice;
-  templates[nestChoice.uid] = nestChoice;
-  templates[accessRegressChoice.uid] = accessRegressChoice;
-  templates[pmaChoice.uid] = pmaChoice;
-  templates[pcChoice.uid] = pcChoice;
-  templates[pcFrontChoice.uid] = pcFrontChoice;
   templates[moveActor.uid] = moveActor;
   templates[getInfo.uid] = getInfo;
   templates[getInfo2.uid] = getInfo2;
@@ -372,8 +347,6 @@ export function initActionTemplates(): {
   return {
     actionTemplates: templates,
     uniqueActionTemplates: {
-      PCFrontChoiceTemplate: pcFrontChoice,
-      PCChoiceTemplate: pcChoice,
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
       EvasanArrivalAnnouncement: evasanArrivalAnnouncement,

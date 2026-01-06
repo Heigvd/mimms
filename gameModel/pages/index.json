@@ -120,6 +120,12 @@
             "trainerPage" : null
           }, {
             "@class" : "Page",
+            "id" : "31",
+            "name" : "choice selection",
+            "scenaristPage" : null,
+            "trainerPage" : null
+          }, {
+            "@class" : "Page",
             "id" : "66",
             "name" : "move actor action",
             "scenaristPage" : false,
@@ -228,16 +234,6 @@
           "name" : "patients list with detail",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Folder",
-          "items" : [ {
-            "@class" : "Page",
-            "id" : "31",
-            "name" : "mapAction selection",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          } ],
-          "name" : "map"
         }, {
           "@class" : "Page",
           "id" : "64",
@@ -538,6 +534,12 @@
           "@class" : "Page",
           "id" : "58",
           "name" : "mainSim_actions",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "32",
+          "name" : "mainSim_activables",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {

@@ -10,6 +10,7 @@ import { Uid } from '../common/interfaces';
 import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
 import { Trigger } from '../common/triggers/trigger';
+import { loadCustomActionTemplateDescriptors } from './actionTemplateLoader';
 import { loadMapEntityDescriptors } from './mapEntitiesLoader';
 import { getTriggers } from './triggerLoader';
 
@@ -31,9 +32,8 @@ function addTriggerActivables(activables: Record<Uid, Activable>): void {
 }
 
 function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): void {
-  // TODO action templates from WEGAS variable
-  // XGO TODO get data
-  const tpls: Record<Uid, TemplateDescriptor> = {};
+  // TODO see if basic action templates + choices should also be loaded in activables
+  const tpls: Record<Uid, TemplateDescriptor> = loadCustomActionTemplateDescriptors();
 
   Object.values(tpls).forEach((t: TemplateDescriptor) => {
     activables[t.uid] = fromDescriptor(t);

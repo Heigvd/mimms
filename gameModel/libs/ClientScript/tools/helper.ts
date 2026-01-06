@@ -5,11 +5,11 @@
  *
  * Copyright (2021-2022)
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
- *  - Hôpitaux Universitaires Genêve (HUG)
+ *  - Hôpitaux Universitaires Genève (HUG)
  */
 
-import { logger } from './logger';
 import { Point } from '../map/point2D';
+import { logger } from './logger';
 
 export function checkUnreachable(x: never): void {
   throw new Error('Unreachable code: ' + (x as unknown));
@@ -61,7 +61,7 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
 /**
  * @param x the value on the x axis
  * @param points a list of 2D points sorted in ascending order by their x values.
- * Connecting these points with lines implicitely describes a 2D graph
+ * Connecting these points with lines implicitly describes a 2D graph
  * @return the y value corresponding to the intersection of the 2D graph and a vertical line going through x
  */
 export function interpolate(x: number, points: Point[], defaultValue: number = 0): number {
@@ -314,4 +314,10 @@ export function floatToHexByte(value: number): string {
 
   // Convert to hex and pad with leading zero if needed
   return intVal.toString(16).padStart(2, '0').toUpperCase();
+}
+
+export function getFilteredAsArray<T extends string>(enabledRecord: Record<T, boolean>): T[] {
+  return Object.entries(enabledRecord)
+    .filter(([_entryKey, enabled]) => enabled)
+    .map(([entryKey, _enabled]) => entryKey as T);
 }

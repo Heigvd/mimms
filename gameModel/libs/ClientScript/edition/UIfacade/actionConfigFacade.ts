@@ -1,10 +1,16 @@
 import { Uid } from '../../game/common/interfaces';
 import { patchX } from '../../tools/helper';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { getActionTemplateController } from '../controllers/controllerInstances';
 import { ActionTemplateFlatType } from '../controllers/dataController';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
-import { GenericScenaristInterfaceState, getItems, ModalState } from './genericConfigFacade';
+import {
+  GenericScenaristInterfaceState,
+  getItems,
+  getItemTyped,
+  ModalState,
+} from './genericConfigFacade';
 
 //////////////////////////////////////////////////////////////////////////////////////
 // UI state
@@ -45,6 +51,26 @@ export function updateItem<T extends ActionTemplateFlatType>(
     data[uid] = patchX(data[uid], newData)!;
     controller.updateData(data, true, interfaceState);
   }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// check if in a mandatory action
+
+export function isInMandatoryAction(item: ActionTemplateFlatType): boolean {
+  if (item.superType === 'action') {
+    return item.mandatory;
+  }
+
+  if (item.superType === 'choice') {
+    const actTemplate = getItemTyped('action', item.parent);
+    return actTemplate?.mandatory ?? false;
+  }
+
+  scenarioEditionLogger.warn(
+    'Unexpected usage of isInMandatoryAction with superType ' + item.superType
+  );
+
+  return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
