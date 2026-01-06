@@ -1,6 +1,8 @@
 import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
+type LineExtremity = 'None' | 'Arrow';
+
 export interface BaseMapObject<T, TType extends string> extends Typed, Indexed, IDescriptor {
   type: TType;
   geometry: T;
@@ -17,6 +19,8 @@ export interface PointMapObject extends BaseMapObject<PointLikeObject, 'Point'> 
 
 export interface LineMapObject extends BaseMapObject<PointLikeObject[], 'LineString'> {
   type: 'LineString';
+  lineStart: LineExtremity;
+  lineEnd: LineExtremity;
   geometry: PointLikeObject[];
 }
 
