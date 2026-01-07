@@ -8,7 +8,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'ACTIONS ' + JSON.stringify(getCurrentState().getAllActions());",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'ACTIONS '\n    + getCurrentState().getInternalStateObject().actions\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
           "language" : "TypeScript"
         }
       },
@@ -21,19 +21,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'CANCELLED ACTIONS ' + JSON.stringify(getCurrentState().getAllCancelledActions());",
-          "language" : "TypeScript"
-        }
-      },
-      "type" : "Text"
-    }, {
-      "props" : {
-        "layoutStyle" : { },
-        "name" : "ActionTemplates",
-        "style" : { },
-        "text" : {
-          "@class" : "Script",
-          "content" : "import { debugGetAllActionTemplates } from \"./game/mainSimulationLogic\";\n'ACTION TEMPLATES ' + JSON.stringify(debugGetAllActionTemplates());",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'CANCELLED ACTIONS '\n    + getCurrentState().getInternalStateObject().cancelledActions\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
           "language" : "TypeScript"
         }
       },

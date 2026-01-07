@@ -2,13 +2,11 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "",
         "layoutStyle" : { },
-        "name" : "Actions",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n'ACTORS ' + JSON.stringify(getCurrentState().getAllActors());",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'ACTORS '\n    + Object.values(getCurrentState().getInternalStateObject().actors)\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
           "language" : "TypeScript"
         }
       },

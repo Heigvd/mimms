@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'ACTIVABLES '\n    + Object.values(getCurrentState().getInternalStateObject().activables)\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
+          "content" : "import { getSortedTriggers } from \"./game/common/triggers/trigger\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  'TRIGGERS'\n    + getSortedTriggers()\n      .map(item => '<br/><br/>' + JSON.stringify(item) + '<br/>' + JSON.stringify(activablesState[item.uid]));",
           "language" : "TypeScript"
         }
       },

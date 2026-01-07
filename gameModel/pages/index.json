@@ -526,6 +526,24 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
+          "id" : "36",
+          "name" : "mainSim_mapEntitiesDescriptors",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "33",
+          "name" : "mainSim_actions templates",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "34",
+          "name" : "mainSim_triggers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "51",
           "name" : "mainSim_state",
           "scenaristPage" : false,
@@ -550,14 +568,50 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "59",
-          "name" : "mainSim_events",
+          "id" : "35",
+          "name" : "mainSim_flags",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "60",
-          "name" : "mainSim_features",
+          "id" : "38",
+          "name" : "mainSim_patients",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "48",
+          "name" : "mainSim_radio messages",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "49",
+          "name" : "mainSim_resources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "62",
+          "name" : "mainSim_resources containers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "39",
+          "name" : "mainSim_tasks",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "37",
+          "name" : "mainSim_state remaining",
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "59",
+          "name" : "mainSim_events",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
