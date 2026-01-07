@@ -63,7 +63,7 @@
         "exposeAs" : "choice",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { compareByIndex } from \"./tools/indexedSorting\";\nContext.action.choices.sort(compareByIndex);",
+          "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action);",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",

@@ -1,6 +1,18 @@
 import { ActionBase } from '../actions/actionBase';
 import { ActionTemplateUid } from '../baseTypes';
+import { Uid } from '../interfaces';
+import { getChoiceActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
+
+export function isChoiceAvailable(state: Readonly<MainSimulationState>, choiceUid: Uid): boolean {
+  const choiceActivable = getChoiceActivable(state, choiceUid);
+
+  if (choiceActivable) {
+    return choiceActivable.active;
+  }
+
+  return false;
+}
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,

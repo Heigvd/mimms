@@ -1,18 +1,19 @@
-import { ActionTemplateBase, ChoiceTemplate } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { setInterfaceState } from '../gameInterface/interfaceState';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
+  getAvailableChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
   isSituationUpdateActionTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
+import { setInterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -130,7 +131,7 @@ export function actionChangeHandler(): void {
   endMapAction();
 
   if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = (actTemplate as ChoiceTemplate).choices[0]!.uid;
+    const choiceUid = getAvailableChoices(actTemplate)[0]!.uid;
 
     setInterfaceState({
       currentActionUid: actTemplate.uid,

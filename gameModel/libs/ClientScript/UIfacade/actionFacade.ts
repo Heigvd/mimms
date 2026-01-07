@@ -18,12 +18,16 @@ import {
   SimFlag,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { RadioType } from '../game/common/radio/communicationType';
-import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
+import {
+  isChoiceAvailable,
+  isOngoingAndStartedAction,
+} from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
@@ -33,6 +37,7 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
+import { compareByIndex } from '../tools/indexedSorting';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
@@ -63,6 +68,16 @@ export function isAvailable(template: ActionTemplateBase): boolean {
     }
   }
   return false;
+}
+
+export function getAvailableChoices(template: ActionTemplateBase): ChoiceDescriptor[] {
+  if (isChoiceTemplate(template)) {
+    return template.choices
+      .filter(choice => isChoiceAvailable(getCurrentState(), choice.uid))
+      .sort(compareByIndex);
+  }
+
+  return [];
 }
 
 /**

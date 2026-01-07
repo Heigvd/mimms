@@ -2,8 +2,9 @@ import { TemplateDescriptor } from '../actions/actionTemplateDescriptor/template
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { IActivableDescriptor, Uid } from '../interfaces';
 import { BuildStatus, MapEntityDescriptor } from '../mapEntities/mapEntityDescriptor';
-import { LOCATION_ENUM } from '../simulationState/locationState';
 import { Trigger } from '../triggers/trigger';
+import { LOCATION_ENUM } from './locationState';
+import { MainSimulationState } from './mainSimulationState';
 
 /**
  * Expresses the state of all runtime activable/deactivable objects
@@ -91,3 +92,60 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
       return mae;
   }
 }
+
+export function getActionTemplateActivable(
+  state: Readonly<MainSimulationState>,
+  uid: Uid
+): ActionTemplateActivable | undefined {
+  const activable = state.getInternalStateObject().activables[uid];
+
+  if (activable && activable.activableType === 'actionTemplate') {
+    return activable;
+  }
+
+  return undefined;
+}
+
+export function getChoiceActivable(
+  state: Readonly<MainSimulationState>,
+  uid: Uid
+): ChoiceActivable | undefined {
+  const activable = state.getInternalStateObject().activables[uid];
+
+  if (activable && activable.activableType === 'choice') {
+    return activable;
+  }
+
+  return undefined;
+}
+
+export function getTriggerActivable(
+  state: Readonly<MainSimulationState>,
+  uid: Uid
+): TriggerActivable | undefined {
+  const activable = state.getInternalStateObject().activables[uid];
+
+  if (activable && activable.activableType === 'trigger') {
+    return activable;
+  }
+
+  return undefined;
+}
+
+export function getMapEntityActivable(
+  state: Readonly<MainSimulationState>,
+  uid: Uid
+): MapEntityActivable | undefined {
+  const activable = state.getInternalStateObject().activables[uid];
+
+  if (activable && activable.activableType === 'mapEntity') {
+    return activable;
+  }
+
+  return undefined;
+}
+
+/*
+export function isActive(state: Readonly<MainSimulationState>, activableUid: Uid): boolean {
+  return !!state.getInternalStateObject().activables[activableUid]?.active;
+}*/

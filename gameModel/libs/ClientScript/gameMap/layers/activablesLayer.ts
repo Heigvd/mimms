@@ -7,7 +7,11 @@ import {
   getMapActivableFromUid,
   getMapEntityDescriptors,
 } from '../../game/loaders/mapEntitiesLoader';
-import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
+import {
+  getAvailableActionTemplateById,
+  getAvailableChoices,
+  isChoiceTemplate,
+} from '../../UIfacade/actionFacade';
 import { FeatureCollection } from '../types/featureTypes';
 import { getEmptyFeatureCollection } from '../utils/mapUtils';
 import { getLineEndAndRotation } from '../utils/shapeUtils';
@@ -32,7 +36,7 @@ export function getMapActivableSelectionLayer() {
   const record: Record<string, MapEntityDescriptor> = {};
 
   if (isChoiceTemplate(currentTemplate)) {
-    medUids = currentTemplate.choices
+    medUids = getAvailableChoices(currentTemplate)
       .filter(c => c.displayedMapEntity)
       .map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
