@@ -1,7 +1,7 @@
 import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
-type LineExtremity = 'None' | 'Arrow';
+export type LineExtremity = 'None' | 'Arrow';
 
 export interface BaseMapObject<T, TType extends string> extends Typed, Indexed, IDescriptor {
   type: TType;

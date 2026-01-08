@@ -111,8 +111,8 @@ function getGenericFeature(
       },
       properties: {
         ...properties,
-        type: mapObject.type,
-        icon: mapObject.type === 'Point' ? mapObject.icon : undefined,
+        type: mapObject.type, // d
+        icon: mapObject.type === 'Point' ? mapObject.icon : undefined, // d
       },
     };
 
@@ -120,21 +120,19 @@ function getGenericFeature(
 
     // Add arrowheads in case of LineString
     if (mapObject.type === 'LineString') {
-
-      if(mapObject.lineStart === 'Arrow'){
+      if (mapObject.lineStart === 'Arrow') {
         const { extremity, rotation } = getLineExtremityAndRotation(mapObject.geometry, 'start');
-        if(extremity){
+        if (extremity) {
           layer.features.push(buildArrowHeadFeature(properties, extremity, rotation));
         }
       }
 
-      if(mapObject.lineEnd === 'Arrow'){
+      if (mapObject.lineEnd === 'Arrow') {
         const { extremity, rotation } = getLineExtremityAndRotation(mapObject.geometry, 'end');
-        if(extremity){
+        if (extremity) {
           layer.features.push(buildArrowHeadFeature(properties, extremity, rotation));
         }
       }
-
     }
   }
 

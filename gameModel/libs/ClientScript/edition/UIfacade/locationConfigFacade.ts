@@ -1,5 +1,6 @@
 import { Uid } from '../../game/common/interfaces';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
+import { LineExtremity } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { patchX } from '../../tools/helper';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
@@ -110,6 +111,23 @@ export function updateOffsetY(value: number, target: FlatMapObject): void {
   const offsetX = target?.labelOffset?.length == 2 ? target.labelOffset[0] : 0;
   const newOffset: [number, number] = [offsetX, value];
   updateItem<FlatMapObject>(target.uid, { labelOffset: newOffset });
+}
+
+export function updateLineExtremities(
+  target: FlatMapObject,
+  lineStart: LineExtremity,
+  lineEnd: LineExtremity
+): void {
+  updateItem<FlatMapObject>(target.uid, { lineStart, lineEnd });
+}
+
+export function areCurrentLineExtremitiesSelected(
+  currentStart: LineExtremity,
+  currentEnd: LineExtremity,
+  selectedStart: LineExtremity,
+  selectedEnd: LineExtremity
+): boolean {
+  return currentStart === selectedStart && currentEnd === selectedEnd;
 }
 
 export function getFilters(): { label: string; binding: LOCATION_ENUM }[] {

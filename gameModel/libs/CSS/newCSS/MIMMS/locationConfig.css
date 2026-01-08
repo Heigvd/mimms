@@ -178,7 +178,7 @@ for the gap between the modal elements */
   border-radius: 0;
 }
 
-.mapobject .svg-inline--fa {
+.mapobject__icon .svg-inline--fa {
   width: 26px;
   height: 26px;
   margin-right: 10px;

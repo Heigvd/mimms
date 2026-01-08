@@ -78,15 +78,18 @@ function getPolygonCenter(geometry: PointLikeObject[][]): PointLikeObject {
  *
  * @returns End point and rotation (radians) of segment
  */
-export function getLineExtremityAndRotation(line: PointLikeObject[], side: 'start' | 'end'): {
+export function getLineExtremityAndRotation(
+  line: PointLikeObject[],
+  side: 'start' | 'end'
+): {
   extremity?: PointLikeObject;
   rotation: number;
 } {
-  let extremity : PointLikeObject | undefined = undefined;
+  let extremity: PointLikeObject | undefined = undefined;
   let rotation = 0;
-  if(line?.length > 1){
-    const extIdx = side === 'start' ? 0 : line.length-1;
-    const neighborIdx = side === 'start' ? 1 : extIdx-1;
+  if (line?.length > 1) {
+    const extIdx = side === 'start' ? 0 : line.length - 1;
+    const neighborIdx = side === 'start' ? 1 : extIdx - 1;
 
     const neighbor = line[neighborIdx];
     extremity = line[extIdx];
