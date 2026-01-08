@@ -627,7 +627,7 @@ export class FullyConfigurableChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    replayable = false,
+    replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
