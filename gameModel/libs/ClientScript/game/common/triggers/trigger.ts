@@ -42,11 +42,14 @@ export function compareTriggers(a: Trigger, b: Trigger): number {
 }
 
 // Regarding only its activable state, can it be run
-export function isTriggerAvailable(state: Readonly<MainSimulationState>, trigger: Trigger): boolean {
+export function isTriggerAvailable(
+  state: Readonly<MainSimulationState>,
+  trigger: Trigger
+): boolean {
   const triggerActivable: TriggerActivable | undefined = getTriggerActivable(state, trigger.uid);
 
   if (triggerActivable) {
-    if (triggerActivable?.active) {
+    if (triggerActivable.active) {
       if (trigger.deactivateItself && triggerActivable.count > 0) {
         triggerLogger.info(`trigger '${trigger.uid}' cannot be run anymore`);
         return false;
