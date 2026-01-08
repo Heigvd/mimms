@@ -132,7 +132,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
       iconStyle.color = colors.color;
-      iconStyle.scale = 0.08;
+      iconStyle.scale = 0.05;
 
       /*textStyle.text = label;
       textStyle.offsetX = 0.5 + offsetX;
