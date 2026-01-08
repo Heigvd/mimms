@@ -73,7 +73,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
 export function getAvailableChoices(template: ActionTemplateBase): ChoiceDescriptor[] {
   if (isChoiceTemplate(template)) {
     return template.choices
-      .filter(choice => isChoiceAvailable(getCurrentState(), choice.uid))
+      .filter(choice => isChoiceAvailable(getCurrentState(), choice))
       .sort(compareByIndex);
   }
 
