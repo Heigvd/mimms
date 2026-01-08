@@ -46,7 +46,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
-import { Activable } from '../simulationState/activableState';
+import { Activable, ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -1169,6 +1169,30 @@ export class IncrementCountLocalEvent extends LocalEventBase {
         target.activableType === 'choice')
     ) {
       target.count += 1;
+    }
+  }
+}
+
+export class SelectChoiceEffectLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly effect: Uid;
+    }
+  ) {
+    super({ ...props, type: 'SelectChoiceEffectLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const targetActivable: ChoiceActivable | undefined = getChoiceActivable(
+      state,
+      this.props.target
+    );
+    if (targetActivable) {
+      targetActivable.selectedEffect = this.props.effect;
     }
   }
 }
