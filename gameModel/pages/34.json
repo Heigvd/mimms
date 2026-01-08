@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getSortedTriggers } from \"./game/common/triggers/trigger\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  'TRIGGERS'\n    + getSortedTriggers()\n      .map(item => '<br/><br/>' + JSON.stringify(item) + '<br/>' + JSON.stringify(activablesState[item.uid]));",
+          "content" : "import { isTriggerAvailable, getSortedTriggers } from \"./game/common/triggers/trigger\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  'TRIGGERS'\n    + getSortedTriggers()\n      .map(item => '<br/><br/>trigger : ' + JSON.stringify(item)\n        + '<br/>activable state : ' + JSON.stringify(activablesState[item.uid])\n        + '<br/>is available : ' + isTriggerAvailable(getCurrentState(), item));",
           "language" : "TypeScript"
         }
       },

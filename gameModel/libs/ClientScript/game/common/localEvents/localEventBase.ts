@@ -1092,7 +1092,7 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
       readonly option: ActivationOperator;
     }
   ) {
-    super({ ...props, type: 'PlanActionLocalEvent' });
+    super({ ...props, type: 'ChangeActivableStatusLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -1140,6 +1140,35 @@ export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLoc
       }
     } else {
       activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
+/**
+ * Change the number of times that a trigger / action template / choice what run
+ */
+export class IncrementCountLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly parentTriggerId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+    }
+  ) {
+    super({ ...props, type: 'IncrementCountLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (
+      target != undefined &&
+      (target.activableType === 'trigger' ||
+        target.activableType === 'actionTemplate' ||
+        target.activableType === 'choice')
+    ) {
+      target.count += 1;
     }
   }
 }

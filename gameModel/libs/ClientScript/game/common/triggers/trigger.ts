@@ -3,9 +3,10 @@ import { triggerLogger } from '../../../tools/logger';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
-import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
+import { IncrementCountLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
+import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 
 /**
  * A trigger is a collection of conditions and impacts.
@@ -30,8 +31,8 @@ export function getSortedTriggers(): Trigger[] {
 }
 
 export function compareTriggers(a: Trigger, b: Trigger): number {
-  const idxA = a.index + (a.mandatory ? 0 : 1000000);
-  const idxB = b.index + (b.mandatory ? 0 : 1000000);
+  const idxA: number = a.index + (a.mandatory ? 0 : 1000000);
+  const idxB: number = b.index + (b.mandatory ? 0 : 1000000);
 
   if (idxA === idxB) {
     return a.uid.localeCompare(b.uid);
@@ -40,22 +41,39 @@ export function compareTriggers(a: Trigger, b: Trigger): number {
   return idxA - idxB;
 }
 
+// Regarding only its activable state, can it be run
+export function isTriggerAvailable(state: Readonly<MainSimulationState>, trigger: Trigger): boolean {
+  const triggerActivable: TriggerActivable | undefined = getTriggerActivable(state, trigger.uid);
+
+  if (triggerActivable) {
+    if (triggerActivable?.active) {
+      if (trigger.deactivateItself && triggerActivable.count > 0) {
+        triggerLogger.info(`trigger '${trigger.uid}' cannot be run anymore`);
+        return false;
+      }
+
+      return true;
+    } else {
+      triggerLogger.info(`trigger '${trigger.uid}' is not active`);
+      return false;
+    }
+  } else {
+    triggerLogger.error(`trigger '${trigger.uid}' has no activable`);
+    return false;
+  }
+}
+
 function evaluateTriggerConditions(
   state: Readonly<MainSimulationState>,
   trigger: Trigger
 ): boolean {
-  if (state.getActivable(trigger.uid)?.active) {
-    if (trigger.conditions.length === 0) {
-      return true;
-    }
-    if (trigger.operator === 'AND') {
-      return trigger.conditions.every(c => evaluateCondition(state, c));
-    } else if (trigger.operator === 'OR') {
-      return trigger.conditions.some(c => evaluateCondition(state, c));
-    }
-  } else {
-    triggerLogger.info(`trigger '${trigger.uid}' is deactivated`);
-    return false;
+  if (trigger.conditions.length === 0) {
+    return true;
+  }
+  if (trigger.operator === 'AND') {
+    return trigger.conditions.every(c => evaluateCondition(state, c));
+  } else if (trigger.operator === 'OR') {
+    return trigger.conditions.some(c => evaluateCondition(state, c));
   }
 
   triggerLogger.error('trigger conditions are erroneously defined : ', JSON.stringify(trigger));
@@ -72,24 +90,25 @@ function evaluateTriggerImpacts(
 }
 
 function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger): LocalEventBase[] {
-  if (evaluateTriggerConditions(state, trigger)) {
+  if (isTriggerAvailable(state, trigger) && evaluateTriggerConditions(state, trigger)) {
     triggerLogger.info(`trigger '${trigger.uid}' is triggered`);
-    const impacts: LocalEventBase[] = evaluateTriggerImpacts(state, trigger);
 
-    if (trigger.deactivateItself) {
-      impacts.push(
-        new ChangeActivableStatusLocalEvent({
-          parentEventId: state.getLastEventId(),
-          parentTriggerId: trigger.uid,
-          simTimeStamp: state.getSimTime(),
-          target: trigger.uid,
-          option: 'deactivate',
-        })
-      );
-    }
+    const impacts: LocalEventBase[] = [];
+
+    impacts.push(
+      new IncrementCountLocalEvent({
+        parentEventId: state.getLastEventId(),
+        parentTriggerId: trigger.uid,
+        simTimeStamp: state.getSimTime(),
+        target: trigger.uid,
+      })
+    );
+
+    impacts.push(...evaluateTriggerImpacts(state, trigger));
 
     return impacts;
   }
+
   return [];
 }
 
