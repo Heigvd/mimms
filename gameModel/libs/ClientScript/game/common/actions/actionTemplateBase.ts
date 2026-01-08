@@ -29,6 +29,10 @@ import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
+import {
+  ActionTemplateActivable,
+  getActionTemplateActivable,
+} from '../simulationState/activableState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
@@ -132,6 +136,7 @@ export abstract class ActionTemplateBase<
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return (
       this.flagWiseAvailable(state) &&
+      this.isActive(state) &&
       this.canPlayAgain(state) &&
       this.isAvailableCustom(state, actor) &&
       this.roleWiseAvailable(actor.Role)
@@ -151,6 +156,21 @@ export abstract class ActionTemplateBase<
 
   public isInCategory(category: ActionType): boolean {
     return category === this.category;
+  }
+
+  protected isActive(state: Readonly<MainSimulationState>): boolean {
+    const actionTemplateActivable: ActionTemplateActivable | undefined = getActionTemplateActivable(
+      state,
+      this.uid
+    );
+
+    // No activable means that it is a basic action template, no check to do
+    if (!actionTemplateActivable) {
+      return true;
+    }
+
+    return actionTemplateActivable.active;
+    // TODO count + repeats
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
