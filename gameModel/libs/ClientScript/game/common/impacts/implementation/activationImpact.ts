@@ -28,7 +28,7 @@ export interface ActivationImpact extends ImpactBase {
 export function convertActivationImpact(
   state: Readonly<MainSimulationState>,
   impact: ActivationImpact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
@@ -52,7 +52,7 @@ export interface MapActivationImpact extends ImpactBase {
 export function convertMapActivationImpact(
   state: Readonly<MainSimulationState>,
   impact: MapActivationImpact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [

@@ -13,7 +13,7 @@ export interface NotificationMessageImpact extends ImpactBase {
 export function convertNotificationImpact(
   state: Readonly<MainSimulationState>,
   impact: NotificationMessageImpact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   const concernedActors = state.getOnSiteActors().filter(act => impact.roles[act.Role]);

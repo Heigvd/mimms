@@ -36,7 +36,7 @@ export type Impact =
 export function convertToLocalEvents(
   state: Readonly<MainSimulationState>,
   impact: Impact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   switch (impact.type) {
     case 'activation':

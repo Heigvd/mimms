@@ -13,7 +13,7 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   // TODO get the activable and change the selected choice
   return [];

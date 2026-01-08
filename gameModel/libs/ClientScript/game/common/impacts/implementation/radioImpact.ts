@@ -13,7 +13,7 @@ export interface RadioMessageImpact extends ImpactBase {
 export function convertRadioMessageImpact(
   state: Readonly<MainSimulationState>,
   impact: RadioMessageImpact,
-  parentTriggerId: Uid
+  parentTriggerId?: Uid
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
