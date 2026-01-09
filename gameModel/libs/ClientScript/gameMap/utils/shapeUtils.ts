@@ -73,24 +73,35 @@ function getPolygonCenter(geometry: PointLikeObject[][]): PointLikeObject {
 /**
  * Returns the end point and rotation for a given line segment
  *
- * @param segment PointLikeObject of segment
+ * @param line PointLikeObject of segment
+ * @param side start or end of line
  *
- * @returns End point and rotation of segment
+ * @returns End point and rotation (radians) of segment
  */
-export function getLineEndAndRotation(segment: PointLikeObject[]): {
-  end: PointLikeObject;
+export function getLineExtremityAndRotation(
+  line: PointLikeObject[],
+  side: 'start' | 'end'
+): {
+  extremity?: PointLikeObject;
   rotation: number;
 } {
-  // TODO handle the n points case
-  const start = segment[0];
-  let end = segment[1];
-
+  let extremity: PointLikeObject | undefined = undefined;
   let rotation = 0;
-  if (end && start) {
-    const dx = end[0] - start[0];
-    const dy = end[1] - start[1];
-    rotation = Math.atan2(dy, dx);
+  if (line?.length > 1) {
+    const extIdx = side === 'start' ? 0 : line.length - 1;
+    const neighborIdx = side === 'start' ? 1 : extIdx - 1;
+
+    const neighbor = line[neighborIdx];
+    extremity = line[extIdx];
+
+    if (extremity && neighbor) {
+      const dx = extremity[0] - neighbor[0];
+      const dy = extremity[1] - neighbor[1];
+      rotation = -Math.atan2(dy, dx);
+    } else {
+      // in the unlikely case of a malfored line
+      extremity = undefined;
+    }
   }
-  end = end || [0, 0];
-  return { end, rotation };
+  return { extremity, rotation };
 }

@@ -10,7 +10,7 @@
               "language" : "typescript"
             },
             "icon" : "map-marker-alt",
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "noPadding mapobject__icon",
             "layoutStyle" : { },
             "name" : "point",
             "style" : { }
@@ -24,7 +24,7 @@
               "language" : "typescript"
             },
             "icon" : "draw-polygon",
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "noPadding mapobject__icon",
             "layoutStyle" : { },
             "name" : "polygon",
             "style" : { }
@@ -38,7 +38,7 @@
               "language" : "typescript"
             },
             "icon" : "arrow-right",
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "noPadding mapobject__icon",
             "layoutStyle" : { },
             "name" : "line",
             "style" : {
@@ -201,6 +201,146 @@
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "offset",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "boolean-button boolean-button-left",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "boolean-button--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { areCurrentLineExtremitiesSelected } from \"./edition/UIfacade/locationConfigFacade\";\n  areCurrentLineExtremitiesSelected(Context.item.lineStart, Context.item.lineEnd, \"Arrow\", \"None\");",
+                "language" : "typescript"
+              }
+            } ],
+            "icon" : "arrow-left",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { updateLineExtremities } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateLineExtremities(Context.item, \"Arrow\", \"None\");\n",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "arrow end",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "boolean-button",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "boolean-button--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { areCurrentLineExtremitiesSelected } from \"./edition/UIfacade/locationConfigFacade\";\n  areCurrentLineExtremitiesSelected(Context.item.lineStart, Context.item.lineEnd, \"Arrow\", \"Arrow\");",
+                "language" : "typescript"
+              }
+            } ],
+            "icon" : "arrows-alt-h",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { updateLineExtremities } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateLineExtremities(Context.item, \"Arrow\", \"Arrow\");\n",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "arrow end & start",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "boolean-button",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "boolean-button--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { areCurrentLineExtremitiesSelected } from \"./edition/UIfacade/locationConfigFacade\";\n  areCurrentLineExtremitiesSelected(Context.item.lineStart, Context.item.lineEnd, \"None\", \"None\");",
+                "language" : "typescript"
+              }
+            } ],
+            "icon" : "minus",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { updateLineExtremities } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateLineExtremities(Context.item, \"None\", \"None\");\n",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "no arrow",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "boolean-button boolean-button-right",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "boolean-button--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { areCurrentLineExtremitiesSelected } from \"./edition/UIfacade/locationConfigFacade\";\n  areCurrentLineExtremitiesSelected(Context.item.lineStart, Context.item.lineEnd, \"None\", \"Arrow\");",
+                "language" : "typescript"
+              }
+            } ],
+            "icon" : "arrow-right",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { updateLineExtremities } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateLineExtremities(Context.item, \"None\", \"Arrow\");\n",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "arrow start",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "line-extremities",
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "Context.item.type != 'LineString';",
+          "language" : "typescript"
+        },
+        "layout" : { },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "name" : "line extremities",
         "style" : { }
       },
       "type" : "FlexList"
