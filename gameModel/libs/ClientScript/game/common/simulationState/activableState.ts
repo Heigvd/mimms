@@ -131,21 +131,3 @@ export function getTriggerActivable(
 
   return undefined;
 }
-
-export function getMapEntityActivable(
-  state: Readonly<MainSimulationState>,
-  uid: Uid
-): MapEntityActivable | undefined {
-  const activable = state.getInternalStateObject().activables[uid];
-
-  if (activable && activable.activableType === 'mapEntity') {
-    return activable;
-  }
-
-  return undefined;
-}
-
-/*
-export function isActive(state: Readonly<MainSimulationState>, activableUid: Uid): boolean {
-  return !!state.getInternalStateObject().activables[activableUid]?.active;
-}*/

@@ -91,7 +91,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
 /**
  * Get the chosen ChoiceDescriptor based on interface state
  *
- * @returns ChoiceDescriptor | undefined
+ * @returns ChoiceDescriptor | undefined
  */
 function fetchChoiceActionValues(): ChoiceDescriptor | undefined {
   return getChoiceDescriptor(
