@@ -6,6 +6,7 @@
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionBase } from '../game/common/actions/actionBase';
+import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
@@ -24,10 +25,7 @@ import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { RadioType } from '../game/common/radio/communicationType';
-import {
-  isChoiceAvailable,
-  isOngoingAndStartedAction,
-} from '../game/common/simulationState/actionStateAccess';
+import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
@@ -37,7 +35,6 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
-import { compareByIndex } from '../tools/indexedSorting';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
@@ -71,13 +68,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
 }
 
 export function getAvailableChoices(template: ActionTemplateBase): ChoiceDescriptor[] {
-  if (isChoiceTemplate(template)) {
-    return template.choices
-      .filter(choice => isChoiceAvailable(getCurrentState(), choice))
-      .sort(compareByIndex);
-  }
-
-  return [];
+  return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
 /**

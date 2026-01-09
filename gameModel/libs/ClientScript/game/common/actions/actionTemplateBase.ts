@@ -339,6 +339,13 @@ export abstract class ChoiceTemplate<
     );
     this.choices = choices;
   }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    return ActionLogic.getAvailableChoices(state, this).length > 0;
+  }
 }
 
 // -------------------------------------------------------------------------------------------------
