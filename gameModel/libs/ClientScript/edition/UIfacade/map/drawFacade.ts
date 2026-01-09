@@ -19,15 +19,9 @@ export function startDraw(type: SupportedDrawType): void {
   getMapEntityController().updateIState(newState);
 }
 
-export function shouldDisableDrawButton(
-  drawType1: SupportedDrawType,
-  drawType2: SupportedDrawType
-): boolean {
+export function shouldDisableDrawButton(drawType: SupportedDrawType): boolean {
   const currentType = getMapEntityController().getLatestIState();
-  return (
-    currentType.drawActive &&
-    (currentType.drawType === drawType1 || currentType.drawType === drawType2)
-  );
+  return currentType.drawActive && currentType.drawType !== drawType;
 }
 
 export function stopDraw(): void {

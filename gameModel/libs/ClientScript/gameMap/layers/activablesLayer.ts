@@ -111,8 +111,8 @@ function getGenericFeature(
       },
       properties: {
         ...properties,
-        type: mapObject.type, // d
-        icon: mapObject.type === 'Point' ? mapObject.icon : undefined, // d
+        type: mapObject.type,
+        icon: mapObject.type === 'Point' ? mapObject.icon : undefined,
       },
     };
 

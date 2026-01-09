@@ -315,7 +315,7 @@
                         "className" : "noMargin button-S button-primaryColor current",
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('LineString', 'Polygon');",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('Point');",
                           "language" : "typescript"
                         },
                         "label" : {
@@ -341,7 +341,7 @@
                         "className" : "noMargin button-S button-primaryColor current",
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('Point', 'Polygon');",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('LineString');",
                           "language" : "typescript"
                         },
                         "label" : {
@@ -367,7 +367,7 @@
                         "className" : "noMargin button-S button-primaryColor current",
                         "disableIf" : {
                           "@class" : "Script",
-                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('LineString', 'Point');",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('Polygon');",
                           "language" : "typescript"
                         },
                         "label" : {
