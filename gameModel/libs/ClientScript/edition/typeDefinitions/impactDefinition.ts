@@ -210,6 +210,7 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
         CASU: false,
         EVASAN: false,
         LEADPMA: false,
+        Initiator: false
       },
     }),
     validator: (impact: NotificationMessageImpact) => {
