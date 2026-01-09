@@ -4,9 +4,9 @@ import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
 import { IncrementCountLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
+import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
-import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 
 /**
  * A trigger is a collection of conditions and impacts.
@@ -30,7 +30,7 @@ export function getSortedTriggers(): Trigger[] {
   return getTriggers().sort(compareTriggers);
 }
 
-export function compareTriggers(a: Trigger, b: Trigger): number {
+function compareTriggers(a: Trigger, b: Trigger): number {
   const idxA: number = a.index + (a.mandatory ? 0 : 1000000);
   const idxB: number = b.index + (b.mandatory ? 0 : 1000000);
 
