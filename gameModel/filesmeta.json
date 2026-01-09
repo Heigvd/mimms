@@ -95,21 +95,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/Nest.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/Nest.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/PC.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -119,33 +107,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/PMA.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/PMA.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/ambulance-park.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/ambulance-park.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/ambulance.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -161,27 +125,9 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/firetruck.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/helicopter-park.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/mainAccident.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -191,43 +137,7 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/mapIcons/mainAccident_black.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/park.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/park.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/pcFront.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/mapIcons/pcFront.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/pcFront_blue.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/maps/mapIcons/secondaryAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
@@ -257,201 +167,15 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/alert-highPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/alert-horriblePain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/alert-lowPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/alert-mediumPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/alert-noPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/confused-highPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/confused-horriblePain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/confused-lowPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/confused-mediumPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/confused-noPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/hs-highPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/hs-horriblePain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/hs-lowPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/hs-mediumPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/hs-noPain.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/patient/pain/pain_svg/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/pain/pain_svg/HS_conscious_highPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/HS_conscious_horriblePain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/HS_conscious_lowPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/HS_conscious_mediumPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/HS_conscious_noPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/alert_highPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/alert_horriblePain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/alert_lowPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/alert_mediumPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/alert_noPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/confused_highPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/confused_horriblePain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/confused_lowPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/confused_mediumPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/pain_svg/confused_noPain.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/patient/pain/pain_svg/unconscious_dead.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/pain/unconscious.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -482,12 +206,6 @@
   "/patient/scales/painsScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/tag.svg" : {
-    "description" : "",
-    "mimeType" : "image/svg+xml",
     "note" : "",
     "visibility" : "PRIVATE"
   },
