@@ -99,7 +99,7 @@
     "className" : "scenarist-save-all-button",
     "hideIf" : {
       "@class" : "Script",
-      "content" : "Context?.triggerPageState?.state == undefined &&\nContext?.actionPageState?.state == undefined &&\nContext?.mapEntityPageState?.sate == undefined;",
+      "content" : "Context?.locationPageState?.state == undefined&&\n  Context?.triggerPageState?.state == undefined&&\nContext?.actionPageState?.state == undefined&&\nContext?.mapEntityPageState?.sate == undefined;",
       "language" : "typescript"
     },
     "layout" : { },

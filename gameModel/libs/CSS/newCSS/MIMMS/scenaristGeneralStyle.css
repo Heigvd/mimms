@@ -107,7 +107,7 @@
 /* - - - - -  B U T T O N S  - - - */
 
 /* scenarist save all button */
-.scenarist-save-all-button button,
+.scenarist-save-all-button .header-button,
 .scenarist-save-all-button .iconOnly {
   background-color: var(--grey-white);
   box-shadow: var(--buttonShadow);
