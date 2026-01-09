@@ -313,6 +313,11 @@
                     "children" : [ {
                       "props" : {
                         "className" : "noMargin button-S button-primaryColor current",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('Point');",
+                          "language" : "typescript"
+                        },
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"<p>+ Point</p>\"",
@@ -334,6 +339,11 @@
                     }, {
                       "props" : {
                         "className" : "noMargin button-S button-primaryColor current",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('LineString');",
+                          "language" : "typescript"
+                        },
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"<p>+ Line</p>\"",
@@ -355,6 +365,11 @@
                     }, {
                       "props" : {
                         "className" : "noMargin button-S button-primaryColor current",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { shouldDisableDrawButton } from \"./edition/UIfacade/map/drawFacade\";\nshouldDisableDrawButton('Polygon');",
+                          "language" : "typescript"
+                        },
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"<p>+ Polygon</p>\"",

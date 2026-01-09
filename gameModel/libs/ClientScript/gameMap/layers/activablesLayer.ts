@@ -14,7 +14,7 @@ import {
 } from '../../UIfacade/actionFacade';
 import { FeatureCollection } from '../types/featureTypes';
 import { getEmptyFeatureCollection } from '../utils/mapUtils';
-import { getLineEndAndRotation } from '../utils/shapeUtils';
+import { getLineExtremityAndRotation } from '../utils/shapeUtils';
 
 export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
 
@@ -115,36 +115,47 @@ function getGenericFeature(
       },
       properties: {
         ...properties,
-        type: mapObject.type, // d
-        icon: mapObject.type === 'Point' ? mapObject.icon : undefined, // d
+        type: mapObject.type,
+        icon: mapObject.type === 'Point' ? mapObject.icon : undefined,
       },
     };
 
     layer.features.push(feature);
 
     // Add arrowheads in case of LineString
-    // TODO read properties to add arrow head at beginning or end of feature
-    // TODO handle case of multiple segments in line
     if (mapObject.type === 'LineString') {
-      const { end, rotation } = getLineEndAndRotation(mapObject.geometry);
-      const feature: any = {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: end,
-        },
-        properties: {
-          ...properties,
-          type: 'Point',
-          icon: 'arrow',
-          src: `/maps/mapIcons/arrow.svg`,
-          rotation: -rotation,
-        },
-      };
+      if (mapObject.lineStart === 'Arrow') {
+        const { extremity, rotation } = getLineExtremityAndRotation(mapObject.geometry, 'start');
+        if (extremity) {
+          layer.features.push(buildArrowHeadFeature(properties, extremity, rotation));
+        }
+      }
 
-      layer.features.push(feature);
+      if (mapObject.lineEnd === 'Arrow') {
+        const { extremity, rotation } = getLineExtremityAndRotation(mapObject.geometry, 'end');
+        if (extremity) {
+          layer.features.push(buildArrowHeadFeature(properties, extremity, rotation));
+        }
+      }
     }
   }
 
   return layer;
+}
+
+function buildArrowHeadFeature(props: any, extremity: PointLikeObject, rotation: number): any {
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: extremity,
+    },
+    properties: {
+      ...props,
+      type: 'Point',
+      icon: 'arrow',
+      src: `/maps/mapIcons/arrow.svg`,
+      rotation: rotation,
+    },
+  };
 }
