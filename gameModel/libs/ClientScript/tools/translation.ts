@@ -1,6 +1,6 @@
 // EVALUATION_PRIORITY 1
 import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
-import { lowerCaseFirst, upperCaseFirst } from './helper';
+import { upperCaseFirst } from './helper';
 import { translationLogger } from './logger';
 
 let cache: Record<string, SObjectDescriptor> = {};
@@ -110,117 +110,6 @@ export function getItemActionTranslation(item: ItemDefinition, actionId: string)
 
 export function getActTranslation(act: ActDefinition) {
   return getTranslation('human-actions', act.id);
-}
-
-/**
- * DEPRECATED !
- * CSV to translation object
- * expected format
- * header
- * 'Key .*', EN, FR
- * line content
- * <key>, <EN>, <FR>
- */
-function updateCategoryFromTsv(filename: string, category: keyof VariableClasses, dryrun: boolean) {
-  Helpers.downloadFile(`translations/${filename}`, 'TEXT').then(tsv => {
-    if (tsv.startsWith('<!DOCTYPE')) {
-      translationLogger.error('tsv file not found : ', filename);
-      return;
-    }
-    const lines = tsv.split('\n');
-    if (lines.length < 1) {
-      translationLogger.error('File has no lines', filename);
-      return;
-    }
-    const header = lines[0]!.split('\t');
-
-    if (
-      !header ||
-      !header[1] ||
-      header[1].trim() !== 'EN' ||
-      !header[2] ||
-      header[2].trim() !== 'FR'
-    ) {
-      throw new Error(
-        filename + ' bad format, expected header : key, EN, FR, <any>. received : ' + header
-      );
-    }
-
-    const statements: string[] = [`Variable.find(gameModel, "${category}").clearProperties()`];
-
-    lines.slice(1).forEach(line => {
-      const l = line.split('\t');
-      if (!l || l.length < 3) {
-        return;
-      }
-      const tr = buildTranslation(l[1]!, l[2]!);
-      const key = l[0]!.trim().toLowerCase();
-      const s = `Variable.find(gameModel, "${category}").setProperty(${JSON.stringify(
-        key
-      )}, ${JSON.stringify(JSON.stringify(tr))})`;
-      statements.push(s);
-    });
-
-    if (dryrun) {
-      translationLogger.info(statements);
-    } else {
-      const script = statements.join(';');
-      translationLogger.info('running script for ' + filename);
-      APIMethods.runScript(script, {}).then(response => {
-        translationLogger.info('script executed', response);
-      });
-    }
-  });
-
-  function buildTranslation(en: string, fr: string): ITranslatableContent {
-    const cleanFr = lowerCaseFirst(fr ? fr.trim() : '');
-    const cleanEn = lowerCaseFirst(en ? en.trim() : '');
-    return {
-      '@class': 'TranslatableContent',
-      translations: {
-        EN: { '@class': 'Translation', lang: 'EN', status: '', translation: cleanEn },
-        FR: { '@class': 'Translation', lang: 'FR', status: '', translation: cleanFr },
-      },
-      version: 0,
-    };
-  }
-}
-
-export function updateFromAllTsv(dryrun: boolean): void {
-  cache = {};
-
-  translationLogger.warn(
-    'DEPRECATED, the translations should be updated through the variable editor form directly'
-  );
-  if (!dryrun) {
-    translationLogger.warn("Double check that you don't overwrite recent translations");
-  }
-  const variables: (keyof VariableClasses)[] = [
-    'general-interface',
-    'human-actions',
-    'human-blocks',
-    'human-general',
-    'human-items',
-    'human-pathology',
-    'pretriage-explanations',
-    'pretriage-interface',
-    'qr-interface',
-    'general-likert',
-    'mainSim-interface',
-    'mainSim-actions-tasks',
-    'mainSim-actors',
-    'trainer-interface',
-    'mainSim-locations',
-    'mainSim-resources',
-    'mainSim-radio',
-    'mainSim-summary',
-    'mainSim-dashboard',
-  ];
-
-  variables.forEach(v => {
-    translationLogger.info('processing', v);
-    updateCategoryFromTsv(v + '.tsv', v, dryrun);
-  });
 }
 
 export function getCurrentLanguageCode(): string {
