@@ -41,8 +41,7 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        desc.repeats > 1, // TODO replayable refactoring
-        undefined, // TODO req flags if any
+        undefined, // required flags
         [], // raised flags
         getFilteredAsArray(desc.availableToRoles),
         desc.choices,
@@ -54,7 +53,6 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        false,
         undefined, // required flags
         [SimFlag.PC_BUILT],
         getFilteredAsArray(desc.availableToRoles),
@@ -66,7 +64,6 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        false,
         [],
         [SimFlag.PCFRONT_BUILT],
         getFilteredAsArray(desc.availableToRoles),
@@ -91,7 +88,6 @@ function createParkTemplate(
     desc.title,
     desc.description,
     desc.durationSec,
-    false,
     location,
     vtype,
     undefined,

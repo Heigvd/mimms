@@ -170,7 +170,6 @@ export abstract class ActionTemplateBase<
     }
 
     return actionTemplateActivable.active;
-    // TODO count + repeats
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
@@ -323,7 +322,8 @@ export abstract class ChoiceTemplate<
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices: ChoiceDescriptor[] = []
+    choices: ChoiceDescriptor[] = [],
+    private readonly nbMaxRepetitions: number = 0 // 0 is considered as infinitely
   ) {
     super(
       uid,
@@ -344,7 +344,19 @@ export abstract class ChoiceTemplate<
     state: Readonly<MainSimulationState>,
     _actor: Readonly<Actor>
   ): boolean {
-    return ActionLogic.getAvailableChoices(state, this).length > 0;
+    const actionTemplateActivable: ActionTemplateActivable | undefined = getActionTemplateActivable(
+      state,
+      this.uid
+    );
+    const hasMaxRepetitions: boolean =
+      this.nbMaxRepetitions != undefined && this.nbMaxRepetitions > 0;
+
+    return (
+      ActionLogic.getAvailableChoices(state, this).length > 0 &&
+      (!actionTemplateActivable ||
+        !hasMaxRepetitions ||
+        actionTemplateActivable.count < this.nbMaxRepetitions)
+    );
   }
 }
 
@@ -634,23 +646,25 @@ export class FullyConfigurableChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    replayable = true,
+    //replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[]
+    choices?: ChoiceDescriptor[],
+    nbMaxRepetitions?: number
   ) {
     super(
       uid,
       title,
       description,
       duration,
-      replayable,
+      true, // replayable forced to true. It is handled with nbMaxRepetitions
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices
+      choices,
+      nbMaxRepetitions
     );
   }
 
@@ -700,7 +714,7 @@ export class MapChoiceActionTemplate<
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -712,7 +726,7 @@ export class MapChoiceActionTemplate<
       title,
       description,
       duration,
-      replayable,
+      false, // replayable forced to false. No map action can be run twice
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -777,7 +791,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -789,7 +803,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,
@@ -825,7 +839,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -837,7 +851,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,
@@ -876,7 +890,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
     vehicleType: VehicleType,
     requiredFlags?: SimFlag[],
@@ -890,7 +904,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,

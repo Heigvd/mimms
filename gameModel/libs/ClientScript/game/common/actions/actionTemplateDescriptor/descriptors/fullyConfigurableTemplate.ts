@@ -17,10 +17,10 @@ export function createFullyConfigurableTemplate(
     descriptor.title,
     descriptor.description,
     descriptor.durationSec,
-    undefined, // TODO repeats / replayable
     undefined, // no required flag
     undefined, // no raised flag
     getFilteredAsArray(descriptor.availableToRoles),
-    descriptor.choices
+    descriptor.choices,
+    descriptor.repeats
   );
 }
