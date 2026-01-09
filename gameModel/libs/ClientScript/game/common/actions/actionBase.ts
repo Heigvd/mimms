@@ -251,16 +251,23 @@ export abstract class ChoiceAction extends StartEndAction {
   }
 
   protected applyChoice(state: Readonly<MainSimulationState>): void {
-    const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(state, this.choice.uid);
-    const selectedEffect: Effect | undefined = this.choice.effects.find(
-      e => e.uid === choiceActivable?.selectedEffect
-    );
+    if (this.choice != undefined) {
+      const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(
+        state,
+        this.choice.uid
+      );
+      const selectedEffect: Effect | undefined = this.choice.effects.find(
+        e => e.uid === choiceActivable?.selectedEffect
+      );
 
-    if (selectedEffect) {
-      const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
-      eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
+      if (selectedEffect) {
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
+        eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
+      } else {
+        actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
+      }
     } else {
-      actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
+      actionLogger.error('a choice is needed to run the action');
     }
   }
 

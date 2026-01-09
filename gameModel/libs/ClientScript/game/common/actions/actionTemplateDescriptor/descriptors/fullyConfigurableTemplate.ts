@@ -2,8 +2,6 @@ import { getFilteredAsArray } from '../../../../../tools/helper';
 import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplateBase';
 import { ITemplateDescriptor } from '../templateDescriptor';
 
-// TODO this might just be a MapChoiceActionTemplate instead
-
 export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor {
   type: 'FullyConfigurableTemplateDescriptor';
   constructorType: 'FullyConfigurableActionTemplate'; // could be a union type with other constructor types

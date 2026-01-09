@@ -1193,6 +1193,8 @@ export class SelectChoiceEffectLocalEvent extends LocalEventBase {
     );
     if (targetActivable) {
       targetActivable.selectedEffect = this.props.effect;
+    } else {
+      activableLogger.error('Could not find activable', this.props.target);
     }
   }
 }
