@@ -108,11 +108,15 @@ export function getLineMapObjectDef(): Definition<LineMapObject> {
     getDefault: () => ({
       ...getCommonDefault(),
       type: 'LineString',
+      lineStart: 'None',
+      lineEnd: 'None',
       geometry: [], // TODO inject created geometry in interface
     }),
     validator: (_line: LineMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
       ...getCommonView(),
+      lineStart: ALL_EDITABLE,
+      lineEnd: ALL_EDITABLE,
       geometry: ALL_EDITABLE,
     },
   };

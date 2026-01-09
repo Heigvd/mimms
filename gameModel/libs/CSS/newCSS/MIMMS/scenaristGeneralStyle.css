@@ -137,8 +137,30 @@
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
+.boolean-button svg {
+  margin: 0;
+  width: 20px;
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
 .boolean-button:hover {
   background-color: var(--primary_10);
+}
+
+.line-extremities .boolean-button:hover {
+  background-color: var(--primary_base);
+}
+
+.line-extremities .boolean-button--selected,
+.line-extremities .boolean-button--selected:hover {
+  background-color: var(--primary_base);
+}
+
+.line-extremities .boolean-button:hover svg,
+.line-extremities .boolean-button--selected svg,
+.line-extremities .boolean-button--selected:hover svg {
+  color: var(--grey_10);
 }
 
 .boolean-button-left {
