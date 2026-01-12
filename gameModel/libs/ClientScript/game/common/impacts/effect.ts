@@ -20,5 +20,5 @@ export function evaluateEffectImpacts(
   state: Readonly<MainSimulationState>,
   effect: Effect
 ): LocalEventBase[] {
-  return effect.impacts.flatMap(impact => convertToLocalEvents(state, impact));
+  return effect.impacts.flatMap(impact => convertToLocalEvents(state, impact, effect.uid));
 }
