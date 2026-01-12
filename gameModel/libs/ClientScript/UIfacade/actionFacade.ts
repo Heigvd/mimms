@@ -67,7 +67,7 @@ export function isAvailable(template: ActionTemplateBase): boolean {
   return false;
 }
 
-export function getAvailableChoices(template: ActionTemplateBase): ChoiceDescriptor[] {
+export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[] {
   return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 

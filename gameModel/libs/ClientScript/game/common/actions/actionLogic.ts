@@ -9,7 +9,7 @@ import { ActionTemplateUid, ActorId } from '../baseTypes';
 import { RadioType } from '../radio/communicationType';
 import { getOngoingActions, isChoiceAvailable } from '../simulationState/actionStateAccess';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { ActionTemplateBase } from './actionTemplateBase';
+import { ActionTemplateBase, ChoiceTemplate } from './actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 // directly used by radioMessageInput page
@@ -43,7 +43,7 @@ export function hasBeenPlannedByOtherActor(
 
 export function getAvailableChoices(
   state: Readonly<MainSimulationState>,
-  template: ActionTemplateBase
+  template: ChoiceTemplate
 ): ChoiceDescriptor[] {
   if (isChoiceTemplate(template)) {
     return template.choices
