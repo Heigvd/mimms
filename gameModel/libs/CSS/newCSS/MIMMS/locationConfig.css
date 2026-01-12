@@ -5,6 +5,10 @@
   padding: 1rem;
 }
 
+.theme-unselected .location:hover {
+  cursor: pointer;
+}
+
 .location-tag-container {
   gap: 5px;
   margin: 0 2.5rem .625rem 0;
