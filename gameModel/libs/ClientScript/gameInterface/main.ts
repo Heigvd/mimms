@@ -3,6 +3,7 @@ import { ActionTemplateUid } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapChoice } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import {
   cancelAction,
   getAllActions,
@@ -131,13 +132,17 @@ export function actionChangeHandler(): void {
   endMapAction();
 
   if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = getAvailableChoices(actTemplate)[0]!.uid;
+    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
 
-    setInterfaceState({
-      currentActionUid: actTemplate.uid,
-      selectedActionChoiceUid: choiceUid,
-    });
-    startMapChoice();
+    if (choiceUid) {
+      setInterfaceState({
+        currentActionUid: actTemplate.uid,
+        selectedActionChoiceUid: choiceUid,
+      });
+      startMapChoice();
+    } else {
+      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
+    }
   }
 }
 
