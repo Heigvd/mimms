@@ -46,6 +46,11 @@ export function setLocationFilter(location: LOCATION_ENUM): void {
   getMapEntityController().updateIState(newState);
 }
 
+export function isCustomLocation(): boolean {
+  const state = getMapEntityController().getLatestIState();
+  return state.selectedFilter === LOCATION_ENUM.custom;
+}
+
 // on prend le lieu représenté par le bouton actuel en argument
 // on le compare avec le lieu représenté par le filtre sélectionné dans le dernier état de l'UI
 // on return true si les deux lieux sont identiques (donc si le bouton est le filtre actif)

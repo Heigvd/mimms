@@ -132,6 +132,11 @@
               "type" : "FlexList"
             } ],
             "className" : "boolean-container",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isCustomLocation } from \"./edition/UIfacade/locationConfigFacade\";\n!isCustomLocation();",
+              "language" : "typescript"
+            },
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
