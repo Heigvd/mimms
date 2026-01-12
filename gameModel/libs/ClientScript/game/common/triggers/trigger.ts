@@ -3,7 +3,7 @@ import { triggerLogger } from '../../../tools/logger';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
-import { IncrementCountLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
+import { ChangeActivableStatusLocalEvent, IncrementCountLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
 import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
@@ -50,10 +50,6 @@ export function isTriggerAvailable(
 
   if (triggerActivable) {
     if (triggerActivable.active) {
-      if (trigger.deactivateItself && triggerActivable.count > 0) {
-        triggerLogger.info(`trigger '${trigger.uid}' cannot be run anymore`);
-        return false;
-      }
 
       return true;
     } else {
@@ -106,6 +102,18 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
         target: trigger.uid,
       })
     );
+
+    if (trigger.deactivateItself) {
+      impacts.push(
+        new ChangeActivableStatusLocalEvent({
+          parentEventId: state.getLastEventId(),
+          parentTriggerId: trigger.uid,
+          simTimeStamp: state.getSimTime(),
+          target: trigger.uid,
+          option: 'deactivate',
+        })
+      );
+    }
 
     impacts.push(...evaluateTriggerImpacts(state, trigger));
 
