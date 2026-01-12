@@ -97,11 +97,6 @@
       "type" : "Button"
     } ],
     "className" : "scenarist-save-all-button",
-    "hideIf" : {
-      "@class" : "Script",
-      "content" : "Context?.triggerPageState?.state == undefined &&\nContext?.actionPageState?.state == undefined &&\nContext?.mapEntityPageState?.sate == undefined;",
-      "language" : "typescript"
-    },
     "layout" : { },
     "layoutClassName" : "noPadding",
     "layoutStyle" : { },
