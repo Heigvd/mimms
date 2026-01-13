@@ -202,11 +202,6 @@ export abstract class DataControllerBase<
     return Helpers.cloneDeep(this.undoRedo.getCurrentState()[1]);
   }
 
-  /*
-  public getFlatData(): Readonly<Record<Uid, Readonly<FlatTypes>>{
-    return this.undoRedo.getCurrentState()[1];
-  }
-*/
   public move(id: Uid, moveType: OperationType): void {
     const data = this.getFlatDataClone();
     const siblings = this.filterSiblings(id, data);
