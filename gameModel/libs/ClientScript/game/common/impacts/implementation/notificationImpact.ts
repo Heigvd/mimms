@@ -1,4 +1,5 @@
 import { Actor, InterventionRole } from '../../actors/actor';
+import { ActorId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
 import { AddNotificationLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
@@ -13,20 +14,29 @@ export interface NotificationMessageImpact extends ImpactBase {
 export function convertNotificationImpact(
   state: Readonly<MainSimulationState>,
   impact: NotificationMessageImpact,
-  parentTriggerId: Uid
+  sourceId: Uid | ActorId
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
-  let concernedActors : Actor[] = [];
-  if(impact.roles['Initiator']){
-    concernedActors = []; // TODO
-  }else {
-    concernedActors = state.getOnSiteActors().filter(act => impact.roles[act.Role]);
+
+  const concernedActors : Set<Readonly<Actor>> = new Set<Actor>();
+  // add initiator if present
+  if(impact.roles['Initiator'] && typeof sourceId == 'number'){
+    const actor = state.getActorById(sourceId);
+    if(actor?.isOnSite()){
+      concernedActors.add(actor)
+    }
   }
-  return concernedActors.map(
+  // add specific actors
+  state.getOnSiteActors()
+    .filter(act => impact.roles[act.Role])
+    .forEach(act => concernedActors.add(act)
+  );
+
+  return [...concernedActors].map(
     actor =>
       new AddNotificationLocalEvent({
         parentEventId: state.getLastEventId(),
-        parentTriggerId,
+        sourceId: String(sourceId),
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,

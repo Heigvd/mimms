@@ -254,7 +254,7 @@ export abstract class ChoiceAction extends StartEndAction {
     const selectedEffect = this.choice.effects.find(e => e.uid === choiceActivable?.selectedEffect);
 
     if (selectedEffect) {
-      const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
+      const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.ownerId);
       eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
     }
   }

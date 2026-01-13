@@ -1,3 +1,4 @@
+import { ActorId } from '../baseTypes';
 import { IDescriptor, Indexed, Tag, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -18,7 +19,8 @@ export interface Effect extends IDescriptor, Indexed, Typed {
 
 export function evaluateEffectImpacts(
   state: Readonly<MainSimulationState>,
-  effect: Effect
+  effect: Effect,
+  actorId: ActorId
 ): LocalEventBase[] {
-  return effect.impacts.flatMap(impact => convertToLocalEvents(state, impact, effect.uid));
+  return effect.impacts.flatMap(impact => convertToLocalEvents(state, impact, actorId));
 }
