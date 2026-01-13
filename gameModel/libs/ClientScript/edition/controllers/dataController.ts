@@ -79,6 +79,7 @@ import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
+import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -627,7 +628,14 @@ export class MapEntityController extends DataControllerBase<
         return toFlatMapEntity(dflt, MapEntityController.MAP_ENTITY_ROOT);
       case 'geometry':
         const shapeType = this.getLatestIState().drawType;
-        return toFlatMapObject(getMapObjectDefinition(shapeType).getDefault(), parentId);
+        // Cheating here by looking up in the ui state to get the proper binding
+        const binding = this.getLatestIState().selectedFilter;
+        const icon = locationEnumConfig[binding].icon;
+        const dlft = getMapObjectDefinition(shapeType).getDefault();
+        if (dlft.type === 'Point' && icon) {
+          dlft.icon = icon;
+        }
+        return toFlatMapObject(dlft, parentId);
     }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
