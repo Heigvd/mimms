@@ -12,6 +12,10 @@
   padding: 1rem;
 }
 
+.generic-item__page-loader:first-of-type:has(.trigger) {
+  margin-top: 10px;
+}
+
 .theme-unselected .trigger:hover {
   cursor: pointer;
 }
