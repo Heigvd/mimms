@@ -34,17 +34,16 @@ export type Impact =
   | RadioMessageImpact
   | EmptyImpact;
 
-  /***
-   * @param state the game current state
-   * @param impact the impact descriptor
-   * @param sourceId id of the trigger or actor that triggered this impact
-   */
+/***
+ * @param state the game current state
+ * @param impact the impact descriptor
+ * @param sourceId id of the trigger or actor that triggered this impact
+ */
 export function convertToLocalEvents(
   state: Readonly<MainSimulationState>,
   impact: Impact,
   sourceId: Uid | ActorId
 ): LocalEventBase[] {
-
   switch (impact.type) {
     case 'activation':
       return convertActivationImpact(state, impact, sourceId);

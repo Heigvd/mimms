@@ -1,9 +1,9 @@
 import {
-  InterventionRole,
   InterventionRoleTypeArray,
   isPlayedByARealPlayer,
 } from '../../game/common/actors/actor';
 import { ActivationOperator } from '../../game/common/impacts/implementation/activationImpact';
+import { DynamicInterventionRole } from '../../game/common/impacts/implementation/notificationImpact';
 import { RadioType } from '../../game/common/radio/communicationType';
 import { ActivableStatus, ChoiceActionStatus } from '../../game/common/triggers/condition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
@@ -92,10 +92,18 @@ export function getRadioChannelOptions(): { label: string; value: keyof typeof R
   });
 }
 
-export function getActorRolesOptions(): { label: string; value: InterventionRole }[] {
-  return InterventionRoleTypeArray.filter(role => isPlayedByARealPlayer(role)).map(role => {
-    return { label: role, value: role };
-  });
+type ActorRolesOptions = { label: string; value: DynamicInterventionRole }[];
+
+export function getActorRolesOptions(includeInitiator: boolean = false): ActorRolesOptions {
+  const result: ActorRolesOptions = [];
+  if (includeInitiator) {
+    result.push({ label: 'Initiator', value: 'Initiator' });
+  }
+  return result.concat(
+    InterventionRoleTypeArray.filter(role => isPlayedByARealPlayer(role)).map(role => {
+      return { label: role, value: role };
+    })
+  );
 }
 
 export function getActivateInactivateOptions(): { label: string; value: ActivationOperator }[] {

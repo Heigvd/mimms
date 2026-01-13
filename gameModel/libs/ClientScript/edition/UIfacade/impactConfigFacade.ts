@@ -1,6 +1,8 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { InterventionRoleTypeArray } from '../../game/common/actors/actor';
 import { Impact } from '../../game/common/impacts/impact';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
+import { DynamicInterventionRole } from '../../game/common/impacts/implementation/notificationImpact';
 import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
 import {
@@ -9,6 +11,7 @@ import {
 } from '../controllers/controllerInstances';
 import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
+import { getParentType } from '../UIfacade/genericConfigFacade';
 import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
 import {
   ALL_CHOICES_OPTION_VALUE,
@@ -136,8 +139,9 @@ export function changeDisplayType(impact: FlatImpact, newDisplayType: DisplayTyp
 
 // replace the impact by a new default one, but keep uid, parent, index, target
 function createSubstitutionImpact(newType: FlatImpact['type'], baseImpact: FlatImpact): FlatImpact {
+  const parentType = getParentType(baseImpact.uid);
   const newItem: FlatImpact = toFlatImpact(
-    getImpactDefinition(newType).getDefault(),
+    getImpactDefinition(newType, parentType).getDefault(),
     baseImpact.parent
   );
   newItem.uid = baseImpact.uid;
@@ -381,5 +385,29 @@ export function updateImpactChoiceRef(
     }
 
     getController().updateItem(newImpact);
+  }
+}
+
+/**
+ * Updates the notification selected roles in a specific way.
+ * Mutually excludes the selection of Initiator from named roles.
+ */
+export function updateNotificationImpactRoles(
+  notifImpact: FlatImpact,
+  role: DynamicInterventionRole
+): void {
+  if (notifImpact.type === 'notification') {
+    const newRoles: Record<DynamicInterventionRole, boolean> = { ...notifImpact.roles };
+    newRoles[role] = !newRoles[role];
+    if (role === 'Initiator' && newRoles[role]) {
+      // unselect all the others
+      InterventionRoleTypeArray.forEach(role => (newRoles[role] = false));
+    } else {
+      // in all other cases make sure that initiator is unselected
+      newRoles['Initiator'] = false;
+    }
+    updateItem(notifImpact.uid, { roles: newRoles });
+  } else {
+    scenarioEditionLogger.warn('Trying to modify roles on an impact that is not a notification');
   }
 }

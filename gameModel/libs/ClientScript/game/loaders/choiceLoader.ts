@@ -39,7 +39,7 @@ const mapChoice1: ChoiceDescriptor = {
             CASU: false,
             EVASAN: true,
             LEADPMA: true,
-            Initiator: true
+            Initiator: true,
           },
           delaySeconds: 0,
         },
@@ -82,7 +82,7 @@ const mapChoice2: ChoiceDescriptor = {
             CASU: false,
             EVASAN: true,
             LEADPMA: true,
-            Initiator: true
+            Initiator: true,
           },
           delaySeconds: 0,
         },
@@ -125,7 +125,7 @@ const mapChoice3: ChoiceDescriptor = {
             CASU: false,
             EVASAN: true,
             LEADPMA: true,
-            Initiator: true
+            Initiator: true,
           },
           delaySeconds: 0,
         },

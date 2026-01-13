@@ -14,6 +14,7 @@ import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
+import { SuperTypeNames } from '../controllers/dataController';
 import {
   ALL_EDITABLE,
   Definition,
@@ -39,7 +40,10 @@ export function fromFlatImpact(fimp: FlatImpact): Impact {
   return impact;
 }
 
-export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
+export function getImpactDefinition(
+  type: ImpactTypeName,
+  parentType?: SuperTypeNames
+): ImpactDefinition {
   let definition: ImpactDefinition;
   switch (type) {
     case 'activation':
@@ -52,7 +56,7 @@ export function getImpactDefinition(type: ImpactTypeName): ImpactDefinition {
       definition = getChoiceEffectSelectionImpactDef();
       break;
     case 'notification':
-      definition = getNotificationImpactDef();
+      definition = getNotificationImpactDef(parentType);
       break;
     case 'radio':
       definition = getRadioImpactDef();
@@ -193,7 +197,9 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
   };
 }
 
-export function getNotificationImpactDef(): Definition<NotificationMessageImpact> {
+export function getNotificationImpactDef(
+  parentType?: SuperTypeNames
+): Definition<NotificationMessageImpact> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -203,14 +209,13 @@ export function getNotificationImpactDef(): Definition<NotificationMessageImpact
       delaySeconds: 0,
       message: createOrUpdateTranslation('', undefined),
       roles: {
-        // TODO make it dynamic
         ACS: false,
         MCS: false,
         AL: false,
         CASU: false,
         EVASAN: false,
         LEADPMA: false,
-        Initiator: false
+        Initiator: parentType === 'effect' ? true : false,
       },
     }),
     validator: (impact: NotificationMessageImpact) => {
