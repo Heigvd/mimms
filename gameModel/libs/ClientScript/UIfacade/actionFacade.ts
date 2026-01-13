@@ -181,6 +181,10 @@ export function isChoiceTemplate(
   return template instanceof ChoiceTemplate;
 }
 
+export function hasMapChoices(choiceTemplate: ChoiceTemplate): boolean {
+  return choiceTemplate.choices.some(choice => choice.displayedMapEntity);
+}
+
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof CasuMessageTemplate;
 }

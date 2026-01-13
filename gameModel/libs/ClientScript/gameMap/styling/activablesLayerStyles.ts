@@ -1,6 +1,7 @@
 import { ActorId } from '../../game/common/baseTypes';
 import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getTypedInterfaceState } from '../../gameInterface/interfaceState';
+import { getTypedMapState } from '../../gameMap/main';
 import { floatToHexByte } from '../../tools/helper';
 import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
@@ -33,10 +34,10 @@ export function getInterfaceColor(id: ActorId | undefined): string {
 export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const { currentActorUid, currentActionUid, selectedActionChoiceUid } = getTypedInterfaceState();
   const interfaceColor = getInterfaceColor(currentActorUid);
-  const selectionActive = Context.mapState?.state?.mapSelect === true;
+  const selectionActive = getTypedMapState()?.mapSelect === true;
 
   const { id, buildStatus, binding } = feature?.getProperties();
-  let isHighlighted = true;
+  let isHighlighted = false;
   let isSelected = false;
 
   if (selectionActive && currentActionUid) {

@@ -15,24 +15,19 @@ import { getLineExtremityAndRotation } from '../utils/shapeUtils';
 export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
 
 // Used in page 43, Map/ActivablesLayer
-export function getMapActivablesLayer() {
+export function getMapActivablesLayer(): FeatureCollection {
   return getLayer(getActiveMapEntityDescriptors(), 'active', true);
 }
 
-/**
- * Create FeatureCollection for current ChoiceAction selection
- * TODO Could be improved ?
- */
 export function getMapActivableSelectionLayer() {
   const currentTemplate = getAvailableActionTemplateById(
     Context.interfaceState.state.currentActionUid
   );
 
-  let medUids = [];
   const record: Record<string, MapEntityDescriptor> = {};
 
   if (isChoiceTemplate(currentTemplate)) {
-    medUids = currentTemplate.choices
+    const medUids = currentTemplate.choices
       .filter(c => c.displayedMapEntity)
       .map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
@@ -42,7 +37,7 @@ export function getMapActivableSelectionLayer() {
     }
   }
 
-  return getLayer(record, 'activableSelection', true);
+  return getLayer(record, 'choices', true);
 }
 
 /**

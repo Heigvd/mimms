@@ -1714,11 +1714,6 @@
                                   "type" : "WegasMapVectorLayer"
                                 }, {
                                   "props" : {
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.mapState?.state.mapSelect;",
-                                      "language" : "typescript"
-                                    },
                                     "layerId" : "activables",
                                     "layerProps" : {
                                       "zIndex" : 91
@@ -1741,6 +1736,11 @@
                                     },
                                     "layoutStyle" : { },
                                     "name" : "ActivablesLayer",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { activablesLayerRef } from \"./gameMap/main\";\n  activablesLayerRef.current = layer;\n  return;"
+                                    },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"

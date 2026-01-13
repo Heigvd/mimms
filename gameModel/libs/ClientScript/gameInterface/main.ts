@@ -1,4 +1,4 @@
-import { ActionTemplateBase, ChoiceTemplate } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
@@ -7,6 +7,7 @@ import { endMapAction, startMapChoice } from '../gameMap/main';
 import {
   cancelAction,
   getAllActions,
+  hasMapChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
   isSituationUpdateActionTemplate,
@@ -123,20 +124,24 @@ export function actionChangeHandler(): void {
   const actTemplate = Context.action as ActionTemplateBase;
 
   if (!canPlanAction()) return;
+
   Context.interfaceState.setState({
     ...Context.interfaceState.state,
     currentActionUid: actTemplate.uid,
   });
+
   endMapAction();
 
   if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = (actTemplate as ChoiceTemplate).choices[0]!.uid;
+    const choiceUid = actTemplate.choices[0]!.uid;
 
     setInterfaceState({
       currentActionUid: actTemplate.uid,
       selectedActionChoiceUid: choiceUid,
     });
-    startMapChoice();
+    if (hasMapChoices(actTemplate)) {
+      startMapChoice();
+    }
   }
 }
 

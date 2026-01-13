@@ -6,6 +6,13 @@ const logger = Helpers.getLogger('mainSim.map');
 
 export const mapRef = Helpers.useRef<any>('map', null);
 export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
+export const activablesLayerRef = Helpers.useRef<any>('selectionLayer', null);
+
+function refreshActivableLayer(): void {
+  if (activablesLayerRef?.current?.changed) {
+    activablesLayerRef.current.changed();
+  }
+}
 
 export function updateMapRef(map: any): void {
   mapRef.current = map;
@@ -23,6 +30,10 @@ export interface MapState {
   overlayState: LOCATION_ENUM[];
 }
 
+export function getTypedMapState(): MapState {
+  return Context.mapState?.state;
+}
+
 /**
  * Get initial empty MapState object
  *
@@ -38,10 +49,11 @@ export function getInitialMapState(): MapState {
 /**
  * Reset mapState to initial state
  */
-export function clearMapState() {
+function clearMapState() {
   const newState = getInitialMapState();
-  newState.overlayState = Context.mapState.state.overlayState;
+  newState.overlayState = getTypedMapState()?.overlayState || [];
   Context.mapState.setState(newState);
+  refreshActivableLayer();
 }
 
 /**
@@ -49,17 +61,20 @@ export function clearMapState() {
  */
 export function endMapAction() {
   logger.info('MAP: Action cancelled');
-  clearMapState();
+
+  if (getTypedMapState()?.mapSelect) {
+    clearMapState();
+  }
 }
 
 /**
  * Start MapChoiceAction selection
  */
 export function startMapChoice() {
-  clearMapState();
-  const newState = Helpers.cloneDeep(Context.mapState.state);
+  const newState = Helpers.cloneDeep(getTypedMapState());
   newState.mapSelect = true;
   Context.mapState.setState(newState);
+  refreshActivableLayer();
 }
 
 /**
@@ -75,11 +90,16 @@ export function handleMapClick(
     layerId?: string;
   }[]
 ): void {
-  const mapActivable = features.find(f => f.layerId === 'activables');
-
-  if (mapActivable) {
-    const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
-    toggleOverlayItem(mapEntityId);
-    bringOverlayItemToFront(mapEntityId);
+  if (getTypedMapState().mapSelect) {
+    const mapSelection = features.find(f => f.layerId === 'activableSelection');
+    wlog(mapSelection);
+  } else {
+    const mapActivable = features.find(f => f.layerId === 'activables');
+    wlog(mapActivable);
+    if (mapActivable) {
+      const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
+      toggleOverlayItem(mapEntityId);
+      bringOverlayItemToFront(mapEntityId);
+    }
   }
 }
