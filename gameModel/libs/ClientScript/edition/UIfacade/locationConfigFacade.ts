@@ -46,8 +46,8 @@ export function setLocationFilter(location: LOCATION_ENUM): void {
   getMapEntityController().updateIState(newState);
 }
 
-export function isCustomLocation(): boolean {
-  return Context.item.binding === LOCATION_ENUM.custom;
+export function isCustomLocation(context: FlatMapEntity): boolean {
+  return context.binding === LOCATION_ENUM.custom;
 }
 
 // on prend le lieu représenté par le bouton actuel en argument
