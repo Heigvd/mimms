@@ -122,7 +122,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>min</p>\"",
+                  "content" : "\"<p>min after arrival </p>\"",
                   "language" : "TypeScript"
                 }
               },

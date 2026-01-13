@@ -23,7 +23,9 @@
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
-                "style" : { },
+                "style" : {
+                  "marginBottom" : "14px"
+                },
                 "text" : {
                   "@class" : "Script",
                   "content" : "\"<p>Triggers</p>\"",
@@ -36,6 +38,11 @@
                 "children" : [ {
                   "props" : {
                     "className" : "scenarist__undertitle",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "marginBottom" : "10px"
@@ -44,7 +51,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Basic\"",
+                      "content" : "\"<p>Basic</p>\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -70,6 +77,11 @@
                       "content" : "import { getTriggers } from \"./edition/UIfacade/triggerConfigFacade\";\n  getTriggers(true);",
                       "language" : "TypeScript"
                     },
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "itemKey" : "uid",
                     "layout" : {
                       "flexDirection" : "column"
@@ -83,6 +95,11 @@
                 }, {
                   "props" : {
                     "className" : "scenarist__undertitle",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : {
                       "marginBottom" : "10px"
@@ -91,7 +108,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Custom\"",
+                      "content" : "\"<p>Custom</p>\"",
                       "language" : "TypeScript"
                     }
                   },
