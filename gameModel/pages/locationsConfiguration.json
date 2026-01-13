@@ -703,6 +703,11 @@
                 }, {
                   "props" : {
                     "className" : "header-button",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canInsertMapEntity } from \"./edition/UIfacade/locationConfigFacade\";\n!canInsertMapEntity();",
+                      "language" : "typescript"
+                    },
                     "icon" : "plus",
                     "label" : {
                       "@class" : "Script",
