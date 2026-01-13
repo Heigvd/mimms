@@ -91,7 +91,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"<p>Other actions</p>\"",
+                      "content" : "\"<p>Custom actions</p>\"",
                       "language" : "TypeScript"
                     }
                   },

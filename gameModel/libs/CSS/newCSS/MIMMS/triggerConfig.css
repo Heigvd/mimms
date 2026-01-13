@@ -16,6 +16,10 @@
   margin-top: 10px;
 }
 
+.theme-unselected .trigger:hover {
+  cursor: pointer;
+}
+
 .generic-item:has(.condition),
 .generic-item:has(.impact) {
   min-height: 5.5rem;

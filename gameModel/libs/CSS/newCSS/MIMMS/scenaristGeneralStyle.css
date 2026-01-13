@@ -220,6 +220,10 @@
   max-width: 15rem;
 }
 
+.scenarist-dropdown .wegas-select__control:hover {
+  cursor: pointer;
+}
+
 .scenarist-dropdown .wegas-select__value-container,
 .scenarist-dropdown .wegas-select__value-container--has-value,
 .scenarist-dropdown .wegas-select__indicator {
@@ -271,6 +275,7 @@
   color: var(--primary_base);
   background-color: var(--primary_10);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+  cursor: pointer;
 }
 
 .scenarist-dropdown .wegas-select__option--is-selected {
@@ -293,6 +298,10 @@
   border: none;
   border-radius: var(--XXS_borderRadius) var(--XXS_borderRadius) 0 0;
   transition: background-color .3s ease-in-out;
+}
+
+.condition-impact__dropdown .wegas-select__control:hover {
+  cursor: pointer;
 }
 
 .condition-impact__dropdown .wegas-select__single-value,
@@ -328,6 +337,7 @@
   color: var(--primary_base);
   background-color: var(--primary_10);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+  cursor: pointer;
 }
 
 .condition-impact__dropdown .wegas-select__option--is-selected {

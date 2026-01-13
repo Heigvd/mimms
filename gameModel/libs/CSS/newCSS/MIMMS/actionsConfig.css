@@ -11,6 +11,16 @@
   padding: 1rem;
 }
 
+.theme-unselected .action:hover,
+.theme-unselected .choice:hover,
+.theme-unselected .effect:hover {
+  cursor: pointer;
+}
+
+.generic-item-container:has(.effect) {
+  z-index: 0;
+}
+
 .generic-item-container > div > div:has(.effect) {
   width: calc(100% - 1.5rem);
 }
@@ -23,9 +33,9 @@
 
 /* - - - - -  I N P U T S  - - - */
 
-.action-title input,
+/*.action-title input,
 .action-title input:hover,
 .action-title input:focus {
   font-size: var(--S_text);
   font-weight: var(--regularWeight);
-}
+}*/

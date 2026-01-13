@@ -63,7 +63,7 @@
             "children" : [ {
               "props" : {
                 "className" : "",
-                "layoutClassName" : "noPadding fullWidth action-title",
+                "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
                 "name" : "title",
                 "onCancel" : { },
