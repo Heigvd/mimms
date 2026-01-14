@@ -1,5 +1,6 @@
 import { triggerLogger } from '../../../../tools/logger';
 import { ActionTemplateUid } from '../../baseTypes';
+import { ANY_CHOICE } from '../../constants';
 import { Uid } from '../../interfaces';
 import {
   hasCompletedOnceAction,
@@ -23,16 +24,20 @@ export function evaluateActionCondition(
   switch (condition.status) {
     case 'active':
     case 'inactive':
-      return evaluateActivable(state, condition.actionRef, condition.status);
+      if(condition.choiceRef === ANY_CHOICE){
+        return evaluateActivable(state, condition.actionRef, condition.status);
+      } else {
+        return evaluateActivable(state, condition.choiceRef, condition.status);
+      }
     case 'completed once':
-      return hasCompletedOnceAction(state, condition.actionRef);
+      return hasCompletedOnceAction(state, condition.actionRef, condition.choiceRef);
     case 'never planned':
-      return hasNoActionInTimeline(state, condition.actionRef);
+      return hasNoActionInTimeline(state, condition.actionRef, condition.choiceRef);
     case 'ongoing':
-      return hasOngoingAction(state, condition.actionRef);
+      return hasOngoingAction(state, condition.actionRef, condition.choiceRef);
 
     default:
-      triggerLogger.error('Unknown status', JSON.stringify(condition));
+      triggerLogger.error('Unknown status on condition', JSON.stringify(condition));
   }
   return false;
 }
