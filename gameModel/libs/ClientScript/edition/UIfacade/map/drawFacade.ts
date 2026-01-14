@@ -37,7 +37,7 @@ export function saveNewMapObject(event: DrawEvent): void {
 
   const parentId = state.selected['mapEntity'];
   if (parentId) {
-    const mapObj = getMapEntityController().createNew(parentId, 'geometry');
+    const mapObj = getMapEntityController().createNew(parentId, 'geometry', 'mapEntity');
     const geom = event.feature.getGeometry() as SimpleGeometry;
     const points = geom.getCoordinates();
     switch (mapObj.type) {

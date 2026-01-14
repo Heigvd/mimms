@@ -1,5 +1,6 @@
 import {
   getDefaultSituationUpdateDuration,
+  hasMapChoices,
   isAvailable,
   isCasuMessageActionTemplate,
   isChoiceTemplate,
@@ -32,7 +33,7 @@ import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
-import { clearMapState, startMapChoice } from '../gameMap/main';
+import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
   getEmptyAllocateResources,
@@ -62,10 +63,13 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
 
   if (isChoiceTemplate(actTemplate)) {
     if (!canPlanAction()) {
-      startMapChoice();
+      // Action cancellation : we switch to the choice interface
+      if (hasMapChoices(actTemplate)) {
+        startMapChoice();
+      }
     } else {
       params = fetchChoiceActionValues()!;
-      clearMapState();
+      endMapAction();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(actTemplate)) {
     params = fetchMoveResourcesAssignTaskValues();

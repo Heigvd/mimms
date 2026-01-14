@@ -1,3 +1,4 @@
+import { ActorId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
 import { LocalEventBase, SelectChoiceEffectLocalEvent } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
@@ -12,7 +13,7 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
-  parentTriggerId?: Uid
+  parentTriggerId: Uid | ActorId
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [

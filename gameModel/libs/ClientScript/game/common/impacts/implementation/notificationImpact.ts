@@ -1,27 +1,49 @@
-import { InterventionRole } from '../../actors/actor';
+import { Actor, InterventionRole } from '../../actors/actor';
+import { ActorId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
 import { AddNotificationLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
 
+/**
+ * Extends the intervention roles with a dynamic value 'Initiator'
+ * which is resolved at runtime to the initiator of the action that contains the impact
+ */
+export type DynamicInterventionRole = InterventionRole | 'Initiator';
+
 export interface NotificationMessageImpact extends ImpactBase {
   type: 'notification';
   message: ITranslatableContent;
-  roles: Record<InterventionRole, boolean>;
+  roles: Record<DynamicInterventionRole, boolean>;
 }
 
 export function convertNotificationImpact(
   state: Readonly<MainSimulationState>,
   impact: NotificationMessageImpact,
-  parentTriggerId?: Uid
+  sourceId: Uid | ActorId
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
-  const concernedActors = state.getOnSiteActors().filter(act => impact.roles[act.Role]);
-  return concernedActors.map(
+
+  const concernedActors: Set<Readonly<Actor>> = new Set<Actor>();
+  // add initiator if present
+  if (impact.roles['Initiator'] && typeof sourceId == 'number') {
+    const actor = state.getActorById(sourceId);
+    if (actor?.isOnSite()) {
+      concernedActors.add(actor);
+    }
+  }
+  // add specific actors
+  state
+    .getOnSiteActors()
+    .filter(act => impact.roles[act.Role])
+    .forEach(act => concernedActors.add(act));
+
+  return Array.from(
+    concernedActors,
     actor =>
       new AddNotificationLocalEvent({
         parentEventId: state.getLastEventId(),
-        parentTriggerId,
+        sourceId: String(sourceId),
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,

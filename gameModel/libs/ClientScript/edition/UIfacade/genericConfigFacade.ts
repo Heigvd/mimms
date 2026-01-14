@@ -121,7 +121,7 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
     parentId = getSelected(parentType)?.uid ?? '';
   }
 
-  const newItem = getCurrentController().createNew(parentId, itemType);
+  const newItem = getCurrentController().createNew(parentId, itemType, parentType);
   lastGenericAdded = newItem.uid;
   return newItem;
 }
@@ -241,10 +241,19 @@ export function isSaved(): boolean {
 
 /*********************** READ FUNCTIONS ************************/
 
-export function getFlatObjects(): Record<Uid, FlatTypes> {
+export function getFlatObjects(): Readonly<Record<Uid, Readonly<FlatTypes>>> {
   let result: Record<Uid, FlatTypes> = {};
   getAllControllers().forEach(controller => {
-    result = { ...result, ...controller.getFlatDataClone() };
+    result = { ...result, ...controller.getFlatData() };
   });
   return result;
+}
+
+export function getParentType(itemId: Uid): SuperTypeNames | undefined {
+  const allItems = getFlatObjects();
+  const item = allItems[itemId];
+  if (item?.parent) {
+    return getFlatObjects()[item.parent]?.superType;
+  }
+  return undefined;
 }

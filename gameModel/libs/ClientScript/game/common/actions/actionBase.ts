@@ -261,7 +261,7 @@ export abstract class ChoiceAction extends StartEndAction {
       );
 
       if (selectedEffect) {
-        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect);
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.ownerId);
         eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
       } else {
         actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);

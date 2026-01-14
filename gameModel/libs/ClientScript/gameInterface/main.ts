@@ -8,6 +8,7 @@ import {
   cancelAction,
   getAllActions,
   getAvailableChoices,
+  hasMapChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
   isSituationUpdateActionTemplate,
@@ -125,10 +126,12 @@ export function actionChangeHandler(): void {
   const actTemplate = Context.action as ActionTemplateBase;
 
   if (!canPlanAction()) return;
+
   Context.interfaceState.setState({
     ...Context.interfaceState.state,
     currentActionUid: actTemplate.uid,
   });
+
   endMapAction();
 
   if (isChoiceTemplate(actTemplate) && canPlanAction()) {
@@ -139,7 +142,9 @@ export function actionChangeHandler(): void {
         currentActionUid: actTemplate.uid,
         selectedActionChoiceUid: choiceUid,
       });
-      startMapChoice();
+      if (hasMapChoices(actTemplate)) {
+        startMapChoice();
+      }
     } else {
       actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
     }

@@ -63,8 +63,18 @@ import { getLocalEventManager } from './localEventManager';
 export interface LocalEvent {
   type: string;
   parentEventId: GlobalEventId; // The Global Event that causes this local event
-  parentTriggerId?: Uid; // The Trigger that causes this local event, (most of the time, there is none)
-  simTimeStamp: SimTime; // The time at which it happens
+  /**
+   * The agent is of the object that triggered this event
+   * Can be either a trigger id or an actor id
+   */
+  sourceId?: Uid;
+  /**
+   * SimTime at which this happens in seconds from ambuance arrival
+   */
+  simTimeStamp: SimTime;
+  /**
+   *
+   */
   priority?: number; // The smaller priority is the first to be processed
 }
 
@@ -78,14 +88,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
-  readonly parentTriggerId: Uid | undefined;
+  readonly sourceId: Uid | undefined;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
-    this.parentTriggerId = props.parentTriggerId ?? undefined;
+    this.sourceId = props.sourceId ?? undefined;
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -372,7 +382,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -414,7 +424,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -433,7 +443,7 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -1086,7 +1096,7 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly option: ActivationOperator;
@@ -1116,7 +1126,7 @@ export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLoc
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly option: ActivationOperator;
@@ -1236,7 +1246,7 @@ export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
       type: 'T0TriggerEvaluationLocalEvent',
       parentEventId: 0,
       simTimeStamp: 0,
-      parentTriggerId: 'T0 initial trigger evaluation',
+      sourceId: 'T0 initial trigger evaluation',
     });
   }
 
