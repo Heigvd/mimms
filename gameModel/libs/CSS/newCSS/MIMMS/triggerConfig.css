@@ -12,14 +12,13 @@
   padding: 1rem;
 }
 
-/*.condition:empty,
-.impact:empty {
-  padding: 0;
-}*/
-
-/*.generic-item__page-loader:first-of-type:has(.trigger) {
+.generic-item__page-loader:first-of-type:has(.trigger) {
   margin-top: 10px;
-}*/
+}
+
+.theme-unselected .trigger:hover {
+  cursor: pointer;
+}
 
 .generic-item:has(.condition),
 .generic-item:has(.impact) {

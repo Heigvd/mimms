@@ -125,6 +125,11 @@ export function inferDisplayType(impact: FlatImpact): DisplayType {
 export function changeDisplayType(impact: FlatImpact, newDisplayType: DisplayType): void {
   const newImpactType: FlatImpact['type'] = getNewImpactType(newDisplayType);
 
+  if (impact.type === newImpactType) {
+    // no change => nothing to do
+    return;
+  }
+
   const newImpact: FlatImpact = createSubstitutionImpact(newImpactType, impact);
 
   if (newImpact.type === 'activation') {

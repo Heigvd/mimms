@@ -40,10 +40,19 @@ export function updateItem<T extends MapEntityFlatType>(uid: Uid, newData: Parti
   }
 }
 
+export function canInsertMapEntity(): boolean {
+  const state = getMapEntityController().getLatestIState();
+  return state.selectedFilter !== LOCATION_ENUM.chantier;
+}
+
 export function setLocationFilter(location: LOCATION_ENUM): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.selectedFilter = location;
   getMapEntityController().updateIState(newState);
+}
+
+export function isCustomLocation(item: FlatMapEntity): boolean {
+  return item.binding === LOCATION_ENUM.custom;
 }
 
 // on prend le lieu représenté par le bouton actuel en argument

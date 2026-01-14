@@ -63,7 +63,7 @@
             "children" : [ {
               "props" : {
                 "className" : "",
-                "layoutClassName" : "noPadding fullWidth action-title",
+                "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
                 "name" : "title",
                 "onCancel" : { },
@@ -397,6 +397,11 @@
               "type" : "FlexList"
             } ],
             "className" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+              "language" : "typescript"
+            },
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },

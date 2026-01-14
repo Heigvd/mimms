@@ -20,42 +20,49 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     name: 'location-chantier',
     leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
+    icon: 'mainAccident'
   },
   nidDeBlesses: {
     id: LOCATION_ENUM.nidDeBlesses,
     name: 'location-niddeblesses',
     leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
+    icon: 'Nest',
   },
   PMA: {
     id: LOCATION_ENUM.PMA,
     name: 'location-pma',
     leaderRoles: ['LEADPMA'],
     accessibility: { Actors: true, Resources: true, Patients: true },
+    icon: 'PMA'
   },
   pcFront: {
     id: LOCATION_ENUM.pcFront,
     name: 'location-pcFront',
     leaderRoles: ['AL'],
     accessibility: { Actors: true, Resources: true, Patients: true },
+    icon: 'pcFront',
   },
   PC: {
     id: LOCATION_ENUM.PC,
     name: 'location-pc',
     leaderRoles: ['ACS', 'MCS'],
     accessibility: { Actors: true, Resources: true, Patients: true },
+    icon: 'PC',
   },
   ambulancePark: {
     id: LOCATION_ENUM.ambulancePark,
     name: 'location-ambulancePark',
     leaderRoles: ['EVASAN'],
     accessibility: { Actors: false, Resources: true, Patients: true },
+    icon: 'ambulance-park',
   },
   helicopterPark: {
     id: LOCATION_ENUM.helicopterPark,
     name: 'location-helicopterPark',
     leaderRoles: ['EVASAN'],
     accessibility: { Actors: false, Resources: true, Patients: true },
+    icon: 'helicopter-park',
   },
   remote: {
     id: LOCATION_ENUM.remote,
