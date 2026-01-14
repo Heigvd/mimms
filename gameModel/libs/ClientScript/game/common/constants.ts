@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 /**
  * duration of one step in the simulation in seconds
  */

@@ -133,7 +133,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       type: ALL_EDITABLE,
       actionRef: ALL_EDITABLE,
       status: ALL_EDITABLE,
-      choiceRef: ALL_EDITABLE
+      choiceRef: ALL_EDITABLE,
     },
   };
 }

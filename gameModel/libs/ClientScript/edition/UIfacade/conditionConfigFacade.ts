@@ -49,7 +49,6 @@ export function changeConditionType(
     const newCondition: FlatCondition = createSubstitutionCondition(condition, newType);
     getTriggerController().updateItem(newCondition);
   }
-
 }
 
 function createSubstitutionCondition(
@@ -126,15 +125,15 @@ export function updateConditionActionRef(
   actionRef: ActionCondition['actionRef']
 ): void {
   if (isActionCondition(condition)) {
-    if(getConditionActionUid(condition) !== actionRef){
+    if (getConditionActionUid(condition) !== actionRef) {
       const newCondition = Helpers.cloneDeep(condition);
       newCondition.actionRef = actionRef;
+      newCondition.choiceRef = ALL_CHOICES_OPTION_VALUE;
       getTriggerController().updateItem(newCondition);
     }
-  }else {
+  } else {
     scenarioEditionLogger.error('unexpected condition type');
   }
-
 }
 
 export function updateConditionChoiceRef(
@@ -142,7 +141,7 @@ export function updateConditionChoiceRef(
   choiceRef: ActionCondition['choiceRef'] | typeof ALL_CHOICES_OPTION_VALUE
 ): void {
   if (isActionCondition(condition)) {
-    if(condition.choiceRef !== choiceRef){
+    if (condition.choiceRef !== choiceRef) {
       const newCondition = Helpers.cloneDeep(condition);
       newCondition.choiceRef = choiceRef;
       getTriggerController().updateItem(newCondition);
@@ -150,7 +149,6 @@ export function updateConditionChoiceRef(
   } else {
     scenarioEditionLogger.error('unexpected condition type');
   }
-
 }
 
 function isActionCondition(condition: Condition): condition is ActionCondition {
