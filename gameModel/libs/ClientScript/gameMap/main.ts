@@ -1,16 +1,29 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
+import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../map/point2D';
+import {
+  getAvailableActionTemplateById,
+  isChoiceTemplate,
+  updateChoice,
+} from '../UIfacade/actionFacade';
 
 const logger = Helpers.getLogger('mainSim.map');
 
 export const mapRef = Helpers.useRef<any>('map', null);
-export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
-export const activablesLayerRef = Helpers.useRef<any>('selectionLayer', null);
 
-function refreshActivableLayer(): void {
+export const selectionLayerRef = Helpers.useRef<any>('selectionLayer', null);
+export const activablesLayerRef = Helpers.useRef<any>('activablesLayer', null);
+
+export function refreshActivableLayer(): void {
   if (activablesLayerRef?.current?.changed) {
     activablesLayerRef.current.changed();
+  }
+}
+
+export function refreshSelectionLayer(): void {
+  if (selectionLayerRef?.current?.changed) {
+    selectionLayerRef?.current.changed();
   }
 }
 
@@ -91,11 +104,20 @@ export function handleMapClick(
   }[]
 ): void {
   if (getTypedMapState().mapSelect) {
-    const mapSelection = features.find(f => f.layerId === 'activableSelection');
-    wlog(mapSelection);
+    const selectableObj = features.find(f => f.layerId === 'activableSelection');
+    if (selectableObj) {
+      const { currentActionUid } = getTypedInterfaceState();
+      const currentTemplate = getAvailableActionTemplateById(currentActionUid || '');
+      if (isChoiceTemplate(currentTemplate)) {
+        const id = selectableObj.feature.id;
+        const choice = currentTemplate.choices.find(c => c.displayedMapEntity === id);
+        if (choice) {
+          updateChoice(choice.uid);
+        }
+      }
+    }
   } else {
     const mapActivable = features.find(f => f.layerId === 'activables');
-    wlog(mapActivable);
     if (mapActivable) {
       const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
       toggleOverlayItem(mapEntityId);

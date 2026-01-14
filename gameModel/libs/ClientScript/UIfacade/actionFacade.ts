@@ -22,6 +22,7 @@ import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
+import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
@@ -31,8 +32,9 @@ import {
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
+import { refreshSelectionLayer } from '../gameMap/main';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
@@ -231,4 +233,9 @@ export function isMethaneSendDisabled(): boolean {
   }
   const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
   return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
+}
+
+export function updateChoice(choiceUid: Uid): void {
+  setInterfaceState({ selectedActionChoiceUid: choiceUid });
+  refreshSelectionLayer();
 }

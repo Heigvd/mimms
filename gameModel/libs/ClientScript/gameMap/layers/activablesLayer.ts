@@ -12,8 +12,6 @@ import { FeatureCollection } from '../types/featureTypes';
 import { getEmptyFeatureCollection } from '../utils/mapUtils';
 import { getLineExtremityAndRotation } from '../utils/shapeUtils';
 
-export const activableSelectionRef = Helpers.useRef<any>('activableSelection', null);
-
 // Used in page 43, Map/ActivablesLayer
 export function getMapActivablesLayer(): FeatureCollection {
   return getLayer(getActiveMapEntityDescriptors(), 'active', true);

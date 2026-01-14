@@ -1707,7 +1707,7 @@
                                     "onLayerReady" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "layer", "map" ],
-                                      "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
+                                      "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
                                     },
                                     "style" : { }
                                   },
