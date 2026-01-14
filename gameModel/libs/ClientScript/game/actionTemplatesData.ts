@@ -59,34 +59,6 @@ export function initActionTemplates(): ActionTemplateData {
     TimeSliceDuration
   );
 
-  const getInfo = new DisplayMessageActionTemplate(
-    'basic-info-uid-ert',
-    'basic-info-title',
-    'basic-info-desc',
-    TimeSliceDuration * 2,
-    'basic-info-feedback'
-  );
-  const getInfo2 = new DisplayMessageActionTemplate(
-    'other-basic-info-uid-rtz',
-    'other-basic-info-title',
-    'other-basic-info-desc',
-    TimeSliceDuration,
-    'other-basic-info-feedback'
-  );
-  const getPoliceInfos = new DisplayMessageActionTemplate(
-    'basic-info-police-uid-tzu',
-    'basic-info-police-title',
-    'basic-info-police-desc',
-    TimeSliceDuration,
-    'basic-info-police-feedback'
-  );
-  const getFireFighterInfos = new DisplayMessageActionTemplate(
-    'basic-info-firefighter-uid-zui',
-    'basic-info-firefighter-title',
-    'basic-info-firefighter-desc',
-    TimeSliceDuration,
-    'basic-info-firefighter-feedback'
-  );
   const casuMessage = new CasuMessageTemplate(
     'casu-message-uid-uio',
     'casu-message-title',
@@ -323,10 +295,6 @@ export function initActionTemplates(): ActionTemplateData {
 
   const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
   templates[moveActor.uid] = moveActor;
-  templates[getInfo.uid] = getInfo;
-  templates[getInfo2.uid] = getInfo2;
-  templates[getPoliceInfos.uid] = getPoliceInfos;
-  templates[getFireFighterInfos.uid] = getFireFighterInfos;
   templates[openPMA.uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.uid] = acsMcsArrivalAnnouncement;
   templates[evasanArrivalAnnouncement.uid] = evasanArrivalAnnouncement;
