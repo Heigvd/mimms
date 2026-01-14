@@ -35,23 +35,9 @@ export interface IUniqueActionTemplates {
 }
 
 export function initActionTemplates(): ActionTemplateData {
-  // TODO read from Variable
   // TODO the message might depend on the state, it might a function(state) rather than translation key
   // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
-  /*
-  const pcFrontChoice = new PCFrontChoiceTemplate(
-    'define-pcFront-uid-qwe',
-    'define-pcFront-title',
-    'define-pcFront-desc',
-    TimeSliceDuration,
-    //'define-pcFront-feedback',
-    false,
-    [],
-    [SimFlag.PCFRONT_BUILT],
-    undefined,
-    getPCFrontChoices()
-  );
-*/
+
   const moveActor = new MoveActorActionTemplate(
     'move-actor-uid-wer',
     'move-actor-title',
@@ -85,86 +71,7 @@ export function initActionTemplates(): ActionTemplateData {
     true,
     ActionType.CASU_RADIO
   );
-  /*
-  const ambulanceParkChoice = new ParkChoiceTemplate(
-    'define-ambulance-park-uid-sdf',
-    'define-ambulance-park-title',
-    'define-ambulance-park-desc',
-    TimeSliceDuration,
-    false,
-    LOCATION_ENUM.ambulancePark,
-    'ambulance',
-    undefined,
-    [SimFlag.AMBULANCE_PARK_BUILT],
-    undefined,
-    getAmbulanceChoices()
-  );
 
-  const helicopterParkChoice = new ParkChoiceTemplate(
-    'define-helicopter-park-uid-dfg',
-    'define-helicopter-park-title',
-    'define-helicopter-park-desc',
-    TimeSliceDuration,
-    false,
-    LOCATION_ENUM.helicopterPark,
-    'ambulance',
-    undefined,
-    [SimFlag.HELICOPTER_PARK_BUILT],
-    undefined,
-    getHelicopterChoices()
-  );
-
-  const nestChoice = new MapChoiceActionTemplate(
-    'define-Nest-uid-fgh',
-    'define-Nest-title',
-    'define-Nest-desc',
-    TimeSliceDuration,
-    false,
-    undefined,
-    undefined,
-    undefined,
-    getNestChoices(),
-    LOCATION_ENUM.nidDeBlesses
-  );
-
-  const accessRegressChoice = new MapChoiceActionTemplate(
-    'define-accreg-uid-ghj',
-    'define-accreg-title',
-    'define-accreg-desc',
-    TimeSliceDuration,
-    false,
-    undefined,
-    undefined,
-    undefined,
-    getAccregChoices(),
-    LOCATION_ENUM.AccReg
-  );
-
-  const pmaChoice = new MapChoiceActionTemplate(
-    'define-PMA-uid-hjk',
-    'define-PMA-title',
-    'define-PMA-desc',
-    TimeSliceDuration,
-    false,
-    undefined,
-    [SimFlag.PMA_BUILT],
-    undefined,
-    getPMAChoices(),
-    LOCATION_ENUM.PMA
-  );
-
-  const pcChoice = new PCChoiceTemplate(
-    'define-PC-uid-jkl',
-    'define-PC-title',
-    'define-PC-desc',
-    TimeSliceDuration * 2,
-    false,
-    undefined,
-    [SimFlag.PC_BUILT],
-    undefined,
-    getPCChoices()
-  );
-*/
   const openPMA = new DisplayMessageActionTemplate(
     'open-PMA-uid-yxc',
     'open-PMA-title',
