@@ -1,4 +1,5 @@
 import { Uid } from '../../game/common/interfaces';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import {
   ControllerType,
   getAllControllers,
@@ -186,6 +187,10 @@ export function moveDown(itemId: Uid): void {
 // deletion permission
 
 export function canBeDeleted(item: FlatTypes): boolean {
+  if (item.superType === 'mapEntity') {
+    return item.binding !== LOCATION_ENUM.chantier;
+  }
+
   if (item.superType === 'action' || item.superType === 'trigger') {
     return !item.mandatory;
   }
