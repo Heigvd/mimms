@@ -353,9 +353,10 @@ export abstract class ChoiceTemplate<
 
     return (
       ActionLogic.getAvailableChoices(state, this).length > 0 &&
-      (!actionTemplateActivable ||
-        !hasMaxRepetitions ||
-        actionTemplateActivable.count < this.nbMaxRepetitions)
+      !(actionTemplateActivable && // there must be an activable
+        hasMaxRepetitions && // which as a max of repetitions
+        actionTemplateActivable.count >= this.nbMaxRepetitions)
+      // TODO see where we handle the case of 2 players planning the same action at the same time
     );
   }
 }
