@@ -51,7 +51,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\n\nconst newState = Helpers.cloneDeep(Context.interfaceState.state)\nnewState.selectedActionChoiceUid = Context.choice.uid;\nContext.interfaceState.setState(newState);\nactivableSelectionRef.current.changed();\n",
+                "content" : "import { updateChoice } from \"./UIfacade/actionFacade\";\n\nupdateChoice(Context.choice.uid);\n",
                 "language" : "TypeScript"
               }
             },

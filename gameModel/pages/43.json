@@ -1707,18 +1707,13 @@
                                     "onLayerReady" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ "layer", "map" ],
-                                      "content" : "import { activableSelectionRef } from \"./gameMap/layers/activablesLayer\";\nactivableSelectionRef.current = layer;\nreturn"
+                                      "content" : "import { selectionLayerRef } from \"./gameMap/main\";\nselectionLayerRef.current = layer;\nreturn"
                                     },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
                                 }, {
                                   "props" : {
-                                    "hideIf" : {
-                                      "@class" : "Script",
-                                      "content" : "Context.mapState?.state.mapSelect;",
-                                      "language" : "typescript"
-                                    },
                                     "layerId" : "activables",
                                     "layerProps" : {
                                       "zIndex" : 91
@@ -1741,6 +1736,11 @@
                                     },
                                     "layoutStyle" : { },
                                     "name" : "ActivablesLayer",
+                                    "onLayerReady" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "layer", "map" ],
+                                      "content" : "import { activablesLayerRef } from \"./gameMap/main\";\n  activablesLayerRef.current = layer;\n  return;"
+                                    },
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"
