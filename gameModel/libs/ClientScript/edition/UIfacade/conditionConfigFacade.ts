@@ -1,4 +1,5 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { ANY_CHOICE } from '../../game/common/constants';
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
@@ -10,7 +11,6 @@ import {
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
 import {
-  ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,
   allChoicesOption,
   getChoicesOptions,
@@ -104,8 +104,8 @@ export function getConditionActionUid(condition: FlatCondition): Uid | undefined
 
 export function getConditionChoiceUid(
   condition: FlatCondition
-): Uid | typeof ALL_CHOICES_OPTION_VALUE {
-  return isActionCondition(condition) ? condition.choiceRef : ALL_CHOICES_OPTION_VALUE;
+): Uid | typeof ANY_CHOICE {
+  return isActionCondition(condition) ? condition.choiceRef : ANY_CHOICE;
 }
 
 export function getEffectiveConditionChoicesOptions(
@@ -128,7 +128,7 @@ export function updateConditionActionRef(
     if (getConditionActionUid(condition) !== actionRef) {
       const newCondition = Helpers.cloneDeep(condition);
       newCondition.actionRef = actionRef;
-      newCondition.choiceRef = ALL_CHOICES_OPTION_VALUE;
+      newCondition.choiceRef = ANY_CHOICE;
       getTriggerController().updateItem(newCondition);
     }
   } else {
@@ -138,7 +138,7 @@ export function updateConditionActionRef(
 
 export function updateConditionChoiceRef(
   condition: FlatCondition,
-  choiceRef: ActionCondition['choiceRef'] | typeof ALL_CHOICES_OPTION_VALUE
+  choiceRef: ActionCondition['choiceRef'] | typeof ANY_CHOICE
 ): void {
   if (isActionCondition(condition)) {
     if (condition.choiceRef !== choiceRef) {

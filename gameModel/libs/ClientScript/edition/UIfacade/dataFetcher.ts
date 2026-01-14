@@ -98,11 +98,10 @@ function getChoice(choiceUid: FlatChoice['uid']): FlatChoice {
   return choice;
 }
 
-export const ALL_CHOICES_OPTION_VALUE = ANY_CHOICE;
-export type AllChoiceOptionType = { label: string; value: typeof ALL_CHOICES_OPTION_VALUE };
+export type AllChoiceOptionType = { label: string; value: typeof ANY_CHOICE };
 export const allChoicesOption: AllChoiceOptionType = {
   label: 'any choice',
-  value: ALL_CHOICES_OPTION_VALUE,
+  value: ANY_CHOICE,
 };
 
 export function getChoicesOptions(

@@ -5,7 +5,7 @@
  */
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
-import { ActionBase } from '../game/common/actions/actionBase';
+import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
 import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
@@ -187,6 +187,12 @@ export function isChoiceTemplate(
   template: ActionTemplateBase | undefined
 ): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
+}
+
+export function isChoiceAction(
+  action: ActionBase | undefined
+): action is ChoiceAction {
+  return action instanceof ChoiceAction;
 }
 
 export function hasMapChoices(choiceTemplate: ChoiceTemplate): boolean {
