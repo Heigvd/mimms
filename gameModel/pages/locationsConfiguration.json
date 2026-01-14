@@ -741,13 +741,6 @@
                 },
                 "layoutClassName" : "noPadding fullHeight scenarist-column",
                 "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('mapEntity');",
-                    "language" : "TypeScript"
-                  }
-                },
                 "name" : "locations list",
                 "stopPropagation" : true,
                 "style" : { }

@@ -172,13 +172,6 @@
             },
             "layoutClassName" : "noPadding fullHeight scenarist-column",
             "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('action');",
-                "language" : "TypeScript"
-              }
-            },
             "name" : "Actions",
             "stopPropagation" : true,
             "style" : { }
@@ -285,13 +278,6 @@
             },
             "layoutClassName" : "fullWidth scenarist-column",
             "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('choice');",
-                "language" : "TypeScript"
-              }
-            },
             "name" : "Choices",
             "stopPropagation" : true,
             "style" : { }
@@ -354,13 +340,6 @@
             "layoutClassName" : "fullWidth scenarist-column",
             "layoutStyle" : {
               "borderRight" : "none"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { unselect } from \"./edition/UIfacade/genericConfigFacade\";\n\nunselect('impact');",
-                "language" : "TypeScript"
-              }
             },
             "name" : "Impacts",
             "stopPropagation" : true,
