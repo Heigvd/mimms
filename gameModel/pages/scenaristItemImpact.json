@@ -217,7 +217,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nconst newRoles = {...Context.item.roles}\nnewRoles[Context.role.value] = !Context.item.roles[Context.role.value];\nupdateItem(Context.item.uid, { roles: newRoles } );",
+                        "content" : "import { updateNotificationImpactRoles } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateNotificationImpactRoles(Context.item, Context.role.value);",
                         "language" : "TypeScript"
                       }
                     },
@@ -229,7 +229,7 @@
                 "exposeAs" : "role",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getActorRolesOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActorRolesOptions();",
+                  "content" : "import { getParentType } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getActorRolesOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActorRolesOptions(getParentType(Context.item?.uid) === 'effect');",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "value",

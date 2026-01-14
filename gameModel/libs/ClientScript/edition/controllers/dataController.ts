@@ -178,9 +178,10 @@ export abstract class DataControllerBase<
 
   public createNew(
     parentId: Uid,
-    superType: SuperTypeNames //MapToSuperTypeNames<FlatType>,
+    superType: SuperTypeNames, //MapToSuperTypeNames<FlatType>,
+    parentType?: SuperTypeNames
   ): FlatType {
-    const newObject = this.createNewInternal(parentId, superType);
+    const newObject = this.createNewInternal(parentId, superType, parentType);
     const updatedData = this.getFlatDataClone();
     updatedData[newObject.uid] = newObject;
     // select new
@@ -326,10 +327,14 @@ export abstract class DataControllerBase<
   /** Creates a new object of the desired type */
   protected abstract createNewInternal(
     parentId: Uid,
-    type: SuperTypeNames //MapToSuperTypeNames<FlatType>
+    type: SuperTypeNames, //MapToSuperTypeNames<FlatType>
+    parentType?: SuperTypeNames
   ): FlatType;
 
-  protected getFlatData(): Readonly<Record<Uid, FlatType>> {
+  /**
+   * Read-only data, handle with care
+   */
+  public getFlatData(): Readonly<Record<Uid, Readonly<FlatType>>> {
     return this.undoRedo.getCurrentState()[1];
   }
 
@@ -394,7 +399,8 @@ export class TriggerDataController extends DataControllerBase<
 
   protected override createNewInternal(
     parentId: Uid,
-    superType: TriggerFlatType['superType']
+    superType: TriggerFlatType['superType'],
+    parentType?: SuperTypeNames
   ): TriggerFlatType {
     switch (superType) {
       case 'trigger':
@@ -405,7 +411,7 @@ export class TriggerDataController extends DataControllerBase<
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty', parentType).getDefault(), parentId);
     }
   }
 
@@ -520,7 +526,8 @@ export class ActionTemplateDataController extends DataControllerBase<
 
   protected override createNewInternal(
     parentId: Uid,
-    superType: ActionTemplateFlatType['superType']
+    superType: ActionTemplateFlatType['superType'],
+    parentType?: SuperTypeNames
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action':
@@ -533,7 +540,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'effect':
         return toFlatEffect(getEffectDefinition().getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty').getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty', parentType).getDefault(), parentId);
     }
   }
 
@@ -616,9 +623,10 @@ export class MapEntityController extends DataControllerBase<
     return tree;
   }
 
-  protected createNewInternal(
+  protected override createNewInternal(
     parentId: string,
-    type: MapEntityFlatType['superType']
+    type: MapEntityFlatType['superType'],
+    _parentType?: SuperTypeNames
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity': {

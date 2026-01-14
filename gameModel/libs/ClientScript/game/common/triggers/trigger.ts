@@ -80,7 +80,7 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
       impacts.push(
         new ChangeActivableStatusLocalEvent({
           parentEventId: state.getLastEventId(),
-          parentTriggerId: trigger.uid,
+          sourceId: trigger.uid,
           simTimeStamp: state.getSimTime(),
           target: trigger.uid,
           option: 'deactivate',
