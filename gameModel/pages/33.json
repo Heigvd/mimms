@@ -1,0 +1,25 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { debugGetAllActionTemplates, getCurrentState } from \"./game/mainSimulationLogic\";\nimport { getAvailableChoices, isChoiceTemplate } from \"./UIfacade/actionFacade\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  let result = 'ACTION TEMPLATES';\n  debugGetAllActionTemplates()\n    .forEach(actTemplate => {\n      result += '<br/><br/>' + JSON.stringify(actTemplate) + '<br/>actTemplate activable : ' + JSON.stringify(activablesState[actTemplate.uid]);\n\n      if (isChoiceTemplate(actTemplate)) {\n        actTemplate.choices.forEach(choice => result += '<br/>choice activable : ' + JSON.stringify(activablesState[choice.uid]))\n        result += '<br/>' + (getAvailableChoices(actTemplate).length > 0 ? 'has available choice' : 'no available choice');\n        }\n    });\n  result;",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

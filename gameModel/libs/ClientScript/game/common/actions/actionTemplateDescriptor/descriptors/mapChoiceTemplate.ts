@@ -1,3 +1,4 @@
+import { getFilteredAsArray } from '../../../../../tools/helper';
 import { mainSimLoaderLogger } from '../../../../../tools/logger';
 import { getMapEntityDescriptor } from '../../../../loaders/mapEntitiesLoader';
 import { VehicleType } from '../../../resources/resourceType';
@@ -40,10 +41,9 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        desc.repeats > 1, // TODO replayable refactoring
-        undefined, // TODO req flags if any
+        undefined, // required flags
         [], // raised flags
-        undefined, // TODO available to roles ?
+        getFilteredAsArray(desc.availableToRoles),
         desc.choices,
         desc.binding || LOCATION_ENUM.custom // TODO is that ok ?
       );
@@ -53,10 +53,9 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        false,
         undefined, // required flags
         [SimFlag.PC_BUILT],
-        undefined, // TODO available to roles ?
+        getFilteredAsArray(desc.availableToRoles),
         desc.choices
       );
     case 'PCFrontChoiceTemplate':
@@ -65,10 +64,9 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
-        false,
         [],
         [SimFlag.PCFRONT_BUILT],
-        undefined, // TODO available to roles ?
+        getFilteredAsArray(desc.availableToRoles),
         desc.choices
       );
     case 'AmbulanceParkChoiceTemplate':
@@ -90,12 +88,11 @@ function createParkTemplate(
     desc.title,
     desc.description,
     desc.durationSec,
-    false,
     location,
     vtype,
     undefined,
     [flag],
-    undefined, // available to roles ?
+    getFilteredAsArray(desc.availableToRoles),
     desc.choices
   );
 }

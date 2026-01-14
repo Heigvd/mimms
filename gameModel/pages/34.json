@@ -1,0 +1,25 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { isTriggerAvailable, getSortedTriggers } from \"./game/common/triggers/trigger\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  'TRIGGERS'\n    + getSortedTriggers()\n      .map(item => '<br/><br/>trigger : ' + JSON.stringify(item)\n        + '<br/>activable state : ' + JSON.stringify(activablesState[item.uid])\n        + '<br/>is available : ' + isTriggerAvailable(getCurrentState(), item));",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

@@ -3,7 +3,6 @@
     "children" : [ {
       "props" : {
         "layoutStyle" : { },
-        "name" : "State",
         "style" : { },
         "text" : {
           "@class" : "Script",

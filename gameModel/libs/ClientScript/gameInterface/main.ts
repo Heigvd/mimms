@@ -2,11 +2,12 @@ import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { setInterfaceState } from '../gameInterface/interfaceState';
 import { endMapAction, startMapChoice } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import {
   cancelAction,
   getAllActions,
+  getAvailableChoices,
   hasMapChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
@@ -14,6 +15,7 @@ import {
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
+import { setInterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -133,14 +135,18 @@ export function actionChangeHandler(): void {
   endMapAction();
 
   if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = actTemplate.choices[0]!.uid;
+    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
 
-    setInterfaceState({
-      currentActionUid: actTemplate.uid,
-      selectedActionChoiceUid: choiceUid,
-    });
-    if (hasMapChoices(actTemplate)) {
-      startMapChoice();
+    if (choiceUid) {
+      setInterfaceState({
+        currentActionUid: actTemplate.uid,
+        selectedActionChoiceUid: choiceUid,
+      });
+      if (hasMapChoices(actTemplate)) {
+        startMapChoice();
+      }
+    } else {
+      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
     }
   }
 }

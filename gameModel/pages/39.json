@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'ACTIVABLES '\n    + Object.values(getCurrentState().getInternalStateObject().activables)\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'TASKS '\n    + Object.values(getCurrentState().getInternalStateObject().tasks)\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
           "language" : "TypeScript"
         }
       },

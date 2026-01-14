@@ -79,7 +79,6 @@ export function getAvailableMapActivables(
   return mapActivables.filter(ma => bindings.includes(ma.binding));
 }
 
-// Replacement function based on descriptors/activables
 export function canMoveToLocation(
   state: Readonly<MainSimulationState>,
   kind: LocationAccessibilityKind,
