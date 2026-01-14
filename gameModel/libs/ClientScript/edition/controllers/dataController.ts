@@ -621,21 +621,25 @@ export class MapEntityController extends DataControllerBase<
     type: MapEntityFlatType['superType']
   ): MapEntityFlatType {
     switch (type) {
-      case 'mapEntity':
-        const dflt = getMapEntityDefinition().getDefault();
+      case 'mapEntity': {
+        const newMapEntity = getMapEntityDefinition().getDefault();
         // Cheating here by looking up in the ui state to get the proper binding
-        dflt.binding = this.getLatestIState().selectedFilter;
-        return toFlatMapEntity(dflt, MapEntityController.MAP_ENTITY_ROOT);
-      case 'geometry':
+        newMapEntity.binding = this.getLatestIState().selectedFilter;
+        return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
+      }
+      case 'geometry': {
         const shapeType = this.getLatestIState().drawType;
-        // Cheating here by looking up in the ui state to get the proper binding
-        const binding = this.getLatestIState().selectedFilter;
-        const icon = locationEnumConfig[binding].icon;
-        const dlft = getMapObjectDefinition(shapeType).getDefault();
-        if (dlft.type === 'Point' && icon) {
-          dlft.icon = icon;
+        const newGeometry = getMapObjectDefinition(shapeType).getDefault();
+        if (newGeometry.type === 'Point') {
+          // Cheating here by looking up in the ui state to get the proper binding
+          const binding = this.getLatestIState().selectedFilter;
+          const icon = locationEnumConfig[binding].icon;
+          if (icon) {
+            newGeometry.icon = icon;
+          }
         }
-        return toFlatMapObject(dlft, parentId);
+        return toFlatMapObject(newGeometry, parentId);
+      }
     }
   }
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
