@@ -1,7 +1,6 @@
 import { getChoiceDefinition } from '../typeDefinitions/choiceDefinition';
 import {
   getActionConditionDef,
-  getChoiceConditionDef,
   getEmptyConditionDef,
   getMapEntityConditionDef,
   getTimeConditionDef,
@@ -78,7 +77,6 @@ const viewTree: Views = {
   condition: {
     mapEntity: getMapEntityConditionDef().view,
     trigger: getTriggerConditionDef().view,
-    choice: getChoiceConditionDef().view,
     action: getActionConditionDef().view,
     time: getTimeConditionDef().view,
     empty: getEmptyConditionDef().view,

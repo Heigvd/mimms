@@ -3,7 +3,6 @@ import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { ActionCondition, evaluateActionCondition } from './implementation/actionCondition';
 import { MapEntityCondition, TriggerCondition } from './implementation/activableCondition';
-import { ChoiceCondition, evaluateChoiceCondition } from './implementation/choiceCondition';
 import { EmptyCondition } from './implementation/emptyCondition';
 import { evaluateTimeCondition, TimeCondition } from './implementation/timeCondition';
 
@@ -25,7 +24,6 @@ export type ChoiceActionStatus = ActivableStatus | 'completed once' | 'ongoing' 
 export type Condition =
   | TimeCondition
   | ActionCondition
-  | ChoiceCondition
   | TriggerCondition
   | MapEntityCondition
   | EmptyCondition;
@@ -39,9 +37,6 @@ export function evaluateCondition(state: Readonly<MainSimulationState>, conditio
       break;
     case 'action':
       result = evaluateActionCondition(state, condition);
-      break;
-    case 'choice':
-      result = evaluateChoiceCondition(state, condition);
       break;
     case 'trigger':
     case 'mapEntity':

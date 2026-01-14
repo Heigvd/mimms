@@ -6171,15 +6171,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/triggers/implementation/choiceCondition",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:1991689:c3yhzC",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/triggers/implementation/emptyCondition",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

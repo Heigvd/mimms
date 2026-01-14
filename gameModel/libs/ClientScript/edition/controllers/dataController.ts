@@ -555,10 +555,13 @@ export class ActionTemplateDataController extends DataControllerBase<
     switch (itemType) {
       case 'action':
         super.unselect('action');
+      // eslint-disable-next-line no-fallthrough
       case 'choice':
         super.unselect('choice');
+      // eslint-disable-next-line no-fallthrough
       case 'effect':
         super.unselect('effect');
+      // eslint-disable-next-line no-fallthrough
       default:
         super.unselect('impact');
     }

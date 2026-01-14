@@ -1,5 +1,6 @@
 import { triggerLogger } from '../../../../tools/logger';
 import { ActionTemplateUid } from '../../baseTypes';
+import { Uid } from '../../interfaces';
 import {
   hasCompletedOnceAction,
   hasNoActionInTimeline,
@@ -8,11 +9,11 @@ import {
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../condition';
 
-// TODO if easier, both action and choice conditions could be grouped
 
 export interface ActionCondition extends ConditionBase {
   type: 'action';
   actionRef: ActionTemplateUid;
+  choiceRef: Uid;
   status: ChoiceActionStatus;
 }
 
@@ -24,7 +25,6 @@ export function evaluateActionCondition(
     case 'active':
     case 'inactive':
       return evaluateActivable(state, condition.actionRef, condition.status);
-
     case 'completed once':
       return hasCompletedOnceAction(state, condition.actionRef);
     case 'never planned':
