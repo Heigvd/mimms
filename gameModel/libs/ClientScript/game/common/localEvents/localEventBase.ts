@@ -88,14 +88,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
-  readonly sourceId: Uid | undefined;
+  readonly sourceId: Uid;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
-    this.sourceId = props.sourceId ?? undefined;
+    this.sourceId = props.sourceId || 'no source provided';
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -1161,12 +1161,13 @@ export class IncrementCountLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId: Uid | ActorId;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
     }
   ) {
-    super({ ...props, type: 'IncrementCountLocalEvent' });
+    const {sourceId, ...otherProps} = props;
+    super({ ...otherProps, sourceId: String(sourceId), type: 'IncrementCountLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {
@@ -1187,13 +1188,14 @@ export class SelectChoiceEffectLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId: Uid | ActorId;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly effect: Uid;
     }
   ) {
-    super({ ...props, type: 'SelectChoiceEffectLocalEvent' });
+    const {sourceId, ...otherProps} = props;
+    super({ ...otherProps, sourceId : String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {

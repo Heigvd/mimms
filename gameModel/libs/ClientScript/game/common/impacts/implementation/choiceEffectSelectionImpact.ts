@@ -13,13 +13,13 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
-  parentTriggerId: Uid | ActorId
+  sourceId: Uid | ActorId
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
     new SelectChoiceEffectLocalEvent({
       parentEventId: state.getLastEventId(),
-      parentTriggerId,
+      sourceId: sourceId,
       simTimeStamp: time,
       target: impact.target,
       effect: impact.targetEffect,

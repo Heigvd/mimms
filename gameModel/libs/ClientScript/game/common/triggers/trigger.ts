@@ -97,7 +97,7 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
     impacts.push(
       new IncrementCountLocalEvent({
         parentEventId: state.getLastEventId(),
-        parentTriggerId: trigger.uid,
+        sourceId: trigger.uid,
         simTimeStamp: state.getSimTime(),
         target: trigger.uid,
       })
