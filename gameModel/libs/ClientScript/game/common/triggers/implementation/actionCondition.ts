@@ -9,7 +9,6 @@ import {
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ChoiceActionStatus, ConditionBase, evaluateActivable } from '../condition';
 
-
 export interface ActionCondition extends ConditionBase {
   type: 'action';
   actionRef: ActionTemplateUid;

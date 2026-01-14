@@ -1,7 +1,4 @@
-import {
-  InterventionRoleTypeArray,
-  isPlayedByARealPlayer,
-} from '../../game/common/actors/actor';
+import { InterventionRoleTypeArray, isPlayedByARealPlayer } from '../../game/common/actors/actor';
 import { ActivationOperator } from '../../game/common/impacts/implementation/activationImpact';
 import { DynamicInterventionRole } from '../../game/common/impacts/implementation/notificationImpact';
 import { RadioType } from '../../game/common/radio/communicationType';

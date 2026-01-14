@@ -20,7 +20,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     name: 'location-chantier',
     leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
-    icon: 'mainAccident'
+    icon: 'mainAccident',
   },
   nidDeBlesses: {
     id: LOCATION_ENUM.nidDeBlesses,
@@ -34,7 +34,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     name: 'location-pma',
     leaderRoles: ['LEADPMA'],
     accessibility: { Actors: true, Resources: true, Patients: true },
-    icon: 'PMA'
+    icon: 'PMA',
   },
   pcFront: {
     id: LOCATION_ENUM.pcFront,

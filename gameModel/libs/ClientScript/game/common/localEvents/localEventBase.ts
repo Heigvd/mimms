@@ -1166,7 +1166,7 @@ export class IncrementCountLocalEvent extends LocalEventBase {
       readonly target: Uid;
     }
   ) {
-    const {sourceId, ...otherProps} = props;
+    const { sourceId, ...otherProps } = props;
     super({ ...otherProps, sourceId: String(sourceId), type: 'IncrementCountLocalEvent' });
   }
 
@@ -1194,8 +1194,8 @@ export class SelectChoiceEffectLocalEvent extends LocalEventBase {
       readonly effect: Uid;
     }
   ) {
-    const {sourceId, ...otherProps} = props;
-    super({ ...otherProps, sourceId : String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
+    const { sourceId, ...otherProps } = props;
+    super({ ...otherProps, sourceId: String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {

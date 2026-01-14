@@ -279,7 +279,7 @@ export abstract class ChoiceAction extends StartEndAction {
         parentEventId: state.getLastEventId(),
         simTimeStamp: state.getSimTime(),
         target: this.templateId,
-        sourceId: this.ownerId
+        sourceId: this.ownerId,
       })
     );
 
@@ -288,7 +288,7 @@ export abstract class ChoiceAction extends StartEndAction {
         parentEventId: state.getLastEventId(),
         simTimeStamp: state.getSimTime(),
         target: this.choice.uid,
-        sourceId: this.ownerId
+        sourceId: this.ownerId,
       })
     );
   }
