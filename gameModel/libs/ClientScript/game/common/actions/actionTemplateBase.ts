@@ -29,6 +29,10 @@ import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { getOngoingActions } from '../simulationState/actionStateAccess';
+import {
+  ActionTemplateActivable,
+  getActionTemplateActivable,
+} from '../simulationState/activableState';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
@@ -132,6 +136,7 @@ export abstract class ActionTemplateBase<
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
     return (
       this.flagWiseAvailable(state) &&
+      this.isActive(state) &&
       this.canPlayAgain(state) &&
       this.isAvailableCustom(state, actor) &&
       this.roleWiseAvailable(actor.Role)
@@ -151,6 +156,20 @@ export abstract class ActionTemplateBase<
 
   public isInCategory(category: ActionType): boolean {
     return category === this.category;
+  }
+
+  protected isActive(state: Readonly<MainSimulationState>): boolean {
+    const actionTemplateActivable: ActionTemplateActivable | undefined = getActionTemplateActivable(
+      state,
+      this.uid
+    );
+
+    // No activable means that it is a basic action template, no check to do
+    if (!actionTemplateActivable) {
+      return true;
+    }
+
+    return actionTemplateActivable.active;
   }
 
   protected flagWiseAvailable(state: Readonly<MainSimulationState>): boolean {
@@ -303,7 +322,8 @@ export abstract class ChoiceTemplate<
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices: ChoiceDescriptor[] = []
+    choices: ChoiceDescriptor[] = [],
+    private readonly nbMaxRepetitions: number = 0 // 0 is considered as infinitely
   ) {
     super(
       uid,
@@ -318,6 +338,26 @@ export abstract class ChoiceTemplate<
       availableToRoles
     );
     this.choices = choices;
+  }
+
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    const actionTemplateActivable: ActionTemplateActivable | undefined = getActionTemplateActivable(
+      state,
+      this.uid
+    );
+    const hasMaxRepetitions: boolean =
+      this.nbMaxRepetitions != undefined && this.nbMaxRepetitions > 0;
+
+    return (
+      ActionLogic.getAvailableChoices(state, this).length > 0 &&
+      !(actionTemplateActivable && // there must be an activable
+        hasMaxRepetitions && // which as a max of repetitions
+        actionTemplateActivable.count >= this.nbMaxRepetitions)
+      // TODO see where we handle the case of 2 players planning the same action at the same time
+    );
   }
 }
 
@@ -607,23 +647,25 @@ export class FullyConfigurableChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    replayable = false,
+    //replayable = true,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[]
+    choices?: ChoiceDescriptor[],
+    nbMaxRepetitions?: number
   ) {
     super(
       uid,
       title,
       description,
       duration,
-      replayable,
+      true, // replayable forced to true. It is handled with nbMaxRepetitions
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices
+      choices,
+      nbMaxRepetitions
     );
   }
 
@@ -673,7 +715,7 @@ export class MapChoiceActionTemplate<
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -685,7 +727,7 @@ export class MapChoiceActionTemplate<
       title,
       description,
       duration,
-      replayable,
+      false, // replayable forced to false. No map action can be run twice
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -750,7 +792,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -762,7 +804,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,
@@ -798,7 +840,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -810,7 +852,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,
@@ -849,7 +891,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
     //message: TranslationKey,
-    replayable = false,
+    //replayable = false,
     binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
     vehicleType: VehicleType,
     requiredFlags?: SimFlag[],
@@ -863,7 +905,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       description,
       duration,
       //message,
-      replayable,
+      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,

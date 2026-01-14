@@ -10,7 +10,6 @@ export function createInstance(tplDescriptor: TemplateDescriptor): ActionTemplat
     case 'MoveActorActionTemplate':
       return createMoveActorTemplate(tplDescriptor);
     case 'FullyConfigurableActionTemplate':
-      // TODO this might be a MapChoiceTemplate
       return createFullyConfigurableTemplate(tplDescriptor);
     case 'MapChoiceActionTemplate':
     case 'AmbulanceParkChoiceTemplate':

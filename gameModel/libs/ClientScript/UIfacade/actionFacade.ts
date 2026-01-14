@@ -6,6 +6,7 @@
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
 import { ActionBase } from '../game/common/actions/actionBase';
+import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
@@ -18,6 +19,7 @@ import {
   SimFlag,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
@@ -65,6 +67,10 @@ export function isAvailable(template: ActionTemplateBase): boolean {
     }
   }
   return false;
+}
+
+export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[] {
+  return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
 /**

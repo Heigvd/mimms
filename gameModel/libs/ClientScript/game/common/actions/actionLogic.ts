@@ -2,12 +2,15 @@
  * All logic related to actions should live here.
  */
 
-import { getUniqueActionTemplates } from '../../mainSimulationLogic';
+import { compareByIndex } from '../../../tools/indexedSorting';
+import { isChoiceTemplate } from '../../../UIfacade/actionFacade';
+import { getCurrentState, getUniqueActionTemplates } from '../../mainSimulationLogic';
 import { ActionTemplateUid, ActorId } from '../baseTypes';
 import { RadioType } from '../radio/communicationType';
-import { getOngoingActions } from '../simulationState/actionStateAccess';
+import { getOngoingActions, isChoiceAvailable } from '../simulationState/actionStateAccess';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { ActionTemplateBase } from './actionTemplateBase';
+import { ActionTemplateBase, ChoiceTemplate } from './actionTemplateBase';
+import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 // directly used by radioMessageInput page
 export function getSendRadioMessageTemplate(
@@ -36,4 +39,17 @@ export function hasBeenPlannedByOtherActor(
       action => action.getTemplateId() === actionTemplateId && action.ownerId !== actorId
     ).length > 0
   );
+}
+
+export function getAvailableChoices(
+  state: Readonly<MainSimulationState>,
+  template: ChoiceTemplate
+): ChoiceDescriptor[] {
+  if (isChoiceTemplate(template)) {
+    return template.choices
+      .filter(choice => isChoiceAvailable(getCurrentState(), choice))
+      .sort(compareByIndex);
+  }
+
+  return [];
 }

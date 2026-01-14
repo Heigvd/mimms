@@ -5,7 +5,6 @@ import { ActionTemplateUid } from '../common/baseTypes';
 import { Uid } from '../common/interfaces';
 import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
 import { MapEntityActivable } from '../common/simulationState/activableState';
-import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { getCurrentState } from '../mainSimulationLogic';
 
 /**
@@ -42,21 +41,10 @@ export function getMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
  *
  * @params Uid
  *
- * @returns MapEntityDescriptor | undefined
+ * @returns MapEntityDescriptor | undefined
  */
 export function getMapEntityDescriptor(uid: Uid): MapEntityDescriptor | undefined {
   return getMapEntityDescriptors()[uid];
-}
-
-/**
- * Get Uid of MapEntityDescriptor with given binding
- *
- * @params LOCATION_ENUM
- *
- * @returns MapEntityDescriptor | undefined
- */
-export function getMapEntityDescriptorUid(binding: LOCATION_ENUM): MapEntityDescriptor | undefined {
-  return Object.values(getMapEntityDescriptors()).find(med => med.binding === binding);
 }
 
 /**
@@ -102,7 +90,7 @@ export function getActiveMapEntityDescriptors(): Record<string, MapEntityDescrip
  *
  * @returns MapEntityActivable[]
  */
-export function getMapActivables(): MapEntityActivable[] {
+function getMapActivables(): MapEntityActivable[] {
   const activables = getCurrentState().getInternalStateObject().activables;
 
   return Object.values(activables).filter(
@@ -122,21 +110,10 @@ export function getMapActivableFromUid(uid: Uid): MapEntityActivable | undefined
 }
 
 /**
- * Get MapEntityActivable with given binding
- *
- * @params LOCATION_ENUM
- *
- * @returns MapEntityActivable | undefined
- */
-export function getMapActivableFromBinding(binding: LOCATION_ENUM): MapEntityActivable | undefined {
-  return getMapActivables().find(a => a.binding === binding);
-}
-
-/**
  * Get active MapEntityActivables
  *
  * @returns MapEntityActivable[]
  */
-export function getActiveMapActivables(): MapEntityActivable[] {
+function getActiveMapActivables(): MapEntityActivable[] {
   return getMapActivables().filter(a => a.active);
 }

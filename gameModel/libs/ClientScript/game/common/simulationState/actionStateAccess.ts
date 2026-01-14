@@ -1,6 +1,34 @@
 import { ActionBase } from '../actions/actionBase';
 import { ActionTemplateUid } from '../baseTypes';
+import { ChoiceActivable, getChoiceActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
+import { actionLogger } from '../../../tools/logger';
+import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
+
+export function isChoiceAvailable(
+  state: Readonly<MainSimulationState>,
+  choice: ChoiceDescriptor
+): boolean {
+  const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(state, choice.uid);
+
+  if (choiceActivable) {
+    if (choiceActivable.active) {
+      const hasMaxRepetitions: boolean = choice.repeats != undefined && choice.repeats > 0;
+      if (hasMaxRepetitions && choiceActivable.count >= choice.repeats) {
+        actionLogger.info(`choice '${choice.uid}' cannot be run anymore`);
+        return false;
+      }
+
+      return true;
+    } else {
+      actionLogger.info(`choice '${choice.uid}' is not active`);
+      return false;
+    }
+  } else {
+    actionLogger.error(`choice '${choice.uid}' has no activable`);
+    return false;
+  }
+}
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,

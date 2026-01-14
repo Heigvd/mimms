@@ -46,7 +46,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
-import { Activable } from '../simulationState/activableState';
+import { Activable, ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -88,14 +88,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
-  readonly sourceId: Uid | undefined;
+  readonly sourceId: Uid;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
-    this.sourceId = props.sourceId ?? undefined;
+    this.sourceId = props.sourceId || 'no source provided';
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -1102,7 +1102,7 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
       readonly option: ActivationOperator;
     }
   ) {
-    super({ ...props, type: 'PlanActionLocalEvent' });
+    super({ ...props, type: 'ChangeActivableStatusLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -1150,6 +1150,63 @@ export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLoc
       }
     } else {
       activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
+/**
+ * Change the number of times that a trigger / action template / choice what run
+ */
+export class IncrementCountLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly sourceId: Uid | ActorId;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+    }
+  ) {
+    const {sourceId, ...otherProps} = props;
+    super({ ...otherProps, sourceId: String(sourceId), type: 'IncrementCountLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (
+      target != undefined &&
+      (target.activableType === 'trigger' ||
+        target.activableType === 'actionTemplate' ||
+        target.activableType === 'choice')
+    ) {
+      target.count += 1;
+    }
+  }
+}
+
+export class SelectChoiceEffectLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly sourceId: Uid | ActorId;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly effect: Uid;
+    }
+  ) {
+    const {sourceId, ...otherProps} = props;
+    super({ ...otherProps, sourceId : String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const targetActivable: ChoiceActivable | undefined = getChoiceActivable(
+      state,
+      this.props.target
+    );
+    if (targetActivable) {
+      targetActivable.selectedEffect = this.props.effect;
+    } else {
+      activableLogger.error('Could not find activable', this.props.target);
     }
   }
 }
