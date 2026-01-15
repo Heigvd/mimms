@@ -30,7 +30,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "  if (Context.item.type === 'choice') {\n    return 'action';\n  }\n  if (Context.item.type === 'empty') {\n    return '';\n  }\n  Context.item.type;",
+          "content" : "  if (Context.item.type === 'empty') {\n    return '';\n  }\n  Context.item.type;",
           "language" : "TypeScript"
         },
         "style" : { }
@@ -175,7 +175,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getConditionActionUid } from \"./edition/UIfacade/conditionConfigFacade\";\n  getConditionActionUid(Context.item) || '';",
+                  "content" : "  Context.item.actionRef || '';",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -195,7 +195,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateConditionChoiceRef } from \"./edition/UIfacade/conditionConfigFacade\";\n\nupdateConditionChoiceRef(Context.item, Context.value);",
+                    "content" : "import { FlatCondition } from \"./edition/typeDefinitions/conditionDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatCondition>(Context.item.uid, { choiceRef: Context.value });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
@@ -211,7 +211,7 @@
                 },
                 "script" : {
                   "@class" : "Script",
-                  "content" : "import { getConditionChoiceUid } from \"./edition/UIfacade/conditionConfigFacade\";\n  getConditionChoiceUid(Context.item) || '';",
+                  "content" : "import { ANY_CHOICE } from \"./game/common/constants\";\n  Context.item.choiceRef || ANY_CHOICE;",
                   "language" : "TypeScript"
                 },
                 "style" : { }
@@ -319,7 +319,7 @@
             "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type !== 'action'&&\nContext.item.type !== 'choice';",
+              "content" : "Context.item.type !== 'action';",
               "language" : "typescript"
             },
             "layout" : {
@@ -670,24 +670,6 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "action",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "  '';",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "Context.item.type !== 'choice';",
-              "language" : "typescript"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "choice",
             "style" : { },
             "text" : {
               "@class" : "Script",

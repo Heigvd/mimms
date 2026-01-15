@@ -11,6 +11,7 @@ import {
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
 import { AllChoiceOptionType, allChoicesOption, getChoicesOptions } from './dataFetcher';
+import { updateItem } from './triggerConfigFacade';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // condition initialisation
@@ -59,29 +60,7 @@ function createSubstitutionCondition(
   newItem.uid = baseCondition.uid;
   newItem.index = baseCondition.index;
 
-  if (
-    'invert' in newItem &&
-    isInvertDisplayed(newItem) &&
-    'invert' in baseCondition &&
-    isInvertDisplayed(baseCondition)
-  ) {
-    newItem.invert = baseCondition.invert;
-  }
-
-  if (
-    'status' in newItem &&
-    isActionCondition(newItem) &&
-    'status' in baseCondition &&
-    isActionCondition(baseCondition)
-  ) {
-    newItem.status = baseCondition.status;
-  }
-
   return newItem;
-}
-
-function isInvertDisplayed(condition: FlatCondition): boolean {
-  return condition?.type === 'action';
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,10 +75,6 @@ export function canEnterShowOnMap(condition: FlatCondition): boolean {
 
 export function getConditionActionUid(condition: FlatCondition): Uid | undefined {
   return isActionCondition(condition) ? condition.actionRef : undefined;
-}
-
-export function getConditionChoiceUid(condition: FlatCondition): Uid | typeof ANY_CHOICE {
-  return isActionCondition(condition) ? condition.choiceRef : ANY_CHOICE;
 }
 
 export function getEffectiveConditionChoicesOptions(
@@ -120,25 +95,7 @@ export function updateConditionActionRef(
 ): void {
   if (isActionCondition(condition)) {
     if (getConditionActionUid(condition) !== actionRef) {
-      const newCondition = Helpers.cloneDeep(condition);
-      newCondition.actionRef = actionRef;
-      newCondition.choiceRef = ANY_CHOICE;
-      getTriggerController().updateItem(newCondition);
-    }
-  } else {
-    scenarioEditionLogger.error('unexpected condition type');
-  }
-}
-
-export function updateConditionChoiceRef(
-  condition: FlatCondition,
-  choiceRef: ActionCondition['choiceRef'] | typeof ANY_CHOICE
-): void {
-  if (isActionCondition(condition)) {
-    if (condition.choiceRef !== choiceRef) {
-      const newCondition = Helpers.cloneDeep(condition);
-      newCondition.choiceRef = choiceRef;
-      getTriggerController().updateItem(newCondition);
+      updateItem<FlatCondition>(condition.uid, { actionRef: actionRef, choiceRef: ANY_CHOICE });
     }
   } else {
     scenarioEditionLogger.error('unexpected condition type');
