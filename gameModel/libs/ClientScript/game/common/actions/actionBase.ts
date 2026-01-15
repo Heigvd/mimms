@@ -794,9 +794,6 @@ export class MapChoiceAction extends ChoiceAction {
 // -------------------------------------------------------------------------------------------------
 
 export class PCFrontChoiceAction extends MapChoiceAction {
-  // The binding is always pcFront
-  public declare readonly binding = LOCATION_ENUM.pcFront;
-
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -815,7 +812,8 @@ export class PCFrontChoiceAction extends MapChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice
+      choice,
+      LOCATION_ENUM.pcFront
     );
   }
 
@@ -827,7 +825,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
         actorUid: this.ownerId,
-        location: LOCATION_ENUM.pcFront,
+        location: this.binding!,
       })
     );
 
@@ -839,7 +837,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourcesId: [resourceUid],
-        targetLocation: LOCATION_ENUM.pcFront,
+        targetLocation: this.binding!,
       })
     );
     getLocalEventManager().queueLocalEvent(
@@ -857,9 +855,6 @@ export class PCFrontChoiceAction extends MapChoiceAction {
 // -------------------------------------------------------------------------------------------------
 
 export class PCChoiceAction extends MapChoiceAction {
-  // The binding is always PC
-  public declare readonly binding = LOCATION_ENUM.PC;
-
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
@@ -878,7 +873,8 @@ export class PCChoiceAction extends MapChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice
+      choice,
+      LOCATION_ENUM.PC
     );
   }
 
@@ -895,7 +891,7 @@ export class PCChoiceAction extends MapChoiceAction {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
           actorUid: actor.Uid,
-          location: this.binding,
+          location: this.binding!,
         })
       );
     }
@@ -906,7 +902,7 @@ export class PCChoiceAction extends MapChoiceAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         sourceLocation: LOCATION_ENUM.pcFront,
-        targetLocation: this.binding,
+        targetLocation: this.binding!,
       })
     );
     // Remove PC Front once all actors and resources have been moved
