@@ -217,13 +217,13 @@
                   "content" : "import { getTriggerOperatorOptions } from \"./edition/UIfacade/selectableOptions\";\n  getTriggerOperatorOptions();",
                   "language" : "typescript"
                 },
-                "className" : "scenarist-dropdown",
+                "className" : "scenarist-dropdown and-or__dropdown",
                 "hideIf" : {
                   "@class" : "Script",
                   "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
                   "language" : "typescript"
                 },
-                "layoutClassName" : "noPadding and-or__dropdown",
+                "layoutClassName" : "noPadding and-or__dropdown-container",
                 "layoutStyle" : { },
                 "name" : "and | or",
                 "onVariableChange" : {
@@ -243,9 +243,7 @@
                   "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { getSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  const selectedTrigger = getSelected('trigger') as FlatTrigger;\n  if (selectedTrigger) {\n    return selectedTrigger['operator'];\n  }\n  '';",
                   "language" : "TypeScript"
                 },
-                "style" : {
-                  "width" : "68px"
-                }
+                "style" : { }
               },
               "type" : "Select input"
             }, {

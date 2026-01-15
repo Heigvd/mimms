@@ -105,13 +105,13 @@
 /* input labels */
 .generic-item__label {
   position: absolute;
-  top: -12px;
+  top: -10px;
   left: 5px;
+  padding: 2px 7px;
   font-size: .5rem;
-  padding: 0 7px;
+  line-height: 10px;
   background-color: var(--grey-white);
   border-radius: var(--XS_borderRadius);
-  /*z-index: 1;*/
 }
 
 
