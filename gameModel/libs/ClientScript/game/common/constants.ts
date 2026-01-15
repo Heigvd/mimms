@@ -1,3 +1,4 @@
+// EVALUATION_PRIORITY 0
 /**
  * duration of one step in the simulation in seconds
  */
@@ -42,3 +43,8 @@ export const PretriageReportResponseDelay = OneMinuteDuration * 2;
  * in minutes
  */
 export const situationUpdateDurations: number[] = [3, 5, 10];
+
+/**
+ * choice reference that means "all choices of a an action template"
+ */
+export const ANY_CHOICE = 'ANY_CHOICE';

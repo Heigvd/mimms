@@ -3,7 +3,11 @@ import { triggerLogger } from '../../../tools/logger';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
-import { ChangeActivableStatusLocalEvent, IncrementCountLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
+import {
+  ChangeActivableStatusLocalEvent,
+  IncrementCountLocalEvent,
+  LocalEventBase,
+} from '../localEvents/localEventBase';
 import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
@@ -50,7 +54,6 @@ export function isTriggerAvailable(
 
   if (triggerActivable) {
     if (triggerActivable.active) {
-
       return true;
     } else {
       triggerLogger.info(`trigger '${trigger.uid}' is not active`);

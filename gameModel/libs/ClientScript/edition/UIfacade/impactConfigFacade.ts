@@ -1,5 +1,6 @@
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRoleTypeArray } from '../../game/common/actors/actor';
+import { ANY_CHOICE } from '../../game/common/constants';
 import { Impact } from '../../game/common/impacts/impact';
 import { ActivationImpact } from '../../game/common/impacts/implementation/activationImpact';
 import { DynamicInterventionRole } from '../../game/common/impacts/implementation/notificationImpact';
@@ -14,7 +15,6 @@ import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinition
 import { getParentType } from '../UIfacade/genericConfigFacade';
 import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
 import {
-  ALL_CHOICES_OPTION_VALUE,
   AllChoiceOptionType,
   allChoicesOption,
   getChoicesOptions,
@@ -210,7 +210,7 @@ export function getImpactActionUid(impact: FlatImpact): Uid | undefined {
   return undefined;
 }
 
-export function getImpactChoiceUid(impact: FlatImpact): Uid | typeof ALL_CHOICES_OPTION_VALUE {
+export function getImpactChoiceUid(impact: FlatImpact): Uid | typeof ANY_CHOICE {
   if (
     impact.type === 'effectSelection' ||
     (impact.type === 'activation' && impact.activableType === 'choice')
@@ -218,7 +218,7 @@ export function getImpactChoiceUid(impact: FlatImpact): Uid | typeof ALL_CHOICES
     return impact.target;
   }
 
-  return ALL_CHOICES_OPTION_VALUE;
+  return ANY_CHOICE;
 }
 
 export function getImpactEffectUid(impact: FlatImpact): Uid | undefined {
@@ -363,17 +363,17 @@ export function updateImpactActionRef(impact: FlatImpact, actionRef: Uid): void 
 
 export function updateImpactChoiceRef(
   impact: FlatImpact,
-  newChoiceRef: Uid | typeof ALL_CHOICES_OPTION_VALUE
+  newChoiceRef: Uid | typeof ANY_CHOICE
 ): void {
   if (getImpactChoiceUid(impact) === newChoiceRef) {
     // no change => nothing to do
     return;
   }
 
-  if (newChoiceRef === ALL_CHOICES_OPTION_VALUE) {
+  if (newChoiceRef === ANY_CHOICE) {
     // if it is "any choice", make it be an action template activation
     const previousChoiceRef = getImpactChoiceUid(impact);
-    if (previousChoiceRef && previousChoiceRef !== ALL_CHOICES_OPTION_VALUE) {
+    if (previousChoiceRef && previousChoiceRef !== ANY_CHOICE) {
       const newActionRef = getMatchingActionTemplateUid(previousChoiceRef);
       updateImpactActionRef(impact, newActionRef);
     }

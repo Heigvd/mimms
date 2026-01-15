@@ -1,5 +1,6 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { ANY_CHOICE } from '../../game/common/constants';
 import { Effect } from '../../game/common/impacts/effect';
 import { Tag, Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
@@ -97,11 +98,10 @@ function getChoice(choiceUid: FlatChoice['uid']): FlatChoice {
   return choice;
 }
 
-export const ALL_CHOICES_OPTION_VALUE = 'ALL_CHOICES_OPTION';
-export type AllChoiceOptionType = { label: string; value: typeof ALL_CHOICES_OPTION_VALUE };
+export type AllChoiceOptionType = { label: string; value: typeof ANY_CHOICE };
 export const allChoicesOption: AllChoiceOptionType = {
   label: 'any choice',
-  value: ALL_CHOICES_OPTION_VALUE,
+  value: ANY_CHOICE,
 };
 
 export function getChoicesOptions(

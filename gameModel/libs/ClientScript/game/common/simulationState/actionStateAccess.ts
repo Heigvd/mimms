@@ -4,6 +4,9 @@ import { ChoiceActivable, getChoiceActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
 import { actionLogger } from '../../../tools/logger';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
+import { Uid } from '../interfaces';
+import { ANY_CHOICE } from '../constants';
+import { isChoiceAction } from '../../../UIfacade/actionFacade';
 
 export function isChoiceAvailable(
   state: Readonly<MainSimulationState>,
@@ -69,9 +72,16 @@ function isActionOngoingAndStarted(
  */
 export function hasCompletedOnceAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateUid
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
-  return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return getCompletedActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
+  }
 }
 
 /**
@@ -79,18 +89,32 @@ export function hasCompletedOnceAction(
  */
 export function hasOngoingAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateUid
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
-  return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return getOngoingActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
+  }
 }
 
 /**
- * No action of this template in timeline.
+ * No action of this template in timeline (with specific choice or any choice).
  */
 export function hasNoActionInTimeline(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateUid
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
   // Note : no need to check future actions, an action never starts after now
-  return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return !state
+      .getAllActions()
+      .some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
+  }
 }

@@ -1,5 +1,6 @@
 // EVALUATION_PRIORITY 0
 
+import { ANY_CHOICE } from '../../game/common/constants';
 import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
@@ -7,7 +8,6 @@ import {
   MapEntityCondition,
   TriggerCondition,
 } from '../../game/common/triggers/implementation/activableCondition';
-import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
 import { EmptyCondition } from '../../game/common/triggers/implementation/emptyCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
@@ -41,7 +41,6 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
     time: getTimeConditionDef(),
     action: getActionConditionDef(),
-    choice: getChoiceConditionDef(),
     trigger: getTriggerConditionDef(),
     mapEntity: getMapEntityConditionDef(),
     empty: getEmptyConditionDef(),
@@ -66,10 +65,6 @@ export function getEmptyConditionDef(): Definition<EmptyCondition> {
     },
   };
 }
-
-// TODO check all of that when the display is implemented
-
-// TODO somewhere check that all impacts are valid
 
 export function getTimeConditionDef(): Definition<TimeCondition> {
   return {
@@ -114,6 +109,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       index: 0,
       type: 'action',
       actionRef: '',
+      choiceRef: ANY_CHOICE,
       status: 'active',
     }),
     validator: (condition: ActionCondition) => {
@@ -137,41 +133,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       type: ALL_EDITABLE,
       actionRef: ALL_EDITABLE,
       status: ALL_EDITABLE,
-    },
-  };
-}
-
-export function getChoiceConditionDef(): Definition<ChoiceCondition> {
-  return {
-    type: 'choice',
-    getDefault: () => ({
-      uid: generateId(10),
-      index: 0,
-      type: 'choice',
-      choiceRef: '',
-      status: 'active',
-    }),
-    validator: (condition: ChoiceCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.choiceRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select the choice',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
-    view: {
-      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
-      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      type: ALL_EDITABLE,
       choiceRef: ALL_EDITABLE,
-      status: ALL_EDITABLE,
     },
   };
 }
