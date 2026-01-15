@@ -20,7 +20,7 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       binding: undefined,
       choices: [],
       mandatory: false,
-      repeats: 0,
+      repeats: 1,
       tag: 'new custom template',
       description: createOrUpdateTranslation('', undefined),
       title: createOrUpdateTranslation('', undefined),
