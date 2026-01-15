@@ -26,10 +26,16 @@
 }
 
 /* and or dropdown */
-.and-or__dropdown {
+.and-or__dropdown-container {
   position: absolute;
   top: 1.5rem;
   right: 40px;
+  width: 4rem;
+}
+
+.and-or__dropdown,
+.and-or__dropdown .wegas-select__control {
+  width: 4rem;
 }
 
 /* divider between basic and custom triggers.
