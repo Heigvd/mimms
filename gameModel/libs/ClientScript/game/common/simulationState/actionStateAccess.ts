@@ -67,7 +67,6 @@ function isActionOngoingAndStarted(
   return action.getStatus() === 'OnGoing' && action.startTime < state.getSimTime();
 }
 
-
 /**
  * Some action of this template has completed at least once.
  */
@@ -76,10 +75,12 @@ export function hasCompletedOnceAction(
   actionTemplateId: ActionTemplateUid,
   choiceRef: Uid
 ): boolean {
-  if(choiceRef === ANY_CHOICE){
+  if (choiceRef === ANY_CHOICE) {
     return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
   } else {
-    return getCompletedActions(state).some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
+    return getCompletedActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
   }
 }
 
@@ -91,10 +92,12 @@ export function hasOngoingAction(
   actionTemplateId: ActionTemplateUid,
   choiceRef: Uid
 ): boolean {
-  if(choiceRef === ANY_CHOICE){
+  if (choiceRef === ANY_CHOICE) {
     return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
   } else {
-    return getOngoingActions(state).some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
+    return getOngoingActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
   }
 }
 
@@ -107,9 +110,11 @@ export function hasNoActionInTimeline(
   choiceRef: Uid
 ): boolean {
   // Note : no need to check future actions, an action never starts after now
-  if(choiceRef === ANY_CHOICE){
+  if (choiceRef === ANY_CHOICE) {
     return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
   } else {
-    return !state.getAllActions().some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
+    return !state
+      .getAllActions()
+      .some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
   }
 }

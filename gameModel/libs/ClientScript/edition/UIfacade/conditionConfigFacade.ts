@@ -10,11 +10,7 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
-import {
-  AllChoiceOptionType,
-  allChoicesOption,
-  getChoicesOptions,
-} from './dataFetcher';
+import { AllChoiceOptionType, allChoicesOption, getChoicesOptions } from './dataFetcher';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // condition initialisation
@@ -102,9 +98,7 @@ export function getConditionActionUid(condition: FlatCondition): Uid | undefined
   return isActionCondition(condition) ? condition.actionRef : undefined;
 }
 
-export function getConditionChoiceUid(
-  condition: FlatCondition
-): Uid | typeof ANY_CHOICE {
+export function getConditionChoiceUid(condition: FlatCondition): Uid | typeof ANY_CHOICE {
   return isActionCondition(condition) ? condition.choiceRef : ANY_CHOICE;
 }
 

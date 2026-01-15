@@ -1,4 +1,4 @@
-import { triggerLogger } from '../../../../tools/logger';
+import { actionLogger } from '../../../../tools/logger';
 import { ActionTemplateUid } from '../../baseTypes';
 import { ANY_CHOICE } from '../../constants';
 import { Uid } from '../../interfaces';
@@ -24,7 +24,7 @@ export function evaluateActionCondition(
   switch (condition.status) {
     case 'active':
     case 'inactive':
-      if(condition.choiceRef === ANY_CHOICE){
+      if (condition.choiceRef === ANY_CHOICE) {
         return evaluateActivable(state, condition.actionRef, condition.status);
       } else {
         return evaluateActivable(state, condition.choiceRef, condition.status);
@@ -37,7 +37,7 @@ export function evaluateActionCondition(
       return hasOngoingAction(state, condition.actionRef, condition.choiceRef);
 
     default:
-      triggerLogger.error('Unknown status on condition', JSON.stringify(condition));
+      actionLogger.error('Unknown status on condition', JSON.stringify(condition));
   }
   return false;
 }

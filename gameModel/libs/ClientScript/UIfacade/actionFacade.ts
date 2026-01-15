@@ -189,9 +189,7 @@ export function isChoiceTemplate(
   return template instanceof ChoiceTemplate;
 }
 
-export function isChoiceAction(
-  action: ActionBase | undefined
-): action is ChoiceAction {
+export function isChoiceAction(action: ActionBase | undefined): action is ChoiceAction {
   return action instanceof ChoiceAction;
 }
 
