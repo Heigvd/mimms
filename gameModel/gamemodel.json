@@ -6274,15 +6274,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/loaders/choiceLoader",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2532121:gcYUbj",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/loaders/mainStateLoader",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6449,15 +6440,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48966:DC70DH",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "gameInterface/mock_data",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:151550:SiPn9B",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
