@@ -901,7 +901,6 @@ export function getBlockDetailOfHuman(
 ) {
   const output: string[] = [''];
 
-
   if (human != null && observedBlock) {
     const data: {
       pathologies: {

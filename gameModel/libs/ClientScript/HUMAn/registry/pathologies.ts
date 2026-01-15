@@ -699,6 +699,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'catastrophic_ih_pen',
+        name: 'PENETRATING catastrophic internal hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'dead',
+        shortDescription: 'Cata. Int. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.075, max: 1 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -714,6 +740,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'internal',
           bleedingFactor: { min: 0.0135, max: 0.075 },
           instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'severe_ih_pen',
+        name: 'PENETRATING severe internal hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'immediate',
+        shortDescription: 'Int. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.0135, max: 0.075 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['ABDOMEN'],
         },
       ]
@@ -741,6 +793,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'urgent_ih_pen',
+        name: 'PENETRATING urgent internal hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'urgent',
+        shortDescription: 'Int. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.0036, max: 0.0135 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+
   registerPathology(
     buildPathology(
       {
@@ -756,6 +834,32 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
           subtype: 'internal',
           bleedingFactor: { min: 0.0001, max: 0.0036 },
           instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+      ]
+    )
+  );
+
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'minor_ih_pen',
+        name: 'PENETRATING minor internal hemorrhage',
+        blockSelectionMode: 'same',
+        severity: 'non_urgent',
+        shortDescription: 'Min. Int. Hem. Pen.',
+      },
+      [
+        {
+          type: 'Hemorrhage',
+          subtype: 'internal',
+          bleedingFactor: { min: 0.0001, max: 0.0036 },
+          instantaneousBloodLoss: undefined,
+          blocks: ['ABDOMEN'],
+        },
+        {
+          type: 'Penetrating',
           blocks: ['ABDOMEN'],
         },
       ]
