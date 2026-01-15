@@ -80,19 +80,20 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
   if (choice?.displayedMapEntity) {
     return true;
   }
-  return getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid] || false;
+  const storedMarkerState =
+    getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid];
+  return storedMarkerState === undefined ? true : storedMarkerState;
 }
 
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
   const state = getActionTemplateController().getLatestIState();
-  if ((state.mapMarkerOn[choice.uid] || false) !== activate) {
-    const newState = Helpers.cloneDeep(state);
-    newState.mapMarkerOn[choice.uid] = activate;
-    if (choice.displayedMapEntity) {
-      updateItem(choice.uid, { displayedMapEntity: undefined }, newState);
-    } else {
-      getActionTemplateController().updateIState(newState);
-    }
+  const newState = Helpers.cloneDeep(state);
+  newState.mapMarkerOn[choice.uid] = activate;
+  if (choice.displayedMapEntity && !activate) {
+    // reset the displayed map entity
+    updateItem(choice.uid, { displayedMapEntity: undefined }, newState);
+  } else {
+    getActionTemplateController().updateIState(newState);
   }
 }
 
