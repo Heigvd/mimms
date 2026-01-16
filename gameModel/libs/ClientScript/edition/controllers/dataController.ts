@@ -10,7 +10,7 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
-import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LineMapObject, MapEntityDescriptor, PointMapObject, PolygonMapObject } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -74,12 +74,13 @@ import {
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
-import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
+import { MapEntityUIState, SupportedDrawType } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -100,10 +101,14 @@ export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | Flat
  */
 export type SuperTypeNames = FlatTypes['superType'];
 
+type CreationOptionsBase = {
+  parentType?: SuperTypeNames,
+}
 export abstract class DataControllerBase<
   DataType extends Typed,
   FlatType extends FlatTypes,
-  IState extends GenericScenaristInterfaceState
+  IState extends GenericScenaristInterfaceState,
+  CreationOptions extends CreationOptionsBase
 > {
   private readonly undoRedo: UndoRedoContext<IState, FlatType>;
   private readonly varKey: keyof ObjectVariableClasses;
@@ -179,9 +184,10 @@ export abstract class DataControllerBase<
   public createNew(
     parentId: Uid,
     superType: SuperTypeNames, //MapToSuperTypeNames<FlatType>,
-    parentType?: SuperTypeNames
+    //parentType?: SuperTypeNames
+    options: CreationOptions
   ): FlatType {
-    const newObject = this.createNewInternal(parentId, superType, parentType);
+    const newObject = this.createNewInternal(parentId, superType, options);
     const updatedData = this.getFlatDataClone();
     updatedData[newObject.uid] = newObject;
     // select new
@@ -328,7 +334,8 @@ export abstract class DataControllerBase<
   protected abstract createNewInternal(
     parentId: Uid,
     type: SuperTypeNames, //MapToSuperTypeNames<FlatType>
-    parentType?: SuperTypeNames
+    options : CreationOptions
+    //parentType?: SuperTypeNames
   ): FlatType;
 
   /**
@@ -348,7 +355,8 @@ export abstract class DataControllerBase<
 export class TriggerDataController extends DataControllerBase<
   Trigger,
   TriggerFlatType,
-  TriggerConfigUIState
+  TriggerConfigUIState,
+  CreationOptionsBase
 > {
   private static readonly TRIGGER_ROOT: string = 'TRIGGER_ROOT';
 
@@ -400,7 +408,8 @@ export class TriggerDataController extends DataControllerBase<
   protected override createNewInternal(
     parentId: Uid,
     superType: TriggerFlatType['superType'],
-    parentType?: SuperTypeNames
+    //parentType?: SuperTypeNames
+    options: CreationOptionsBase
   ): TriggerFlatType {
     switch (superType) {
       case 'trigger':
@@ -411,7 +420,7 @@ export class TriggerDataController extends DataControllerBase<
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty', parentType).getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty', options.parentType).getDefault(), parentId);
     }
   }
 
@@ -444,7 +453,8 @@ export class TriggerDataController extends DataControllerBase<
 export class ActionTemplateDataController extends DataControllerBase<
   TemplateDescriptor,
   ActionTemplateFlatType,
-  ActionTemplateConfigUIState
+  ActionTemplateConfigUIState,
+  CreationOptionsBase
 > {
   // TODO filter by mandatory
   protected override isSibling(
@@ -527,7 +537,8 @@ export class ActionTemplateDataController extends DataControllerBase<
   protected override createNewInternal(
     parentId: Uid,
     superType: ActionTemplateFlatType['superType'],
-    parentType?: SuperTypeNames
+    options: CreationOptionsBase
+    //parentType?: SuperTypeNames
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action':
@@ -540,7 +551,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'effect':
         return toFlatEffect(getEffectDefinition().getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty', parentType).getDefault(), parentId);
+        return toFlatImpact(getImpactDefinition('empty', options.parentType).getDefault(), parentId);
     }
   }
 
@@ -568,10 +579,17 @@ export class ActionTemplateDataController extends DataControllerBase<
   }
 }
 
+export interface MapEntityCreationOptions extends CreationOptionsBase {
+  location? : LOCATION_ENUM,
+  drawType? : SupportedDrawType,
+  drawnGeometry? : PointMapObject['geometry'] | LineMapObject['geometry'] | PolygonMapObject['geometry']
+}
+
 export class MapEntityController extends DataControllerBase<
   MapEntityDescriptor,
   MapEntityFlatType,
-  MapEntityUIState
+  MapEntityUIState,
+  MapEntityCreationOptions
 > {
   private static readonly MAP_ENTITY_ROOT: string = 'MAP_ENTITY_ROOT';
 
@@ -629,27 +647,34 @@ export class MapEntityController extends DataControllerBase<
   protected override createNewInternal(
     parentId: string,
     type: MapEntityFlatType['superType'],
-    _parentType?: SuperTypeNames
+    options: MapEntityCreationOptions
+    //_parentType?: SuperTypeNames
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity': {
         const newMapEntity = getMapEntityDefinition().getDefault();
         // Cheating here by looking up in the ui state to get the proper binding
+        // TODO get binding from options
         newMapEntity.binding = this.getLatestIState().selectedFilter;
         return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
       }
       case 'geometry': {
-        const shapeType = this.getLatestIState().drawType;
-        const newGeometry = getMapObjectDefinition(shapeType).getDefault();
-        if (newGeometry.type === 'Point') {
-          // Cheating here by looking up in the ui state to get the proper binding
-          const binding = this.getLatestIState().selectedFilter;
-          const icon = locationEnumConfig[binding].icon;
-          if (icon) {
-            newGeometry.icon = icon;
+
+        if(options.drawType && options.drawnGeometry && options.location){
+          const newGeometry = getMapObjectDefinition(options.drawType).getDefault();
+          newGeometry.geometry = options.drawnGeometry;
+          if (newGeometry.type === 'Point') {
+            const icon = locationEnumConfig[options.location].icon;
+            if (icon) {
+              newGeometry.icon = icon;
+            }
           }
+          return toFlatMapObject(newGeometry, parentId);
+        } else {
+          scenarioEditionLogger.error('Error while creating new geometry', parentId, options);
+          // TODO better ?
+          return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
         }
-        return toFlatMapObject(newGeometry, parentId);
       }
     }
   }

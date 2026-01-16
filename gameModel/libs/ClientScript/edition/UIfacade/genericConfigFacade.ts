@@ -121,7 +121,7 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
     parentId = getSelected(parentType)?.uid ?? '';
   }
 
-  const newItem = getCurrentController().createNew(parentId, itemType, parentType);
+  const newItem = getCurrentController().createNew(parentId, itemType, {parentType});
   lastGenericAdded = newItem.uid;
   return newItem;
 }
