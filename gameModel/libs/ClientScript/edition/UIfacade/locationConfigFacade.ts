@@ -5,10 +5,10 @@ import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { patchX } from '../../tools/helper';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { getMapEntityController } from '../controllers/controllerInstances';
-import { MapEntityFlatType } from '../controllers/dataController';
+import { MapEntityCreationOptions, MapEntityFlatType } from '../controllers/dataController';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
-import { getItems, ModalState } from '../UIfacade/genericConfigFacade';
+import { addNew, getItems, ModalState } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export type SupportedDrawType = Exclude<DrawType, 'Circle'>;
@@ -29,6 +29,13 @@ export function getFilteredLocations(): FlatMapEntity[] {
     .filter(item => item.superType === 'mapEntity')
     .map(trigger => trigger as FlatMapEntity)
     .filter(item => location === item.binding);
+}
+
+export function createNewMapEntity(): void {
+  const options : MapEntityCreationOptions = {
+    location: getMapEntityController().getLatestIState().selectedFilter,
+  }
+  addNew('mapEntity', undefined, options);
 }
 
 export function updateItem<T extends MapEntityFlatType>(uid: Uid, newData: Partial<T>): void {

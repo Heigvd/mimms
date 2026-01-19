@@ -101,7 +101,7 @@ export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | Flat
  */
 export type SuperTypeNames = FlatTypes['superType'];
 
-type CreationOptionsBase = {
+export type CreationOptionsBase = {
   parentType?: SuperTypeNames,
 }
 export abstract class DataControllerBase<
@@ -184,7 +184,6 @@ export abstract class DataControllerBase<
   public createNew(
     parentId: Uid,
     superType: SuperTypeNames, //MapToSuperTypeNames<FlatType>,
-    //parentType?: SuperTypeNames
     options: CreationOptions
   ): FlatType {
     const newObject = this.createNewInternal(parentId, superType, options);
@@ -335,7 +334,6 @@ export abstract class DataControllerBase<
     parentId: Uid,
     type: SuperTypeNames, //MapToSuperTypeNames<FlatType>
     options : CreationOptions
-    //parentType?: SuperTypeNames
   ): FlatType;
 
   /**
@@ -408,7 +406,6 @@ export class TriggerDataController extends DataControllerBase<
   protected override createNewInternal(
     parentId: Uid,
     superType: TriggerFlatType['superType'],
-    //parentType?: SuperTypeNames
     options: CreationOptionsBase
   ): TriggerFlatType {
     switch (superType) {
@@ -538,7 +535,6 @@ export class ActionTemplateDataController extends DataControllerBase<
     parentId: Uid,
     superType: ActionTemplateFlatType['superType'],
     options: CreationOptionsBase
-    //parentType?: SuperTypeNames
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action':
@@ -648,14 +644,16 @@ export class MapEntityController extends DataControllerBase<
     parentId: string,
     type: MapEntityFlatType['superType'],
     options: MapEntityCreationOptions
-    //_parentType?: SuperTypeNames
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity': {
         const newMapEntity = getMapEntityDefinition().getDefault();
         // Cheating here by looking up in the ui state to get the proper binding
-        // TODO get binding from options
-        newMapEntity.binding = this.getLatestIState().selectedFilter;
+        if(options.location){
+          newMapEntity.binding = options.location;
+        } else {
+          scenarioEditionLogger.error('Missing location in creation options, using default', newMapEntity.binding);
+        }
         return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
       }
       case 'geometry': {
@@ -664,15 +662,14 @@ export class MapEntityController extends DataControllerBase<
           const newGeometry = getMapObjectDefinition(options.drawType).getDefault();
           newGeometry.geometry = options.drawnGeometry;
           if (newGeometry.type === 'Point') {
-            const icon = locationEnumConfig[options.location].icon;
+            const icon = locationEnumConfig[options.location]?.icon;
             if (icon) {
               newGeometry.icon = icon;
             }
           }
           return toFlatMapObject(newGeometry, parentId);
         } else {
-          scenarioEditionLogger.error('Error while creating new geometry', parentId, options);
-          // TODO better ?
+          scenarioEditionLogger.error('Incomplete options to create a new geometry, creating default point', parentId, options);
           return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
         }
       }
