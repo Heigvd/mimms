@@ -570,7 +570,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
+                "content" : "import { addChoiceTest } from \"./edition/UIfacade/actionConfigFacade\";\n\naddChoiceTest();",
                 "language" : "TypeScript"
               }
             },

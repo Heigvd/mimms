@@ -10,7 +10,12 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
-import { LineMapObject, MapEntityDescriptor, PointMapObject, PolygonMapObject } from '../../game/common/mapEntities/mapEntityDescriptor';
+import {
+  LineMapObject,
+  MapEntityDescriptor,
+  PointMapObject,
+  PolygonMapObject,
+} from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -102,12 +107,12 @@ export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | Flat
 export type SuperTypeNames = FlatTypes['superType'];
 
 export type CreationOptionsBase = {
-  parentType?: SuperTypeNames,
+  parentType?: SuperTypeNames;
   /**
    * when true replace the last stored state by the newly computed state
    */
-  squashLastState?: boolean
-}
+  squashLastState?: boolean;
+};
 export abstract class DataControllerBase<
   DataType extends Typed,
   FlatType extends FlatTypes,
@@ -337,7 +342,7 @@ export abstract class DataControllerBase<
   protected abstract createNewInternal(
     parentId: Uid,
     type: SuperTypeNames, //MapToSuperTypeNames<FlatType>
-    options : CreationOptions
+    options: CreationOptions
   ): FlatType;
 
   /**
@@ -347,7 +352,11 @@ export abstract class DataControllerBase<
     return this.undoRedo.getCurrentState()[1];
   }
 
-  private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState, squashPrevious: boolean): void {
+  private applyChanges(
+    newData: Record<Uid, FlatType>,
+    newInterfaceState: IState,
+    squashPrevious: boolean
+  ): void {
     this.undoRedo.storeState(newInterfaceState, newData, squashPrevious);
     this.transientIState = newInterfaceState;
     this.contextHandler.setState(newInterfaceState);
@@ -421,7 +430,10 @@ export class TriggerDataController extends DataControllerBase<
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty', options.parentType).getDefault(), parentId);
+        return toFlatImpact(
+          getImpactDefinition('empty', options.parentType).getDefault(),
+          parentId
+        );
     }
   }
 
@@ -551,7 +563,10 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'effect':
         return toFlatEffect(getEffectDefinition().getDefault(), parentId);
       case 'impact':
-        return toFlatImpact(getImpactDefinition('empty', options.parentType).getDefault(), parentId);
+        return toFlatImpact(
+          getImpactDefinition('empty', options.parentType).getDefault(),
+          parentId
+        );
     }
   }
 
@@ -580,9 +595,12 @@ export class ActionTemplateDataController extends DataControllerBase<
 }
 
 export interface MapEntityCreationOptions extends CreationOptionsBase {
-  location? : LOCATION_ENUM,
-  drawType? : SupportedDrawType,
-  drawnGeometry? : PointMapObject['geometry'] | LineMapObject['geometry'] | PolygonMapObject['geometry']
+  location?: LOCATION_ENUM;
+  drawType?: SupportedDrawType;
+  drawnGeometry?:
+    | PointMapObject['geometry']
+    | LineMapObject['geometry']
+    | PolygonMapObject['geometry'];
 }
 
 export class MapEntityController extends DataControllerBase<
@@ -652,15 +670,18 @@ export class MapEntityController extends DataControllerBase<
     switch (type) {
       case 'mapEntity': {
         const newMapEntity = getMapEntityDefinition().getDefault();
-        if(options.location){
+        if (options.location) {
           newMapEntity.binding = options.location;
         } else {
-          scenarioEditionLogger.error('Missing location in creation options, using default', newMapEntity.binding);
+          scenarioEditionLogger.error(
+            'Missing location in creation options, using default',
+            newMapEntity.binding
+          );
         }
         return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
       }
       case 'geometry': {
-        if(options.drawType && options.drawnGeometry && options.location){
+        if (options.drawType && options.drawnGeometry && options.location) {
           const newGeometry = getMapObjectDefinition(options.drawType).getDefault();
           newGeometry.geometry = options.drawnGeometry;
           if (newGeometry.type === 'Point') {
@@ -671,7 +692,11 @@ export class MapEntityController extends DataControllerBase<
           }
           return toFlatMapObject(newGeometry, parentId);
         } else {
-          scenarioEditionLogger.error('Incomplete options to create a new geometry, creating default point', parentId, options);
+          scenarioEditionLogger.error(
+            'Incomplete options to create a new geometry, creating default point',
+            parentId,
+            options
+          );
           return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
         }
       }

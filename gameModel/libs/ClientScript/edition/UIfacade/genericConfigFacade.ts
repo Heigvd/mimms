@@ -5,7 +5,12 @@ import {
   getAllControllers,
   getController,
 } from '../controllers/controllerInstances';
-import { CreationOptionsBase, FlatTypeBySuperType, FlatTypes, SuperTypeNames } from '../controllers/dataController';
+import {
+  CreationOptionsBase,
+  FlatTypeBySuperType,
+  FlatTypes,
+  SuperTypeNames,
+} from '../controllers/dataController';
 import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
@@ -115,7 +120,11 @@ export function getItemTyped<S extends SuperTypeNames>(
 
 let lastGenericAdded: string | null = null;
 
-export function addNew<T extends CreationOptionsBase>(itemType: SuperTypeNames, parentType?: SuperTypeNames, creationOptions?: T): FlatTypes {
+export function addNew<T extends CreationOptionsBase>(
+  itemType: SuperTypeNames,
+  parentType?: SuperTypeNames,
+  creationOptions?: T
+): FlatTypes {
   let parentId: Uid = '';
   if (parentType) {
     parentId = getSelected(parentType)?.uid ?? '';

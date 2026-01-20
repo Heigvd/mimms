@@ -55,10 +55,14 @@ export class UndoRedoContext<IState, DataT> {
     this.currentSaveIndex = this.currentStateIndex;
   }
 
-  public storeState(interfaceState: IState, dataState: Record<string, DataT>, squashPrevious: boolean): void {
-    if(!squashPrevious){
+  public storeState(
+    interfaceState: IState,
+    dataState: Record<string, DataT>,
+    squashPrevious: boolean
+  ): void {
+    if (!squashPrevious) {
       this.currentStateIndex++;
-    } else if(this.currentStateIndex === this.currentSaveIndex){
+    } else if (this.currentStateIndex === this.currentSaveIndex) {
       // In case we squash the saved state, make sure the saved index is out of range
       this.currentSaveIndex = -1;
     }

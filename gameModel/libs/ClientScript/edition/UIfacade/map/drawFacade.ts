@@ -7,10 +7,7 @@ import { LOCATION_ENUM } from '../../../game/common/simulationState/locationStat
 import { scenarioEditionLogger } from '../../../tools/logger';
 import { getMapEntityController } from '../../controllers/controllerInstances';
 import { MapEntityCreationOptions } from '../../controllers/dataController';
-import {
-  MapEntityUIState,
-  SupportedDrawType,
-} from '../../UIfacade/locationConfigFacade';
+import { MapEntityUIState, SupportedDrawType } from '../../UIfacade/locationConfigFacade';
 
 export function startDraw(type: SupportedDrawType): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
@@ -37,11 +34,10 @@ export function saveNewMapObject(event: DrawEvent): void {
 
   const parentId = state.selected['mapEntity'];
   if (parentId) {
-
     const controller = getMapEntityController();
     const parent = controller.getFlatData()[parentId];
-    let location : LOCATION_ENUM | undefined = undefined;
-    if(parent?.type === 'mapEntity' && parent.binding){
+    let location: LOCATION_ENUM | undefined = undefined;
+    if (parent?.type === 'mapEntity' && parent.binding) {
       location = parent.binding;
     } else {
       scenarioEditionLogger.error('Cannot create a geometry in unbinded map entity', parent);
@@ -49,11 +45,11 @@ export function saveNewMapObject(event: DrawEvent): void {
     }
 
     const drawType = controller.getLatestIState().drawType;
-    const creationOptions : MapEntityCreationOptions = {
-      parentType : 'mapEntity',
+    const creationOptions: MapEntityCreationOptions = {
+      parentType: 'mapEntity',
       drawType: drawType,
-      location: location
-    }
+      location: location,
+    };
     const geom = event.feature.getGeometry() as SimpleGeometry;
     const points = geom.getCoordinates();
     switch (drawType) {
@@ -69,10 +65,9 @@ export function saveNewMapObject(event: DrawEvent): void {
       default:
         scenarioEditionLogger.error('Unexpected geometry type', drawType);
     }
-    if(creationOptions.drawnGeometry){
+    if (creationOptions.drawnGeometry) {
       controller.createNew(parentId, 'geometry', creationOptions);
     }
-
   } else {
     scenarioEditionLogger.error(
       'Error while creating geometry, no map entity is currently selected'

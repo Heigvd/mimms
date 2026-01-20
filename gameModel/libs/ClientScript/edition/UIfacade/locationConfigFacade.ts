@@ -32,9 +32,9 @@ export function getFilteredLocations(): FlatMapEntity[] {
 }
 
 export function createNewMapEntity(): void {
-  const options : MapEntityCreationOptions = {
+  const options: MapEntityCreationOptions = {
     location: getMapEntityController().getLatestIState().selectedFilter,
-  }
+  };
   addNew('mapEntity', undefined, options);
 }
 
