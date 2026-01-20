@@ -103,6 +103,10 @@ export type SuperTypeNames = FlatTypes['superType'];
 
 export type CreationOptionsBase = {
   parentType?: SuperTypeNames,
+  /**
+   * when true replace the last stored state by the newly computed state
+   */
+  squashLastState?: boolean
 }
 export abstract class DataControllerBase<
   DataType extends Typed,
@@ -158,7 +162,7 @@ export abstract class DataControllerBase<
     delete siblings[id];
     recomputeIndexes(siblings);
 
-    this.applyChanges(flatData, updatedIState);
+    this.applyChanges(flatData, updatedIState, false);
   }
 
   public canUndo(): boolean {
@@ -196,7 +200,7 @@ export abstract class DataControllerBase<
     const siblings = this.filterSiblings(newObject.uid, updatedData);
     moveElement(newObject.uid, siblings, 'TOP');
 
-    this.applyChanges(updatedData, updatedIState);
+    this.applyChanges(updatedData, updatedIState, options.squashLastState ?? false);
     return newObject;
   }
 
@@ -286,7 +290,7 @@ export abstract class DataControllerBase<
         );
       });
     }
-    this.applyChanges(newData, iState);
+    this.applyChanges(newData, iState, false);
   }
 
   /**
@@ -343,8 +347,8 @@ export abstract class DataControllerBase<
     return this.undoRedo.getCurrentState()[1];
   }
 
-  private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState): void {
-    this.undoRedo.storeState(newInterfaceState, newData);
+  private applyChanges(newData: Record<Uid, FlatType>, newInterfaceState: IState, squashPrevious: boolean): void {
+    this.undoRedo.storeState(newInterfaceState, newData, squashPrevious);
     this.transientIState = newInterfaceState;
     this.contextHandler.setState(newInterfaceState);
   }
@@ -648,7 +652,6 @@ export class MapEntityController extends DataControllerBase<
     switch (type) {
       case 'mapEntity': {
         const newMapEntity = getMapEntityDefinition().getDefault();
-        // Cheating here by looking up in the ui state to get the proper binding
         if(options.location){
           newMapEntity.binding = options.location;
         } else {
@@ -657,7 +660,6 @@ export class MapEntityController extends DataControllerBase<
         return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
       }
       case 'geometry': {
-
         if(options.drawType && options.drawnGeometry && options.location){
           const newGeometry = getMapObjectDefinition(options.drawType).getDefault();
           newGeometry.geometry = options.drawnGeometry;
