@@ -28,9 +28,7 @@
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
-                "style" : {
-                  "marginBottom" : "14px"
-                },
+                "style" : { },
                 "text" : {
                   "@class" : "Script",
                   "content" : "\"<p>Triggers</p>\"",
