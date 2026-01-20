@@ -584,6 +584,36 @@
                   "type" : "Text"
                 }, {
                   "props" : {
+                    "className" : "",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canInsertMapEntity } from \"./edition/UIfacade/locationConfigFacade\";\n!canInsertMapEntity();",
+                      "language" : "typescript"
+                    },
+                    "icon" : "plus",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "scenarist-absolute-button",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('mapEntity');",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "add",
+                    "stopPropagation" : true,
+                    "style" : {
+                      "paddingRight" : "14px"
+                    }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
                     "children" : [ {
                       "props" : {
                         "className" : "location-tag small-bold-primary-text",
@@ -700,36 +730,6 @@
                     "style" : { }
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "className" : "header-button",
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { canInsertMapEntity } from \"./edition/UIfacade/locationConfigFacade\";\n!canInsertMapEntity();",
-                      "language" : "typescript"
-                    },
-                    "icon" : "plus",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>location</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "scenarist-absolute-button",
-                    "layoutStyle" : {
-                      "paddingLeft" : "0"
-                    },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('mapEntity');",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "add",
-                    "stopPropagation" : true,
-                    "style" : { }
-                  },
-                  "type" : "Button"
                 } ],
                 "className" : "",
                 "conditionnalClassNames" : [ {

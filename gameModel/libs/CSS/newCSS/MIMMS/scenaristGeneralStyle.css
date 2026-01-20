@@ -15,8 +15,7 @@
 
 .scenarist-column-scroll {
   height: 100%;
-  /* margin to counter-balance buttons in absolute position at the bottom of the page */
-  margin-bottom: 57px;
+  margin-bottom: 2rem;
   overflow: auto;
 }
 
@@ -26,9 +25,25 @@
 
 .scenarist-absolute-button {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 1rem 0 1rem 1rem;
+  top: 0;
+  right: 0;
+  padding: 24px 10px 10px 10px;
+}
+
+.scenarist-absolute-button div:hover {
+  cursor: pointer;
+}
+
+.scenarist-absolute-button button {
+  padding: 0;
+}
+
+.scenarist-absolute-button svg {
+  color: var(--grey_100);
+}
+
+.scenarist-absolute-button .disabled svg {
+  color: var(--grey_30);
 }
 
 .scenarist-save-all-button {

@@ -60,31 +60,6 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "className" : "header-button",
-            "icon" : "plus",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>impact</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('impact', 'effect');",
-                "language" : "TypeScript"
-              }
-            },
-            "name" : "add",
-            "stopPropagation" : true,
-            "style" : {
-              "margin" : "0"
-            }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
             "className" : "condition",
             "hideIf" : {
               "@class" : "Script",
