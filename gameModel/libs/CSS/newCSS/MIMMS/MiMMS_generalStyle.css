@@ -171,6 +171,10 @@
   cursor: not-allowed;
 }
 
+.interactive:hover {
+  cursor: pointer;
+}
+
 .checkbox .iconOnly {
   color: var(--primary_base);
   transition: color .3s ease-in-out;

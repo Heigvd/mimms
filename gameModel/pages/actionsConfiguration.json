@@ -35,20 +35,63 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "noMargin scenarist__undertitle",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : {
-                      "marginBottom" : "10px"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Basic title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Basic actions</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "conditionnalClassNames" : [ ],
+                        "icon" : "angle-up",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "collapse",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "interactive",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list__header--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getBasicListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getBasicListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
                     },
-                    "name" : "Basic title",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Basic actions</p>\"",
-                      "language" : "TypeScript"
-                    }
+                    "layoutClassName" : "noPadding actions-list__header",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleBasicListState } from \"./edition/UIfacade/actionConfigFacade\";\n\ntoggleBasicListState();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Basic actions header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
@@ -64,6 +107,15 @@
                       "type" : "PageLoader"
                     } ],
                     "className" : "basic__generic-item",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getBasicListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getBasicListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
@@ -82,20 +134,62 @@
                   "type" : "For each"
                 }, {
                   "props" : {
-                    "className" : "noMargin scenarist__undertitle",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : {
-                      "marginBottom" : "10px"
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Custom title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Custom actions</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "icon" : "angle-up",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "collapse",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "interactive",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list__header--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getCustomListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getCustomListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
                     },
-                    "name" : "Custom title",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Custom actions</p>\"",
-                      "language" : "TypeScript"
-                    }
+                    "layoutClassName" : "noPadding actions-list__header",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleCustomListState } from \"./edition/UIfacade/actionConfigFacade\";\n\ntoggleCustomListState()",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "Custom actions header",
+                    "style" : { }
                   },
-                  "type" : "Text"
+                  "type" : "FlexList"
                 }, {
                   "props" : {
                     "children" : [ {
@@ -111,6 +205,15 @@
                       "type" : "PageLoader"
                     } ],
                     "className" : "",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getCustomListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getCustomListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
                     "exposeAs" : "item",
                     "getItemsFn" : {
                       "@class" : "Script",
