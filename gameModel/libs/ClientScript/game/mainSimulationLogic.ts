@@ -38,10 +38,11 @@ import {
 } from './executionContext/gameExecutionContextController';
 import { loadActionTemplates } from './loaders/actionTemplateLoader';
 import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
+import { getOmittedGlobalEvents } from './testing/stateDebug';
 
 /* all defined action templates */
-let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase>;
-let uniqueActionTemplates: IUniqueActionTemplates;
+let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase> | undefined;
+let uniqueActionTemplates: IUniqueActionTemplates | undefined;
 
 let initializationComplete: boolean;
 
@@ -99,6 +100,18 @@ function tryLoadTemplates(): void {
   }
 }
 
+function getActionTemplates(): Record<ActionTemplateUid, ActionTemplateBase> {
+  if(!actionTemplates){
+    tryLoadTemplates();
+  }
+  return actionTemplates!;
+}
+
+function resetActionTemplates(): void {
+  actionTemplates = undefined;
+  uniqueActionTemplates = undefined;
+}
+
 /**
  * converts a global event to local events and enqueue them for later evaluation
  * @param event a received global event
@@ -111,7 +124,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
     case 'ActionCreationEvent':
       {
         // find corresponding creation template
-        const actionTemplate = actionTemplates[event.payload.templateUid];
+        const actionTemplate = getActionTemplates()[event.payload.templateUid];
         if (!actionTemplate) {
           mainSimLogger.error('no template was found for UID ', event.payload.templateUid);
         } else {
@@ -267,7 +280,7 @@ export function fetchAvailableActionTemplates(
 ): ActionTemplateBase[] {
   const actor = getCurrentState().getActorById(actorId);
   if (actor) {
-    return Object.values(actionTemplates).filter(
+    return Object.values(getActionTemplates()).filter(
       at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
     );
   } else {
@@ -281,7 +294,7 @@ export function getUniqueActionTemplates(): IUniqueActionTemplates | undefined {
 }
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
-  return Object.values(actionTemplates);
+  return Object.values(getActionTemplates());
 }
 
 export async function buildAndLaunchActionFromTemplate(
@@ -386,50 +399,8 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   }
 }
 
-/**** DEBUG TOOLS SECTION ***/
-
-export function forceRecomputeStateDebug() {
-  initializationComplete = false;
+export function eraseState(): void {
+  resetActionTemplates();
   debugRemovePlayerContext();
-  runUpdateLoop();
-}
-
-export function getStateHistory() {
-  return getCurrentExecutionContext().getStateHistory();
-}
-
-/*
- Restores the game state to a previously stored one
- this mutates the state history of the execution context
- */
-export async function setCurrentStateDebug(stateId: number) {
-  const execContext = getCurrentExecutionContext();
-  execContext.restoreState(stateId);
-
-  // store the events that have to be omitted when recomputing the state
-  // i.e. the events that occurred after the restored state
-  const ignored = getOmittedGlobalEvents();
-  const lastEvtId = execContext.getCurrentState().getLastEventId();
-  const all = getAllEvents();
-  let i = all.length - 1;
-  while (i > 0 && all[i]?.id !== lastEvtId) {
-    ignored[all[i]!.id] = true;
-    i--;
-  }
-
-  const ignoredString = JSON.stringify(ignored);
-  const updateIgnoredScript = `Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).setProperty('ignored', JSON.stringify(${ignoredString}));`;
-  await APIMethods.runScript(updateIgnoredScript, {});
-  mainSimLogger.info(`restored state ${stateId}, ignored events :`, stateId);
-}
-
-/**
- * Get the events that have been cancelled due to previous stored state reloading
- */
-function getOmittedGlobalEvents(): Record<string, boolean> {
-  const raw =
-    Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
-    '{}';
-  const ignored = JSON.parse(raw) as Record<string, boolean>;
-  return ignored;
+  initializationComplete = false;
 }

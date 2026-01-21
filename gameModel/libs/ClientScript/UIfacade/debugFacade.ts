@@ -1,23 +1,23 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import {
-  forceRecomputeStateDebug,
+  eraseState,
   getCurrentState,
-  getStateHistory,
-  setCurrentStateDebug,
+  runUpdateLoop,
 } from '../game/mainSimulationLogic';
-import { debugFacadeLogger } from '../tools/logger';
+import { getStateHistory, setCurrentStateDebug } from '../game/testing/stateDebug';
+import { debugLogger } from '../tools/logger';
 
 export async function debugStoreCurrentState() {
   const stateId = getCurrentState().stateCount;
   const script = `Variable.find(gameModel, 'debugStoredState').getInstance(self).setValue(${stateId});`;
   await APIMethods.runScript(script, {});
-  debugFacadeLogger.info('Stored state with id ', stateId);
+  debugLogger.info('Stored state with id ', stateId);
 }
 
 export async function debugRestoreSavedState() {
   const storedStateId = Variable.find(gameModel, 'debugStoredState').getValue(self);
   if (storedStateId === undefined) {
-    debugFacadeLogger.info('No state stored yet');
+    debugLogger.info('No state stored yet');
   } else {
     await setCurrentStateDebug(storedStateId);
   }
@@ -25,7 +25,8 @@ export async function debugRestoreSavedState() {
 
 export function recomputeLocalState() {
   wlog('--- LOCAL STATE RESET DEBUG ---');
-  forceRecomputeStateDebug();
+  eraseState();
+  runUpdateLoop();
 }
 
 export function getAllResources() {
