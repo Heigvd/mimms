@@ -78,7 +78,7 @@ import {
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { GenericScenaristInterfaceState } from '../UIfacade/genericConfigFacade';
+import { GenericScenaristInterfaceState, getItemTyped } from '../UIfacade/genericConfigFacade';
 import { MapEntityUIState, SupportedDrawType } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
 import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
@@ -575,6 +575,17 @@ export class ActionTemplateDataController extends DataControllerBase<
     return () => {
       return { success: true, messages: [] };
     };
+  }
+
+  public override select(itemType: SuperTypeNames, uid: Uid | undefined): void {
+    super.select(itemType, uid);
+
+    if (itemType === 'choice' && uid) {
+      const choice = getItemTyped('choice', uid);
+      if (choice) {
+        super.select('effect', choice.defaultEffect);
+      }
+    }
   }
 
   public override unselect(itemType: SuperTypeNames): void {
