@@ -215,7 +215,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
+                    "content" : "import { addChoice } from \"./edition/UIfacade/actionConfigFacade\";\n\naddChoice();",
                     "language" : "TypeScript"
                   }
                 },

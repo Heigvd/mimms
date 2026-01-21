@@ -103,8 +103,11 @@ export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+// effects specificities
 
-export function addChoiceTest(): void {
+export function addChoice(): void {
   const choice = addNew('choice', 'action');
   getActionTemplateController().createNew(choice.uid, 'effect', { squashLastState: true });
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
