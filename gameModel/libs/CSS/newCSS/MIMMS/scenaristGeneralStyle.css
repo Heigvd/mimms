@@ -53,7 +53,7 @@
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  /*z-index: 2;*/
+  z-index: 2;
 }
 
 

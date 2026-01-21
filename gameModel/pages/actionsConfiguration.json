@@ -381,7 +381,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
                 "name" : "impacts",
                 "style" : { }
