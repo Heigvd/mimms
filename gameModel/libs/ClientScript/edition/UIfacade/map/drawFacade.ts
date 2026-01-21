@@ -3,14 +3,11 @@ import {
   PointMapObject,
   PolygonMapObject,
 } from '../../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../../game/common/simulationState/locationState';
 import { scenarioEditionLogger } from '../../../tools/logger';
 import { getMapEntityController } from '../../controllers/controllerInstances';
-import { FlatMapObject } from '../../typeDefinitions/mapObjectDefinition';
-import {
-  MapEntityUIState,
-  SupportedDrawType,
-  updateItem,
-} from '../../UIfacade/locationConfigFacade';
+import { MapEntityCreationOptions } from '../../controllers/dataController';
+import { MapEntityUIState, SupportedDrawType } from '../../UIfacade/locationConfigFacade';
 
 export function startDraw(type: SupportedDrawType): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
@@ -37,30 +34,39 @@ export function saveNewMapObject(event: DrawEvent): void {
 
   const parentId = state.selected['mapEntity'];
   if (parentId) {
-    const mapObj = getMapEntityController().createNew(parentId, 'geometry', 'mapEntity');
+    const controller = getMapEntityController();
+    const parent = controller.getFlatData()[parentId];
+    let location: LOCATION_ENUM | undefined = undefined;
+    if (parent?.type === 'mapEntity' && parent.binding) {
+      location = parent.binding;
+    } else {
+      scenarioEditionLogger.error('Cannot create a geometry in unbinded map entity', parent);
+      return;
+    }
+
+    const drawType = controller.getLatestIState().drawType;
+    const creationOptions: MapEntityCreationOptions = {
+      parentType: 'mapEntity',
+      drawType: drawType,
+      location: location,
+    };
     const geom = event.feature.getGeometry() as SimpleGeometry;
     const points = geom.getCoordinates();
-    switch (mapObj.type) {
+    switch (drawType) {
       case 'Point':
-        {
-          const point = points as PointMapObject['geometry'];
-          updateItem<FlatMapObject>(mapObj.uid, { geometry: point });
-        }
+        creationOptions.drawnGeometry = points as PointMapObject['geometry'];
         break;
       case 'LineString':
-        {
-          const lineString = points as LineMapObject['geometry'];
-          updateItem<FlatMapObject>(mapObj.uid, { geometry: lineString });
-        }
+        creationOptions.drawnGeometry = points as LineMapObject['geometry'];
         break;
       case 'Polygon':
-        {
-          const polygon = points as PolygonMapObject['geometry'];
-          updateItem<FlatMapObject>(mapObj.uid, { geometry: polygon });
-        }
+        creationOptions.drawnGeometry = points as PolygonMapObject['geometry'];
         break;
       default:
-        scenarioEditionLogger.error('Unexpected geometry type', mapObj);
+        scenarioEditionLogger.error('Unexpected geometry type', drawType);
+    }
+    if (creationOptions.drawnGeometry) {
+      controller.createNew(parentId, 'geometry', creationOptions);
     }
   } else {
     scenarioEditionLogger.error(

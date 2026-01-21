@@ -6,6 +6,7 @@ import { ActionTemplateFlatType } from '../controllers/dataController';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import {
+  addNew,
   GenericScenaristInterfaceState,
   getItems,
   getItemTyped,
@@ -102,3 +103,8 @@ export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+
+export function addChoiceTest(): void {
+  const choice = addNew('choice', 'action');
+  getActionTemplateController().createNew(choice.uid, 'effect', { squashLastState: true });
+}

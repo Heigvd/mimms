@@ -91,7 +91,7 @@ export function getPointMapObjectDef(): Definition<PointMapObject> {
       ...getCommonDefault(),
       type: 'Point',
       icon: 'empty', // TODO some default icon or fall back as a computed round dot?
-      geometry: [0, 0], // TODO inject created geometry in interface
+      geometry: [0, 0],
     }),
     validator: (_point: PointMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
@@ -110,7 +110,7 @@ export function getLineMapObjectDef(): Definition<LineMapObject> {
       type: 'LineString',
       lineStart: 'None',
       lineEnd: 'None',
-      geometry: [], // TODO inject created geometry in interface
+      geometry: [],
     }),
     validator: (_line: LineMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {
@@ -128,7 +128,7 @@ export function getPolygonMapObjectDef(): Definition<PolygonMapObject> {
     getDefault: () => ({
       ...getCommonDefault(),
       type: 'Polygon',
-      geometry: [], // TODO inject created geometry in interface
+      geometry: [],
     }),
     validator: (_polygon: PolygonMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
     view: {

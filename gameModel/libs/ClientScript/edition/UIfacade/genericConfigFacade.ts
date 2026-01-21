@@ -5,7 +5,12 @@ import {
   getAllControllers,
   getController,
 } from '../controllers/controllerInstances';
-import { FlatTypeBySuperType, FlatTypes, SuperTypeNames } from '../controllers/dataController';
+import {
+  CreationOptionsBase,
+  FlatTypeBySuperType,
+  FlatTypes,
+  SuperTypeNames,
+} from '../controllers/dataController';
 import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
@@ -115,13 +120,18 @@ export function getItemTyped<S extends SuperTypeNames>(
 
 let lastGenericAdded: string | null = null;
 
-export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): FlatTypes {
+export function addNew<T extends CreationOptionsBase>(
+  itemType: SuperTypeNames,
+  parentType?: SuperTypeNames,
+  creationOptions?: T
+): FlatTypes {
   let parentId: Uid = '';
   if (parentType) {
     parentId = getSelected(parentType)?.uid ?? '';
   }
-
-  const newItem = getCurrentController().createNew(parentId, itemType, parentType);
+  const options: CreationOptionsBase = creationOptions ?? {};
+  options.parentType = parentType;
+  const newItem = getCurrentController().createNew(parentId, itemType, options);
   lastGenericAdded = newItem.uid;
   setTimeout(() => {
     Helpers.scrollIntoView('.new-generic-item', { behavior: 'smooth', block: 'start' });
