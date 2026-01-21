@@ -320,7 +320,9 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "map marker",
-            "style" : { }
+            "style" : {
+              "flexWrap" : "wrap"
+            }
           },
           "type" : "FlexList"
         }, {

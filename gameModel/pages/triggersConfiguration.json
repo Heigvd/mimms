@@ -5,6 +5,11 @@
         "children" : [ {
           "props" : {
             "exposePageSizeAs" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isModalClosed } from \"./edition/UIfacade/map/modalState\";\nisModalClosed();",
+              "language" : "typescript"
+            },
             "initialSelectedPageId" : {
               "@class" : "Script",
               "content" : "\"mapModal\"",
@@ -23,9 +28,7 @@
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "Title",
-                "style" : {
-                  "marginBottom" : "14px"
-                },
+                "style" : { },
                 "text" : {
                   "@class" : "Script",
                   "content" : "\"<p>Triggers</p>\"",
@@ -33,6 +36,29 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "scenarist-absolute-button",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('trigger');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
             }, {
               "props" : {
                 "children" : [ {
@@ -152,31 +178,6 @@
                 "style" : { }
               },
               "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "header-button",
-                "icon" : "plus",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>trigger</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "scenarist-absolute-button",
-                "layoutStyle" : {
-                  "paddingLeft" : "0"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('trigger');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "add",
-                "stopPropagation" : true,
-                "style" : { }
-              },
-              "type" : "Button"
             } ],
             "className" : "",
             "hideIf" : {
@@ -248,6 +249,34 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "className" : "",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "scenarist-absolute-button",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('condition', 'trigger');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "exposePageSizeAs" : "",
@@ -274,38 +303,6 @@
                 "style" : { }
               },
               "type" : "For each"
-            }, {
-              "props" : {
-                "className" : "header-button",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "header-button--disabled",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
-                    "language" : "typescript"
-                  }
-                } ],
-                "icon" : "plus",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>condition</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "scenarist-absolute-button",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('condition', 'trigger');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "add",
-                "stopPropagation" : true,
-                "style" : { }
-              },
-              "type" : "Button"
             } ],
             "className" : "",
             "hideIf" : {
@@ -369,20 +366,16 @@
               "type" : "For each"
             }, {
               "props" : {
-                "className" : "header-button",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "header-button--disabled",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
-                    "language" : "typescript"
-                  }
-                } ],
+                "className" : "",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('trigger');",
+                  "language" : "typescript"
+                },
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>impact</p>\"",
+                  "content" : "\"\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "scenarist-absolute-button",
