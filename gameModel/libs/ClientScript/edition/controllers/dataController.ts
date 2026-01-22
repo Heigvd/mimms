@@ -155,7 +155,7 @@ export abstract class DataControllerBase<
     const flatData = this.getFlatDataClone();
     const siblings = getSiblings(id, flatData);
     const removedIds = removeRecursively(id, flatData);
-    const updatedIState = this.contextHandler.getCurrentState();
+    const updatedIState = this.getLatestIState();
 
     entries(updatedIState.selected).forEach(([superType, id]) => {
       if (id && removedIds.has(id)) {
@@ -199,8 +199,9 @@ export abstract class DataControllerBase<
     const updatedData = this.getFlatDataClone();
     updatedData[newObject.uid] = newObject;
     // select new
-    const updatedIState = this.contextHandler.getCurrentState();
+    const updatedIState = this.getLatestIState();
     updatedIState.selected[superType] = newObject.uid;
+    (updatedIState);
     // put at top
     const siblings = this.filterSiblings(newObject.uid, updatedData);
     moveElement(newObject.uid, siblings, 'BOTTOM');
@@ -282,9 +283,10 @@ export abstract class DataControllerBase<
   public updateData(
     newData: Record<Uid, FlatType>,
     indexesUpdate: boolean = true,
-    newInterfaceState: IState | undefined = undefined
+    newInterfaceState: IState | undefined = undefined,
+    squashLastState: boolean = false
   ): void {
-    const iState = newInterfaceState || this.contextHandler.getCurrentState();
+    const iState = newInterfaceState || this.getLatestIState();
     if (indexesUpdate) {
       // get siblings grouped by same parent and supertype
       const allSiblings = getAllSiblings(newData);
@@ -295,7 +297,7 @@ export abstract class DataControllerBase<
         );
       });
     }
-    this.applyChanges(newData, iState, false);
+    this.applyChanges(newData, iState, squashLastState);
   }
 
   /**
@@ -307,7 +309,7 @@ export abstract class DataControllerBase<
   }
 
   public getLatestIState(): IState {
-    return this.transientIState;
+    return Helpers.cloneDeep(this.transientIState);
   }
 
   private filterSiblings(id: Uid, data: Record<string, FlatType>): Record<string, FlatType> {

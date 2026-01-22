@@ -44,13 +44,14 @@ export function getActionTemplates(mandatory: boolean): FlatActionTemplate[] {
 export function updateItem<T extends ActionTemplateFlatType>(
   uid: Uid,
   newData: Partial<T>,
-  interfaceState: ActionTemplateConfigUIState | undefined = undefined
+  interfaceState: ActionTemplateConfigUIState | undefined = undefined,
+  squashLastState: boolean = false
 ): void {
   const controller = getActionTemplateController();
   const data: Record<Uid, ActionTemplateFlatType> = controller.getFlatDataClone();
   if (data[uid] != undefined) {
     data[uid] = patchX(data[uid], newData)!;
-    controller.updateData(data, true, interfaceState);
+    controller.updateData(data, true, interfaceState, squashLastState);
   }
 }
 
@@ -107,7 +108,11 @@ export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
 
 export function addChoice(): void {
   const choice = addNew('choice', 'action');
-  getActionTemplateController().createNew(choice.uid, 'effect', { squashLastState: true });
+  const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
+    squashLastState: true,
+  });
+  updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
+  updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

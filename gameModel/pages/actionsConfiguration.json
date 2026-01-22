@@ -246,7 +246,7 @@
                             "initialSelectedPageId" : "scenaristItemGeneric",
                             "layoutClassName" : "noPadding generic-item__page-loader",
                             "layoutStyle" : { },
-                            "name" : "conditionItemPageLoader",
+                            "name" : "effectPageLoader",
                             "style" : { }
                           },
                           "type" : "PageLoader"
