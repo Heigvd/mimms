@@ -25,6 +25,34 @@ export interface ActionTemplateConfigUIState extends GenericScenaristInterfaceSt
    * Defines if a choice's map marker is on. This value is bypassed if this choice has a defined displayedMapEntity
    */
   mapMarkerOn: Record<Uid, boolean>;
+  /**
+   * Are basic and custom actions showing?
+   */
+  openBasic: boolean;
+  openCustom: boolean;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// toggle basic and custom actions' display
+
+export function toggleBasicListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openBasic = !newState.openBasic;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getBasicListState(): boolean {
+  return getActionTemplateController().getLatestIState().openBasic;
+}
+
+export function toggleCustomListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openCustom = !newState.openCustom;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getCustomListState(): boolean {
+  return getActionTemplateController().getLatestIState().openCustom;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

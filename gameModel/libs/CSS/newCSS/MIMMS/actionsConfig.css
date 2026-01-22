@@ -30,12 +30,24 @@
   gap: 10px;
 }
 
+.actions-list--closed {
+  display: none;
+}
 
-/* - - - - -  I N P U T S  - - - */
+.actions-list__header {
+  margin-bottom: 10px;
+}
 
-/*.action-title input,
-.action-title input:hover,
-.action-title input:focus {
-  font-size: var(--S_text);
-  font-weight: var(--regularWeight);
-}*/
+.actions-list__header svg {
+  color: var(--primary_base);
+  transform: rotate(0deg);
+  transition: color .3s ease-in-out, transform .3s ease-in-out;
+}
+
+.actions-list__header svg:hover {
+  color: var(--primary_70);
+}
+
+.actions-list__header--closed svg {
+  transform: rotate(180deg);
+}
