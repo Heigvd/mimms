@@ -64,7 +64,8 @@ export class GameExecutionContext {
    */
   public processEvents(
     globalEvents: FullEvent<TimedEventPayload>[],
-    conversionFunc: GlobalToLocalEventFunction
+    conversionFunc: GlobalToLocalEventFunction,
+    checkEventConsistency: boolean
   ): boolean {
     // filter out non processed events
     const unprocessed = globalEvents.filter(e => !this.processedEvents[e.id]);
@@ -73,7 +74,7 @@ export class GameExecutionContext {
     if (sorted.length > 0) {
       // check that the first event to be applied matches the state
       const firstEvent = sorted[0];
-      if ((firstEvent?.previousEventId || 0) !== this.getLastEventId()) {
+      if (checkEventConsistency && (firstEvent?.previousEventId || 0) !== this.getLastEventId()) {
         mainSimLogger.warn(
           "received event doesn't match the current state",
           firstEvent?.previousEventId,

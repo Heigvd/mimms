@@ -1,6 +1,7 @@
 import { saveToVariable } from "../edition/UIfacade/genericConfigFacade";
 import { TimedEventPayload } from "../game/common/events/eventTypes";
 import { compareTimedEvents, getAllEvents } from "../game/common/events/eventUtils";
+import { eraseInitialState } from "../game/loaders/mainStateLoader";
 import { eraseState } from "../game/mainSimulationLogic";
 import { getOmittedGlobalEvents, updateIgnoredEvents } from "../game/testing/stateDebug";
 import { debugLogger } from "../tools/logger";
@@ -9,10 +10,10 @@ import { debugLogger } from "../tools/logger";
  * Saves the scenarist's data and deletes the current state
  */
 export function reload(): void {
-  // TODO see if have to save to object instance instead ?
   // TODO might do a manual runScript to get an async call
-  saveToVariable();
+  //saveToVariable();
   debugLogger.info('Saving...');
+  eraseInitialState();
   eraseState();
   debugLogger.info('State erased...');
 }
@@ -32,7 +33,7 @@ export async function undoLastAction(): Promise<void> {
     if(last?.id){
       omitted[last.id] = true;
       await updateIgnoredEvents(omitted);
-      reload();
+      //reload();
     }
   }
 }

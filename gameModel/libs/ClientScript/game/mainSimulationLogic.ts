@@ -88,8 +88,8 @@ export function runUpdateLoop(): void {
     // filter out omitted events (if a previous state was restored)
     const ignored = getOmittedGlobalEvents();
     const filteredGlobalEvents = globalEvents.filter(e => !ignored[e.id]);
-
-    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent);
+    const hasNoIgnored = Object.keys(ignored).length === 0;
+    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent, hasNoIgnored);
   }
 }
 

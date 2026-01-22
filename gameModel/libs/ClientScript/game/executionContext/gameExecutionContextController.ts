@@ -96,7 +96,7 @@ function updateExecutionContext(
 ): boolean {
   try {
     lockTeamId(context.teamId); // any calls to getCurrentContext will point to the teamId's context
-    return context.processEvents(events, convertFunc);
+    return context.processEvents(events, convertFunc, true);
   } catch (error) {
     gameExecLogger.error('Error while updating context', context.teamId, error, events);
     return false;
@@ -178,4 +178,5 @@ export function notifyMainStateInitializationComplete(): void {
 export function debugRemovePlayerContext(): void {
   gameExecLogger.warn('DEBUG ONLY, removing player context');
   delete executionContexts[getPlayerTeamId()];
+  mainStateInitializationComplete = false;
 }
