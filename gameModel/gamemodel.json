@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1767974780695,
+  "createdTime" : 1769082541224,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6391,6 +6391,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/testing/stateDebug",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#264:JUqGm4",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameInterface/actionsButtonLogic",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6872,6 +6881,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#149:04SgAV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/testerFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#265:rEoVsX",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7442,7 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-587",
+  "name" : "MIMMS dev-scenarist XGO MIM-580 Tester Page",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

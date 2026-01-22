@@ -101,7 +101,7 @@ function tryLoadTemplates(): void {
 }
 
 function getActionTemplates(): Record<ActionTemplateUid, ActionTemplateBase> {
-  if(!actionTemplates){
+  if (!actionTemplates) {
     tryLoadTemplates();
   }
   return actionTemplates!;

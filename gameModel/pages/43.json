@@ -58,6 +58,84 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Undo</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { undoLastAction } from \"./UIfacade/testerFacade\";\n  undoLastAction();",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "undo",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Restart</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { restart } from \"./UIfacade/testerFacade\";\n  restart();",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "restart",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Refresh</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\n\nreloadState()",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "refresh",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "false;",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : {
+                              "position" : "absolute",
+                              "right" : "0",
+                              "zIndex" : "200"
+                            },
+                            "name" : "tester controls",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
                             "layoutStyle" : {
                               "display" : "none"
                             },

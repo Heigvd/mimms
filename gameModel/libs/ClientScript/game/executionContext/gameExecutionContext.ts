@@ -105,6 +105,15 @@ export class GameExecutionContext {
   }
 
   /**
+   * Removes the last computed state
+   */
+  public restorePreviousState(): void {
+    if (this.stateHistory.length > 1) {
+      this.stateHistory.pop();
+    }
+  }
+
+  /**
    * Processes one global event and computes a new resulting state
    * The new state is appended to the history
    * The event is ignored if it doesn't match with the current simulation time

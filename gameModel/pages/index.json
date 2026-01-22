@@ -484,6 +484,12 @@
           "trainerPage" : null
         } ],
         "name" : "Components"
+      }, {
+        "@class" : "Page",
+        "id" : "mainSimTester",
+        "name" : "MainSim Tester",
+        "scenaristPage" : true,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

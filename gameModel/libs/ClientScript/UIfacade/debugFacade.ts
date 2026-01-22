@@ -1,9 +1,5 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import {
-  eraseState,
-  getCurrentState,
-  runUpdateLoop,
-} from '../game/mainSimulationLogic';
+import { eraseState, getCurrentState, runUpdateLoop } from '../game/mainSimulationLogic';
 import { getStateHistory, setCurrentStateDebug } from '../game/testing/stateDebug';
 import { debugLogger } from '../tools/logger';
 

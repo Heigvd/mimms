@@ -1,8 +1,7 @@
-import { debugLogger } from "../../tools/logger";
-import { GlobalEventId } from "../common/baseTypes";
-import { getAllEvents } from "../common/events/eventUtils";
-import { getCurrentExecutionContext } from "../executionContext/gameExecutionContextController";
-
+import { debugLogger } from '../../tools/logger';
+import { GlobalEventId } from '../common/baseTypes';
+import { getAllEvents } from '../common/events/eventUtils';
+import { getCurrentExecutionContext } from '../executionContext/gameExecutionContextController';
 
 export function getStateHistory() {
   return getCurrentExecutionContext().getStateHistory();
@@ -30,7 +29,7 @@ export async function setCurrentStateDebug(stateId: number) {
   debugLogger.info(`restored state ${stateId}, ignored events :`, stateId);
 }
 
-export async function updateIgnoredEvents(list : Record<GlobalEventId, boolean>): Promise<void> {
+export async function updateIgnoredEvents(list: Record<GlobalEventId, boolean>): Promise<void> {
   const ignoredString = JSON.stringify(list);
   const updateIgnoredScript = `Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).setProperty('ignored', JSON.stringify(${ignoredString}));`;
   await APIMethods.runScript(updateIgnoredScript, {});
@@ -40,7 +39,7 @@ export async function updateIgnoredEvents(list : Record<GlobalEventId, boolean>)
  * Get the events that have been cancelled due to previous stored state reloading
  */
 export function getOmittedGlobalEvents(): Record<string, boolean> {
-  try{
+  try {
     const raw =
       Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
       '{}';
@@ -49,4 +48,3 @@ export function getOmittedGlobalEvents(): Record<string, boolean> {
     return {};
   }
 }
-
