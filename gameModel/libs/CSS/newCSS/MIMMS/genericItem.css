@@ -59,7 +59,7 @@
 
 .generic-item-container:has(.generic-item--selected) .generic-item__actions .disabled svg,
 .generic-item__actions .disabled svg {
-  color: var(--grey_30);
+  color: transparent;
 }
 
 /* advanced and internal modes */

@@ -5,6 +5,11 @@
         "children" : [ {
           "props" : {
             "exposePageSizeAs" : "",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { isModalClosed } from \"./edition/UIfacade/map/modalState\";\nisModalClosed();",
+              "language" : "typescript"
+            },
             "initialSelectedPageId" : {
               "@class" : "Script",
               "content" : "\"mapModal\"",
@@ -31,6 +36,29 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "scenarist-absolute-button",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('action');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
             }, {
               "props" : {
                 "children" : [ {
@@ -239,31 +267,6 @@
                 "style" : { }
               },
               "type" : "FlexList"
-            }, {
-              "props" : {
-                "className" : "header-button",
-                "icon" : "plus",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>action</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "scenarist-absolute-button",
-                "layoutStyle" : {
-                  "paddingLeft" : "0"
-                },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('action');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "add",
-                "stopPropagation" : true,
-                "style" : { }
-              },
-              "type" : "Button"
             } ],
             "hideIf" : {
               "@class" : "Script",
@@ -296,6 +299,34 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('action');",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "scenarist-absolute-button",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
             }, {
               "props" : {
                 "children" : [ {
@@ -404,6 +435,34 @@
               "type" : "Text"
             }, {
               "props" : {
+                "className" : "",
+                "disableIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('action');",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "scenarist-absolute-button",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('impact', 'effect');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : { }
+              },
+              "type" : "Button"
+            }, {
+              "props" : {
                 "children" : [ {
                   "props" : {
                     "exposePageSizeAs" : "",
@@ -425,7 +484,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding scenarist-column-scroll",
                 "layoutStyle" : { },
                 "name" : "impacts",
                 "style" : { }

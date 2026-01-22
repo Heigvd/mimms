@@ -189,7 +189,7 @@ export abstract class DataControllerBase<
     updatedIState.selected[superType] = newObject.uid;
     // put at top
     const siblings = this.filterSiblings(newObject.uid, updatedData);
-    moveElement(newObject.uid, siblings, 'TOP');
+    moveElement(newObject.uid, siblings, 'BOTTOM');
 
     this.applyChanges(updatedData, updatedIState);
     return newObject;

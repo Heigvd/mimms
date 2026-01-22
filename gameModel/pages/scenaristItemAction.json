@@ -558,31 +558,6 @@
           "type" : "Boolean"
         }, {
           "props" : {
-            "className" : "header-button",
-            "icon" : "plus",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>choice</p>\"",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : { },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
-                "language" : "TypeScript"
-              }
-            },
-            "name" : "add",
-            "stopPropagation" : true,
-            "style" : {
-              "margin" : "0"
-            }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
             "className" : "condition",
             "hideIf" : {
               "@class" : "Script",

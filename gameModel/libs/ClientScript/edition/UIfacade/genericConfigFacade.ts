@@ -123,6 +123,9 @@ export function addNew(itemType: SuperTypeNames, parentType?: SuperTypeNames): F
 
   const newItem = getCurrentController().createNew(parentId, itemType, parentType);
   lastGenericAdded = newItem.uid;
+  setTimeout(() => {
+    Helpers.scrollIntoView('.new-generic-item', { behavior: 'smooth', block: 'start' });
+  }, 1);
   return newItem;
 }
 
