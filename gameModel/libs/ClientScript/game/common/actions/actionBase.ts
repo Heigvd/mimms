@@ -43,7 +43,6 @@ import {
   ChangeMapActivableStatusLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
-  IncrementCountLocalEvent,
   MoveActorLocalEvent,
   MoveFreeHumanResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
@@ -273,24 +272,6 @@ export abstract class ChoiceAction extends StartEndAction {
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>) {
     this.applyChoice(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new IncrementCountLocalEvent({
-        parentEventId: state.getLastEventId(),
-        simTimeStamp: state.getSimTime(),
-        target: this.templateId,
-        sourceId: this.ownerId,
-      })
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new IncrementCountLocalEvent({
-        parentEventId: state.getLastEventId(),
-        simTimeStamp: state.getSimTime(),
-        target: this.choice.uid,
-        sourceId: this.ownerId,
-      })
-    );
   }
 }
 

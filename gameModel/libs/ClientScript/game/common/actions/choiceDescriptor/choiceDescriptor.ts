@@ -12,9 +12,8 @@ export interface ChoiceDescriptor extends IActivableDescriptor, IDescriptor, Typ
    */
   displayedMapEntity?: Uid;
   /**
-   * The number of times this template can generate an action
+   * The number of times this choice can be played. < 1 means infinitely
    */
-  // TODO specifications for unlimited repetitions
   repeats: number;
   /**
    * The delta of seconds regarding the duration defined in the action template descriptor
