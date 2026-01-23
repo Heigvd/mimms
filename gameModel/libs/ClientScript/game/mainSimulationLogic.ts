@@ -1,4 +1,5 @@
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
+import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
@@ -33,7 +34,7 @@ import { MainSimulationState } from './common/simulationState/mainSimulationStat
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
   createPlayerContext,
-  debugRemovePlayerContext,
+  resetPlayerContext,
   getCurrentExecutionContext,
 } from './executionContext/gameExecutionContextController';
 import { loadActionTemplates } from './loaders/actionTemplateLoader';
@@ -399,8 +400,8 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   }
 }
 
-export function eraseState(): void {
+export function resetState(): void {
   resetActionTemplates();
-  debugRemovePlayerContext();
+  resetPlayerContext();
   initializationComplete = false;
 }

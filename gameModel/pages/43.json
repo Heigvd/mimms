@@ -120,7 +120,7 @@
                             } ],
                             "hideIf" : {
                               "@class" : "Script",
-                              "content" : "false;",
+                              "content" : "import { isTesterPage } from \"./UIfacade/testerFacade\";\n!isTesterPage();",
                               "language" : "typescript"
                             },
                             "layout" : { },

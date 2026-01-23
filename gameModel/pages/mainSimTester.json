@@ -23,10 +23,10 @@
           "type" : "PageLoader"
         } ],
         "className" : "",
-        "exposeAs" : "state",
+        "exposeAs" : "testerPageState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "({})",
+          "content" : "({showControls: true});",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding",
@@ -34,7 +34,7 @@
           "height" : "100%",
           "width" : "100%"
         },
-        "localState" : false,
+        "localState" : true,
         "style" : { }
       },
       "type" : "State"

@@ -1,5 +1,5 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { eraseState, getCurrentState, runUpdateLoop } from '../game/mainSimulationLogic';
+import { resetState, getCurrentState, runUpdateLoop } from '../game/mainSimulationLogic';
 import { getStateHistory, setCurrentStateDebug } from '../game/testing/stateDebug';
 import { debugLogger } from '../tools/logger';
 
@@ -21,7 +21,7 @@ export async function debugRestoreSavedState() {
 
 export function recomputeLocalState() {
   wlog('--- LOCAL STATE RESET DEBUG ---');
-  eraseState();
+  resetState();
   runUpdateLoop();
 }
 
