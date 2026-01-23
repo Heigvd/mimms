@@ -987,6 +987,48 @@ export function initPathologies(pathologySet: Record<string, PathologyDefinition
     )
   );
 
+  // PENETRATING VERSION
+  registerPathology(
+    buildPathology(
+      {
+        id: 'simple_pno_full_pen',
+        name: 'PENETRATING simple pneumothorax',
+        severity: 'non_urgent',
+        blockSelectionMode: 'any',
+        shortDescription: 'Simple PNX Pen.',
+      },
+      [
+        {
+          type: 'Pneumothorax',
+          blocks: ['UNIT_BRONCHUS_1', 'UNIT_BRONCHUS_2'],
+          pneumothoraxType: 'SIMPLE',
+          compliance: { min: 0, max: 1 },
+          complianceDelta: undefined,
+        },
+        {
+          type: 'Hemorrhage',
+          blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+          subtype: 'venous',
+          instantaneousBloodLoss: { min: 0, max: 60 },
+          bleedingFactor: undefined,
+        },
+        {
+          type: 'Fracture',
+          blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+          fractureType: 'nonDisplaced',
+        },
+        {
+          type: 'Penetrating',
+          blocks: ['THORAX_LEFT', 'THORAX_RIGHT'],
+        },
+      ],
+      [
+        [['UNIT_BRONCHUS_1'], ['THORAX_LEFT'], ['THORAX_LEFT'], ['THORAX_LEFT']],
+        [['UNIT_BRONCHUS_2'], ['THORAX_RIGHT'], ['THORAX_RIGHT'], ['THORAX_RIGHT']],
+      ]
+    )
+  );
+
   /*
 	registerPathology(
 		buildPathology(
