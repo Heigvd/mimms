@@ -18,7 +18,7 @@ import {
 } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
-import { entries, ObjectVariableClasses } from '../../tools/helper';
+import { entries, filterRecord, ObjectVariableClasses } from '../../tools/helper';
 import {
   canMove,
   moveElement,
@@ -201,7 +201,7 @@ export abstract class DataControllerBase<
     // select new
     const updatedIState = this.getLatestIState();
     updatedIState.selected[superType] = newObject.uid;
-    (updatedIState);
+    updatedIState;
     // put at top
     const siblings = this.filterSiblings(newObject.uid, updatedData);
     moveElement(newObject.uid, siblings, 'BOTTOM');
@@ -581,11 +581,20 @@ export class ActionTemplateDataController extends DataControllerBase<
 
   public override select(itemType: SuperTypeNames, uid: Uid | undefined): void {
     super.select(itemType, uid);
-
     if (itemType === 'choice' && uid) {
       const choice = getItemTyped('choice', uid);
       if (choice) {
-        super.select('effect', choice.defaultEffect);
+        const istate = this.getLatestIState();
+        // if one effect only, hide the effect section by default
+        const effectCount = Object.values(this.getFlatData()).filter(
+          item => item.parent === choice.uid
+        ).length;
+        istate.effectOpen = effectCount !== 1;
+        this.updateIState(istate);
+
+        if (!istate.selected['effect']) {
+          super.select('effect', choice.defaultEffect);
+        }
       }
     }
   }

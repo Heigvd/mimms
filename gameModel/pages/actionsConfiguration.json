@@ -238,40 +238,6 @@
                         "style" : { }
                       },
                       "type" : "PageLoader"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "exposePageSizeAs" : "",
-                            "initialSelectedPageId" : "scenaristItemGeneric",
-                            "layoutClassName" : "noPadding generic-item__page-loader",
-                            "layoutStyle" : { },
-                            "name" : "effectPageLoader",
-                            "style" : { }
-                          },
-                          "type" : "PageLoader"
-                        } ],
-                        "exposeAs" : "item",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('effect', 'choice');",
-                          "language" : "TypeScript"
-                        },
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item == undefined || !isSelected(Context.item.superType, Context.item.uid);",
-                          "language" : "typescript"
-                        },
-                        "itemKey" : "uid",
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "effects",
-                        "style" : { }
-                      },
-                      "type" : "For each"
                     } ],
                     "layout" : {
                       "flexDirection" : "column"

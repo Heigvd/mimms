@@ -48,6 +48,9 @@ html{
 	display: none;
 }
 
+.noOpacity {
+  opacity: 0;
+}
 
 .noPadding {
 	padding: 0;

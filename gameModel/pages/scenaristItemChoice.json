@@ -481,75 +481,350 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "className" : "header-button",
+            "children" : [ {
+              "props" : {
+                "className" : "noMargin",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>ADVANCED</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "icon" : "angle-down",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "Icon"
+            } ],
+            "className" : "interactive",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "actions-list__header--closed",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getEffectListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getEffectListState();",
+                "language" : "typescript"
+              }
+            } ],
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
               "language" : "typescript"
             },
-            "icon" : "plus",
-            "label" : {
-              "@class" : "Script",
-              "content" : "\"<p>effect</p>\"",
-              "language" : "TypeScript"
+            "layout" : {
+              "alignItems" : "center",
+              "justifyContent" : "space-between"
             },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "noPadding actions-list__header",
             "layoutStyle" : { },
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('effect', 'choice');",
+                "content" : "import { toggleEffectListState } from \"./edition/UIfacade/actionConfigFacade\";\n\ntoggleEffectListState();",
                 "language" : "TypeScript"
               }
             },
-            "name" : "add",
+            "name" : "effect header",
             "stopPropagation" : true,
-            "style" : {
-              "margin" : "0"
-            }
+            "style" : { }
           },
-          "type" : "Button"
+          "type" : "FlexList"
         }, {
           "props" : {
-            "choices" : {
-              "@class" : "Script",
-              "content" : "import { getEffectsOptions } from \"./edition/UIfacade/dataFetcher\";\n  getEffectsOptions(Context.item.uid);",
-              "language" : "typescript"
-            },
-            "className" : "scenarist-dropdown",
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin xsmall-regular-primary-text",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : {
+                      "whiteSpace" : "nowrap"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Mark effect with a  </p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "icon" : "star",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { }
+                  },
+                  "type" : "Icon"
+                }, {
+                  "props" : {
+                    "className" : "noMargin xsmall-regular-primary-text",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : {
+                      "whiteSpace" : "nowrap"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p> to set as initial effect</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "effect",
+                "layout" : {
+                  "alignItems" : "center",
+                  "flexWrap" : "wrap"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "text",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "initial-effect-button",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "initial-effect-button--selected",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.item.defaultEffect == Context.effect.uid;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "icon" : "star",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { FlatChoice } from \"./edition/typeDefinitions/choiceDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\nupdateItem<FlatChoice>(Context.item.uid, { defaultEffect: Context.effect.uid });",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "initial",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "",
+                            "layoutClassName" : "noPadding fullWidth",
+                            "layoutStyle" : { },
+                            "name" : "tag",
+                            "onCancel" : { },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.effect.uid, { tag: Context.value });",
+                                "language" : "TypeScript"
+                              },
+                              "exposeVariableAs" : {
+                                "@class" : "Script",
+                                "content" : "\"value\"",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.effect.tag;",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "String input"
+                        }, {
+                          "props" : {
+                            "className" : "noMargin",
+                            "layoutClassName" : "generic-item__label",
+                            "layoutStyle" : { },
+                            "name" : "label",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Tag</p>\"",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "effect-tag",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding fullWidth",
+                        "layoutStyle" : { },
+                        "name" : "tag",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
+                        "className" : "delete-effect",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Outside",
+                          "className" : "noOpacity",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "Context.item.defaultEffect == Context.effect.uid;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.item.defaultEffect == Context.effect.uid;",
+                          "language" : "typescript"
+                        },
+                        "icon" : "trash",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { deleteItem } from \"./edition/UIfacade/genericConfigFacade\";\n\ndeleteItem(Context.effect.uid);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "name" : "delete",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "effect",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "effect-tag--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nisSelected('effect', Context.effect.uid);",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "flexDirection" : "row"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { select } from \"./edition/UIfacade/genericConfigFacade\";\nwlog(Context.effect.uid);\nselect('effect', Context.effect.uid);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "effect",
+                    "stopPropagation" : true,
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "effects-list",
+                "exposeAs" : "effect",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('effect', 'choice');",
+                  "language" : "TypeScript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item == undefined || !isSelected(Context.item.superType, Context.item.uid);",
+                  "language" : "typescript"
+                },
+                "itemKey" : "uid",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "effect",
+                "style" : { }
+              },
+              "type" : "For each"
+            }, {
+              "props" : {
+                "className" : "header-button",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+                  "language" : "typescript"
+                },
+                "icon" : "plus",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>effect</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('effect', 'choice');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "add",
+                "stopPropagation" : true,
+                "style" : {
+                  "margin" : "0"
+                }
+              },
+              "type" : "Button"
+            } ],
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Outside",
+              "className" : "actions-list--closed",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getEffectListState } from \"./edition/UIfacade/actionConfigFacade\";\n!getEffectListState();",
+                "language" : "typescript"
+              }
+            } ],
             "hideIf" : {
               "@class" : "Script",
               "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
               "language" : "typescript"
             },
+            "layout" : {
+              "flexDirection" : "column"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "initial effect",
-            "onVariableChange" : {
-              "client" : {
-                "@class" : "Script",
-                "content" : "import { FlatChoice } from \"./edition/typeDefinitions/choiceDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatChoice>(Context.item.uid, { defaultEffect: Context.value });",
-                "language" : "TypeScript"
-              },
-              "exposeVariableAs" : {
-                "@class" : "Script",
-                "content" : "\"value\"",
-                "language" : "TypeScript"
-              }
-            },
-            "placeholder" : {
-              "@class" : "Script",
-              "content" : "\"Select initial effect\"",
-              "language" : "TypeScript"
-            },
-            "script" : {
-              "@class" : "Script",
-              "content" : "  Context.item.defaultEffect || '';",
-              "language" : "TypeScript"
-            },
-            "style" : { }
+            "name" : "effect accordion",
+            "style" : {
+              "gap" : "1rem"
+            }
           },
-          "type" : "Select input"
+          "type" : "FlexList"
         }, {
           "props" : {
             "className" : "condition",
