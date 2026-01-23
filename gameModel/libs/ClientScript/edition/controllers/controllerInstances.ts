@@ -86,6 +86,8 @@ function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
     viewOnMapItem: undefined,
     mapMarkerOn: {},
     effectOpen: false,
+    openBasic: true,
+    openCustom: true,
   };
 }
 

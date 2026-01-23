@@ -30,6 +30,11 @@ export interface ActionTemplateConfigUIState extends GenericScenaristInterfaceSt
    *  Is/Are effect(s) showing?
    */
   effectOpen: boolean;
+    /**
+   * Are basic and custom actions showing?
+   */
+  openBasic: boolean;
+  openCustom: boolean;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +48,33 @@ export function toggleEffectListState(): void {
 
 export function getEffectListState(): boolean {
   return getActionTemplateController().getLatestIState().effectOpen;
+   * Are basic and custom actions showing?
+   */
+  openBasic: boolean;
+  openCustom: boolean;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// toggle basic and custom actions' display
+
+export function toggleBasicListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openBasic = !newState.openBasic;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getBasicListState(): boolean {
+  return getActionTemplateController().getLatestIState().openBasic;
+}
+
+export function toggleCustomListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openCustom = !newState.openCustom;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getCustomListState(): boolean {
+  return getActionTemplateController().getLatestIState().openCustom;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
