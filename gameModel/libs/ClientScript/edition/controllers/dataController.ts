@@ -18,7 +18,7 @@ import {
 } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
-import { entries, filterRecord, ObjectVariableClasses } from '../../tools/helper';
+import { entries, ObjectVariableClasses } from '../../tools/helper';
 import {
   canMove,
   moveElement,
