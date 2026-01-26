@@ -138,6 +138,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         patientId: subTask.patientId,
         location: {
@@ -150,6 +151,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MoveResourcesLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: subTask.ownerId,
         resourcesId: subTask.resources,
@@ -165,6 +167,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MovePatientLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         patientId: subTask.patientId,
         location: {
@@ -179,6 +182,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: subTask.parentEventId,
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           message: subTask.feedbackWhenReturning,
@@ -208,6 +212,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new MoveResourcesAtArrivalLocationLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesIds: subTask.resources,
       })
@@ -216,6 +221,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     getLocalEventManager().queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent({
         parentEventId: subTask.parentEventId,
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: subTask.resources,
       })

@@ -311,7 +311,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected finaliseTask(state: Readonly<MainSimulationState>, feedbackRadioMessage: string) {
     getLocalEventManager().queueLocalEvent(
       new TaskStatusChangeLocalEvent({
-        parentEventId: 0,
+        parentEventId: 0, // TODO check
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         taskId: this.Uid,
         status: 'Completed',
@@ -320,7 +321,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
     getLocalEventManager().queueLocalEvent(
       new ReleaseResourcesFromTaskLocalEvent({
-        parentEventId: 0,
+        parentEventId: 0, // TODO check
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         taskId: this.Uid,
       })
@@ -329,7 +331,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     // We broadcast a message when the task is completed
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
-        parentEventId: 0,
+        parentEventId: 0, // TODO check
+        source: { type: 'task', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         senderName: RadioLogic.getResourceAsSenderName(),
         message: feedbackRadioMessage,

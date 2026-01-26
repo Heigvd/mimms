@@ -14,6 +14,7 @@ import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { BaseEvent, TargetedEvent } from './baseEvent';
 import { FullEvent } from './eventUtils';
+import { SourceType } from '../localEvents/localEventBase';
 
 /**
  * Walk, drive, fly to destination
@@ -176,6 +177,7 @@ export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
 
 export interface GameOptionsEvent extends BaseEvent, TimedPayload {
   type: 'GameOptionsEvent';
+  source: SourceType['type'] & ('trainer' | 'system');
   options: GameOptions;
 }
 

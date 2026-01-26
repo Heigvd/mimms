@@ -219,6 +219,7 @@ function buildGameOptionsEvent(options: GameOptions): GameOptionsEvent {
   // Any validation needed ?
   const event: GameOptionsEvent = {
     type: 'GameOptionsEvent',
+    source: 'trainer',
     emitterCharacterId: TRAINER_NAME,
     emitterPlayerId: String(self.getId()),
     triggerTime: 0, // will be ignored
