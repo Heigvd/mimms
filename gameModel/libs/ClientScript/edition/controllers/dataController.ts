@@ -81,11 +81,18 @@ import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 import { GenericScenaristInterfaceState, getItemTyped } from '../UIfacade/genericConfigFacade';
 import { MapEntityUIState, SupportedDrawType } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import { clusterSiblings, getAllSiblings, getSiblings, removeRecursively } from './parentedUtils';
+import {
+  clusterSiblings,
+  getAllSiblings,
+  getChildren,
+  getSiblings,
+  removeRecursively,
+} from './parentedUtils';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { getLocationTranslation } from '../../UIfacade/locationFacade';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -425,10 +432,12 @@ export class TriggerDataController extends DataControllerBase<
   ): TriggerFlatType {
     switch (superType) {
       case 'trigger':
-        return toFlatTrigger(
+        const trigger = toFlatTrigger(
           getTriggerDefinition().getDefault(),
           TriggerDataController.TRIGGER_ROOT
         );
+        this.assignNewTagName(trigger);
+        return trigger;
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
@@ -437,6 +446,20 @@ export class TriggerDataController extends DataControllerBase<
           parentId
         );
     }
+  }
+
+  private assignNewTagName(newObject: FlatTrigger): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    let candidate = newObject.tag;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType === 'trigger' && obj.tag === candidate)
+    ) {
+      candidate = newObject.tag + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
   }
 
   protected getValidator(): (value: Trigger) => ValidationResult {
@@ -556,20 +579,40 @@ export class ActionTemplateDataController extends DataControllerBase<
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action':
-        return toFlatActionTemplate(
+        const action = toFlatActionTemplate(
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
           ActionTemplateDataController.ACTION_ROOT
         );
+        this.assignNewTagName(action);
+        return action;
       case 'choice':
-        return toFlatChoice(getChoiceDefinition().getDefault(), parentId);
+        const choice = toFlatChoice(getChoiceDefinition().getDefault(), parentId);
+        this.assignNewTagName(choice);
+        return choice;
       case 'effect':
-        return toFlatEffect(getEffectDefinition().getDefault(), parentId);
+        const effect = toFlatEffect(getEffectDefinition().getDefault(), parentId);
+        this.assignNewTagName(effect);
+        return effect;
       case 'impact':
         return toFlatImpact(
           getImpactDefinition('empty', options.parentType).getDefault(),
           parentId
         );
     }
+  }
+
+  private assignNewTagName(newObject: FlatActionTemplate | FlatChoice | FlatEffect): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    let candidate = newObject.tag;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType !== 'impact' && obj.tag === candidate)
+    ) {
+      candidate = newObject.tag + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
   }
 
   protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
@@ -700,7 +743,9 @@ export class MapEntityController extends DataControllerBase<
             newMapEntity.binding
           );
         }
-        return toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
+        const fme = toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
+        this.assignNewTagName(fme);
+        return fme;
       }
       case 'geometry': {
         if (options.drawType && options.drawnGeometry && options.location) {
@@ -724,6 +769,22 @@ export class MapEntityController extends DataControllerBase<
       }
     }
   }
+
+  private assignNewTagName(newObject: FlatMapEntity): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    const dfltName = getLocationTranslation(newObject.binding);
+    let candidate = dfltName;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType === 'mapEntity' && obj.tag === candidate)
+    ) {
+      candidate = dfltName + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
+  }
+
   protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
     return getMapEntityDefinition().validator;
   }

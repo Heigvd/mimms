@@ -404,7 +404,7 @@
                 "className" : "",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('action');",
+                  "content" : "import { getSelectedTyped, isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('effect') || (getSelectedTyped('action')?.mandatory || false);",
                   "language" : "typescript"
                 },
                 "icon" : "plus",

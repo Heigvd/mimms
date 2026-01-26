@@ -39,6 +39,13 @@ export function getSiblings<T extends Parented & SuperTyped>(
   return filterRecord(data, e => e.parent === target?.parent && e.superType == target?.superType);
 }
 
+export function getChildren<T extends Parented & SuperTyped>(
+  parentId: Uid,
+  data: Record<Uid, T>
+): Record<Uid, T> {
+  return filterRecord(data, e => e.parent === parentId);
+}
+
 /**
  * Given a flat structure of parented element, group all siblings of same type
  * returns a record parent+supertype -> children record

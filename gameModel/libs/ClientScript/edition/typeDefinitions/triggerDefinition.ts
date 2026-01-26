@@ -47,7 +47,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      tag: 'trigger ' + generateId(3),
+      tag: 'New trigger',
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
