@@ -7,7 +7,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "\"<p>GLOBAL EVENTS </p>\"",
+          "content" : "\"<p>LOCAL EVENTS </p>\"",
           "language" : "TypeScript"
         }
       },
@@ -24,7 +24,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n  JSON.stringify(getAllEvents())",
+          "content" : "import { getLocalEventManager } from \"./game/common/localEvents/localEventManager\";\n  JSON.stringify(getLocalEventManager().getProcessedEvents())",
           "language" : "TypeScript"
         }
       },
@@ -34,12 +34,12 @@
         "children" : [ {
           "props" : {
             "layoutStyle" : {
-              "width" : "7rem"
+              "width" : "2rem"
             },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "  \"id\";",
+              "content" : "  \"eventNumber\";",
               "language" : "TypeScript"
             }
           },
@@ -47,12 +47,12 @@
         }, {
           "props" : {
             "layoutStyle" : {
-              "width" : "7rem"
+              "width" : "5rem"
             },
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p><br></p><p>previousEventId</p>\"",
+              "content" : "\"<p><br></p><p>time</p>\"",
               "language" : "TypeScript"
             }
           },
@@ -60,33 +60,7 @@
         }, {
           "props" : {
             "layoutStyle" : {
-              "width" : "12rem"
-            },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "  \"timestamp\";",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : {
-              "width" : "7rem"
-            },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p><br></p><p>eventBoxId</p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : {
-              "width" : "12rem"
+              "width" : "25rem"
             },
             "style" : { },
             "text" : {
@@ -104,33 +78,7 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p>triggerTime</p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : {
-              "width" : "5rem"
-            },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p><br></p><p>emitterCharacterId</p>\"",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
-            "layoutStyle" : {
-              "width" : "7rem"
-            },
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "\"<p>emitterPlayerId</p>\"",
+              "content" : "\"<p><br></p><p>parentEventId</p>\"",
               "language" : "TypeScript"
             }
           },
@@ -143,16 +91,26 @@
             "style" : { },
             "text" : {
               "@class" : "Script",
-              "content" : "\"<p><br></p><p>...<br></p>\"",
+              "content" : "  \"source\";",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "2rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>priority</p>\"",
               "language" : "TypeScript"
             }
           },
           "type" : "Text"
         } ],
-        "layout" : { },
-        "layoutStyle" : { },
-        "name" : "titles",
-        "style" : { }
+        "name" : "titles"
       },
       "type" : "FlexList"
     }, {
@@ -170,7 +128,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  JSON.stringify(Context.globalEvent);",
+                  "content" : "  JSON.stringify(Context.event) + '<br>';",
                   "language" : "TypeScript"
                 }
               },
@@ -180,77 +138,12 @@
                 "children" : [ {
                   "props" : {
                     "layoutStyle" : {
-                      "width" : "7rem"
+                      "width" : "2rem"
                     },
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.id ?? 0);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "7rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  JSON.stringify(Context.globalEvent.previousEventId);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "12rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.timestamp ?? 0);",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "7rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.eventBoxId || '');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "12rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.payload?.type || '');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "7rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.payload?.triggerTime || '');",
+                      "content" : "  String(Context.event.eventNumber ?? 0);",
                       "language" : "TypeScript"
                     }
                   },
@@ -263,20 +156,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.payload?.emitterCharacterId || '');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : {
-                      "width" : "7rem"
-                    },
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "  String(Context.globalEvent.payload?.emitterPlayerId || '');",
+                      "content" : "  String(Context.event.time ?? 0);",
                       "language" : "TypeScript"
                     }
                   },
@@ -289,7 +169,46 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "  const { id, previousEventId, timestamp, eventBoxId, ...remaining } = Context.globalEvent\n  JSON.stringify(remaining);",
+                      "content" : "  Context.event.type || '';",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  JSON.stringify(Context.event.parentEventId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "25rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  JSON.stringify(Context.event.source);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "2rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  JSON.stringify(Context.event.priority);",
                       "language" : "TypeScript"
                     }
                   },
@@ -306,13 +225,13 @@
           },
           "type" : "FlexList"
         } ],
-        "exposeAs" : "globalEvent",
+        "exposeAs" : "event",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n  getAllEvents();",
+          "content" : "import { getAllLocalEvents } from \"./UIfacade/debugFacade\";\ngetAllLocalEvents() || [];",
           "language" : "TypeScript"
         },
-        "itemKey" : "id",
+        "itemKey" : "eventNumber",
         "layout" : {
           "flexDirection" : "column"
         },

@@ -1,3 +1,4 @@
+import { getLocalEventManager } from '../game/common/localEvents/localEventManager';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import {
   forceRecomputeStateDebug,
@@ -72,4 +73,19 @@ export function getTimeFrameHistory() {
   return h.map(s => {
     return { id: i++, tf: s.getCurrentTimeFrame() };
   });
+}
+
+export function getAllLocalEvents() {
+  return getLocalEventManager()
+    .getProcessedEvents()
+    .map(localEvent => {
+      return {
+        eventNumber: localEvent.eventNumber,
+        type: localEvent.type,
+        parentEventId: localEvent.parentEventId,
+        source: localEvent.source,
+        time: localEvent.simTimeStamp,
+        priority: localEvent.priority,
+      };
+    });
 }
