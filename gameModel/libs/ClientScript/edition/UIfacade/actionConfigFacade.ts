@@ -6,6 +6,7 @@ import { ActionTemplateFlatType } from '../controllers/dataController';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import {
+  addNew,
   GenericScenaristInterfaceState,
   getItems,
   getItemTyped,
@@ -26,10 +27,27 @@ export interface ActionTemplateConfigUIState extends GenericScenaristInterfaceSt
    */
   mapMarkerOn: Record<Uid, boolean>;
   /**
+   *  Is/Are effect(s) showing?
+   */
+  effectOpen: boolean;
+  /**
    * Are basic and custom actions showing?
    */
   openBasic: boolean;
   openCustom: boolean;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// toggle effect
+
+export function toggleEffectListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.effectOpen = !newState.effectOpen;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getEffectListState(): boolean {
+  return getActionTemplateController().getLatestIState().effectOpen;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,13 +89,14 @@ export function getActionTemplates(mandatory: boolean): FlatActionTemplate[] {
 export function updateItem<T extends ActionTemplateFlatType>(
   uid: Uid,
   newData: Partial<T>,
-  interfaceState: ActionTemplateConfigUIState | undefined = undefined
+  interfaceState: ActionTemplateConfigUIState | undefined = undefined,
+  squashLastState: boolean = false
 ): void {
   const controller = getActionTemplateController();
   const data: Record<Uid, ActionTemplateFlatType> = controller.getFlatDataClone();
   if (data[uid] != undefined) {
     data[uid] = patchX(data[uid], newData)!;
-    controller.updateData(data, true, interfaceState);
+    controller.updateData(data, true, interfaceState, squashLastState);
   }
 }
 
@@ -127,6 +146,18 @@ export function updateMapMarkerState(choice: FlatChoice, activate: boolean): voi
 
 export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
   return choice?.displayedMapEntity !== undefined;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// effects specificities
+
+export function addChoice(): void {
+  const choice = addNew('choice', 'action');
+  const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
+    squashLastState: true,
+  });
+  updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
+  updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

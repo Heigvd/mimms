@@ -48,6 +48,10 @@
   color: var(--grey_30);
 }
 
+.scenarist-absolute-button .disabled div:hover {
+  cursor: default;
+}
+
 .scenarist-save-all-button {
   gap: 10px;
   position: absolute;
@@ -83,6 +87,13 @@
 .scenarist-text {
   font-size: var(--SM_text);
   color: var(--grey_100);
+}
+
+.xsmall-regular-primary-text {
+  font-size: var(--XS_text);
+  font-weight: var(--regularWeight);
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
 }
 
 .small-regular-primary-text {

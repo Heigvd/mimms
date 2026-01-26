@@ -318,7 +318,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('choice', 'action');",
+                    "content" : "import { addChoice } from \"./edition/UIfacade/actionConfigFacade\";\n\naddChoice();",
                     "language" : "TypeScript"
                   }
                 },
@@ -341,40 +341,6 @@
                         "style" : { }
                       },
                       "type" : "PageLoader"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "exposePageSizeAs" : "",
-                            "initialSelectedPageId" : "scenaristItemGeneric",
-                            "layoutClassName" : "noPadding generic-item__page-loader",
-                            "layoutStyle" : { },
-                            "name" : "conditionItemPageLoader",
-                            "style" : { }
-                          },
-                          "type" : "PageLoader"
-                        } ],
-                        "exposeAs" : "item",
-                        "getItemsFn" : {
-                          "@class" : "Script",
-                          "content" : "import { getItems } from \"./edition/UIfacade/genericConfigFacade\";\n  getItems('effect', 'choice');",
-                          "language" : "TypeScript"
-                        },
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isSelected } from \"./edition/UIfacade/genericConfigFacade\";\nContext.item == undefined || !isSelected(Context.item.superType, Context.item.uid);",
-                          "language" : "typescript"
-                        },
-                        "itemKey" : "uid",
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "effects",
-                        "style" : { }
-                      },
-                      "type" : "For each"
                     } ],
                     "layout" : {
                       "flexDirection" : "column"
@@ -438,7 +404,7 @@
                 "className" : "",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('action');",
+                  "content" : "import { getSelectedTyped, isSomethingSelected } from \"./edition/UIfacade/genericConfigFacade\";\n  !isSomethingSelected('effect') || (getSelectedTyped('action')?.mandatory || false);",
                   "language" : "typescript"
                 },
                 "icon" : "plus",

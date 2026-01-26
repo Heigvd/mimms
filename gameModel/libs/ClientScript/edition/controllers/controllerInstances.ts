@@ -85,6 +85,7 @@ function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
     modal: 'closed',
     viewOnMapItem: undefined,
     mapMarkerOn: {},
+    effectOpen: false,
     openBasic: true,
     openCustom: true,
   };
