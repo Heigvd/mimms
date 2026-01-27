@@ -76,16 +76,10 @@ export function getTimeFrameHistory() {
 }
 
 export function getAllLocalEvents() {
+  let counter = 0;
   return getLocalEventManager()
     .getProcessedEvents()
-    .map(localEvent => {
-      return {
-        eventNumber: localEvent.eventNumber,
-        type: localEvent.type,
-        parentEventId: localEvent.parentEventId,
-        source: localEvent.source,
-        time: localEvent.simTimeStamp,
-        priority: localEvent.priority,
-      };
+    .map(pe => {
+      return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
     });
 }

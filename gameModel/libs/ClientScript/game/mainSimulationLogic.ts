@@ -131,7 +131,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
             getLocalEventManager().queueLocalEvent(
               new AddNotificationLocalEvent({
                 parentEventId: event.id,
-                source: { type: 'system' },
+                source: { type: 'plan-action' },
                 simTimeStamp: getCurrentState().getSimTime(),
                 recipientId: ownerId,
                 message: getTranslation('mainSim-interface', 'notification-concurrent-stop'),
@@ -159,7 +159,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         } else {
           const localEvent = new CancelActionLocalEvent({
             parentEventId: event.id,
-            source: { type: 'action', id: action.Uid }, // TODO voir si met autre chose. L'action n'existera plus
+            source: { type: 'unplan-action' },
             simTimeStamp: event.payload.triggerTime,
             templateId: event.payload.templateId,
             actorUid: event.payload.actorId,
@@ -189,7 +189,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           for (let i = 0; i < timeJump; i += TimeSliceDuration) {
             const timefwdEvent = new TimeForwardLocalEvent({
               parentEventId: event.id,
-              source: { type: 'time-action' }, // TODO voir si meilleur nom
+              source: { type: 'time-forward' },
               simTimeStamp: event.payload.triggerTime + i,
               actors: involved,
               timeJump: TimeSliceDuration,
@@ -203,7 +203,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       {
         const timefwdEvent = new TimeForwardCancelLocalEvent({
           parentEventId: event.id,
-          source: { type: 'time-action' },
+          source: { type: 'time-forward-cancel' },
           simTimeStamp: event.payload.triggerTime,
           actors: event.payload.involvedActors,
         });
@@ -376,7 +376,7 @@ export async function initGameOptions(): Promise<IManagedResponse> {
     triggerTime: 0,
     options: options,
     type: 'GameOptionsEvent',
-    source: 'system',
+    source: 'initialisation',
   };
 
   return await sendEvent(go);

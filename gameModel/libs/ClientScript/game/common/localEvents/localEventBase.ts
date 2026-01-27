@@ -83,13 +83,13 @@ export interface LocalEvent {
 
 export type SourceType =
   | {
-      type: 'system';
-    }
-  | {
-      type: 'trainer';
-    }
-  | {
-      type: 'time-action';
+      type:
+        | 'initialisation'
+        | 'trainer'
+        | 'time-forward'
+        | 'time-forward-cancel'
+        | 'plan-action'
+        | 'unplan-action';
     }
   | {
       type: 'action';
@@ -1309,7 +1309,7 @@ export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
     super({
       type: 'T0TriggerEvaluationLocalEvent',
       parentEventId: 0, // TODO check
-      source: { type: 'system' },
+      source: { type: 'initialisation' },
       simTimeStamp: 0,
     });
   }

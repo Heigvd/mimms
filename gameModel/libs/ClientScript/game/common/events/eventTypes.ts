@@ -177,7 +177,7 @@ export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
 
 export interface GameOptionsEvent extends BaseEvent, TimedPayload {
   type: 'GameOptionsEvent';
-  source: SourceType['type'] & ('trainer' | 'system');
+  source: SourceType['type'] & ('trainer' | 'initialisation');
   options: GameOptions;
 }
 

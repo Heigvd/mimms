@@ -109,6 +109,32 @@
             }
           },
           "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "50rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>props</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "25rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>...<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
         } ],
         "name" : "titles"
       },
@@ -156,7 +182,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "  String(Context.event.time ?? 0);",
+                      "content" : "  String(Context.event.simTimeStamp ?? 0);",
                       "language" : "TypeScript"
                     }
                   },
@@ -213,6 +239,37 @@
                     }
                   },
                   "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "key3overf" : "",
+                      "max-width" : "50rem",
+                      "maxWidth" : "50rem",
+                      "width" : "50rem"
+                    },
+                    "style" : {
+                      "overflow" : "auto"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  JSON.stringify(Context.event.props);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "25rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "    const { eventNumber, simTimeStamp, type, parentEventId, source, priority, props, ...remaining } = Context.event\n    JSON.stringify(remaining);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
                 } ]
               },
               "type" : "FlexList"
@@ -228,7 +285,7 @@
         "exposeAs" : "event",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getAllLocalEvents } from \"./UIfacade/debugFacade\";\ngetAllLocalEvents() || [];",
+          "content" : "import { getLocalEventManager } from \"./game/common/localEvents/localEventManager\";\n  (getLocalEventManager().getProcessedEvents().map(evt => { return JSON.parse(JSON.stringify({ ...evt })) }) || []);",
           "language" : "TypeScript"
         },
         "itemKey" : "eventNumber",
