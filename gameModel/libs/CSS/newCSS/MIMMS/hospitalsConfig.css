@@ -72,11 +72,12 @@
   text-align: center;
   background-color: var(--grey_10);
   border-radius: 5px;
+  pointer-events: none;
   z-index: 10;
   transition: opacity .3s ease-in-out;
 }
 
-.services-header-edit:hover .hospitals-tooltip {
+.services-header-edit:hover:has(.hospital-header-input:hover) .hospitals-tooltip {
   opacity: 100%;
   transition: opacity .3s ease-in-out;
 }
