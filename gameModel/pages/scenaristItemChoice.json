@@ -263,7 +263,7 @@
                 } ],
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>No map marker</p>\"",
+                  "content" : "\"<p>No location</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
@@ -275,7 +275,7 @@
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "no map marker",
+                "name" : "no location",
                 "style" : { }
               },
               "type" : "Button"
@@ -293,7 +293,7 @@
                 } ],
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Map marker</p>\"",
+                  "content" : "\"<p>Location</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
@@ -305,7 +305,7 @@
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "map marker",
+                "name" : "location",
                 "style" : { }
               },
               "type" : "Button"

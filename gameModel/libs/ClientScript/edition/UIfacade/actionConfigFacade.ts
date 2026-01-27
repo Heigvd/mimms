@@ -129,7 +129,7 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
   }
   const storedMarkerState =
     getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid];
-  return storedMarkerState === undefined ? true : storedMarkerState;
+  return storedMarkerState === undefined ? false : storedMarkerState;
 }
 
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
