@@ -7442,7 +7442,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-569 make choice effect friendly",
+  "name" : "MIM-590",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
