@@ -41,9 +41,9 @@
   z-index: 0;
 }
 
-.generic-item-container > div > div:has(.effect) {
+/*.generic-item-container > div > div:has(.effect) {
   width: calc(100% - 1.5rem);
-}
+}*/
 
 
 /* - - - - -  E F F E C T S  - - - */

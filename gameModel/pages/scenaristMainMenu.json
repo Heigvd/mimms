@@ -455,6 +455,7 @@
       },
       "type" : "State"
     } ],
+    "className" : "fullWidth",
     "layout" : {
       "flexDirection" : "row"
     },
