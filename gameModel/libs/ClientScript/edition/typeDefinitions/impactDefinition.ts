@@ -22,9 +22,11 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
+import { ActionValidationContext, TriggerValidationContext } from './validationContext';
 
 type ImpactTypeName = Impact['type'];
-type ImpactDefinition = MapToDefinition<Impact>;
+type ImpactValidationContext = TriggerValidationContext | ActionValidationContext;
+type ImpactDefinition = MapToDefinition<Impact, ImpactValidationContext>;
 export type FlatImpact = MapToFlatType<Impact, 'impact'>;
 
 export function toFlatImpact(imp: Impact, parentId: Uid): FlatImpact {
@@ -77,7 +79,7 @@ export function getImpactDefinition(
 
 // TODO somewhere check that all impacts are valid
 
-export function getEmptyImpactDef(): Definition<EmptyImpact> {
+export function getEmptyImpactDef(): Definition<EmptyImpact, ImpactValidationContext> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -85,7 +87,7 @@ export function getEmptyImpactDef(): Definition<EmptyImpact> {
       uid: generateId(10),
       index: 0,
     }),
-    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
+    validator: (_impact: EmptyImpact, _ctx: ImpactValidationContext) => ({ success: true, messages: [] }),
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -94,7 +96,7 @@ export function getEmptyImpactDef(): Definition<EmptyImpact> {
   };
 }
 
-export function getActivationImpactDef(): Definition<ActivationImpact> {
+export function getActivationImpactDef(): Definition<ActivationImpact, ImpactValidationContext> {
   return {
     type: 'activation',
     getDefault: () => ({
@@ -106,7 +108,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       target: '',
       option: 'activate',
     }),
-    validator: (impact: ActivationImpact) => {
+    validator: (impact: ActivationImpact, _ctx: ImpactValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -142,7 +144,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
   };
 }
 
-export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
+export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact, ImpactValidationContext> {
   return {
     type: 'effectSelection',
     getDefault: () => ({
@@ -153,7 +155,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
       target: '',
       targetEffect: '',
     }),
-    validator: (impact: ChoiceEffectSelectionImpact) => {
+    validator: (impact: ChoiceEffectSelectionImpact, _ctx: ImpactValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -199,7 +201,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
 
 export function getNotificationImpactDef(
   parentType?: SuperTypeNames
-): Definition<NotificationMessageImpact> {
+): Definition<NotificationMessageImpact, ImpactValidationContext> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -218,7 +220,7 @@ export function getNotificationImpactDef(
         Initiator: parentType === 'effect' ? true : false,
       },
     }),
-    validator: (impact: NotificationMessageImpact) => {
+    validator: (impact: NotificationMessageImpact, _ctx: ImpactValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -263,7 +265,7 @@ export function getNotificationImpactDef(
   };
 }
 
-export function getRadioImpactDef(): Definition<RadioMessageImpact> {
+export function getRadioImpactDef(): Definition<RadioMessageImpact, ImpactValidationContext> {
   return {
     type: 'radio',
     getDefault: () => ({
@@ -274,7 +276,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       message: createOrUpdateTranslation('', undefined),
       channel: RadioType.CASU,
     }),
-    validator: (impact: RadioMessageImpact) => {
+    validator: (impact: RadioMessageImpact, _ctx: ImpactValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -318,7 +320,7 @@ function checkIsMessageEmpty(message: ITranslatableContent | undefined): boolean
   );
 }
 
-export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
+export function getMapActivationImpactDef(): Definition<MapActivationImpact, ImpactValidationContext> {
   return {
     type: 'mapActivation',
     getDefault: () => ({
@@ -331,7 +333,7 @@ export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
       option: 'activate',
       buildStatus: 'pending',
     }),
-    validator: (impact: MapActivationImpact) => {
+    validator: (impact: MapActivationImpact, _ctx: ImpactValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 

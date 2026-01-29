@@ -10,8 +10,9 @@ import {
   MapToFlatType,
   ValidationResult,
 } from '../typeDefinitions/definition';
+import { LocationValidationContext } from './validationContext';
 
-type MapEntityDefinition = Definition<MapEntityDescriptor>;
+type MapEntityDefinition = Definition<MapEntityDescriptor, LocationValidationContext>;
 
 export type FlatMapEntity = MapToFlatType<MapEntityDescriptor, 'mapEntity'>;
 
@@ -63,7 +64,7 @@ export function getMapEntityDefinition(): MapEntityDefinition {
 }
 
 // TODO complete
-function validateMapEntity(mapEntity: MapEntityDescriptor): ValidationResult {
+function validateMapEntity(mapEntity: MapEntityDescriptor, ctx: LocationValidationContext): ValidationResult {
   const result: ValidationResult = {
     success: true,
     messages: [],

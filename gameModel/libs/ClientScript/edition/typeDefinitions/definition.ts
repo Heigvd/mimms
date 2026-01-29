@@ -1,5 +1,6 @@
 import { Indexed, Parented, SuperTyped, Typed } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
+import { ValidationContext } from './validationContext';
 
 /**
  * Unboxes the type contained in an array up to 3 levels of array
@@ -49,7 +50,7 @@ export type ToConfigurationViewType<O extends object> = {
     : ConfigurationView;
 };
 
-export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
+export type MapToDefinition<U, VC> = U extends Typed ? Definition<U, VC> : never;
 
 /**
  * Omit all arrays (children) and adds required interfaces
@@ -67,6 +68,8 @@ export interface ValidationResult {
     message: string;
     isTranslateKey: boolean; // TODO why translate key ? Scenarist is not all in english ?
   }[];
+  // TODO mandatory ?
+  validationContext? : ValidationContext;
 }
 
 export function mergeValidationResults(
@@ -110,9 +113,9 @@ export function logValidationResult(validationResult: ValidationResult) {
   });
 }
 
-export interface Definition<T extends Typed> {
+export interface Definition<T extends Typed, VC> {
   type: T['type'];
   view: ToConfigurationViewType<T>;
   getDefault: () => T;
-  validator: (value: T) => ValidationResult;
+  validator: (value: T, validationCtx : VC) => ValidationResult;
 }

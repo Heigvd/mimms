@@ -93,6 +93,7 @@ import { UndoRedoContext } from './undoRedoContext';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
+import { ActionValidationContext, LocationValidationContext, TriggerValidationContext, ValidationContext } from '../typeDefinitions/validationContext';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -273,13 +274,13 @@ export abstract class DataControllerBase<
     const result: ValidationResult[] = [];
 
     Object.values(this.getTreeData()).forEach((item: DataType) => {
-      result.push({ ...this.getValidator()(item) });
+      result.push({ ...this.getValidator()(item, {selection: {}}) });
     });
 
     return result;
   }
 
-  protected abstract getValidator(): (value: DataType) => ValidationResult;
+  protected abstract getValidator(): (value: DataType, ctx: ValidationContext) => ValidationResult;
 
   public updateItem(item: FlatType) {
     const data: Record<Uid, FlatType> = this.getFlatDataClone();
@@ -431,13 +432,14 @@ export class TriggerDataController extends DataControllerBase<
     options: CreationOptionsBase
   ): TriggerFlatType {
     switch (superType) {
-      case 'trigger':
+      case 'trigger': {
         const trigger = toFlatTrigger(
           getTriggerDefinition().getDefault(),
           TriggerDataController.TRIGGER_ROOT
         );
         this.assignNewTagName(trigger);
         return trigger;
+      }
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
@@ -462,7 +464,7 @@ export class TriggerDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: Trigger) => ValidationResult {
+  protected getValidator(): (value: Trigger, ctx: TriggerValidationContext) => ValidationResult {
     return getTriggerDefinition().validator;
   }
 
@@ -578,21 +580,24 @@ export class ActionTemplateDataController extends DataControllerBase<
     options: CreationOptionsBase
   ): ActionTemplateFlatType {
     switch (superType) {
-      case 'action':
+      case 'action': {
         const action = toFlatActionTemplate(
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
           ActionTemplateDataController.ACTION_ROOT
         );
         this.assignNewTagName(action);
         return action;
-      case 'choice':
+      }
+      case 'choice': {
         const choice = toFlatChoice(getChoiceDefinition().getDefault(), parentId);
         this.assignNewTagName(choice);
         return choice;
-      case 'effect':
+      }
+      case 'effect':{
         const effect = toFlatEffect(getEffectDefinition().getDefault(), parentId);
         this.assignNewTagName(effect);
         return effect;
+      }
       case 'impact':
         return toFlatImpact(
           getImpactDefinition('empty', options.parentType).getDefault(),
@@ -615,7 +620,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
+  protected getValidator(): (value: TemplateDescriptor, ctx: ActionValidationContext) => ValidationResult {
     // TODO
     return () => {
       return { success: true, messages: [] };
@@ -785,7 +790,7 @@ export class MapEntityController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
+  protected getValidator(): (value: MapEntityDescriptor, ctx: LocationValidationContext) => ValidationResult {
     return getMapEntityDefinition().validator;
   }
 }

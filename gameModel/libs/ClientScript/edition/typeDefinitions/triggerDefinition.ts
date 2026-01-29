@@ -14,8 +14,9 @@ import {
   ValidationResult,
 } from './definition';
 import { getImpactDefinition } from './impactDefinition';
+import { TriggerValidationContext } from './validationContext';
 
-type TriggerDefinition = Definition<Trigger>;
+type TriggerDefinition = Definition<Trigger, TriggerValidationContext>;
 
 export type FlatTrigger = MapToFlatType<Trigger, 'trigger'>;
 

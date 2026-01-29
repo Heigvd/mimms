@@ -4,8 +4,9 @@ import { Effect } from '../../game/common/impacts/effect';
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
 import { ALL_EDITABLE, Definition, MapToFlatType } from '../typeDefinitions/definition';
+import { ActionValidationContext } from './validationContext';
 
-type EffectDefinition = Definition<Effect>;
+type EffectDefinition = Definition<Effect, ActionValidationContext>;
 
 export type FlatEffect = MapToFlatType<Effect, 'effect'>;
 
@@ -36,7 +37,7 @@ export function getEffectDefinition(): EffectDefinition {
       parent: 'no parent',
       impacts: [],
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: (_t, _ctx) => ({ success: true, messages: [] }), // TODO validation
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

@@ -18,10 +18,11 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
+import { TriggerValidationContext } from './validationContext';
 
 type ConditionTypeName = Condition['type'];
 
-export type ConditionDefinition = MapToDefinition<Condition>;
+export type ConditionDefinition = MapToDefinition<Condition, TriggerValidationContext>;
 export type FlatCondition = MapToFlatType<Condition, 'condition'>;
 
 export function toFlatCondition(cond: Condition, parentId: Uid): FlatCondition {
@@ -49,7 +50,7 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
   return defs[type]!;
 }
 
-export function getEmptyConditionDef(): Definition<EmptyCondition> {
+export function getEmptyConditionDef(): Definition<EmptyCondition, TriggerValidationContext> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -57,7 +58,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition> {
       index: 0,
       type: 'empty',
     }),
-    validator: (_condition: EmptyCondition) => ({ success: true, messages: [] }),
+    validator: (_condition: EmptyCondition, _ctx: TriggerValidationContext) => ({ success: true, messages: [] }),
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -66,7 +67,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition> {
   };
 }
 
-export function getTimeConditionDef(): Definition<TimeCondition> {
+export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidationContext> {
   return {
     type: 'time',
     getDefault: () => ({
@@ -76,7 +77,7 @@ export function getTimeConditionDef(): Definition<TimeCondition> {
       operator: '=',
       timeSeconds: 0,
     }),
-    validator: (condition: TimeCondition) => {
+    validator: (condition: TimeCondition, _ctx: TriggerValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -101,7 +102,7 @@ export function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
-export function getActionConditionDef(): Definition<ActionCondition> {
+export function getActionConditionDef(): Definition<ActionCondition, TriggerValidationContext> {
   return {
     type: 'action',
     getDefault: () => ({
@@ -112,7 +113,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       choiceRef: ANY_CHOICE,
       status: 'active',
     }),
-    validator: (condition: ActionCondition) => {
+    validator: (condition: ActionCondition, _ctx: TriggerValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -138,7 +139,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
   };
 }
 
-export function getTriggerConditionDef(): Definition<TriggerCondition> {
+export function getTriggerConditionDef(): Definition<TriggerCondition, TriggerValidationContext> {
   return {
     type: 'trigger',
     getDefault: () => ({
@@ -148,7 +149,7 @@ export function getTriggerConditionDef(): Definition<TriggerCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: TriggerCondition) => {
+    validator: (condition: TriggerCondition, _ctx: TriggerValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 
@@ -173,7 +174,7 @@ export function getTriggerConditionDef(): Definition<TriggerCondition> {
   };
 }
 
-export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
+export function getMapEntityConditionDef(): Definition<MapEntityCondition, TriggerValidationContext> {
   return {
     type: 'mapEntity',
     getDefault: () => ({
@@ -183,7 +184,7 @@ export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: MapEntityCondition) => {
+    validator: (condition: MapEntityCondition, _ctx: TriggerValidationContext) => {
       let success: boolean = true;
       const messages: ValidationResult['messages'] = [];
 

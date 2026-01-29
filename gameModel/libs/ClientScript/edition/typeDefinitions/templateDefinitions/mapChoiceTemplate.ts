@@ -5,11 +5,12 @@ import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
+import { ActionValidationContext } from '../validationContext';
 
 /**
  * Scenarist map choice descriptor
  */
-export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTemplateDescriptor> {
+export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTemplateDescriptor, ActionValidationContext> {
   return {
     type: 'MapChoiceActionTemplateDescriptor',
     getDefault: () => ({
@@ -39,7 +40,7 @@ export function getMapChoiceActionTemplateDef(): Definition<MapChoiceActionTempl
       comment: '',
       index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: (_t, _ctx) => ({ success: true, messages: [] }), // TODO validation
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

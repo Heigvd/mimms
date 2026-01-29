@@ -5,9 +5,10 @@ import { MapToDefinition, MapToFlatType } from '../typeDefinitions/definition';
 import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
+import { ActionValidationContext } from './validationContext';
 
 type TemplateDescriptorTypeName = TemplateDescriptor['type'];
-type TemplateDefinition = MapToDefinition<TemplateDescriptor>;
+type TemplateDefinition = MapToDefinition<TemplateDescriptor, ActionValidationContext>;
 
 export type FlatActionTemplate = MapToFlatType<TemplateDescriptor, 'action'>;
 
