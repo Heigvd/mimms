@@ -15,10 +15,10 @@ export function createFullyConfigurableTemplate(
     descriptor.title,
     descriptor.description,
     descriptor.durationSec,
+    descriptor.repeats,
     undefined, // no required flag
     undefined, // no raised flag
     getFilteredAsArray(descriptor.availableToRoles),
-    descriptor.choices,
-    descriptor.repeats
+    descriptor.choices
   );
 }

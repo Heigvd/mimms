@@ -43,7 +43,7 @@ export function hasBeenPlannedByOtherActor(
 
 export function getAvailableChoices(
   state: Readonly<MainSimulationState>,
-  template: ChoiceTemplate
+  template: Readonly<ChoiceTemplate>
 ): ChoiceDescriptor[] {
   if (isChoiceTemplate(template)) {
     return template.choices

@@ -184,7 +184,7 @@ export function getActorsNotDoing<T extends ActionBase>(actionClass: {
 }
 
 export function isChoiceTemplate(
-  template: ActionTemplateBase | undefined
+  template: Readonly<ActionTemplateBase> | undefined
 ): template is ChoiceTemplate {
   return template instanceof ChoiceTemplate;
 }

@@ -20,16 +20,13 @@ interface ActivableState<T extends IActivableDescriptor> {
   uid: Uid;
 }
 
-export interface ActionTemplateActivable extends ActivableState<TemplateDescriptor> {
-  count: number;
-}
+export type ActionTemplateActivable = ActivableState<TemplateDescriptor>;
 
 export interface TriggerActivable extends ActivableState<Trigger> {
   count: number;
 }
 
 export interface ChoiceActivable extends ActivableState<ChoiceDescriptor> {
-  count: number;
   selectedEffect: Uid;
 }
 
@@ -61,7 +58,6 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         uid: descriptor.uid,
         activableType: descriptor.activableType,
         active: descriptor.activeAtStart,
-        count: 0,
       };
       return ata;
     case 'choice':
@@ -69,7 +65,6 @@ export function fromDescriptor<DType extends DescriptorActivableType>(
         uid: descriptor.uid,
         activableType: descriptor.activableType,
         active: descriptor.activeAtStart,
-        count: 0,
         selectedEffect: descriptor.defaultEffect,
       };
       return ca;
