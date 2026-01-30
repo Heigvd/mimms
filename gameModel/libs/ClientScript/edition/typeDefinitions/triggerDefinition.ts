@@ -14,7 +14,7 @@ import {
   ValidationResult,
 } from './definition';
 import { getImpactDefinition } from './impactDefinition';
-import { TriggerValidationContext } from './validationContext';
+import { TriggerValidationContext } from './validation/validationContext';
 
 type TriggerDefinition = Definition<Trigger, TriggerValidationContext>;
 
@@ -76,7 +76,7 @@ export function getTriggerDefinition(): TriggerDefinition {
   };
 }
 
-function triggerCompleteValidator(trigger: Trigger): ValidationResult {
+function triggerCompleteValidator(trigger: Trigger, ctx: TriggerValidationContext): ValidationResult<TriggerValidationContext>[] {
   // for the trigger itself
   let result: ValidationResult = checkTriggerHasImpact(trigger);
 
@@ -85,7 +85,7 @@ function triggerCompleteValidator(trigger: Trigger): ValidationResult {
     const validator = getConditionDefinition(cond.type).validator as (
       value: Condition
     ) => ValidationResult;
-    result = mergeValidationResults(result, validator(cond));
+    result = mergeValidationResults(result, validator(cond, ctx));
   });
 
   // for each impact

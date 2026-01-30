@@ -10,7 +10,7 @@ import {
   EXPERT_ONLY,
   MapToFlatType,
 } from '../typeDefinitions/definition';
-import { ActionValidationContext } from './validationContext';
+import { ActionValidationContext } from './validation/validationContext';
 
 type ChoiceDefinition = Definition<ChoiceDescriptor, ActionValidationContext>;
 
@@ -52,7 +52,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       durationDeltaSec: 0,
       index: 0,
     }),
-    validator: (_t, _ctx) => ({ success: true, messages: [] }), // TODO validation
+    validator: (_t, _ctx) => ([{ success: true, messages: [], validationContext: {..._ctx, targetState: {}} }]), // TODO validation
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

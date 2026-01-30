@@ -18,7 +18,7 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import { TriggerValidationContext } from './validationContext';
+import { TriggerValidationContext } from './validation/validationContext';
 
 type ConditionTypeName = Condition['type'];
 
@@ -58,7 +58,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition, TriggerValida
       index: 0,
       type: 'empty',
     }),
-    validator: (_condition: EmptyCondition, _ctx: TriggerValidationContext) => ({ success: true, messages: [] }),
+    validator: (_condition: EmptyCondition, _ctx: TriggerValidationContext) => [],
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -90,7 +90,7 @@ export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidati
         });
       }
 
-      return { success, messages };
+      return [{ success, messages, validationContext: {..._ctx} }];
     },
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },

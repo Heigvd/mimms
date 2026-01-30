@@ -69,6 +69,7 @@ import {
   FlatActionTemplate,
   fromFlatActionTemplate,
   getTemplateDef,
+  getTemplateValidator,
   toFlatActionTemplate,
 } from '../typeDefinitions/templateDefinition';
 import {
@@ -93,7 +94,7 @@ import { UndoRedoContext } from './undoRedoContext';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
-import { ActionValidationContext, LocationValidationContext, TriggerValidationContext, ValidationContext } from '../typeDefinitions/validationContext';
+import { ActionValidationContext, LocationValidationContext, TriggerValidationContext, GenericValidationContext } from '../typeDefinitions/validation/validationContext';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -122,10 +123,11 @@ export type CreationOptionsBase = {
   squashLastState?: boolean;
 };
 export abstract class DataControllerBase<
-  DataType extends Typed,
+  DataType extends Typed & IDescriptor,
   FlatType extends FlatTypes,
   IState extends GenericScenaristInterfaceState,
-  CreationOptions extends CreationOptionsBase
+  CreationOptions extends CreationOptionsBase,
+  VContext extends GenericValidationContext
 > {
   private readonly undoRedo: UndoRedoContext<IState, FlatType>;
   private readonly varKey: keyof ObjectVariableClasses;
@@ -146,7 +148,7 @@ export abstract class DataControllerBase<
   }
 
   public save(): void {
-    this.validate().forEach((validationResult: ValidationResult) =>
+    this.validate().forEach((validationResult: ValidationResult<VContext>) =>
       logValidationResult(validationResult)
     );
 
@@ -270,17 +272,17 @@ export abstract class DataControllerBase<
     this.updateIState(newState);
   }
 
-  public validate(): ValidationResult[] {
-    const result: ValidationResult[] = [];
+  public validate(): ValidationResult<VContext>[] {
+    const result: ValidationResult<VContext>[] = [];
 
     Object.values(this.getTreeData()).forEach((item: DataType) => {
-      result.push({ ...this.getValidator()(item, {selection: {}}) });
+      result.push(...this.validateInternal(item));
     });
 
     return result;
   }
 
-  protected abstract getValidator(): (value: DataType, ctx: ValidationContext) => ValidationResult;
+  protected abstract validateInternal(item: DataType): ValidationResult<VContext>[];
 
   public updateItem(item: FlatType) {
     const data: Record<Uid, FlatType> = this.getFlatDataClone();
@@ -377,7 +379,8 @@ export class TriggerDataController extends DataControllerBase<
   Trigger,
   TriggerFlatType,
   TriggerConfigUIState,
-  CreationOptionsBase
+  CreationOptionsBase,
+  TriggerValidationContext
 > {
   private static readonly TRIGGER_ROOT: string = 'TRIGGER_ROOT';
 
@@ -464,8 +467,8 @@ export class TriggerDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: Trigger, ctx: TriggerValidationContext) => ValidationResult {
-    return getTriggerDefinition().validator;
+  protected validateInternal(value: Trigger) : ValidationResult<TriggerValidationContext>[] {
+    return getTriggerDefinition().validator(value, {page: 'triggers', targetState: {'trigger': value.uid}});
   }
 
   protected override isSibling(target: TriggerFlatType, candidate: TriggerFlatType): boolean {
@@ -494,7 +497,8 @@ export class ActionTemplateDataController extends DataControllerBase<
   TemplateDescriptor,
   ActionTemplateFlatType,
   ActionTemplateConfigUIState,
-  CreationOptionsBase
+  CreationOptionsBase,
+  ActionValidationContext
 > {
   // TODO filter by mandatory
   protected override isSibling(
@@ -620,11 +624,8 @@ export class ActionTemplateDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: TemplateDescriptor, ctx: ActionValidationContext) => ValidationResult {
-    // TODO
-    return () => {
-      return { success: true, messages: [] };
-    };
+  protected validateInternal(value: TemplateDescriptor) : ValidationResult<ActionValidationContext>[] {
+    return getTemplateValidator(value.type)(value, {page: 'actions', targetState: {'action': value.uid}});
   }
 
   public override select(itemType: SuperTypeNames, uid: Uid | undefined): void {
@@ -677,7 +678,8 @@ export class MapEntityController extends DataControllerBase<
   MapEntityDescriptor,
   MapEntityFlatType,
   MapEntityUIState,
-  MapEntityCreationOptions
+  MapEntityCreationOptions,
+  LocationValidationContext
 > {
   private static readonly MAP_ENTITY_ROOT: string = 'MAP_ENTITY_ROOT';
 
@@ -790,7 +792,7 @@ export class MapEntityController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: MapEntityDescriptor, ctx: LocationValidationContext) => ValidationResult {
-    return getMapEntityDefinition().validator;
+  protected validateInternal(value: MapEntityDescriptor) : ValidationResult<LocationValidationContext>[] {
+    return getMapEntityDefinition().validator(value, {page: 'locations', targetState: {'mapEntity': value.uid}});
   }
 }

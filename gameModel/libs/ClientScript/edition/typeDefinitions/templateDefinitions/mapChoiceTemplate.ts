@@ -5,7 +5,7 @@ import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
-import { ActionValidationContext } from '../validationContext';
+import { ActionValidationContext } from '../validation/validationContext';
 
 /**
  * Scenarist map choice descriptor

@@ -22,7 +22,7 @@ import {
   MapToFlatType,
   ValidationResult,
 } from './definition';
-import { ActionValidationContext, TriggerValidationContext } from './validationContext';
+import { ActionValidationContext, TriggerValidationContext } from './validation/validationContext';
 
 type ImpactTypeName = Impact['type'];
 type ImpactValidationContext = TriggerValidationContext | ActionValidationContext;

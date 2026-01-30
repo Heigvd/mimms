@@ -16,7 +16,7 @@ import {
   MapToDefinition,
   ToConfigurationViewType,
 } from '../typeDefinitions/definition';
-import { LocationValidationContext } from './validationContext';
+import { LocationValidationContext } from './validation/validationContext';
 
 type MapObjectDefinition = MapToDefinition<MapObject, LocationValidationContext>;
 type MapObjectTypeName = MapObject['type'];
@@ -113,7 +113,7 @@ export function getLineMapObjectDef(): Definition<LineMapObject, LocationValidat
       lineEnd: 'None',
       geometry: [],
     }),
-    validator: (_line: LineMapObject, _vc: LocationValidationContext) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: (_line: LineMapObject, _vc: LocationValidationContext) => [({ success: true, messages: [] })], // TODO warning if out of zone
     view: {
       ...getCommonView(),
       lineStart: ALL_EDITABLE,

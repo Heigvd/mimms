@@ -5,7 +5,7 @@ import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { Definition } from '../../typeDefinitions/definition';
-import { ActionValidationContext } from '../validationContext';
+import { ActionValidationContext } from '../validation/validationContext';
 
 // REMARK : Just as an example here, we might remove that MoveTemplate descriptor completetly
 export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor, ActionValidationContext> {
