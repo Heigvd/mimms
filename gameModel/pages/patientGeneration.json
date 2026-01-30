@@ -889,7 +889,7 @@
                         "exposeAs" : "item",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSec().slice(1).map(n => ({id:n, value:n/60}));",
+                          "content" : "import { getSampleTimesSecHeader } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSecHeader();",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
