@@ -156,6 +156,7 @@ let mainStateDefaultUidGenerator: UidGenerator | undefined;
 
 Helpers.registerEffect(() => {
   mainStateDefaultUidGenerator = undefined;
+  mainStateInitializationComplete = false;
 });
 
 function getMainStateDefaultUidGenerator(): UidGenerator {
@@ -184,4 +185,5 @@ export function resetPlayerContext(): void {
   gameExecLogger.warn('DEBUG ONLY, removing player context');
   delete executionContexts[getPlayerTeamId()];
   mainStateInitializationComplete = false;
+  mainStateDefaultUidGenerator = undefined;
 }

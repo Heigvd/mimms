@@ -1,5 +1,4 @@
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';

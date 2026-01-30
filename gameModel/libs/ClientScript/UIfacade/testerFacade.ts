@@ -10,32 +10,23 @@ import {
   updateIgnoredEvents,
 } from '../game/testing/stateDebug';
 import { getInitialInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
+import { makeAsync } from '../tools/helper';
 import { debugLogger } from '../tools/logger';
 
 /**
- * Saves the scenarist's data and deletes the current state
+ * Recomputes the game state with fresh data
  */
-export function reloadState(): void {
+export async function reloadState(): Promise<void> {
   // TODO might do a manual runScript to get an async call
   //saveToVariable();
-  debugLogger.info('Saving...');
+  //debugLogger.info('Saving...');
   eraseInitialState();
   resetState();
-  runUpdateLoop();
+  await makeAsync(() => runUpdateLoop(), {});
   wlog('initial uid', getInitialInterfaceState().currentActorUid);
   setInterfaceState(getInitialInterfaceState());
   debugLogger.info('State erased...');
 }
-
-/*
-function refreshInterfaceState(): void {
-  setInterfaceState({
-    //selectedActionChoiceUid: undefined,
-    //selectedCasuAction: undefined,
-    //selectedRadioChannel: undefined,
-    //selectedPatient: undefined,
-  })
-}*/
 
 /**
  * Undo the last action (one step is one global event)
@@ -63,12 +54,9 @@ export async function undoLastAction(): Promise<void> {
  */
 export async function restart(): Promise<void> {
   await setCurrentStateDebug(0);
-  reloadState();
+  await reloadState();
   setTimeout(() => {
     Helpers.scrollIntoView('#current-time', { behavior: 'smooth', inline: 'center' });
-    Helpers.scrollIntoView('.aMessage-animation', { behavior: 'smooth', block: 'start' });
-    Helpers.scrollIntoView('.radio-message-last', { behavior: 'smooth', block: 'start' });
-    Helpers.scrollIntoView('.pending', { behavior: 'smooth', block: 'start' });
   }, 200);
 }
 

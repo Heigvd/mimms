@@ -42,5 +42,6 @@ export const sortingLogger = Helpers.getLogger('helpers.sorting');
 gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
 mainSimLogger.setLevel('INFO');
+mainSimLoaderLogger.setLevel('INFO');
 mainSimStateLogger.setLevel('DEBUG');
 scenarioEditionLogger.setLevel('INFO');
