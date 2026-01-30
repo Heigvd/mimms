@@ -3,6 +3,8 @@ import { TimedEventPayload } from '../game/common/events/eventTypes';
 import { compareTimedEvents, getAllEvents } from '../game/common/events/eventUtils';
 import { getCurrentExecutionContext } from '../game/executionContext/gameExecutionContextController';
 import { eraseInitialState } from '../game/loaders/mainStateLoader';
+import { resetMapEntitiesCache } from '../game/loaders/mapEntitiesLoader';
+import { resetTriggerCache } from '../game/loaders/triggerLoader';
 import { resetState, runUpdateLoop } from '../game/mainSimulationLogic';
 import {
   getOmittedGlobalEvents,
@@ -17,13 +19,25 @@ import { debugLogger } from '../tools/logger';
  * Recomputes the game state with fresh data
  */
 export async function reloadState(): Promise<void> {
-  // TODO might do a manual runScript to get an async call
-  //saveToVariable();
-  //debugLogger.info('Saving...');
+  // force delete the initial state
+  // this will erase
+  // - patients initial state
+  // - ressources containers initial state (but not the container definitions)
+  // - starting activables
   eraseInitialState();
+
+  // delete the current execution context (actions, radio message, etc.)
+  // and the loaded templates
   resetState();
+
+  // reset triggers (remove cached values)
+  resetTriggerCache();
+  // reset map entities (remove cached values)
+  resetMapEntitiesCache();
+  // reset hospitals (remove cached values)
+
+  // this will reinitialize the starting state and the current state of the game
   await makeAsync(() => runUpdateLoop(), {});
-  wlog('initial uid', getInitialInterfaceState().currentActorUid);
   setInterfaceState(getInitialInterfaceState());
   debugLogger.info('State erased...');
 }

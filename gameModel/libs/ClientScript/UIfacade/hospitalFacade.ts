@@ -60,6 +60,7 @@ export interface HospitalToDisplay {
 
 /**
  * Get the list of hospitals
+ * used in Hospitals Config
  */
 export function getAllHospitals(): HospitalToDisplay[] {
   const hospitals: Record<HospitalId, HospitalDefinition> = getHospitals();
@@ -72,6 +73,7 @@ export function getAllHospitals(): HospitalToDisplay[] {
 
 /**
  * Get the label for a hospital proximity
+ * used in Hospitals Config
  */
 export function getHospitalProximityLabel(proximity: HospitalProximity): string {
   return getProximityTranslation(HospitalProximity[proximity]!);
@@ -79,6 +81,7 @@ export function getHospitalProximityLabel(proximity: HospitalProximity): string 
 
 /**
  * Get the choices for the proximity
+ * used in hospitals config && METHANE action !!
  */
 export function getHospitalProximityChoices(): { label: string; value: string }[] {
   return (
@@ -93,7 +96,7 @@ export function getHospitalProximityChoices(): { label: string; value: string }[
 }
 
 /**
- * Update a data of a hospital.
+ * Update a data of a hospital. used in hospital config
  * @param id       The id of the hospital
  * @param field    The name of the field (fullName, shortName, distance or proximity)
  * @param newValue The new value to set
@@ -151,7 +154,7 @@ export function createHospital() {
 }
 
 /**
- * Get hospital index
+ * Get hospital index. used in hospital config
  */
 export function getHospitalIndex(id: HospitalId) {
   return getHospitalById(id)?.index;
@@ -168,7 +171,7 @@ export interface PatientUnitToDisplay {
 }
 
 /**
- * Get the list of patient units
+ * Get the list of patient units. Used in scenarist config
  */
 export function getAllPatientUnits(): PatientUnitToDisplay[] {
   const units: Record<PatientUnitId, PatientUnitDefinition> = getPatientUnits();

@@ -12,17 +12,20 @@ import { getCurrentState } from '../mainSimulationLogic';
  *
  * @returns Record<string, MapEntityDescriptor>
  */
-export function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
+function loadMapEntityDescriptors(): Record<string, MapEntityDescriptor> {
   return parseObjectDescriptor<MapEntityDescriptor>(Variable.find(gameModel, 'map_entity_data'));
 }
 
 let mapEntityDescriptors: Record<string, MapEntityDescriptor> | undefined = {};
 
 Helpers.registerEffect(() => {
+  // reset on script reload
   mapEntityDescriptors = undefined;
 });
 
-// TODO Move elsewhere? Getters and setters
+export function resetMapEntitiesCache(): void {
+  mapEntityDescriptors = undefined;
+}
 
 /**
  * Get all MapEntityDescriptors mapped by their Uid

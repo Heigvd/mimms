@@ -26,12 +26,13 @@ export function loadPatients(): PatientState[] {
   const humanParams = getPatientsBodyFactoryParamsArray();
   const initialTimeJump = getInitialTimeJumpSeconds();
   const hash = quickHash(JSON.stringify(env) + JSON.stringify(humanParams) + initialTimeJump);
-  if (patientCache[hash]) {
+  const cached = patientCache[hash];
+  if (cached) {
     mainSimLoaderLogger.info('***** cache hit on patient state', hash);
-    return Helpers.cloneDeep(patientCache[hash]);
+    return Helpers.cloneDeep(cached);
   }
 
-  mainSimLoaderLogger.info('Computing patients initial state');
+  mainSimLoaderLogger.info('Cache miss, computing patients initial state');
   const humanBodies = humanParams
     .map(bodyFactoryParamWithId => {
       const humanBody = createHumanBody(bodyFactoryParamWithId.meta, env);

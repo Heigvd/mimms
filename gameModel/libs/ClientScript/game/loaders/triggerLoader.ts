@@ -1,15 +1,27 @@
 import { parseObjectDescriptor } from '../../tools/WegasHelper';
 import { getTriggersVariable, Trigger } from '../common/triggers/trigger';
 
-// FIXME if needed, change return type to Record<Uid, Trigger>
-// XGO TODO singleton pattern (we don't wanna parse too often), reset the singleton with a useEffect
-export function getTriggers(): Trigger[] {
-  const triggersVariable = getTriggersVariable();
-  const triggers = Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
+let triggerCache: Trigger[] | undefined;
+Helpers.registerEffect(() => {
+  // reset triggers on scripts reload
+  resetTriggerCache();
+});
 
-  triggers.forEach(t => {
+export function resetTriggerCache(): void {
+  triggerCache = undefined;
+}
+
+export function getTriggers(): Trigger[] {
+  if (triggerCache) {
+    return triggerCache;
+  }
+
+  const triggersVariable = getTriggersVariable();
+  triggerCache = Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
+
+  triggerCache.forEach(t => {
     t.impacts = t.impacts.filter(i => i.type !== 'empty');
     t.conditions = t.conditions.filter(c => c.type !== 'empty');
   });
-  return triggers;
+  return triggerCache;
 }
