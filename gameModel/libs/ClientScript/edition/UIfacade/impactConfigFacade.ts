@@ -126,13 +126,12 @@ export function inferDisplayType(impact: FlatImpact): DisplayType {
 // replace the impact by a new default one regarding the given newDisplayType
 // keep parent, uid and index
 export function changeDisplayType(impact: FlatImpact, newDisplayType: DisplayType): void {
-  const newImpactType: FlatImpact['type'] = getNewImpactType(newDisplayType);
-
-  if (impact.type === newImpactType) {
+  if (inferDisplayType(impact) === newDisplayType) {
     // no change => nothing to do
     return;
   }
 
+  const newImpactType: FlatImpact['type'] = getNewImpactType(newDisplayType);
   const newImpact: FlatImpact = createSubstitutionImpact(newImpactType, impact);
 
   if (newImpact.type === 'activation') {
