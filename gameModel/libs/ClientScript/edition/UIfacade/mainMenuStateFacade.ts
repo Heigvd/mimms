@@ -13,7 +13,8 @@ export type Page =
   | 'actions'
   | 'patients'
   | 'hospitals'
-  | 'resources';
+  | 'resources'
+  | 'validation';
 
 export interface MenuUIState {
   menu: boolean;
@@ -75,6 +76,8 @@ export function displayCurrentPage(): string {
       return 'hospitalsConfig';
     case 'resources':
       return 'resourcesConfiguration';
+    case 'validation':
+      return '60';
     default:
       return 'mapConfiguration';
   }

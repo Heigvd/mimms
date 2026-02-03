@@ -1,5 +1,10 @@
 import { generateId } from '../../tools/helper';
-import { getValidationResults, Page, setValidationResults } from './mainMenuStateFacade';
+import {
+  getValidationResults as getStateValidationResults,
+  Page,
+  setCurrentPage,
+  setValidationResults,
+} from './mainMenuStateFacade';
 
 export interface ValidationResult<ValidationContext> {
   id: string;
@@ -11,6 +16,22 @@ export interface ValidationResult<ValidationContext> {
 
 export interface ValidationContext {
   page: Page;
+}
+
+export interface ValidationUIState {
+  errorList: boolean;
+  warningList: boolean;
+}
+
+export function getInitialValidationUIState(): ValidationUIState {
+  return {
+    errorList: true,
+    warningList: false,
+  };
+}
+
+export function getValidationResults(): ValidationResult<ValidationContext>[] {
+  return getStateValidationResults();
 }
 
 export function getValidationErrors(): ValidationResult<ValidationContext>[] {
@@ -61,4 +82,47 @@ export function evaluateValidationResults(): void {
       validationContext: { page: 'actions' },
     },
   ]);
+}
+
+export function getGoToButtonText(validationContext: ValidationContext): string {
+  return 'go to ' + validationContext.page;
+}
+
+export function clickGoToButton(validationContext: ValidationContext): void {
+  setCurrentPage(validationContext.page);
+}
+
+export function validationSummary(): string {
+  if (getValidationErrors().length > 0) {
+    return 'Oh no! Simulation not playable - ' + getValidationErrors().length + ' blocking errors';
+  }
+  if (getValidationErrors().length < 1 && getValidationWarnings().length > 1) {
+    return (
+      "Alright, but the simulation could run even smoother if it weren't for those " +
+      getValidationWarnings().length +
+      ' warning(s)'
+    );
+  }
+  return 'Congratulations! Simulation is playable';
+}
+
+/* toggle errors and warnings lists */
+export function toggleErrorsListState(): void {
+  const newState = Helpers.cloneDeep(Context.validationUIState.state);
+  newState.errorList = !newState.errorList;
+  Context.validationUIState.setState(newState);
+}
+
+export function getErrorListState(): boolean {
+  return Context.validationUIState.state.errorList;
+}
+
+export function toggleWarningListState(): void {
+  const newState = Helpers.cloneDeep(Context.validationUIState.state);
+  newState.warningList = !newState.warningList;
+  Context.validationUIState.setState(newState);
+}
+
+export function getWarningListState(): boolean {
+  return Context.validationUIState.state.warningList;
 }

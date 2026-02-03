@@ -1,0 +1,131 @@
+/* overall */
+.validation-button__container {
+  gap: .5rem;
+  margin: 1.5rem 0 0 1.5rem;
+}
+
+.validation .validation-button {
+  color: var(--grey_100);
+  border-color: var(--grey_100);
+}
+
+.validation .validation-button:hover {
+  color: var(--grey_100);
+  border-color: var(--grey_100);
+}
+
+.error-list__header {
+  margin-top: 10px;
+}
+
+.error-list__header.actions-list__header svg {
+  color: #B73D3C;
+}
+
+.warning-list__header.actions-list__header svg {
+  color: #E9B406;
+}
+
+.validation .basic__generic-item:after {
+  width: 100%;
+}
+
+/* errors */
+.validation-error {
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #F8ECEB;
+  border-radius: var(--XS_borderRadius);
+}
+
+.validation-error__title {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: #B73D3C;
+}
+
+.validation-error__description {
+  font-size: var(--S_text);
+  color: #B73D3C;
+}
+
+.validation-error button {
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: #F8ECEB;
+  white-space: nowrap;
+  background-color: #B73D3C;
+  border-radius: var(--S_borderRadius);
+}
+
+.validation-error button:hover {
+  background-color: #B73D3C;
+  cursor: pointer;
+}
+
+/* warnings */
+.validation-warning {
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #FDF7E6;
+  border-radius: var(--XS_borderRadius);
+}
+
+.validation-warning__title {
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: #E9B406;
+}
+
+.validation-warning__description {
+  font-size: var(--S_text);
+  color: #E9B406;
+}
+
+.validation-warning button {
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: #FDF7E6;
+  white-space: nowrap;
+  background-color: #E9B406;
+  border-radius: var(--S_borderRadius);
+}
+
+.validation-warning button:hover {
+  background-color: #E9B406;
+  cursor: pointer;
+}
+
+/* summary */
+.validation-summary {
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  border-radius: var(--XS_borderRadius);
+}
+
+.error-validation-summary {
+  color: #B73D3C;
+  background-color: #F8ECEB;
+  border: 1px solid #B73D3C;
+}
+
+.warning-validation-summary {
+  color: #E9B406;
+  background-color: #FDF7E6;
+  border: 1px solid #E9B406;
+}
+
+.success-validation-summary {
+  color: #539265;
+  background-color: #EEF4F1;
+  border: 1px solid #539265;
+}

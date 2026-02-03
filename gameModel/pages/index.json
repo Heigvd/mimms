@@ -478,6 +478,12 @@
           "trainerPage" : null
         } ],
         "name" : "Components"
+      }, {
+        "@class" : "Page",
+        "id" : "60",
+        "name" : "Validation",
+        "scenaristPage" : null,
+        "trainerPage" : null
       } ],
       "name" : "Scenarist"
     }, {

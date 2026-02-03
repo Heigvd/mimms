@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1767974780695,
+  "createdTime" : 1770128325142,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7192,6 +7192,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "newCSS/MIMMS/validations",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2856523:qVSOnj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "newCSS/MIMMS/welcomePage",
     "contentType" : "text/css",
     "libraryType" : "CSS",
@@ -7451,7 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-590",
+  "name" : "MIM-597 display validation",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
