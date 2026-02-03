@@ -73,6 +73,15 @@ export function getCustomListState(): boolean {
   return getActionTemplateController().getLatestIState().openCustom;
 }
 
+export function openCustomList(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  if (newState.openCustom) {
+    return;
+  }
+  newState.openCustom = true;
+  getActionTemplateController().updateIState(newState);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // get data
 
