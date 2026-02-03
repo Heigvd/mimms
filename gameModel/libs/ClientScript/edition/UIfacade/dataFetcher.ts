@@ -85,17 +85,9 @@ export function getActionTemplatesOptions(
 
 export function getMatchingActionTemplateUid(
   choiceUid: FlatChoice['uid']
-): FlatActionTemplate['uid'] {
-  const choice = getChoice(choiceUid);
-  return choice.parent;
-}
-
-function getChoice(choiceUid: FlatChoice['uid']): FlatChoice {
-  const choice = getActionTemplateController().getFlatDataClone()[choiceUid];
-  if (choice == undefined || choice.superType != 'choice') {
-    throw Error('no choice matches uid ' + choiceUid);
-  }
-  return choice;
+): FlatActionTemplate['uid'] | undefined {
+  const choice = getActionTemplateController().getItem(choiceUid, 'choice');
+  return choice?.parent;
 }
 
 export type AllChoiceOptionType = { label: string; value: typeof ANY_CHOICE };
@@ -134,9 +126,9 @@ export function getEffectsOptions(
     });
 }
 
-export function getDefaultEffect(choiceUid: Uid): Effect['uid'] {
-  const choice = getChoice(choiceUid);
-  return choice.defaultEffect;
+export function getDefaultEffect(choiceUid: Uid): Effect['uid'] | undefined {
+  const choice = getActionTemplateController().getItem<FlatChoice>(choiceUid, 'choice');
+  return choice?.defaultEffect;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

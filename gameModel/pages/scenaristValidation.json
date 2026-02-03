@@ -453,7 +453,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { evaluateValidationResults } from \"./edition/UIfacade/validationFacade\";\nwlog('coucouc c les validations!');\nevaluateValidationResults();",
+                        "content" : "import { computeAndStoreValidationMessages } from \"./edition/UIfacade/validationFacade\";\ncomputeAndStoreValidationMessages();",
                         "language" : "TypeScript"
                       }
                     },
@@ -481,7 +481,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { clearValidationResults } from \"./edition/UIfacade/validationFacade\";\nwlog('coucou la voie est clear!')\nclearValidationResults();",
+                        "content" : "import { clearValidationMessages } from \"./edition/UIfacade/validationFacade\";\nwlog('coucou la voie est clear!')\nclearValidationMessages();",
                         "language" : "TypeScript"
                       }
                     },
@@ -493,6 +493,11 @@
                   "type" : "Button"
                 } ],
                 "className" : "validation-button__container",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "!Editor.getFeatures().ADVANCED;",
+                  "language" : "typescript"
+                },
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },

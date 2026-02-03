@@ -1,7 +1,8 @@
 /**
  *  Main content loader page handler
  */
-import { ValidationContext, ValidationResult } from './validationFacade';
+import { ValidationMessage } from '../typeDefinitions/definition';
+import { computeValidationMessages } from '../UIfacade/validationFacade';
 
 // Note : must match the "exposeAs" of the scenarist menu state
 export const MENU_CONTEXT_KEY = 'mainMenu';
@@ -19,7 +20,7 @@ export type Page =
 export interface MenuUIState {
   menu: boolean;
   page: Page;
-  validation: ValidationResult<ValidationContext>[];
+  validation: ValidationMessage<any>[];
 }
 
 export function getInitialMenuUIState(): MenuUIState {
@@ -57,6 +58,12 @@ export function getCurrentPage(): Page {
 export function setCurrentPage(page: Page) {
   const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
   newState.page = page;
+
+  // Note : It is not perfect to do it here, but I did not find a better way
+  if (page === 'validation') {
+    newState.validation = computeValidationMessages();
+  }
+
   Context[MENU_CONTEXT_KEY].setState(newState);
 }
 
@@ -86,11 +93,11 @@ export function displayCurrentPage(): string {
 ////////////////////////////////////////////////////////////////////////////////
 // validation results
 
-export function getValidationResults(): ValidationResult<ValidationContext>[] {
+export function getValidationMessages(): ValidationMessage<any>[] {
   return getMenuUIState().validation;
 }
 
-export function setValidationResults(validation: ValidationResult<ValidationContext>[]): void {
+export function setValidationMessages(validation: ValidationMessage<any>[]): void {
   const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
   newState.validation = [...validation];
   Context[MENU_CONTEXT_KEY].setState(newState);

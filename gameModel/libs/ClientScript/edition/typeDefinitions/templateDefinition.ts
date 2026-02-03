@@ -6,6 +6,7 @@ import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefi
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
 import { ActionValidationContext } from './validation/validationContext';
+import { getInitialActionTemplateUIState } from '../controllers/controllerInstances';
 
 type TemplateDescriptorTypeName = TemplateDescriptor['type'];
 type TemplateDefinition = MapToDefinition<TemplateDescriptor, ActionValidationContext>;
@@ -45,21 +46,29 @@ export function getTemplateDef(type: TemplateDescriptorTypeName): TemplateDefini
   }
 }
 
-export function getTemplateValidator<T extends TemplateDescriptor>(type: T['type']): ValidatorFunc<T, ActionValidationContext>{
+export function getTemplateValidator<T extends TemplateDescriptor>(
+  type: T['type']
+): ValidatorFunc<T, ActionValidationContext> {
   const def = getTemplateDef(type);
-  if(def){
+  if (def) {
     // safe cast : we know that the 'type' value will match T
     return def.validator as ValidatorFunc<T, ActionValidationContext>;
   } else {
     return (value, _ctx) => {
-      return [{
-        success: false,
-        messages: [{
-          logLevel: 'ERROR',
-          message: `Could not find a validator for action template of type ${type}, object is ${JSON.stringify(value)}`,
-          isTranslateKey: false
-        }]
-      }];
-    }
+      return [
+        {
+          id: 'unknown-template-validator',
+          level: 'ERROR',
+          title: 'Internal problem',
+          description: `Could not find a validator for action template of type ${type}, object is ${JSON.stringify(
+            value
+          )}`,
+          validationContext: {
+            page: 'actions',
+            targetState: getInitialActionTemplateUIState(),
+          },
+        },
+      ];
+    };
   }
 }

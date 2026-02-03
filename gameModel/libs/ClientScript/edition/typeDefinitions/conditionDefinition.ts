@@ -11,13 +11,14 @@ import {
 import { EmptyCondition } from '../../game/common/triggers/implementation/emptyCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
+import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
-  ALL_EDITABLE,
-  Definition,
-  MapToDefinition,
-  MapToFlatType,
-  ValidationResult,
-} from './definition';
+  actionConditionValidator,
+  emptyConditionValidator,
+  mapEntityConditionValidator,
+  timeConditionValidator,
+  triggerConditionValidator,
+} from './validation/conditionValidation';
 import { TriggerValidationContext } from './validation/validationContext';
 
 type ConditionTypeName = Condition['type'];
@@ -58,7 +59,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition, TriggerValida
       index: 0,
       type: 'empty',
     }),
-    validator: (_condition: EmptyCondition, _ctx: TriggerValidationContext) => [],
+    validator: emptyConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -77,21 +78,7 @@ export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidati
       operator: '=',
       timeSeconds: 0,
     }),
-    validator: (condition: TimeCondition, _ctx: TriggerValidationContext) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.timeSeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'The time cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      return [{ success, messages, validationContext: {..._ctx} }];
-    },
+    validator: timeConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -113,21 +100,7 @@ export function getActionConditionDef(): Definition<ActionCondition, TriggerVali
       choiceRef: ANY_CHOICE,
       status: 'active',
     }),
-    validator: (condition: ActionCondition, _ctx: TriggerValidationContext) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.actionRef?.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select the action',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: actionConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -149,21 +122,7 @@ export function getTriggerConditionDef(): Definition<TriggerCondition, TriggerVa
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: TriggerCondition, _ctx: TriggerValidationContext) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: triggerConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -174,7 +133,10 @@ export function getTriggerConditionDef(): Definition<TriggerCondition, TriggerVa
   };
 }
 
-export function getMapEntityConditionDef(): Definition<MapEntityCondition, TriggerValidationContext> {
+export function getMapEntityConditionDef(): Definition<
+  MapEntityCondition,
+  TriggerValidationContext
+> {
   return {
     type: 'mapEntity',
     getDefault: () => ({
@@ -184,21 +146,7 @@ export function getMapEntityConditionDef(): Definition<MapEntityCondition, Trigg
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: MapEntityCondition, _ctx: TriggerValidationContext) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: mapEntityConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

@@ -4,17 +4,11 @@ import { Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { generateId } from '../../tools/helper';
-import {
-  ALL_EDITABLE,
-  Definition,
-  MapToFlatType,
-  ValidationResult,
-} from '../typeDefinitions/definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from '../typeDefinitions/definition';
+import { mapEntityValidator } from './validation/mapEntityValidation';
 import { LocationValidationContext } from './validation/validationContext';
 
 type MapEntityDefinition = Definition<MapEntityDescriptor, LocationValidationContext>;
-type LocationValidationResult = ValidationResult<LocationValidationContext>;
-
 
 export type FlatMapEntity = MapToFlatType<MapEntityDescriptor, 'mapEntity'>;
 
@@ -50,7 +44,7 @@ export function getMapEntityDefinition(): MapEntityDefinition {
       buildStatus: 'built',
       mapObjects: [],
     }),
-    validator: validateMapEntity,
+    validator: mapEntityValidator,
     view: {
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -63,27 +57,4 @@ export function getMapEntityDefinition(): MapEntityDefinition {
       mapObjects: ALL_EDITABLE,
     },
   };
-}
-
-// TODO complete
-function validateMapEntity(mapEntity: MapEntityDescriptor, ctx: LocationValidationContext): LocationValidationResult {
-  const result: LocationValidationResult = {
-    success: true,
-    messages: [],
-    validationContext: {...ctx}
-  };
-
-  if (mapEntity?.mapObjects?.length < 1) {
-    result.messages.push({
-      isTranslateKey: false,
-      logLevel: 'WARN',
-      message: `The map entity '${mapEntity?.tag}' has no defined geometry`,
-    });
-  } else {
-    mapEntity?.mapObjects?.forEach(_mo => {
-      // TODO check that all of its points falls in the extent of the map configuration
-    });
-  }
-
-  return result;
 }

@@ -16,6 +16,11 @@ import {
   MapToDefinition,
   ToConfigurationViewType,
 } from '../typeDefinitions/definition';
+import {
+  lineMapObjectValidator,
+  pointMapObjectValidator,
+  polygonMapObjectValidator,
+} from './validation/mapObjectValidation';
 import { LocationValidationContext } from './validation/validationContext';
 
 type MapObjectDefinition = MapToDefinition<MapObject, LocationValidationContext>;
@@ -94,7 +99,7 @@ export function getPointMapObjectDef(): Definition<PointMapObject, LocationValid
       icon: 'empty', // TODO some default icon or fall back as a computed round dot?
       geometry: [0, 0],
     }),
-    validator: (_point: PointMapObject, _vc: LocationValidationContext) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: pointMapObjectValidator,
     view: {
       ...getCommonView(),
       icon: ALL_EDITABLE,
@@ -113,7 +118,7 @@ export function getLineMapObjectDef(): Definition<LineMapObject, LocationValidat
       lineEnd: 'None',
       geometry: [],
     }),
-    validator: (_line: LineMapObject, _vc: LocationValidationContext) => [({ success: true, messages: [] })], // TODO warning if out of zone
+    validator: lineMapObjectValidator,
     view: {
       ...getCommonView(),
       lineStart: ALL_EDITABLE,
@@ -131,7 +136,7 @@ export function getPolygonMapObjectDef(): Definition<PolygonMapObject, LocationV
       type: 'Polygon',
       geometry: [],
     }),
-    validator: (_polygon: PolygonMapObject, _vc: LocationValidationContext) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: polygonMapObjectValidator,
     view: {
       ...getCommonView(),
       geometry: ALL_EDITABLE,
