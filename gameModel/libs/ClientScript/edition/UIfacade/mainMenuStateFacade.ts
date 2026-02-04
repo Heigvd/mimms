@@ -77,7 +77,7 @@ export function displayCurrentPage(): string {
     case 'resources':
       return 'resourcesConfiguration';
     case 'validation':
-      return '60';
+      return 'scenaristValidation';
     default:
       return 'mapConfiguration';
   }
