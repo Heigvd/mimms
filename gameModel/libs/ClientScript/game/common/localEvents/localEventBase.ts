@@ -5,6 +5,7 @@ import {
 import { entries, keys } from '../../../tools/helper';
 import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
+import { getCachedHospitalsByProximity, getCachedPatientUnitById, getCachedPatientUnitIdsSorted } from '../../loaders/hospitalLoader';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
@@ -22,11 +23,6 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import {
-  getHospitalsByProximity,
-  getPatientUnitById,
-  getPatientUnitIdsSorted,
-} from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
@@ -998,8 +994,8 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = Object.values(getHospitalsByProximity(message.proximity));
-    const units: PatientUnitId[] = getPatientUnitIdsSorted();
+    const hospitals = Object.values(getCachedHospitalsByProximity(message.proximity));
+    const units: PatientUnitId[] = getCachedPatientUnitIdsSorted();
 
     let casuMessage = '';
     let qty = 0;
@@ -1009,7 +1005,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       for (const unitId of units) {
         qty = hospital.units[unitId] ?? 0;
         if (qty > 0) {
-          casuMessage += `${qty} ${I18n.translate(getPatientUnitById(unitId).name)} \n`;
+          casuMessage += `${qty} ${I18n.translate(getCachedPatientUnitById(unitId).name)} \n`;
         }
       }
 

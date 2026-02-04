@@ -1,3 +1,4 @@
+import { toMinutes } from '../../../tools/helper';
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { InterventionRole } from '../actors/actor';
@@ -11,7 +12,6 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
-import { formatTravelTimeToMinutes } from '../evacuation/hospitalController';
 import {
   AddRadioMessageLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
@@ -194,7 +194,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
               subTask.squadDef.healerPresenceTranslation,
               false
             ),
-            formatTravelTimeToMinutes(subTask.travelTime),
+            toMinutes(subTask.travelTime),
           ],
         })
       );

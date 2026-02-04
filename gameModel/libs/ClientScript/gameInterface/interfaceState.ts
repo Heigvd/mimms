@@ -227,7 +227,7 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
     for (const key in src) {
       const t = target[key];
       if (t && typeof t === 'object') {
-        updateSubStateRecursive(src[key], t, ++depth);
+        updateSubStateRecursive(src[key], t, depth+1);
       } else {
         // either a primitive or target was null thus assigning src object is ok
         target[key] = src[key];

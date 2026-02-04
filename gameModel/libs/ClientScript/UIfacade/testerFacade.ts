@@ -2,6 +2,7 @@
 import { TimedEventPayload } from '../game/common/events/eventTypes';
 import { compareTimedEvents, getAllEvents } from '../game/common/events/eventUtils';
 import { getCurrentExecutionContext } from '../game/executionContext/gameExecutionContextController';
+import { resetHospitalCache } from '../game/loaders/hospitalLoader';
 import { eraseInitialState } from '../game/loaders/mainStateLoader';
 import { resetMapEntitiesCache } from '../game/loaders/mapEntitiesLoader';
 import { resetTriggerCache } from '../game/loaders/triggerLoader';
@@ -35,6 +36,7 @@ export async function reloadState(): Promise<void> {
   // reset map entities (remove cached values)
   resetMapEntitiesCache();
   // reset hospitals (remove cached values)
+  resetHospitalCache();
 
   // this will reinitialize the starting state and the current state of the game
   await makeAsync(() => runUpdateLoop(), {});

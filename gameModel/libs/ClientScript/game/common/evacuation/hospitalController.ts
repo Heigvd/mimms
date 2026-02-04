@@ -1,9 +1,6 @@
 import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { HospitalId, PatientUnitId } from '../baseTypes';
-import { OneMinuteDuration } from '../constants';
-import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import {
   HospitalDefinition,
   HospitalProximity,
@@ -12,6 +9,7 @@ import {
 } from './hospitalType';
 import { generateId } from '../../../tools/helper';
 import { FilterTypeProperties } from '../../../tools/helper';
+import { getProximityTranslation } from '../radio/radioLogic';
 
 export type Direction = 'increment' | 'decrement';
 
@@ -37,7 +35,7 @@ function savePatientUnitsConfig(patientUnits: Record<PatientUnitId, PatientUnitD
   saveHospitalsAndPatientsConfig(patientUnits, getHospitalsDefinition().hospitals);
 }
 
-function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
+export function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
   const properties = getHospitalsConfigVariable().getProperties();
   return {
     hospitals: properties['hospitals'] ? JSON.parse(properties['hospitals']) : {},
@@ -57,31 +55,6 @@ export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
   return getHospitals()[hospitalId]!;
 }
 
-export function getHospitalsByProximity(
-  proximity: HospitalProximity
-): Record<HospitalId, HospitalDefinition> {
-  const result: Record<HospitalId, HospitalDefinition> = {};
-  const prox = proximity || HospitalProximity.International;
-  Object.entries(getHospitals()).forEach(([id, hospital]) => {
-    if (hospital.proximity && prox.valueOf() >= hospital.proximity) {
-      result[id] = hospital;
-    }
-  });
-
-  return result;
-}
-
-// Could be used by evacuationFacade.getEvacHospitalsChoices()
-export function getHospitalsMentionedByCasu(
-  state: Readonly<MainSimulationState>
-): Record<HospitalId, HospitalDefinition> {
-  const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
-  if (proximityRequested !== undefined) {
-    return getHospitalsByProximity(proximityRequested);
-  }
-
-  return {};
-}
 
 export function insertHospital() {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
@@ -206,15 +179,6 @@ export function getPatientUnitById(patientUnitId: PatientUnitId): PatientUnitDef
   return getHospitalsDefinition().patientUnits[patientUnitId]!;
 }
 
-export function getPatientUnitIdsSorted(): PatientUnitId[] {
-  return Object.entries(getPatientUnits())
-    .map(([patientUnitId, patientUnit]) => ({ ...patientUnit, id: patientUnitId }))
-    .sort((a, b) => {
-      return a.index - b.index;
-    })
-    .map(pu => pu.id);
-}
-
 export function insertPatientUnit() {
   const patientUnits: Record<PatientUnitId, PatientUnitDefinition> = Helpers.cloneDeep(
     getHospitalsDefinition().patientUnits
@@ -299,29 +263,6 @@ export function deletePatientUnit(patientUnitId: PatientUnitId) {
 }
 
 // -------------------------------------------------------------------------------------------------
-// Travel time to hospital
-// -------------------------------------------------------------------------------------------------
-
-/**
- * @param hospitalId the hospital
- * @param squadType the squad that go to the hospital
- *
- * @return The number of time slices needed to go to the hospital
- */
-export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
-  const squad = getSquadDef(squadType);
-  const distance = getHospitalById(hospitalId).distance ?? 0;
-
-  return Math.ceil(
-    (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
-  );
-}
-
-export function formatTravelTimeToMinutes(travelTime: number): number {
-  return travelTime > 0 ? Math.ceil(travelTime / OneMinuteDuration) : 0;
-}
-
-// -------------------------------------------------------------------------------------------------
 //
 // -------------------------------------------------------------------------------------------------
 
@@ -335,14 +276,10 @@ function generateNewId(length: number, existing: string[]): string {
     nbTry++;
   }
 
-  if (existing.includes(id)) {
-    id = 'abc';
-  }
-
   return id;
 }
 
-export function getDefaultHospitalPreposition(): ITranslatableContent {
+function getDefaultHospitalPreposition(): ITranslatableContent {
   const dflt = createOrUpdateTranslation('', undefined);
 
   dflt.translations = {
@@ -351,4 +288,20 @@ export function getDefaultHospitalPreposition(): ITranslatableContent {
   };
 
   return dflt;
+}
+
+/**
+ * Get the choices for the proximity
+ * used in hospitals config AND METHANE action
+ */
+export function getHospitalProximityChoices(): { label: string; value: string }[] {
+  return (
+    Object.entries(HospitalProximity)
+      // hack to have all items from enum only once
+      .filter(([k, _]) => isNaN(parseInt(k)))
+      .map(([k, v]) => ({
+        label: getProximityTranslation(k),
+        value: `${v}`,
+      }))
+  );
 }

@@ -189,6 +189,14 @@ function toHourMinSec(seconds: number): [number, number, number] {
   return [hours, minutes, sec];
 }
 
+/**
+ * converts seconds to minutes, rounded up
+ * @param seconds number of seconds
+ */
+export function toMinutes(seconds: number) : number {
+  return seconds > 0 ? Math.ceil(seconds / 60) : 0;
+}
+
 export function toHourMinutesSeconds(
   seconds: number,
   hoursSuffix = 'h',

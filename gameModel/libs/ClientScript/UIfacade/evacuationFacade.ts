@@ -5,12 +5,8 @@ import {
   EvacuationSquadType,
   getAllSquadDefinitions,
 } from '../game/common/evacuation/evacuationSquadDef';
-import {
-  getHospitalById,
-  getHospitals,
-  getPatientUnitById,
-} from '../game/common/evacuation/hospitalController';
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
+import { getCachedHospitalById, getCachedHospitals, getCachedPatientUnitById } from '../game/loaders/hospitalLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
@@ -20,7 +16,7 @@ import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
 export function getEvacHospitalsChoices(): { label: string; value: string }[] {
   // Note : if we would like to have only the hospital mentioned by CASU, use getHospitalsMentionedByCasu(getCurrentState())
-  const hospitals: Record<HospitalId, HospitalDefinition> = getHospitals();
+  const hospitals: Record<HospitalId, HospitalDefinition> = getCachedHospitals();
   return Object.entries(hospitals).map(([id, hospital]) => {
     return { label: hospital.shortName, value: id };
   });
@@ -33,8 +29,8 @@ export function getPatientUnitsChoices(
     return [];
   }
 
-  return Object.keys(getHospitalById(hospitalId).units).map(patientUnitId => {
-    return { label: I18n.translate(getPatientUnitById(patientUnitId).name), value: patientUnitId };
+  return Object.keys(getCachedHospitalById(hospitalId).units).map(patientUnitId => {
+    return { label: I18n.translate(getCachedPatientUnitById(patientUnitId).name), value: patientUnitId };
   });
 }
 
@@ -71,7 +67,7 @@ export function getHospitalId(): HospitalId | undefined {
 export function getHospitalShortName(): string {
   const hospitalId = getHospitalId();
   if (hospitalId != undefined) {
-    return getHospitalById(hospitalId).shortName;
+    return getCachedHospitalById(hospitalId).shortName;
   }
 
   return '';
@@ -84,7 +80,7 @@ export function getPatientUnitId(): PatientUnitId | undefined {
 export function getPatientUnitName(): string {
   const patientUnitId = getTypedInterfaceState().evacuation.data.patientUnitId;
   if (patientUnitId) {
-    return I18n.translate(getPatientUnitById(patientUnitId).name);
+    return I18n.translate(getCachedPatientUnitById(patientUnitId).name);
   }
   return '';
 }
