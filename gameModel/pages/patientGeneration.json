@@ -708,7 +708,7 @@
                                 "children" : [ {
                                   "props" : {
                                     "className" : "header-text",
-                                    "layoutClassName" : "header-text-container",
+                                    "layoutClassName" : "header-text-container category-tag",
                                     "layoutStyle" : { },
                                     "name" : "t + x",
                                     "style" : { },
@@ -752,7 +752,7 @@
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
-                                "layoutClassName" : "noPadding header-text-container",
+                                "layoutClassName" : "noPadding header-text-container category-tag",
                                 "layoutStyle" : { },
                                 "name" : "readonly",
                                 "style" : { }
@@ -838,7 +838,7 @@
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
-                                "layoutClassName" : "noPadding header-text-container",
+                                "layoutClassName" : "noPadding header-text-container category-tag",
                                 "layoutStyle" : {
                                   "textAlign" : "left"
                                 },
@@ -874,7 +874,7 @@
                         "children" : [ {
                           "props" : {
                             "className" : "header-text",
-                            "layoutClassName" : "header-text-container",
+                            "layoutClassName" : "header-text-container category-tag",
                             "layoutStyle" : { },
                             "name" : "t + x",
                             "style" : { },
@@ -889,7 +889,7 @@
                         "exposeAs" : "item",
                         "getItemsFn" : {
                           "@class" : "Script",
-                          "content" : "import { getSampleTimesSec } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSec().slice(1).map(n => ({id:n, value:n/60}));",
+                          "content" : "import { getSampleTimesSecHeader } from \"./edition/UIfacade/patientGenFacade\";\n  getSampleTimesSecHeader();",
                           "language" : "TypeScript"
                         },
                         "itemKey" : "id",
@@ -1108,7 +1108,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "line-text",
+                                "className" : "line-text category-tag",
                                 "layoutStyle" : { },
                                 "name" : "category",
                                 "style" : { },

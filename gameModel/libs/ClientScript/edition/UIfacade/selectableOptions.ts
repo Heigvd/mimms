@@ -5,6 +5,8 @@ import { RadioType } from '../../game/common/radio/communicationType';
 import { ActivableStatus, ChoiceActionStatus } from '../../game/common/triggers/condition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { Trigger } from '../../game/common/triggers/trigger';
+import { getTranslation } from '../../tools/translation';
+import { getRadioChannels } from '../../UIfacade/radioFacade';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // triggers
@@ -84,8 +86,8 @@ export function getActionChoiceStatusOptions(): { label: string; value: ChoiceAc
 // impacts
 
 export function getRadioChannelOptions(): { label: string; value: keyof typeof RadioType }[] {
-  return Object.values(RadioType).map(channel => {
-    return { label: channel, value: channel };
+  return Object.values(getRadioChannels()).map(channel => {
+    return { label: getTranslation('mainSim-radio', channel.translationKey), value: channel.type };
   });
 }
 
