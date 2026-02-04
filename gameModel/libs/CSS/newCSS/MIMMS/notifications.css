@@ -94,8 +94,8 @@
 }
 
 .notificationButton-container .newNotif {
-	background-color: var(--yellow_base);
-  border: var(--yellow_base);
+	background-color: var(--notification_base);
+  border: var(--notification_base);
 }
 
 .counterCircle-container {
@@ -104,7 +104,7 @@
   left: 1.5rem;
 	width: 1.2em;
 	background-color: var(--grey_0);
-	border: 1px solid var(--yellow_base);
+	border: 1px solid var(--notification_base);
 	border-radius: 100%;
   z-index: 4;
 }

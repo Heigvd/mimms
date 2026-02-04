@@ -119,9 +119,7 @@
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "errors title",
-                        "style" : {
-                          "color" : "#B73D3C"
-                        },
+                        "style" : { },
                         "text" : {
                           "@class" : "Script",
                           "content" : "import { getValidationErrors } from \"./edition/UIfacade/validationFacade\";\n`<p>ERRORS (${getValidationErrors().length})</p>`",
@@ -224,6 +222,14 @@
                             },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { clickGoToButton } from \"./edition/UIfacade/validationFacade\";\n\nclickGoToButton(Context.item.validationContext);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "go to",
                             "style" : { }
                           },
                           "type" : "Button"
@@ -270,9 +276,7 @@
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "warnings title",
-                        "style" : {
-                          "color" : "#E9B406"
-                        },
+                        "style" : { },
                         "text" : {
                           "@class" : "Script",
                           "content" : "import { getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n`<p>WARNINGS (${getValidationWarnings().length})</p>`",
@@ -375,6 +379,14 @@
                             },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { clickGoToButton } from \"./edition/UIfacade/validationFacade\";\n\nclickGoToButton(Context.item.validationContext);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "go to",
                             "style" : { }
                           },
                           "type" : "Button"
@@ -419,7 +431,8 @@
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
-                  "width" : "66%"
+                  "minWidth" : "18rem",
+                  "width" : "66.6%"
                 },
                 "name" : "validation lists",
                 "style" : { }
@@ -488,7 +501,7 @@
               },
               "type" : "FlexList"
             } ],
-            "id" : "fullWidth",
+            "id" : "",
             "layout" : { },
             "layoutClassName" : "noPadding fullWidth",
             "layoutStyle" : { },

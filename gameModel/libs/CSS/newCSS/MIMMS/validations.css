@@ -18,12 +18,16 @@
   margin-top: 10px;
 }
 
-.error-list__header.actions-list__header svg {
-  color: #B73D3C;
+.error-list__header .scenarist__undertitle,
+.error-list__header.actions-list__header svg,
+.error-list__header.actions-list__header svg:hover {
+  color: var(--red_base);
 }
 
-.warning-list__header.actions-list__header svg {
-  color: #E9B406;
+.warning-list__header .scenarist__undertitle,
+.warning-list__header.actions-list__header svg,
+.warning-list__header.actions-list__header svg:hover {
+  color: var(--yellow_base);
 }
 
 .validation .basic__generic-item:after {
@@ -37,32 +41,32 @@
   gap: 10px;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #F8ECEB;
+  background-color: var(--red_10);
   border-radius: var(--XS_borderRadius);
 }
 
 .validation-error__title {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
-  color: #B73D3C;
+  color: var(--red_base);
 }
 
 .validation-error__description {
   font-size: var(--S_text);
-  color: #B73D3C;
+  color: var(--red_base);
 }
 
 .validation-error button {
   font-size: var(--XS_text);
   font-weight: var(--boldWeight);
-  color: #F8ECEB;
+  color: var(--red_10);
   white-space: nowrap;
-  background-color: #B73D3C;
+  background-color: var(--red_base);
   border-radius: var(--S_borderRadius);
 }
 
 .validation-error button:hover {
-  background-color: #B73D3C;
+  background-color: var(--red_base);
   cursor: pointer;
 }
 
@@ -73,32 +77,32 @@
   gap: 10px;
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #FDF7E6;
+  background-color: var(--yellow_10);
   border-radius: var(--XS_borderRadius);
 }
 
 .validation-warning__title {
   font-size: var(--S_text);
   font-weight: var(--boldWeight);
-  color: #E9B406;
+  color: var(--yellow_base);
 }
 
 .validation-warning__description {
   font-size: var(--S_text);
-  color: #E9B406;
+  color: var(--yellow_base);
 }
 
 .validation-warning button {
   font-size: var(--XS_text);
   font-weight: var(--boldWeight);
-  color: #FDF7E6;
+  color: var(--yellow_10);
   white-space: nowrap;
-  background-color: #E9B406;
+  background-color: var(--yellow_base);
   border-radius: var(--S_borderRadius);
 }
 
 .validation-warning button:hover {
-  background-color: #E9B406;
+  background-color: var(--yellow_base);
   cursor: pointer;
 }
 
@@ -113,19 +117,19 @@
 }
 
 .error-validation-summary {
-  color: #B73D3C;
-  background-color: #F8ECEB;
-  border: 1px solid #B73D3C;
+  color: var(--red_base);
+  background-color: var(--red_10);
+  border: 1px solid var(--red_base);
 }
 
 .warning-validation-summary {
-  color: #E9B406;
-  background-color: #FDF7E6;
-  border: 1px solid #E9B406;
+  color: var(--yellow_base);
+  background-color: var(--yellow_10);
+  border: 1px solid var(--yellow_base);
 }
 
 .success-validation-summary {
-  color: #539265;
-  background-color: #EEF4F1;
-  border: 1px solid #539265;
+  color: var(--green_base);
+  background-color: var(--green_10);
+  border: 1px solid var(--green_base);
 }
