@@ -9,6 +9,15 @@ import { getMapEntityController } from '../../controllers/controllerInstances';
 import { MapEntityCreationOptions } from '../../controllers/dataController';
 import { MapEntityUIState, SupportedDrawType } from '../../UIfacade/locationConfigFacade';
 
+export function toggleDraw(type: SupportedDrawType): void {
+  const drawActive = getMapEntityController().getLatestIState().drawActive;
+  if (drawActive) {
+    stopDraw();
+  } else {
+    startDraw(type);
+  }
+}
+
 export function startDraw(type: SupportedDrawType): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.drawType = type;
@@ -25,6 +34,7 @@ export function stopDraw(): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.drawActive = false;
   getMapEntityController().updateIState(newState);
+  wlog('draw abort called');
 }
 
 export function onDrawStart(_event: DrawEvent): void {}
