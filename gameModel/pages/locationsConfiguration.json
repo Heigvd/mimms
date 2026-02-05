@@ -248,6 +248,13 @@
                   "top" : "0",
                   "width" : "100%"
                 },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { normalize } from \"./tools/helper\";\n\nnormalize(0);",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "map",
                 "stopPropagation" : true,
                 "style" : { }

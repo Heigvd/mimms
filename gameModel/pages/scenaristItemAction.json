@@ -354,7 +354,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\n\nupdateItem<FlatActionTemplate>(Context.item.uid, { durationSec: Context.value * 60 });",
+                    "content" : "import { FlatActionTemplate } from \"./edition/typeDefinitions/templateDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\nimport { normalize } from \"./tools/helper\";\n\nconst value = normalize(Context.value, {min: 1});\nupdateItem<FlatActionTemplate>(Context.item.uid, { durationSec: value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {
