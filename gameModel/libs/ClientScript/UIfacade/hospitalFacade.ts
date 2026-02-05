@@ -1,5 +1,3 @@
+import { getHospitalProximityChoices } from '../edition/controllers/hospitalController';
 
-import {getHospitalProximityChoices} from '../game/common/evacuation/hospitalController';
-
-
-export {getHospitalProximityChoices};
+export { getHospitalProximityChoices };

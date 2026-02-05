@@ -1,20 +1,35 @@
-import { HospitalId, PatientUnitId } from "../common/baseTypes";
-import { getHospitalsDefinition } from "../common/evacuation/hospitalController";
-import { HospitalDefinition, HospitalProximity, HospitalsConfigVariableDefinition, PatientUnitDefinition } from "../common/evacuation/hospitalType";
+import { HospitalId, PatientUnitId } from '../common/baseTypes';
+import {
+  HospitalDefinition,
+  HospitalProximity,
+  HospitalsConfigVariableDefinition,
+  PatientUnitDefinition,
+} from '../common/evacuation/hospitalType';
 
+let hospitalsConfigCache: HospitalsConfigVariableDefinition | undefined;
 
-let hospitalsConfigCache : HospitalsConfigVariableDefinition | undefined;
+export function getHospitalsConfigVariable(): SObjectDescriptor {
+  return Variable.find(gameModel, 'hospitals_config');
+}
+
+export function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
+  const properties = getHospitalsConfigVariable().getProperties();
+  return {
+    hospitals: properties['hospitals'] ? JSON.parse(properties['hospitals']) : {},
+    patientUnits: properties['patientUnits'] ? JSON.parse(properties['patientUnits']) : {},
+  };
+}
 
 Helpers.registerEffect(() => {
   hospitalsConfigCache = undefined;
-})
+});
 
 export function resetHospitalCache(): void {
   hospitalsConfigCache = undefined;
 }
 
 function getCachedHospitalsDef(): HospitalsConfigVariableDefinition {
-  if(!hospitalsConfigCache){
+  if (!hospitalsConfigCache) {
     hospitalsConfigCache = getHospitalsDefinition();
   }
   return hospitalsConfigCache;
@@ -41,7 +56,6 @@ export function getCachedHospitalsByProximity(
 
   return result;
 }
-
 
 //*********** PATIENT UNITS ****************/
 

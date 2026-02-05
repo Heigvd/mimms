@@ -6,7 +6,11 @@ import {
   getAllSquadDefinitions,
 } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
-import { getCachedHospitalById, getCachedHospitals, getCachedPatientUnitById } from '../game/loaders/hospitalLoader';
+import {
+  getCachedHospitalById,
+  getCachedHospitals,
+  getCachedPatientUnitById,
+} from '../game/loaders/hospitalLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 
@@ -30,7 +34,10 @@ export function getPatientUnitsChoices(
   }
 
   return Object.keys(getCachedHospitalById(hospitalId).units).map(patientUnitId => {
-    return { label: I18n.translate(getCachedPatientUnitById(patientUnitId).name), value: patientUnitId };
+    return {
+      label: I18n.translate(getCachedPatientUnitById(patientUnitId).name),
+      value: patientUnitId,
+    };
   });
 }
 

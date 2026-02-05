@@ -1,8 +1,27 @@
-import { HospitalId, PatientUnitId } from "../../game/common/baseTypes";
-import { deleteHospital, deletePatientUnit, getHospitalById, getHospitals, getPatientUnitById, getPatientUnits, insertHospital, insertPatientUnit, updateHospitalData, updateHospitalIndex, updateHospitalTranslatableData, updateHospitalUnitCapacity, updatePatientUnitIndex, updatePatientUnitTranslatableData } from "../../game/common/evacuation/hospitalController";
-import { HospitalDefinition, HospitalProximity, PatientUnitDefinition } from "../../game/common/evacuation/hospitalType";
-import { getProximityTranslation } from "../../game/common/radio/radioLogic";
-import { getHospitalProximityChoices} from '../../game/common/evacuation/hospitalController';
+import { HospitalId, PatientUnitId } from '../../game/common/baseTypes';
+import {
+  deleteHospital,
+  deletePatientUnit,
+  getHospitalById,
+  getHospitals,
+  getPatientUnitById,
+  getPatientUnits,
+  insertHospital,
+  insertPatientUnit,
+  updateHospitalData,
+  updateHospitalIndex,
+  updateHospitalTranslatableData,
+  updateHospitalUnitCapacity,
+  updatePatientUnitIndex,
+  updatePatientUnitTranslatableData,
+} from '../controllers/hospitalController';
+import {
+  HospitalDefinition,
+  HospitalProximity,
+  PatientUnitDefinition,
+} from '../../game/common/evacuation/hospitalType';
+import { getProximityTranslation } from '../../game/common/radio/radioLogic';
+import { getHospitalProximityChoices } from '../controllers/hospitalController';
 
 // -------------------------------------------------------------------------------------------------
 // UI state
@@ -24,7 +43,6 @@ export function getInitialHospitalUIState(): HospitalUIState {
     services: true,
   };
 }
-
 
 // -------------------------------------------------------------------------------------------------
 // hospitals
@@ -60,7 +78,7 @@ export function getHospitalProximityLabel(proximity: HospitalProximity): string 
   return getProximityTranslation(HospitalProximity[proximity]!);
 }
 
-export {getHospitalProximityChoices};
+export { getHospitalProximityChoices };
 
 /************* EDITION FUNCTIONS *************/
 

@@ -5,7 +5,11 @@ import {
 import { entries, keys } from '../../../tools/helper';
 import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
-import { getCachedHospitalsByProximity, getCachedPatientUnitById, getCachedPatientUnitIdsSorted } from '../../loaders/hospitalLoader';
+import {
+  getCachedHospitalsByProximity,
+  getCachedPatientUnitById,
+  getCachedPatientUnitIdsSorted,
+} from '../../loaders/hospitalLoader';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';

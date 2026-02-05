@@ -1,21 +1,20 @@
-import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
-import { createOrUpdateTranslation } from '../../../tools/translation';
-import { HospitalId, PatientUnitId } from '../baseTypes';
+import { saveToObjectDescriptor } from '../../tools/WegasHelper';
+import { createOrUpdateTranslation } from '../../tools/translation';
+import { HospitalId, PatientUnitId } from '../../game/common/baseTypes';
 import {
   HospitalDefinition,
   HospitalProximity,
-  HospitalsConfigVariableDefinition,
   PatientUnitDefinition,
-} from './hospitalType';
-import { generateId } from '../../../tools/helper';
-import { FilterTypeProperties } from '../../../tools/helper';
-import { getProximityTranslation } from '../radio/radioLogic';
+} from '../../game/common/evacuation/hospitalType';
+import { generateId } from '../../tools/helper';
+import { FilterTypeProperties } from '../../tools/helper';
+import { getProximityTranslation } from '../../game/common/radio/radioLogic';
+import {
+  getHospitalsConfigVariable,
+  getHospitalsDefinition,
+} from '../../game/loaders/hospitalLoader';
 
 export type Direction = 'increment' | 'decrement';
-
-function getHospitalsConfigVariable(): SObjectDescriptor {
-  return Variable.find(gameModel, 'hospitals_config');
-}
 
 function saveHospitalsAndPatientsConfig(
   patientUnits: Record<PatientUnitId, PatientUnitDefinition>,
@@ -35,14 +34,6 @@ function savePatientUnitsConfig(patientUnits: Record<PatientUnitId, PatientUnitD
   saveHospitalsAndPatientsConfig(patientUnits, getHospitalsDefinition().hospitals);
 }
 
-export function getHospitalsDefinition(): HospitalsConfigVariableDefinition {
-  const properties = getHospitalsConfigVariable().getProperties();
-  return {
-    hospitals: properties['hospitals'] ? JSON.parse(properties['hospitals']) : {},
-    patientUnits: properties['patientUnits'] ? JSON.parse(properties['patientUnits']) : {},
-  };
-}
-
 // -------------------------------------------------------------------------------------------------
 // Hospital
 // -------------------------------------------------------------------------------------------------
@@ -54,7 +45,6 @@ export function getHospitals(): Record<HospitalId, HospitalDefinition> {
 export function getHospitalById(hospitalId: HospitalId): HospitalDefinition {
   return getHospitals()[hospitalId]!;
 }
-
 
 export function insertHospital() {
   const hospitals: Record<HospitalId, HospitalDefinition> = Helpers.cloneDeep(
