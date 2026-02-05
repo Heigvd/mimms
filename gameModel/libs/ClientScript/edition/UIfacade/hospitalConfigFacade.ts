@@ -21,7 +21,7 @@ import {
   PatientUnitDefinition,
 } from '../../game/common/evacuation/hospitalType';
 import { getProximityTranslation } from '../../game/common/radio/radioLogic';
-import { getHospitalProximityChoices } from '../controllers/hospitalController';
+import { getHospitalProximityChoices as getChoices} from '../controllers/hospitalController';
 
 // -------------------------------------------------------------------------------------------------
 // UI state
@@ -78,7 +78,9 @@ export function getHospitalProximityLabel(proximity: HospitalProximity): string 
   return getProximityTranslation(HospitalProximity[proximity]!);
 }
 
-export { getHospitalProximityChoices };
+export function getHospitalProximityChoices() {
+  return getChoices();
+}
 
 /************* EDITION FUNCTIONS *************/
 

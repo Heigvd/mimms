@@ -1,3 +1,5 @@
-import { getHospitalProximityChoices } from '../edition/controllers/hospitalController';
+import { getHospitalProximityChoices as getChoices } from '../edition/controllers/hospitalController';
 
-export { getHospitalProximityChoices };
+export function getHospitalProximityChoices() {
+  return getChoices();
+}
