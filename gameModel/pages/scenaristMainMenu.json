@@ -375,6 +375,53 @@
                 "style" : { }
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'validation';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "icon" : "check-circle",
+                "label" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Validation</p>\"",
+                  "language" : "TypeScript"
+                },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('validation');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Validation",
+                "style" : { }
+              },
+              "type" : "Button"
             } ],
             "className" : "",
             "conditionnalClassNames" : [ {

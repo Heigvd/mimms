@@ -50,7 +50,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('action');",
+                    "content" : "import { openCustomList } from \"./edition/UIfacade/actionConfigFacade\";\nimport { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\nopenCustomList()\naddNew('action');",
                     "language" : "TypeScript"
                   }
                 },
@@ -80,7 +80,7 @@
                     }, {
                       "props" : {
                         "conditionnalClassNames" : [ ],
-                        "icon" : "angle-up",
+                        "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"\"",
@@ -178,7 +178,7 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "icon" : "angle-up",
+                        "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"\"",

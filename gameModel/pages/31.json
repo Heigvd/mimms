@@ -43,6 +43,11 @@
                 "language" : "typescript"
               }
             } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid) && getTypedInterfaceState().selectedActionChoiceUid != Context.choice.uid;",
+              "language" : "typescript"
+            },
             "layout" : {
               "flexDirection" : "column"
             },

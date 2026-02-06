@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1767974780695,
+  "createdTime" : 1770128325142,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5491,6 +5491,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/validationFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#265:4qhYzI",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/userRoles",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7178,6 +7187,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2613653:n2ZKrm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/validations",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:2856523:qVSOnj",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
