@@ -5653,7 +5653,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/evacuation/hospitalController",
+    "contentKey" : "edition/controllers/hospitalController",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#155:7oCnGl",
