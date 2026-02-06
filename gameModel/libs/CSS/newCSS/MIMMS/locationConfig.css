@@ -130,6 +130,7 @@ for the gap between the modal elements */
 }
 
 .location-config-modal {
+  min-width: 286.5px;
   padding: 1rem;
   background-image: linear-gradient(to bottom right, #D0E9F319 0%, #D0E9F30A 100%);
   backdrop-filter: blur(8px);
@@ -193,9 +194,9 @@ for the gap between the modal elements */
   left: 41px;
 }
 
-.mapobject .generic-item__label > div {
+/*.mapobject .generic-item__label > div {
   height: 14px;
-}
+}*/
 
 /* inputs */
 .generic-item:has(.mapobject) input,

@@ -147,10 +147,10 @@
         }, {
           "props" : {
             "className" : "header-button",
-            "icon" : "plus",
+            "icon" : "edit",
             "label" : {
               "@class" : "Script",
-              "content" : "\"<p>Map object</p>\"",
+              "content" : "\"<p>Edit</p>\"",
               "language" : "TypeScript"
             },
             "layoutClassName" : "noPadding",
@@ -162,7 +162,7 @@
                 "language" : "TypeScript"
               }
             },
-            "name" : "add map object",
+            "name" : "edit",
             "style" : { }
           },
           "type" : "Button"
