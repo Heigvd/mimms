@@ -34,7 +34,6 @@ export function stopDraw(): void {
   const newState: MapEntityUIState = Helpers.cloneDeep(getMapEntityController().getLatestIState());
   newState.drawActive = false;
   getMapEntityController().updateIState(newState);
-  wlog('draw abort called');
 }
 
 export function onDrawStart(_event: DrawEvent): void {}

@@ -81,7 +81,6 @@
                         },
                         "layoutStyle" : { },
                         "name" : "MapEntities",
-                        "stopPropagation" : true,
                         "style" : { }
                       },
                       "type" : "WegasMapVectorLayer"
@@ -203,7 +202,6 @@
                       "width" : "100%"
                     },
                     "mapOptions" : { },
-                    "stopPropagation" : true,
                     "style" : {
                       "height" : "100%",
                       "width" : "100%"
@@ -392,7 +390,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Polygon');",
+                            "content" : "import { toggleDraw } from \"./edition/UIfacade/map/drawFacade\";\n\ntoggleDraw('Polygon');",
                             "language" : "TypeScript"
                           }
                         },
