@@ -129,7 +129,7 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "icon" : "angle-up",
+                        "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"\"",
@@ -286,7 +286,7 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "icon" : "angle-up",
+                        "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",
                           "content" : "\"\"",
