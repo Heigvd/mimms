@@ -7460,11 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-<<<<<<< MIM-pain_scale
-  "name" : "MIM-pain_scale",
-=======
   "name" : "MIM-594",
->>>>>>> dev-scenarist
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
