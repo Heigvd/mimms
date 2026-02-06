@@ -7460,7 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-597 display validation",
+  "name" : "MIM-pain_scale",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
