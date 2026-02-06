@@ -836,8 +836,8 @@
           }
         }
       },
-      "maxValue" : null,
-      "minValue" : null,
+      "maxValue" : 600.0,
+      "minValue" : 0.0,
       "name" : "patients-elapsed-minutes",
       "refId" : "NumberDescriptor:1580619:oyNw77",
       "scopeType" : "GameModelScope",
@@ -7460,7 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-597 display validation",
+  "name" : "MIM-594",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
