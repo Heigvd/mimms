@@ -27,7 +27,7 @@
 }
 
 .unfilledChoiceIcon{
-  color: var(--yellow_base);
+  color: var(--notification_base);
 }
 
 .unfilledChoiceIcon.filledChoiceIcon{

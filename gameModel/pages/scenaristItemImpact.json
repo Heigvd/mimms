@@ -833,7 +833,7 @@
                 "onVariableChange" : {
                   "client" : {
                     "@class" : "Script",
-                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { delaySeconds: Context.value * 60 });",
+                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { normalize } from \"./tools/helper\";\nconst value = normalize(Context.value, {min: 0});\nupdateItem(Context.item.uid, { delaySeconds: value * 60 });",
                     "language" : "TypeScript"
                   },
                   "exposeVariableAs" : {

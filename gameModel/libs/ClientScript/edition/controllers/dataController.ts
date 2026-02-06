@@ -192,12 +192,14 @@ export abstract class DataControllerBase<
     const previous = this.undoRedo.undo();
     this.transientIState = previous[0];
     this.contextHandler.setState(previous[0]);
+    this.save();
   }
 
   public redo(): void {
     const next = this.undoRedo.redo();
     this.transientIState = next[0];
     this.contextHandler.setState(next[0]);
+    this.save();
   }
 
   public createNew(
@@ -372,6 +374,7 @@ export abstract class DataControllerBase<
     this.undoRedo.storeState(newInterfaceState, newData, squashPrevious);
     this.transientIState = newInterfaceState;
     this.contextHandler.setState(newInterfaceState);
+    this.save();
   }
 }
 

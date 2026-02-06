@@ -16,6 +16,7 @@ export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
   type: 'MapChoiceActionTemplateDescriptor';
   constructorType:
     | 'MapChoiceActionTemplate'
+    | 'PMAChoiceTemplate'
     | 'PCChoiceTemplate'
     | 'PCFrontChoiceTemplate'
     | 'AmbulanceParkChoiceTemplate'
@@ -47,6 +48,18 @@ export function createMapChoiceActionTemplate(
         desc.choices,
         desc.binding || LOCATION_ENUM.custom // TODO is that ok ?
       );
+    case 'PMAChoiceTemplate':
+      return new MapChoiceActionTemplate(
+        desc.uid,
+        desc.title,
+        desc.description,
+        desc.durationSec,
+        undefined, // required flags
+        [SimFlag.PMA_BUILT],
+        getFilteredAsArray(desc.availableToRoles),
+        desc.choices,
+        LOCATION_ENUM.PMA
+      );
     case 'PCChoiceTemplate':
       return new PCChoiceTemplate(
         desc.uid,
@@ -54,7 +67,7 @@ export function createMapChoiceActionTemplate(
         desc.description,
         desc.durationSec,
         undefined, // required flags
-        [SimFlag.PC_BUILT],
+        [SimFlag.PC_BUILT], // raised flags
         getFilteredAsArray(desc.availableToRoles),
         desc.choices
       );
@@ -65,7 +78,7 @@ export function createMapChoiceActionTemplate(
         desc.description,
         desc.durationSec,
         [],
-        [SimFlag.PCFRONT_BUILT],
+        [SimFlag.PCFRONT_BUILT], // raised flags
         getFilteredAsArray(desc.availableToRoles),
         desc.choices
       );

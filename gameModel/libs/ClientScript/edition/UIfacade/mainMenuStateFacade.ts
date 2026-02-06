@@ -1,6 +1,7 @@
 /**
  *  Main content loader page handler
  */
+import { ValidationContext, ValidationResult } from './validationFacade';
 
 // Note : must match the "exposeAs" of the scenarist menu state
 export const MENU_CONTEXT_KEY = 'mainMenu';
@@ -12,17 +13,20 @@ export type Page =
   | 'actions'
   | 'patients'
   | 'hospitals'
-  | 'resources';
+  | 'resources'
+  | 'validation';
 
 export interface MenuUIState {
   menu: boolean;
   page: Page;
+  validation: ValidationResult<ValidationContext>[];
 }
 
 export function getInitialMenuUIState(): MenuUIState {
   return {
     menu: true,
     page: 'map',
+    validation: [],
   };
 }
 
@@ -72,7 +76,22 @@ export function displayCurrentPage(): string {
       return 'hospitalsConfig';
     case 'resources':
       return 'resourcesConfiguration';
+    case 'validation':
+      return 'scenaristValidation';
     default:
       return 'mapConfiguration';
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// validation results
+
+export function getValidationResults(): ValidationResult<ValidationContext>[] {
+  return getMenuUIState().validation;
+}
+
+export function setValidationResults(validation: ValidationResult<ValidationContext>[]): void {
+  const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
+  newState.validation = [...validation];
+  Context[MENU_CONTEXT_KEY].setState(newState);
 }

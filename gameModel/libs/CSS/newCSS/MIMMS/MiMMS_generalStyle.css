@@ -44,8 +44,16 @@
   --orange_100: #fee5be;
 
 /* yellows for notifications */
-  --yellow_10: #fee5be ;
-  --yellow_base: #FBB13C;
+  /*--yellow_10: #fee5be ;*/
+  --notification_base: #FBB13C;
+
+/* colors for validations */
+  --red_10: #F8ECEB;
+  --red_base: #B73D3C; /* same red as in drill pretri */
+  --yellow_10: #FDF7E6;
+  --yellow_base: #E9B406; /* same yellow as in drill pretri */
+  --green_10: #EEF4F1;
+  --green_base: #539265; /* same green as mcs theme & selected view in map tab */
 
 /*shadows on buttons */
   --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;

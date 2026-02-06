@@ -68,7 +68,7 @@
 }
 
 .patient-summary--line .wrong {
-	color: #B73D3C;
+	color: var(--red_base);
 }
 
 .patient-summary--line .correct {

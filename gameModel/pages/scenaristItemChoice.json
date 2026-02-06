@@ -371,10 +371,10 @@
                   "content" : "import { canEnterShowOnMapChoice } from \"./edition/UIfacade/actionConfigFacade\";\n!canEnterShowOnMapChoice(Context.item);",
                   "language" : "typescript"
                 },
-                "icon" : "map-marker-alt",
+                "icon" : "external-link-alt",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Show on map</p>\"",
+                  "content" : "\"<p>Open map</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",
@@ -496,7 +496,7 @@
               "type" : "Text"
             }, {
               "props" : {
-                "icon" : "angle-down",
+                "icon" : "caret-down",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }

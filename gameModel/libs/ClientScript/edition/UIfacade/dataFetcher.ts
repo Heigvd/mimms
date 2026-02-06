@@ -2,7 +2,7 @@ import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDesc
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ANY_CHOICE } from '../../game/common/constants';
 import { Effect } from '../../game/common/impacts/effect';
-import { Tag, Uid } from '../../game/common/interfaces';
+import { Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { Trigger } from '../../game/common/triggers/trigger';
@@ -48,7 +48,7 @@ function internalGetMapEntitiesOptions(
     .filter(item => item.superType === 'mapEntity')
     .map(mapEntity => mapEntity as FlatMapEntity)
     .filter(mapEntity => !filterFn || filterFn(mapEntity))
-    .sort(compareByTag)
+    .sort(compareByIndex)
     .map(item => {
       return { label: item.tag, value: item.uid };
     });
@@ -61,7 +61,7 @@ export function getTriggersOptions(
     .filter(item => item.superType === 'trigger')
     .map(trigger => trigger as FlatTrigger)
     .filter(trigger => !filterFn || filterFn(trigger))
-    .sort(compareByTag)
+    .sort(compareByIndex)
     .map(item => {
       return { label: item.tag, value: item.uid };
     });
@@ -77,7 +77,7 @@ export function getActionTemplatesOptions(
     .filter(item => item.superType === 'action')
     .map(actionTemplate => actionTemplate as FlatActionTemplate)
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
-    .sort(compareByTag)
+    .sort(compareByIndex)
     .map(actionTemplate => {
       return { label: actionTemplate.tag, value: actionTemplate.uid };
     });
@@ -128,7 +128,7 @@ export function getEffectsOptions(
     .map(effect => effect as FlatEffect)
     .filter(effect => effect.parent === choiceUid)
     .filter(effect => !filterFn || filterFn(effect))
-    .sort(compareByTag)
+    .sort(compareByIndex)
     .map(item => {
       return { label: item.tag, value: item.uid };
     });
@@ -137,10 +137,6 @@ export function getEffectsOptions(
 export function getDefaultEffect(choiceUid: Uid): Effect['uid'] {
   const choice = getChoice(choiceUid);
   return choice.defaultEffect;
-}
-
-function compareByTag(a: { tag: Tag }, b: { tag: Tag }): number {
-  return a.tag.localeCompare(b.tag);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

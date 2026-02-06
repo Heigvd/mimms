@@ -221,7 +221,7 @@
   padding: 20px;
   font-size: var(--S_text);
   color: var(--grey_100);
-  background-color: var(--yellow_base);
+  background-color: var(--notification_base);
   border-radius: var(--S_borderRadius);
   opacity: 0;
   visibility: hidden;
