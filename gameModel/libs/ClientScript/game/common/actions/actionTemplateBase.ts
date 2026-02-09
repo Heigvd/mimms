@@ -28,7 +28,11 @@ import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
-import { getOngoingActions } from '../simulationState/actionStateAccess';
+import {
+  getOngoingActions,
+  getStartedActionsOfTemplate,
+  isThisNextPlannedAction,
+} from '../simulationState/actionStateAccess';
 import {
   ActionTemplateActivable,
   getActionTemplateActivable,
@@ -89,7 +93,7 @@ export abstract class ActionTemplateBase<
    * @param uid unique identifier
    * @param title action display title translation key
    * @param description short description of the action
-   * @param replayable defaults to false, when true the action can be played multiple times
+   * @param repeats defaults to 1, prevent the action to be run more than x times. < 1 means that it can be played infinitely
    * @param category The type of action
    * @param requiredFlags list of simulation flags that make the action available, undefined or empty array means no flag condition
    * @param raisedFlags list of simulation flags added to state when action ends
@@ -99,7 +103,7 @@ export abstract class ActionTemplateBase<
     public readonly uid: ActionTemplateUid,
     protected readonly title: TranslationKey | ITranslatableContent,
     protected readonly description: TranslationKey | ITranslatableContent,
-    public replayable: boolean = false,
+    public repeats: number = 1,
     public readonly category: ActionType = ActionType.ACTION,
     private requiredFlags: SimFlag[] = [SimFlag.PCFRONT_BUILT],
     protected raisedFlags: SimFlag[] = [],
@@ -134,12 +138,17 @@ export abstract class ActionTemplateBase<
    * @returns true if the player can trigger this action
    */
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
+    // A "just now planned action by the actor" is always available, so that it can be canceled
+    if (isThisNextPlannedAction(state, this.uid, actor.Uid)) {
+      return true;
+    }
+
     return (
       this.flagWiseAvailable(state) &&
+      this.roleWiseAvailable(actor.Role) &&
       this.isActive(state) &&
       this.canPlayAgain(state) &&
-      this.isAvailableCustom(state, actor) &&
-      this.roleWiseAvailable(actor.Role)
+      this.isAvailableCustom(state, actor)
     );
   }
 
@@ -228,19 +237,17 @@ export abstract class ActionTemplateBase<
     });
   }
 
-  /**
-   * If replayable returns true, else returns true if the action has not yet been planned and started
-   */
   protected canPlayAgain(state: Readonly<MainSimulationState>): boolean {
-    if (this.replayable) {
+    if (this.repeats < 1) {
+      // no repetition restriction
       return true;
     }
 
-    const action = state
-      .getInternalStateObject()
-      .actions.find(action => action.getTemplateId() === this.uid);
-    //either action has not been played or it is planned but can still be cancelled
-    return action == undefined || action.startTime === state.getSimTime();
+    // Note : when an action is just planned, it is not taken into account.
+    // That means if we don't want that several actors can plan at the same time the last occurrence,
+    // it has to be handled in the isAvailableCustom function
+
+    return getStartedActionsOfTemplate(state, this.uid).length < this.repeats;
   }
 
   /**
@@ -276,22 +283,13 @@ export abstract class StartEndTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    replayable = false,
+    repeats: number,
     category: ActionType = ActionType.ACTION,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
   ) {
-    super(
-      uid,
-      title,
-      description,
-      replayable,
-      category,
-      requiredFlags,
-      raisedFlags,
-      availableToRoles
-    );
+    super(uid, title, description, repeats, category, requiredFlags, raisedFlags, availableToRoles);
     this.duration = duration;
   }
 
@@ -316,22 +314,19 @@ export abstract class ChoiceTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
-    replayable = false,
+    repeats: number,
     category: ActionType = ActionType.ACTION,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices: ChoiceDescriptor[] = [],
-    private readonly nbMaxRepetitions: number = 0 // 0 is considered as infinitely
+    choices: ChoiceDescriptor[] = []
   ) {
     super(
       uid,
       title,
       description,
       duration,
-      //message,
-      replayable,
+      repeats,
       category,
       requiredFlags,
       raisedFlags,
@@ -344,22 +339,7 @@ export abstract class ChoiceTemplate<
     state: Readonly<MainSimulationState>,
     _actor: Readonly<Actor>
   ): boolean {
-    const actionTemplateActivable: ActionTemplateActivable | undefined = getActionTemplateActivable(
-      state,
-      this.uid
-    );
-    const hasMaxRepetitions: boolean =
-      this.nbMaxRepetitions != undefined && this.nbMaxRepetitions > 0;
-
-    return (
-      ActionLogic.getAvailableChoices(state, this).length > 0 &&
-      !(
-        actionTemplateActivable && // there must be an activable
-        hasMaxRepetitions && // which as a max of repetitions
-        actionTemplateActivable.count >= this.nbMaxRepetitions
-      )
-      // TODO see where we handle the case of 2 players planning the same action at the same time
-    );
+    return ActionLogic.getAvailableChoices(state, this).length > 0;
   }
 }
 
@@ -379,7 +359,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     description: TranslationKey,
     duration: SimDuration,
     readonly message: TranslationKey,
-    replayable: boolean = false,
+    repeats: number = 1,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -390,7 +370,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -433,7 +413,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    replayable = true,
+    repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -443,7 +423,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.CASU_RADIO,
       requiredFlags,
       raisedFlags,
@@ -508,7 +488,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
     duration: SimDuration,
     private feedbackWhenStarted: TranslationKey,
     private feedbackWhenReport: TranslationKey,
-    replayable = true,
+    repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -518,7 +498,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.RESOURCES_RADIO,
       requiredFlags,
       raisedFlags,
@@ -581,7 +561,6 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
     readonly channel: RadioType,
-    replayable: boolean = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -591,7 +570,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       title,
       description,
       duration,
-      replayable,
+      0, // repeats is forced to 0. Because the action can be refused and must be run again
       ActionType.CASU_RADIO,
       requiredFlags,
       raisedFlags,
@@ -649,25 +628,23 @@ export class FullyConfigurableChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //replayable = true,
+    repeats: number,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
-    nbMaxRepetitions?: number
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,
       title,
       description,
       duration,
-      true, // replayable forced to true. It is handled with nbMaxRepetitions
+      repeats,
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices,
-      nbMaxRepetitions
+      choices
     );
   }
 
@@ -716,8 +693,6 @@ export class MapChoiceActionTemplate<
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
-    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
@@ -729,7 +704,7 @@ export class MapChoiceActionTemplate<
       title,
       description,
       duration,
-      false, // replayable forced to false. No map action can be run twice
+      1, // repeats forced to 1. No map action can be run twice
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -793,25 +768,12 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
-    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[]
   ) {
-    super(
-      uid,
-      title,
-      description,
-      duration,
-      //message,
-      //replayable,
-      requiredFlags,
-      raisedFlags,
-      availableToRoles,
-      choices
-    );
+    super(uid, title, description, duration, requiredFlags, raisedFlags, availableToRoles, choices);
   }
 
   protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCFrontChoiceAction {
@@ -841,25 +803,12 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
-    //replayable = false,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[]
   ) {
-    super(
-      uid,
-      title,
-      description,
-      duration,
-      //message,
-      //replayable,
-      requiredFlags,
-      raisedFlags,
-      availableToRoles,
-      choices
-    );
+    super(uid, title, description, duration, requiredFlags, raisedFlags, availableToRoles, choices);
   }
 
   protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCChoiceAction {
@@ -892,8 +841,6 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
-    //message: TranslationKey,
-    //replayable = false,
     binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
     vehicleType: VehicleType,
     requiredFlags?: SimFlag[],
@@ -906,8 +853,6 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       title,
       description,
       duration,
-      //message,
-      //replayable,
       requiredFlags,
       raisedFlags,
       availableToRoles,
@@ -964,7 +909,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    replayable = true,
+    repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -974,7 +919,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.RESOURCES_RADIO,
       requiredFlags,
       raisedFlags,
@@ -1038,7 +983,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     description: TranslationKey,
     duration: SimDuration,
     readonly radioChannel: RadioType,
-    replayable: boolean = true,
+    repeats: number = 0,
     category: ActionType,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -1049,7 +994,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       title,
       description,
       duration,
-      replayable,
+      repeats,
       category,
       requiredFlags,
       raisedFlags,
@@ -1121,7 +1066,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    replayable = true,
+    repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -1131,7 +1076,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -1180,7 +1125,6 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    replayable = true,
     readonly noResourceFailureMessageKey: TranslationKey,
     readonly refusalFailureMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
@@ -1194,7 +1138,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      replayable,
+      0, // repeats is forced to 0. Because the action can be refused and must be run again
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -1258,7 +1202,7 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
   SituationUpdatePayload
 > {
   constructor(uid: ActionTemplateUid, title: TranslationKey, description: TranslationKey) {
-    super(uid, title, description, 0, true, ActionType.ACTION);
+    super(uid, title, description, 0, 0, ActionType.ACTION);
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
@@ -1309,7 +1253,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
-    replayable = true,
+    repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -1319,7 +1263,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      replayable,
+      repeats,
       ActionType.EVASAN_RADIO,
       requiredFlags,
       raisedFlags,

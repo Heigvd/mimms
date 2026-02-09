@@ -58,7 +58,7 @@ export function initActionTemplates(): ActionTemplateData {
     'send-radio-desc',
     TimeSliceDuration,
     RadioType.ACTORS,
-    true,
+    0,
     ActionType.ACTORS_RADIO
   );
 
@@ -68,7 +68,7 @@ export function initActionTemplates(): ActionTemplateData {
     'send-radio-desc',
     TimeSliceDuration,
     RadioType.CASU,
-    true,
+    0,
     ActionType.CASU_RADIO
   );
 
@@ -78,7 +78,7 @@ export function initActionTemplates(): ActionTemplateData {
     'open-PMA-desc',
     TimeSliceDuration,
     'open-PMA-feedback',
-    false,
+    1,
     [SimFlag.PMA_BUILT],
     [SimFlag.PMA_OPEN],
     ['LEADPMA'],
@@ -91,7 +91,7 @@ export function initActionTemplates(): ActionTemplateData {
     'define-acsMscArrival-desc',
     TimeSliceDuration,
     'define-acsMscArrival-feedback',
-    false,
+    1,
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.ACS_MCS_ANNOUNCED],
     ['ACS', 'MCS'],
@@ -104,7 +104,7 @@ export function initActionTemplates(): ActionTemplateData {
     'define-evasanArrival-desc',
     TimeSliceDuration,
     'define-evasanArrival-feedback',
-    false,
+    1,
     [SimFlag.EVASAN_ARRIVED],
     [SimFlag.EVASAN_ANNOUNCED],
     ['EVASAN'],
@@ -117,7 +117,7 @@ export function initActionTemplates(): ActionTemplateData {
     'define-leadpmaArrival-desc',
     TimeSliceDuration,
     'define-leadpmaArrival-feedback',
-    false,
+    1,
     [SimFlag.LEADPMA_ARRIVED],
     [SimFlag.LEADPMA_ANNOUNCED],
     ['LEADPMA'],
@@ -132,8 +132,7 @@ export function initActionTemplates(): ActionTemplateData {
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
-    RadioType.CASU,
-    true
+    RadioType.CASU
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
@@ -141,7 +140,6 @@ export function initActionTemplates(): ActionTemplateData {
     'appoint-EVASAN-title',
     'appoint-EVASAN-desc',
     TimeSliceDuration,
-    true,
     'appoint-EVASAN-no-resource-feedback',
     'appoint-refusal-feedback',
     'EVASAN',
@@ -155,7 +153,6 @@ export function initActionTemplates(): ActionTemplateData {
     'appoint-LeadPMA-title',
     'appoint-LeadPMA-desc',
     TimeSliceDuration,
-    true,
     'appoint-LeadPMA-no-resource-feedback',
     'appoint-refusal-feedback',
     'LEADPMA',
@@ -168,8 +165,7 @@ export function initActionTemplates(): ActionTemplateData {
     'move-res-task-uid-edc',
     'move-res-task-title',
     'move-res-task-desc',
-    TimeSliceDuration,
-    true
+    TimeSliceDuration
   );
 
   const evacuate = new EvacuationActionTemplate(
@@ -180,8 +176,7 @@ export function initActionTemplates(): ActionTemplateData {
     'evacuate-task-request',
     'evacuate-feedback-return',
     'evacuate-task-abort',
-    'evacuate-task-refused',
-    true
+    'evacuate-task-refused'
   );
 
   const pretriageReport = new PretriageReportTemplate(
@@ -190,8 +185,7 @@ export function initActionTemplates(): ActionTemplateData {
     'pretriage-report-task-desc',
     TimeSliceDuration,
     'pretriage-report-task-feedback-started',
-    'pretriage-report-task-feedback-report',
-    true
+    'pretriage-report-task-feedback-report'
   );
 
   const situationUpdate = new SituationUpdateActionTemplate(

@@ -41,9 +41,9 @@ export function getMapEntityDefinition(): MapEntityDefinition {
       activableType: 'mapEntity',
       uid: generateId(10),
       index: 0,
-      tag: 'Map Entity ' + generateId(3),
-      activeAtStart: false, // OK?
-      binding: LOCATION_ENUM.custom, // TODO figure out depending o where created
+      tag: 'New map location',
+      activeAtStart: false,
+      binding: LOCATION_ENUM.custom,
       buildStatus: 'built',
       mapObjects: [],
     }),

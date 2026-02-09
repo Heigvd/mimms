@@ -1173,12 +1173,7 @@ export class IncrementCountLocalEvent extends LocalEventBase {
   override applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
     const target: Activable | undefined = so.activables[this.props.target];
-    if (
-      target != undefined &&
-      (target.activableType === 'trigger' ||
-        target.activableType === 'actionTemplate' ||
-        target.activableType === 'choice')
-    ) {
+    if (target != undefined && target.activableType === 'trigger') {
       target.count += 1;
     }
   }

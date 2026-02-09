@@ -6,6 +6,7 @@ import { ActionTemplateFlatType } from '../controllers/dataController';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import {
+  addNew,
   GenericScenaristInterfaceState,
   getItems,
   getItemTyped,
@@ -25,6 +26,60 @@ export interface ActionTemplateConfigUIState extends GenericScenaristInterfaceSt
    * Defines if a choice's map marker is on. This value is bypassed if this choice has a defined displayedMapEntity
    */
   mapMarkerOn: Record<Uid, boolean>;
+  /**
+   *  Is/Are effect(s) showing?
+   */
+  effectOpen: boolean;
+  /**
+   * Are basic and custom actions showing?
+   */
+  openBasic: boolean;
+  openCustom: boolean;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// toggle effect
+
+export function toggleEffectListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.effectOpen = !newState.effectOpen;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getEffectListState(): boolean {
+  return getActionTemplateController().getLatestIState().effectOpen;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// toggle basic and custom actions' display
+
+export function toggleBasicListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openBasic = !newState.openBasic;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getBasicListState(): boolean {
+  return getActionTemplateController().getLatestIState().openBasic;
+}
+
+export function toggleCustomListState(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  newState.openCustom = !newState.openCustom;
+  getActionTemplateController().updateIState(newState);
+}
+
+export function getCustomListState(): boolean {
+  return getActionTemplateController().getLatestIState().openCustom;
+}
+
+export function openCustomList(): void {
+  const newState = Helpers.cloneDeep(getActionTemplateController().getLatestIState());
+  if (newState.openCustom) {
+    return;
+  }
+  newState.openCustom = true;
+  getActionTemplateController().updateIState(newState);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -43,13 +98,14 @@ export function getActionTemplates(mandatory: boolean): FlatActionTemplate[] {
 export function updateItem<T extends ActionTemplateFlatType>(
   uid: Uid,
   newData: Partial<T>,
-  interfaceState: ActionTemplateConfigUIState | undefined = undefined
+  interfaceState: ActionTemplateConfigUIState | undefined = undefined,
+  squashLastState: boolean = false
 ): void {
   const controller = getActionTemplateController();
   const data: Record<Uid, ActionTemplateFlatType> = controller.getFlatDataClone();
   if (data[uid] != undefined) {
     data[uid] = patchX(data[uid], newData)!;
-    controller.updateData(data, true, interfaceState);
+    controller.updateData(data, true, interfaceState, squashLastState);
   }
 }
 
@@ -82,7 +138,7 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
   }
   const storedMarkerState =
     getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid];
-  return storedMarkerState === undefined ? true : storedMarkerState;
+  return storedMarkerState === undefined ? false : storedMarkerState;
 }
 
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
@@ -99,6 +155,18 @@ export function updateMapMarkerState(choice: FlatChoice, activate: boolean): voi
 
 export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
   return choice?.displayedMapEntity !== undefined;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// effects specificities
+
+export function addChoice(): void {
+  const choice = addNew('choice', 'action');
+  const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
+    squashLastState: true,
+  });
+  updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
+  updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

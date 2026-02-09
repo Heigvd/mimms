@@ -17,7 +17,7 @@ export function isChoiceAvailable(
   if (choiceActivable) {
     if (choiceActivable.active) {
       const hasMaxRepetitions: boolean = choice.repeats != undefined && choice.repeats > 0;
-      if (hasMaxRepetitions && choiceActivable.count >= choice.repeats) {
+      if (hasMaxRepetitions && countStartedChoices(state, choice.uid) >= choice.repeats) {
         actionLogger.info(`choice '${choice.uid}' cannot be run anymore`);
         return false;
       }
@@ -48,6 +48,28 @@ function getCompletedActions(state: Readonly<MainSimulationState>): ActionBase[]
   return state.getAllActions().filter((a: ActionBase) => a.getStatus() === 'Completed');
 }
 
+export function getStartedActionsOfTemplate(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateUid
+): ActionBase[] {
+  return state
+    .getAllActions()
+    .filter(
+      action => action.startTime < state.getSimTime() && action.getTemplateId() === actionTemplateId
+    );
+}
+
+export function countStartedChoices(state: Readonly<MainSimulationState>, choiceRef: Uid): number {
+  return state
+    .getAllActions()
+    .filter(
+      action =>
+        action.startTime < state.getSimTime() &&
+        isChoiceAction(action) &&
+        action.choice?.uid === choiceRef
+    ).length;
+}
+
 export function isOngoingAndStartedAction<T extends ActionBase>(
   state: Readonly<MainSimulationState>,
   actorUid: number,
@@ -65,6 +87,23 @@ function isActionOngoingAndStarted(
   action: ActionBase
 ): boolean {
   return action.getStatus() === 'OnGoing' && action.startTime < state.getSimTime();
+}
+
+export function isThisNextPlannedAction(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateUid,
+  actorUid: number
+): boolean {
+  const actions = state.getActionsByActorIds()[actorUid];
+
+  if (actions) {
+    return actions.some(
+      action =>
+        action.startTime === state.getSimTime() && action.getTemplateId() === actionTemplateId
+    );
+  }
+
+  return false;
 }
 
 /**

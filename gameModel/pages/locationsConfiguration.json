@@ -14,7 +14,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Place your map object(s) on the map</p>\"",
+                  "content" : "\"<p>Place your shape(s) on the map</p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -246,7 +246,15 @@
                   "top" : "0",
                   "width" : "100%"
                 },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { normalize } from \"./tools/helper\";\n\nnormalize(0);",
+                    "language" : "TypeScript"
+                  }
+                },
                 "name" : "map",
+                "stopPropagation" : true,
                 "style" : { }
               },
               "type" : "FlexList"
@@ -328,11 +336,12 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Point');",
+                            "content" : "import { toggleDraw } from \"./edition/UIfacade/map/drawFacade\";\n\ntoggleDraw('Point');",
                             "language" : "TypeScript"
                           }
                         },
                         "name" : "add point",
+                        "stopPropagation" : true,
                         "style" : { }
                       },
                       "type" : "Button"
@@ -354,11 +363,12 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('LineString');",
+                            "content" : "import { toggleDraw } from \"./edition/UIfacade/map/drawFacade\";\n\ntoggleDraw('LineString');",
                             "language" : "TypeScript"
                           }
                         },
                         "name" : "add line",
+                        "stopPropagation" : true,
                         "style" : { }
                       },
                       "type" : "Button"
@@ -380,14 +390,27 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { startDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstartDraw('Polygon');",
+                            "content" : "import { toggleDraw } from \"./edition/UIfacade/map/drawFacade\";\n\ntoggleDraw('Polygon');",
                             "language" : "TypeScript"
                           }
                         },
                         "name" : "add polygon",
+                        "stopPropagation" : true,
                         "style" : { }
                       },
                       "type" : "Button"
+                    }, {
+                      "props" : {
+                        "className" : "step-text step-text--disabled",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Double click to end the line/polygon.</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
                     "className" : "location-modal-gap",
                     "layout" : { },
@@ -502,6 +525,13 @@
               "flexDirection" : "column"
             },
             "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { stopDraw } from \"./edition/UIfacade/map/drawFacade\";\n\nstopDraw();",
+                "language" : "TypeScript"
+              }
+            },
             "name" : "Location configuration modal",
             "onExitActions" : {
               "client" : {
@@ -585,7 +615,7 @@
                 }, {
                   "props" : {
                     "className" : "",
-                    "disableIf" : {
+                    "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { canInsertMapEntity } from \"./edition/UIfacade/locationConfigFacade\";\n!canInsertMapEntity();",
                       "language" : "typescript"
@@ -601,7 +631,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('mapEntity');",
+                        "content" : "import { createNewMapEntity } from \"./edition/UIfacade/locationConfigFacade\";\n\ncreateNewMapEntity();",
                         "language" : "TypeScript"
                       }
                     },

@@ -13,9 +13,8 @@ export interface ITemplateDescriptor extends IActivableDescriptor, IDescriptor, 
    */
   constructorType: string; // TODO constraint typing ?
   /**
-   *  the number of times this template can generate an action
+   *  the number of times this template can generate an action. < 1 means infinitely
    */
-  // TODO specifications for unlimited repetitions
   repeats: number;
   /**
    * indicates that the template mandatory for the game configuration to be sound

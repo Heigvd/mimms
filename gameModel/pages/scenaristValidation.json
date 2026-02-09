@@ -1,0 +1,540 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin scenarist-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Validation</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n(getValidationErrors().length < 1 && getValidationWarnings().length > 1) || (getValidationErrors().length < 1 || getValidationWarnings().length < 1);",
+                          "language" : "typescript"
+                        },
+                        "icon" : "sad-cry",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "error",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length > 1 || (getValidationErrors().length < 1 && getValidationWarnings().length < 1);",
+                          "language" : "typescript"
+                        },
+                        "icon" : "exclamation-triangle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "warning",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length > 0 || (getValidationErrors().length < 1 && getValidationWarnings().length > 1);",
+                          "language" : "typescript"
+                        },
+                        "icon" : "check-circle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "success",
+                        "style" : { }
+                      },
+                      "type" : "Icon"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { validationSummary } from \"./edition/UIfacade/validationFacade\";\nvalidationSummary();",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "validation-summary",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "error-validation-summary",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getValidationErrors } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length > 0;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "success-validation-summary",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length < 1 && getValidationWarnings().length < 1;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "warning-validation-summary",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length < 1 && getValidationWarnings().length > 1;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "summary",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "errors title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getValidationErrors } from \"./edition/UIfacade/validationFacade\";\n`<p>ERRORS (${getValidationErrors().length})</p>`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "icon" : "caret-up",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "collapse",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "interactive",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list__header--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getErrorListState } from \"./edition/UIfacade/validationFacade\";\n!getErrorListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding error-list__header actions-list__header",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleErrorsListState } from \"./edition/UIfacade/validationFacade\";\n\ntoggleErrorsListState();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "errors header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "validation-error__title",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.item.title;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "validation-error__description",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "description",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.item.description;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "texts",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "`<p>Go to ${Context.item.validationContext.page}</p>`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { clickGoToButton } from \"./edition/UIfacade/validationFacade\";\n\nclickGoToButton(Context.item.validationContext);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "go to",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "validation-error",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "basic__generic-item",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getErrorListState } from \"./edition/UIfacade/validationFacade\";\n!getErrorListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getValidationErrors } from \"./edition/UIfacade/validationFacade\";\n  getValidationErrors();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "errors",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist__undertitle",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "warnings title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n`<p>WARNINGS (${getValidationWarnings().length})</p>`",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "icon" : "caret-up",
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "\"\"",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "collapse",
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "className" : "interactive",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list__header--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getWarningListState } from \"./edition/UIfacade/validationFacade\";\n!getWarningListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "layout" : {
+                      "alignItems" : "center",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding warning-list__header actions-list__header",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleWarningListState } from \"./edition/UIfacade/validationFacade\";\n\ntoggleWarningListState();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "warnings header",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "validation-warning__title",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "title",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.item.title;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "validation-warning__description",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "description",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "  Context.item.description;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "flexDirection" : "column"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "texts",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "`<p>Go to ${Context.item.validationContext.page}</p>`",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { clickGoToButton } from \"./edition/UIfacade/validationFacade\";\n\nclickGoToButton(Context.item.validationContext);",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "go to",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "validation-warning",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "basic__generic-item",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "actions-list--closed",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getWarningListState } from \"./edition/UIfacade/validationFacade\";\n!getWarningListState();",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "exposeAs" : "item",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n  getValidationWarnings();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "id",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "warnings",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : {
+                  "minWidth" : "18rem",
+                  "width" : "66.6%"
+                },
+                "name" : "validation lists",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "header-button validation-button",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Run diagnostics<br></p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { evaluateValidationResults } from \"./edition/UIfacade/validationFacade\";\nwlog('coucouc c les validations!');\nevaluateValidationResults();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "run diagnostics",
+                    "style" : {
+                      "margin" : "0"
+                    }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "header-button validation-button",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length < 1 && getValidationWarnings().length < 1;",
+                      "language" : "typescript"
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Clear<br></p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { clearValidationResults } from \"./edition/UIfacade/validationFacade\";\nwlog('coucou la voie est clear!')\nclearValidationResults();",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "clear",
+                    "style" : {
+                      "margin" : "0"
+                    }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "validation-button__container",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "buttons",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "id" : "",
+            "layout" : { },
+            "layoutClassName" : "noPadding fullWidth",
+            "layoutStyle" : { },
+            "name" : "",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "fullWidth",
+        "exposeAs" : "validationUIState",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getInitialValidationUIState } from \"./edition/UIfacade/validationFacade\";\ngetInitialValidationUIState();",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding fullWidth",
+        "layoutStyle" : { },
+        "localState" : false,
+        "name" : "Validation",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding validation",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

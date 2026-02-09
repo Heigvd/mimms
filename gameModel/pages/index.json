@@ -394,12 +394,6 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "scenaristItemEffect",
-          "name" : "Effect Detail",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "scenaristItemUnknown",
           "name" : "Unknown Item",
           "scenaristPage" : false,
@@ -489,6 +483,12 @@
         "id" : "mainSimTester",
         "name" : "MainSim Tester",
         "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "scenaristValidation",
+        "name" : "Validation",
+        "scenaristPage" : null,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"

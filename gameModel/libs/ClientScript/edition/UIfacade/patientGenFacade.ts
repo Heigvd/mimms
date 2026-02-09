@@ -115,6 +115,15 @@ export function getSampleTimesSec(): number[] {
   return times.concat(SAMPLE_VALUES_MINUTE.map(t => t * 60).filter(t => t > t0));
 }
 
+export function getSampleTimesSecHeader(): { id: number; value: number }[] {
+  const headerValues = getSampleTimesSec().map(n => ({ id: n, value: n / 60 }));
+  if (Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimMode') {
+    return headerValues;
+  } else {
+    return headerValues.slice(1);
+  }
+}
+
 export function resetAll(): void {
   patientsSamplesCache = {};
   patientsBodyParamsCache = {};
