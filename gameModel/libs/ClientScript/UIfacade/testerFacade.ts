@@ -1,7 +1,6 @@
 //import { saveToVariable } from "../edition/UIfacade/genericConfigFacade";
 import { TimedEventPayload } from '../game/common/events/eventTypes';
 import { compareTimedEvents, getAllEvents } from '../game/common/events/eventUtils';
-import { getCurrentExecutionContext } from '../game/executionContext/gameExecutionContextController';
 import { resetHospitalCache } from '../game/loaders/hospitalLoader';
 import { eraseInitialState } from '../game/loaders/mainStateLoader';
 import { resetMapEntitiesCache } from '../game/loaders/mapEntitiesLoader';
@@ -45,7 +44,7 @@ export async function reloadState(): Promise<void> {
 }
 
 /**
- * Undo the last action (one step is one global event)
+ * Undo the last action (one step is one global event) and reload the state
  */
 export async function undoLastAction(): Promise<void> {
   // get all the applied events
