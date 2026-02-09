@@ -58,9 +58,7 @@ export async function undoLastAction(): Promise<void> {
     if (last?.id) {
       omitted[last.id] = true;
       await updateIgnoredEvents(omitted);
-      getCurrentExecutionContext().restorePreviousState();
-      runUpdateLoop();
-      setInterfaceState({});
+      await reloadState();
     }
   }
 }
