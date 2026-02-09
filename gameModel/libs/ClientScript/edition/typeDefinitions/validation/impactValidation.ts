@@ -75,10 +75,26 @@ export function choiceEffectValidator(
 }
 
 export function notificationMessageImpactValidator(
-  _impact: NotificationMessageImpact,
-  _ctx: ActionValidationContext | TriggerValidationContext
+  impact: NotificationMessageImpact,
+  ctx: ActionValidationContext | TriggerValidationContext
 ): ImpactValidationMessage[] {
-  return [];
+  const result: ImpactValidationMessage[] = [];
+  const extendedCtx = Helpers.cloneDeep(ctx);
+  extendedCtx.targetState.selected.impact = impact.uid;
+
+  const hasSomeRoleSelected = Object.values(impact.roles).some(selection => selection);
+  if (!hasSomeRoleSelected) {
+    result.push({
+      id: 'notif-no-role-impact-' + impact.uid,
+      level: 'WARNING',
+      title: 'Notification without a defined target',
+      description:
+        'A notification is configured without a target or associated role.<br/>It will not be displayed during the simulation.',
+      validationContext: extendedCtx,
+    });
+  }
+
+  return result;
 }
 
 export function radioMessageImpactValidator(
