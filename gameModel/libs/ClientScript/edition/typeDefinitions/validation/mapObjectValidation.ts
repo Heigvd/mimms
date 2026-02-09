@@ -12,7 +12,7 @@ export function pointMapObjectValidator(
   point: PointMapObject,
   ctx: LocationValidationContext
 ): LocationValidationMessage[] {
-  if (isPointOutOfView([point.geometry])) {
+  if (isSomePointOutOfView([point.geometry])) {
     return [getOutOfViewValidationMessage(point, ctx)];
   }
 
@@ -23,7 +23,7 @@ export function lineMapObjectValidator(
   line: LineMapObject,
   ctx: LocationValidationContext
 ): LocationValidationMessage[] {
-  if (isPointOutOfView(line.geometry)) {
+  if (isSomePointOutOfView(line.geometry)) {
     return [getOutOfViewValidationMessage(line, ctx)];
   }
 
@@ -34,14 +34,14 @@ export function polygonMapObjectValidator(
   polygon: PolygonMapObject,
   ctx: LocationValidationContext
 ): LocationValidationMessage[] {
-  if (isPointOutOfView(polygon.geometry.flatMap(points => points))) {
+  if (isSomePointOutOfView(polygon.geometry.flatMap(points => points))) {
     return [getOutOfViewValidationMessage(polygon, ctx)];
   }
 
   return [];
 }
 
-function isPointOutOfView(points: PointLikeObject[]): boolean {
+function isSomePointOutOfView(points: PointLikeObject[]): boolean {
   const mapConfig: MapConfig = getMapConfig();
   return points.some(point => isPointOutOfExtent(point, mapConfig.extent));
 }

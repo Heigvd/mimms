@@ -18,7 +18,6 @@ export function mapConfigValidator(
     });
   }
 
-  // TODO be sure of what must be checked
   if (!mapConfig.viewConfigured) {
     result.push({
       id: 'no-map-view',
