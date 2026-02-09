@@ -5158,6 +5158,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/hospitalController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#155:7oCnGl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/parentedUtils",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5378,6 +5387,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2481654:CJI4Wj",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/UIfacade/hospitalConfigFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#268:Geh3t8",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5657,15 +5675,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#154:tGXcnR",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "edition/controllers/hospitalController",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#155:7oCnGl",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6269,6 +6278,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991753:X2ddZg",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/loaders/hospitalLoader",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#269:mCsNqN",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

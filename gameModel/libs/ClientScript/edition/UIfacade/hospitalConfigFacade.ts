@@ -21,7 +21,7 @@ import {
   PatientUnitDefinition,
 } from '../../game/common/evacuation/hospitalType';
 import { getProximityTranslation } from '../../game/common/radio/radioLogic';
-import { getHospitalProximityChoices as getChoices} from '../controllers/hospitalController';
+import { getHospitalProximityChoices as getChoices } from '../controllers/hospitalController';
 
 // -------------------------------------------------------------------------------------------------
 // UI state
