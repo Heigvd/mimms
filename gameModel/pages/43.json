@@ -60,11 +60,13 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "className" : "header-button",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Undo</p>\"",
                                   "language" : "TypeScript"
                                 },
+                                "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -80,11 +82,13 @@
                               "type" : "Button"
                             }, {
                               "props" : {
+                                "className" : "header-button",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Restart</p>\"",
                                   "language" : "TypeScript"
                                 },
+                                "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -100,11 +104,13 @@
                               "type" : "Button"
                             }, {
                               "props" : {
+                                "className" : "header-button",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Refresh</p>\"",
                                   "language" : "TypeScript"
                                 },
+                                "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "localScriptEval" : {
                                   "script" : {
@@ -125,14 +131,12 @@
                               "language" : "typescript"
                             },
                             "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : {
-                              "position" : "absolute",
-                              "right" : "0",
-                              "zIndex" : "200"
-                            },
+                            "layoutClassName" : "location-absolute__button",
+                            "layoutStyle" : { },
                             "name" : "tester controls",
-                            "style" : { }
+                            "style" : {
+                              "gap" : "10px"
+                            }
                           },
                           "type" : "FlexList"
                         }, {
