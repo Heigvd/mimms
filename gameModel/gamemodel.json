@@ -5437,15 +5437,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/typeDefinitions/validation/timeValidation",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#279:j0AOFy",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "edition/typeDefinitions/validation/triggerValidation",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

@@ -19,7 +19,6 @@ import { getHospitals } from '../../game/common/evacuation/hospitalController';
 import { getPatientsBodyFactoryParams } from '../../tools/WegasHelper';
 import { BodyFactoryParam } from '../../HUMAn/human';
 import { patientValidator } from '../typeDefinitions/validation/patientValidation';
-import { timeValidator } from '../typeDefinitions/validation/timeValidation';
 import { getMapConfig, MapConfig } from '../../gameMap/utils/mapConfig';
 import { mapConfigValidator } from '../typeDefinitions/validation/mapConfigValidation';
 import {
@@ -101,15 +100,6 @@ export function computeValidationMessages(): ValidationMessage<any>[] {
   scenarioEditionLogger.debug('compute validation');
 
   const result: ValidationMessage<any>[] = [];
-
-  const startHours: number = Variable.find(gameModel, 'startHours').getDefaultInstance().getValue();
-  const startMinutes: number = Variable.find(gameModel, 'startMinutes')
-    .getDefaultInstance()
-    .getValue();
-  const patientsElapsedMinutes: number = Variable.find(gameModel, 'patients-elapsed-minutes')
-    .getDefaultInstance()
-    .getValue();
-  result.push(...timeValidator(startHours, startMinutes, patientsElapsedMinutes, { page: 'map' }));
 
   const mapConfig: MapConfig = getMapConfig();
   result.push(...mapConfigValidator(mapConfig, { page: 'map' }));
