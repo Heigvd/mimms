@@ -289,6 +289,11 @@
                 }, {
                   "props" : {
                     "className" : "h2title",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutClassName" : "",
                     "layoutStyle" : { },
                     "name" : "catSyst H2",
@@ -303,6 +308,11 @@
                 }, {
                   "props" : {
                     "className" : "GeneralText",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutStyle" : { },
                     "name" : "catSystTXT",
                     "style" : { },
