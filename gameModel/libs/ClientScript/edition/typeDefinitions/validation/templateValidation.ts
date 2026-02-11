@@ -48,7 +48,7 @@ function commonActionTemplateValidator(
     });
   }
 
-  actionTemplate.choices.forEach((choice: ChoiceDescriptor): void => {
+  actionTemplate.choices?.forEach((choice: ChoiceDescriptor): void => {
     result.push(...getChoiceDefinition().validator(choice, extendedCtx));
   });
 

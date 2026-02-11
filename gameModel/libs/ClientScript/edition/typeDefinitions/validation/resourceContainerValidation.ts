@@ -8,7 +8,6 @@ export function resourceContainersValidator(
 ): GenericValidationMessage[] {
   const result: GenericValidationMessage[] = [];
 
-  // Note : cannot happen through the scenario edition interface
   const acsMcsContainer: ResourceContainerDefinitionName = 'ACS-MCS';
   if (!resourceContainers.some(container => container.payload.type === acsMcsContainer)) {
     result.push({

@@ -59,7 +59,6 @@ export function setCurrentPage(page: Page) {
   const newState: MenuUIState = Helpers.cloneDeep(getMenuUIState());
   newState.page = page;
 
-  // Note : It is not perfect to do it here, but I did not find a better way
   if (page === 'validation') {
     newState.validation = computeValidationMessages();
   }
