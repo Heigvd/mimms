@@ -15,16 +15,20 @@ import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
 import { SuperTypeNames } from '../controllers/dataController';
+import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
-  ALL_EDITABLE,
-  Definition,
-  MapToDefinition,
-  MapToFlatType,
-  ValidationResult,
-} from './definition';
+  activationImpactValidator,
+  choiceEffectValidator,
+  emptyImpactValidator,
+  mapActivationImpactValidator,
+  notificationMessageImpactValidator,
+  radioMessageImpactValidator,
+} from './validation/impactValidation';
+import { ActionValidationContext, TriggerValidationContext } from './validation/validationContext';
 
 type ImpactTypeName = Impact['type'];
-type ImpactDefinition = MapToDefinition<Impact>;
+type ImpactValidationContext = TriggerValidationContext | ActionValidationContext;
+type ImpactDefinition = MapToDefinition<Impact, ImpactValidationContext>;
 export type FlatImpact = MapToFlatType<Impact, 'impact'>;
 
 export function toFlatImpact(imp: Impact, parentId: Uid): FlatImpact {
@@ -77,7 +81,7 @@ export function getImpactDefinition(
 
 // TODO somewhere check that all impacts are valid
 
-export function getEmptyImpactDef(): Definition<EmptyImpact> {
+export function getEmptyImpactDef(): Definition<EmptyImpact, ImpactValidationContext> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -85,7 +89,7 @@ export function getEmptyImpactDef(): Definition<EmptyImpact> {
       uid: generateId(10),
       index: 0,
     }),
-    validator: (_impact: EmptyImpact) => ({ success: true, messages: [] }),
+    validator: emptyImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -94,7 +98,7 @@ export function getEmptyImpactDef(): Definition<EmptyImpact> {
   };
 }
 
-export function getActivationImpactDef(): Definition<ActivationImpact> {
+export function getActivationImpactDef(): Definition<ActivationImpact, ImpactValidationContext> {
   return {
     type: 'activation',
     getDefault: () => ({
@@ -106,30 +110,7 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
       target: '',
       option: 'activate',
     }),
-    validator: (impact: ActivationImpact) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (impact.delaySeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Delay cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      if (impact.target.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select something',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: activationImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -142,7 +123,10 @@ export function getActivationImpactDef(): Definition<ActivationImpact> {
   };
 }
 
-export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSelectionImpact> {
+export function getChoiceEffectSelectionImpactDef(): Definition<
+  ChoiceEffectSelectionImpact,
+  ImpactValidationContext
+> {
   return {
     type: 'effectSelection',
     getDefault: () => ({
@@ -153,39 +137,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
       target: '',
       targetEffect: '',
     }),
-    validator: (impact: ChoiceEffectSelectionImpact) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (impact.delaySeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Delay cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      if (impact.target.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a target',
-          isTranslateKey: false,
-        });
-      }
-
-      if (impact.targetEffect.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select an effect',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: choiceEffectValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -199,7 +151,7 @@ export function getChoiceEffectSelectionImpactDef(): Definition<ChoiceEffectSele
 
 export function getNotificationImpactDef(
   parentType?: SuperTypeNames
-): Definition<NotificationMessageImpact> {
+): Definition<NotificationMessageImpact, ImpactValidationContext> {
   return {
     type: 'notification',
     getDefault: () => ({
@@ -218,40 +170,7 @@ export function getNotificationImpactDef(
         Initiator: parentType === 'effect' ? true : false,
       },
     }),
-    validator: (impact: NotificationMessageImpact) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (impact.delaySeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Delay cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      if (checkIsMessageEmpty(impact.message)) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Write a message',
-          isTranslateKey: false,
-        });
-      }
-
-      const hasSomeRoleSelected = Object.values(impact.roles).some(selection => selection);
-      if (!hasSomeRoleSelected) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Set a recipient',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: notificationMessageImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -263,7 +182,7 @@ export function getNotificationImpactDef(
   };
 }
 
-export function getRadioImpactDef(): Definition<RadioMessageImpact> {
+export function getRadioImpactDef(): Definition<RadioMessageImpact, ImpactValidationContext> {
   return {
     type: 'radio',
     getDefault: () => ({
@@ -274,30 +193,7 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
       message: createOrUpdateTranslation('', undefined),
       channel: RadioType.CASU,
     }),
-    validator: (impact: RadioMessageImpact) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (impact.delaySeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Delay cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      if (checkIsMessageEmpty(impact.message)) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Write a message',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: radioMessageImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -309,16 +205,10 @@ export function getRadioImpactDef(): Definition<RadioMessageImpact> {
   };
 }
 
-function checkIsMessageEmpty(message: ITranslatableContent | undefined): boolean {
-  return (
-    message == undefined ||
-    Object.values(message.translations).every(
-      (transl: ITranslation) => transl?.translation?.trim().length === 0
-    )
-  );
-}
-
-export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
+export function getMapActivationImpactDef(): Definition<
+  MapActivationImpact,
+  ImpactValidationContext
+> {
   return {
     type: 'mapActivation',
     getDefault: () => ({
@@ -331,30 +221,7 @@ export function getMapActivationImpactDef(): Definition<MapActivationImpact> {
       option: 'activate',
       buildStatus: 'pending',
     }),
-    validator: (impact: MapActivationImpact) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (impact.delaySeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Delay cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      if (impact.target.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select something',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: mapActivationImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },

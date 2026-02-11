@@ -11,17 +11,19 @@ import {
 import { EmptyCondition } from '../../game/common/triggers/implementation/emptyCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
+import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
-  ALL_EDITABLE,
-  Definition,
-  MapToDefinition,
-  MapToFlatType,
-  ValidationResult,
-} from './definition';
+  actionConditionValidator,
+  emptyConditionValidator,
+  mapEntityConditionValidator,
+  timeConditionValidator,
+  triggerConditionValidator,
+} from './validation/conditionValidation';
+import { TriggerValidationContext } from './validation/validationContext';
 
 type ConditionTypeName = Condition['type'];
 
-export type ConditionDefinition = MapToDefinition<Condition>;
+export type ConditionDefinition = MapToDefinition<Condition, TriggerValidationContext>;
 export type FlatCondition = MapToFlatType<Condition, 'condition'>;
 
 export function toFlatCondition(cond: Condition, parentId: Uid): FlatCondition {
@@ -49,7 +51,7 @@ export function getConditionDefinition(type: ConditionTypeName): ConditionDefini
   return defs[type]!;
 }
 
-export function getEmptyConditionDef(): Definition<EmptyCondition> {
+export function getEmptyConditionDef(): Definition<EmptyCondition, TriggerValidationContext> {
   return {
     type: 'empty',
     getDefault: () => ({
@@ -57,7 +59,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition> {
       index: 0,
       type: 'empty',
     }),
-    validator: (_condition: EmptyCondition) => ({ success: true, messages: [] }),
+    validator: emptyConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -66,7 +68,7 @@ export function getEmptyConditionDef(): Definition<EmptyCondition> {
   };
 }
 
-export function getTimeConditionDef(): Definition<TimeCondition> {
+export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidationContext> {
   return {
     type: 'time',
     getDefault: () => ({
@@ -76,21 +78,7 @@ export function getTimeConditionDef(): Definition<TimeCondition> {
       operator: '=',
       timeSeconds: 0,
     }),
-    validator: (condition: TimeCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.timeSeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'The time cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: timeConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -101,7 +89,7 @@ export function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
-export function getActionConditionDef(): Definition<ActionCondition> {
+export function getActionConditionDef(): Definition<ActionCondition, TriggerValidationContext> {
   return {
     type: 'action',
     getDefault: () => ({
@@ -112,21 +100,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
       choiceRef: ANY_CHOICE,
       status: 'active',
     }),
-    validator: (condition: ActionCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.actionRef?.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select the action',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: actionConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -138,7 +112,7 @@ export function getActionConditionDef(): Definition<ActionCondition> {
   };
 }
 
-export function getTriggerConditionDef(): Definition<TriggerCondition> {
+export function getTriggerConditionDef(): Definition<TriggerCondition, TriggerValidationContext> {
   return {
     type: 'trigger',
     getDefault: () => ({
@@ -148,21 +122,7 @@ export function getTriggerConditionDef(): Definition<TriggerCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: TriggerCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: triggerConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -173,7 +133,10 @@ export function getTriggerConditionDef(): Definition<TriggerCondition> {
   };
 }
 
-export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
+export function getMapEntityConditionDef(): Definition<
+  MapEntityCondition,
+  TriggerValidationContext
+> {
   return {
     type: 'mapEntity',
     getDefault: () => ({
@@ -183,21 +146,7 @@ export function getMapEntityConditionDef(): Definition<MapEntityCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: MapEntityCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: mapEntityConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

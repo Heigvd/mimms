@@ -5,11 +5,16 @@ import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
+import { fullyConfigurableActionTemplateValidator } from '../validation/templateValidation';
+import { ActionValidationContext } from '../validation/validationContext';
 
 /**
  * Scenarist fully configurable template, including choices and impacts
  */
-export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableTemplateDescriptor> {
+export function getFullyConfigurableTemplateDef(): Definition<
+  FullyConfigurableTemplateDescriptor,
+  ActionValidationContext
+> {
   return {
     type: 'FullyConfigurableTemplateDescriptor',
     getDefault: () => ({
@@ -39,7 +44,7 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       comment: '',
       index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: fullyConfigurableActionTemplateValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

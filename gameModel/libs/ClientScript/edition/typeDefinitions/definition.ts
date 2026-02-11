@@ -1,5 +1,4 @@
 import { Indexed, Parented, SuperTyped, Typed } from '../../game/common/interfaces';
-import { scenarioEditionLogger } from '../../tools/logger';
 
 /**
  * Unboxes the type contained in an array up to 3 levels of array
@@ -49,7 +48,7 @@ export type ToConfigurationViewType<O extends object> = {
     : ConfigurationView;
 };
 
-export type MapToDefinition<U> = U extends Typed ? Definition<U> : never;
+export type MapToDefinition<U, VC> = U extends Typed ? Definition<U, VC> : never;
 
 /**
  * Omit all arrays (children) and adds required interfaces
@@ -60,59 +59,22 @@ export type MapToFlatType<T extends Typed & Indexed, SType extends string> = Rem
   Parented &
   SuperTyped & { superType: SType };
 
-export interface ValidationResult {
-  success: boolean;
-  messages: {
-    logLevel: 'OFF' | 'ERROR' | 'WARN' | 'LOG' | 'INFO' | 'DEBUG';
-    message: string;
-    isTranslateKey: boolean; // TODO why translate key ? Scenarist is not all in english ?
-  }[];
+export interface ValidationMessage<VContext> {
+  id: string;
+  level: 'ERROR' | 'WARNING';
+  title: string;
+  description: string;
+  validationContext: VContext;
 }
 
-export function mergeValidationResults(
-  initial: ValidationResult,
-  complement: ValidationResult
-): ValidationResult {
-  return {
-    success: initial.success && complement.success,
-    messages: initial.messages.concat(complement.messages),
-  };
-}
+export type ValidatorFunc<T extends Typed, VContext> = (
+  value: T,
+  validationCtx: VContext
+) => ValidationMessage<VContext>[];
 
-export function logValidationResult(validationResult: ValidationResult) {
-  if (validationResult.success) {
-    scenarioEditionLogger.info('validation is successful');
-  } else {
-    scenarioEditionLogger.warn('validation denotes some problems');
-  }
-  Object.values(validationResult.messages).forEach(msg => {
-    switch (msg.logLevel) {
-      case 'ERROR':
-        scenarioEditionLogger.error(msg.message);
-        break;
-      case 'WARN':
-        scenarioEditionLogger.warn(msg.message);
-        break;
-      case 'LOG':
-        scenarioEditionLogger.log(msg.message);
-        break;
-      case 'INFO':
-        scenarioEditionLogger.info(msg.message);
-        break;
-      case 'DEBUG':
-        scenarioEditionLogger.debug(msg.message);
-        break;
-      case 'OFF':
-      default:
-        // no logging
-        break;
-    }
-  });
-}
-
-export interface Definition<T extends Typed> {
+export interface Definition<T extends Typed, VContext> {
   type: T['type'];
   view: ToConfigurationViewType<T>;
   getDefault: () => T;
-  validator: (value: T) => ValidationResult;
+  validator: ValidatorFunc<T, VContext>;
 }

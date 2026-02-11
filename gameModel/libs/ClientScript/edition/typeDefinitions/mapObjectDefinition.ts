@@ -16,8 +16,14 @@ import {
   MapToDefinition,
   ToConfigurationViewType,
 } from '../typeDefinitions/definition';
+import {
+  lineMapObjectValidator,
+  pointMapObjectValidator,
+  polygonMapObjectValidator,
+} from './validation/mapObjectValidation';
+import { LocationValidationContext } from './validation/validationContext';
 
-type MapObjectDefinition = MapToDefinition<MapObject>;
+type MapObjectDefinition = MapToDefinition<MapObject, LocationValidationContext>;
 type MapObjectTypeName = MapObject['type'];
 
 export type FlatMapObject = MapObject & Parented & SuperTyped & { superType: 'geometry' };
@@ -84,7 +90,7 @@ function getCommonDefault(): CommonDefault {
   };
 }
 
-export function getPointMapObjectDef(): Definition<PointMapObject> {
+export function getPointMapObjectDef(): Definition<PointMapObject, LocationValidationContext> {
   return {
     type: 'Point',
     getDefault: () => ({
@@ -93,7 +99,7 @@ export function getPointMapObjectDef(): Definition<PointMapObject> {
       icon: 'empty', // TODO some default icon or fall back as a computed round dot?
       geometry: [0, 0],
     }),
-    validator: (_point: PointMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: pointMapObjectValidator,
     view: {
       ...getCommonView(),
       icon: ALL_EDITABLE,
@@ -102,7 +108,7 @@ export function getPointMapObjectDef(): Definition<PointMapObject> {
   };
 }
 
-export function getLineMapObjectDef(): Definition<LineMapObject> {
+export function getLineMapObjectDef(): Definition<LineMapObject, LocationValidationContext> {
   return {
     type: 'LineString',
     getDefault: () => ({
@@ -112,7 +118,7 @@ export function getLineMapObjectDef(): Definition<LineMapObject> {
       lineEnd: 'None',
       geometry: [],
     }),
-    validator: (_line: LineMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: lineMapObjectValidator,
     view: {
       ...getCommonView(),
       lineStart: ALL_EDITABLE,
@@ -122,7 +128,7 @@ export function getLineMapObjectDef(): Definition<LineMapObject> {
   };
 }
 
-export function getPolygonMapObjectDef(): Definition<PolygonMapObject> {
+export function getPolygonMapObjectDef(): Definition<PolygonMapObject, LocationValidationContext> {
   return {
     type: 'Polygon',
     getDefault: () => ({
@@ -130,7 +136,7 @@ export function getPolygonMapObjectDef(): Definition<PolygonMapObject> {
       type: 'Polygon',
       geometry: [],
     }),
-    validator: (_polygon: PolygonMapObject) => ({ success: true, messages: [] }), // TODO warning if out of zone
+    validator: polygonMapObjectValidator,
     view: {
       ...getCommonView(),
       geometry: ALL_EDITABLE,

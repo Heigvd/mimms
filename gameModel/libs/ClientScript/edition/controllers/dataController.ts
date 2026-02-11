@@ -10,12 +10,14 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
+import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import {
   LineMapObject,
   MapEntityDescriptor,
   PointMapObject,
   PolygonMapObject,
 } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { group } from '../../tools/groupBy';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
@@ -28,6 +30,7 @@ import {
 } from '../../tools/indexedSorting';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
+import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import {
   FlatChoice,
   fromFlatChoice,
@@ -40,7 +43,7 @@ import {
   getConditionDefinition,
   toFlatCondition,
 } from '../typeDefinitions/conditionDefinition';
-import { logValidationResult, ValidationResult } from '../typeDefinitions/definition';
+import { ValidationMessage } from '../typeDefinitions/definition';
 import {
   FlatEffect,
   fromFlatEffect,
@@ -69,6 +72,7 @@ import {
   FlatActionTemplate,
   fromFlatActionTemplate,
   getTemplateDef,
+  getTemplateValidator,
   toFlatActionTemplate,
 } from '../typeDefinitions/templateDefinition';
 import {
@@ -77,10 +81,21 @@ import {
   getTriggerDefinition,
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
+import {
+  ActionValidationContext,
+  GenericValidationContext,
+  LocationValidationContext,
+  TriggerValidationContext,
+} from '../typeDefinitions/validation/validationContext';
 import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 import { GenericScenaristInterfaceState, getItemTyped } from '../UIfacade/genericConfigFacade';
 import { MapEntityUIState, SupportedDrawType } from '../UIfacade/locationConfigFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
+import {
+  getInitialActionTemplateUIState,
+  getInitialMapEntityUIState,
+  getInitialTriggerUIState,
+} from './controllerInstances';
 import {
   clusterSiblings,
   getAllSiblings,
@@ -90,9 +105,6 @@ import {
 } from './parentedUtils';
 import { ContextHandler } from './stateHandler';
 import { UndoRedoContext } from './undoRedoContext';
-import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
-import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
-import { getLocationTranslation } from '../../UIfacade/locationFacade';
 
 export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
 
@@ -121,10 +133,11 @@ export type CreationOptionsBase = {
   squashLastState?: boolean;
 };
 export abstract class DataControllerBase<
-  DataType extends Typed,
+  DataType extends Typed & IDescriptor,
   FlatType extends FlatTypes,
   IState extends GenericScenaristInterfaceState,
-  CreationOptions extends CreationOptionsBase
+  CreationOptions extends CreationOptionsBase,
+  VContext extends GenericValidationContext
 > {
   private readonly undoRedo: UndoRedoContext<IState, FlatType>;
   private readonly varKey: keyof ObjectVariableClasses;
@@ -145,10 +158,6 @@ export abstract class DataControllerBase<
   }
 
   public save(): void {
-    this.validate().forEach((validationResult: ValidationResult) =>
-      logValidationResult(validationResult)
-    );
-
     const desc = Variable.find(gameModel, this.varKey);
     saveToObjectDescriptor(desc, this.recompose(this.undoRedo.getCurrentState()[1]));
     this.undoRedo.onSave();
@@ -271,17 +280,17 @@ export abstract class DataControllerBase<
     this.updateIState(newState);
   }
 
-  public validate(): ValidationResult[] {
-    const result: ValidationResult[] = [];
+  public validate(): ValidationMessage<VContext>[] {
+    const result: ValidationMessage<VContext>[] = [];
 
     Object.values(this.getTreeData()).forEach((item: DataType) => {
-      result.push({ ...this.getValidator()(item) });
+      result.push(...this.validateInternal(item));
     });
 
     return result;
   }
 
-  protected abstract getValidator(): (value: DataType) => ValidationResult;
+  protected abstract validateInternal(item: DataType): ValidationMessage<VContext>[];
 
   public updateItem(item: FlatType) {
     const data: Record<Uid, FlatType> = this.getFlatDataClone();
@@ -315,6 +324,10 @@ export abstract class DataControllerBase<
   public updateIState(newInterfaceState: IState): void {
     this.transientIState = newInterfaceState;
     this.contextHandler.setState(this.transientIState);
+  }
+
+  public softUpdateIState(newInterfaceState: IState): void {
+    this.transientIState = newInterfaceState;
   }
 
   public getLatestIState(): IState {
@@ -363,6 +376,16 @@ export abstract class DataControllerBase<
     return this.undoRedo.getCurrentState()[1];
   }
 
+  public getItem<T extends FlatType>(id: Uid, type: T['superType']): Readonly<T> | undefined {
+    const item = this.getFlatData()[id];
+
+    if (item && item.superType === type) {
+      return item as T; // safe cast
+    }
+
+    return undefined;
+  }
+
   private applyChanges(
     newData: Record<Uid, FlatType>,
     newInterfaceState: IState,
@@ -379,7 +402,8 @@ export class TriggerDataController extends DataControllerBase<
   Trigger,
   TriggerFlatType,
   TriggerConfigUIState,
-  CreationOptionsBase
+  CreationOptionsBase,
+  TriggerValidationContext
 > {
   private static readonly TRIGGER_ROOT: string = 'TRIGGER_ROOT';
 
@@ -434,13 +458,14 @@ export class TriggerDataController extends DataControllerBase<
     options: CreationOptionsBase
   ): TriggerFlatType {
     switch (superType) {
-      case 'trigger':
+      case 'trigger': {
         const trigger = toFlatTrigger(
           getTriggerDefinition().getDefault(),
           TriggerDataController.TRIGGER_ROOT
         );
         this.assignNewTagName(trigger);
         return trigger;
+      }
       case 'condition':
         return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
       case 'impact':
@@ -465,8 +490,11 @@ export class TriggerDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: Trigger) => ValidationResult {
-    return getTriggerDefinition().validator;
+  protected validateInternal(value: Trigger): ValidationMessage<TriggerValidationContext>[] {
+    return getTriggerDefinition().validator(value, {
+      page: 'triggers',
+      targetState: getInitialTriggerUIState(),
+    });
   }
 
   protected override isSibling(target: TriggerFlatType, candidate: TriggerFlatType): boolean {
@@ -495,7 +523,8 @@ export class ActionTemplateDataController extends DataControllerBase<
   TemplateDescriptor,
   ActionTemplateFlatType,
   ActionTemplateConfigUIState,
-  CreationOptionsBase
+  CreationOptionsBase,
+  ActionValidationContext
 > {
   // TODO filter by mandatory
   protected override isSibling(
@@ -581,26 +610,30 @@ export class ActionTemplateDataController extends DataControllerBase<
     options: CreationOptionsBase
   ): ActionTemplateFlatType {
     switch (superType) {
-      case 'action':
+      case 'action': {
         const action = toFlatActionTemplate(
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
           ActionTemplateDataController.ACTION_ROOT
         );
         this.assignNewTagName(action);
         return action;
-      case 'choice':
+      }
+      case 'choice': {
         const choice = toFlatChoice(getChoiceDefinition().getDefault(), parentId);
         this.assignNewTagName(choice);
         return choice;
-      case 'effect':
+      }
+      case 'effect': {
         const effect = toFlatEffect(getEffectDefinition().getDefault(), parentId);
         this.assignNewTagName(effect);
         return effect;
-      case 'impact':
+      }
+      case 'impact': {
         return toFlatImpact(
           getImpactDefinition('empty', options.parentType).getDefault(),
           parentId
         );
+      }
     }
   }
 
@@ -618,11 +651,13 @@ export class ActionTemplateDataController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: TemplateDescriptor) => ValidationResult {
-    // TODO
-    return () => {
-      return { success: true, messages: [] };
-    };
+  protected validateInternal(
+    value: TemplateDescriptor
+  ): ValidationMessage<ActionValidationContext>[] {
+    return getTemplateValidator(value.type)(value, {
+      page: 'actions',
+      targetState: getInitialActionTemplateUIState(),
+    });
   }
 
   public override select(itemType: SuperTypeNames, uid: Uid | undefined): void {
@@ -675,7 +710,8 @@ export class MapEntityController extends DataControllerBase<
   MapEntityDescriptor,
   MapEntityFlatType,
   MapEntityUIState,
-  MapEntityCreationOptions
+  MapEntityCreationOptions,
+  LocationValidationContext
 > {
   private static readonly MAP_ENTITY_ROOT: string = 'MAP_ENTITY_ROOT';
 
@@ -788,7 +824,12 @@ export class MapEntityController extends DataControllerBase<
     newObject.tag = candidate;
   }
 
-  protected getValidator(): (value: MapEntityDescriptor) => ValidationResult {
-    return getMapEntityDefinition().validator;
+  protected validateInternal(
+    value: MapEntityDescriptor
+  ): ValidationMessage<LocationValidationContext>[] {
+    return getMapEntityDefinition().validator(value, {
+      page: 'locations',
+      targetState: getInitialMapEntityUIState(),
+    });
   }
 }
