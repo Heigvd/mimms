@@ -4,9 +4,6 @@ import {
   getMapEntityController,
   getTriggerController,
 } from '../controllers/controllerInstances';
-import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
-import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import { MapEntityUIState } from './locationConfigFacade';
 import {
   getValidationMessages as getValidationMessagesFromUIState,
   setCurrentPage,
@@ -138,25 +135,10 @@ export function clickGoToButton(validationContext: KnownValidationContext): void
   }
 
   if (validationContext.page === 'locations') {
-    const newState: MapEntityUIState = Helpers.cloneDeep(
-      getMapEntityController().getLatestIState()
-    );
-    if (validationContext.targetState.selectedFilter) {
-      newState.selectedFilter = validationContext.targetState.selectedFilter;
-    }
-    newState.selected = { ...newState.selected, ...validationContext.targetState.selected };
-    getMapEntityController().softUpdateIState(newState);
+    getMapEntityController().softUpdateIState(validationContext.targetState);
   } else if (validationContext.page === 'triggers') {
-    const newState: TriggerConfigUIState = Helpers.cloneDeep(
-      getTriggerController().getLatestIState()
-    );
-    newState.selected = { ...newState.selected, ...validationContext.targetState.selected };
-    getTriggerController().softUpdateIState(newState);
+    getTriggerController().softUpdateIState(validationContext.targetState);
   } else if (validationContext.page === 'actions') {
-    const newState: ActionTemplateConfigUIState = Helpers.cloneDeep(
-      getActionTemplateController().getLatestIState()
-    );
-    newState.selected = { ...newState.selected, ...validationContext.targetState.selected };
-    getActionTemplateController().softUpdateIState(newState);
+    getActionTemplateController().softUpdateIState(validationContext.targetState);
   }
 }
