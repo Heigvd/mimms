@@ -545,6 +545,7 @@ export function initItemAndActs(
     },
   });
 
+  /*
   registerItem({
     id: 'TranexamicAcid_1000',
     //name: 'Tranexamic Acid 500mg',
@@ -690,7 +691,7 @@ export function initItemAndActs(
       },
     },
   });
-
+*/
   registerAct({
     id: 'measureHR',
     priority: 0,
