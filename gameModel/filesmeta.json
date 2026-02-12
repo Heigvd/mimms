@@ -17,6 +17,42 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/Avenches/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/geo+json",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/geo+json",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/geo+json",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Avenches/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/geo+json",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/GVA-center/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
