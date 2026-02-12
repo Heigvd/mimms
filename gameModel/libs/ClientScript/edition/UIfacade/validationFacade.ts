@@ -12,7 +12,6 @@ import {
 import { KnownValidationContext } from '../typeDefinitions/validation/validationContext';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { hospitalValidator } from '../typeDefinitions/validation/hospitalValidation';
-import { getHospitals } from '../../game/common/evacuation/hospitalController';
 import { getPatientsBodyFactoryParams } from '../../tools/WegasHelper';
 import { BodyFactoryParam } from '../../HUMAn/human';
 import { patientValidator } from '../typeDefinitions/validation/patientValidation';
@@ -25,6 +24,7 @@ import {
 import { resourceContainersValidator } from '../typeDefinitions/validation/resourceContainerValidation';
 import { HospitalDefinition } from '../../game/common/evacuation/hospitalType';
 import { scenarioEditionLogger } from '../../tools/logger';
+import { getHospitals } from '../controllers/hospitalController';
 
 //////////////////////////////////////////////////////////////////////////////////////
 // UI state
