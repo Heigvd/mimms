@@ -233,7 +233,7 @@
                       "props" : {
                         "choices" : {
                           "@class" : "Script",
-                          "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}]",
+                          "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"Avenches\", value: \"Avenches\"}]",
                           "language" : "typescript"
                         },
                         "className" : "scenarist-dropdown",
