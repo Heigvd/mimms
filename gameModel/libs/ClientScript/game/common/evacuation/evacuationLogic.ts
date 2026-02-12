@@ -2,6 +2,10 @@ import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
 import * as ResourceState from '../simulationState/resourceStateAccess';
+import { getCachedHospitalById, getCachedHospitalsByProximity } from '../../loaders/hospitalLoader';
+import { HospitalId } from '../baseTypes';
+import { OneMinuteDuration } from '../constants';
+import { HospitalDefinition } from './hospitalType';
 
 export function isEvacSquadAvailable(
   state: Readonly<MainSimulationState>,
@@ -49,4 +53,35 @@ export function getResourcesForEvacSquad(
   }
 
   return result;
+}
+
+// -------------------------------------------------------------------------------------------------
+// Travel time to hospital
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * @param hospitalId the hospital
+ * @param squadType the squad that go to the hospital
+ *
+ * @return The number of seconds needed to go to the hospital
+ */
+export function computeTravelTime(hospitalId: HospitalId, squadType: EvacuationSquadType): number {
+  const squad = getSquadDef(squadType);
+  const distance = getCachedHospitalById(hospitalId).distance ?? 0;
+
+  return Math.ceil(
+    (squad.loadingTime + (distance / squad.speed) * 60 + squad.unloadingTime) * OneMinuteDuration
+  );
+}
+
+// Could be used by evacuationFacade.getEvacHospitalsChoices()
+export function getHospitalsMentionedByCasu(
+  state: Readonly<MainSimulationState>
+): Record<HospitalId, HospitalDefinition> {
+  const proximityRequested = state.getInternalStateObject().hospital.proximityWidestRequest;
+  if (proximityRequested !== undefined) {
+    return getCachedHospitalsByProximity(proximityRequested);
+  }
+
+  return {};
 }

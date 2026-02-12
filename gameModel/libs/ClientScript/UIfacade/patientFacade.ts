@@ -20,7 +20,7 @@ import {
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getTranslation } from '../tools/translation';
-import { getHospitalById, getPatientUnitById } from '../game/common/evacuation/hospitalController';
+import { getCachedHospitalById, getCachedPatientUnitById } from '../game/loaders/hospitalLoader';
 
 /**
  * @returns All currently present patients
@@ -36,19 +36,6 @@ export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<Patien
 export function getPatient(id: string): Readonly<PatientState | undefined> {
   return getAllPatients().find(patient => patient.patientId === id);
 }
-
-/* old hack - to be updated
-export function keepStateAlive({ state, setState }: FullState) {
-	const ePatient = getCurrentPatientId();
-	const cPatient = state.currentPatient;
-	if (ePatient !== cPatient) {
-		setState({
-			...getInitialPatientZoomState(),
-			currentPatient: ePatient,
-		});
-	}
-}
-*/
 
 // -------------------------------------------------------------------------------------------------
 // human body
@@ -169,12 +156,12 @@ export function getPatientsSummary() {
           categorization: patient.preTriageResult,
           location:
             patient.location.kind === 'Hospital'
-              ? getHospitalById(patient.location.locationId).shortName
+              ? getCachedHospitalById(patient.location.locationId).shortName
               : patient.location.locationId,
           effects: effectsStringArray,
           patientUnit:
             patient.location.kind === 'Hospital'
-              ? I18n.translate(getPatientUnitById(patient.location.patientUnit).name)
+              ? I18n.translate(getCachedPatientUnitById(patient.location.patientUnit).name)
               : '',
         },
         id: patientId,

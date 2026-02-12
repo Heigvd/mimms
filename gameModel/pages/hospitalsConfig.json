@@ -256,7 +256,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changePatientUnitName } from \"./UIfacade/hospitalFacade\";\nchangePatientUnitName(Context.service.id, Context.value);",
+                                    "content" : "import { changePatientUnitName } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangePatientUnitName(Context.service.id, Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -326,7 +326,7 @@
                     "exposeAs" : "service",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getAllPatientUnits } from \"./UIfacade/hospitalFacade\";\n  getAllPatientUnits()",
+                      "content" : "import { getAllPatientUnits } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllPatientUnits()",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -357,7 +357,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { createPatientUnit } from \"./UIfacade/hospitalFacade\";\n\ncreatePatientUnit();",
+                        "content" : "import { createPatientUnit } from \"./edition/UIfacade/hospitalConfigFacade\";\n\ncreatePatientUnit();",
                         "language" : "TypeScript"
                       }
                     },
@@ -497,7 +497,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getHospitalProximityLabel } from \"./UIfacade/hospitalFacade\";\ngetHospitalProximityLabel(Context.hospital.proximity || 0);",
+                                  "content" : "import { getHospitalProximityLabel } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetHospitalProximityLabel(Context.hospital.proximity || 0);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -528,7 +528,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\nchangeHospitalData(Context.hospital.id, 'fullName', Context.value);",
+                                    "content" : "import { changeHospitalData } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalData(Context.hospital.id, 'fullName', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -556,7 +556,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\nchangeHospitalData(Context.hospital.id, 'shortName', Context.value);",
+                                    "content" : "import { changeHospitalData } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalData(Context.hospital.id, 'shortName', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -583,7 +583,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changeHospitalTranslatableData } from \"./UIfacade/hospitalFacade\";\nchangeHospitalTranslatableData(Context.hospital.id, 'preposition', Context.value);",
+                                    "content" : "import { changeHospitalTranslatableData } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalTranslatableData(Context.hospital.id, 'preposition', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -612,7 +612,7 @@
                                     "onVariableChange" : {
                                       "client" : {
                                         "@class" : "Script",
-                                        "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\nchangeHospitalData(Context.hospital.id, 'distance', Context.value);",
+                                        "content" : "import { changeHospitalData } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalData(Context.hospital.id, 'distance', Context.value);",
                                         "language" : "TypeScript"
                                       },
                                       "exposeVariableAs" : {
@@ -655,7 +655,7 @@
                               "props" : {
                                 "choices" : {
                                   "@class" : "Script",
-                                  "content" : "import { getHospitalProximityChoices } from \"./UIfacade/hospitalFacade\";\ngetHospitalProximityChoices();",
+                                  "content" : "import { getHospitalProximityChoices } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetHospitalProximityChoices();",
                                   "language" : "typescript"
                                 },
                                 "className" : "line-dropdown",
@@ -665,7 +665,7 @@
                                 "onVariableChange" : {
                                   "client" : {
                                     "@class" : "Script",
-                                    "content" : "import { changeHospitalData } from \"./UIfacade/hospitalFacade\";\nchangeHospitalData(Context.hospital.id, 'proximity', Context.value);",
+                                    "content" : "import { changeHospitalData } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalData(Context.hospital.id, 'proximity', Context.value);",
                                     "language" : "TypeScript"
                                   },
                                   "exposeVariableAs" : {
@@ -775,7 +775,7 @@
                                         "onVariableChange" : {
                                           "client" : {
                                             "@class" : "Script",
-                                            "content" : "import { changeHospitalUnitCapacity } from \"./UIfacade/hospitalFacade\";\nchangeHospitalUnitCapacity(Context.hospital.id, Context.service.id, Context.value);",
+                                            "content" : "import { changeHospitalUnitCapacity } from \"./edition/UIfacade/hospitalConfigFacade\";\nchangeHospitalUnitCapacity(Context.hospital.id, Context.service.id, Context.value);",
                                             "language" : "TypeScript"
                                           },
                                           "exposeVariableAs" : {
@@ -838,7 +838,7 @@
                             "exposeAs" : "service",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "import { getAllPatientUnits } from \"./UIfacade/hospitalFacade\";\n  getAllPatientUnits()",
+                              "content" : "import { getAllPatientUnits } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllPatientUnits()",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
@@ -880,7 +880,7 @@
                           "props" : {
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "import { getAllHospitals, getHospitalIndex } from \"./UIfacade/hospitalFacade\";\ngetHospitalIndex(Context.hospital.id) === getAllHospitals().length;",
+                              "content" : "import { getAllHospitals, getHospitalIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetHospitalIndex(Context.hospital.id) === getAllHospitals().length;",
                               "language" : "typescript"
                             },
                             "icon" : "angle-down",
@@ -893,7 +893,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { moveHospitalDown } from \"./UIfacade/hospitalFacade\";\n\nmoveHospitalDown(Context.hospital.id);",
+                                "content" : "import { moveHospitalDown } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nmoveHospitalDown(Context.hospital.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -905,7 +905,7 @@
                           "props" : {
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "import { getHospitalIndex } from \"./UIfacade/hospitalFacade\";\ngetHospitalIndex(Context.hospital.id) === 1;",
+                              "content" : "import { getHospitalIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetHospitalIndex(Context.hospital.id) === 1;",
                               "language" : "typescript"
                             },
                             "icon" : "angle-up",
@@ -918,7 +918,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { moveHospitalUp } from \"./UIfacade/hospitalFacade\";\n\nmoveHospitalUp(Context.hospital.id);",
+                                "content" : "import { moveHospitalUp } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nmoveHospitalUp(Context.hospital.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -938,7 +938,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { removeHospital } from \"./UIfacade/hospitalFacade\";\n\nremoveHospital(Context.hospital.id);",
+                                "content" : "import { removeHospital } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nremoveHospital(Context.hospital.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1011,7 +1011,7 @@
                 "exposeAs" : "hospital",
                 "getItemsFn" : {
                   "@class" : "Script",
-                  "content" : "import { getAllHospitals } from \"./UIfacade/hospitalFacade\";\n  getAllHospitals()",
+                  "content" : "import { getAllHospitals } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllHospitals()",
                   "language" : "TypeScript"
                 },
                 "itemKey" : "id",
@@ -1054,7 +1054,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { createHospital } from \"./UIfacade/hospitalFacade\";\ncreateHospital();",
+                        "content" : "import { createHospital } from \"./edition/UIfacade/hospitalConfigFacade\";\ncreateHospital();",
                         "language" : "TypeScript"
                       }
                     },
@@ -1076,13 +1076,13 @@
                               "className" : "service-icon",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) != 1;",
+                                "content" : "import { getPatientUnitIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetPatientUnitIndex(Context.service.id) != 1;",
                                 "language" : "typescript"
                               }
                             } ],
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "import { getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) === 1;",
+                              "content" : "import { getPatientUnitIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetPatientUnitIndex(Context.service.id) === 1;",
                               "language" : "typescript"
                             },
                             "icon" : "angle-left",
@@ -1095,7 +1095,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { movePatientUnitLeft } from \"./UIfacade/hospitalFacade\";\n\nmovePatientUnitLeft(Context.service.id);",
+                                "content" : "import { movePatientUnitLeft } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nmovePatientUnitLeft(Context.service.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1111,13 +1111,13 @@
                               "className" : "service-icon",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) != getAllPatientUnits().length;",
+                                "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetPatientUnitIndex(Context.service.id) != getAllPatientUnits().length;",
                                 "language" : "typescript"
                               }
                             } ],
                             "disableIf" : {
                               "@class" : "Script",
-                              "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./UIfacade/hospitalFacade\";\ngetPatientUnitIndex(Context.service.id) === getAllPatientUnits().length;",
+                              "content" : "import { getAllPatientUnits, getPatientUnitIndex } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetPatientUnitIndex(Context.service.id) === getAllPatientUnits().length;",
                               "language" : "typescript"
                             },
                             "icon" : "angle-right",
@@ -1130,7 +1130,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { movePatientUnitRight } from \"./UIfacade/hospitalFacade\";\n\nmovePatientUnitRight(Context.service.id);",
+                                "content" : "import { movePatientUnitRight } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nmovePatientUnitRight(Context.service.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1151,7 +1151,7 @@
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
-                                "content" : "import { removePatientUnit } from \"./UIfacade/hospitalFacade\";\n\nremovePatientUnit(Context.service.id);",
+                                "content" : "import { removePatientUnit } from \"./edition/UIfacade/hospitalConfigFacade\";\n\nremovePatientUnit(Context.service.id);",
                                 "language" : "TypeScript"
                               }
                             },
@@ -1195,7 +1195,7 @@
                     "exposeAs" : "service",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getAllPatientUnits } from \"./UIfacade/hospitalFacade\";\n  getAllPatientUnits()",
+                      "content" : "import { getAllPatientUnits } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllPatientUnits()",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",
@@ -1249,7 +1249,7 @@
         "exposeAs" : "UIState",
         "initialState" : {
           "@class" : "Script",
-          "content" : "import { getInitialHospitalUIState } from \"./UIfacade/hospitalFacade\";\ngetInitialHospitalUIState();",
+          "content" : "import { getInitialHospitalUIState } from \"./edition/UIfacade/hospitalConfigFacade\";\ngetInitialHospitalUIState();",
           "language" : "TypeScript"
         },
         "layoutClassName" : "noPadding",
