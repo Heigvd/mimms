@@ -7460,7 +7460,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-594",
+  "name" : "MIM-602",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
