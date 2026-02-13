@@ -189,6 +189,14 @@ function toHourMinSec(seconds: number): [number, number, number] {
   return [hours, minutes, sec];
 }
 
+/**
+ * converts seconds to minutes, rounded up
+ * @param seconds number of seconds
+ */
+export function toMinutes(seconds: number): number {
+  return seconds > 0 ? Math.ceil(seconds / 60) : 0;
+}
+
 export function toHourMinutesSeconds(
   seconds: number,
   hoursSuffix = 'h',
@@ -320,4 +328,15 @@ export function getFilteredAsArray<T extends string>(enabledRecord: Record<T, bo
   return Object.entries(enabledRecord)
     .filter(([_entryKey, enabled]) => enabled)
     .map(([entryKey, _enabled]) => entryKey as T);
+}
+
+// Source - https://stackoverflow.com/a/7616484
+// makes a hash from a string
+export function quickHash(s: string): string {
+  let hash = 0;
+  for (const char of s) {
+    hash = (hash << 5) - hash + char.charCodeAt(0);
+    hash |= 0; // Constrain to 32bit integer
+  }
+  return String(hash);
 }

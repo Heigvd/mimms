@@ -59,7 +59,7 @@ export function getMapEntityController(): MapEntityController {
     new MapEntityController('map_entity_data', 'mapEntityPageState', getInitialMapEntityUIState()));
 }
 
-function getInitialMapEntityUIState(): MapEntityUIState {
+export function getInitialMapEntityUIState(): MapEntityUIState {
   return {
     selectedFilter: LOCATION_ENUM.chantier,
     selected: {},
@@ -71,7 +71,7 @@ function getInitialMapEntityUIState(): MapEntityUIState {
   };
 }
 
-function getInitialTriggerUIState(): TriggerConfigUIState {
+export function getInitialTriggerUIState(): TriggerConfigUIState {
   return {
     selected: {},
     modal: 'closed',
@@ -79,7 +79,7 @@ function getInitialTriggerUIState(): TriggerConfigUIState {
   };
 }
 
-function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
+export function getInitialActionTemplateUIState(): ActionTemplateConfigUIState {
   return {
     selected: {},
     modal: 'closed',
@@ -100,5 +100,6 @@ Helpers.registerEffect(() => {
 });
 
 export function getAllControllers(): ControllerType[] {
-  return [getTriggerController(), getActionTemplateController(), getMapEntityController()];
+  // Please keep the same sorting as in the config menu interface
+  return [getMapEntityController(), getTriggerController(), getActionTemplateController()];
 }

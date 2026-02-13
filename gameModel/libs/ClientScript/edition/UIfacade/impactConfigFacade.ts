@@ -355,7 +355,10 @@ function changeChoiceImpactType(
   }
 
   if (newImpact.type === 'effectSelection') {
-    newImpact.targetEffect = getDefaultEffect(newImpact.target);
+    const targetEffect = getDefaultEffect(newImpact.target);
+    if (targetEffect) {
+      newImpact.targetEffect = targetEffect;
+    }
   }
 
   return newImpact;
@@ -409,7 +412,11 @@ export function updateImpactChoiceRef(
     const previousChoiceRef = getImpactChoiceUid(impact);
     if (previousChoiceRef && previousChoiceRef !== ANY_CHOICE) {
       const newActionRef = getMatchingActionTemplateUid(previousChoiceRef);
-      updateImpactActionRef(impact, newActionRef);
+      if (newActionRef) {
+        updateImpactActionRef(impact, newActionRef);
+      } else {
+        scenarioEditionLogger.error('The action could not be found');
+      }
     }
   } else {
     const newImpact: FlatImpact = { ...impact };
@@ -424,7 +431,10 @@ export function updateImpactChoiceRef(
       newImpact.target = newChoiceRef;
     } else if (newImpact.type === 'effectSelection') {
       newImpact.target = newChoiceRef;
-      newImpact.targetEffect = getDefaultEffect(newChoiceRef);
+      const targetEffect = getDefaultEffect(newChoiceRef);
+      if (targetEffect) {
+        newImpact.targetEffect = targetEffect;
+      }
     }
 
     getController().updateItem(newImpact);

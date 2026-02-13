@@ -58,6 +58,89 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "header-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Undo</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { undoLastAction } from \"./UIfacade/testerFacade\";\n  undoLastAction();",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "undo",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Restart</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { restart } from \"./UIfacade/testerFacade\";\n  restart();",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "restart",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Refresh</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\n  reloadState();",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "refresh",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            } ],
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isTesterPage } from \"./UIfacade/testerFacade\";\n!isTesterPage();",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "location-absolute__button",
+                            "layoutStyle" : { },
+                            "name" : "tester controls",
+                            "style" : {
+                              "gap" : "10px"
+                            }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
                             "layoutStyle" : {
                               "display" : "none"
                             },

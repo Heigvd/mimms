@@ -13,7 +13,7 @@ import {
   T0TriggerEvaluationLocalEvent,
 } from '../common/localEvents/localEventBase';
 
-let singletonStartState: MainSimulationState;
+let singletonStartState: MainSimulationState | undefined;
 
 export function getStartingMainState(): MainSimulationState {
   if (!singletonStartState) {
@@ -21,6 +21,10 @@ export function getStartingMainState(): MainSimulationState {
     notifyMainStateInitializationComplete();
   }
   return Helpers.cloneDeep(singletonStartState);
+}
+
+export function eraseInitialState(): void {
+  singletonStartState = undefined;
 }
 
 function buildStartingMainState(): MainSimulationState {
@@ -31,7 +35,6 @@ function buildStartingMainState(): MainSimulationState {
   const waitingTaskId = getWaitingTaskId(tasks);
   const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
 
-  // TODO run triggers at T = 0 (a dedicated local event seems reasonable)
   return new MainSimulationState(
     {
       simulationTimeSec: 0,

@@ -480,6 +480,12 @@
         "name" : "Components"
       }, {
         "@class" : "Page",
+        "id" : "mainSimTester",
+        "name" : "MainSim Tester",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "scenaristValidation",
         "name" : "Validation",
         "scenaristPage" : null,

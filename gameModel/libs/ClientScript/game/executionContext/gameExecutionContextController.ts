@@ -53,7 +53,7 @@ function createNewContext(
   }
   const state = getStartingMainState();
   // get a clone of the starting generation state, in order to generate further ids consistently
-  const uidProvider = mainStateDefaultUidGenerator.clone();
+  const uidProvider = getMainStateDefaultUidGenerator().clone();
   const ctx = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
   executionContexts[teamId] = ctx;
   ctx.applyInitialEvents(initEventsProvider());
@@ -96,7 +96,7 @@ function updateExecutionContext(
 ): boolean {
   try {
     lockTeamId(context.teamId); // any calls to getCurrentContext will point to the teamId's context
-    return context.processEvents(events, convertFunc);
+    return context.processEvents(events, convertFunc, true);
   } catch (error) {
     gameExecLogger.error('Error while updating context', context.teamId, error, events);
     return false;
@@ -152,19 +152,25 @@ let mainStateInitializationComplete = false;
  * The default generator is used during the starting state initialization
  * while building the initial state that is common to all teams
  */
-let mainStateDefaultUidGenerator: UidGenerator;
+let mainStateDefaultUidGenerator: UidGenerator | undefined;
 
 Helpers.registerEffect(() => {
+  mainStateDefaultUidGenerator = undefined;
+  mainStateInitializationComplete = false;
+});
+
+function getMainStateDefaultUidGenerator(): UidGenerator {
   if (!mainStateDefaultUidGenerator) {
     mainStateDefaultUidGenerator = new UidGenerator({});
   }
-});
+  return mainStateDefaultUidGenerator;
+}
 
 export function getContextUidGenerator(): UidGenerator {
   if (mainStateInitializationComplete) {
     return getCurrentExecutionContext().getUidProvider();
   }
-  return mainStateDefaultUidGenerator;
+  return getMainStateDefaultUidGenerator();
 }
 
 export function notifyMainStateInitializationComplete(): void {
@@ -174,8 +180,10 @@ export function notifyMainStateInitializationComplete(): void {
   mainStateInitializationComplete = true;
 }
 
-// ========== DEBUG ===========
-export function debugRemovePlayerContext(): void {
+// ============ DEBUG & TESTER =============
+export function resetPlayerContext(): void {
   gameExecLogger.warn('DEBUG ONLY, removing player context');
   delete executionContexts[getPlayerTeamId()];
+  mainStateInitializationComplete = false;
+  mainStateDefaultUidGenerator = undefined;
 }

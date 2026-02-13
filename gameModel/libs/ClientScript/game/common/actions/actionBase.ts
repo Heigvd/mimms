@@ -2,6 +2,7 @@ import { entries } from '../../../tools/helper';
 import { actionLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
+import { getCachedHospitalById } from '../../loaders/hospitalLoader';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
@@ -21,8 +22,8 @@ import {
 } from '../baseTypes';
 import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
+import { computeTravelTime } from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import {
   CasuMessagePayload,
@@ -1732,7 +1733,7 @@ export class EvacuationAction extends RadioDrivenAction {
   }
 
   private formatRequestMessage(payload: EvacuationActionPayload) {
-    const hospital = getHospitalById(payload.hospitalId);
+    const hospital = getCachedHospitalById(payload.hospitalId);
 
     const patientId: string = payload.patientId;
     const toHospital: string = `${I18n.translate(hospital.preposition)} ${hospital.shortName}`;

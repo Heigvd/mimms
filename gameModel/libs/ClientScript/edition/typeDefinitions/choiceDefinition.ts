@@ -10,8 +10,10 @@ import {
   EXPERT_ONLY,
   MapToFlatType,
 } from '../typeDefinitions/definition';
+import { choiceDescriptorValidator } from './validation/choiceValidation';
+import { ActionValidationContext } from './validation/validationContext';
 
-type ChoiceDefinition = Definition<ChoiceDescriptor>;
+type ChoiceDefinition = Definition<ChoiceDescriptor, ActionValidationContext>;
 
 export type FlatChoice = MapToFlatType<ChoiceDescriptor, 'choice'>;
 
@@ -51,7 +53,7 @@ export function getChoiceDefinition(): ChoiceDefinition {
       durationDeltaSec: 0,
       index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: choiceDescriptorValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

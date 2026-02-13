@@ -56,6 +56,7 @@ export function isReachable(
 
     if (!actor) {
       taskLogger.warn('Actor not found. id = ' + actorId + '. And so task not reachable');
+      //taskLogger.warn(new Error().stack);
     }
 
     return false;

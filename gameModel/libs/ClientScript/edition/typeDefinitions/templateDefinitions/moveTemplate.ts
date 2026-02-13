@@ -5,9 +5,14 @@ import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
 import { Definition } from '../../typeDefinitions/definition';
+import { moveActionTemplateValidator } from '../validation/templateValidation';
+import { ActionValidationContext } from '../validation/validationContext';
 
-// REMARK : Just as an example here, we might remove that MoveTemplate descriptor completetly
-export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
+// REMARK : Just as an example here, we might remove that MoveTemplate descriptor completely
+export function getMoveTemplateDef(): Definition<
+  MoveActorTemplateDescriptor,
+  ActionValidationContext
+> {
   return {
     type: 'MoveActorTemplateDescriptor',
     getDefault: () => ({
@@ -37,7 +42,7 @@ export function getMoveTemplateDef(): Definition<MoveActorTemplateDescriptor> {
       comment: '',
       index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: moveActionTemplateValidator,
     view: {} as any, // TODO hide almost all fields for the move template
   };
 }

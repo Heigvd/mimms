@@ -115,3 +115,12 @@ export function extentToLineString(extent: ExtentLikeObject): PointLikeObject[] 
     [min.x, min.y],
   ];
 }
+
+export function isPointOutOfExtent(point: PointLikeObject, extent: ExtentLikeObject): boolean {
+  const [pointX, pointY] = point;
+  const [minX, minY, maxX, maxY] = extent;
+  if (pointX < minX || pointX > maxX || pointY < minY || pointY > maxY) {
+    return true;
+  }
+  return false;
+}
