@@ -12,7 +12,6 @@ import {
 import { KnownValidationContext } from '../typeDefinitions/validation/validationContext';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { hospitalValidator } from '../typeDefinitions/validation/hospitalValidation';
-import { getHospitals } from '../../game/common/evacuation/hospitalController';
 import { getPatientsBodyFactoryParams } from '../../tools/WegasHelper';
 import { BodyFactoryParam } from '../../HUMAn/human';
 import { patientValidator } from '../typeDefinitions/validation/patientValidation';
@@ -25,6 +24,7 @@ import {
 import { resourceContainersValidator } from '../typeDefinitions/validation/resourceContainerValidation';
 import { HospitalDefinition } from '../../game/common/evacuation/hospitalType';
 import { scenarioEditionLogger } from '../../tools/logger';
+import { getHospitals } from '../controllers/hospitalController';
 
 //////////////////////////////////////////////////////////////////////////////////////
 // UI state
@@ -83,7 +83,7 @@ export function validationSummary(): string {
   if (getValidationErrors().length > 0) {
     return 'Oh no! Simulation not playable - ' + getValidationErrors().length + ' blocking errors';
   }
-  if (getValidationErrors().length < 1 && getValidationWarnings().length > 1) {
+  if (getValidationErrors().length === 0 && getValidationWarnings().length > 0) {
     return (
       "Alright, but the simulation could run even smoother if it weren't for those " +
       getValidationWarnings().length +
