@@ -2,7 +2,7 @@
   "props" : {
     "children" : [ {
       "props" : {
-        "className" : "resources__undertitle",
+        "className" : "scenarist__undertitle",
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "setup",
@@ -77,7 +77,7 @@
       "type" : "FlexList"
     }, {
       "props" : {
-        "className" : "drill-setup-line",
+        "className" : "drill-setup-line scenarist-toggler",
         "label" : {
           "@class" : "Script",
           "content" : "\"Start / Stop\"",
@@ -106,7 +106,7 @@
       "type" : "Boolean"
     }, {
       "props" : {
-        "className" : "drill-setup-line",
+        "className" : "drill-setup-line scenarist-toggler",
         "label" : {
           "@class" : "Script",
           "content" : "\"Exam mode\"",
@@ -129,7 +129,7 @@
       "type" : "Boolean"
     }, {
       "props" : {
-        "className" : "resources__undertitle",
+        "className" : "scenarist__undertitle",
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "downloads",
@@ -211,7 +211,7 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "resources__undertitle",
+                "className" : "scenarist__undertitle",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "advanced options",

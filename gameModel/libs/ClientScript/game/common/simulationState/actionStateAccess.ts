@@ -1,6 +1,37 @@
 import { ActionBase } from '../actions/actionBase';
+import { ActionTemplateUid } from '../baseTypes';
+import { ChoiceActivable, getChoiceActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
-import { ActionTemplateId } from '../baseTypes';
+import { actionLogger } from '../../../tools/logger';
+import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
+import { Uid } from '../interfaces';
+import { ANY_CHOICE } from '../constants';
+import { isChoiceAction } from '../../../UIfacade/actionFacade';
+
+export function isChoiceAvailable(
+  state: Readonly<MainSimulationState>,
+  choice: ChoiceDescriptor
+): boolean {
+  const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(state, choice.uid);
+
+  if (choiceActivable) {
+    if (choiceActivable.active) {
+      const hasMaxRepetitions: boolean = choice.repeats != undefined && choice.repeats > 0;
+      if (hasMaxRepetitions && countStartedChoices(state, choice.uid) >= choice.repeats) {
+        actionLogger.info(`choice '${choice.uid}' cannot be run anymore`);
+        return false;
+      }
+
+      return true;
+    } else {
+      actionLogger.info(`choice '${choice.uid}' is not active`);
+      return false;
+    }
+  } else {
+    actionLogger.error(`choice '${choice.uid}' has no activable`);
+    return false;
+  }
+}
 
 export function getOngoingActionsForActor(
   state: Readonly<MainSimulationState>,
@@ -15,6 +46,28 @@ export function getOngoingActions(state: Readonly<MainSimulationState>): ActionB
 
 function getCompletedActions(state: Readonly<MainSimulationState>): ActionBase[] {
   return state.getAllActions().filter((a: ActionBase) => a.getStatus() === 'Completed');
+}
+
+export function getStartedActionsOfTemplate(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateUid
+): ActionBase[] {
+  return state
+    .getAllActions()
+    .filter(
+      action => action.startTime < state.getSimTime() && action.getTemplateId() === actionTemplateId
+    );
+}
+
+export function countStartedChoices(state: Readonly<MainSimulationState>, choiceRef: Uid): number {
+  return state
+    .getAllActions()
+    .filter(
+      action =>
+        action.startTime < state.getSimTime() &&
+        isChoiceAction(action) &&
+        action.choice?.uid === choiceRef
+    ).length;
 }
 
 export function isOngoingAndStartedAction<T extends ActionBase>(
@@ -36,14 +89,38 @@ function isActionOngoingAndStarted(
   return action.getStatus() === 'OnGoing' && action.startTime < state.getSimTime();
 }
 
+export function isThisNextPlannedAction(
+  state: Readonly<MainSimulationState>,
+  actionTemplateId: ActionTemplateUid,
+  actorUid: number
+): boolean {
+  const actions = state.getActionsByActorIds()[actorUid];
+
+  if (actions) {
+    return actions.some(
+      action =>
+        action.startTime === state.getSimTime() && action.getTemplateId() === actionTemplateId
+    );
+  }
+
+  return false;
+}
+
 /**
  * Some action of this template has completed at least once.
  */
 export function hasCompletedOnceAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
-  return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return getCompletedActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return getCompletedActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
+  }
 }
 
 /**
@@ -51,18 +128,32 @@ export function hasCompletedOnceAction(
  */
 export function hasOngoingAction(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
-  return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return getOngoingActions(state).some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return getOngoingActions(state).some(
+      action => isChoiceAction(action) && action.choice?.uid === choiceRef
+    );
+  }
 }
 
 /**
- * No action of this template in timeline.
+ * No action of this template in timeline (with specific choice or any choice).
  */
 export function hasNoActionInTimeline(
   state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateId
+  actionTemplateId: ActionTemplateUid,
+  choiceRef: Uid
 ): boolean {
   // Note : no need to check future actions, an action never starts after now
-  return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
+  if (choiceRef === ANY_CHOICE) {
+    return !state.getAllActions().some(action => action.getTemplateId() === actionTemplateId);
+  } else {
+    return !state
+      .getAllActions()
+      .some(action => isChoiceAction(action) && action.choice?.uid === choiceRef);
+  }
 }

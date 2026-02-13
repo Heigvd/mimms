@@ -1,12 +1,20 @@
+// EVALUATION_PRIORITY 0
+
 import { FullyConfigurableTemplateDescriptor } from '../../../game/common/actions/actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
-import { ALL_EDITABLE, Definition } from '../../typeDefinitions/definition';
+import { createOrUpdateTranslation } from '../../../tools/translation';
+import { ALL_EDITABLE, Definition, EXPERT_ONLY } from '../definition';
+import { fullyConfigurableActionTemplateValidator } from '../validation/templateValidation';
+import { ActionValidationContext } from '../validation/validationContext';
 
 /**
  * Scenarist fully configurable template, including choices and impacts
  */
-export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableTemplateDescriptor> {
+export function getFullyConfigurableTemplateDef(): Definition<
+  FullyConfigurableTemplateDescriptor,
+  ActionValidationContext
+> {
   return {
     type: 'FullyConfigurableTemplateDescriptor',
     getDefault: () => ({
@@ -17,16 +25,29 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       binding: undefined,
       choices: [],
       mandatory: false,
-      repeatable: 0,
-      tag: 'new custom template',
-      description: 'some default description', // multilang
-      title: 'some default title', // TODO multilang
+      repeats: 1,
+      tag: 'New action',
+      description: createOrUpdateTranslation('', undefined),
+      title: createOrUpdateTranslation('', undefined),
       uid: generateId(10),
       durationSec: TimeSliceDuration,
+      availableToRoles: {
+        // TODO make it dynamic
+        ACS: true,
+        MCS: true,
+        AL: true,
+        CASU: false,
+        EVASAN: true,
+        LEADPMA: true,
+      },
+      showAllChoices: true,
+      comment: '',
+      index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: fullyConfigurableActionTemplateValidator,
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
@@ -36,9 +57,12 @@ export function getFullyConfigurableTemplateDef(): Definition<FullyConfigurableT
       choices: ALL_EDITABLE,
       binding: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       constructorType: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      mandatory: ALL_EDITABLE,
-      repeatable: ALL_EDITABLE,
+      mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
+      repeats: ALL_EDITABLE,
       durationSec: ALL_EDITABLE,
+      availableToRoles: {} as any, // TODO ALL_EDITABLE,
+      showAllChoices: EXPERT_ONLY,
+      comment: ALL_EDITABLE,
     },
   };
 }

@@ -1,40 +1,74 @@
+// EVALUATION_PRIORITY 0
+
+import { ANY_CHOICE } from '../../game/common/constants';
+import { Uid } from '../../game/common/interfaces';
 import { Condition } from '../../game/common/triggers/condition';
 import { ActionCondition } from '../../game/common/triggers/implementation/actionCondition';
 import {
   MapEntityCondition,
   TriggerCondition,
 } from '../../game/common/triggers/implementation/activableCondition';
-import { ChoiceCondition } from '../../game/common/triggers/implementation/choiceCondition';
+import { EmptyCondition } from '../../game/common/triggers/implementation/emptyCondition';
 import { TimeCondition } from '../../game/common/triggers/implementation/timeCondition';
 import { generateId } from '../../tools/helper';
+import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
-  ALL_EDITABLE,
-  Definition,
-  MapToDefinition,
-  MapToTypeNames,
-  ValidationResult,
-} from './definition';
+  actionConditionValidator,
+  emptyConditionValidator,
+  mapEntityConditionValidator,
+  timeConditionValidator,
+  triggerConditionValidator,
+} from './validation/conditionValidation';
+import { TriggerValidationContext } from './validation/validationContext';
 
-type ConditionTypeName = MapToTypeNames<Condition>;
-export type ConditionDefinition = MapToDefinition<Condition>;
+type ConditionTypeName = Condition['type'];
+
+export type ConditionDefinition = MapToDefinition<Condition, TriggerValidationContext>;
+export type FlatCondition = MapToFlatType<Condition, 'condition'>;
+
+export function toFlatCondition(cond: Condition, parentId: Uid): FlatCondition {
+  return {
+    ...cond,
+    parent: parentId,
+    superType: 'condition',
+  };
+}
+
+export function fromFlatCondition(fcond: FlatCondition): Condition {
+  const { superType: _ignored, parent: _ignore, ...condition } = fcond;
+  return condition;
+}
 
 export function getConditionDefinition(type: ConditionTypeName): ConditionDefinition {
   const defs: Record<ConditionTypeName, ConditionDefinition> = {
     time: getTimeConditionDef(),
-    action: getActionCondition(),
-    choice: getChoiceCondition(),
+    action: getActionConditionDef(),
     trigger: getTriggerConditionDef(),
-    mapEntity: getMapEntityCondition(),
+    mapEntity: getMapEntityConditionDef(),
+    empty: getEmptyConditionDef(),
   };
 
   return defs[type]!;
 }
 
-// TODO check all of that when the display is implemented
+export function getEmptyConditionDef(): Definition<EmptyCondition, TriggerValidationContext> {
+  return {
+    type: 'empty',
+    getDefault: () => ({
+      uid: generateId(10),
+      index: 0,
+      type: 'empty',
+    }),
+    validator: emptyConditionValidator,
+    view: {
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      type: ALL_EDITABLE,
+    },
+  };
+}
 
-// TODO somewhere check that all impacts are valid
-
-function getTimeConditionDef(): Definition<TimeCondition> {
+export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidationContext> {
   return {
     type: 'time',
     getDefault: () => ({
@@ -44,21 +78,7 @@ function getTimeConditionDef(): Definition<TimeCondition> {
       operator: '=',
       timeSeconds: 0,
     }),
-    validator: (condition: TimeCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.timeSeconds < 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'The time cannot be negative',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: timeConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -69,77 +89,30 @@ function getTimeConditionDef(): Definition<TimeCondition> {
   };
 }
 
-function getActionCondition(): Definition<ActionCondition> {
+export function getActionConditionDef(): Definition<ActionCondition, TriggerValidationContext> {
   return {
     type: 'action',
     getDefault: () => ({
       uid: generateId(10),
       index: 0,
       type: 'action',
-      actionRef: 0,
+      actionRef: '',
+      choiceRef: ANY_CHOICE,
       status: 'active',
     }),
-    validator: (condition: ActionCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.actionRef === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select the action',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: actionConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: ALL_EDITABLE,
       actionRef: ALL_EDITABLE,
       status: ALL_EDITABLE,
-    },
-  };
-}
-
-function getChoiceCondition(): Definition<ChoiceCondition> {
-  return {
-    type: 'choice',
-    getDefault: () => ({
-      uid: generateId(10),
-      index: 0,
-      type: 'choice',
-      choiceRef: '',
-      status: 'active',
-    }),
-    validator: (condition: ChoiceCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.choiceRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select the choice',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
-    view: {
-      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
-      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      type: ALL_EDITABLE,
       choiceRef: ALL_EDITABLE,
-      status: ALL_EDITABLE,
     },
   };
 }
 
-function getTriggerConditionDef(): Definition<TriggerCondition> {
+export function getTriggerConditionDef(): Definition<TriggerCondition, TriggerValidationContext> {
   return {
     type: 'trigger',
     getDefault: () => ({
@@ -149,21 +122,7 @@ function getTriggerConditionDef(): Definition<TriggerCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: TriggerCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: triggerConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
@@ -174,7 +133,10 @@ function getTriggerConditionDef(): Definition<TriggerCondition> {
   };
 }
 
-function getMapEntityCondition(): Definition<MapEntityCondition> {
+export function getMapEntityConditionDef(): Definition<
+  MapEntityCondition,
+  TriggerValidationContext
+> {
   return {
     type: 'mapEntity',
     getDefault: () => ({
@@ -184,21 +146,7 @@ function getMapEntityCondition(): Definition<MapEntityCondition> {
       activableRef: '',
       status: 'active',
     }),
-    validator: (condition: MapEntityCondition) => {
-      let success: boolean = true;
-      const messages: ValidationResult['messages'] = [];
-
-      if (condition.activableRef.trim().length === 0) {
-        success = false;
-        messages.push({
-          logLevel: 'ERROR',
-          message: 'Select a trigger',
-          isTranslateKey: false,
-        });
-      }
-
-      return { success, messages };
-    },
+    validator: mapEntityConditionValidator,
     view: {
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },

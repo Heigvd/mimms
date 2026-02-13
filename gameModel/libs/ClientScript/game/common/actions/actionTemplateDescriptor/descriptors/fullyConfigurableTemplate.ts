@@ -1,6 +1,6 @@
-import { TimeSliceDuration } from '../../../constants';
-import { MoveActorActionTemplate } from '../../actionTemplateBase';
-import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
+import { getFilteredAsArray } from '../../../../../tools/helper';
+import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplateBase';
+import { ITemplateDescriptor } from '../templateDescriptor';
 
 export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor {
   type: 'FullyConfigurableTemplateDescriptor';
@@ -8,8 +8,17 @@ export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor
 }
 
 export function createFullyConfigurableTemplate(
-  _descriptor: FullyConfigurableTemplateDescriptor
-): MoveActorActionTemplate {
-  // TODO implement the real class, wrong one here for compilation purposes
-  return new MoveActorActionTemplate('move-actor-title', 'move-actor-desc', TimeSliceDuration);
+  descriptor: FullyConfigurableTemplateDescriptor
+): FullyConfigurableChoiceActionTemplate {
+  return new FullyConfigurableChoiceActionTemplate(
+    descriptor.uid,
+    descriptor.title,
+    descriptor.description,
+    descriptor.durationSec,
+    descriptor.repeats,
+    undefined, // no required flag
+    undefined, // no raised flag
+    getFilteredAsArray(descriptor.availableToRoles),
+    descriptor.choices
+  );
 }

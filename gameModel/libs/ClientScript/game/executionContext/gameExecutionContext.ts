@@ -8,6 +8,7 @@ import { MainSimulationState } from '../common/simulationState/mainSimulationSta
 
 export type TeamId = number;
 export type GlobalToLocalEventFunction = (evt: FullEvent<TimedEventPayload>) => LocalEventBase[];
+export type InitializeLocalEventFunction = () => LocalEventBase[];
 
 export class GameExecutionContext {
   private stateHistory: MainSimulationState[] = [];
@@ -63,7 +64,8 @@ export class GameExecutionContext {
    */
   public processEvents(
     globalEvents: FullEvent<TimedEventPayload>[],
-    conversionFunc: GlobalToLocalEventFunction
+    conversionFunc: GlobalToLocalEventFunction,
+    checkEventConsistency: boolean
   ): boolean {
     // filter out non processed events
     const unprocessed = globalEvents.filter(e => !this.processedEvents[e.id]);
@@ -72,7 +74,7 @@ export class GameExecutionContext {
     if (sorted.length > 0) {
       // check that the first event to be applied matches the state
       const firstEvent = sorted[0];
-      if ((firstEvent?.previousEventId || 0) !== this.getLastEventId()) {
+      if (checkEventConsistency && (firstEvent?.previousEventId || 0) !== this.getLastEventId()) {
         mainSimLogger.warn(
           "received event doesn't match the current state",
           firstEvent?.previousEventId,
@@ -99,6 +101,15 @@ export class GameExecutionContext {
       mainSimLogger.error('state not found, cannot restore state with id', stateId);
     } else {
       this.stateHistory = this.stateHistory.slice(0, idx + 1);
+    }
+  }
+
+  /**
+   * Removes the last computed state
+   */
+  public restorePreviousState(): void {
+    if (this.stateHistory.length > 1) {
+      this.stateHistory.pop();
     }
   }
 
@@ -136,8 +147,7 @@ export class GameExecutionContext {
     let newState: MainSimulationState;
     try {
       const localEvents = conversionFunc(event);
-      this.getLocalEventManager().queueLocalEvents(localEvents);
-      newState = this.getLocalEventManager().processPendingEvents(currentState, event.id);
+      newState = this.applyLocalEvents(localEvents, event.id);
     } catch (error) {
       mainSimLogger.error('Error while processing event', event, error);
       // build a new state with the failed event's id anyway
@@ -145,6 +155,16 @@ export class GameExecutionContext {
       newState = currentState.createNext(event.id);
     }
     this.updateCurrentState(newState, event);
+  }
+
+  private applyLocalEvents(events: LocalEventBase[], globalEventId: number): MainSimulationState {
+    this.localEventManager.queueLocalEvents(events);
+    return this.localEventManager.processPendingEvents(this.getCurrentState(), globalEventId);
+  }
+
+  public applyInitialEvents(events: LocalEventBase[]): void {
+    const newState = this.applyLocalEvents(events, 0);
+    this.updateCurrentState(newState);
   }
 
   public getLocalEventManager(): LocalEventManager {

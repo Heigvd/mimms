@@ -120,6 +120,12 @@
             "trainerPage" : null
           }, {
             "@class" : "Page",
+            "id" : "31",
+            "name" : "choice selection",
+            "scenaristPage" : null,
+            "trainerPage" : null
+          }, {
+            "@class" : "Page",
             "id" : "66",
             "name" : "move actor action",
             "scenaristPage" : false,
@@ -229,16 +235,6 @@
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
-          "@class" : "Folder",
-          "items" : [ {
-            "@class" : "Page",
-            "id" : "48",
-            "name" : "map selection",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          } ],
-          "name" : "map"
-        }, {
           "@class" : "Page",
           "id" : "64",
           "name" : "notifications",
@@ -306,8 +302,8 @@
       "@class" : "Folder",
       "items" : [ {
         "@class" : "Page",
-        "id" : "scenaristMainMenu",
-        "name" : "Menu",
+        "id" : "30",
+        "name" : "Main Scenarist Page",
         "scenaristPage" : false,
         "trainerPage" : null
       }, {
@@ -318,32 +314,8 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "2",
-        "name" : "Data Edition",
-        "scenaristPage" : false,
-        "trainerPage" : false
-      }, {
-        "@class" : "Page",
-        "id" : "locationsConfiguration",
-        "name" : "Locations",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "triggersConfiguration",
-        "name" : "Triggers",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "actionsConfiguration",
-        "name" : "Actions",
-        "scenaristPage" : null,
-        "trainerPage" : null
-      }, {
-        "@class" : "Page",
-        "id" : "hospitalsConfig",
-        "name" : "Hospital Configuration",
+        "id" : "scenaristMainMenu",
+        "name" : "Menu",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
@@ -351,7 +323,83 @@
         "id" : "mapConfiguration",
         "name" : "Map Configuration",
         "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "locationsConfiguration",
+        "name" : "Locations Configuration",
+        "scenaristPage" : null,
         "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "triggersConfiguration",
+        "name" : "Triggers Configuration",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Page",
+        "id" : "actionsConfiguration",
+        "name" : "Action Templates Configuration",
+        "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "scenaristItemGeneric",
+          "name" : "Generic Item",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemMapObject",
+          "name" : "Map Object Item Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemMapEntity",
+          "name" : "Location Item Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemTrigger",
+          "name" : "Trigger Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemCondition",
+          "name" : "Condition Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemImpact",
+          "name" : "Impact Detail",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemAction",
+          "name" : "Action Template Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemChoice",
+          "name" : "Choice Detail",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "scenaristItemUnknown",
+          "name" : "Unknown Item",
+          "scenaristPage" : false,
+          "trainerPage" : false
+        } ],
+        "name" : "Data Items"
       }, {
         "@class" : "Folder",
         "items" : [ {
@@ -382,6 +430,12 @@
         "name" : "Patient Generation"
       }, {
         "@class" : "Page",
+        "id" : "hospitalsConfig",
+        "name" : "Hospital Configuration",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
         "id" : "resourcesConfiguration",
         "name" : "Resources Configuration",
         "scenaristPage" : true,
@@ -404,9 +458,37 @@
         "name" : "Legacy"
       }, {
         "@class" : "Page",
-        "id" : "30",
-        "name" : "Main Scenarist Page",
+        "id" : "2",
+        "name" : "Data Edition",
         "scenaristPage" : false,
+        "trainerPage" : false
+      }, {
+        "@class" : "Folder",
+        "items" : [ {
+          "@class" : "Page",
+          "id" : "undoRedoSave",
+          "name" : "Undo/Redo/Save all",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "mapModal",
+          "name" : "Map Modal",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        } ],
+        "name" : "Components"
+      }, {
+        "@class" : "Page",
+        "id" : "mainSimTester",
+        "name" : "MainSim Tester",
+        "scenaristPage" : true,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "scenaristValidation",
+        "name" : "Validation",
+        "scenaristPage" : null,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"
@@ -450,6 +532,24 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
+          "id" : "36",
+          "name" : "mainSim_mapEntitiesDescriptors",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "33",
+          "name" : "mainSim_actions templates",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "34",
+          "name" : "mainSim_triggers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "51",
           "name" : "mainSim_state",
           "scenaristPage" : false,
@@ -462,20 +562,62 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "32",
+          "name" : "mainSim_activables",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "65",
           "name" : "mainSim_actors",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "59",
-          "name" : "mainSim_events",
+          "id" : "35",
+          "name" : "mainSim_flags",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
           "@class" : "Page",
-          "id" : "60",
-          "name" : "mainSim_features",
+          "id" : "38",
+          "name" : "mainSim_patients",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "48",
+          "name" : "mainSim_radio messages",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "49",
+          "name" : "mainSim_resources",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "62",
+          "name" : "mainSim_resources containers",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "39",
+          "name" : "mainSim_tasks",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "37",
+          "name" : "mainSim_state remaining",
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "59",
+          "name" : "mainSim_events",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {

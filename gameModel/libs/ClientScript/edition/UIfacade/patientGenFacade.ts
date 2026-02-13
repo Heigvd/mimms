@@ -28,6 +28,7 @@ import {
   getPatientsBodyFactoryParams,
   parseObjectDescriptor,
   saveToObjectDescriptor,
+  updateNumberDescriptor,
 } from '../../tools/WegasHelper';
 
 /**
@@ -112,6 +113,15 @@ export function getSampleTimesSec(): number[] {
   const t0 = getInitialTimeJumpSeconds();
   const times = [t0];
   return times.concat(SAMPLE_VALUES_MINUTE.map(t => t * 60).filter(t => t > t0));
+}
+
+export function getSampleTimesSecHeader(): { id: number; value: number }[] {
+  const headerValues = getSampleTimesSec().map(n => ({ id: n, value: n / 60 }));
+  if (Variable.find(gameModel, 'gameMode').getValue(self) === 'mainSimMode') {
+    return headerValues;
+  } else {
+    return headerValues.slice(1);
+  }
 }
 
 export function resetAll(): void {
@@ -212,6 +222,20 @@ export function initCache(genCtx: GenerationCtx): void {
     patientGenerationLogger.info('Patient loading done');
     genCtx.setState(newState);
   });
+}
+
+export function updatePatientInitialTimeAndUpdateCache(newValue: number): void {
+  const genCtx = getGenCtx();
+  updateNumberDescriptor('patients-elapsed-minutes', newValue).then((_: any) => {
+    forceCacheRebuild(genCtx);
+  });
+}
+
+function forceCacheRebuild(ctx: GenerationCtx) {
+  ctx.state.cacheInitStatus = 'not-started';
+  patientsSamplesCache = {};
+  patientsBodyParamsCache = {};
+  initCache(ctx);
 }
 
 function incrementLoaded(genState: GenerationCtx): void {
@@ -419,6 +443,16 @@ function getGenCtx(): GenerationCtx {
 function savePatients(): void {
   const patientDesc = Variable.find(gameModel, 'patients');
   saveToObjectDescriptor(patientDesc, patientsBodyParamsCache);
+}
+
+interface UIState {
+  edit: boolean;
+}
+
+export function getDefaultUIState(): UIState {
+  return {
+    edit: false,
+  };
 }
 
 /**

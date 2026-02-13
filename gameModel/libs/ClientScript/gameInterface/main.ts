@@ -1,20 +1,21 @@
-import {
-  ActionTemplateBase,
-  MoveActorActionTemplate,
-  SelectionFixedMapEntityTemplate,
-  SituationUpdateActionTemplate,
-} from '../game/common/actions/actionTemplateBase';
-import { ActionTemplateId } from '../game/common/baseTypes';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateUid } from '../game/common/baseTypes';
 import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { endMapAction, startMapSelect } from '../gameMap/main';
+import { endMapAction, startMapChoice } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import {
   cancelAction,
   getAllActions,
-  isFixedMapEntityTemplate,
+  getAvailableChoices,
+  hasMapChoices,
+  isChoiceTemplate,
+  isMoveActorActionTemplate,
+  isSituationUpdateActionTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
+import { setInterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -86,15 +87,15 @@ export function canCancelOnGoingAction(): boolean {
  * @params number uid of the action
  * @returns boolean whether action uid is currently planned one
  */
-export function isPlannedAction(id: ActionTemplateId | undefined): boolean {
-  if (!id) return false;
+export function isPlannedAction(actTemplateId: ActionTemplateUid | undefined): boolean {
+  if (!actTemplateId) return false;
   const actorUid = Context.interfaceState.state.currentActorUid;
   const actions = getAllActions()[actorUid];
 
   if (actorUid && actions) {
     const action = actions.find(a => a.startTime === getSimTime());
     if (action) {
-      return id == action.getTemplateId();
+      return actTemplateId == action.getTemplateId();
     }
   }
 
@@ -108,12 +109,12 @@ export function isPlannedAction(id: ActionTemplateId | undefined): boolean {
  * @params any payload the action creation
  */
 export function actionClickHandler(template: ActionTemplateBase, params: any): void {
-  const uid = Context.interfaceState.state.currentActorUid;
+  const actorId = Context.interfaceState.state.currentActorUid;
 
   if (canPlanAction()) {
-    planAction(template, uid, params);
-  } else if (isPlannedAction(template.Uid)) {
-    cancelAction(uid, template.Uid);
+    planAction(template, actorId, params);
+  } else if (isPlannedAction(template.uid)) {
+    cancelAction(actorId, template.uid);
   }
 }
 
@@ -121,17 +122,32 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
  * Update state whenever user changes action
  */
 export function actionChangeHandler(): void {
+  // TODO Could we set Context.action.Uid as param ?
+  const actTemplate = Context.action as ActionTemplateBase;
+
   if (!canPlanAction()) return;
+
   Context.interfaceState.setState({
     ...Context.interfaceState.state,
-    currentActionUid: Context.action.Uid,
+    currentActionUid: actTemplate.uid,
   });
+
   endMapAction();
 
-  const action = Context.action as ActionTemplateBase;
-  // If action is SelectMapObject we begin routine
-  if (isFixedMapEntityTemplate(action) && canPlanAction()) {
-    startMapSelect();
+  if (isChoiceTemplate(actTemplate) && canPlanAction()) {
+    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
+
+    if (choiceUid) {
+      setInterfaceState({
+        currentActionUid: actTemplate.uid,
+        selectedActionChoiceUid: choiceUid,
+      });
+      if (hasMapChoices(actTemplate)) {
+        startMapChoice();
+      }
+    } else {
+      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
+    }
   }
 }
 
@@ -145,9 +161,10 @@ function getDayZero(): Date {
 export function getSimStartDateTime(): Date {
   const hours = Variable.find(gameModel, 'startHours').getValue(self);
   const minutes = Variable.find(gameModel, 'startMinutes').getValue(self);
+  const delay = Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self);
 
   const startDateTime = getDayZero();
-  startDateTime.setHours(hours, minutes);
+  startDateTime.setHours(hours, minutes + delay);
   return startDateTime;
 }
 
@@ -189,12 +206,12 @@ export function formatTime(dateTime: Date): string {
  * @returns string Page number to be displayed in page loader
  */
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
-  if (actionTemplate instanceof SelectionFixedMapEntityTemplate) {
-    return '48';
-  } else if (actionTemplate instanceof MoveActorActionTemplate) {
+  if (isMoveActorActionTemplate(actionTemplate)) {
     return '66';
-  } else if (actionTemplate instanceof SituationUpdateActionTemplate) {
+  } else if (isSituationUpdateActionTemplate(actionTemplate)) {
     return 'actionSituationUpdateParam';
+  } else if (isChoiceTemplate(actionTemplate)) {
+    return '31';
   }
   return '';
 }
@@ -202,7 +219,7 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 /**
  * Returns true if the action is planned for the current actor or selected
  */
-export function isActiveAction(templateUid: number): boolean {
+export function isActiveAction(templateUid: ActionTemplateUid): boolean {
   if (canPlanAction()) {
     return Context.interfaceState.state.currentActionUid == templateUid;
   }

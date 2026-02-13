@@ -3,7 +3,7 @@ import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
 import * as ResourceLogic from '../game/common/resources/resourceLogic';
 import {
-  getAvailableMapLocations,
+  getAvailableMapActivables,
   LOCATION_ENUM,
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
@@ -11,44 +11,64 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
 import { mainSimMapLogger } from '../tools/logger';
+import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
+import { getShapeCenter } from '../gameMap/utils/shapeUtils';
+import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
+import { MapEntityActivable } from '../game/common/simulationState/activableState';
 
 let wasGodView = true;
 
-// used in page 43
-export function getOverlayItems(actorId: ActorId | undefined) {
+// Replacement based on activables/descriptors
+export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
-  const mapEntities = getAvailableMapLocations(getCurrentState(), 'anyKind');
+  const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
+    (a: MapEntityActivable) => {
+      const accessibility = locationEnumConfig[a.binding]?.accessibility;
+      return (
+        a.active && a.buildStatus === 'built' && (accessibility?.Actors || accessibility?.Resources)
+      );
+    }
+  );
   const overlayItems: OverlayItem[] = [];
 
-  for (const mapEntity of mapEntities) {
-    overlayItems.push({
-      overlayProps: {
-        position: mapEntity.getGeometricalShape().getShapeCenter(),
-        positioning: 'bottom-center',
-        offset: [0, -60],
-      },
-      payload: {
-        id: mapEntity.id,
-        name: mapEntity.name,
-        icon: mapEntity.icon,
-        actors: getActorsByLocation(mapEntity.id),
-        resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
-          getCurrentState(),
-          actorId,
-          mapEntity.id
-        ),
-        ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'ambulance',
-          mapEntity.id
-        ),
-        helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
-          getCurrentState(),
-          'helicopter',
-          mapEntity.id
-        ),
-      },
-    });
+  for (const mapActivable of mapActivables) {
+    const mapDescriptor = getMapEntityDescriptor(mapActivable.uid);
+    // by convention the overlays are placed on the first map object if any
+    const firstMapObject = mapDescriptor?.mapObjects[0];
+
+    if (firstMapObject) {
+      const currentState = getCurrentState();
+      overlayItems.push({
+        overlayProps: {
+          // Overlay centered over the first mapObject
+          position: getShapeCenter(firstMapObject),
+          positioning: 'bottom-center',
+          offset: [0, -20],
+        },
+        payload: {
+          id: mapActivable.binding,
+          name: I18n.translate(firstMapObject.label) || 'XXX',
+          icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
+          actors: getActorsByLocation(mapActivable.binding),
+          resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
+            currentState,
+            actorId,
+            mapActivable.binding
+          ),
+          ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
+            currentState,
+            'ambulance',
+            mapActivable.binding
+          ),
+          helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
+            currentState,
+            'helicopter',
+            mapActivable.binding
+          ),
+        },
+      });
+    }
   }
 
   // detect change of view mode

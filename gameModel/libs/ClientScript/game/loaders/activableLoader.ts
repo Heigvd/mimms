@@ -7,8 +7,11 @@
 
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 import { Uid } from '../common/interfaces';
+import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
 import { Activable, fromDescriptor } from '../common/simulationState/activableState';
 import { Trigger } from '../common/triggers/trigger';
+import { loadCustomActionTemplateDescriptors } from './actionTemplateLoader';
+import { getMapEntityDescriptors } from './mapEntitiesLoader';
 import { getTriggers } from './triggerLoader';
 
 export function buildActivables(): Record<Uid, Activable> {
@@ -29,8 +32,8 @@ function addTriggerActivables(activables: Record<Uid, Activable>): void {
 }
 
 function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): void {
-  // TODO action templates from WEGAS variable
-  const tpls: Record<Uid, TemplateDescriptor> = {};
+  // TODO see if basic action templates + choices should also be loaded in activables
+  const tpls: Record<Uid, TemplateDescriptor> = loadCustomActionTemplateDescriptors();
 
   Object.values(tpls).forEach((t: TemplateDescriptor) => {
     activables[t.uid] = fromDescriptor(t);
@@ -38,6 +41,9 @@ function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): voi
   });
 }
 
-function addMapEntitiesActivables(_activables: Record<Uid, Activable>): void {
-  // TODO map entities from WEGAS variable
+function addMapEntitiesActivables(activables: Record<Uid, Activable>): void {
+  const descriptors: Record<Uid, MapEntityDescriptor> = getMapEntityDescriptors();
+  Object.values(descriptors).forEach((t: MapEntityDescriptor) => {
+    activables[t.uid] = fromDescriptor(t);
+  });
 }

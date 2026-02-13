@@ -154,7 +154,9 @@ interface VariableClasses {
   "respectHierarchy": SBooleanDescriptor;
   "map": SListDescriptor;
   "mapConfiguration": SObjectDescriptor;
+  "map_entity_data": SObjectDescriptor;
   "triggers_data": SObjectDescriptor;
+  "action_template_data": SObjectDescriptor;
 }
 
 type FindFN = <T extends keyof VariableClasses>(

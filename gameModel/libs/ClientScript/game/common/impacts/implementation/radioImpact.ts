@@ -1,3 +1,4 @@
+import { ActorId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
 import { AddRadioMessageLocalEvent, LocalEventBase } from '../../localEvents/localEventBase';
 import { RadioType } from '../../radio/communicationType';
@@ -6,23 +7,23 @@ import { ImpactBase } from '../impact';
 
 export interface RadioMessageImpact extends ImpactBase {
   type: 'radio';
-  message: string | any; //TODO multilang
+  message: ITranslatableContent;
   channel: RadioType;
 }
 
 export function convertRadioMessageImpact(
   state: Readonly<MainSimulationState>,
   impact: RadioMessageImpact,
-  parentTriggerId: Uid
+  sourceId: Uid | ActorId
 ): LocalEventBase[] {
   const time = state.getSimTime() + impact.delaySeconds;
   return [
     new AddRadioMessageLocalEvent({
       parentEventId: state.getLastEventId(),
-      parentTriggerId,
+      sourceId: String(sourceId),
       simTimeStamp: time,
       // no sender nor recipient, "xxx de yyy" must be written directly in the message text
-      message: impact.message,
+      message: I18n.translate(impact.message),
       channel: impact.channel,
       omitTranslation: true,
     }),

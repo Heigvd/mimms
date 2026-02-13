@@ -5,23 +5,26 @@
  */
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
-import { ActionBase } from '../game/common/actions/actionBase';
+import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
+import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
   CasuMessageTemplate,
+  ChoiceTemplate,
   EvacuationActionTemplate,
   MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   PretriageReportTemplate,
-  SelectionFixedMapEntityTemplate,
   SendRadioMessageTemplate,
   SimFlag,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
+import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
-import { ActorId, TemplateId } from '../game/common/baseTypes';
+import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
+import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
@@ -31,8 +34,9 @@ import {
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { canPlanAction, isPlannedAction } from '../gameInterface/main';
+import { refreshSelectionLayer } from '../gameMap/main';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
@@ -48,6 +52,11 @@ export function getAvailableActionTemplates(
   return [];
 }
 
+// used for choice actions in page 31
+export function getAvailableActionTemplateById(templateId: ActionTemplateUid) {
+  return getAvailableActionTemplates().find(t => t.uid === templateId);
+}
+
 export function isAvailable(template: ActionTemplateBase): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (template && currentActorUid) {
@@ -60,13 +69,17 @@ export function isAvailable(template: ActionTemplateBase): boolean {
   return false;
 }
 
+export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[] {
+  return ActionLogic.getAvailableChoices(getCurrentState(), template);
+}
+
 /**
  * @param template
  * @returns true if the action can be played or is currently planned, thus can be cancelled
  */
 export function canCancel(template: ActionTemplateBase | undefined): boolean {
   if (!template) return false;
-  return isAvailable(template) && isPlannedAction(template.Uid);
+  return isAvailable(template) && isPlannedAction(template.uid);
 }
 
 /**
@@ -85,7 +98,7 @@ export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
 // TODO there might be specific local UI state to add in there (like a selected position or geometry)
 /**
  *
- * @param actionTemplate The template to instanciate
+ * @param actionTemplate The template to instantiate
  * @param selectedActor The actor the plans the action and will be its owner
  * @param params The additional optional parameters, related to the chosen action template
  * @returns a promise
@@ -107,7 +120,7 @@ export async function planAction(
  */
 export async function cancelAction(
   selectedActor: ActorId,
-  templateId: TemplateId
+  templateId: ActionTemplateUid
 ): Promise<IManagedResponse | undefined> {
   return await buildAndLaunchActionCancellation(selectedActor, templateId);
 }
@@ -170,8 +183,18 @@ export function getActorsNotDoing<T extends ActionBase>(actionClass: {
   );
 }
 
-export function isFixedMapEntityTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof SelectionFixedMapEntityTemplate;
+export function isChoiceTemplate(
+  template: Readonly<ActionTemplateBase> | undefined
+): template is ChoiceTemplate {
+  return template instanceof ChoiceTemplate;
+}
+
+export function isChoiceAction(action: ActionBase | undefined): action is ChoiceAction {
+  return action instanceof ChoiceAction;
+}
+
+export function hasMapChoices(choiceTemplate: ChoiceTemplate): boolean {
+  return choiceTemplate.choices.some(choice => choice.displayedMapEntity);
 }
 
 export function isCasuMessageActionTemplate(template: ActionTemplateBase | undefined): boolean {
@@ -220,4 +243,9 @@ export function isMethaneSendDisabled(): boolean {
   }
   const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
   return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
+}
+
+export function updateChoice(choiceUid: Uid): void {
+  setInterfaceState({ selectedActionChoiceUid: choiceUid });
+  refreshSelectionLayer();
 }

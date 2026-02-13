@@ -1,12 +1,14 @@
 import { entries } from '../../../tools/helper';
+import { actionLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
+import { getCachedHospitalById } from '../../loaders/hospitalLoader';
 import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
 import {
   ActionId,
-  ActionTemplateId,
+  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   HospitalId,
@@ -20,27 +22,26 @@ import {
 } from '../baseTypes';
 import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
+import { computeTravelTime } from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
-import { computeTravelTime, getHospitalById } from '../evacuation/hospitalController';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
+import { Effect, evaluateEffectImpacts } from '../impacts/effect';
 import {
   AddActorLocalEvent,
-  AddFixedEntityLocalEvent,
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
-  CompleteBuildingFixedEntityLocalEvent,
+  ChangeMapActivableStatusLocalEvent,
   DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
@@ -48,7 +49,6 @@ import {
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
   PretriageReportResponseLocalEvent,
-  RemoveFixedEntityLocalEvent,
   ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -66,22 +66,24 @@ import {
   ResourceTypeAndNumber,
   VehicleType,
 } from '../resources/resourceType';
+import { ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import {
   canMoveToLocation,
-  getMapLocationById,
+  getActiveMapEntityFromBinding,
   LOCATION_ENUM,
 } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
+import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
 const ACTION_SEED_ID: ActionId = 3000;
 
 /**
- * Instanciated action that lives in the state of the game and will generate local events that will change the game state
+ * Instantiated action that lives in the state of the game and will generate local events that will change the game state
  */
 export abstract class ActionBase {
   protected static slogger = Helpers.getLogger('actions-logger');
@@ -92,17 +94,14 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
-  protected readonly templateId;
-
   protected constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
     public readonly ownerId: ActorId,
-    protected readonly uuidTemplate: ActionTemplateId = -1
+    protected readonly templateId: ActionTemplateUid
   ) {
     this.Uid = getContextUidGenerator().getNext('ActionBase', ACTION_SEED_ID);
     this.status = 'Uninitialized';
-    this.templateId = uuidTemplate;
   }
 
   /**
@@ -136,7 +135,7 @@ export abstract class ActionBase {
     return this.status;
   }
 
-  public getTemplateId(): ActionTemplateId {
+  public getTemplateId(): ActionTemplateUid {
     return this.templateId;
   }
 }
@@ -149,7 +148,7 @@ export abstract class StartEndAction extends ActionBase {
   /**
    * Translation key for the name of the action (displayed in the timeline)
    */
-  public readonly actionNameKey: TranslationKey;
+  public readonly actionNameKey: TranslationKey | ITranslatableContent;
   /**
    * Adds SimFlags values to state at the end of the action
    */
@@ -159,12 +158,12 @@ export abstract class StartEndAction extends ActionBase {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
-    super(startTimeSec, eventId, ownerId, uuidTemplate);
+    super(startTimeSec, eventId, ownerId, templateUid);
     this.durationSec = durationSeconds;
     this.actionNameKey = actionNameKey;
     this.provideFlagsToState = provideFlagsToState;
@@ -215,7 +214,65 @@ export abstract class StartEndAction extends ActionBase {
   }
 
   public getTitle(): string {
-    return this.actionNameKey;
+    if (typeof this.actionNameKey === 'string') {
+      return getTranslation('mainSim-actions-tasks', this.actionNameKey);
+    } else {
+      return I18n.translate(this.actionNameKey);
+    }
+  }
+}
+
+export abstract class ChoiceAction extends StartEndAction {
+  // visibility ?
+  public readonly choice: ChoiceDescriptor;
+
+  protected constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    //messageKey: TranslationKey,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[] = [],
+    choice: ChoiceDescriptor
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      //messageKey,
+      ownerId,
+      templateUid,
+      provideFlagsToState
+    );
+    this.choice = choice;
+  }
+
+  protected applyChoice(state: Readonly<MainSimulationState>): void {
+    if (this.choice != undefined) {
+      const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(
+        state,
+        this.choice.uid
+      );
+      const selectedEffect: Effect | undefined = this.choice.effects.find(
+        e => e.uid === choiceActivable?.selectedEffect
+      );
+
+      if (selectedEffect) {
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.ownerId);
+        eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
+      } else {
+        actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
+      }
+    } else {
+      actionLogger.error('a choice is needed to run the action');
+    }
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>) {
+    this.applyChoice(state);
   }
 }
 
@@ -224,9 +281,9 @@ export abstract class RadioDrivenAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -235,7 +292,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -261,10 +318,10 @@ export class DisplayMessageAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly messageKey: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState?: SimFlag[],
     readonly channel?: RadioType
   ) {
@@ -274,7 +331,7 @@ export class DisplayMessageAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -311,9 +368,9 @@ export class OnTheRoadAction extends StartEndAction {
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId
+    templateUid: ActionTemplateUid
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -340,13 +397,13 @@ export class CasuMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private casuMessagePayload: CasuMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
     if (this.casuMessagePayload.messageType === 'R') {
       this.hospitalRequestPayload = this.casuMessagePayload;
     }
@@ -456,7 +513,10 @@ export class CasuMessageAction extends RadioDrivenAction {
   }
 
   public override getTitle(): string {
-    return this.actionNameKey + '-' + this.casuMessagePayload.messageType;
+    return getTranslation(
+      'mainSim-actions-tasks',
+      this.actionNameKey + '-' + this.casuMessagePayload.messageType
+    );
   }
 
   public getChannel(): RadioType {
@@ -485,12 +545,12 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly requestMessage: TranslationKey,
     readonly authorizedReplyMessage: TranslationKey,
     readonly unauthorizedReplyMessage: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     readonly channel: RadioType,
     provideFlagsToState?: SimFlag[]
   ) {
@@ -500,7 +560,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -577,25 +637,20 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// place map items
+// fully configurable choice action
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-/**
- * Action to select a FixedMapEntity
- */
-export class SelectionFixedMapEntityAction extends StartEndAction {
-  public readonly fixedMapEntity: FixedMapEntity;
-
+export class FullyConfigurableChoiceAction extends ChoiceAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[]
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -603,42 +658,115 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
-      provideFlagsToState
+      templateUid,
+      provideFlagsToState,
+      choice
     );
-    this.fixedMapEntity = fixedMapEntity;
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
+  }
+
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+    // nothing more to do
+  }
+
+  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
+    // nothing to do
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// place map items
+// -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+export class MapChoiceAction extends ChoiceAction {
+  public readonly binding?: LOCATION_ENUM;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    eventId: GlobalEventId,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor,
+    binding?: LOCATION_ENUM
+  ) {
+    super(
+      startTimeSec,
+      durationSeconds,
+      eventId,
+      actionNameKey,
+      ownerId,
+      templateUid,
+      provideFlagsToState,
+      choice
+    );
+    this.binding = binding;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.fixedMapEntity.buildingStatus = BuildingStatus.inProgress;
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
+      return;
+    }
 
     getLocalEventManager().queueLocalEvent(
-      new AddFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.displayedMapEntity,
+          option: 'activate',
+        },
+        'pending'
+      )
     );
   }
 
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    // ungrey the map element
+  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchEndedEvents(state);
+
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
+      return;
+    }
+
     getLocalEventManager().queueLocalEvent(
-      new CompleteBuildingFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.displayedMapEntity,
+          option: 'activate',
+        },
+        'built'
+      )
     );
   }
 
   protected cancelInternal(state: Readonly<MainSimulationState>): void {
+    if (!this.choice.displayedMapEntity) {
+      this.logger.error('Choice has no map entity to display');
+      return;
+    }
+
     getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: this.fixedMapEntity,
-      })
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: this.choice.displayedMapEntity,
+          option: 'deactivate',
+        },
+        'pending'
+      )
     );
   }
 }
@@ -647,16 +775,16 @@ export class SelectionFixedMapEntityAction extends StartEndAction {
 // place PC Front
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
+export class PCFrontChoiceAction extends MapChoiceAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -664,9 +792,10 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
+      templateUid,
+      provideFlagsToState,
+      choice,
+      LOCATION_ENUM.pcFront
     );
   }
 
@@ -678,7 +807,7 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
         parentEventId: this.eventId,
         simTimeStamp: state.getSimTime(),
         actorUid: this.ownerId,
-        location: LOCATION_ENUM.pcFront,
+        location: this.binding!,
       })
     );
 
@@ -690,7 +819,7 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourcesId: [resourceUid],
-        targetLocation: LOCATION_ENUM.pcFront,
+        targetLocation: this.binding!,
       })
     );
     getLocalEventManager().queueLocalEvent(
@@ -707,16 +836,16 @@ export class SelectionPCFrontAction extends SelectionFixedMapEntityAction {
 // place PC
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionPCAction extends SelectionFixedMapEntityAction {
+export class PCChoiceAction extends MapChoiceAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    provideFlagsToState: SimFlag[] = []
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -724,9 +853,10 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
+      templateUid,
+      provideFlagsToState,
+      choice,
+      LOCATION_ENUM.PC
     );
   }
 
@@ -743,7 +873,7 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
           parentEventId: this.eventId,
           simTimeStamp: state.getSimTime(),
           actorUid: actor.Uid,
-          location: this.fixedMapEntity.id,
+          location: this.binding!,
         })
       );
     }
@@ -754,18 +884,21 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         sourceLocation: LOCATION_ENUM.pcFront,
-        targetLocation: this.fixedMapEntity.id,
+        targetLocation: this.binding!,
       })
     );
     // Remove PC Front once all actors and resources have been moved
-    const pcFrontFixedEntity = getMapLocationById(state, LOCATION_ENUM.pcFront);
-    pcFrontFixedEntity!.buildingStatus = BuildingStatus.removed;
+    const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
     getLocalEventManager().queueLocalEvent(
-      new RemoveFixedEntityLocalEvent({
-        parentEventId: this.eventId,
-        simTimeStamp: state.getSimTime(),
-        fixedMapEntity: pcFrontFixedEntity!,
-      })
+      new ChangeMapActivableStatusLocalEvent(
+        {
+          parentEventId: this.eventId,
+          simTimeStamp: state.getSimTime(),
+          target: pcFrontActivable!.uid,
+          option: 'deactivate',
+        },
+        'pending'
+      )
     );
   }
 }
@@ -774,17 +907,22 @@ export class SelectionPCAction extends SelectionFixedMapEntityAction {
 // place park
 // -------------------------------------------------------------------------------------------------
 
-export class SelectionParkAction extends SelectionFixedMapEntityAction {
+export class ParkChoiceAction extends MapChoiceAction {
+  // The binding is always ambulancePark or helicopterPark
+  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
+  public readonly vehicleType: VehicleType;
+
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
-    fixedMapEntity: FixedMapEntity,
-    readonly vehicleType: VehicleType,
-    provideFlagsToState: SimFlag[] = []
+    templateUid: ActionTemplateUid,
+    provideFlagsToState: SimFlag[],
+    choice: ChoiceDescriptor,
+    binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
+    vehicleType: VehicleType
   ) {
     super(
       startTimeSec,
@@ -792,10 +930,12 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
-      fixedMapEntity,
-      provideFlagsToState
+      templateUid,
+      provideFlagsToState,
+      choice
     );
+    this.binding = binding;
+    this.vehicleType = vehicleType;
   }
 
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
@@ -807,7 +947,7 @@ export class SelectionParkAction extends SelectionFixedMapEntityAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourceType: this.vehicleType,
-        targetLocation: this.fixedMapEntity.id,
+        targetLocation: this.binding,
       })
     );
   }
@@ -829,9 +969,9 @@ export class MoveActorAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     location: LOCATION_ENUM
   ) {
@@ -841,7 +981,7 @@ export class MoveActorAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
     this.location = location;
@@ -886,9 +1026,9 @@ export class AppointActorAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
     readonly requiredResourceType: HumanResourceType[],
@@ -901,7 +1041,7 @@ export class AppointActorAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
 
@@ -1016,9 +1156,9 @@ export class SituationUpdateAction extends StartEndAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = []
   ) {
     super(
@@ -1027,7 +1167,7 @@ export class SituationUpdateAction extends StartEndAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
   }
@@ -1067,10 +1207,10 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     globalEventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     commMedia: CommMedia,
     sourceLocation: LOCATION_ENUM,
     targetLocation: LOCATION_ENUM,
@@ -1078,7 +1218,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     sourceTaskId: TaskId,
     targetTaskId: TaskId
   ) {
-    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, templateUid);
     this.commMedia = commMedia;
     this.sourceLocation = sourceLocation;
     this.targetLocation = targetLocation;
@@ -1295,13 +1435,13 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     durationSeconds: SimDuration,
     private feedbackWhenStarted: TranslationKey,
     private feedbackWhenReport: TranslationKey,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private pretriageLocation: LOCATION_ENUM
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1369,14 +1509,14 @@ export class SendRadioMessageAction extends RadioDrivenAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     private radioChannel: RadioType,
     private radioMessagePayload: RadioMessagePayload
   ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, uuidTemplate);
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
 
   protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
@@ -1449,13 +1589,13 @@ export class EvacuationAction extends RadioDrivenAction {
     startTimeSec: SimTime,
     durationSeconds: SimDuration,
     eventId: GlobalEventId,
-    actionNameKey: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
     readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
     readonly msgEvacuationRefused: TranslationKey,
     ownerId: ActorId,
-    uuidTemplate: ActionTemplateId,
+    templateUid: ActionTemplateUid,
     readonly evacuationActionPayload: EvacuationActionPayload,
     provideFlagsToState?: SimFlag[]
   ) {
@@ -1465,7 +1605,7 @@ export class EvacuationAction extends RadioDrivenAction {
       eventId,
       actionNameKey,
       ownerId,
-      uuidTemplate,
+      templateUid,
       provideFlagsToState
     );
     this.patientId = evacuationActionPayload.patientId;
@@ -1593,7 +1733,7 @@ export class EvacuationAction extends RadioDrivenAction {
   }
 
   private formatRequestMessage(payload: EvacuationActionPayload) {
-    const hospital = getHospitalById(payload.hospitalId);
+    const hospital = getCachedHospitalById(payload.hospitalId);
 
     const patientId: string = payload.patientId;
     const toHospital: string = `${I18n.translate(hospital.preposition)} ${hospital.shortName}`;

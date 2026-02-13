@@ -16,7 +16,7 @@ import {
 } from '../HUMAn/physiologicalModel';
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { BagDefinition } from '../game/legacy/the_world';
-import { checkUnreachable } from './helper';
+import { checkUnreachable, NumberVariableClasses } from './helper';
 import {
   getDefaultBag,
   getDrillType,
@@ -277,6 +277,13 @@ export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<st
     newObject.properties[k] = JSON.stringify(v);
   });
   APIMethods.updateVariable(newObject);
+}
+
+export async function updateNumberDescriptor(
+  id: keyof NumberVariableClasses,
+  newValue: number
+): Promise<IManagedResponse> {
+  return APIMethods.runScript(`MimmsHelper.updateNumberDescriptor('${id}',${newValue})`, {});
 }
 
 export function getPatientsBodyFactoryParams() {

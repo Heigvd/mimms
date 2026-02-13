@@ -1,7 +1,8 @@
 import { entries } from '../../../tools/helper';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
-import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
+import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
+import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
@@ -75,7 +76,8 @@ export function doesOrderRespectHierarchy(
     .getAllActors()
     .filter(a => a.Location !== LOCATION_ENUM.remote)
     .map(a => a.Role);
-  const locationLeaderRoles = getMapLocationById(state, sourceLocation)!.leaderRoles;
+
+  const locationLeaderRoles = locationEnumConfig[sourceLocation].leaderRoles;
 
   return currentActors
     .filter(a => locationLeaderRoles.includes(a))

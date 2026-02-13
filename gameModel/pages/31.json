@@ -1,0 +1,95 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "choice-title",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  I18n.translate(Context.choice.title);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "choice-description",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "description",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  I18n.translate(Context.choice.description);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "className" : "choice-container",
+            "conditionnalClassNames" : [ {
+              "applyOn" : "Inside",
+              "className" : "choice-container--selected",
+              "condition" : {
+                "@class" : "Script",
+                "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\ngetTypedInterfaceState().selectedActionChoiceUid == Context.choice.uid;",
+                "language" : "typescript"
+              }
+            } ],
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid) && getTypedInterfaceState().selectedActionChoiceUid != Context.choice.uid;",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { updateChoice } from \"./UIfacade/actionFacade\";\n\nupdateChoice(Context.choice.uid);\n",
+                "language" : "TypeScript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "choice-list",
+        "exposeAs" : "choice",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action);",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutClassName" : "noPadding",
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

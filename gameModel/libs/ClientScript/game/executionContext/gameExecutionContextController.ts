@@ -5,6 +5,7 @@ import { getStartingMainState } from '../loaders/mainStateLoader';
 import {
   GameExecutionContext,
   GlobalToLocalEventFunction,
+  InitializeLocalEventFunction,
   TeamId,
   UidGenerator,
 } from './gameExecutionContext';
@@ -42,15 +43,20 @@ function unlockTeamId(): void {
   lockedTeamId = undefined;
 }
 
-function createNewContext(teamId: TeamId, eventBoxId: number): GameExecutionContext {
+function createNewContext(
+  teamId: TeamId,
+  eventBoxId: number,
+  initEventsProvider: InitializeLocalEventFunction
+): GameExecutionContext {
   if (executionContexts[teamId]) {
     throw new Error('Context with id ' + teamId + ' is already created');
   }
   const state = getStartingMainState();
   // get a clone of the starting generation state, in order to generate further ids consistently
-  const uidProvider = mainStateDefaultUidGenerator.clone();
+  const uidProvider = getMainStateDefaultUidGenerator().clone();
   const ctx = new GameExecutionContext(teamId, eventBoxId, state, uidProvider);
   executionContexts[teamId] = ctx;
+  ctx.applyInitialEvents(initEventsProvider());
   return ctx;
 }
 
@@ -58,10 +64,11 @@ export function createOrUpdateExecutionContext(
   teamId: TeamId,
   eventBoxId: number,
   events: FullEvent<TimedEventPayload>[],
-  convertFunc: GlobalToLocalEventFunction
+  convertFunc: GlobalToLocalEventFunction,
+  initEventsProvider: InitializeLocalEventFunction
 ): boolean {
   const ctx: GameExecutionContext =
-    executionContexts[teamId] || createNewContext(teamId, eventBoxId);
+    executionContexts[teamId] || createNewContext(teamId, eventBoxId, initEventsProvider);
   return updateExecutionContext(ctx, events, convertFunc);
 }
 
@@ -89,7 +96,7 @@ function updateExecutionContext(
 ): boolean {
   try {
     lockTeamId(context.teamId); // any calls to getCurrentContext will point to the teamId's context
-    return context.processEvents(events, convertFunc);
+    return context.processEvents(events, convertFunc, true);
   } catch (error) {
     gameExecLogger.error('Error while updating context', context.teamId, error, events);
     return false;
@@ -98,7 +105,7 @@ function updateExecutionContext(
   }
 }
 
-export function createPlayerContext(): void {
+export function createPlayerContext(initEventsProvider: InitializeLocalEventFunction): void {
   const teamId = getPlayerTeamId();
   if (executionContexts[teamId]) {
     gameExecLogger.warn(
@@ -107,7 +114,7 @@ export function createPlayerContext(): void {
     );
   } else {
     const eventBoxId = Variable.find(gameModel, 'newEvents').getInstance(self).getId()!;
-    createNewContext(teamId, eventBoxId);
+    createNewContext(teamId, eventBoxId, initEventsProvider);
   }
 }
 
@@ -145,19 +152,25 @@ let mainStateInitializationComplete = false;
  * The default generator is used during the starting state initialization
  * while building the initial state that is common to all teams
  */
-let mainStateDefaultUidGenerator: UidGenerator;
+let mainStateDefaultUidGenerator: UidGenerator | undefined;
 
 Helpers.registerEffect(() => {
+  mainStateDefaultUidGenerator = undefined;
+  mainStateInitializationComplete = false;
+});
+
+function getMainStateDefaultUidGenerator(): UidGenerator {
   if (!mainStateDefaultUidGenerator) {
     mainStateDefaultUidGenerator = new UidGenerator({});
   }
-});
+  return mainStateDefaultUidGenerator;
+}
 
 export function getContextUidGenerator(): UidGenerator {
   if (mainStateInitializationComplete) {
     return getCurrentExecutionContext().getUidProvider();
   }
-  return mainStateDefaultUidGenerator;
+  return getMainStateDefaultUidGenerator();
 }
 
 export function notifyMainStateInitializationComplete(): void {
@@ -167,8 +180,10 @@ export function notifyMainStateInitializationComplete(): void {
   mainStateInitializationComplete = true;
 }
 
-// ========== DEBUG ===========
-export function debugRemovePlayerContext(): void {
+// ============ DEBUG & TESTER =============
+export function resetPlayerContext(): void {
   gameExecLogger.warn('DEBUG ONLY, removing player context');
   delete executionContexts[getPlayerTeamId()];
+  mainStateInitializationComplete = false;
+  mainStateDefaultUidGenerator = undefined;
 }

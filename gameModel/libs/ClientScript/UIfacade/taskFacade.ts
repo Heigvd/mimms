@@ -3,10 +3,11 @@ import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { TaskType } from '../game/common/tasks/taskBase';
+import { getActiveMapEntityDescriptors } from '../game/loaders/mapEntitiesLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getTranslation } from '../tools/translation';
+import { getLocationTranslation } from '../UIfacade/locationFacade';
 
 export function getCommMedia() {
   return getTypedInterfaceState().selectedPanel === SelectedPanel.radios
@@ -78,10 +79,13 @@ export function getLocationChoicesForTaskType(
   taskType: TaskType
 ): { label: string; value: string }[] {
   const locations = TaskState.getLocationsByTaskType(getCurrentState(), taskType);
-  return getCurrentState()
-    .getMapLocations()
-    .filter(mapLocation => locations.includes(mapLocation.id))
+
+  return Object.values(getActiveMapEntityDescriptors())
+    .filter(descriptor => locations.includes(descriptor.binding))
     .map(location => {
-      return { label: getTranslation('mainSim-locations', location.name), value: location.id };
+      return {
+        label: getLocationTranslation(location.binding),
+        value: location.binding,
+      };
     });
 }

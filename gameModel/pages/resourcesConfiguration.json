@@ -8,14 +8,14 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "resources__undertitle",
+                    "className" : "noMargin scenarist__undertitle",
                     "layoutStyle" : { },
                     "style" : {
                       "marginTop" : "10px"
                     },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Basic resources\"",
+                      "content" : "\"<p>Major Incident Management</p>\"",
                       "language" : "TypeScript"
                     }
                   },
@@ -519,12 +519,12 @@
                   "type" : "For each"
                 }, {
                   "props" : {
-                    "className" : "resources__undertitle",
+                    "className" : "noMargin scenarist__undertitle",
                     "layoutStyle" : { },
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "\"Other resources\"",
+                      "content" : "\"<p>Standard resources</p>\"",
                       "language" : "TypeScript"
                     }
                   },

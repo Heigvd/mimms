@@ -5,11 +5,11 @@
  *
  * Copyright (2021-2022)
  *  - School of Management and Engineering Vaud (AlbaSim, MEI, HEIG-VD, HES-SO)
- *  - Hôpitaux Universitaires Genêve (HUG)
+ *  - Hôpitaux Universitaires Genève (HUG)
  */
 
-import { logger } from './logger';
 import { Point } from '../map/point2D';
+import { logger } from './logger';
 
 export function checkUnreachable(x: never): void {
   throw new Error('Unreachable code: ' + (x as unknown));
@@ -61,7 +61,7 @@ export function add(x: number, delta: number, bounds?: Bounds): number {
 /**
  * @param x the value on the x axis
  * @param points a list of 2D points sorted in ascending order by their x values.
- * Connecting these points with lines implicitely describes a 2D graph
+ * Connecting these points with lines implicitly describes a 2D graph
  * @return the y value corresponding to the intersection of the 2D graph and a vertical line going through x
  */
 export function interpolate(x: number, points: Point[], defaultValue: number = 0): number {
@@ -189,6 +189,14 @@ function toHourMinSec(seconds: number): [number, number, number] {
   return [hours, minutes, sec];
 }
 
+/**
+ * converts seconds to minutes, rounded up
+ * @param seconds number of seconds
+ */
+export function toMinutes(seconds: number): number {
+  return seconds > 0 ? Math.ceil(seconds / 60) : 0;
+}
+
 export function toHourMinutesSeconds(
   seconds: number,
   hoursSuffix = 'h',
@@ -287,3 +295,48 @@ export type FilterTypeProperties<Source, Condition> = Pick<
   Source,
   { [K in keyof Source]: Source[K] extends Condition ? K : never }[keyof Source]
 >;
+
+export type ObjectVariableClasses = FilterTypeProperties<VariableClasses, SObjectDescriptor>;
+export type NumberVariableClasses = FilterTypeProperties<VariableClasses, SNumberDescriptor>;
+
+export function filterRecord<K extends string, V>(
+  record: Record<K, V>,
+  predicate: (value: V, key: K) => boolean
+): Record<K, V> {
+  return Object.fromEntries(
+    Object.entries(record).filter(([k, v]) => predicate(v as V, k as K))
+  ) as Record<K, V>;
+}
+
+export function patchX<T>(value: T, patch: Partial<T>): T {
+  return { ...value, ...patch };
+}
+
+/** converts [0,1] numbers to hexa decimal 00 - FF value */
+export function floatToHexByte(value: number): string {
+  // Clamp the input between 0 and 1
+  const clamped = Math.min(1, Math.max(0, value));
+
+  // Convert to the 0–255 range
+  const intVal = Math.round(clamped * 255);
+
+  // Convert to hex and pad with leading zero if needed
+  return intVal.toString(16).padStart(2, '0').toUpperCase();
+}
+
+export function getFilteredAsArray<T extends string>(enabledRecord: Record<T, boolean>): T[] {
+  return Object.entries(enabledRecord)
+    .filter(([_entryKey, enabled]) => enabled)
+    .map(([entryKey, _enabled]) => entryKey as T);
+}
+
+// Source - https://stackoverflow.com/a/7616484
+// makes a hash from a string
+export function quickHash(s: string): string {
+  let hash = 0;
+  for (const char of s) {
+    hash = (hash << 5) - hash + char.charCodeAt(0);
+    hash |= 0; // Constrain to 32bit integer
+  }
+  return String(hash);
+}

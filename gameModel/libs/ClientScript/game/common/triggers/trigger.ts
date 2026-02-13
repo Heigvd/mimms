@@ -1,10 +1,14 @@
 import { ViewConfig } from '../../../edition/typeDefinitions/definition';
 import { triggerLogger } from '../../../tools/logger';
-import { saveToObjectDescriptor } from '../../../tools/WegasHelper';
 import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
-import { IActivableDescriptor, IDescriptor, Indexed, Typed, Uid } from '../interfaces';
-import { ChangeActivableStatusLocalEvent, LocalEventBase } from '../localEvents/localEventBase';
+import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
+import {
+  ChangeActivableStatusLocalEvent,
+  IncrementCountLocalEvent,
+  LocalEventBase,
+} from '../localEvents/localEventBase';
+import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
 
@@ -20,7 +24,7 @@ export interface Trigger extends IActivableDescriptor, IDescriptor, Typed, Index
   comment?: string; // free text
   accessLevel: ViewConfig; // if the scenarist can see / edit
   mandatory: boolean;
-  repeatable: boolean; // TODO voir avec Dom si boolean / number / si on ajoute boolean "Disable itself" / ?? (update UML)
+  deactivateItself: boolean;
   operator: 'OR' | 'AND'; // operator between conditions
   conditions: Condition[];
   impacts: Impact[];
@@ -30,30 +34,48 @@ export function getSortedTriggers(): Trigger[] {
   return getTriggers().sort(compareTriggers);
 }
 
-export function compareTriggers(a: Trigger, b: Trigger): number {
-  if (a.index === b.index) {
+function compareTriggers(a: Trigger, b: Trigger): number {
+  const idxA: number = a.index + (a.mandatory ? 0 : 1000000);
+  const idxB: number = b.index + (b.mandatory ? 0 : 1000000);
+
+  if (idxA === idxB) {
     return a.uid.localeCompare(b.uid);
   }
 
-  return a.index - b.index;
+  return idxA - idxB;
+}
+
+// Regarding only its activable state, can it be run
+export function isTriggerAvailable(
+  state: Readonly<MainSimulationState>,
+  trigger: Trigger
+): boolean {
+  const triggerActivable: TriggerActivable | undefined = getTriggerActivable(state, trigger.uid);
+
+  if (triggerActivable) {
+    if (triggerActivable.active) {
+      return true;
+    } else {
+      triggerLogger.info(`trigger '${trigger.uid}' is not active`);
+      return false;
+    }
+  } else {
+    triggerLogger.error(`trigger '${trigger.uid}' has no activable`);
+    return false;
+  }
 }
 
 function evaluateTriggerConditions(
   state: Readonly<MainSimulationState>,
   trigger: Trigger
 ): boolean {
-  if (state.getActivable(trigger.uid)?.active) {
-    if (trigger.conditions.length === 0) {
-      return true;
-    }
-    if (trigger.operator === 'AND') {
-      return trigger.conditions.every(c => evaluateCondition(state, c));
-    } else if (trigger.operator === 'OR') {
-      return trigger.conditions.some(c => evaluateCondition(state, c));
-    }
-  } else {
-    triggerLogger.info(`trigger '${trigger.uid}' is deactivated`);
-    return false;
+  if (trigger.conditions.length === 0) {
+    return true;
+  }
+  if (trigger.operator === 'AND') {
+    return trigger.conditions.every(c => evaluateCondition(state, c));
+  } else if (trigger.operator === 'OR') {
+    return trigger.conditions.some(c => evaluateCondition(state, c));
   }
 
   triggerLogger.error('trigger conditions are erroneously defined : ', JSON.stringify(trigger));
@@ -70,16 +92,25 @@ function evaluateTriggerImpacts(
 }
 
 function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger): LocalEventBase[] {
-  if (evaluateTriggerConditions(state, trigger)) {
+  if (isTriggerAvailable(state, trigger) && evaluateTriggerConditions(state, trigger)) {
     triggerLogger.info(`trigger '${trigger.uid}' is triggered`);
-    const impacts: LocalEventBase[] = evaluateTriggerImpacts(state, trigger);
 
-    // Deactivate if not repeatable
-    if (!trigger.repeatable) {
+    const impacts: LocalEventBase[] = [];
+
+    impacts.push(
+      new IncrementCountLocalEvent({
+        parentEventId: state.getLastEventId(),
+        sourceId: trigger.uid,
+        simTimeStamp: state.getSimTime(),
+        target: trigger.uid,
+      })
+    );
+
+    if (trigger.deactivateItself) {
       impacts.push(
         new ChangeActivableStatusLocalEvent({
           parentEventId: state.getLastEventId(),
-          parentTriggerId: trigger.uid,
+          sourceId: trigger.uid,
           simTimeStamp: state.getSimTime(),
           target: trigger.uid,
           option: 'deactivate',
@@ -87,8 +118,11 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
       );
     }
 
+    impacts.push(...evaluateTriggerImpacts(state, trigger));
+
     return impacts;
   }
+
   return [];
 }
 
@@ -99,10 +133,4 @@ export function evaluateAllTriggers(state: Readonly<MainSimulationState>): Local
 
 export function getTriggersVariable(): SObjectDescriptor {
   return Variable.find(gameModel, 'triggers_data');
-}
-
-// Directly used in triggerEditor page
-export function saveTriggers(data: Record<Uid, Trigger>): void {
-  const triggerDataVariableDescr = getTriggersVariable();
-  saveToObjectDescriptor(triggerDataVariableDescr, data);
 }

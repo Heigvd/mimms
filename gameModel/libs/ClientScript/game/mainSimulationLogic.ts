@@ -2,10 +2,10 @@ import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
-import { initActionTemplates, IUniqueActionTemplates } from './actionTemplatesData';
+import { IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
-import { ActorId, TemplateId } from './common/baseTypes';
+import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
@@ -33,14 +33,16 @@ import { MainSimulationState } from './common/simulationState/mainSimulationStat
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
   createPlayerContext,
-  debugRemovePlayerContext,
+  resetPlayerContext,
   getCurrentExecutionContext,
 } from './executionContext/gameExecutionContextController';
-import { shallowState } from './loaders/mainStateLoader';
+import { loadActionTemplates } from './loaders/actionTemplateLoader';
+import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
+import { getOmittedGlobalEvents } from './testing/stateDebug';
 
 /* all defined action templates */
-let actionTemplates: Record<string, ActionTemplateBase>;
-let uniqueActionTemplates: IUniqueActionTemplates;
+let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase> | undefined;
+let uniqueActionTemplates: IUniqueActionTemplates | undefined;
 
 let initializationComplete: boolean;
 
@@ -65,7 +67,7 @@ export function runUpdateLoop(): void {
 
   if (!initializationComplete) {
     tryLoadTemplates();
-    createPlayerContext();
+    createPlayerContext(getStartingLocalEvents);
     initializationComplete = true;
     mainSimLogger.info('****** STATE INIT DONE ******');
   }
@@ -86,16 +88,28 @@ export function runUpdateLoop(): void {
     // filter out omitted events (if a previous state was restored)
     const ignored = getOmittedGlobalEvents();
     const filteredGlobalEvents = globalEvents.filter(e => !ignored[e.id]);
-
-    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent);
+    const hasNoIgnored = Object.keys(ignored).length === 0;
+    playerCtx.processEvents(filteredGlobalEvents, convertToLocalEvent, hasNoIgnored);
   }
 }
 
 function tryLoadTemplates(): void {
   if (!actionTemplates || !uniqueActionTemplates) {
-    ({ actionTemplates, uniqueActionTemplates } = initActionTemplates());
+    ({ actionTemplates, uniqueActionTemplates } = loadActionTemplates());
     mainSimLogger.info('****** TEMPLATES LOADED ******');
   }
+}
+
+function getActionTemplates(): Record<ActionTemplateUid, ActionTemplateBase> {
+  if (!actionTemplates) {
+    tryLoadTemplates();
+  }
+  return actionTemplates!;
+}
+
+function resetActionTemplates(): void {
+  actionTemplates = undefined;
+  uniqueActionTemplates = undefined;
 }
 
 /**
@@ -110,7 +124,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
     case 'ActionCreationEvent':
       {
         // find corresponding creation template
-        const actionTemplate = actionTemplates[event.payload.templateUid];
+        const actionTemplate = getActionTemplates()[event.payload.templateUid];
         if (!actionTemplate) {
           mainSimLogger.error('no template was found for UID ', event.payload.templateUid);
         } else {
@@ -172,7 +186,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
 
         if (timeJump % TimeSliceDuration !== 0) {
           mainSimLogger.error(
-            'time jump is not divisble by time slice duration',
+            'time jump is not divisible by time slice duration',
             timeJump,
             TimeSliceDuration
           );
@@ -266,7 +280,7 @@ export function fetchAvailableActionTemplates(
 ): ActionTemplateBase[] {
   const actor = getCurrentState().getActorById(actorId);
   if (actor) {
-    return Object.values(actionTemplates).filter(
+    return Object.values(getActionTemplates()).filter(
       at => at.isAvailable(getCurrentState(), actor) && at.isInCategory(actionType)
     );
   } else {
@@ -280,7 +294,7 @@ export function getUniqueActionTemplates(): IUniqueActionTemplates | undefined {
 }
 
 export function debugGetAllActionTemplates(): ActionTemplateBase[] {
-  return Object.values(actionTemplates);
+  return Object.values(getActionTemplates());
 }
 
 export async function buildAndLaunchActionFromTemplate(
@@ -300,7 +314,7 @@ export async function buildAndLaunchActionFromTemplate(
 
 export async function buildAndLaunchActionCancellation(
   selectedActor: ActorId,
-  templateId: TemplateId
+  templateId: ActionTemplateUid
 ): Promise<IManagedResponse | undefined> {
   const action = getCurrentState()
     .getAllActions()
@@ -385,50 +399,8 @@ export function getCurrentState(): Readonly<MainSimulationState> {
   }
 }
 
-/**** DEBUG TOOLS SECTION ***/
-
-export function forceRecomputeStateDebug() {
+export function resetState(): void {
+  resetActionTemplates();
+  resetPlayerContext();
   initializationComplete = false;
-  debugRemovePlayerContext();
-  runUpdateLoop();
-}
-
-export function getStateHistory() {
-  return getCurrentExecutionContext().getStateHistory();
-}
-
-/*
- Restores the game state to a previously stored one
- this mutates the state history of the execution context
- */
-export async function setCurrentStateDebug(stateId: number) {
-  const execContext = getCurrentExecutionContext();
-  execContext.restoreState(stateId);
-
-  // store the events that have to be omitted when recomputing the state
-  // i.e. the events that occured after the restored state
-  const ignored = getOmittedGlobalEvents();
-  const lastEvtId = execContext.getCurrentState().getLastEventId();
-  const all = getAllEvents();
-  let i = all.length - 1;
-  while (i > 0 && all[i]?.id !== lastEvtId) {
-    ignored[all[i]!.id] = true;
-    i--;
-  }
-
-  const ignoredString = JSON.stringify(ignored);
-  const updateIgnoredScript = `Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).setProperty('ignored', JSON.stringify(${ignoredString}));`;
-  await APIMethods.runScript(updateIgnoredScript, {});
-  mainSimLogger.info(`restored state ${stateId}, ignored events :`, stateId);
-}
-
-/**
- * Get the events that have been cancelled due to previous stored state reloading
- */
-function getOmittedGlobalEvents(): Record<string, boolean> {
-  const raw =
-    Variable.find(gameModel, 'debugIgnoredEvents').getInstance(self).getProperties()['ignored'] ||
-    '{}';
-  const ignored = JSON.parse(raw) as Record<string, boolean>;
-  return ignored;
 }

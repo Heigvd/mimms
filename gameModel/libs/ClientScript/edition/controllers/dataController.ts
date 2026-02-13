@@ -1,0 +1,835 @@
+import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { Effect } from '../../game/common/impacts/effect';
+import { Impact } from '../../game/common/impacts/impact';
+import {
+  IDescriptor,
+  Indexed,
+  Parented,
+  SuperTyped,
+  Typed,
+  Uid,
+} from '../../game/common/interfaces';
+import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
+import {
+  LineMapObject,
+  MapEntityDescriptor,
+  PointMapObject,
+  PolygonMapObject,
+} from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { Trigger } from '../../game/common/triggers/trigger';
+import { group } from '../../tools/groupBy';
+import { entries, ObjectVariableClasses } from '../../tools/helper';
+import {
+  canMove,
+  moveElement,
+  OperationType,
+  recomputeIndexes,
+  recomputeIndexesFromArray,
+} from '../../tools/indexedSorting';
+import { scenarioEditionLogger } from '../../tools/logger';
+import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
+import { getLocationTranslation } from '../../UIfacade/locationFacade';
+import {
+  FlatChoice,
+  fromFlatChoice,
+  getChoiceDefinition,
+  toFlatChoice,
+} from '../typeDefinitions/choiceDefinition';
+import {
+  FlatCondition,
+  fromFlatCondition,
+  getConditionDefinition,
+  toFlatCondition,
+} from '../typeDefinitions/conditionDefinition';
+import { ValidationMessage } from '../typeDefinitions/definition';
+import {
+  FlatEffect,
+  fromFlatEffect,
+  getEffectDefinition,
+  toFlatEffect,
+} from '../typeDefinitions/effectDefinition';
+import {
+  FlatImpact,
+  fromFlatImpact,
+  getImpactDefinition,
+  toFlatImpact,
+} from '../typeDefinitions/impactDefinition';
+import {
+  FlatMapEntity,
+  fromFlatMapEntity,
+  getMapEntityDefinition,
+  toFlatMapEntity,
+} from '../typeDefinitions/mapEntityDefinition';
+import {
+  FlatMapObject,
+  fromFlatMapObject,
+  getMapObjectDefinition,
+  toFlatMapObject,
+} from '../typeDefinitions/mapObjectDefinition';
+import {
+  FlatActionTemplate,
+  fromFlatActionTemplate,
+  getTemplateDef,
+  getTemplateValidator,
+  toFlatActionTemplate,
+} from '../typeDefinitions/templateDefinition';
+import {
+  FlatTrigger,
+  fromFlatTrigger,
+  getTriggerDefinition,
+  toFlatTrigger,
+} from '../typeDefinitions/triggerDefinition';
+import {
+  ActionValidationContext,
+  GenericValidationContext,
+  LocationValidationContext,
+  TriggerValidationContext,
+} from '../typeDefinitions/validation/validationContext';
+import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
+import { GenericScenaristInterfaceState, getItemTyped } from '../UIfacade/genericConfigFacade';
+import { MapEntityUIState, SupportedDrawType } from '../UIfacade/locationConfigFacade';
+import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
+import {
+  getInitialActionTemplateUIState,
+  getInitialMapEntityUIState,
+  getInitialTriggerUIState,
+} from './controllerInstances';
+import {
+  clusterSiblings,
+  getAllSiblings,
+  getChildren,
+  getSiblings,
+  removeRecursively,
+} from './parentedUtils';
+import { ContextHandler } from './stateHandler';
+import { UndoRedoContext } from './undoRedoContext';
+
+export type FlatTypeDef = Typed & SuperTyped & IDescriptor & Indexed & Parented;
+
+export type TriggerFlatType = FlatTrigger | FlatImpact | FlatCondition;
+export type ActionTemplateFlatType = FlatActionTemplate | FlatChoice | FlatEffect | FlatImpact;
+export type MapEntityFlatType = FlatMapEntity | FlatMapObject;
+
+export type FlatTypes = TriggerFlatType | ActionTemplateFlatType | MapEntityFlatType;
+
+export type FlatTypeBySuperType = {
+  [K in FlatTypes['superType']]: Extract<FlatTypes, { superType: K }>;
+};
+
+export type FlatActivable = FlatTrigger | FlatActionTemplate | FlatChoice | FlatMapEntity;
+
+/**
+ * All the possible types of data objects (triggers, impacts, choices, ...)
+ */
+export type SuperTypeNames = FlatTypes['superType'];
+
+export type CreationOptionsBase = {
+  parentType?: SuperTypeNames;
+  /**
+   * when true replace the last stored state by the newly computed state
+   */
+  squashLastState?: boolean;
+};
+export abstract class DataControllerBase<
+  DataType extends Typed & IDescriptor,
+  FlatType extends FlatTypes,
+  IState extends GenericScenaristInterfaceState,
+  CreationOptions extends CreationOptionsBase,
+  VContext extends GenericValidationContext
+> {
+  private readonly undoRedo: UndoRedoContext<IState, FlatType>;
+  private readonly varKey: keyof ObjectVariableClasses;
+  private readonly contextHandler: ContextHandler<IState>;
+  private transientIState: IState;
+
+  constructor(
+    variableKey: keyof ObjectVariableClasses,
+    contextKey: string,
+    initialUIState: IState
+  ) {
+    this.varKey = variableKey;
+    const desc = Variable.find(gameModel, variableKey);
+    const data = parseObjectDescriptor<DataType>(desc) || {};
+    this.contextHandler = new ContextHandler<IState>(contextKey);
+    this.transientIState = initialUIState;
+    this.undoRedo = new UndoRedoContext<IState, FlatType>(this.transientIState, this.flatten(data));
+  }
+
+  public save(): void {
+    const desc = Variable.find(gameModel, this.varKey);
+    saveToObjectDescriptor(desc, this.recompose(this.undoRedo.getCurrentState()[1]));
+    this.undoRedo.onSave();
+  }
+
+  public isSaved(): boolean {
+    return this.undoRedo.isSaved();
+  }
+
+  public remove(id: Uid): void {
+    const flatData = this.getFlatDataClone();
+    const siblings = getSiblings(id, flatData);
+    const removedIds = removeRecursively(id, flatData);
+    const updatedIState = this.getLatestIState();
+
+    entries(updatedIState.selected).forEach(([superType, id]) => {
+      if (id && removedIds.has(id)) {
+        delete updatedIState.selected[superType];
+      }
+    });
+
+    // re-index
+    delete siblings[id];
+    recomputeIndexes(siblings);
+
+    this.applyChanges(flatData, updatedIState, false);
+  }
+
+  public canUndo(): boolean {
+    return this.undoRedo.canUndo();
+  }
+
+  public canRedo(): boolean {
+    return this.undoRedo.canRedo();
+  }
+
+  public undo(): void {
+    const previous = this.undoRedo.undo();
+    this.transientIState = previous[0];
+    this.contextHandler.setState(previous[0]);
+    this.save();
+  }
+
+  public redo(): void {
+    const next = this.undoRedo.redo();
+    this.transientIState = next[0];
+    this.contextHandler.setState(next[0]);
+    this.save();
+  }
+
+  public createNew(
+    parentId: Uid,
+    superType: SuperTypeNames, //MapToSuperTypeNames<FlatType>,
+    options: CreationOptions
+  ): FlatType {
+    const newObject = this.createNewInternal(parentId, superType, options);
+    const updatedData = this.getFlatDataClone();
+    updatedData[newObject.uid] = newObject;
+    // select new
+    const updatedIState = this.getLatestIState();
+    updatedIState.selected[superType] = newObject.uid;
+    updatedIState;
+    // put at top
+    const siblings = this.filterSiblings(newObject.uid, updatedData);
+    moveElement(newObject.uid, siblings, 'BOTTOM');
+
+    this.applyChanges(updatedData, updatedIState, options.squashLastState ?? false);
+    return newObject;
+  }
+
+  public getTreeData(): Record<string, DataType> {
+    return this.recompose(this.getFlatDataClone());
+  }
+
+  public getFlatDataClone(): Record<Uid, FlatType> {
+    return Helpers.cloneDeep(this.undoRedo.getCurrentState()[1]);
+  }
+
+  public move(id: Uid, moveType: OperationType): void {
+    const data = this.getFlatDataClone();
+    const siblings = this.filterSiblings(id, data);
+    moveElement(id, siblings, moveType);
+    this.updateData(data);
+  }
+
+  public canMove(id: Uid, moveType: OperationType): boolean {
+    const siblings = this.filterSiblings(id, this.undoRedo.getCurrentState()[1]);
+    if (Object.values(siblings).length == 0) {
+      return false;
+    }
+    return canMove(id, siblings, moveType);
+  }
+
+  public getSelected(itemType: SuperTypeNames): FlatTypes | undefined {
+    const selectedUid = this.getLatestIState().selected[itemType];
+    if (selectedUid) {
+      return this.getFlatDataClone()[selectedUid];
+    }
+    return undefined;
+  }
+
+  public select(itemType: SuperTypeNames, uid: Uid | undefined): void {
+    if (uid == undefined) {
+      this.unselect(itemType);
+    } else {
+      const selectedUid = this.getLatestIState().selected[itemType];
+      if (selectedUid !== uid) {
+        this.unselect(itemType); // used to cascade the unselect (see unselect overrides)
+
+        const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+        newState.selected[itemType] = uid;
+        this.updateIState(newState);
+      }
+    }
+  }
+
+  public unselect(itemType: SuperTypeNames): void {
+    const newState: IState = Helpers.cloneDeep(this.getLatestIState());
+    delete newState.selected[itemType];
+    this.updateIState(newState);
+  }
+
+  public validate(): ValidationMessage<VContext>[] {
+    const result: ValidationMessage<VContext>[] = [];
+
+    Object.values(this.getTreeData()).forEach((item: DataType) => {
+      result.push(...this.validateInternal(item));
+    });
+
+    return result;
+  }
+
+  protected abstract validateInternal(item: DataType): ValidationMessage<VContext>[];
+
+  public updateItem(item: FlatType) {
+    const data: Record<Uid, FlatType> = this.getFlatDataClone();
+    data[item.uid] = item;
+    this.updateData(data);
+  }
+
+  public updateData(
+    newData: Record<Uid, FlatType>,
+    indexesUpdate: boolean = true,
+    newInterfaceState: IState | undefined = undefined,
+    squashLastState: boolean = false
+  ): void {
+    const iState = newInterfaceState || this.getLatestIState();
+    if (indexesUpdate) {
+      // get siblings grouped by same parent and supertype
+      const allSiblings = getAllSiblings(newData);
+      // cluster siblings in their specific subgroups (e.g. mandatory / optional, map categories)
+      Object.values(allSiblings).forEach(group => {
+        clusterSiblings(group, this.isSibling).forEach(cluster =>
+          recomputeIndexesFromArray(cluster)
+        );
+      });
+    }
+    this.applyChanges(newData, iState, squashLastState);
+  }
+
+  /**
+   * Updates the transient interface state
+   */
+  public updateIState(newInterfaceState: IState): void {
+    this.transientIState = newInterfaceState;
+    this.contextHandler.setState(this.transientIState);
+  }
+
+  public softUpdateIState(newInterfaceState: IState): void {
+    this.transientIState = newInterfaceState;
+  }
+
+  public getLatestIState(): IState {
+    return Helpers.cloneDeep(this.transientIState);
+  }
+
+  private filterSiblings(id: Uid, data: Record<string, FlatType>): Record<string, FlatType> {
+    const target = data[id];
+    // get natural siblings
+    const siblings = getSiblings(id, data);
+    const filtered: Record<string, FlatType> = {};
+    Object.entries(siblings).forEach(([key, candidate]) => {
+      if (target && this.isSibling(target, candidate)) {
+        filtered[key] = candidate;
+      }
+    });
+    return filtered;
+  }
+
+  /** Converts the original data to a flat structure */
+  protected abstract flatten(input: Record<Uid, DataType>): Record<Uid, FlatType>;
+
+  /**
+   * Rebuilds a genuine object from a flat data representation
+   */
+  protected abstract recompose(flattened: Record<Uid, FlatType>): Record<Uid, DataType>;
+
+  /**
+   * Advanced sibling filtering. Given a target and a candidate that share the same parent,
+   * this function has to determine if those natural siblings belong to the same group
+   * (example : triggers are split between mandatory and non-mandatory)
+   */
+  protected abstract isSibling(target: FlatType, candidate: FlatType): boolean;
+
+  /** Creates a new object of the desired type */
+  protected abstract createNewInternal(
+    parentId: Uid,
+    type: SuperTypeNames, //MapToSuperTypeNames<FlatType>
+    options: CreationOptions
+  ): FlatType;
+
+  /**
+   * Read-only data, handle with care
+   */
+  public getFlatData(): Readonly<Record<Uid, Readonly<FlatType>>> {
+    return this.undoRedo.getCurrentState()[1];
+  }
+
+  public getItem<T extends FlatType>(id: Uid, type: T['superType']): Readonly<T> | undefined {
+    const item = this.getFlatData()[id];
+
+    if (item && item.superType === type) {
+      return item as T; // safe cast
+    }
+
+    return undefined;
+  }
+
+  private applyChanges(
+    newData: Record<Uid, FlatType>,
+    newInterfaceState: IState,
+    squashPrevious: boolean
+  ): void {
+    this.undoRedo.storeState(newInterfaceState, newData, squashPrevious);
+    this.transientIState = newInterfaceState;
+    this.contextHandler.setState(newInterfaceState);
+    this.save();
+  }
+}
+
+export class TriggerDataController extends DataControllerBase<
+  Trigger,
+  TriggerFlatType,
+  TriggerConfigUIState,
+  CreationOptionsBase,
+  TriggerValidationContext
+> {
+  private static readonly TRIGGER_ROOT: string = 'TRIGGER_ROOT';
+
+  protected override flatten(input: Record<Uid, Trigger>): Record<Uid, TriggerFlatType> {
+    const flattened: Record<Uid, TriggerFlatType> = {};
+    Object.entries(input).forEach(([uid, trigger]) => {
+      flattened[uid] = toFlatTrigger(trigger, TriggerDataController.TRIGGER_ROOT);
+      trigger.impacts.forEach(impact => {
+        flattened[impact.uid] = toFlatImpact(impact, uid);
+      });
+      trigger.conditions.forEach(condition => {
+        flattened[condition.uid] = toFlatCondition(condition, uid);
+      });
+    });
+    return flattened;
+  }
+
+  protected override recompose(flattened: Record<Uid, TriggerFlatType>): Record<Uid, Trigger> {
+    const tree: Record<Uid, Trigger> = {};
+    // create triggers with empty impacts and conditions
+    Object.values(flattened)
+      .filter(element => element.superType === 'trigger')
+      .map(e => e as FlatTrigger) // safe cast
+      .forEach((trigger: FlatTrigger) => {
+        tree[trigger.uid] = fromFlatTrigger(trigger);
+      });
+
+    // fill in impacts and conditions
+    Object.values(flattened)
+      .filter(elem => elem.superType === 'impact' || elem.superType === 'condition')
+      .forEach((element: TriggerFlatType) => {
+        const parentTrigger = tree[element.parent];
+        if (parentTrigger) {
+          if (element.superType === 'condition' && element.type !== 'empty') {
+            parentTrigger.conditions.push(fromFlatCondition(element));
+          } else if (element.superType === 'impact' && element.type !== 'empty') {
+            parentTrigger.impacts.push(fromFlatImpact(element));
+          }
+        } else {
+          scenarioEditionLogger.error(
+            'Found some orphan impact/condition in trigger data',
+            element
+          );
+        }
+      });
+    return tree;
+  }
+
+  protected override createNewInternal(
+    parentId: Uid,
+    superType: TriggerFlatType['superType'],
+    options: CreationOptionsBase
+  ): TriggerFlatType {
+    switch (superType) {
+      case 'trigger': {
+        const trigger = toFlatTrigger(
+          getTriggerDefinition().getDefault(),
+          TriggerDataController.TRIGGER_ROOT
+        );
+        this.assignNewTagName(trigger);
+        return trigger;
+      }
+      case 'condition':
+        return toFlatCondition(getConditionDefinition('empty').getDefault(), parentId);
+      case 'impact':
+        return toFlatImpact(
+          getImpactDefinition('empty', options.parentType).getDefault(),
+          parentId
+        );
+    }
+  }
+
+  private assignNewTagName(newObject: FlatTrigger): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    let candidate = newObject.tag;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType === 'trigger' && obj.tag === candidate)
+    ) {
+      candidate = newObject.tag + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
+  }
+
+  protected validateInternal(value: Trigger): ValidationMessage<TriggerValidationContext>[] {
+    return getTriggerDefinition().validator(value, {
+      page: 'triggers',
+      targetState: getInitialTriggerUIState(),
+    });
+  }
+
+  protected override isSibling(target: TriggerFlatType, candidate: TriggerFlatType): boolean {
+    if (target.type === 'trigger' && candidate.type === 'trigger') {
+      const t = target as FlatTrigger;
+      const c = candidate as FlatTrigger;
+      return t.mandatory === c.mandatory;
+    }
+    return true;
+  }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'trigger':
+        super.unselect(itemType);
+        super.unselect('condition');
+        super.unselect('impact');
+        break;
+      default:
+        super.unselect(itemType);
+    }
+  }
+}
+
+export class ActionTemplateDataController extends DataControllerBase<
+  TemplateDescriptor,
+  ActionTemplateFlatType,
+  ActionTemplateConfigUIState,
+  CreationOptionsBase,
+  ActionValidationContext
+> {
+  // TODO filter by mandatory
+  protected override isSibling(
+    _target: ActionTemplateFlatType,
+    _candidate: ActionTemplateFlatType
+  ): boolean {
+    return true;
+  }
+  private static readonly ACTION_ROOT: string = 'ACTION_ROOT';
+
+  protected override flatten(
+    tree: Record<Uid, TemplateDescriptor>
+  ): Record<Uid, ActionTemplateFlatType> {
+    const flattened: Record<Uid, ActionTemplateFlatType> = {};
+    Object.entries(tree).forEach(([uid, tpld]) => {
+      flattened[uid] = toFlatActionTemplate(tpld, ActionTemplateDataController.ACTION_ROOT);
+      // choices
+      tpld.choices.forEach((choice: ChoiceDescriptor) => {
+        flattened[choice.uid] = toFlatChoice(choice, tpld.uid);
+        // effects
+        choice.effects.forEach((effect: Effect) => {
+          flattened[effect.uid] = toFlatEffect(effect, choice.uid);
+          // impacts
+          effect.impacts.forEach((impact: Impact) => {
+            flattened[impact.uid] = toFlatImpact(impact, effect.uid);
+          });
+        });
+      });
+    });
+    return flattened;
+  }
+
+  protected override recompose(
+    flattened: Record<Uid, ActionTemplateFlatType>
+  ): Record<Uid, TemplateDescriptor> {
+    const tree: Record<Uid, TemplateDescriptor> = {};
+
+    const groups = group(Object.values(flattened), elem => elem.superType);
+    groups.action?.forEach(flatAction => {
+      tree[flatAction.uid] = fromFlatActionTemplate(flatAction as FlatActionTemplate);
+    });
+
+    const choices: Record<Uid, ChoiceDescriptor> = {};
+    groups.choice?.forEach(flatChoice => {
+      const parent = tree[flatChoice.parent];
+      if (parent) {
+        const c = fromFlatChoice(flatChoice as FlatChoice);
+        choices[c.uid] = c;
+        parent.choices.push(c);
+      } else {
+        scenarioEditionLogger.error('Found some orphan choice', flatChoice);
+      }
+    });
+
+    const effects: Record<Uid, Effect> = {};
+    groups.effect?.forEach(flatEffect => {
+      const parent = choices[flatEffect.parent];
+      if (parent) {
+        const ef = fromFlatEffect(flatEffect as FlatEffect);
+        effects[ef.uid] = ef;
+        parent.effects.push(ef);
+      } else {
+        scenarioEditionLogger.error('Found some orphan effect', flatEffect);
+      }
+    });
+
+    groups.impact?.forEach(flatImpact => {
+      const parent = effects[flatImpact.parent];
+      if (parent) {
+        const i = fromFlatImpact(flatImpact as FlatImpact);
+        parent.impacts.push(i);
+      } else {
+        scenarioEditionLogger.error('Found some orphan impact', flatImpact);
+      }
+    });
+
+    return tree;
+  }
+
+  protected override createNewInternal(
+    parentId: Uid,
+    superType: ActionTemplateFlatType['superType'],
+    options: CreationOptionsBase
+  ): ActionTemplateFlatType {
+    switch (superType) {
+      case 'action': {
+        const action = toFlatActionTemplate(
+          getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
+          ActionTemplateDataController.ACTION_ROOT
+        );
+        this.assignNewTagName(action);
+        return action;
+      }
+      case 'choice': {
+        const choice = toFlatChoice(getChoiceDefinition().getDefault(), parentId);
+        this.assignNewTagName(choice);
+        return choice;
+      }
+      case 'effect': {
+        const effect = toFlatEffect(getEffectDefinition().getDefault(), parentId);
+        this.assignNewTagName(effect);
+        return effect;
+      }
+      case 'impact': {
+        return toFlatImpact(
+          getImpactDefinition('empty', options.parentType).getDefault(),
+          parentId
+        );
+      }
+    }
+  }
+
+  private assignNewTagName(newObject: FlatActionTemplate | FlatChoice | FlatEffect): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    let candidate = newObject.tag;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType !== 'impact' && obj.tag === candidate)
+    ) {
+      candidate = newObject.tag + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
+  }
+
+  protected validateInternal(
+    value: TemplateDescriptor
+  ): ValidationMessage<ActionValidationContext>[] {
+    return getTemplateValidator(value.type)(value, {
+      page: 'actions',
+      targetState: getInitialActionTemplateUIState(),
+    });
+  }
+
+  public override select(itemType: SuperTypeNames, uid: Uid | undefined): void {
+    super.select(itemType, uid);
+    if (itemType === 'choice' && uid) {
+      const choice = getItemTyped('choice', uid);
+      if (choice) {
+        const istate = this.getLatestIState();
+        // if one effect only, hide the effect section by default
+        const effectCount = Object.values(this.getFlatData()).filter(
+          item => item.parent === choice.uid
+        ).length;
+        istate.effectOpen = effectCount !== 1;
+        this.updateIState(istate);
+
+        if (!istate.selected['effect']) {
+          super.select('effect', choice.defaultEffect);
+        }
+      }
+    }
+  }
+
+  public override unselect(itemType: SuperTypeNames): void {
+    switch (itemType) {
+      case 'action':
+        super.unselect('action');
+      // eslint-disable-next-line no-fallthrough
+      case 'choice':
+        super.unselect('choice');
+      // eslint-disable-next-line no-fallthrough
+      case 'effect':
+        super.unselect('effect');
+      // eslint-disable-next-line no-fallthrough
+      default:
+        super.unselect('impact');
+    }
+  }
+}
+
+export interface MapEntityCreationOptions extends CreationOptionsBase {
+  location?: LOCATION_ENUM;
+  drawType?: SupportedDrawType;
+  drawnGeometry?:
+    | PointMapObject['geometry']
+    | LineMapObject['geometry']
+    | PolygonMapObject['geometry'];
+}
+
+export class MapEntityController extends DataControllerBase<
+  MapEntityDescriptor,
+  MapEntityFlatType,
+  MapEntityUIState,
+  MapEntityCreationOptions,
+  LocationValidationContext
+> {
+  private static readonly MAP_ENTITY_ROOT: string = 'MAP_ENTITY_ROOT';
+
+  protected override isSibling(target: MapEntityFlatType, candidate: MapEntityFlatType): boolean {
+    if (target.type === 'mapEntity' && candidate.type === 'mapEntity') {
+      return target.binding === candidate.binding;
+    }
+    return true;
+  }
+  protected flatten(input: Record<string, MapEntityDescriptor>): Record<string, MapEntityFlatType> {
+    const flattened: Record<Uid, MapEntityFlatType> = {};
+
+    Object.entries(input).forEach(([uid, mapEntity]) => {
+      // map entities
+      flattened[uid] = toFlatMapEntity(mapEntity, MapEntityController.MAP_ENTITY_ROOT);
+      // break down map objects
+      mapEntity.mapObjects.forEach(mapObject => {
+        flattened[mapObject.uid] = toFlatMapObject(mapObject, uid);
+      });
+    });
+    return flattened;
+  }
+
+  protected recompose(
+    flattened: Record<string, MapEntityFlatType>
+  ): Record<string, MapEntityDescriptor> {
+    const tree: Record<Uid, MapEntityDescriptor> = {};
+    // create map entities descriptors with empty map objects array
+    Object.values(flattened)
+      .filter(element => element.superType === 'mapEntity')
+      .map(e => e as FlatMapEntity) // safe cast
+      .forEach((fme: FlatMapEntity) => {
+        tree[fme.uid] = fromFlatMapEntity(fme);
+      });
+
+    // fill in map objects
+    Object.values(flattened)
+      .filter(elem => elem.superType === 'geometry')
+      .map(e => e as FlatMapObject) // safe cast
+      .forEach((mapObj: FlatMapObject) => {
+        const parentMapEntity = tree[mapObj.parent];
+        if (parentMapEntity) {
+          parentMapEntity.mapObjects.push(fromFlatMapObject(mapObj));
+        } else {
+          scenarioEditionLogger.error(
+            'Found some orphan map object in map entity data, it will be lost when saving',
+            mapObj
+          );
+        }
+      });
+
+    return tree;
+  }
+
+  protected override createNewInternal(
+    parentId: string,
+    type: MapEntityFlatType['superType'],
+    options: MapEntityCreationOptions
+  ): MapEntityFlatType {
+    switch (type) {
+      case 'mapEntity': {
+        const newMapEntity = getMapEntityDefinition().getDefault();
+        if (options.location) {
+          newMapEntity.binding = options.location;
+        } else {
+          scenarioEditionLogger.error(
+            'Missing location in creation options, using default',
+            newMapEntity.binding
+          );
+        }
+        const fme = toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
+        this.assignNewTagName(fme);
+        return fme;
+      }
+      case 'geometry': {
+        if (options.drawType && options.drawnGeometry && options.location) {
+          const newGeometry = getMapObjectDefinition(options.drawType).getDefault();
+          newGeometry.geometry = options.drawnGeometry;
+          if (newGeometry.type === 'Point') {
+            const icon = locationEnumConfig[options.location]?.icon;
+            if (icon) {
+              newGeometry.icon = icon;
+            }
+          }
+          return toFlatMapObject(newGeometry, parentId);
+        } else {
+          scenarioEditionLogger.error(
+            'Incomplete options to create a new geometry, creating default point',
+            parentId,
+            options
+          );
+          return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
+        }
+      }
+    }
+  }
+
+  private assignNewTagName(newObject: FlatMapEntity): void {
+    // fetch the already existing siblings
+    const siblings = getChildren(newObject.parent, this.getFlatData());
+    const dfltName = getLocationTranslation(newObject.binding);
+    let candidate = dfltName;
+    let i = 2;
+    while (
+      Object.values(siblings).some(obj => obj.superType === 'mapEntity' && obj.tag === candidate)
+    ) {
+      candidate = dfltName + ' ' + i;
+      i++;
+    }
+    newObject.tag = candidate;
+  }
+
+  protected validateInternal(
+    value: MapEntityDescriptor
+  ): ValidationMessage<LocationValidationContext>[] {
+    return getMapEntityDefinition().validator(value, {
+      page: 'locations',
+      targetState: getInitialMapEntityUIState(),
+    });
+  }
+}

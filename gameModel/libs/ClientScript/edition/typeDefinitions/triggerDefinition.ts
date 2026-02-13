@@ -1,8 +1,34 @@
+// EVALUATION_PRIORITY 0
+
+import { Uid } from '../../game/common/interfaces';
 import { Trigger } from '../../game/common/triggers/trigger';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition } from './definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from './definition';
+import { triggerValidator } from './validation/triggerValidation';
+import { TriggerValidationContext } from './validation/validationContext';
 
-type TriggerDefinition = Definition<Trigger>;
+type TriggerDefinition = Definition<Trigger, TriggerValidationContext>;
+
+export type FlatTrigger = MapToFlatType<Trigger, 'trigger'>;
+
+export function toFlatTrigger(trigger: Trigger, parentId: Uid): FlatTrigger {
+  const { conditions: c, impacts: i, ...flatTrigger } = trigger;
+
+  return {
+    ...flatTrigger,
+    superType: 'trigger',
+    parent: parentId,
+  };
+}
+
+export function fromFlatTrigger(ftrigger: FlatTrigger): Trigger {
+  const { superType: s, parent: p, ...trigger } = ftrigger;
+  return {
+    ...trigger,
+    impacts: [],
+    conditions: [],
+  };
+}
 
 export function getTriggerDefinition(): TriggerDefinition {
   return {
@@ -13,16 +39,16 @@ export function getTriggerDefinition(): TriggerDefinition {
       index: 0,
       activableType: 'trigger',
       activeAtStart: true,
-      tag: 'change the world',
+      tag: 'New trigger',
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
-      repeatable: true,
+      deactivateItself: false,
       operator: 'AND',
       conditions: [],
       impacts: [],
     }),
-    validator: _t => ({ success: true, messages: [] }), // nothing to do, it cannot be misconfigured
+    validator: triggerValidator,
     view: {
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
@@ -33,7 +59,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       comment: ALL_EDITABLE,
       accessLevel: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
       mandatory: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
-      repeatable: ALL_EDITABLE,
+      deactivateItself: ALL_EDITABLE,
       operator: ALL_EDITABLE,
       conditions: ALL_EDITABLE,
       impacts: ALL_EDITABLE,

@@ -1,12 +1,14 @@
 
 /******* ACTIONS ELEMENTS *******/
 
-.actions-container{
+/*
+// Is not used
+.actions-container {
 	margin:0px;
 	padding: 0px;
-	/*ANIMATION TO BE DEFINED*/
+	//ANIMATION TO BE DEFINED
 	animation-duration: 2s ease-out;
-}
+}*/
 
 .action-container {
   height: auto;
@@ -27,14 +29,13 @@
   cursor: default;
 }
 
-
 .actionHeaderActive{
 	font-weight: var(--boldWeight);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
   cursor: default;
 }
 
-.actionHeader > div{
+.actionHeader > div {
 	padding: 0px;
 	margin: 0px;
 	align-items: center;
@@ -45,19 +46,57 @@
   text-transform: uppercase;
 }
 
-.actionInfo{
+.aDescriptionAction {
+  padding: 0 10px 10px 10px;
+}
+
+.actionInfo {
 	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
 	background-color: var(--grey_10);
-	padding: 0px 10px;
 	font-size: var(--S_text);
 }
 
-.actionInfo p{
+.actionInfo p {
 	margin: 5px 0px 0px 0px;
 	padding-bottom: 15px;
 	color: var(--grey_100);
 }
 
+/** Choice **/
+.choice-list {
+  gap: 10px;
+  margin: 0px 10px 15px 10px;
+}
+
+.choice-container {
+  padding: 10px;
+  background-color: var(--grey05);
+  border: 3px solid var(--grey05);
+  border-radius: var(--S_borderRadius);
+  transition: border .3s ease-in-out, .3s ease-in-out;
+}
+
+.choice-container:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 12px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.choice-container--selected {
+  border: 3px solid var(--primary_base);
+  transition: border .3s ease-in-out;
+}
+
+.choice-title {
+  font-weight: var(--boldWeight);
+}
+
+.choice-description {
+  margin-top: 10px;
+}
+
+.choice-description:empty {
+  display: none;
+}
 
 /** Play btn **/
 .playActionBtn > *{

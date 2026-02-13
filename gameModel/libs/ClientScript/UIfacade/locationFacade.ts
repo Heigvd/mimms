@@ -1,19 +1,23 @@
-import { FixedMapEntity } from '../game/common/events/defineMapObjectEvent';
-import { getAvailableMapLocations } from '../game/common/simulationState/locationState';
+import {
+  getAvailableMapActivables,
+  LOCATION_ENUM,
+} from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTranslation } from '../tools/translation';
 import { getSelectedActorLocation } from './actorFacade';
 import { ActorId } from '../game/common/baseTypes';
 import * as TaskFacade from './taskFacade';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { MapEntityActivable } from '../game/common/simulationState/activableState';
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 
 // used in page 66
 export function getActorTargetLocationChoices(): { label: string; value: string }[] {
   const actorLocation = getSelectedActorLocation();
 
-  const locations: FixedMapEntity[] = getAvailableMapLocations(getCurrentState(), 'Actors')
+  const locations: MapEntityActivable[] = getAvailableMapActivables(getCurrentState(), 'Actors')
     /* filter out the current location */
-    .filter((fixedEntity: FixedMapEntity) => fixedEntity.id != actorLocation);
+    .filter((mapActivable: MapEntityActivable) => mapActivable.binding != actorLocation);
 
   return getLocationChoicesData(locations);
 }
@@ -22,13 +26,14 @@ export function getActorTargetLocationChoices(): { label: string; value: string 
 export function getResourceSourceLocationChoices(): { label: string; value: string }[] {
   const currentActorId = getTypedInterfaceState().currentActorUid;
   if (currentActorId) {
-    const locations: FixedMapEntity[] = getAvailableMapLocations(
+    const locations: MapEntityActivable[] = getAvailableMapActivables(
       getCurrentState(),
       'Resources'
     ).filter(
       // Check that there is at least one task that can be selected
-      (mapEntity: FixedMapEntity) =>
-        TaskFacade.getResourceManagementSourceTaskChoices(currentActorId, mapEntity.id).length > 0
+      (mapActivable: MapEntityActivable) =>
+        TaskFacade.getResourceManagementSourceTaskChoices(currentActorId, mapActivable.binding)
+          .length > 0
     );
     return getLocationChoicesData(locations);
   } else {
@@ -41,18 +46,25 @@ export function getResourceSourceLocationChoices(): { label: string; value: stri
 export function getResourceTargetLocationChoices(
   actorId: ActorId
 ): { label: string; value: string }[] {
-  const locations = getAvailableMapLocations(getCurrentState(), 'Resources').filter(
-    (mapEntity: FixedMapEntity) =>
+  const locations = getAvailableMapActivables(getCurrentState(), 'Resources').filter(
+    (mapActivable: MapEntityActivable) =>
       // Check that there is at least one task that can be selected
-      TaskFacade.getResourceManagementTargetTaskChoices(actorId, mapEntity.id).length > 0
+      TaskFacade.getResourceManagementTargetTaskChoices(actorId, mapActivable.binding).length > 0
   );
   return getLocationChoicesData(locations);
 }
 
 function getLocationChoicesData(
-  mapLocations: FixedMapEntity[]
+  mapLocations: MapEntityActivable[]
 ): { label: string; value: string }[] {
-  return mapLocations.map((fixedEntity: FixedMapEntity) => {
-    return { label: getTranslation('mainSim-locations', fixedEntity.name), value: fixedEntity.id };
+  return mapLocations.map((mapActivable: MapEntityActivable) => {
+    return {
+      label: getLocationTranslation(mapActivable.binding),
+      value: mapActivable.binding,
+    };
   });
+}
+
+export function getLocationTranslation(binding: LOCATION_ENUM): string {
+  return getTranslation('mainSim-locations', locationEnumConfig[binding].name);
 }

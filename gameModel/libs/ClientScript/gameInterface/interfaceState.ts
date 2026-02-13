@@ -1,5 +1,11 @@
 import { Actor } from '../game/common/actors/actor';
-import { HospitalId, PatientId, PatientUnitId, TaskId } from '../game/common/baseTypes';
+import {
+  ActionTemplateUid,
+  HospitalId,
+  PatientId,
+  PatientUnitId,
+  TaskId,
+} from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { RadioType } from '../game/common/radio/communicationType';
@@ -26,7 +32,7 @@ export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | 
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
-  currentActionUid: number;
+  currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   situationUpdateDuration: number;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -36,7 +42,7 @@ export interface InterfaceState {
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
-  selectedMapObjectId: string;
+  selectedActionChoiceUid: string;
   selectedRadioChannel: RadioType;
   updatedChannelMessagesAt: number;
   radioMessageInput: Partial<Record<RadioType, string>>;
@@ -90,7 +96,7 @@ interface CasuMessage {
 export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
-    currentActionUid: 0,
+    currentActionUid: undefined,
     casuMessage: {
       messageType: '',
       major: '',
@@ -114,8 +120,7 @@ export function getInitialInterfaceState(): InterfaceState {
     timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     showNotificationsPanel: false,
-    selectedMapObjectId: '0',
-    // selectedMapObject: '',
+    selectedActionChoiceUid: '',
     selectedPanel: SelectedPanel.actions,
     selectedRadioChannel: RadioType.CASU,
     updatedChannelMessagesAt: 0,
@@ -222,7 +227,7 @@ export function setInterfaceState(update: Partial<InterfaceState>): void {
     for (const key in src) {
       const t = target[key];
       if (t && typeof t === 'object') {
-        updateSubStateRecursive(src[key], t, ++depth);
+        updateSubStateRecursive(src[key], t, depth + 1);
       } else {
         // either a primitive or target was null thus assigning src object is ok
         target[key] = src[key];

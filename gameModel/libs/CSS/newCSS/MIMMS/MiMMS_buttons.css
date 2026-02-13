@@ -60,14 +60,8 @@
 	color: var(--grey_0);
   background-color: var(--grey_50);
   border-color: var(--grey_50);
-	cursor: not-allowed;
-}
-
-.disabled.button-primaryColor:hover {
-  color: var(--grey40);
-	background-color: var(--grey_30);
-  border-color: var(--grey_30);
-  cursor: not-allowed;
+  box-shadow: none;
+	cursor: default;
 }
 
 /** secondary **/
@@ -91,13 +85,8 @@
 .disabled.button-secondaryColor {
   color: var(--grey_10);
 	background-color: var(--grey_20);
-	cursor: not-allowed;
-}
-
-.disabled.button-secondaryColor:hover {
-  color: var(--grey_40);
-	background-color: var(--grey_30);
-  cursor: not-allowed;
+  box-shadow: none;
+	cursor: default;
 }
 
 /** quaternary **/
@@ -154,12 +143,8 @@
   color: var(--grey_50);
   background-color:transparent;
   border-color: var(--grey_50);
-  cursor: not-allowed;
-}
-
-.disabled.rectangleButton:hover {
-  color: var(--grey_50);
-  background-color: var(--grey_10);
+  box-shadow: none;
+  /*cursor: default;*/
 }
 
 .selected.rectangleButton {
@@ -236,7 +221,7 @@
   padding: 20px;
   font-size: var(--S_text);
   color: var(--grey_100);
-  background-color: var(--yellow_base);
+  background-color: var(--notification_base);
   border-radius: var(--S_borderRadius);
   opacity: 0;
   visibility: hidden;

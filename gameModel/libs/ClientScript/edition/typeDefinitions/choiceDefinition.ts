@@ -1,8 +1,38 @@
-import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition } from '../typeDefinitions/definition';
+// EVALUATION_PRIORITY 0
 
-type ChoiceDefinition = Definition<ChoiceDescriptor>;
+import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
+import { Uid } from '../../game/common/interfaces';
+import { generateId } from '../../tools/helper';
+import { createOrUpdateTranslation } from '../../tools/translation';
+import {
+  ALL_EDITABLE,
+  Definition,
+  EXPERT_ONLY,
+  MapToFlatType,
+} from '../typeDefinitions/definition';
+import { choiceDescriptorValidator } from './validation/choiceValidation';
+import { ActionValidationContext } from './validation/validationContext';
+
+type ChoiceDefinition = Definition<ChoiceDescriptor, ActionValidationContext>;
+
+export type FlatChoice = MapToFlatType<ChoiceDescriptor, 'choice'>;
+
+export function toFlatChoice(choice: ChoiceDescriptor, parentId: Uid): FlatChoice {
+  const { effects: _ignore, ...fchoice } = choice;
+  return {
+    ...fchoice,
+    parent: parentId,
+    superType: 'choice',
+  };
+}
+
+export function fromFlatChoice(fchoice: FlatChoice): ChoiceDescriptor {
+  const { superType: _ignored, ...choice } = fchoice;
+  return {
+    ...choice,
+    effects: [],
+  };
+}
 
 export function getChoiceDefinition(): ChoiceDefinition {
   return {
@@ -13,31 +43,37 @@ export function getChoiceDefinition(): ChoiceDefinition {
       activableType: 'choice',
       activeAtStart: true,
       defaultEffect: '',
-      description: 'description',
+      description: createOrUpdateTranslation('', undefined),
       effects: [],
-      title: 'title',
+      title: createOrUpdateTranslation('', undefined),
       parent: 'no parent',
-      placeHolder: 'no placeholder', // should there be a default one ?
-      tag: 'define tag',
+      displayedMapEntity: '', // should there be a default one ?
+      tag: 'New choice',
+      repeats: 1,
+      durationDeltaSec: 0,
+      index: 0,
     }),
-    validator: _t => ({ success: true, messages: [] }), // TODO validation
+    validator: choiceDescriptorValidator,
     view: {
-      uid: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       type: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activableType: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
       activeAtStart: ALL_EDITABLE,
       defaultEffect: ALL_EDITABLE,
       description: ALL_EDITABLE,
-      effects: {
-        parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-        impacts: ALL_EDITABLE,
-        tag: ALL_EDITABLE,
-        uid: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
-      },
+      effects: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      //parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      //impacts: ALL_EDITABLE,
+      //tag: ALL_EDITABLE,
+      //uid: { basic: 'hidden', advanced: 'visible', expert: 'visible' },
+
       title: ALL_EDITABLE,
       parent: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      placeHolder: ALL_EDITABLE,
+      displayedMapEntity: ALL_EDITABLE,
       tag: ALL_EDITABLE,
+      repeats: ALL_EDITABLE,
+      durationDeltaSec: EXPERT_ONLY,
     },
   };
 }

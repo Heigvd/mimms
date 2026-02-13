@@ -15,7 +15,7 @@
 
   --grey-white: #ffffffff;
   --grey_0: #f6f7f9ff;
-  --grey05: #F0F1F3; 
+  --grey05: #F0F1F3;
   --grey_10: #e0e2e3ff;
   --grey_20: #cccfd0ff;
   --grey_30: #b2b6b8ff;
@@ -39,20 +39,40 @@
   --secondary_80: #2B254A;
   --secondary_90: #1C1831;
   --secondary_100: #110F1E;
-  
+
 /* color for hurt bodyParts*/
   --orange_100: #fee5be;
 
 /* yellows for notifications */
-  --yellow_10: #fee5be ;
-  --yellow_base: #FBB13C;
-  
+  /*--yellow_10: #fee5be ;*/
+  --notification_base: #FBB13C;
+
+/* colors for validations */
+  --red_10: #F8ECEB;
+  --red_base: #B73D3C; /* same red as in drill pretri */
+  --yellow_10: #FDF7E6;
+  --yellow_base: #E9B406; /* same yellow as in drill pretri */
+  --green_10: #EEF4F1;
+  --green_base: #539265; /* same green as mcs theme & selected view in map tab */
+
 /*shadows on buttons */
-  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; 
+  --buttonInsetShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   --buttonShadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
 /* used for modals and fixedMapEntities */
-  --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --overlaysShadows: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.theme-selected {
+  --primary_10: #d0e9f3ff;
+  --primary_30: #8ac8e0ff;
+}
+
+.theme-unselected {
+  --primary_10: #F0F1F3;
+  --primary_30: #b2b6b8ff;
+  --primary_base: #656e72ff;
 }
 
 /* per actor interface color variables */
@@ -157,6 +177,10 @@
 /*** Unclassables ***/
 .unauthorizedAction{
   cursor: not-allowed;
+}
+
+.interactive:hover {
+  cursor: pointer;
 }
 
 .checkbox .iconOnly {

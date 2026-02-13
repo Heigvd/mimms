@@ -125,7 +125,7 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.Uid);",
+                    "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.uid);",
                     "language" : "typescript"
                   }
                 }, {
@@ -133,7 +133,7 @@
                   "className" : "actionHeaderDisabled",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.Uid);",
+                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.uid);",
                     "language" : "typescript"
                   }
                 } ],
@@ -162,7 +162,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "layoutClassName" : "noPadding aDescriptionAction",
+                        "layoutClassName" : "aDescriptionAction",
                         "layoutStyle" : { },
                         "style" : { },
                         "text" : {
@@ -210,25 +210,25 @@
                       "className" : "abort",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.Uid);",
+                        "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid);",
                         "language" : "typescript"
                       }
                     } ],
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.Uid);",
+                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.uid);",
                       "language" : "typescript"
                     },
                     "icon" : "",
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(isPlannedAction(Context.action.Uid)){\n\treturn getTranslation('mainSim-interface', 'cancel')\n}\ngetTranslation('mainSim-interface', 'send')",
+                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(isPlannedAction(Context.action.uid)){\n\treturn getTranslation('mainSim-interface', 'cancel')\n}\ngetTranslation('mainSim-interface', 'send')",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : {
                       "align-self" : "flex-end",
-                      "padding" : "15px 0px 10px 0px"
+                      "padding" : "0px 10px 10px 0px"
                     },
                     "localScriptEval" : {
                       "script" : {
@@ -244,7 +244,7 @@
                 "className" : "actionInfo",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\n  !isActiveAction(Context.action.Uid);",
+                  "content" : "import { isActiveAction } from \"./gameInterface/main\";\n  !isActiveAction(Context.action.uid);",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -276,7 +276,7 @@
           "language" : "TypeScript"
         },
         "id" : "",
-        "itemKey" : "Uid",
+        "itemKey" : "uid",
         "layout" : {
           "flexDirection" : "column"
         },

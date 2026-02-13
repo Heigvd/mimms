@@ -1,10 +1,12 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ActorId } from '../baseTypes';
-import { getMapLocationById, LOCATION_ENUM } from '../simulationState/locationState';
+import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getRoleLongTranslation, getRoleShortTranslation } from './actorLogic';
 
-export type InterventionRole = 'ACS' | 'MCS' | 'AL' | 'EVASAN' | 'LEADPMA' | 'CASU';
+export const InterventionRoleTypeArray = ['AL', 'ACS', 'MCS', 'LEADPMA', 'EVASAN', 'CASU'] as const;
+
+export type InterventionRole = typeof InterventionRoleTypeArray[number];
 
 /**
  * Associates roles to their respective symbolic locations
@@ -43,6 +45,10 @@ export function sortByHierarchyLevel(actors: Readonly<Actor[]>) {
   return [...actors]
     .sort((a, b) => hierarchyLevels[a.Role] - hierarchyLevels[b.Role])
     .filter(actor => actor.Role != 'CASU');
+}
+
+export function isPlayedByARealPlayer(role: InterventionRole): boolean {
+  return role !== 'CASU';
 }
 
 const ACTOR_SEED_ID: ActorId = 1000;
@@ -93,9 +99,9 @@ export class Actor {
    * @param state
    */
   public getComputedSymbolicLocation(state: Readonly<MainSimulationState>): LOCATION_ENUM {
-    if (getMapLocationById(state, this.symbolicLocation)) {
+    if (getActiveMapEntityFromBinding(state, this.symbolicLocation)) {
       return this.symbolicLocation;
-    } else if (getMapLocationById(state, LOCATION_ENUM.PC)) {
+    } else if (getActiveMapEntityFromBinding(state, LOCATION_ENUM.PC)) {
       return LOCATION_ENUM.PC;
     }
 

@@ -1,5 +1,6 @@
+import { ActorId } from '../../baseTypes';
 import { Uid } from '../../interfaces';
-import { LocalEventBase } from '../../localEvents/localEventBase';
+import { LocalEventBase, SelectChoiceEffectLocalEvent } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
 
@@ -12,8 +13,16 @@ export interface ChoiceEffectSelectionImpact extends ImpactBase {
 export function convertChoiceEffectSelectionImpact(
   state: Readonly<MainSimulationState>,
   impact: ChoiceEffectSelectionImpact,
-  parentTriggerId: Uid
+  sourceId: Uid | ActorId
 ): LocalEventBase[] {
-  // TODO get the activable and change the selected choice
-  return [];
+  const time = state.getSimTime() + impact.delaySeconds;
+  return [
+    new SelectChoiceEffectLocalEvent({
+      parentEventId: state.getLastEventId(),
+      sourceId: sourceId,
+      simTimeStamp: time,
+      target: impact.target,
+      effect: impact.targetEffect,
+    }),
+  ];
 }

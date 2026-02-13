@@ -145,3 +145,57 @@ export function getWaterStyle(feature: any, _resolution: number): LayerStyleObje
   style.fill = { type: 'FillStyle', color: 'rgba(80,150,200,0.5)' };
   return style;
 }
+
+export function getBuildingStyle(_feature: any, _resolution: number): LayerStyleObject {
+  let buildingStyle: LayerStyleObject = {
+    fill: {
+      type: 'FillStyle',
+      color: '#C5C8C9',
+    },
+    stroke: {
+      type: 'StrokeStyle',
+      color: '#656E72',
+      width: 1,
+      lineCap: 'round',
+      lineJoin: 'round',
+      miterLimit: 10,
+    },
+    text: {
+      type: 'TextStyle',
+      scale: 1.6,
+      fill: {
+        type: 'FillStyle',
+        color: 'white',
+      },
+    },
+  };
+
+  return buildingStyle;
+}
+
+export function getViewSelectionStyle(feature: any): LayerStyleObject {
+  const color = '#539265';
+  const props = feature.getProperties();
+
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: color,
+    width: 2,
+    lineJoin: 'round',
+  };
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: color + '25', // alpha
+  };
+  const text: TextStyleObject = {
+    type: 'TextStyle',
+    text: props.name,
+    textAlign: 'center',
+    fill: {
+      type: 'FillStyle',
+      color: color,
+    },
+    font: 'bold 20px sans-serif',
+  };
+  return { fill, stroke, text };
+}

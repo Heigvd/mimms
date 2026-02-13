@@ -5,11 +5,17 @@ import {
 import { entries, keys } from '../../../tools/helper';
 import { activableLogger, mainSimLogger, resourceLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
+import {
+  getCachedHospitalsByProximity,
+  getCachedPatientUnitById,
+  getCachedPatientUnitIdsSorted,
+} from '../../loaders/hospitalLoader';
 import { ActionBase, OnTheRoadAction } from '../actions/actionBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
+  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   PatientUnitId,
@@ -18,24 +24,18 @@ import {
   SimDuration,
   SimTime,
   TaskId,
-  TemplateId,
   TranslationKey,
 } from '../baseTypes';
 import { FailedRessourceArrivalDelay, TimeSliceDuration } from '../constants';
-import {
-  getHospitalsByProximity,
-  getPatientUnitById,
-  getPatientUnitIdsSorted,
-} from '../evacuation/hospitalController';
 import {
   CasuMessagePayload,
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../events/casuMessageEvent';
-import { BuildingStatus, FixedMapEntity } from '../events/defineMapObjectEvent';
 import { GameOptions } from '../gameOptions';
 import { ActivationOperator } from '../impacts/implementation/activationImpact';
 import { Uid } from '../interfaces';
+import { BuildStatus } from '../mapEntities/mapEntityDescriptor';
 import { computeNewPatientsState } from '../patients/handleState';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
@@ -46,7 +46,7 @@ import { ResourceContainerType } from '../resources/resourceContainer';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
 import { ResourceType } from '../resources/resourceType';
-import { Activable } from '../simulationState/activableState';
+import { Activable, ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import { updateHospitalProximityRequest } from '../simulationState/hospitalState';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -63,8 +63,18 @@ import { getLocalEventManager } from './localEventManager';
 export interface LocalEvent {
   type: string;
   parentEventId: GlobalEventId; // The Global Event that causes this local event
-  parentTriggerId?: Uid; // The Trigger that causes this local event, (most of the time, there is none)
-  simTimeStamp: SimTime; // The time at which it happens
+  /**
+   * The agent is of the object that triggered this event
+   * Can be either a trigger id or an actor id
+   */
+  sourceId?: Uid;
+  /**
+   * SimTime at which this happens in seconds from ambuance arrival
+   */
+  simTimeStamp: SimTime;
+  /**
+   *
+   */
   priority?: number; // The smaller priority is the first to be processed
 }
 
@@ -78,14 +88,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
-  readonly parentTriggerId: Uid | undefined;
+  readonly sourceId: Uid;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
-    this.parentTriggerId = props.parentTriggerId ?? undefined;
+    this.sourceId = props.sourceId || 'no source provided';
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -151,7 +161,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
     readonly props: {
       readonly parentEventId: GlobalEventId;
       readonly simTimeStamp: SimTime;
-      readonly templateId: TemplateId;
+      readonly templateId: ActionTemplateUid;
       readonly actorUid: ActorId;
       readonly planTime: SimTime;
     }
@@ -293,72 +303,6 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// map items
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/////////// TODO in own file
-export class AddFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'AddFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.push(this.props.fixedMapEntity);
-  }
-}
-
-export class RemoveFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'RemoveFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations.splice(
-      so.mapLocations.findIndex(
-        f =>
-          f.id === this.props.fixedMapEntity.id && f.ownerId === this.props.fixedMapEntity.ownerId
-      ),
-      1
-    );
-  }
-}
-
-export class CompleteBuildingFixedEntityLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly simTimeStamp: SimTime;
-      readonly fixedMapEntity: FixedMapEntity;
-    }
-  ) {
-    super({ ...props, type: 'CompleteBuildingFixedEntityLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    so.mapLocations
-      .filter(mapEntity => mapEntity.id === this.props.fixedMapEntity.id)
-      .forEach(mapEntity => (mapEntity.buildingStatus = BuildingStatus.ready));
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
 // actors
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -394,7 +338,7 @@ export class AddActorLocalEvent extends LocalEventBase {
         'on-the-road',
         0,
         actor.Uid,
-        0
+        '' // TODO SAM add the template id (from UniqueActionTemplates list -> InternalActionTemplates)
       );
       state.getInternalStateObject().actions.push(travelAction);
     }
@@ -415,6 +359,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     const so = state.getInternalStateObject();
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Actors', this.props.location)) {
       mainSimLogger.warn('The actor could not be moved as the target location is invalid');
     } else {
@@ -437,7 +382,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -479,7 +424,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -498,7 +443,7 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -817,6 +762,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
+    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
@@ -1052,8 +998,8 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 
   private formatHospitalResponse(message: HospitalRequestPayload): string {
-    const hospitals = Object.values(getHospitalsByProximity(message.proximity));
-    const units: PatientUnitId[] = getPatientUnitIdsSorted();
+    const hospitals = Object.values(getCachedHospitalsByProximity(message.proximity));
+    const units: PatientUnitId[] = getCachedPatientUnitIdsSorted();
 
     let casuMessage = '';
     let qty = 0;
@@ -1063,7 +1009,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
       for (const unitId of units) {
         qty = hospital.units[unitId] ?? 0;
         if (qty > 0) {
-          casuMessage += `${qty} ${I18n.translate(getPatientUnitById(unitId).name)} \n`;
+          casuMessage += `${qty} ${I18n.translate(getCachedPatientUnitById(unitId).name)} \n`;
         }
       }
 
@@ -1150,13 +1096,13 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly parentTriggerId?: Uid;
+      readonly sourceId?: Uid;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly option: ActivationOperator;
     }
   ) {
-    super({ ...props, type: 'PlanActionLocalEvent' });
+    super({ ...props, type: 'ChangeActivableStatusLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
@@ -1172,6 +1118,90 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
       }
     } else {
       activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
+export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLocalEvent {
+  constructor(
+    readonly extensionProps: {
+      readonly parentEventId: GlobalEventId;
+      readonly sourceId?: Uid;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly option: ActivationOperator;
+    },
+    readonly buildStatus: BuildStatus
+  ) {
+    super({ ...extensionProps });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined && target.activableType === 'mapEntity') {
+      target.buildStatus = this.buildStatus;
+      if (this.props.option === 'activate') {
+        target.active = true;
+      } else if (this.props.option === 'deactivate') {
+        target.active = false;
+      } else {
+        activableLogger.error('Unhandled option for changing an activable status', this.props);
+      }
+    } else {
+      activableLogger.error('Could not find activable', this.props);
+    }
+  }
+}
+
+/**
+ * Change the number of times that a trigger / action template / choice what run
+ */
+export class IncrementCountLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly sourceId: Uid | ActorId;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+    }
+  ) {
+    const { sourceId, ...otherProps } = props;
+    super({ ...otherProps, sourceId: String(sourceId), type: 'IncrementCountLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const so = state.getInternalStateObject();
+    const target: Activable | undefined = so.activables[this.props.target];
+    if (target != undefined && target.activableType === 'trigger') {
+      target.count += 1;
+    }
+  }
+}
+
+export class SelectChoiceEffectLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly sourceId: Uid | ActorId;
+      readonly simTimeStamp: SimTime;
+      readonly target: Uid;
+      readonly effect: Uid;
+    }
+  ) {
+    const { sourceId, ...otherProps } = props;
+    super({ ...otherProps, sourceId: String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
+  }
+
+  override applyStateUpdate(state: MainSimulationState): void {
+    const targetActivable: ChoiceActivable | undefined = getChoiceActivable(
+      state,
+      this.props.target
+    );
+    if (targetActivable) {
+      targetActivable.selectedEffect = this.props.effect;
+    } else {
+      activableLogger.error('Could not find activable', this.props.target);
     }
   }
 }
@@ -1203,3 +1233,28 @@ export class GameOptionsUpdateLocalEvent extends LocalEventBase {
 //
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
+
+/**
+ * This local event is to be emitted and evaluated right after the creation of an evaluation context
+ */
+export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
+  constructor() {
+    super({
+      type: 'T0TriggerEvaluationLocalEvent',
+      parentEventId: 0,
+      simTimeStamp: 0,
+      sourceId: 'T0 initial trigger evaluation',
+    });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    if (state.getLastEventId() === 0) {
+      getLocalEventManager().queueLocalEvents(evaluateAllTriggers(state));
+    } else {
+      mainSimLogger.warn(
+        'Ignoring the T0 trigger evaluation event. It is only applied on the initial state',
+        state.getLastEventId()
+      );
+    }
+  }
+}

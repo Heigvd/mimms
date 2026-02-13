@@ -4,8 +4,9 @@ import { MeasureMetric } from '../../../HUMAn/registry/acts';
 import { Location } from '../../../map/locationTypes';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
+import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
-import { ActionTemplateId, ActorId, SimDuration, SimTime, TaskId, TemplateId } from '../baseTypes';
+import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId } from '../baseTypes';
 import { GameOptions } from '../gameOptions';
 import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
@@ -163,12 +164,12 @@ export interface DashboardNotificationMessageEvent extends BaseEvent, TimedPaylo
 
 export interface ActionCreationEvent extends BaseEvent, TimedPayload {
   type: 'ActionCreationEvent';
-  templateUid: ActionTemplateId;
+  templateUid: ActionTemplateUid;
 }
 
 export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
   type: 'ActionCancellationEvent';
-  templateId: TemplateId;
+  templateId: ActionTemplateUid;
   actorId: ActorId;
   timeStamp: SimTime;
 }
@@ -180,6 +181,11 @@ export interface GameOptionsEvent extends BaseEvent, TimedPayload {
 
 export interface StandardActionEvent extends ActionCreationEvent {
   durationSec: SimDuration;
+}
+
+export interface ChoiceEvent extends ActionCreationEvent {
+  durationSec: SimDuration;
+  choice: ChoiceDescriptor;
 }
 
 export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
