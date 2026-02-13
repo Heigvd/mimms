@@ -14,13 +14,7 @@ import { ActionTemplateDataController, TriggerDataController } from '../controll
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import { getParentType } from '../UIfacade/genericConfigFacade';
 import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
-import {
-  AllChoiceOptionType,
-  allChoicesOption,
-  getChoicesOptions,
-  getDefaultEffect,
-  getMatchingActionTemplateUid,
-} from './dataFetcher';
+import { getChoicesOptions, getDefaultEffect, getMatchingActionTemplateUid } from './dataFetcher';
 import { getCurrentPage } from './mainMenuStateFacade';
 import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
 
@@ -230,14 +224,29 @@ export function getImpactEffectUid(impact: FlatImpact): Uid | undefined {
 
 export function getEffectiveImpactChoicesOptions(
   impact: FlatImpact
-): ({ label: string; value: ChoiceDescriptor['uid'] } | AllChoiceOptionType)[] {
+): { label: string; value: ChoiceDescriptor['uid'] } /*| AllChoiceOptionType*/[] {
   const actionTemplateUid: Uid | undefined = getImpactActionUid(impact);
 
   if (actionTemplateUid) {
-    return [allChoicesOption, ...getChoicesOptions(actionTemplateUid)];
+    return [/*allChoicesOption, */ ...getChoicesOptions(actionTemplateUid)];
   }
 
-  return [allChoicesOption];
+  return [
+    /*allChoicesOption*/
+  ];
+}
+
+export function isActionSelectionMode(impact: FlatImpact): boolean {
+  return (
+    impact.type === 'activation' &&
+    impact.activableType === 'actionTemplate' &&
+    getImpactActionUid(impact) != undefined &&
+    getImpactActionUid(impact)!.length > 0
+  );
+}
+
+export function isChoiceSelectionMode(impact: FlatImpact): boolean {
+  return impact.type === 'activation' && impact.activableType === 'choice';
 }
 
 export function isEffectSelectionMode(impact: FlatImpact): boolean {
@@ -257,9 +266,14 @@ export function canEnterShowOnMap(impact: FlatImpact): boolean {
 
 export function setActivationImpactOption(
   impact: FlatImpact,
+  wantedActivableType: 'actionTemplate' | 'choice',
   newOption: ActivationImpact['option']
 ): void {
-  if (impact.type === 'activation' && impact.option === newOption) {
+  if (
+    impact.type === 'activation' &&
+    impact.activableType === wantedActivableType &&
+    impact.option === newOption
+  ) {
     // no change => nothing to do
     return;
   }
@@ -274,11 +288,28 @@ export function setActivationImpactOption(
 
   // cannot happen ... but you know ... make it compile ...
   if (newImpact.type === 'activation') {
+    if (
+      wantedActivableType === 'actionTemplate' &&
+      newImpact.activableType !== wantedActivableType
+    ) {
+      // make it be an action template activation
+      newImpact.activableType = 'actionTemplate';
+      newImpact.target = getImpactActionUid(impact) ?? '';
+    }
+
+    newImpact.activableType = wantedActivableType;
     newImpact.option = newOption;
 
     getController().updateItem(newImpact);
   } else {
     scenarioEditionLogger.error('unexpected impact type');
+  }
+}
+
+export function setChoiceSelectionType(impact: FlatImpact): void {
+  const choices = getEffectiveImpactChoicesOptions(impact);
+  if (choices.length > 0) {
+    updateImpactChoiceRef(impact, choices[0]!.value);
   }
 }
 
@@ -352,6 +383,10 @@ export function updateImpactActionRef(impact: FlatImpact, actionRef: Uid): void 
 
   // cannot happen ... but you know ... make it compile ...
   if (newImpact.type === 'activation') {
+    // init the option to activate by default
+    if (impact.type !== 'activation' || impact.activableType != 'actionTemplate') {
+      newImpact.option = 'activate';
+    }
     // make it be an action template activation
     newImpact.activableType = 'actionTemplate';
 
@@ -387,6 +422,10 @@ export function updateImpactChoiceRef(
     const newImpact: FlatImpact = { ...impact };
 
     if (newImpact.type === 'activation') {
+      // init the option to activate by default
+      if (impact.type !== 'activation' || impact.activableType != 'choice') {
+        newImpact.option = 'activate';
+      }
       // make it be a choice activation
       newImpact.activableType = 'choice';
       newImpact.target = newChoiceRef;

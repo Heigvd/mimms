@@ -347,12 +347,124 @@
               "type" : "Select input"
             }, {
               "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "boolean-button",
+                        "conditionnalClassNames" : [ {
+                          "applyOn" : "Inside",
+                          "className" : "boolean-button--selected",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { isActionSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\nContext.item.option === Context.option.value && isActionSelectionMode(Context.item);",
+                            "language" : "typescript"
+                          }
+                        }, {
+                          "applyOn" : "Inside",
+                          "className" : "boolean-button-left",
+                          "condition" : {
+                            "@class" : "Script",
+                            "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
+                            "language" : "typescript"
+                          }
+                        } ],
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { canEnterEffectSelectionMode, isActionSelectionMode, isChoiceSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!isActionSelectionMode(Context.item) && !isChoiceSelectionMode(Context.item) && !canEnterEffectSelectionMode(Context.item);",
+                          "language" : "typescript"
+                        },
+                        "label" : {
+                          "@class" : "Script",
+                          "content" : "Context.option.label;",
+                          "language" : "TypeScript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "localScriptEval" : {
+                          "script" : {
+                            "@class" : "ClientScript",
+                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, 'actionTemplate', Context.option.value);",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Button"
+                    } ],
+                    "exposeAs" : "option",
+                    "getItemsFn" : {
+                      "@class" : "Script",
+                      "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
+                      "language" : "TypeScript"
+                    },
+                    "itemKey" : "value",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "option",
+                    "style" : { }
+                  },
+                  "type" : "For each"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { isChoiceSelectionMode, isEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\nisChoiceSelectionMode(Context.item) || isEffectSelectionMode(Context.item);",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterEffectSelectionMode, isActionSelectionMode, isChoiceSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!isActionSelectionMode(Context.item) && !isChoiceSelectionMode(Context.item) && !canEnterEffectSelectionMode(Context.item);",
+                      "language" : "typescript"
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Impact choice</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { setChoiceSelectionType } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetChoiceSelectionType(Context.item);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "impact choice",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "options + impact choice",
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "rowGap" : "5px"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
                 "choices" : {
                   "@class" : "Script",
                   "content" : "import { getEffectiveImpactChoicesOptions } from \"./edition/UIfacade/impactConfigFacade\";\n  getEffectiveImpactChoicesOptions(Context.item);",
                   "language" : "typescript"
                 },
                 "className" : "scenarist-dropdown",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { canEnterEffectSelectionMode, isActionSelectionMode, isChoiceSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n(isActionSelectionMode(Context.item) && !isChoiceSelectionMode(Context.item)) || !canEnterEffectSelectionMode(Context.item);",
+                  "language" : "typescript"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "choice",
@@ -393,7 +505,7 @@
                           "className" : "boolean-button--selected",
                           "condition" : {
                             "@class" : "Script",
-                            "content" : "Context.item.option === Context.option.value;",
+                            "content" : "import { isChoiceSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\nContext.item.option === Context.option.value && isChoiceSelectionMode(Context.item);",
                             "language" : "typescript"
                           }
                         }, {
@@ -405,6 +517,11 @@
                             "language" : "typescript"
                           }
                         } ],
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { canEnterEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterEffectSelectionMode(Context.item);",
+                          "language" : "typescript"
+                        },
                         "label" : {
                           "@class" : "Script",
                           "content" : "Context.option.label;",
@@ -415,7 +532,7 @@
                         "localScriptEval" : {
                           "script" : {
                             "@class" : "ClientScript",
-                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, Context.option.value);",
+                            "content" : "import { setActivationImpactOption } from \"./edition/UIfacade/impactConfigFacade\";\n\nsetActivationImpactOption(Context.item, 'choice', Context.option.value);",
                             "language" : "TypeScript"
                           }
                         },
@@ -473,10 +590,15 @@
                   },
                   "type" : "Button"
                 } ],
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isChoiceSelectionMode, isEffectSelectionMode } from \"./edition/UIfacade/impactConfigFacade\";\n!isChoiceSelectionMode(Context.item) && !isEffectSelectionMode(Context.item);",
+                  "language" : "typescript"
+                },
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "options + select effect",
+                "name" : "options + set effect",
                 "style" : {
                   "flexWrap" : "wrap",
                   "rowGap" : "5px"
