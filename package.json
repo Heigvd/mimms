@@ -12,9 +12,7 @@
     "lint": "eslint 'gameModel' --ext '.ts'",
     "format": "prettier --write gameModel/**/*.[tj]s",
     "checkFormat": "prettier --check 'gameModel/**/*.[tj]s'",
-    "check-imports": "node checkImports/checkImports.js",
-    "check-imports:verbose": "node checkImports/checkImports.js --verbose",
-    "check-imports:report": "node checkImports/checkImports.js --report --output import-validation-report.md"
+    "check-page-scripts": "node checkImports/checkPageScripts.js"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.174",
