@@ -7613,7 +7613,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-558",
+  "name" : "MIM-608",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
