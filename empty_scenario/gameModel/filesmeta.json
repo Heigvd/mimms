@@ -3,360 +3,360 @@
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/MIMMS_logo.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "PROTECTED"
   },
   "/maps/Avenches/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/Avenches/bbox.data" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/Avenches/buildings.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/Avenches/rails.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/Avenches/roads.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/Avenches/water.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/bbox.data" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/buildings.geojson" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/rails.geojson" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/roads.geojson" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-center/water.geojson" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/bbox.data" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/buildings.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/rails.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/roads.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA/water.geojson" : {
     "description" : "",
     "mimeType" : "application/geo+json",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/mapIcons/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/Nest.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/PC.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/PMA.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/ambulance-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/arrow.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/empty.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/mainAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/pcFront.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/mask _mimms.webp" : {
     "description" : "",
     "mimeType" : "image/webp",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/mask_drill.webp" : {
     "description" : "",
     "mimeType" : "image/webp",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/HS_conscious_highPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/HS_conscious_horriblePain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/HS_conscious_lowPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/HS_conscious_mediumPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/HS_conscious_noPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/alert_highPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/alert_horriblePain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/alert_lowPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/alert_mediumPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/alert_noPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/confused_highPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/confused_horriblePain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/confused_lowPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/confused_mediumPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/confused_noPain.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/pain/pain_svg/unconscious_dead.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/scales/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/scales/colorScale_EN.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/scales/colorScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/scales/painsScale_EN.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/patient/scales/painsScale_FR.png" : {
     "description" : "",
     "mimeType" : "image/png",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/texte_drill_pretri_droite_inverse.webp" : {
     "description" : "",
     "mimeType" : "image/webp",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/texte_mimms.webp" : {
     "description" : "",
     "mimeType" : "image/webp",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/walkie-talkie-solid.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }
 }
