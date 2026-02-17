@@ -2,7 +2,7 @@ Roles.setRoles(
   {
     MIMMS: {
       id: 'MIMMS',
-      availableTabs: ['Patient Generation'],
+      availableTabs: ['MainSim Tester', 'Menu', 'Game Setup', 'Player Main Page'],
       label: {
         EN: 'MIMMS',
         FR: 'MIMMS',

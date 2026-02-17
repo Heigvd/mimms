@@ -26,7 +26,7 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n(getValidationErrors().length < 1 && getValidationWarnings().length > 1) || (getValidationErrors().length < 1 || getValidationWarnings().length < 1);",
+                          "content" : "import { getValidationErrors } from \"./edition/UIfacade/validationFacade\";\n  getValidationErrors().length === 0;",
                           "language" : "typescript"
                         },
                         "icon" : "sad-cry",
@@ -40,7 +40,7 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length > 1 || (getValidationErrors().length < 1 && getValidationWarnings().length < 1);",
+                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n  getValidationErrors().length > 0 || getValidationWarnings().length === 0;",
                           "language" : "typescript"
                         },
                         "icon" : "exclamation-triangle",
@@ -54,7 +54,7 @@
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length > 0 || (getValidationErrors().length < 1 && getValidationWarnings().length > 1);",
+                          "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\n  getValidationErrors().length > 0 || getValidationWarnings().length > 0;",
                           "language" : "typescript"
                         },
                         "icon" : "check-circle",
@@ -100,7 +100,7 @@
                       "className" : "warning-validation-summary",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length < 1 && getValidationWarnings().length > 1;",
+                        "content" : "import { getValidationErrors, getValidationWarnings } from \"./edition/UIfacade/validationFacade\";\ngetValidationErrors().length === 0 && getValidationWarnings().length > 0;",
                         "language" : "typescript"
                       }
                     } ],
