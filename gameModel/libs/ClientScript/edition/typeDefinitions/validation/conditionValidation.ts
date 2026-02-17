@@ -1,4 +1,4 @@
-import { ANY_CHOICE } from '../../../game/common/constants';
+import { ANY_CHOICE, OneMinuteDuration } from '../../../game/common/constants';
 import { ActionCondition } from '../../../game/common/triggers/implementation/actionCondition';
 import {
   MapEntityCondition,
@@ -22,9 +22,28 @@ export function emptyConditionValidator(
 }
 
 export function timeConditionValidator(
-  _condition: TimeCondition,
-  _ctx: TriggerValidationContext
+  condition: TimeCondition,
+  ctx: TriggerValidationContext
 ): TriggerValidationMessage[] {
+  const result: TriggerValidationMessage[] = [];
+  const operator = condition.operator;
+  if(condition.zeroTimeRef === 'incident' && (operator === '<' || operator === '=')){
+    const arrivalDelay = Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self);
+    if(arrivalDelay * OneMinuteDuration > condition.timeSeconds){
+
+      const extendedCtx = Helpers.cloneDeep(ctx);
+      extendedCtx.targetState.selected.condition = condition.uid;
+      const triggerUid = ctx.targetState.selected.trigger || '';
+      const triggerName = getTriggerController().getItem<FlatTrigger>(triggerUid, 'trigger')?.tag || 'Unamed trigger';
+      result.push({
+        id: 'time-before-start-condition-' + condition.uid,
+        level: 'WARNING',
+        title: 'Condition with invalid time',
+        description: `Condition of trigger "${triggerName}" has a time condition ${condition.operator} ${condition.timeSeconds / 60} that happens earlier than simulation start.<br/>This condition will never trigger.`,
+        validationContext: extendedCtx,
+      });
+    }
+  }
   return [];
 }
 
