@@ -27,24 +27,29 @@ export function timeConditionValidator(
 ): TriggerValidationMessage[] {
   const result: TriggerValidationMessage[] = [];
   const operator = condition.operator;
-  if(condition.zeroTimeRef === 'incident' && (operator === '<' || operator === '=')){
+  if (condition.zeroTimeRef === 'incident' && (operator === '<' || operator === '=')) {
     const arrivalDelay = Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self);
-    if(arrivalDelay * OneMinuteDuration > condition.timeSeconds){
 
+    if (arrivalDelay * OneMinuteDuration > condition.timeSeconds) {
       const extendedCtx = Helpers.cloneDeep(ctx);
       extendedCtx.targetState.selected.condition = condition.uid;
       const triggerUid = ctx.targetState.selected.trigger || '';
-      const triggerName = getTriggerController().getItem<FlatTrigger>(triggerUid, 'trigger')?.tag || 'Unamed trigger';
+      const triggerName =
+        getTriggerController().getItem<FlatTrigger>(triggerUid, 'trigger')?.tag || 'Unamed trigger';
       result.push({
         id: 'time-before-start-condition-' + condition.uid,
         level: 'WARNING',
         title: 'Condition with invalid time',
-        description: `Condition of trigger "${triggerName}" has a time condition ${condition.operator} ${condition.timeSeconds / 60} that happens earlier than simulation start.<br/>This condition will never trigger.`,
+        description: `Condition of trigger "${triggerName}" has a time condition (${
+          condition.operator
+        } ${
+          condition.timeSeconds / 60
+        } min after incident) that happens earlier than simulation start.<br/>This condition will never trigger.`,
         validationContext: extendedCtx,
       });
     }
   }
-  return [];
+  return result;
 }
 
 export function actionConditionValidator(

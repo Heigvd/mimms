@@ -16,8 +16,9 @@ export function evaluateTimeCondition(
 ): boolean {
   const t = condition.timeSeconds;
   let simTime = state.getSimTime();
-  if(condition.zeroTimeRef === 'incident'){
-    simTime += Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self) * OneMinuteDuration;
+  if (condition.zeroTimeRef === 'incident') {
+    simTime +=
+      Variable.find(gameModel, 'patients-elapsed-minutes').getValue(self) * OneMinuteDuration;
   }
   triggerLogger.debug('Time condition', simTime, condition.operator, t);
 

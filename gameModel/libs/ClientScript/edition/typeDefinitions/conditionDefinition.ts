@@ -77,7 +77,7 @@ export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidati
       type: 'time',
       operator: '=',
       timeSeconds: 0,
-      zeroTimeRef: 'arrival'
+      zeroTimeRef: 'arrival',
     }),
     validator: timeConditionValidator,
     view: {
@@ -87,7 +87,7 @@ export function getTimeConditionDef(): Definition<TimeCondition, TriggerValidati
       operator: ALL_EDITABLE,
       timeSeconds: ALL_EDITABLE,
       zeroTimeRef: ALL_EDITABLE,
-      invert: {basic: 'hidden', advanced: 'editable', expert: 'editable'}
+      invert: { basic: 'hidden', advanced: 'editable', expert: 'editable' },
     },
   };
 }
