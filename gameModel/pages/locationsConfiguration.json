@@ -430,9 +430,10 @@
                           "content" : "import { canUndo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canUndo();",
                           "language" : "typescript"
                         },
+                        "icon" : "undo",
                         "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Undo</p>\"",
+                          "content" : "\"\"",
                           "language" : "TypeScript"
                         },
                         "layoutClassName" : "noPadding",
@@ -456,9 +457,10 @@
                           "content" : "import { canRedo } from \"./edition/UIfacade/genericConfigFacade\";\n  !canRedo();",
                           "language" : "typescript"
                         },
+                        "icon" : "redo",
                         "label" : {
                           "@class" : "Script",
-                          "content" : "\"<p>Redo</p>\"",
+                          "content" : "\"\"",
                           "language" : "TypeScript"
                         },
                         "layoutClassName" : "noPadding",
@@ -496,7 +498,7 @@
                       },
                       "type" : "Button"
                     } ],
-                    "className" : "location-modal-gap",
+                    "className" : "location-modal-gap location__undo-redo",
                     "layout" : { },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },

@@ -162,55 +162,28 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "children" : [ {
-                      "props" : {
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "  if (Context.item?.roles) {\n    return !Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  true;",
-                          "language" : "typescript"
-                        },
-                        "icon" : "check",
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "checked",
-                        "style" : { }
-                      },
-                      "type" : "Icon"
-                    }, {
-                      "props" : {
-                        "className" : "small-bold-primary-text",
-                        "conditionnalClassNames" : [ {
-                          "applyOn" : "Inside",
-                          "className" : "small-bold-primary10-text",
-                          "condition" : {
-                            "@class" : "Script",
-                            "content" : "  if (Context.item?.roles) {\n    return Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  false;",
-                            "language" : "typescript"
-                          }
-                        } ],
-                        "label" : {
-                          "@class" : "Script",
-                          "content" : "Context.role.label;",
-                          "language" : "TypeScript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "style" : { }
-                      },
-                      "type" : "Button"
-                    } ],
-                    "className" : "notif-receiver",
+                    "className" : "notif-receiver small-bold-primary-text",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
-                      "className" : " notif-receiver--selected",
+                      "className" : "small-bold-primary10-text",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "  if (Context.item?.roles) {\n    return Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  false;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "notif-receiver--selected",
                       "condition" : {
                         "@class" : "Script",
                         "content" : "  if (Context.item?.roles) {\n    return Context.item.roles[Context.role.value];\n  }\n  /* The if is there just to avoid log errors when changing the type of the action */\n  false;",
                         "language" : "typescript"
                       }
                     } ],
-                    "layout" : {
-                      "alignItems" : "center"
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.role.label;",
+                      "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
@@ -223,7 +196,7 @@
                     },
                     "style" : { }
                   },
-                  "type" : "FlexList"
+                  "type" : "Button"
                 } ],
                 "className" : "boolean-container",
                 "exposeAs" : "role",

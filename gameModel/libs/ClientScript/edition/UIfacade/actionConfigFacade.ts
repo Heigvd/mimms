@@ -170,3 +170,11 @@ export function addChoice(): void {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+
+export function sanitizeMaxExecutions(rawValue: string): number {
+  let value = parseInt(rawValue);
+  if (value <= 0 || value === Infinity || value === NaN) {
+    value = 0;
+  }
+  return value;
+}
