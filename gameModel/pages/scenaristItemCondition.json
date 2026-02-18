@@ -127,7 +127,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>min after AL arrival</p>\"",
+                  "content" : "  if (Context.item.zeroTimeRef === 'incident') {\n    return \"<p>min after incident</p>\"\n  }\n  \"<p>min after AL arrival</p>\"",
                   "language" : "TypeScript"
                 }
               },
