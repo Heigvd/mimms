@@ -7613,7 +7613,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS scenario",
+  "name" : "MIMMS MIM-610 time conditions",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
