@@ -66,6 +66,25 @@
   cursor: default;
 }
 
+/* location modal undo/redo buttons */
+.location__undo-redo svg {
+  color: var(--primary_base);
+}
+
+.location__undo-redo .iconOnly:hover svg {
+  color: var(--grey_0);
+}
+
+.location__undo-redo .disabled.button-primaryColor svg {
+  color: var(--grey_30);
+}
+
+.location__undo-redo .disabled.button-primaryColor {
+  color: var(--grey_30);
+  background-color: var(--grey-white);
+  border-color: var(--grey_30);
+}
+
 /* location panel angle button */
 .location-panel__angle-button {
   top: 1.1rem;

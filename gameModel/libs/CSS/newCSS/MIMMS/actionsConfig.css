@@ -79,6 +79,15 @@
 /* - - - - -  B U T T O N S  - - - */
 
 /* overall */
+.open-map-button {
+  padding: 0;
+}
+
+.open-map-button .svg-inline--fa.fa-fw {
+  width: .75rem;
+  color: var(--primary_base);
+}
+
 .effect button {
   padding: 0;
   opacity: 0;
