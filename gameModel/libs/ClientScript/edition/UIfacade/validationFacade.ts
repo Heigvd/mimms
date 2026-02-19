@@ -83,7 +83,7 @@ export function validationSummary(): string {
   if (getValidationErrors().length > 0) {
     return 'Oh no! Simulation not playable - ' + getValidationErrors().length + ' blocking errors';
   }
-  if (getValidationErrors().length < 1 && getValidationWarnings().length > 1) {
+  if (getValidationErrors().length === 0 && getValidationWarnings().length > 0) {
     return (
       "Alright, but the simulation could run even smoother if it weren't for those " +
       getValidationWarnings().length +
