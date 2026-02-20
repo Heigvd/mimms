@@ -315,7 +315,7 @@
       }, {
         "@class" : "Page",
         "id" : "scenaristMainMenu",
-        "name" : "Menu",
+        "name" : "Content Edition",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
@@ -481,7 +481,7 @@
       }, {
         "@class" : "Page",
         "id" : "mainSimTester",
-        "name" : "MainSim Tester",
+        "name" : "Preview",
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
