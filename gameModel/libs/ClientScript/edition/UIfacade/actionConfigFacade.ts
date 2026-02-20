@@ -92,6 +92,21 @@ export function getActionTemplates(mandatory: boolean): FlatActionTemplate[] {
     .filter(trigger => trigger.mandatory == mandatory);
 }
 
+function getActionTemplate(item: ActionTemplateFlatType): FlatActionTemplate | undefined {
+  if (item.superType === 'action') {
+    return item;
+  }
+
+  if (item.superType === 'choice') {
+    return getItemTyped('action', item.parent);
+  }
+
+  scenarioEditionLogger.warn(
+    'Unexpected usage of isInMandatoryAction with superType ' + item.superType
+  );
+  return undefined;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // update data
 
@@ -113,20 +128,14 @@ export function updateItem<T extends ActionTemplateFlatType>(
 // check if in a mandatory action
 
 export function isInMandatoryAction(item: ActionTemplateFlatType): boolean {
-  if (item.superType === 'action') {
-    return item.mandatory;
-  }
+  return getActionTemplate(item)?.mandatory ?? false;
+}
 
-  if (item.superType === 'choice') {
-    const actTemplate = getItemTyped('action', item.parent);
-    return actTemplate?.mandatory ?? false;
-  }
+//////////////////////////////////////////////////////////////////////////////////////
+// check if it is a map choice action
 
-  scenarioEditionLogger.warn(
-    'Unexpected usage of isInMandatoryAction with superType ' + item.superType
-  );
-
-  return false;
+export function isInMapChoiceAction(item: ActionTemplateFlatType): boolean {
+  return getActionTemplate(item)?.type === 'MapChoiceActionTemplateDescriptor';
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -136,9 +145,14 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
   if (choice?.displayedMapEntity) {
     return true;
   }
+
   const storedMarkerState =
     getActionTemplateController()?.getLatestIState()?.mapMarkerOn[choice.uid];
-  return storedMarkerState === undefined ? false : storedMarkerState;
+  if (storedMarkerState) {
+    return storedMarkerState;
+  }
+
+  return mustAlwaysHaveALocation(choice);
 }
 
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
@@ -151,6 +165,10 @@ export function updateMapMarkerState(choice: FlatChoice, activate: boolean): voi
   } else {
     getActionTemplateController().updateIState(newState);
   }
+}
+
+export function mustAlwaysHaveALocation(choice: FlatChoice): boolean {
+  return isInMapChoiceAction(choice);
 }
 
 export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
