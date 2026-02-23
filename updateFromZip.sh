@@ -100,10 +100,10 @@ then
         $VERBOSE && echo "Move data libs + pages to $COMMON_FOLDER/gameModel"
         mkdir -p ../../$COMMON_FOLDER/gameModel/libs
         mv ./libs ../../$COMMON_FOLDER/gameModel
-        ln -s ../../$COMMON_FOLDER/gameModel/libs libs
+#        ln -s ../../$COMMON_FOLDER/gameModel/libs libs
         mkdir -p ../../$COMMON_FOLDER/gameModel/pages
         mv ./pages ../../$COMMON_FOLDER/gameModel
-        ln -s ../../$COMMON_FOLDER/gameModel/pages pages
+#        ln -s ../../$COMMON_FOLDER/gameModel/pages pages
     )
 else
     mv "$TMP_DIR_COMMON"/gameModel .
