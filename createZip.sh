@@ -4,13 +4,10 @@ VERBOSE=false
 DESTINATION_FOLDER=".."
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
-# CURRENT_BRANCH=$(git branch --show-current)
 
 function show_help {
-#    echo Usage "$0" [-hv] SCENARIO_NAME [BRANCH_NAME]
     echo Usage "$0" [-hv] SCENARIO_NAME
     echo "SCENARIO_NAME : name of the folder to create zip from, scenario or model"
-#    echo   Default BRANCH_NAME is $(git branch --show-current)
 }
 
 function printError() {
@@ -39,7 +36,6 @@ done
 ## Read arguments
 shift $((OPTIND - 1))
 SCENARIO_NAME=$1
-#ARG_BRANCH=$2
 
 # check no git pending changes
 #if ! $SKIP_GIT_STATUS_RESTRICTION
@@ -57,21 +53,6 @@ SCENARIO_NAME=$1
 #        printError "Pending changes in $SCENARIO_NAME/gameModel repository !";
 #        exit 1;
 #    fi
-#fi
-
-#BRANCH=${ARG_BRANCH:-${CURRENT_BRANCH}}
-#if [ ! "${BRANCH}" == "${CURRENT_BRANCH}" ]; then
-#    if [ ${VERBOSE} ]; then
-#        git switch $BRANCH;
-#    else
-#        git switch -q $BRANCH;
-#    fi
-#
-#    if [ $? -ne 0 ]; then
-#        printError "Branch ${BRANCH} does not exist";
-#        exit 1;
-#    fi
-#
 #fi
 
 if [ -z "$SCENARIO_NAME" ]; then

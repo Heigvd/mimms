@@ -4,14 +4,11 @@ VERBOSE=false
 SKIP_GIT_STATUS_RESTRICTION=false
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
-# CURRENT_BRANCH=$(git branch --show-current)
 
 function show_help {
-#    echo Usage "$0" ZIP_FILE "[SCENARIO_NAME]" [BRANCH_NAME]
     echo Usage "$0" ZIP_FILE "[SCENARIO_NAME]"
     echo "  ZIP_FILE : path to zipped gameModel"
     echo "  SCENARIO_NAME : name of the folder containing the scenario to patch (default is $DEFAULT_SCENARIO)"
-#    echo "  Default BRANCH_NAME is $(git branch --show-current)"
 }
 
 function printError() {
@@ -43,7 +40,6 @@ done
 shift $((OPTIND - 1))
 ZIP_FILE=$1
 SCENARIO_NAME=$2
-#ARG_BRANCH=$3
 
 if [ -z "$SCENARIO_NAME" ]; then
     SCENARIO_NAME="$DEFAULT_SCENARIO"
@@ -85,21 +81,6 @@ then
         exit 1;
     fi
 fi
-
-#BRANCH=${ARG_BRANCH:-${CURRENT_BRANCH}}
-#if [ ! "${BRANCH}" == "${CURRENT_BRANCH}" ]; then
-#    if [ ${VERBOSE} ]; then
-#        git switch $BRANCH;
-#    else
-#        git switch -q $BRANCH;
-#    fi
-#
-#    if [ $? -ne 0 ]; then
-#        printError "Branch ${BRANCH} does not exist";
-#        exit 1;
-#    fi
-#
-#fi
 
 echo "Update $SCENARIO_NAME from ${ZIP_FILE}"
 
