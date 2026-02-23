@@ -22,11 +22,10 @@ function printError() {
     fi
 }
 
-## Parse options
-
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
+## Parse options
 while getopts "h?vF" opt; do
     case "$opt" in
     h|\?)
@@ -73,14 +72,14 @@ fi
 if ! $SKIP_GIT_STATUS_RESTRICTION
 then
     GIT_STATUS_SHORT_COMMON=$(git status --short $COMMON_FOLDER/gameModel)
-    if [ ! -z "${GIT_STATUS_SHORT_COMMON}" ]; then
+    if [ -n "${GIT_STATUS_SHORT_COMMON}" ]; then
         git status $COMMON_FOLDER/gameModel
         printError "Pending changes in $COMMON_FOLDER/gameModel repository !";
         exit 1;
     fi
 
     GIT_STATUS_SHORT_SCENARIO=$(git status --short $SCENARIO_NAME/gameModel)
-    if [ ! -z "${GIT_STATUS_SHORT_SCENARIO}" ]; then
+    if [ -n "${GIT_STATUS_SHORT_SCENARIO}" ]; then
         git status $SCENARIO_NAME/gameModel
         printError "Pending changes in $SCENARIO_NAME/gameModel repository !";
         exit 1;

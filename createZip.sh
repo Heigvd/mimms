@@ -2,6 +2,8 @@
 
 VERBOSE=false
 DESTINATION_FOLDER=".."
+DEFAULT_SCENARIO=basic_scenario
+COMMON_FOLDER=_common
 # CURRENT_BRANCH=$(git branch --show-current)
 
 function show_help {
@@ -73,7 +75,7 @@ SCENARIO_NAME=$1
 #fi
 
 if [ -z "$SCENARIO_NAME" ]; then
-    SCENARIO_NAME="basic_scenario"
+    SCENARIO_NAME="$DEFAULT_SCENARIO"
 fi
 
 NAME=gameModel_${SCENARIO_NAME}_$(date +%Y-%m-%d_%Hh%M)
@@ -83,12 +85,15 @@ if [ -d "${NAME}" ]; then
     printError "$NAME already exists";
     exit 1;
 fi
+if [ -f "${NAME}.zip" ]; then
+    echo "${NAME}.zip will be replaced"
+fi
 
 $VERBOSE && echo "Create $NAME folder"
 mkdir -p "${NAME}"/gameModel
 
 $VERBOSE && echo "Copy data"
-#cp -r _common/gameModel/* "${NAME}"/gameModel # no use because of symbolic soft links
+cp -r "${COMMON_FOLDER}"/gameModel/* "${NAME}"/gameModel
 cp -r "${SCENARIO_NAME}"/gameModel/* "${NAME}"/gameModel
 
 $VERBOSE && echo "Create zip"
