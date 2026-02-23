@@ -59,6 +59,11 @@ if [ -z "$SCENARIO_NAME" ]; then
     SCENARIO_NAME="$DEFAULT_SCENARIO"
 fi
 
+if [ ! -d "$SCENARIO_NAME" ]; then
+    printError "$SCENARIO_NAME is not a known scenario folder";
+    exit 1;
+fi
+
 NAME=gameModel_${SCENARIO_NAME}_$(date +%Y-%m-%d_%Hh%M)
 
 # make sure the given folder does not exist
@@ -74,8 +79,8 @@ $VERBOSE && echo "Create $NAME folder"
 mkdir -p "${NAME}"/gameModel
 
 $VERBOSE && echo "Copy data"
-cp -r "${COMMON_FOLDER}"/gameModel/* "${NAME}"/gameModel
 cp -r "${SCENARIO_NAME}"/gameModel/* "${NAME}"/gameModel
+cp -r "${COMMON_FOLDER}"/gameModel/* "${NAME}"/gameModel
 
 $VERBOSE && echo "Create zip"
 (cd "${NAME}" || exit
