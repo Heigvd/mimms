@@ -4,7 +4,7 @@
 
 import { compareByIndex } from '../../../tools/indexedSorting';
 import { isChoiceTemplate } from '../../../UIfacade/actionFacade';
-import { getCurrentState, getUniqueActionTemplates } from '../../mainSimulationLogic';
+import { getUniqueActionTemplates } from '../../mainSimulationLogic';
 import { ActionTemplateUid, ActorId } from '../baseTypes';
 import { RadioType } from '../radio/communicationType';
 import { getOngoingActions, isChoiceAvailable } from '../simulationState/actionStateAccess';
@@ -46,9 +46,7 @@ export function getAvailableChoices(
   template: Readonly<ChoiceTemplate>
 ): ChoiceDescriptor[] {
   if (isChoiceTemplate(template)) {
-    return template.choices
-      .filter(choice => isChoiceAvailable(getCurrentState(), choice))
-      .sort(compareByIndex);
+    return template.choices.filter(choice => isChoiceAvailable(state, choice)).sort(compareByIndex);
   }
 
   return [];

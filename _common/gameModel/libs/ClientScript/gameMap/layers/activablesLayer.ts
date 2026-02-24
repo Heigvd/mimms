@@ -30,12 +30,15 @@ export function getMapActivableSelectionLayer() {
 
   if (isChoiceTemplate(currentTemplate)) {
     const medUids = getAvailableChoices(currentTemplate)
-      .filter(c => c.displayedMapEntity)
+      .filter(c => c?.displayedMapEntity)
       .map(c => c.displayedMapEntity!);
     const meds = getMapEntityDescriptors();
 
     for (const medUid of medUids) {
-      record[medUid] = meds[medUid]!;
+      const mapEntity = meds[medUid];
+      if (mapEntity) {
+        record[medUid] = mapEntity;
+      }
     }
   }
 
@@ -85,14 +88,14 @@ function getGenericFeature(
 ): FeatureCollection {
   let buildStatus: BuildStatus = 'built';
   if (runtime) {
-    const activable = getMapActivableFromUid(descriptor.uid);
+    const activable = getMapActivableFromUid(descriptor?.uid);
     buildStatus = activable?.buildStatus || 'built';
   }
 
-  for (const mapObject of descriptor.mapObjects) {
+  for (const mapObject of descriptor?.mapObjects) {
     const properties = {
-      id: descriptor.uid,
-      tag: descriptor.tag,
+      id: descriptor?.uid,
+      tag: descriptor?.tag,
       buildStatus: buildStatus,
       label: I18n.translate(mapObject.label),
       labelOffset: mapObject.labelOffset || [0, 0],
