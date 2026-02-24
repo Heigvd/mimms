@@ -38,8 +38,8 @@ done
 
 ## Read arguments
 shift $((OPTIND - 1))
-SCENARIO_NAME=$1
-ZIP_FILE=$2
+ZIP_FILE=$1
+SCENARIO_NAME=$2
 
 if [ -z "$SCENARIO_NAME" ]; then
     SCENARIO_NAME="$DEFAULT_SCENARIO"
