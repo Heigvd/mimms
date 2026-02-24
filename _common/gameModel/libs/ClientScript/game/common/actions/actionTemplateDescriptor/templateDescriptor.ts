@@ -1,8 +1,8 @@
 import { InterventionRole } from '../../actors/actor';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../../interfaces';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { FullyConfigurableTemplateDescriptor } from './descriptors/fullyConfigurableTemplate';
-import { MoveActorTemplateDescriptor } from './descriptors/moveTemplate';
+import { FullyConfigurableTemplateDescriptor } from '../actionTemplateDescriptor/descriptors/fullyConfigurableTemplate';
+import { MoveActorTemplateDescriptor } from '../actionTemplateDescriptor/descriptors/moveTemplate';
 import { ChoiceDescriptor } from '../choiceDescriptor/choiceDescriptor';
 import { MapChoiceActionTemplateDescriptor } from './descriptors/mapChoiceTemplate';
 

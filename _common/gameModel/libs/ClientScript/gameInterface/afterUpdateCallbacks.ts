@@ -1,6 +1,6 @@
 import { MainSimulationState } from '../game/common/simulationState/mainSimulationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { InterfaceState } from './interfaceState';
+import { InterfaceState } from '../gameInterface/interfaceState';
 import { openOverlayItem } from '../gameMap/mapEntities';
 import { mainSimInterfaceLogger } from '../tools/logger';
 import { hideSoftWarningTemporarily } from '../UIfacade/actorFacade';

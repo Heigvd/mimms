@@ -9,7 +9,7 @@ import {
   isLinkedMapEntitySelected,
   isShowOnMapTarget,
   isShowOnMapTargetSibling,
-} from './utils';
+} from '../../UIfacade/map/utils';
 
 const REDUCED_OPACITY = 0.5;
 

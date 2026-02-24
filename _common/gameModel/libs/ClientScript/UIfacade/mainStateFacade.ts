@@ -2,7 +2,7 @@ import { getRoleShortTranslation } from '../game/common/actors/actorLogic';
 import { getLocalEventManager } from '../game/common/localEvents/localEventManager';
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 import { runUpdateLoop } from '../game/mainSimulationLogic';
-import { getActor } from './actorFacade';
+import { getActor } from '../UIfacade/actorFacade';
 
 export function triggerEventLoop() {
   runUpdateLoop();

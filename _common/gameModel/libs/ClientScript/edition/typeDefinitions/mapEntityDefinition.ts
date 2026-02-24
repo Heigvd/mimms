@@ -4,7 +4,7 @@ import { Uid } from '../../game/common/interfaces';
 import { MapEntityDescriptor } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { generateId } from '../../tools/helper';
-import { ALL_EDITABLE, Definition, MapToFlatType } from './definition';
+import { ALL_EDITABLE, Definition, MapToFlatType } from '../typeDefinitions/definition';
 import { mapEntityValidator } from './validation/mapEntityValidation';
 import { LocationValidationContext } from './validation/validationContext';
 

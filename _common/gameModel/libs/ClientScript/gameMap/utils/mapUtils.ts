@@ -1,4 +1,4 @@
-import { FeatureCollection } from '../types/featureTypes';
+import { FeatureCollection } from '../../gameMap/types/featureTypes';
 import { add, mul, Point, sub } from '../../map/point2D';
 
 /**

@@ -10,7 +10,12 @@ import {
 import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
-import { ALL_EDITABLE, Definition, MapToDefinition, ToConfigurationViewType } from './definition';
+import {
+  ALL_EDITABLE,
+  Definition,
+  MapToDefinition,
+  ToConfigurationViewType,
+} from '../typeDefinitions/definition';
 import {
   lineMapObjectValidator,
   pointMapObjectValidator,

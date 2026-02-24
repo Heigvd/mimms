@@ -4,7 +4,7 @@ import { MoveActorTemplateDescriptor } from '../../../game/common/actions/action
 import { TimeSliceDuration } from '../../../game/common/constants';
 import { generateId } from '../../../tools/helper';
 import { createOrUpdateTranslation } from '../../../tools/translation';
-import { Definition } from '../definition';
+import { Definition } from '../../typeDefinitions/definition';
 import { moveActionTemplateValidator } from '../validation/templateValidation';
 import { ActionValidationContext } from '../validation/validationContext';
 

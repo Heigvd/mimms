@@ -1,6 +1,6 @@
 import { TimeSliceDuration } from '../../../constants';
 import { MoveActorActionTemplate } from '../../actionTemplateBase';
-import { ITemplateDescriptor } from '../templateDescriptor';
+import { ITemplateDescriptor } from '../../actionTemplateDescriptor/templateDescriptor';
 
 export interface MoveActorTemplateDescriptor extends ITemplateDescriptor {
   type: 'MoveActorTemplateDescriptor';

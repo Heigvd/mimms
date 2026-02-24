@@ -1,7 +1,7 @@
 import { ActorId } from '../../game/common/baseTypes';
 import { getChoiceDescriptor } from '../../game/loaders/mapEntitiesLoader';
 import { getTypedInterfaceState } from '../../gameInterface/interfaceState';
-import { getTypedMapState } from '../main';
+import { getTypedMapState } from '../../gameMap/main';
 import { floatToHexByte } from '../../tools/helper';
 import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';

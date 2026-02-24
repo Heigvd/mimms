@@ -1,6 +1,6 @@
 import { parseObjectDescriptor } from '../../tools/WegasHelper';
 import { FilterTypeProperties } from '../../tools/helper';
-import { scaleExtent } from './mapUtils';
+import { scaleExtent } from '../../gameMap/utils/mapUtils';
 
 const MAP_FOLDER = 'maps';
 const GEOJSON = '.geojson';

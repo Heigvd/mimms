@@ -2,7 +2,7 @@
  *  Main content loader page handler
  */
 import { ValidationMessage } from '../typeDefinitions/definition';
-import { computeValidationMessages } from './validationFacade';
+import { computeValidationMessages } from '../UIfacade/validationFacade';
 
 // Note : must match the "exposeAs" of the scenarist menu state
 export const MENU_CONTEXT_KEY = 'mainMenu';

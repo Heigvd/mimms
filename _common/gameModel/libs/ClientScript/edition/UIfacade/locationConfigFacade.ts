@@ -8,7 +8,7 @@ import { getMapEntityController } from '../controllers/controllerInstances';
 import { MapEntityCreationOptions, MapEntityFlatType } from '../controllers/dataController';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatMapObject } from '../typeDefinitions/mapObjectDefinition';
-import { addNew, getItems, ModalState } from './genericConfigFacade';
+import { addNew, getItems, ModalState } from '../UIfacade/genericConfigFacade';
 import { GenericScenaristInterfaceState } from './genericConfigFacade';
 
 export type SupportedDrawType = Exclude<DrawType, 'Circle'>;

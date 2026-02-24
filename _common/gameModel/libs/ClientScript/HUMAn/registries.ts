@@ -13,8 +13,8 @@ import {
   ActDefinition,
 } from './pathology';
 import { SympSystem } from './physiologicalModel';
-import { initPathologies } from './registry/pathologies';
-import { initItemAndActs } from './registry/acts';
+import { initPathologies } from '../HUMAn/registry/pathologies';
+import { initItemAndActs } from '../HUMAn/registry/acts';
 
 const pathologies: Record<string, PathologyDefinition> = {};
 const items: Record<string, ItemDefinition> = {};

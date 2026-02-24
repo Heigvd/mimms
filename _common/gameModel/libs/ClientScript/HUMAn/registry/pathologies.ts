@@ -1,5 +1,5 @@
-import { allBlocks, extBlocks, NervousBlock, simpleFractureBonesBlocks } from '../human';
-import { buildPathology, PathologyDefinition } from '../pathology';
+import { allBlocks, extBlocks, NervousBlock, simpleFractureBonesBlocks } from '../../HUMAn/human';
+import { buildPathology, PathologyDefinition } from '../../HUMAn/pathology';
 
 let initialized = false;
 

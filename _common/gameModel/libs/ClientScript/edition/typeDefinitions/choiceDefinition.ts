@@ -4,7 +4,12 @@ import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/cho
 import { Uid } from '../../game/common/interfaces';
 import { generateId } from '../../tools/helper';
 import { createOrUpdateTranslation } from '../../tools/translation';
-import { ALL_EDITABLE, Definition, EXPERT_ONLY, MapToFlatType } from './definition';
+import {
+  ALL_EDITABLE,
+  Definition,
+  EXPERT_ONLY,
+  MapToFlatType,
+} from '../typeDefinitions/definition';
 import { choiceDescriptorValidator } from './validation/choiceValidation';
 import { ActionValidationContext } from './validation/validationContext';
 

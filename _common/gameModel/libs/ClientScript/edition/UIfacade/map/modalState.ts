@@ -7,7 +7,7 @@ import {
 import { FlatChoice } from '../../typeDefinitions/choiceDefinition';
 import { FlatCondition } from '../../typeDefinitions/conditionDefinition';
 import { FlatImpact } from '../../typeDefinitions/impactDefinition';
-import { getCurrentController, ModalState } from '../genericConfigFacade';
+import { getCurrentController, ModalState } from '../../UIfacade/genericConfigFacade';
 
 export function isModalClosed(): boolean {
   return getCurrentController()?.getLatestIState()?.modal !== 'opened';

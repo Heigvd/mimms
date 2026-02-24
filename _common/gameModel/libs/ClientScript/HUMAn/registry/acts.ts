@@ -1,4 +1,4 @@
-import { ActDefinition, ItemDefinition } from '../pathology';
+import { ActDefinition, ItemDefinition } from '../../HUMAn/pathology';
 import { SkillLevel } from '../../game/common/resources/skillsManager';
 import { registryLogger } from '../../tools/logger';
 import { BodyStateKeys } from '../human';

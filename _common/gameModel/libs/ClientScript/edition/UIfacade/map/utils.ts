@@ -4,7 +4,11 @@ import {
   MapEntityController,
   TriggerDataController,
 } from '../../controllers/dataController';
-import { getCurrentController, getItemsTyped, isSelected } from '../genericConfigFacade';
+import {
+  getCurrentController,
+  getItemsTyped,
+  isSelected,
+} from '../../UIfacade/genericConfigFacade';
 
 /**
  * Returns true if the feature shares its location binding with the current location type

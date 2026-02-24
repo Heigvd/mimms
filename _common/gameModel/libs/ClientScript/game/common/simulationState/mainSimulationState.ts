@@ -7,13 +7,13 @@ import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';
-import { buildNewTimeFrame, TimeFrame } from './timeState';
+import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
-import { Activable } from './activableState';
+import { Activable } from '../simulationState/activableState';
 import { Uid } from '../interfaces';
 
 export class MainSimulationState {

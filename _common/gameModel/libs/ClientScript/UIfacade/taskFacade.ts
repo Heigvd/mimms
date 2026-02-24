@@ -7,7 +7,7 @@ import { getActiveMapEntityDescriptors } from '../game/loaders/mapEntitiesLoader
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getLocationTranslation } from './locationFacade';
+import { getLocationTranslation } from '../UIfacade/locationFacade';
 
 export function getCommMedia() {
   return getTypedInterfaceState().selectedPanel === SelectedPanel.radios

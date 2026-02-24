@@ -1,6 +1,6 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { bringOverlayItemToFront, toggleOverlayItem } from './mapEntities';
+import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../map/point2D';
 import {
   getAvailableActionTemplateById,

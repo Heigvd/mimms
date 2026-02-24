@@ -12,7 +12,7 @@ import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
 import { mainSimMapLogger } from '../tools/logger';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
-import { getShapeCenter } from './utils/shapeUtils';
+import { getShapeCenter } from '../gameMap/utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';

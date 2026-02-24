@@ -1,9 +1,9 @@
 import { TemplateDescriptor } from '../../game/common/actions/actionTemplateDescriptor/templateDescriptor';
 import { Uid } from '../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../tools/logger';
-import { MapToDefinition, MapToFlatType, ValidatorFunc } from './definition';
-import { getFullyConfigurableTemplateDef } from './templateDefinitions/fullyConfigurableTemplate';
-import { getMoveTemplateDef } from './templateDefinitions/moveTemplate';
+import { MapToDefinition, MapToFlatType, ValidatorFunc } from '../typeDefinitions/definition';
+import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefinitions/fullyConfigurableTemplate';
+import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getMapChoiceActionTemplateDef } from './templateDefinitions/mapChoiceTemplate';
 import { ActionValidationContext } from './validation/validationContext';
 import { getInitialActionTemplateUIState } from '../controllers/controllerInstances';
