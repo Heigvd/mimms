@@ -192,7 +192,7 @@ function extractScripts(obj, path = []) {
       }
     } else {
       // Check if this is a Script object
-      if (obj['@class'] === 'Script' && obj.content && typeof obj.content === 'string') {
+      if ((obj['@class'] === 'Script' || obj['@class'] === 'ScriptCallback' || obj['@class'] === 'ClientScript') && obj.content && typeof obj.content === 'string') {
         scripts.push({
           content: obj.content,
           language: obj.language || 'JavaScript',
@@ -215,7 +215,7 @@ function extractScripts(obj, path = []) {
  */
 function transpileScript(content, language) {
   try {
-    if (language === 'TypeScript' || language === 'typescript') {
+    if (language === 'TypeScript' || language === 'typescript' || language === 'JavaScript' || language === 'javascript') {
       // Create source file and check for parse errors
       const sourceFile = ts.createSourceFile(
         'script.ts',
