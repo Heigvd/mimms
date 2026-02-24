@@ -11,7 +11,7 @@
                     "className" : "noMargin scenarist__undertitle",
                     "layoutStyle" : { },
                     "style" : {
-                      "marginTop" : "10px"
+                      "marginTop" : "1.5rem"
                     },
                     "text" : {
                       "@class" : "Script",

@@ -77,6 +77,10 @@
   background-color: var(--grey-white);
 }
 
+.resources .wegas-select__option {
+  padding: 8px 12px;
+}
+
 
 /* - - - - A N I M A T I O N S - - - - */
 

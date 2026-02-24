@@ -1,6 +1,6 @@
 .map-configuration-page {
   gap: 1.5rem;
-  margin: 0 2rem 2rem 0;
+  margin: 1.5rem 2rem 2rem 0;
 }
 
 .map-configuration-page input,
@@ -25,6 +25,12 @@
   border: 2px solid var(--grey_30);
   background-color: #E4E6E7;
   overflow: hidden;
+}
+
+.time-config {
+  gap: 10px;
+  padding: 0 10px;
+  border-left: 1px solid var(--grey_20);
 }
 
 .time-config-text {

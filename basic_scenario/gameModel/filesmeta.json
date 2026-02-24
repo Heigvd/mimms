@@ -11,6 +11,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/arrows-split-up-and-left-solid.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

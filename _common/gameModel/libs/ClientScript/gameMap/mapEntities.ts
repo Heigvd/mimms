@@ -16,6 +16,7 @@ import { getShapeCenter } from '../gameMap/utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
+import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 
 let wasGodView = true;
 
@@ -48,7 +49,7 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
         },
         payload: {
           id: mapActivable.binding,
-          name: I18n.translate(firstMapObject.label) || 'XXX',
+          name: getLocationLongTranslation(mapActivable.binding) || 'XXX',
           icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
           actors: getActorsByLocation(mapActivable.binding),
           resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(

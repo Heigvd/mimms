@@ -94,7 +94,7 @@
 }
 
 .hospitals:has(.hospital-button-open) .line-display {
-  padding: 0 0 0 10px;
+  padding: 10px 0 10px 10px;
 }
 
 /* edit line style */

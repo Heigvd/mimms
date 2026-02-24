@@ -110,6 +110,7 @@
 .validation-summary {
   align-items: center;
   gap: 5px;
+  margin-top: 1.5rem;
   padding: 10px;
   font-size: var(--S_text);
   font-weight: var(--boldWeight);

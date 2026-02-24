@@ -56,7 +56,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add action"
               },
               "type" : "Button"
             }, {
@@ -324,7 +325,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add choice"
               },
               "type" : "Button"
             }, {
@@ -424,7 +426,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add impact"
               },
               "type" : "Button"
             }, {

@@ -61,15 +61,13 @@
 /* - - - - S C E N A R I S T  M E N U - - - - */
 
 .scenarist-menu-container--open {
-  width: 17%;
-  min-width: 16rem;
+  width: 12rem;
   background-color: var(--grey_0);
   transition: width .3s ease-in-out;
 }
 
 .scenarist-menu-container--closed {
   width: 3.75rem;
-  min-width: 3.75rem;
   background-color: var(--grey_0);
   transition: width .3s ease-in-out;
 }
@@ -142,6 +140,7 @@
   color: var(--primary_base);
   background-color: var(--grey_0);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+  cursor: pointer;
 }
 
 .scenarist-menu-button--active,
@@ -149,6 +148,25 @@
   color: var(--primary_base);
   background-color: var(--primary_10);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.scenarist-menu-button:has(img) > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scenarist-menu-button img {
+  width: 18px;
+  height: 20px;
+  filter: invert(65%) sepia(13%) saturate(1427%) hue-rotate(151deg) brightness(101%) contrast(87%);
+  transform: scaleX(-1);
+  transition: filter .3s ease-in-out;
+}
+
+.scenarist-menu-button:hover img,
+.scenarist-menu-button--active img {
+  filter: invert(35%) sepia(88%) saturate(610%) hue-rotate(155deg) brightness(92%) contrast(90%);
 }
 
 
