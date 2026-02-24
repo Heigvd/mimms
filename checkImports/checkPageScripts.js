@@ -11,8 +11,8 @@ try {
   process.exit(1);
 }
 
-const PAGES_DIR = path.join(__dirname, '..', 'gameModel', 'pages');
-const CLIENT_SCRIPT_DIR = path.join(__dirname, '..', 'gameModel', 'libs', 'ClientScript');
+const PAGES_DIR = path.join(__dirname, '..', '_common', 'gameModel', 'pages');
+const CLIENT_SCRIPT_DIR = path.join(__dirname, '..', '_common', 'gameModel', 'libs', 'ClientScript');
 const TYPES_DIR = path.join(__dirname, '..', 'types');
 
 const errors = [];
