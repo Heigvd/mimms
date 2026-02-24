@@ -105,9 +105,10 @@ rm -R $TMP_DIR;
 
 echo "Prettier formatting"
 yarn format
-
 echo "Compiling TypeScript"
 yarn build
+echo "Checking page script imports"
+yarn check-page-scripts
 
 if [ $? -gt 0 ]; then
   echo

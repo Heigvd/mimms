@@ -44,7 +44,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { getCurrentState } from \"./UIfacade/debugFacade\";\n\nwlog(getCurrentState())",
+                "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n\nwlog(getCurrentState())",
                 "language" : "TypeScript"
               }
             },
