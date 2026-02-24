@@ -19,7 +19,7 @@ export type ControllerType =
   | MapEntityController;
 export type RootCategories = (FlatTrigger | FlatActionTemplate | FlatMapEntity)['superType'];
 
-export function getController(page: Page): ControllerType {
+export function getController(page: Page): ControllerType | undefined {
   switch (page) {
     case 'triggers':
       return getTriggerController();
@@ -29,8 +29,7 @@ export function getController(page: Page): ControllerType {
       return getMapEntityController();
   }
 
-  const caller = new Error().stack;
-  throw new Error('No controller exists for page ' + page + '; caller ' + caller);
+  return undefined;
 }
 
 let triggerController: TriggerDataController | undefined;

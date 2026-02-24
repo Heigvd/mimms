@@ -1,5 +1,6 @@
 import { Uid } from '../../game/common/interfaces';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
   getAllControllers,
@@ -18,7 +19,7 @@ import { getCurrentPage } from './mainMenuStateFacade';
  * For Actions, Triggers, MapEntities
  */
 
-export function getCurrentController(): ControllerType {
+export function getCurrentController(): ControllerType | undefined {
   return getController(getCurrentPage());
 }
 
@@ -33,25 +34,25 @@ export type ModalState = 'opened' | 'closed';
 
 // Directly used in the page
 export function loadPageState(): GenericScenaristInterfaceState {
-  return getCurrentController().getLatestIState();
+  return getCurrentController()?.getLatestIState() || { selected: {} };
 }
 
 export function select(itemType: SuperTypeNames, uid: Uid | undefined): void {
-  getCurrentController().select(itemType, uid);
+  getCurrentController()?.select(itemType, uid);
 }
 
 export function unselect(itemType: SuperTypeNames): void {
-  getCurrentController().unselect(itemType);
+  getCurrentController()?.unselect(itemType);
 }
 
 export function getSelected(itemType: SuperTypeNames): FlatTypes | undefined {
-  return getCurrentController().getSelected(itemType);
+  return getCurrentController()?.getSelected(itemType);
 }
 
 export function getSelectedTyped<S extends SuperTypeNames>(
   superType: S
 ): FlatTypeBySuperType[S] | undefined {
-  return getCurrentController().getSelected(superType) as FlatTypeBySuperType[S];
+  return getCurrentController()?.getSelected(superType) as FlatTypeBySuperType[S];
 }
 
 export function isSelected(itemType: SuperTypeNames, uid: Uid): boolean {
@@ -73,7 +74,7 @@ export function getSelectionColorClass(itemType: SuperTypeNames, uid: Uid): stri
 // items
 
 export function getData(): Record<Uid, FlatTypes> {
-  return getCurrentController().getFlatDataClone();
+  return getCurrentController()?.getFlatDataClone() || {};
 }
 
 function getDataAsArray(): FlatTypes[] {
@@ -124,19 +125,25 @@ export function addNew<T extends CreationOptionsBase>(
   itemType: SuperTypeNames,
   parentType?: SuperTypeNames,
   creationOptions?: T
-): FlatTypes {
+): FlatTypes | undefined {
   let parentId: Uid = '';
   if (parentType) {
     parentId = getSelected(parentType)?.uid ?? '';
   }
   const options: CreationOptionsBase = creationOptions ?? {};
   options.parentType = parentType;
-  const newItem = getCurrentController().createNew(parentId, itemType, options);
-  lastGenericAdded = newItem.uid;
-  setTimeout(() => {
-    Helpers.scrollIntoView('.new-generic-item', { behavior: 'smooth', block: 'start' });
-  }, 1);
-  return newItem;
+  const controller = getCurrentController();
+  if (controller) {
+    const newItem = controller.createNew(parentId, itemType, options);
+    lastGenericAdded = newItem.uid;
+    setTimeout(() => {
+      Helpers.scrollIntoView('.new-generic-item', { behavior: 'smooth', block: 'start' });
+    }, 1);
+    return newItem;
+  } else {
+    scenarioEditionLogger.warn(`No controller found, could not add new ${itemType}`);
+    return undefined;
+  }
 }
 
 export function isLastGenericAdded(uid: string): boolean {
@@ -144,7 +151,12 @@ export function isLastGenericAdded(uid: string): boolean {
 }
 
 export function deleteItem(itemId: Uid): void {
-  getCurrentController().remove(itemId);
+  const controller = getCurrentController();
+  if (controller) {
+    controller.remove(itemId);
+  } else {
+    scenarioEditionLogger.warn(`No controller found, could not delete ${itemId}`);
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -181,19 +193,19 @@ export function isAlone(itemId: Uid): boolean {
 }
 
 export function canMoveUp(itemId: Uid): boolean {
-  return getCurrentController().canMove(itemId, 'UP');
+  return getCurrentController()?.canMove(itemId, 'UP') || false;
 }
 
 export function canMoveDown(itemId: Uid): boolean {
-  return getCurrentController().canMove(itemId, 'DOWN');
+  return getCurrentController()?.canMove(itemId, 'DOWN') || false;
 }
 
 export function moveUp(itemId: Uid): void {
-  getCurrentController().move(itemId, 'UP');
+  getCurrentController()?.move(itemId, 'UP') || false;
 }
 
 export function moveDown(itemId: Uid): void {
-  getCurrentController().move(itemId, 'DOWN');
+  getCurrentController()?.move(itemId, 'DOWN') || false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -220,19 +232,19 @@ export function validateItem(_itemType: SuperTypeNames, _uid: Uid) {}
 // undo - redo
 
 export function undo(): void {
-  getCurrentController().undo();
+  getCurrentController()?.undo();
 }
 
 export function redo(): void {
-  getCurrentController().redo();
+  getCurrentController()?.redo();
 }
 
 export function canUndo(): boolean {
-  return getCurrentController().canUndo();
+  return getCurrentController()?.canUndo() || false;
 }
 
 export function canRedo(): boolean {
-  return getCurrentController().canRedo();
+  return getCurrentController()?.canRedo() || false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

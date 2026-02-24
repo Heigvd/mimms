@@ -524,7 +524,7 @@
         },
         "layoutClassName" : "noPadding fullWidth",
         "layoutStyle" : { },
-        "localState" : false,
+        "localState" : true,
         "name" : "Validation",
         "style" : { }
       },

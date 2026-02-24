@@ -180,18 +180,20 @@ export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
 
 export function addChoice(): void {
   const choice = addNew('choice', 'action');
-  const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
-    squashLastState: true,
-  });
-  updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
-  updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
+  if (choice) {
+    const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
+      squashLastState: true,
+    });
+    updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
+    updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 export function sanitizeMaxExecutions(rawValue: string): number {
   let value = parseInt(rawValue);
-  if (value <= 0 || value === Infinity || value === NaN) {
+  if (value <= 0 || value === Infinity || Number.isNaN(value)) {
     value = 0;
   }
   return value;
