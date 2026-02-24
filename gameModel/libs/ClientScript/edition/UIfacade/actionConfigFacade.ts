@@ -102,7 +102,7 @@ function getActionTemplate(item: ActionTemplateFlatType): FlatActionTemplate | u
   }
 
   scenarioEditionLogger.warn(
-    'Unexpected usage of isInMandatoryAction with superType ' + item.superType
+    'Unexpected usage of getActionTemplate with superType ' + item.superType
   );
   return undefined;
 }
@@ -152,7 +152,7 @@ export function isMapMarkerOn(choice: FlatChoice): boolean {
     return storedMarkerState;
   }
 
-  return mustAlwaysHaveALocation(choice);
+  return requiresLocation(choice);
 }
 
 export function updateMapMarkerState(choice: FlatChoice, activate: boolean): void {
@@ -167,7 +167,7 @@ export function updateMapMarkerState(choice: FlatChoice, activate: boolean): voi
   }
 }
 
-export function mustAlwaysHaveALocation(choice: FlatChoice): boolean {
+export function requiresLocation(choice: FlatChoice): boolean {
   return isInMapChoiceAction(choice);
 }
 
