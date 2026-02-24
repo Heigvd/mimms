@@ -308,7 +308,7 @@
             "className" : "",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
+              "content" : "import { isInMapChoiceAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMapChoiceAction(Context.item);",
               "language" : "typescript"
             },
             "layout" : { },
