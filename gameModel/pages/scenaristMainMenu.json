@@ -91,7 +91,7 @@
                 },
                 "name" : "Map & Time",
                 "style" : { },
-                "tooltip" : "Map"
+                "tooltip" : "Map & Time"
               },
               "type" : "Button"
             }, {
