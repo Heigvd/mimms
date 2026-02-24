@@ -8,7 +8,7 @@
 .condition,
 .impact {
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px 10px;
   padding: 1rem;
 }
 
@@ -55,7 +55,6 @@ Could be moved in genericItem.css file if reused elsewhere */
 /* - - - - -  B U T T O N S  - - - */
 
 .notif-receiver {
-  gap: 5px;
   padding: 6px 12px;
   border: 1px solid var(--primary_base);
   border-radius: var(--S_borderRadius);
@@ -66,20 +65,15 @@ Could be moved in genericItem.css file if reused elsewhere */
   cursor: pointer;
 }
 
-.notif-receiver button,
-.notif-receiver button:hover {
-  padding: 0;
+.notif-receiver,
+.notif-receiver:hover {
   background-color: transparent;
 }
 
-.notif-receiver--selected {
+.notif-receiver--selected,
+.notif-receiver--selected:hover {
   background-color: var(--primary_base);
   transition: background-color .3s ease-in-out, border .3s ease-in-out;
-}
-
-.notif-receiver--selected svg {
-  color: var(--primary_10);
-  transition: color .3s ease-in-out;
 }
 
 .condition .disabled.header-button,

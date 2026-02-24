@@ -90,7 +90,8 @@
                   }
                 },
                 "name" : "Map",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Map"
               },
               "type" : "Button"
             }, {
@@ -137,7 +138,8 @@
                   }
                 },
                 "name" : "Locations",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Locations"
               },
               "type" : "Button"
             }, {
@@ -184,7 +186,8 @@
                   }
                 },
                 "name" : "Triggers",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Triggers"
               },
               "type" : "Button"
             }, {
@@ -231,7 +234,8 @@
                   }
                 },
                 "name" : "Actions",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Actions"
               },
               "type" : "Button"
             }, {
@@ -278,7 +282,8 @@
                   }
                 },
                 "name" : "Patients",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Patients"
               },
               "type" : "Button"
             }, {
@@ -325,7 +330,8 @@
                   }
                 },
                 "name" : "Hospitals",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Hospitals"
               },
               "type" : "Button"
             }, {
@@ -372,7 +378,8 @@
                   }
                 },
                 "name" : "Resources",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Resources"
               },
               "type" : "Button"
             }, {
@@ -419,7 +426,8 @@
                   }
                 },
                 "name" : "Validation",
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Validation"
               },
               "type" : "Button"
             } ],

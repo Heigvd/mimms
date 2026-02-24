@@ -79,6 +79,20 @@
 /* - - - - -  B U T T O N S  - - - */
 
 /* overall */
+.open-map-button {
+  padding: 0;
+}
+
+.iconOnly.open-map-button svg {
+  width: .75rem;
+  color: var(--primary_base);
+  transition: color .3s ease-in-out;
+}
+
+.disabled.iconOnly.open-map-button svg {
+  color: var(--primary_30);
+}
+
 .effect button {
   padding: 0;
   opacity: 0;

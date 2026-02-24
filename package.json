@@ -11,7 +11,8 @@
     "test": "jest",
     "lint": "eslint '_common/gameModel' --ext '.ts'",
     "format": "prettier --write _common/gameModel/**/*.[tj]s",
-    "checkFormat": "prettier --check _common/gameModel/**/*.[tj]s"
+    "checkFormat": "prettier --check _common/gameModel/**/*.[tj]s",
+    "check-page-scripts": "node checkImports/checkPageScripts.js"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.174",

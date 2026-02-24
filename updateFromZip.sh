@@ -133,5 +133,15 @@ if [ $? -gt 0 ]; then
 fi
 
 echo
+echo "Checking page script imports"
+yarn check-page-scripts
+
+if [ $? -gt 0 ]; then
+    echo
+    echo "Compilation error(s), please fix";
+    echo
+fi
+
+echo
 echo "Done"
 echo "Please review changes"
