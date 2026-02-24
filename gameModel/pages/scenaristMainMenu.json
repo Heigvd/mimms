@@ -77,7 +77,7 @@
                 "icon" : "map",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Map</p>\"",
+                  "content" : "\"<p>Map &amp; Time</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "fullWidth noPadding",
@@ -89,7 +89,7 @@
                     "language" : "TypeScript"
                   }
                 },
-                "name" : "Map",
+                "name" : "Map & Time",
                 "style" : { },
                 "tooltip" : "Map"
               },
@@ -150,54 +150,6 @@
                   "className" : "scenarist-menu-button--active",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'triggers';",
-                    "language" : "typescript"
-                  }
-                }, {
-                  "applyOn" : "Inside",
-                  "className" : "scenarist-menu-button--open",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
-                    "language" : "typescript"
-                  }
-                }, {
-                  "applyOn" : "Inside",
-                  "className" : "scenarist-menu-button--closed",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
-                    "language" : "typescript"
-                  }
-                } ],
-                "icon" : "calendar",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Triggers</p>\"",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "fullWidth noPadding",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('triggers');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "Triggers",
-                "style" : { },
-                "tooltip" : "Triggers"
-              },
-              "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "scenarist-menu-button",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "scenarist-menu-button--active",
-                  "condition" : {
-                    "@class" : "Script",
                     "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'actions';",
                     "language" : "typescript"
                   }
@@ -238,6 +190,75 @@
                 "tooltip" : "Actions"
               },
               "type" : "Button"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "\"/arrows-split-up-and-left-solid.svg\"",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Image"
+                }, {
+                  "props" : {
+                    "className" : "",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Triggers</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "scenarist-menu-button",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--active",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() === 'triggers';",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--open",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getMenuState();",
+                    "language" : "typescript"
+                  }
+                }, {
+                  "applyOn" : "Inside",
+                  "className" : "scenarist-menu-button--closed",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { getMenuState } from \"./edition/UIfacade/mainMenuStateFacade\";\n  !getMenuState();",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : { },
+                "layoutClassName" : "fullWidth noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { setCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n\nsetCurrentPage('triggers');",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Triggers",
+                "style" : { },
+                "tooltip" : "Triggers"
+              },
+              "type" : "FlexList"
             }, {
               "props" : {
                 "className" : "scenarist-menu-button",

@@ -9,6 +9,11 @@
                 "children" : [ {
                   "props" : {
                     "className" : "noMargin scenarist-title",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "true;",
+                      "language" : "typescript"
+                    },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "title",

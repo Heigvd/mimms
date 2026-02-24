@@ -332,14 +332,14 @@
         "trainerPage" : null
       }, {
         "@class" : "Page",
-        "id" : "triggersConfiguration",
-        "name" : "Triggers Configuration",
+        "id" : "actionsConfiguration",
+        "name" : "Action Templates Configuration",
         "scenaristPage" : false,
         "trainerPage" : false
       }, {
         "@class" : "Page",
-        "id" : "actionsConfiguration",
-        "name" : "Action Templates Configuration",
+        "id" : "triggersConfiguration",
+        "name" : "Triggers Configuration",
         "scenaristPage" : false,
         "trainerPage" : false
       }, {

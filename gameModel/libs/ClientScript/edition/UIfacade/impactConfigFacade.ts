@@ -73,12 +73,12 @@ export function getImpactDisplayTypeOptions(): { label: string; value: DisplayTy
       value: 'mapEntity',
     },
     {
-      label: 'trigger',
-      value: 'trigger',
-    },
-    {
       label: 'action',
       value: 'actionTemplate',
+    },
+    {
+      label: 'trigger',
+      value: 'trigger',
     },
   ];
 }

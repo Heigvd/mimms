@@ -641,7 +641,8 @@
                     "stopPropagation" : true,
                     "style" : {
                       "paddingRight" : "14px"
-                    }
+                    },
+                    "tooltip" : "Add location"
                   },
                   "type" : "Button"
                 }, {

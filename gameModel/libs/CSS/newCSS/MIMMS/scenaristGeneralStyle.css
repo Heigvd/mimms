@@ -89,6 +89,12 @@
   color: var(--grey_100);
 }
 
+.scenarist-bold-text {
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
 .xsmall-regular-primary-text {
   font-size: var(--XS_text);
   font-weight: var(--regularWeight);

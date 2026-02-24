@@ -27,12 +27,12 @@ export function getConditionTypeOptions(): { label: string; value: Condition['ty
       value: 'mapEntity',
     },
     {
-      label: 'trigger',
-      value: 'trigger',
-    },
-    {
       label: 'action',
       value: 'action',
+    },
+    {
+      label: 'trigger',
+      value: 'trigger',
     },
   ];
 }

@@ -56,7 +56,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add trigger"
               },
               "type" : "Button"
             }, {
@@ -272,7 +273,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add condition"
               },
               "type" : "Button"
             }, {
@@ -389,7 +391,8 @@
                 },
                 "name" : "add",
                 "stopPropagation" : true,
-                "style" : { }
+                "style" : { },
+                "tooltip" : "Add impact"
               },
               "type" : "Button"
             } ],

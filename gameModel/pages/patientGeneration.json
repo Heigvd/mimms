@@ -637,7 +637,7 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
-                        "className" : "header-left-cell",
+                        "className" : "noMargin header-left-cell",
                         "id" : "",
                         "layoutStyle" : { },
                         "name" : "index",
@@ -651,7 +651,7 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "className" : "header-text",
+                        "className" : "noMargin header-text",
                         "id" : "",
                         "layoutClassName" : "header-text-container",
                         "layoutStyle" : { },
@@ -980,7 +980,8 @@
                   "justifyContent" : "space-between"
                 },
                 "layoutStyle" : {
-                  "flex-shrink" : "0"
+                  "flex-shrink" : "0",
+                  "margin" : "1.5rem 0 .625rem 0"
                 },
                 "name" : "header",
                 "style" : { }
