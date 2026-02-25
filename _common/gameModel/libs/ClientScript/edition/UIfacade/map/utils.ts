@@ -40,7 +40,7 @@ export function isLinkedMapEntitySelected(feature: any): boolean {
 export function isShowOnMapTarget(feature: any): boolean {
   const props = feature.getProperties();
   const controller = getCurrentController();
-  if (!(controller instanceof MapEntityController)) {
+  if (controller && !(controller instanceof MapEntityController)) {
     return controller.getLatestIState()?.viewOnMapItem === props?.id;
   }
   return false;
