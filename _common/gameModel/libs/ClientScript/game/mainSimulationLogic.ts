@@ -37,7 +37,7 @@ import {
   getCurrentExecutionContext,
 } from './executionContext/gameExecutionContextController';
 import { loadActionTemplates } from './loaders/actionTemplateLoader';
-import { getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
+import { eraseInitialState, getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 import { getOmittedGlobalEvents } from './testing/stateDebug';
 
 /* all defined action templates */
@@ -66,6 +66,8 @@ export function runUpdateLoop(): void {
   }
 
   if (!initializationComplete) {
+    eraseInitialState();
+    resetState();
     tryLoadTemplates();
     createPlayerContext(getStartingLocalEvents);
     initializationComplete = true;
