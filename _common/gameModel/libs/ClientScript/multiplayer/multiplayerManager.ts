@@ -16,6 +16,11 @@ type PlayerRoles = Partial<Record<InterventionRole, boolean>>;
 // Throttle resquests to server
 let hasRegisteredOnce = false;
 
+Helpers.registerEffect(() => {
+  // clear on script save and scenario restart
+  hasRegisteredOnce = false;
+});
+
 /**
  * Clear all values for in matrix for current team (players and roles)
  */
@@ -38,23 +43,24 @@ export async function clearMultiplayerMatrix(): Promise<void> {
 export async function registerSelf(): Promise<void> {
   if (hasRegisteredOnce) return;
   const currentPlayerId = self.getId();
-  const currentPlayerName = self.getName() ?? currentUserName;
-  const playableRoles: PlayerRoles = {
-    AL: false,
-    ACS: false,
-    MCS: false,
-    EVASAN: false,
-    LEADPMA: false,
-  };
 
   const matrix = Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).getProperties();
 
   if (currentPlayerId && !matrix[currentPlayerId]) {
+    const currentPlayerName = self.getName() ?? currentUserName;
+    const preSelectAll = APP_CONTEXT === 'Editor';
+
     const playerMatrix: PlayerMatrix = {
       id: currentPlayerId,
       name: currentPlayerName,
-      ready: false,
-      roles: playableRoles,
+      ready: preSelectAll,
+      roles: {
+        AL: preSelectAll,
+        ACS: preSelectAll,
+        MCS: preSelectAll,
+        EVASAN: preSelectAll,
+        LEADPMA: preSelectAll,
+      },
     };
 
     const script = `Variable.find(gameModel, 'multiplayerMatrix').getInstance(self).setProperty(${currentPlayerId.toString()}, ${JSON.stringify(
