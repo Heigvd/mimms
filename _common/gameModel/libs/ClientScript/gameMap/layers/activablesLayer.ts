@@ -64,7 +64,7 @@ export function getLayer(
 
   const meds = Object.values(descriptors);
   for (let i = 0; i < meds.length; i++) {
-    getGenericFeature(meds[i]!, i, layer, runtime);
+    getGenericFeature(meds[i], i, layer, runtime);
   }
 
   return layer;
@@ -81,7 +81,7 @@ export function getLayer(
  * @returns layer: FeatureCollection
  */
 function getGenericFeature(
-  descriptor: MapEntityDescriptor,
+  descriptor: MapEntityDescriptor | undefined,
   index: number, // Used for selection
   layer: FeatureCollection,
   runtime: boolean
@@ -92,7 +92,7 @@ function getGenericFeature(
     buildStatus = activable?.buildStatus || 'built';
   }
 
-  for (const mapObject of descriptor?.mapObjects) {
+  for (const mapObject of (descriptor?.mapObjects ?? [])) {
     const properties = {
       id: descriptor?.uid,
       tag: descriptor?.tag,
