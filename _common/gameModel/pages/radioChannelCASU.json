@@ -14,6 +14,7 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
               "flex-grow" : "1",
+              "minHeight" : "10rem",
               "overflow-y" : "auto"
             },
             "name" : "output messages",

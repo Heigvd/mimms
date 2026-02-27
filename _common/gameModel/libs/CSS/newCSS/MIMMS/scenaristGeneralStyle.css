@@ -250,8 +250,8 @@
 /* scenarist dropdown */
 .scenarist-dropdown {
   width: 100%;
-  min-width: 7.5rem;
-  max-width: 15rem;
+  min-width: 8rem;
+  max-width: 16rem;
 }
 
 .scenarist-dropdown .wegas-select__control:hover {
