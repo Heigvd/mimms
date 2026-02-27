@@ -10,6 +10,7 @@ import {
   PCFrontChoiceTemplate,
   SimFlag,
 } from '../../actionTemplateBase';
+import { ChoiceDescriptor } from '../../choiceDescriptor/choiceDescriptor';
 import { ITemplateDescriptor } from '../templateDescriptor';
 
 export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
@@ -110,27 +111,47 @@ function createParkTemplate(
   );
 }
 
+function stringifyChoiceOrAction(
+  desc: ChoiceDescriptor | MapChoiceActionTemplateDescriptor
+): string {
+  return `(uid : ${desc?.uid}, tag : ${desc.tag}, title : ${I18n.translate(desc.title)})`;
+}
+
 // TODO Add error handling depending on case
 /**
  * Validate that the template binding matches the choices'
  */
 function validateDescriptorBinding(desc: MapChoiceActionTemplateDescriptor) {
+  if (!desc.binding) {
+    mainSimLoaderLogger.warn(
+      `MapChoiceActionTemplateDescriptor ${stringifyChoiceOrAction(desc)} has no location binding`
+    );
+  }
   for (const choice of desc.choices) {
     // TODO Avoid non-null assertion, maybe extend choiceDescriptor to mapChoiceDescriptor with displayedMapEntity
     const mapDescriptor = getMapEntityDescriptor(choice.displayedMapEntity!);
-
     if (!mapDescriptor) {
       // TODO Handle undefined case, see comment above
       mainSimLoaderLogger.warn(
-        `ChoiceDescriptor for ChoiceDescriptor ${choice.displayedMapEntity} could not be found.`
+        `ChoiceDescriptor ${stringifyChoiceOrAction(
+          choice
+        )} has a missing MapEntityDescriptor reference, ${
+          choice.displayedMapEntity
+        } could not be found.`
       );
     } else if (!mapDescriptor.binding) {
       mainSimLoaderLogger.warn(
-        `ChoiceDescriptor ${choice.uid} has no binding for MapEntityDescriptor ${mapDescriptor.uid}.`
+        `ChoiceDescriptor ${stringifyChoiceOrAction(choice)} is bound to a MapEntityDescriptor ${
+          mapDescriptor.uid
+        } that has no location binding`
       );
     } else if (mapDescriptor.binding !== desc.binding) {
       mainSimLoaderLogger.warn(
-        `Choice binding conflict: MapChoiceActionTemplateDescriptor "${desc.uid}" and ChoiceDescriptor "${choice.uid}" both use conflicting bindings ("${desc.binding}" vs "${mapDescriptor.binding}").`
+        `Choice binding conflict: MapChoiceActionTemplateDescriptor "${
+          desc.uid
+        }" and ChoiceDescriptor "${stringifyChoiceOrAction(
+          choice
+        )}" have conflicting location bindings ("${desc.binding}" vs "${mapDescriptor.binding}").`
       );
     }
   }

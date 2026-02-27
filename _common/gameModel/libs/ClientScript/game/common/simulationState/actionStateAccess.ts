@@ -7,6 +7,7 @@ import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../interfaces';
 import { ANY_CHOICE } from '../constants';
 import { isChoiceAction } from '../../../UIfacade/actionFacade';
+import { getMapEntityDescriptor } from '../../loaders/mapEntitiesLoader';
 
 export function isChoiceAvailable(
   state: Readonly<MainSimulationState>,
@@ -19,6 +20,12 @@ export function isChoiceAvailable(
       const hasMaxRepetitions: boolean = choice.repeats != undefined && choice.repeats > 0;
       if (hasMaxRepetitions && countStartedChoices(state, choice.uid) >= choice.repeats) {
         actionLogger.info(`choice '${choice.uid}' cannot be run anymore`);
+        return false;
+      }
+      if (choice.displayedMapEntity && !getMapEntityDescriptor(choice.displayedMapEntity)) {
+        actionLogger.warn(
+          `choice '${choice.uid}' has a broken map entity reference ${choice.displayedMapEntity}`
+        );
         return false;
       }
 
