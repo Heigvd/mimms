@@ -12,13 +12,12 @@ import {
   updateIgnoredEvents,
 } from '../game/testing/stateDebug';
 import { getInitialInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
-import { makeAsync } from '../tools/helper';
 import { debugLogger } from '../tools/logger';
 
 /**
  * Recomputes the game state with fresh data
  */
-export async function reloadState(): Promise<void> {
+export function reloadState(): void {
   // force delete the initial state
   // this will erase
   // - patients initial state
@@ -38,7 +37,7 @@ export async function reloadState(): Promise<void> {
   resetHospitalCache();
 
   // this will reinitialize the starting state and the current state of the game
-  await makeAsync(() => runUpdateLoop(), {});
+  runUpdateLoop();
   setInterfaceState(getInitialInterfaceState());
   debugLogger.info('State erased...');
 }
@@ -57,7 +56,7 @@ export async function undoLastAction(): Promise<void> {
     if (last?.id) {
       omitted[last.id] = true;
       await updateIgnoredEvents(omitted);
-      await reloadState();
+      reloadState();
     }
   }
 }
@@ -67,7 +66,7 @@ export async function undoLastAction(): Promise<void> {
  */
 export async function restart(): Promise<void> {
   await setCurrentStateDebug(0);
-  await reloadState();
+  reloadState();
   setTimeout(() => {
     Helpers.scrollIntoView('#current-time', { behavior: 'smooth', inline: 'center' });
   }, 200);
