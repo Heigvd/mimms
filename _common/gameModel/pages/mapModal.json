@@ -199,7 +199,7 @@
                   },
                   "zoom" : {
                     "@class" : "Script",
-                    "content" : "(18.5)",
+                    "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.zoom;",
                     "language" : "typescript"
                   }
                 }

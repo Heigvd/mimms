@@ -158,7 +158,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { setLocationModalState } from \"./edition/UIfacade/locationConfigFacade\";\n\nsetLocationModalState('opened');",
+                "content" : "import { setLocationModalState } from \"./edition/UIfacade/locationConfigFacade\";\nimport { saveCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\n\nsaveCurrentView();\nsetLocationModalState('opened');",
                 "language" : "TypeScript"
               }
             },
