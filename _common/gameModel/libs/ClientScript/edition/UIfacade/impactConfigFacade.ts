@@ -264,6 +264,12 @@ export function canEnterShowOnMap(impact: FlatImpact): boolean {
   return impact?.type === 'mapActivation' && impact?.target?.length > 0;
 }
 
+export function isTriggerSelected(impact: FlatImpact): boolean {
+  return (
+    impact.type === 'activation' && impact.activableType === 'trigger' && impact?.target?.length > 0
+  );
+}
+
 export function setActivationImpactOption(
   impact: FlatImpact,
   wantedActivableType: 'actionTemplate' | 'choice',

@@ -131,7 +131,7 @@ function initContainerDefinitions(): void {
     secouriste: 10,
   });
 
-  definitionsMapping['PC'] = addContainerDefinition(
+  definitionsMapping['PC-San'] = addContainerDefinition(
     'PC-San',
     'pc-san',
     {},

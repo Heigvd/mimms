@@ -20,7 +20,7 @@ export function mapEntityValidator(
     result.push({
       id: 'no-map-object-' + mapEntity.uid,
       level: 'ERROR',
-      title: 'Location without shape',
+      title: `Location "${mapEntity.tag}" without shape`,
       description:
         'A location is defined without an associated point, line or polygon.<br/>Each location must have a shape to be used in the simulation.',
       validationContext: extendedCtx,

@@ -34,7 +34,7 @@ export const ResourceContainerDefinitionNameArray = [
   'ACS-MCS',
   'PMA',
   'PICA',
-  'PC',
+  'PC-San',
 ] as const;
 
 export const optionalResourceDefinitions: Record<ResourceContainerDefinitionName, boolean> = {
@@ -46,7 +46,7 @@ export const optionalResourceDefinitions: Record<ResourceContainerDefinitionName
   'ACS-MCS': false,
   PMA: false,
   PICA: false,
-  PC: false,
+  'PC-San': false,
 };
 
 export type ResourceContainerDefinitionName = typeof ResourceContainerDefinitionNameArray[number];

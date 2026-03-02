@@ -47,12 +47,12 @@ export function getTimeOperatorOptions(): { label: string; value: TimeCondition[
 export function getActiveInactiveStatusOptions(): { label: string; value: ActivableStatus }[] {
   return [
     {
-      label: 'Inactive',
-      value: 'inactive',
-    },
-    {
       label: 'Active',
       value: 'active',
+    },
+    {
+      label: 'Inactive',
+      value: 'inactive',
     },
   ];
 }
@@ -60,12 +60,12 @@ export function getActiveInactiveStatusOptions(): { label: string; value: Activa
 export function getActionChoiceStatusOptions(): { label: string; value: ChoiceActionStatus }[] {
   return [
     {
-      label: 'Inactive',
-      value: 'inactive',
-    },
-    {
       label: 'Active',
       value: 'active',
+    },
+    {
+      label: 'Inactive',
+      value: 'inactive',
     },
     {
       label: 'Completed once',
@@ -108,12 +108,12 @@ export function getActorRolesOptions(includeInitiator: boolean = false): ActorRo
 export function getActivateInactivateOptions(): { label: string; value: ActivationOperator }[] {
   return [
     {
-      label: 'Inactivate',
-      value: 'deactivate',
-    },
-    {
       label: 'Activate',
       value: 'activate',
+    },
+    {
+      label: 'Inactivate',
+      value: 'deactivate',
     },
   ];
 }
