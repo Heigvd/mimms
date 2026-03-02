@@ -969,7 +969,7 @@
                         "viewOptions" : {
                           "center" : {
                             "@class" : "Script",
-                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                            "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().center;",
                             "language" : "typescript"
                           },
                           "extent" : {
@@ -989,7 +989,7 @@
                           },
                           "zoom" : {
                             "@class" : "Script",
-                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.zoom;",
+                            "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().zoom;",
                             "language" : "typescript"
                           }
                         }
