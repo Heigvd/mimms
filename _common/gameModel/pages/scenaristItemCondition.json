@@ -459,6 +459,11 @@
                         "language" : "typescript"
                       }
                     } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isTriggerSelected } from \"./edition/UIfacade/conditionConfigFacade\";\n!isTriggerSelected(Context.item);",
+                      "language" : "typescript"
+                    },
                     "label" : {
                       "@class" : "Script",
                       "content" : "Context.status.label;",
@@ -614,6 +619,11 @@
                         "language" : "typescript"
                       }
                     } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/conditionConfigFacade\";\n!canEnterShowOnMap(Context.item);",
+                      "language" : "typescript"
+                    },
                     "label" : {
                       "@class" : "Script",
                       "content" : "Context.status.label;",

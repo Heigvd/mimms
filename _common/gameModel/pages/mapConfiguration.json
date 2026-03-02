@@ -89,9 +89,7 @@
                               "content" : "  Context.state.state.mapId || 'GVA-center';",
                               "language" : "TypeScript"
                             },
-                            "style" : {
-                              "width" : "135px"
-                            }
+                            "style" : { }
                           },
                           "type" : "Select input"
                         }, {

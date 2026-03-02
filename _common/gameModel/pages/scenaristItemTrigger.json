@@ -125,36 +125,6 @@
                       "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "!Context.item.activeAtStart;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Inactive</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "inactive",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "boolean-button boolean-button-right",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button--selected",
-                      "condition" : {
-                        "@class" : "Script",
                         "content" : "Context.item.activeAtStart;",
                         "language" : "typescript"
                       }
@@ -174,6 +144,36 @@
                       }
                     },
                     "name" : "active",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.item.activeAtStart;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Inactive</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatTrigger } from \"./edition/typeDefinitions/triggerDefinition\";\nimport { updateItem } from \"./edition/UIfacade/triggerConfigFacade\";\n\nupdateItem<FlatTrigger>(Context.item.uid, { activeAtStart: false });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "inactive",
                     "style" : { }
                   },
                   "type" : "Button"

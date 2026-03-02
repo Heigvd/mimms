@@ -107,3 +107,8 @@ function isActionCondition(condition: Condition): condition is ActionCondition {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// trigger specificities
+
+export function isTriggerSelected(condition: FlatCondition): boolean {
+  return condition.type === 'trigger' && condition?.activableRef?.length > 0;
+}

@@ -7613,7 +7613,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS scenario",
+  "name" : "MIM-624",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
