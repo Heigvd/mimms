@@ -115,9 +115,8 @@
                                 "localScriptEval" : {
                                   "script" : {
                                     "@class" : "ClientScript",
-                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\n  reloadState();",
-                                    "language" : "TypeScript",
-                                    "returnType" : "Promise<unknown> | undefined"
+                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\nreloadState();",
+                                    "language" : "TypeScript"
                                   }
                                 },
                                 "name" : "refresh",
