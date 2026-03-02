@@ -209,7 +209,7 @@
                     "viewOptions" : {
                       "center" : {
                         "@class" : "Script",
-                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                        "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().center;",
                         "language" : "typescript"
                       },
                       "extent" : {
@@ -229,7 +229,7 @@
                       },
                       "zoom" : {
                         "@class" : "Script",
-                        "content" : "(18.5)",
+                        "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().zoom;",
                         "language" : "typescript"
                       }
                     }
@@ -839,7 +839,7 @@
                             "onLayerReady" : {
                               "@class" : "ScriptCallback",
                               "args" : [ "layer", "map" ],
-                              "content" : "import { mapObjectsLayerRef } from \"./edition/UIfacade/locationConfigFacade\";\n  mapObjectsLayerRef.current = layer;\n  return;"
+                              "content" : "import { mapObjectsLayerRef } from \"./edition/UIfacade/locationConfigFacade\";\nimport { storeMapView } from \"./edition/UIfacade/map/mapViewFacade\";\n  mapObjectsLayerRef.current = layer;\n    storeMapView(map);\n  return;"
                             },
                             "style" : { }
                           },
@@ -969,7 +969,7 @@
                         "viewOptions" : {
                           "center" : {
                             "@class" : "Script",
-                            "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                            "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().center;",
                             "language" : "typescript"
                           },
                           "extent" : {
@@ -989,7 +989,7 @@
                           },
                           "zoom" : {
                             "@class" : "Script",
-                            "content" : "(18.5)",
+                            "content" : "import { getCurrentView } from \"./edition/UIfacade/map/mapViewFacade\";\ngetCurrentView().zoom;",
                             "language" : "typescript"
                           }
                         }

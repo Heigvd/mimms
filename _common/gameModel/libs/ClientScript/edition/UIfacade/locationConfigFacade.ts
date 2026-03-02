@@ -2,6 +2,7 @@ import { Uid } from '../../game/common/interfaces';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { LineExtremity } from '../../game/common/mapEntities/mapEntityDescriptor';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { MapConfig } from '../../gameMap/utils/mapConfig';
 import { patchX } from '../../tools/helper';
 import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { getMapEntityController } from '../controllers/controllerInstances';
@@ -20,6 +21,7 @@ export interface MapEntityUIState extends GenericScenaristInterfaceState {
   onlySelected: boolean;
   drawActive: boolean;
   drawType: SupportedDrawType;
+  mapView: Partial<MapConfig>;
 }
 
 export function getFilteredLocations(): FlatMapEntity[] {
