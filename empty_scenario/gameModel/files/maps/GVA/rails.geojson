@@ -1,0 +1,1073 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo (CH)",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "83737",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/11655214",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "2",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1140451,
+            46.2339968
+          ],
+          [
+            6.1137529,
+            46.2337532
+          ],
+          [
+            6.1134542,
+            46.2335274
+          ],
+          [
+            6.1119203,
+            46.2324835
+          ],
+          [
+            6.1099319,
+            46.2311304
+          ],
+          [
+            6.1092876,
+            46.2306916
+          ]
+        ]
+      },
+      "id": "way/11655214"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/27884759",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "12",
+        "tracks": "1",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1062442,
+            46.2286521
+          ],
+          [
+            6.1059828,
+            46.2285037
+          ],
+          [
+            6.1057234,
+            46.2283712
+          ],
+          [
+            6.10554,
+            46.2282824
+          ],
+          [
+            6.1053505,
+            46.2281928
+          ],
+          [
+            6.1049495,
+            46.2280056
+          ],
+          [
+            6.1045762,
+            46.2278284
+          ],
+          [
+            6.1043736,
+            46.227728
+          ],
+          [
+            6.1041644,
+            46.2276175
+          ],
+          [
+            6.1038865,
+            46.2274589
+          ],
+          [
+            6.1036685,
+            46.2273246
+          ]
+        ]
+      },
+      "id": "way/27884759"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/47250044",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1073439,
+            46.2293746
+          ],
+          [
+            6.1067857,
+            46.2289885
+          ]
+        ]
+      },
+      "id": "way/47250044"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/76727799",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "13",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1062905,
+            46.228612
+          ],
+          [
+            6.1066189,
+            46.2288083
+          ],
+          [
+            6.1078492,
+            46.2296398
+          ]
+        ]
+      },
+      "id": "way/76727799"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/80240256",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "1",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1092876,
+            46.2306916
+          ],
+          [
+            6.1094738,
+            46.2308283
+          ],
+          [
+            6.1099424,
+            46.2312222
+          ],
+          [
+            6.1101723,
+            46.2314258
+          ],
+          [
+            6.1104704,
+            46.2316629
+          ],
+          [
+            6.1107744,
+            46.2318712
+          ],
+          [
+            6.1118105,
+            46.2325785
+          ],
+          [
+            6.1139533,
+            46.2340411
+          ]
+        ]
+      },
+      "id": "way/80240256"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/80240257",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "4",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1092733,
+            46.2306147
+          ],
+          [
+            6.1096216,
+            46.2308312
+          ],
+          [
+            6.1100317,
+            46.2310559
+          ],
+          [
+            6.1103942,
+            46.2312449
+          ],
+          [
+            6.1107594,
+            46.2314603
+          ],
+          [
+            6.1110694,
+            46.2316647
+          ],
+          [
+            6.1120773,
+            46.2323509
+          ],
+          [
+            6.1133732,
+            46.2332332
+          ],
+          [
+            6.1138098,
+            46.2335429
+          ],
+          [
+            6.114094,
+            46.2338102
+          ],
+          [
+            6.1142425,
+            46.2339828
+          ]
+        ]
+      },
+      "id": "way/80240257"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/80240262",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "service": "siding",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1092206,
+            46.2306461
+          ],
+          [
+            6.1090709,
+            46.230534
+          ],
+          [
+            6.1087093,
+            46.2302279
+          ]
+        ]
+      },
+      "id": "way/80240262"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/116638479",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1141574,
+            46.2340119
+          ],
+          [
+            6.1147324,
+            46.2345209
+          ],
+          [
+            6.1149606,
+            46.2347178
+          ],
+          [
+            6.115108,
+            46.2348278
+          ]
+        ]
+      },
+      "id": "way/116638479"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/116638480",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1142425,
+            46.2339828
+          ],
+          [
+            6.1145473,
+            46.2343293
+          ],
+          [
+            6.1147324,
+            46.2345209
+          ]
+        ]
+      },
+      "id": "way/116638480"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/116638481",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1139533,
+            46.2340411
+          ],
+          [
+            6.1146908,
+            46.2345434
+          ]
+        ]
+      },
+      "id": "way/116638481"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/116638483",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1140451,
+            46.2339968
+          ],
+          [
+            6.1145074,
+            46.2343989
+          ],
+          [
+            6.1146908,
+            46.2345434
+          ]
+        ]
+      },
+      "id": "way/116638483"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/146664623",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1092876,
+            46.2306916
+          ],
+          [
+            6.1092206,
+            46.2306461
+          ],
+          [
+            6.1088312,
+            46.2303824
+          ]
+        ]
+      },
+      "id": "way/146664623"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/230328427",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "level": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "3",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1092733,
+            46.2306147
+          ],
+          [
+            6.1099778,
+            46.2310932
+          ],
+          [
+            6.1127693,
+            46.2329971
+          ],
+          [
+            6.1133382,
+            46.2333822
+          ],
+          [
+            6.1137429,
+            46.2336714
+          ],
+          [
+            6.1141574,
+            46.2340119
+          ]
+        ]
+      },
+      "id": "way/230328427"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301466702",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "4",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1146908,
+            46.2345434
+          ],
+          [
+            6.115108,
+            46.2348278
+          ]
+        ]
+      },
+      "id": "way/301466702"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301466703",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.115108,
+            46.2348278
+          ],
+          [
+            6.1156699,
+            46.2352065
+          ]
+        ]
+      },
+      "id": "way/301466703"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623075",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "12",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1067857,
+            46.2289885
+          ],
+          [
+            6.1065638,
+            46.2288411
+          ],
+          [
+            6.1062442,
+            46.2286521
+          ]
+        ]
+      },
+      "id": "way/301623075"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623076",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "13",
+        "tracks": "1",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1037338,
+            46.227277
+          ],
+          [
+            6.1039494,
+            46.2274092
+          ],
+          [
+            6.1042273,
+            46.2275686
+          ],
+          [
+            6.1044297,
+            46.2276798
+          ],
+          [
+            6.104624,
+            46.2277811
+          ],
+          [
+            6.1049896,
+            46.2279608
+          ],
+          [
+            6.105386,
+            46.228148
+          ],
+          [
+            6.1055788,
+            46.2282398
+          ],
+          [
+            6.105766,
+            46.2283303
+          ],
+          [
+            6.1060229,
+            46.228463
+          ],
+          [
+            6.1062905,
+            46.228612
+          ]
+        ]
+      },
+      "id": "way/301623076"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623077",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "22",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1088312,
+            46.2303824
+          ],
+          [
+            6.1073439,
+            46.2293746
+          ]
+        ]
+      },
+      "id": "way/301623077"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623078",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "railway": "rail",
+        "railway:track_ref": "24",
+        "service": "yard",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1081663,
+            46.2297845
+          ],
+          [
+            6.1076362,
+            46.2294205
+          ]
+        ]
+      },
+      "id": "way/301623078"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623081",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:track_ref": "34",
+        "service": "yard",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1096452,
+            46.2307872
+          ],
+          [
+            6.1081663,
+            46.2297845
+          ]
+        ]
+      },
+      "id": "way/301623081"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623083",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "60",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1087093,
+            46.2302279
+          ],
+          [
+            6.1092733,
+            46.2306147
+          ]
+        ]
+      },
+      "id": "way/301623083"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623084",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "service": "yard",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1087093,
+            46.2302279
+          ],
+          [
+            6.1083527,
+            46.2299216
+          ],
+          [
+            6.1081663,
+            46.2297845
+          ]
+        ]
+      },
+      "id": "way/301623084"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623085",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "service": "siding",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1067857,
+            46.2289885
+          ],
+          [
+            6.1070086,
+            46.2291337
+          ],
+          [
+            6.1075789,
+            46.2294685
+          ],
+          [
+            6.1078492,
+            46.2296398
+          ]
+        ]
+      },
+      "id": "way/301623085"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/301623086",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "service": "siding",
+        "tracks": "1",
+        "tunnel": "yes",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1078764,
+            46.2296583
+          ],
+          [
+            6.1080893,
+            46.2298115
+          ],
+          [
+            6.1085778,
+            46.2301994
+          ],
+          [
+            6.1088312,
+            46.2303824
+          ]
+        ]
+      },
+      "id": "way/301623086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/700865554",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "13",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1078764,
+            46.2296583
+          ],
+          [
+            6.1087093,
+            46.2302279
+          ]
+        ]
+      },
+      "id": "way/700865554"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/700865555",
+        "electrified": "contact_line",
+        "frequency": "16.7",
+        "gauge": "1435",
+        "layer": "-2",
+        "maxspeed": "95",
+        "operator": "SBB",
+        "passenger_lines": "2",
+        "railway": "rail",
+        "railway:etcs": "1",
+        "railway:track_ref": "13",
+        "tracks": "1",
+        "tunnel": "yes",
+        "usage": "main",
+        "voltage": "15000"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            6.1078492,
+            46.2296398
+          ],
+          [
+            6.1078764,
+            46.2296583
+          ]
+        ]
+      },
+      "id": "way/700865555"
+    }
+  ]
+}
