@@ -4,11 +4,13 @@
 ## Update a branch from wegas
 
 Download the zip from Wegas (Gamemodel settings -> "export" tab -> ZIP).
-Then, run `./updateFromZip.sh <EXPORT.zip> [BRANCH_NAME]`.
+Then, run `./updateFromZip.sh <EXPORT.zip>`.
+
+If you want to update another scenario than basic_scenario, you can add the name of the folder at the end of the command.
 
 ## Update gamemodel in wegas
 
-1. Run `createZip.sh`.
+1. Run `./createZip.sh [SCENARIO_NAME]`.
 1. patch gameModel (Gamemodel settings -> "export" tab -> ZIP).
 
 
