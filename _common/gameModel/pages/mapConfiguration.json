@@ -1,0 +1,664 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "noMargin scenarist-title",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "true;",
+              "language" : "typescript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "Title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Map</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist-bold-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Map</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin scenarist-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Text",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Please select the game map and the initial player view.</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "choices" : {
+                              "@class" : "Script",
+                              "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"Avenches\", value: \"Avenches\"}]",
+                              "language" : "typescript"
+                            },
+                            "className" : "scenarist-dropdown",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "noOptionsMessage" : {
+                              "@class" : "Script",
+                              "content" : "\"No maps available\"",
+                              "language" : "TypeScript"
+                            },
+                            "onVariableChange" : {
+                              "client" : {
+                                "@class" : "Script",
+                                "content" : "Context.state.setState({mapId: Context.value});",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "placeholder" : {
+                              "@class" : "Script",
+                              "content" : "\"Select map\"",
+                              "language" : "TypeScript"
+                            },
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "  Context.state.state.mapId || 'GVA-center';",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Select input"
+                        }, {
+                          "props" : {
+                            "className" : "header-button",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "header-button--disabled",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\nContext.state?.state?.mapId == getMapConfig()?.mapId;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "icon" : "",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Load selected</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\n  updateMapChoice(Context.state.state.mapId);",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "Load",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "header-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Set as initial player view</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { saveCurrentView } from \"./UIfacade/mapConfigFacade\";\n\nsaveCurrentView()",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "name" : "Set",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        }, {
+                          "props" : {
+                            "className" : "header-button",
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "\"<p>Reset view</p>\"",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { updateMapChoice } from \"./UIfacade/mapConfigFacade\";\nupdateMapChoice(Context.state.state.mapId);",
+                                "language" : "TypeScript",
+                                "returnType" : "Promise<unknown> | undefined"
+                              }
+                            },
+                            "name" : "Reset",
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "className" : "map-configuration-gap",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Buttons",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "time-config map-configuration-gap",
+                    "layout" : {
+                      "flexDirection" : "column",
+                      "justifyContent" : "space-between"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Map config",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin scenarist-bold-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Time</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin scenarist-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Text",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Please define the incident time and the time after which the simulation starts.</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "noMargin time-config-text small-bold-primary-text",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Incident time</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "small-bold-primary-text",
+                                "layoutClassName" : "noPadding number-input",
+                                "layoutStyle" : { },
+                                "name" : "Hours",
+                                "onVariableChange" : {
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newTime\"",
+                                    "language" : "TypeScript"
+                                  },
+                                  "server" : {
+                                    "@class" : "Script",
+                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'startHours');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                    "language" : "javascript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"HH\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'startHours')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
+                                "className" : "noMargin small-bold-primary-text",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>:</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "small-bold-primary-text number-input",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Minutes",
+                                "onVariableChange" : {
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newTime\"",
+                                    "language" : "TypeScript"
+                                  },
+                                  "server" : {
+                                    "@class" : "Script",
+                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'startMinutes');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                    "language" : "javascript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"MM\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'startMinutes')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Start time",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "className" : "noMargin time-config-text small-bold-primary-text",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Arrival of the first ambulance after</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            }, {
+                              "props" : {
+                                "className" : "small-bold-primary-text number-input",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "onVariableChange" : {
+                                  "exposeVariableAs" : {
+                                    "@class" : "Script",
+                                    "content" : "\"newTime\"",
+                                    "language" : "TypeScript"
+                                  },
+                                  "server" : {
+                                    "@class" : "Script",
+                                    "content" : "const variableDescriptor = Variable.find(gameModel, 'patients-elapsed-minutes');\nconst newTime = Context.newTime;\nvariableDescriptor.setValue(self, newTime);\nvariableDescriptor.getDefaultInstance().setValue(newTime);",
+                                    "language" : "javascript"
+                                  }
+                                },
+                                "placeholder" : {
+                                  "@class" : "Script",
+                                  "content" : "\"MM\"",
+                                  "language" : "TypeScript"
+                                },
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "Variable.find(gameModel,'patients-elapsed-minutes')",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Number input"
+                            }, {
+                              "props" : {
+                                "className" : "noMargin small-bold-primary-text",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>min</p>\"",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Patient time",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "layout" : { },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Inputs",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "time-config",
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Time config",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "layout" : {
+                  "alignItems" : "flex-end",
+                  "flexWrap" : "wrap"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Map & time config",
+                "style" : {
+                  "gap" : "1rem"
+                }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "OSMLayer" : false,
+                    "children" : [ {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : {
+                          "zIndex" : 100
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { getViewGeometry } from \"./UIfacade/mapConfigFacade\";\ngetViewGeometry();",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:2056",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : false
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getViewSelectionStyle } from \"./gameMap/styling/mapStyling\";\ngetViewSelectionStyle(feature);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "control",
+                        "onLayerReady" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "layer", "map" ],
+                          "content" : "import { storeMapView } from \"./UIfacade/mapConfigFacade\";\n  storeMapView(map);\n  return;"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : { },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getWaterStyle } from \"./gameMap/styling/mapStyling\";\ngetWaterStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "water",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : { },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getRailwayStyle } from \"./gameMap/styling/mapStyling\";\ngetRailwayStyle(resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "rails",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "",
+                        "layerProps" : {
+                          "zIndex" : 10
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getRoadStyle } from \"./gameMap/styling/mapStyling\";\ngetRoadStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "roads",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "layerId" : "buildings",
+                        "layerProps" : {
+                          "@class" : "Script",
+                          "content" : "({})",
+                          "language" : "typescript"
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getBuildingStyle } from \"./gameMap/styling/mapStyling\";\n getBuildingStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "buildings",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    } ],
+                    "className" : "fullSize",
+                    "debug" : false,
+                    "id" : "",
+                    "layoutClassName" : "map-configuration",
+                    "layoutStyle" : { },
+                    "mapOptions" : {
+                      "onClick" : {
+                        "@class" : "ScriptCallback",
+                        "args" : [ "coord", "features" ],
+                        "content" : "import { handleMapClick } from './gameMap/main';\n\n\n\nhandleMapClick({x: coord[0], y: coord[1]}, features);\n\n\n\nreturn;"
+                      }
+                    },
+                    "style" : { },
+                    "viewOptions" : {
+                      "center" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().center;",
+                        "language" : "typescript"
+                      },
+                      "extent" : {
+                        "@class" : "Script",
+                        "content" : "import { getScaledExtent } from \"./gameMap/utils/mapConfig\";\ngetScaledExtent();",
+                        "language" : "typescript"
+                      },
+                      "maxZoom" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.maxZoom;",
+                        "language" : "typescript"
+                      },
+                      "projection" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig().projection;",
+                        "language" : "typescript"
+                      },
+                      "showFullExtent" : true,
+                      "zoom" : {
+                        "@class" : "Script",
+                        "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\ngetMapConfig()?.zoom;",
+                        "language" : "typescript"
+                      }
+                    }
+                  },
+                  "type" : "WegasMap"
+                } ],
+                "className" : "noPadding noMargin",
+                "layout" : { },
+                "layoutClassName" : "fullSize noPadding noMargin",
+                "layoutStyle" : {
+                  "left" : "0",
+                  "pointerEvents" : "auto",
+                  "top" : "0"
+                },
+                "name" : "Map",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "map-configuration-page",
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "fullSize noPadding",
+            "layoutStyle" : { },
+            "name" : "Map Page",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "state",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getMapConfig } from \"./gameMap/utils/mapConfig\";\n({mapId: getMapConfig()?.mapId});",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "fullSize noPadding",
+        "layoutStyle" : {
+          "flexDirection" : "column"
+        },
+        "localState" : true,
+        "name" : "State",
+        "style" : { }
+      },
+      "type" : "State"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "name" : "Map Configuration",
+    "style" : { }
+  },
+  "type" : "FlexList"
+}

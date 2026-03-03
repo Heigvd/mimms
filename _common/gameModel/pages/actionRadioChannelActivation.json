@@ -1,0 +1,75 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "mimms_h3title",
+        "layoutClassName" : "noPadding aDescriptionAction",
+        "layoutStyle" : { },
+        "name" : "description",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nuniqueActionTemplates()?.ActivateRadioSchemaActionTemplate?.getDescription() || ''",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "button-secondaryColor button-S",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "abort",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+            "language" : "typescript"
+          }
+        } ],
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { canPlanOrCancel, isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nconst action = uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate;\nif(!isAvailable(action)){\n  return true;\n}\n!canPlanOrCancel(action);",
+          "language" : "typescript"
+        },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+          "language" : "typescript"
+        },
+        "label" : {
+          "@class" : "Script",
+          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = isPlannedAction(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate.uid);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : {
+          "alignSelf" : "flex-end",
+          "padding" : "15px 0px 10px 0px"
+        },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "send",
+        "style" : { }
+      },
+      "type" : "Button"
+    } ],
+    "hideIf" : {
+      "@class" : "Script",
+      "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+      "language" : "typescript"
+    },
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

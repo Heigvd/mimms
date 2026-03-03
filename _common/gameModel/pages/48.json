@@ -1,0 +1,25 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'RADIO MESSAGES '\n    + Object.values(getCurrentState().getInternalStateObject().radioMessages)\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

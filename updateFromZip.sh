@@ -1,28 +1,29 @@
 #!/bin/bash
 
 VERBOSE=false
-CURRENT_BRANCH=$(git branch --show-current)
+SKIP_GIT_STATUS_RESTRICTION=false
+DEFAULT_SCENARIO=basic_scenario
+COMMON_FOLDER=_common
 
 function show_help {
-    echo Usage $0 ZIP_FILE [BRANCH_NAME]
-    echo "  ZIP_FILE : path to exported gameModel"
-    echo "  Default BRANCH_NAME is $(git branch --show-current)"
+    echo Usage "$0" ZIP_FILE "[SCENARIO_NAME]"
+    echo "  ZIP_FILE : path to zipped gameModel"
+    echo "  SCENARIO_NAME : name of the folder containing the scenario to patch (default is $DEFAULT_SCENARIO)"
 }
 
 function printError() {
     echo;
     echo "Abort";
-    if [ ! -z "$1" ]; then
-        echo $1;
+    if [ -n "$1" ]; then
+        echo "$1";
     fi
 }
 
-## Parse options
-
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
- 
-while getopts "h?v" opt; do
+
+## Parse options
+while getopts "h?vF" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -30,20 +31,21 @@ while getopts "h?v" opt; do
         ;;
     v) VERBOSE=true
         ;;
+    F) SKIP_GIT_STATUS_RESTRICTION=true
+        ;;
     esac
 done
 
 ## Read arguments
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 ZIP_FILE=$1
-ARG_BRANCH=$2
+SCENARIO_NAME=$2
 
-BRANCH=${ARG_BRANCH:-${CURRENT_BRANCH}}
+if [ -z "$SCENARIO_NAME" ]; then
+    SCENARIO_NAME="$DEFAULT_SCENARIO"
+fi
 
-$VERBOSE && echo "Update ${BRANCH} from ${ZIP_FILE}"
-
-
-# make sure the given zip file exists
+# make sure the zip is filled
 if [ -z "${ZIP_FILE}" ]; then
     show_help;
     exit 1;
@@ -55,67 +57,91 @@ if [ ! -f "${ZIP_FILE}" ]; then
     exit 1;
 fi
 
-ZIP_INFO=$(zipinfo -1 ${ZIP_FILE} 2> /dev/null | grep -e "^/\?gameModel/")
-
+# make sure the given zip contains a gameModel folder
+ZIP_INFO=$(zipinfo -1 "${ZIP_FILE}" 2> /dev/null | grep -e "^/\?gameModel/")
 if [ -z "${ZIP_INFO}" ]; then
     printError "${ZIP_FILE} is not a valid gameModel export";
     exit 1;
 fi
 
-
-GIT_STATUS_SHORT=$(git status --short gameModel)
-
-if [ ! -z "${GIT_STATUS_SHORT}" ]; then
-    git status
-    printError "Pending changes in repository !";
-    exit 1;
-fi
-
-
-if [ ! "${BRANCH}" == "${CURRENT_BRANCH}" ]; then
-    if [ ${VERBOSE} ]; then
-        git switch $BRANCH;
-    else
-        git switch -q $BRANCH;
-    fi
-
-    if [ $? -ne 0 ]; then
-        printError "Branch ${BRANCH} does not exist";
+# check no git pending changes
+if ! $SKIP_GIT_STATUS_RESTRICTION
+then
+    GIT_STATUS_SHORT_COMMON=$(git status --short $COMMON_FOLDER/gameModel)
+    if [ -n "${GIT_STATUS_SHORT_COMMON}" ]; then
+        git status $COMMON_FOLDER/gameModel
+        printError "Pending changes in $COMMON_FOLDER/gameModel repository !";
         exit 1;
     fi
 
+    GIT_STATUS_SHORT_SCENARIO=$(git status --short $SCENARIO_NAME/gameModel)
+    if [ -n "${GIT_STATUS_SHORT_SCENARIO}" ]; then
+        git status $SCENARIO_NAME/gameModel
+        printError "Pending changes in $SCENARIO_NAME/gameModel repository !";
+        exit 1;
+    fi
 fi
 
-$VERBOSE && echo Process
+echo "Update $SCENARIO_NAME from ${ZIP_FILE}"
 
-TMP_DIR=$(mktemp -d ./gameModel.XXXXXX)
+$VERBOSE && echo "Save gameModel data to temporary folders"
 
-mv ./gameModel $TMP_DIR
+TMP_DIR_COMMON=$(mktemp -d ./$COMMON_FOLDER/gameModel.XXXXXX)
+TMP_DIR_SCENARIO_SPECIFIC=$(mktemp -d ./$SCENARIO_NAME/gameModel.XXXXXX)
 
-unzip -qq $ZIP_FILE "gameModel/**"
+mv ./$COMMON_FOLDER/gameModel "$TMP_DIR_COMMON"
+mv ./$SCENARIO_NAME/gameModel "$TMP_DIR_SCENARIO_SPECIFIC"
 
-if [ $? -ne 0 ]; then
-    mv $TMP_DIR/gameModel .
-    rmdir $TMP_DIR;
+$VERBOSE && echo "unzip $ZIP_FILE"
+(cd $SCENARIO_NAME ||exit
+if unzip -qq "$ZIP_FILE" "gameModel/**"
+then
+    (cd gameModel || exit
+        $VERBOSE && echo "Move data libs + pages to $COMMON_FOLDER/gameModel"
+        mkdir -p ../../$COMMON_FOLDER/gameModel/libs
+        mv ./libs ../../$COMMON_FOLDER/gameModel
+#        ln -s ../../$COMMON_FOLDER/gameModel/libs libs
+        mkdir -p ../../$COMMON_FOLDER/gameModel/pages
+        mv ./pages ../../$COMMON_FOLDER/gameModel
+#        ln -s ../../$COMMON_FOLDER/gameModel/pages pages
+    )
+else
+    mv "$TMP_DIR_COMMON"/gameModel .
+    mv "$TMP_DIR_SCENARIO_SPECIFIC"/gameModel .
+    rmdir "$TMP_DIR_COMMON";
+    rmdir "$TMP_DIR_SCENARIO_SPECIFIC";
     printError "Unzip failed: restore previous gameModel";
     exit 1;
 fi
+)
 
-rm -R $TMP_DIR;
+rm -R "$TMP_DIR_COMMON";
+rm -R "$TMP_DIR_SCENARIO_SPECIFIC";
 
+echo
 echo "Prettier formatting"
-yarn format
+yarn format --loglevel warn
 
+echo
 echo "Compiling TypeScript"
 yarn build
 
 if [ $? -gt 0 ]; then
-  echo
-  echo "Compilation error(s), please fix";
-  echo
+    echo
+    echo "Compilation error(s), please fix";
+    echo
 fi
 
-echo "Done"
 echo
-echo "Please review changes"
+echo "Checking page script imports"
+yarn check-page-scripts
 
+if [ $? -gt 0 ]; then
+    echo
+    echo "Compilation error(s), please fix";
+    echo
+fi
+
+echo
+echo "Done"
+echo "Please review changes"

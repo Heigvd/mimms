@@ -1,0 +1,25 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getMapEntityDescriptors } from \"./game/loaders/mapEntitiesLoader\";\nimport { getCurrentState } from \"./game/mainSimulationLogic\";\n  const activablesState = getCurrentState().getInternalStateObject().activables;\n  'MAP ENTITIES DESCRIPTOR'\n    + Object.values(getMapEntityDescriptors())\n      .map(item => '<br/><br/>' + JSON.stringify(item) + '<br/>' + JSON.stringify(activablesState[item.uid]));",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

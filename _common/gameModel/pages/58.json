@@ -1,0 +1,40 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "className" : "",
+        "layoutStyle" : { },
+        "name" : "Actions",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'ACTIONS '\n    + getCurrentState().getInternalStateObject().actions\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "",
+        "layoutStyle" : { },
+        "name" : "CancelledActions",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  'CANCELLED ACTIONS '\n    + getCurrentState().getInternalStateObject().cancelledActions\n      .map(item => '<br/><br/>' + JSON.stringify(item));",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    }
+  },
+  "type" : "FlexList"
+}

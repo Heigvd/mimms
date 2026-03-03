@@ -1,0 +1,49 @@
+/**
+ * Builds activable state objects for
+ * Triggers
+ * ActionTemplates
+ * Choices
+ */
+
+import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
+import { Uid } from '../common/interfaces';
+import { MapEntityDescriptor } from '../common/mapEntities/mapEntityDescriptor';
+import { Activable, fromDescriptor } from '../common/simulationState/activableState';
+import { Trigger } from '../common/triggers/trigger';
+import { loadCustomActionTemplateDescriptors } from './actionTemplateLoader';
+import { getMapEntityDescriptors } from './mapEntitiesLoader';
+import { getTriggers } from './triggerLoader';
+
+export function buildActivables(): Record<Uid, Activable> {
+  const activables: Record<Uid, Activable> = {};
+
+  addTriggerActivables(activables);
+  addActionsAndChoicesActivables(activables);
+  addMapEntitiesActivables(activables);
+  return activables;
+}
+
+function addTriggerActivables(activables: Record<Uid, Activable>): void {
+  const allTriggers: Trigger[] = getTriggers();
+
+  allTriggers.forEach((trigger: Trigger) => {
+    activables[trigger.uid] = fromDescriptor(trigger);
+  });
+}
+
+function addActionsAndChoicesActivables(activables: Record<Uid, Activable>): void {
+  // TODO see if basic action templates + choices should also be loaded in activables
+  const tpls: Record<Uid, TemplateDescriptor> = loadCustomActionTemplateDescriptors();
+
+  Object.values(tpls).forEach((t: TemplateDescriptor) => {
+    activables[t.uid] = fromDescriptor(t);
+    t.choices?.forEach(choice => (activables[choice.uid] = fromDescriptor(choice)));
+  });
+}
+
+function addMapEntitiesActivables(activables: Record<Uid, Activable>): void {
+  const descriptors: Record<Uid, MapEntityDescriptor> = getMapEntityDescriptors();
+  Object.values(descriptors).forEach((t: MapEntityDescriptor) => {
+    activables[t.uid] = fromDescriptor(t);
+  });
+}
