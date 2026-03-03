@@ -1,5 +1,6 @@
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import { ACTION_TEMPLATE_DATA } from '../../game/loaders/actionTemplateLoader';
+import { getMapConfig } from '../../gameMap/utils/mapConfig';
 import { FlatMapEntity } from '../typeDefinitions/mapEntityDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
@@ -67,6 +68,7 @@ export function getInitialMapEntityUIState(): MapEntityUIState {
     onlySelected: false,
     drawActive: false,
     drawType: 'Point',
+    mapView: getMapConfig() || {}
   };
 }
 

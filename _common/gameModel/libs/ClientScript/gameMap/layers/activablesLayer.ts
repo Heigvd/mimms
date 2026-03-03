@@ -92,7 +92,7 @@ function getGenericFeature(
     buildStatus = activable?.buildStatus || 'built';
   }
 
-  for (const mapObject of (descriptor?.mapObjects ?? [])) {
+  for (const mapObject of descriptor?.mapObjects ?? []) {
     const properties = {
       id: descriptor?.uid,
       tag: descriptor?.tag,
