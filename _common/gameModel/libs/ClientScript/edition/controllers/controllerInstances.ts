@@ -68,7 +68,7 @@ export function getInitialMapEntityUIState(): MapEntityUIState {
     onlySelected: false,
     drawActive: false,
     drawType: 'Point',
-    mapView: getMapConfig() || {}
+    mapView: getMapConfig() || {},
   };
 }
 
