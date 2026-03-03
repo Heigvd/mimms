@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1771333575021,
+  "createdTime" : 1772552873763,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5550,6 +5550,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/UIfacade/map/mapViewFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#283:rN0CwH",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/UIfacade/map/modalState",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7616,7 +7625,7 @@
     "websocket" : ""
   },
   "protected" : false,
-  "refId" : "gamemodel:2652Cu6wLq",
+  "refId" : "GameModel:30608:rdVDgS",
   "status" : "LIVE",
   "template" : true,
   "type" : "SCENARIO",
