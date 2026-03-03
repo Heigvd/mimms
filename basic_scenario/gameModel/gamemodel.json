@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1772469388946,
+  "createdTime" : 1772551569943,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -819,7 +819,7 @@
         "0GJxqNtdmk" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":50,\"name\":\"Heli-001\",\"type\":\"Helico\"},\"index\":22}",
         "0H7wBYaaHY" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":15,\"travelTime\":30,\"name\":\"VD-003\",\"type\":\"AMB-U\"},\"index\":16}",
         "0siGpSh02h" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"GE-003\",\"type\":\"AMB-U\"},\"index\":11}",
-        "11mWaxVKvS" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":10,\"name\":\"PC-001\",\"type\":\"PC\"},\"index\":27}",
+        "11mWaxVKvS" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":10,\"name\":\"PC-001\",\"type\":\"PC-San\"},\"index\":27}",
         "1ZTZSLpLNX" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-013\",\"type\":\"AMB-I\"},\"index\":6}",
         "2eQtFPOJZY" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":5,\"travelTime\":5,\"name\":\"GE-005\",\"type\":\"AMB-I\"},\"index\":3}",
         "3uSAZWIlgM" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"GE-001\",\"type\":\"AMB-U\"},\"index\":10}",
@@ -7664,7 +7664,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Release Candidate 3.2.2026",
+  "name" : "Basic scenario",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
