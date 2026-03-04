@@ -58,7 +58,7 @@
         }
       },
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -110,7 +110,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -150,7 +150,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -190,7 +190,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -230,7 +230,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "StaticTextDescriptor",
         "broadcastScope" : "TeamScope",
@@ -270,7 +270,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -281,7 +281,7 @@
       "refId" : "ListDescriptor:24074412:NvUeJF",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -334,7 +334,7 @@
           }
         },
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -345,7 +345,7 @@
       "refId" : "ListDescriptor:24113735:eo8HBy",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -364,7 +364,7 @@
     "refId" : "ListDescriptor:22373402:NY8Rxo",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -410,7 +410,7 @@
       "refId" : "NumberDescriptor:24032590:Qc8mBy",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -444,7 +444,7 @@
       "refId" : "NumberDescriptor:24032611:CMyZD8",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -478,7 +478,7 @@
       "refId" : "NumberDescriptor:24032601:cT0SBp",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -512,7 +512,7 @@
       "refId" : "NumberDescriptor:24033201:CR0yCq",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -523,7 +523,7 @@
     "refId" : "ListDescriptor:24032606:jl4BA6",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -610,7 +610,7 @@
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "TeamScope",
@@ -645,7 +645,7 @@
       "refId" : "ObjectDescriptor:24054703:rgeAG3",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -683,7 +683,7 @@
       "refId" : "ObjectDescriptor:24056039:J6pALa",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -709,7 +709,7 @@
       "refId" : "ObjectDescriptor:1618543:nC9xke",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -736,7 +736,7 @@
       "refId" : "ObjectDescriptor:24057033:xY2WkZ",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -795,7 +795,7 @@
       "refId" : "ObjectDescriptor:28499063:JtE44f",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -852,7 +852,7 @@
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -886,7 +886,7 @@
       "refId" : "NumberDescriptor:1580619:oyNw77",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -913,7 +913,7 @@
       "refId" : "ObjectDescriptor:2623032:acjkg8",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -954,7 +954,7 @@
       "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1015,7 +1015,7 @@
       "refId" : "ObjectDescriptor:2505380:fCol0C",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1026,7 +1026,7 @@
     "refId" : "ListDescriptor:22373407:25M2fu",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -1075,7 +1075,7 @@
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ ],
@@ -1112,7 +1112,7 @@
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "TeamScope",
@@ -1137,7 +1137,7 @@
       "refId" : "ObjectDescriptor:24060137:G5TcTN",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "TeamScope",
@@ -1158,7 +1158,7 @@
       "refId" : "BooleanDescriptor:24098833:0jJFD7",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1169,7 +1169,7 @@
     "refId" : "ListDescriptor:22373412:WUI6oz",
     "scopeType" : "GameModelScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -1288,7 +1288,7 @@
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1317,7 +1317,7 @@
       "refId" : "BooleanDescriptor:24034115:xHN0wL",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1346,7 +1346,7 @@
       "refId" : "BooleanDescriptor:24034126:zLbBDJ",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1375,7 +1375,7 @@
       "refId" : "BooleanDescriptor:24035001:uhYoWJ",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ {
@@ -1514,7 +1514,7 @@
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "StringDescriptor",
       "allowedValues" : [ {
@@ -1585,7 +1585,7 @@
       "sortable" : false,
       "validationPattern" : null,
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -1634,7 +1634,7 @@
         "sortable" : false,
         "validationPattern" : null,
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "StringDescriptor",
         "allowedValues" : [ ],
@@ -1678,7 +1678,7 @@
         "sortable" : false,
         "validationPattern" : null,
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -1689,7 +1689,7 @@
       "refId" : "ListDescriptor:24056505:1AlWQD",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "TextDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1718,7 +1718,7 @@
       "refId" : "TextDescriptor:26620158:7cwtor",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1747,7 +1747,7 @@
       "refId" : "BooleanDescriptor:28498811:yVdbXZ",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -1776,7 +1776,7 @@
       "refId" : "BooleanDescriptor:24113710:Gv0U8H",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -1787,7 +1787,7 @@
     "refId" : "ListDescriptor:24034110:Vgb8F0",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -1845,7 +1845,7 @@
         "refId" : "NumberDescriptor:24034158:ykKX9M",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
@@ -1879,7 +1879,7 @@
         "refId" : "NumberDescriptor:24034163:YFv7GE",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "BooleanDescriptor",
         "broadcastScope" : "TeamScope",
@@ -1900,7 +1900,7 @@
         "refId" : "BooleanDescriptor:24034168:puplr2",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
@@ -1926,7 +1926,7 @@
         "refId" : "NumberDescriptor:24069462:7eEV5K",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
@@ -1967,7 +1967,7 @@
         "refId" : "NumberDescriptor:36341867:GMZMEl",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -1978,7 +1978,7 @@
       "refId" : "ListDescriptor:24069467:KrzPXb",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -2011,7 +2011,7 @@
         "refId" : "BooleanDescriptor:24069482:rvMva1",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -2022,7 +2022,7 @@
       "refId" : "ListDescriptor:24069472:eLZvZn",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -2033,7 +2033,7 @@
     "refId" : "ListDescriptor:24034151:A5HrXU",
     "scopeType" : "GameModelScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -2078,7 +2078,7 @@
         "refId" : "BooleanDescriptor:24113705:Ss73Eq",
         "scopeType" : "PlayerScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ListDescriptor",
         "addShortcut" : "",
@@ -2127,7 +2127,7 @@
           "sortable" : false,
           "validationPattern" : null,
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "NumberDescriptor",
           "broadcastScope" : "PlayerScope",
@@ -2161,7 +2161,7 @@
           "refId" : "NumberDescriptor:24113746:arWi4I",
           "scopeType" : "PlayerScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "BooleanDescriptor",
           "broadcastScope" : "PlayerScope",
@@ -2190,7 +2190,7 @@
           "refId" : "BooleanDescriptor:24113617:mbiyFB",
           "scopeType" : "PlayerScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "ListDescriptor",
           "addShortcut" : "",
@@ -2231,7 +2231,7 @@
             "refId" : "BooleanDescriptor:24113627:5QmLJK",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           }, {
             "@class" : "BooleanDescriptor",
             "broadcastScope" : "PlayerScope",
@@ -2260,7 +2260,7 @@
             "refId" : "BooleanDescriptor:24113632:ktZRCy",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           }, {
             "@class" : "BooleanDescriptor",
             "broadcastScope" : "PlayerScope",
@@ -2289,7 +2289,7 @@
             "refId" : "BooleanDescriptor:24113637:7OYSBM",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           }, {
             "@class" : "BooleanDescriptor",
             "broadcastScope" : "PlayerScope",
@@ -2318,7 +2318,7 @@
             "refId" : "BooleanDescriptor:24113642:Wld1rb",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           }, {
             "@class" : "StringDescriptor",
             "allowedValues" : [ ],
@@ -2355,7 +2355,7 @@
             "sortable" : false,
             "validationPattern" : null,
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           } ],
           "label" : {
             "@class" : "TranslatableContent",
@@ -2374,7 +2374,7 @@
           "refId" : "ListDescriptor:24113622:BqTscz",
           "scopeType" : "GameModelScope",
           "version" : null,
-          "visibility" : "INTERNAL"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "BooleanDescriptor",
           "broadcastScope" : "PlayerScope",
@@ -2403,7 +2403,7 @@
           "refId" : "BooleanDescriptor:24113764:HKwvVh",
           "scopeType" : "PlayerScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "ListDescriptor",
           "addShortcut" : "",
@@ -2444,7 +2444,7 @@
             "refId" : "BooleanDescriptor:24113659:sD5PMi",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           }, {
             "@class" : "BooleanDescriptor",
             "broadcastScope" : "PlayerScope",
@@ -2473,7 +2473,7 @@
             "refId" : "BooleanDescriptor:24113664:5kz62f",
             "scopeType" : "PlayerScope",
             "version" : null,
-            "visibility" : "INHERITED"
+            "visibility" : "PRIVATE"
           } ],
           "label" : {
             "@class" : "TranslatableContent",
@@ -2492,7 +2492,7 @@
           "refId" : "ListDescriptor:24113654:rnXuRW",
           "scopeType" : "GameModelScope",
           "version" : null,
-          "visibility" : "INTERNAL"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "NumberDescriptor",
           "broadcastScope" : "PlayerScope",
@@ -2526,7 +2526,7 @@
           "refId" : "NumberDescriptor:24113669:XkPBmb",
           "scopeType" : "PlayerScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "NumberDescriptor",
           "broadcastScope" : "PlayerScope",
@@ -2560,7 +2560,7 @@
           "refId" : "NumberDescriptor:24113674:1Zf6IQ",
           "scopeType" : "PlayerScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         } ],
         "label" : {
           "@class" : "TranslatableContent",
@@ -2571,7 +2571,7 @@
         "refId" : "ListDescriptor:24113759:dFU4uW",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INTERNAL"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -2582,7 +2582,7 @@
       "refId" : "ListDescriptor:24113605:IEa3ND",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "TeamScope",
@@ -2605,7 +2605,7 @@
       "refId" : "ObjectDescriptor:24070160:cUEpc6",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -2640,7 +2640,7 @@
         "refId" : "ObjectDescriptor:24032595:j7m5RM",
         "scopeType" : "PlayerScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "TeamScope",
@@ -2663,7 +2663,7 @@
         "refId" : "ObjectDescriptor:24035156:TCbSqt",
         "scopeType" : "PlayerScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "TeamScope",
@@ -2686,7 +2686,7 @@
         "refId" : "ObjectDescriptor:24035161:V7TLG0",
         "scopeType" : "PlayerScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -2697,7 +2697,7 @@
       "refId" : "ListDescriptor:24070205:D0P3Pi",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -2708,7 +2708,7 @@
     "refId" : "ListDescriptor:24035151:7H9DfE",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "BooleanDescriptor",
     "broadcastScope" : "TeamScope",
@@ -2737,7 +2737,7 @@
     "refId" : "BooleanDescriptor:56276:zBobqe",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INHERITED"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -2774,7 +2774,7 @@
       "refId" : "ObjectDescriptor:56324:HzyhRi",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -2831,7 +2831,7 @@
       "refId" : "ObjectDescriptor:1595602:JjrXYa",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "GameModelScope",
@@ -2865,7 +2865,7 @@
       "refId" : "NumberDescriptor:1580624:K0KwTV",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -2876,7 +2876,7 @@
     "refId" : "ListDescriptor:56281:c5m2Pm",
     "scopeType" : "GameModelScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -2918,7 +2918,7 @@
       "refId" : "EventInboxDescriptor:205070:tu8VIV",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -2929,7 +2929,7 @@
     "refId" : "ListDescriptor:24070155:NXpQIu",
     "scopeType" : "GameModelScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "ObjectDescriptor",
@@ -3025,7 +3025,7 @@
         "refId" : "ObjectDescriptor:63757:maBPdr",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3089,7 +3089,7 @@
         "refId" : "ObjectDescriptor:63767:kzbbmK",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3190,7 +3190,7 @@
         "refId" : "ObjectDescriptor:63780:6Wkeqn",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3236,7 +3236,7 @@
         "refId" : "ObjectDescriptor:65494:QS8Lvu",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3294,7 +3294,7 @@
         "refId" : "ObjectDescriptor:65675:bQVXjx",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3332,7 +3332,7 @@
         "refId" : "ObjectDescriptor:66764:ApkqcS",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -3351,7 +3351,7 @@
       "refId" : "ListDescriptor:63762:5hFPUT",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "ObjectDescriptor",
@@ -3469,7 +3469,7 @@
         "refId" : "ObjectDescriptor:63785:8sYyho",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3551,7 +3551,7 @@
         "refId" : "ObjectDescriptor:67035:ScfPCQ",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -3570,7 +3570,7 @@
       "refId" : "ListDescriptor:64101:iw3zLA",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -3625,7 +3625,7 @@
         "refId" : "ObjectDescriptor:24098781:HZZRDx",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -3644,7 +3644,7 @@
       "refId" : "ListDescriptor:24098776:LeCiBl",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -3684,7 +3684,7 @@
         "refId" : "ObjectDescriptor:24098811:PJYq7w",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3728,7 +3728,7 @@
         "refId" : "ObjectDescriptor:24113754:U2bSPH",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -3739,7 +3739,7 @@
       "refId" : "ListDescriptor:24098806:wm2jhy",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "ObjectDescriptor",
@@ -3834,7 +3834,7 @@
         "refId" : "ObjectDescriptor:49462:KdFc2a",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -3966,7 +3966,7 @@
         "refId" : "ObjectDescriptor:482278:SnYevy",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4010,7 +4010,7 @@
         "refId" : "ObjectDescriptor:487596:frcIa7",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4066,7 +4066,7 @@
         "refId" : "ObjectDescriptor:976727:9Gt2hd",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4148,7 +4148,7 @@
         "refId" : "ObjectDescriptor:584952:gBmGN5",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4190,7 +4190,7 @@
         "refId" : "ObjectDescriptor:661339:Uj1yC9",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4242,7 +4242,7 @@
         "refId" : "ObjectDescriptor:582621:U3Go86",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4302,7 +4302,7 @@
         "refId" : "ObjectDescriptor:1189501:ZTwe9B",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -4321,7 +4321,7 @@
       "refId" : "ListDescriptor:49455:3wsqe7",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -4366,7 +4366,7 @@
         "refId" : "ObjectDescriptor:622929:2SsbX6",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -4377,7 +4377,7 @@
       "refId" : "ListDescriptor:622970:cq64eO",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4396,7 +4396,7 @@
     "refId" : "ListDescriptor:63752:ISsY6g",
     "scopeType" : "GameModelScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -4442,7 +4442,7 @@
       "refId" : "NumberDescriptor:439772:l1mxlS",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "NumberDescriptor",
       "broadcastScope" : "TeamScope",
@@ -4476,7 +4476,7 @@
       "refId" : "NumberDescriptor:1034514:acfBDl",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "TeamScope",
@@ -4509,7 +4509,7 @@
       "refId" : "ObjectDescriptor:1034618:k8juHH",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INHERITED"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4528,7 +4528,7 @@
     "refId" : "ListDescriptor:439767:xLh2KN",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "ListDescriptor",
     "addShortcut" : "",
@@ -4648,7 +4648,7 @@
         "sortable" : false,
         "validationPattern" : null,
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ListDescriptor",
         "addShortcut" : "",
@@ -4694,7 +4694,7 @@
           "refId" : "NumberDescriptor:49480:oMtgKP",
           "scopeType" : "GameModelScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         }, {
           "@class" : "NumberDescriptor",
           "broadcastScope" : "GameModelScope",
@@ -4728,7 +4728,7 @@
           "refId" : "NumberDescriptor:49485:JiLgaA",
           "scopeType" : "GameModelScope",
           "version" : null,
-          "visibility" : "INHERITED"
+          "visibility" : "PRIVATE"
         } ],
         "label" : {
           "@class" : "TranslatableContent",
@@ -4747,7 +4747,7 @@
         "refId" : "ListDescriptor:49475:As9tqf",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INTERNAL"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "TeamScope",
@@ -4781,7 +4781,7 @@
         "refId" : "NumberDescriptor:57175:HwLLn1",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "ObjectDescriptor",
         "broadcastScope" : "TeamScope",
@@ -4817,7 +4817,7 @@
         "refId" : "ObjectDescriptor:128840:WGPACq",
         "scopeType" : "PlayerScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -4836,7 +4836,7 @@
       "refId" : "ListDescriptor:445466:kMdtO9",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -4879,7 +4879,7 @@
         "refId" : "ObjectDescriptor:183095:ZEWrRY",
         "scopeType" : "TeamScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -4898,7 +4898,7 @@
       "refId" : "ListDescriptor:183090:bSD4tM",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -4939,7 +4939,7 @@
         "refId" : "BooleanDescriptor:243647:JqP12B",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "NumberDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4973,7 +4973,7 @@
         "refId" : "NumberDescriptor:1277584:rHraWv",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       }, {
         "@class" : "BooleanDescriptor",
         "broadcastScope" : "GameModelScope",
@@ -4994,7 +4994,7 @@
         "refId" : "BooleanDescriptor:488122:ENNDTx",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5013,7 +5013,7 @@
       "refId" : "ListDescriptor:243642:ynaItH",
       "scopeType" : "GameModelScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     }, {
       "@class" : "ListDescriptor",
       "addShortcut" : "",
@@ -5050,7 +5050,7 @@
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",
         "version" : null,
-        "visibility" : "INHERITED"
+        "visibility" : "PRIVATE"
       } ],
       "label" : {
         "@class" : "TranslatableContent",
@@ -5069,7 +5069,7 @@
       "refId" : "ListDescriptor:1655151:QFhHPh",
       "scopeType" : "TeamScope",
       "version" : null,
-      "visibility" : "INTERNAL"
+      "visibility" : "PRIVATE"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -5088,7 +5088,7 @@
     "refId" : "ListDescriptor:445461:gyfByM",
     "scopeType" : "TeamScope",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   } ],
   "languages" : [ {
     "@class" : "GameModelLanguage",
@@ -5115,7 +5115,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:752151:wqsXY7",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5124,7 +5124,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1107414:ZsKPmB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5133,7 +5133,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1181601:5ANYKP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5142,7 +5142,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#54:64EhfL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5151,7 +5151,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1087301:4BmFap",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5160,7 +5160,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24076751:9QkC9G",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5169,7 +5169,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:208752:bWHbOU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5178,7 +5178,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1092401:IMNt4H",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5187,7 +5187,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2485517:V6FKnT",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5196,7 +5196,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2485520:0eqXHv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5205,7 +5205,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#155:7oCnGl",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5214,7 +5214,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2487502:JRT8vZ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5223,7 +5223,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2484592:ZeDc35",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5232,7 +5232,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2486509:UhtSx6",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5241,7 +5241,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2506520:JiVVQY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5250,7 +5250,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032621:Jryctw",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5259,7 +5259,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24055651:hf6ZEg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5268,7 +5268,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24069001:Ja2K5c",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5277,7 +5277,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:56339:9xzhBc",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5286,7 +5286,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2050471:3aOQas",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5295,7 +5295,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991752:Ywr7o0",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5304,7 +5304,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990712:AnBdrO",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5313,7 +5313,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2477605:tBJCCY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5322,7 +5322,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991702:1fa9do",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5331,7 +5331,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2489463:V8FI2n",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5340,7 +5340,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2488511:VJJGmJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5349,7 +5349,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990713:HrPBLj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5358,7 +5358,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2050462:QtJUT5",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5367,7 +5367,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276752:IeNZuB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5376,7 +5376,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991693:jlaATV",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5385,7 +5385,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991692:OWj0Bg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5394,7 +5394,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#271:pjIwYB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5403,7 +5403,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#274:1QuYk9",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5412,7 +5412,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#281:L2ABjs",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5421,7 +5421,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#275:upHr7C",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5430,7 +5430,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#280:9n6uTx",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5439,7 +5439,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3054634:z56ytX",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5448,7 +5448,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#278:Hdh6fl",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5457,7 +5457,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#277:s8EXID",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5466,7 +5466,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#276:IhfMjz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5475,7 +5475,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#268:a1tUQz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5484,7 +5484,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#272:IkozUp",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5493,7 +5493,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#273:dPn5uI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5502,7 +5502,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3051620:8sIEVG",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5511,7 +5511,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2487503:j9U4hL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5520,7 +5520,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2490451:W0UxJI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5529,7 +5529,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#257:1tIFrY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5538,7 +5538,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2997058:JiOYTT",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5547,7 +5547,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2481654:CJI4Wj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5556,7 +5556,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#268:Geh3t8",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5565,7 +5565,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#258:e0qYr9",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5574,7 +5574,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2680595:diVWdM",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5583,7 +5583,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2493377:tAcP8i",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5592,7 +5592,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:269749:fjPDCl",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5601,7 +5601,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#258:D5sL6B",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5619,7 +5619,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2785628:SAWbAr",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5628,7 +5628,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2741366:OtIjTy",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5637,7 +5637,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:269759:nGDXmV",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5646,7 +5646,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1580618:cy0rqR",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5655,7 +5655,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1743352:WDHods",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5664,7 +5664,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#256:PKFpCU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5673,7 +5673,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2488510:GSIag6",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5682,7 +5682,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#265:4qhYzI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5691,7 +5691,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1903833:arJ77p",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5700,7 +5700,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1184651:4GbkoY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5709,7 +5709,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#85:kDy3w4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5718,7 +5718,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:662505:EYrOJ4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5727,7 +5727,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#84:ASnhzm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5736,7 +5736,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990714:fRwwfa",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5745,7 +5745,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2276802:PVO3dT",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5754,7 +5754,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991694:acaevY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5763,7 +5763,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991680:0JwA10",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5772,7 +5772,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990706:Uw29Np",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5781,7 +5781,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:840266:74AIcN",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5790,7 +5790,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#82:cx3Owv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5799,7 +5799,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:929402:sWv8Dw",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5808,7 +5808,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#83:EGOR7D",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5817,7 +5817,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#74:dtrIsT",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5826,7 +5826,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#81:S7Wppz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5835,7 +5835,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#153:OQvCUH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5844,7 +5844,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#154:tGXcnR",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5853,7 +5853,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#151:hT3bLq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5862,7 +5862,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#88:8WnWmR",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5871,7 +5871,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#119:bp6oJR",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5880,7 +5880,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#87:tLE73u",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5889,7 +5889,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#157:VRQlPF",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5898,7 +5898,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#86:eYkbJ6",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5907,7 +5907,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#90:IKf0YP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5916,7 +5916,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:840055:rFkKLI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5925,7 +5925,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:488129:IrNds0",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5934,7 +5934,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991684:2PPcJo",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5943,7 +5943,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990705:ifg6Mt",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5952,7 +5952,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990708:HQAfqm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5961,7 +5961,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2194486:uJWGlW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5970,7 +5970,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#249:daiKQV",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5979,7 +5979,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991687:G7ebNL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5988,7 +5988,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990707:IlU9gO",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5997,7 +5997,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#92:QAAvva",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6006,7 +6006,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#79:DDVeKO",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6015,7 +6015,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#76:ISxqrN",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6024,7 +6024,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:752204:U4ZtDo",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6033,7 +6033,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2495384:VUTTHB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6042,7 +6042,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2488508:dtVpYL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6051,7 +6051,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:98407:Ti9XPj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6060,7 +6060,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:99271:x5q77d",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6069,7 +6069,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:210050:57L6Fo",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6078,7 +6078,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1274564:ljksPB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6087,7 +6087,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#167:mHY2a4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6096,7 +6096,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#91:qHLHn7",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6105,7 +6105,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:30076644:5ntpRr",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6114,7 +6114,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#102:f11tnI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6123,7 +6123,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:30080917:KbL31o",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6132,7 +6132,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#163:CsQ6lw",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6141,7 +6141,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#180:N3dJ9Z",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6150,7 +6150,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#104:upWZAp",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6159,7 +6159,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#103:vhNUXW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6168,7 +6168,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:151778:6lD65U",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6177,7 +6177,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991701:HL12HF",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6186,7 +6186,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#156:lOEPlr",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6195,7 +6195,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#110:SRGENq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6204,7 +6204,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#80:E5GgqQ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6213,7 +6213,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#109:VByUlW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6222,7 +6222,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#104:TCtCQ8",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6231,7 +6231,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#105:6vmm4r",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6240,7 +6240,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1037079:hWsFTK",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6249,7 +6249,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#148:Ro2dyb",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6258,7 +6258,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#75:6MFZQm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6267,7 +6267,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:YzfbRb",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6276,7 +6276,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:124738:bP1VoY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6285,7 +6285,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:124740:1zR49q",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6294,7 +6294,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:975032:4LWsLy",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6303,7 +6303,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#101:sHMfxz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6312,7 +6312,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991685:aao1hP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6321,7 +6321,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990709:83JJ3p",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6330,7 +6330,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#231:hg2NjY",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6339,7 +6339,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#250:JlFtRH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6348,7 +6348,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991688:FtSdRh",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6357,7 +6357,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991682:UrUQQ8",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6366,7 +6366,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1723208:ehnGzf",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6375,7 +6375,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724236:1N6dXJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6384,7 +6384,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#73:Nu8q8h",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6393,7 +6393,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#67:7aiTeC",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6402,7 +6402,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#69:OCwcyC",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6411,7 +6411,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#68:h6AnTo",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6420,7 +6420,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#72:gtpcJn",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6429,7 +6429,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991683:3xVwiJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6438,7 +6438,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991679:5PgpAB",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6447,7 +6447,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1991753:X2ddZg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6456,7 +6456,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#269:mCsNqN",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6465,7 +6465,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724242:nv4rqc",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6474,7 +6474,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2488507:RJwapq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6483,7 +6483,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1750136:kCodvg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6492,7 +6492,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1750135:J6ma6L",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6501,7 +6501,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1724243:2PjgdU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6510,7 +6510,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990703:XgpYuJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6519,7 +6519,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#64:vfz80k",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6528,7 +6528,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#65:9axtYS",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6537,7 +6537,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#66:AmE1GG",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6546,7 +6546,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:121865:QRQ1PG",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6555,7 +6555,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#96:9mfYgL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6564,7 +6564,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#94:1RwMmv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6573,7 +6573,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#93:PinW8a",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6582,7 +6582,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#95:CKuK9v",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6591,7 +6591,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#264:JUqGm4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6600,7 +6600,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:102553:VklJzk",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6609,7 +6609,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1073901:7OOSJe",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6618,7 +6618,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:243772:Y0yzcW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6627,7 +6627,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:103021:OJgUWl",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6636,7 +6636,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48966:DC70DH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6645,7 +6645,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:129172:DyK6JJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6654,7 +6654,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:48961:1JsWuI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6663,7 +6663,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2532007:p2qa0R",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6672,7 +6672,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:45809:5382kv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6681,7 +6681,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:931899:hOI0VK",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6690,7 +6690,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2577928:bzcd4h",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6699,7 +6699,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:45810:HHD4Y8",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6708,7 +6708,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:45812:jN2hmN",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6717,7 +6717,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1658763:n2eskE",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6726,7 +6726,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:46875:gUAz3z",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6735,7 +6735,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2607161:HEqS5m",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6744,7 +6744,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24032585:1mALBz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6753,7 +6753,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033054:IBXSyh",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6762,7 +6762,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033055:ZDaFlx",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6771,7 +6771,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033056:aPYlLD",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6780,7 +6780,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:28907358:jcVtXZ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6789,7 +6789,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:28907259:IG8uJm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6798,7 +6798,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033057:Kcnfxm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6807,7 +6807,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:427114:jexCPN",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6816,7 +6816,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24073812:LHvCPq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6825,7 +6825,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#97:Qr2j9E",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6834,7 +6834,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:441099:z0DmoU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6843,7 +6843,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57478:23476j",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6852,7 +6852,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:191567:isScC1",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6861,7 +6861,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:22373365:oLnoNc",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6870,7 +6870,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24034201:e0dXYH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6879,7 +6879,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#63:AlVHDq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6888,7 +6888,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#62:V1OWJh",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6897,7 +6897,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57417:pGJqzW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6906,7 +6906,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033053:2q6P6E",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6915,7 +6915,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2484594:MahmjA",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6924,7 +6924,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6933,7 +6933,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:63751:xqifWO",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6942,7 +6942,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033052:uGpD6q",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6951,7 +6951,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#99:UED7ju",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6960,7 +6960,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:449100:lrTEb8",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6969,7 +6969,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:439594:1D3Hgu",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6978,7 +6978,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:XWcYDZ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6987,7 +6987,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:126132:jgW9EL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -6996,7 +6996,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1618542:TO589J",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7005,7 +7005,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:929486:kyyXAv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7014,7 +7014,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1220808:lhMLFW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7023,7 +7023,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1658791:AGkxNO",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7032,7 +7032,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1093401:iFaFIs",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7041,7 +7041,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#159:XPXLzj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7050,7 +7050,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:36342851:D7AHGR",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7059,7 +7059,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:452462:iQFw3U",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7068,7 +7068,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:927245:4WzOpc",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7077,7 +7077,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#149:04SgAV",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7086,7 +7086,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#265:rEoVsX",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7095,7 +7095,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#98:zPXGtM",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7104,7 +7104,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:24055654:QHxL84",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7113,7 +7113,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:447318:MtktUj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7122,7 +7122,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:931959:Sya50m",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7131,7 +7131,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:840355:qsPT9h",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7140,7 +7140,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:675901:Y45IxK",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7149,7 +7149,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3705:5Sk8d4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7158,7 +7158,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2770685:ROwdmP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7167,7 +7167,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3704:mDQX0P",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7176,7 +7176,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1174013:wQfVhP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7185,7 +7185,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:55601:Yx4op4",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7194,7 +7194,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2613652:D2KdZJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7203,7 +7203,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1596607:Gcpmtc",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7212,7 +7212,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:905501:2f9ADI",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7221,7 +7221,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2681578:Zte4Bk",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7230,7 +7230,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3703:DYCjyy",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7239,7 +7239,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2361601:MFPaTG",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7248,7 +7248,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:905502:0jJXwg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7257,7 +7257,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1355:nlcYSo",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7266,7 +7266,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:27247:Axba0H",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7275,7 +7275,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:27248:gmqXDL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7284,7 +7284,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1240759:qS02gU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7293,7 +7293,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1354:HOGAbD",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7302,7 +7302,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:#150:4df5OW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7311,7 +7311,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1658764:2UxNvj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7320,7 +7320,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:48265:w51ymk",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7329,7 +7329,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:838705:RI6zHA",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7338,7 +7338,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1765883:mfNaBj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7347,7 +7347,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1383:9LZWli",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7356,7 +7356,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2380538:d69EVS",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7365,7 +7365,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2614647:vYppqW",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7374,7 +7374,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1662212:JDEaMP",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7383,7 +7383,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3701:PMJxQT",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7392,7 +7392,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2613653:n2ZKrm",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7401,7 +7401,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:2856523:qVSOnj",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7410,7 +7410,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3702:armF8y",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7419,7 +7419,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1427:1I5EH0",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7428,7 +7428,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1379:er0yNi",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7437,7 +7437,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:86688:8i59cv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7446,7 +7446,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1409:Lv7QTr",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7455,7 +7455,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1439:xnvZ0z",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7464,7 +7464,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1440:8lZPZ9",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7473,7 +7473,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:11762:nmmI9s",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7482,7 +7482,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1483:FRMLRJ",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7491,7 +7491,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:675965:oQ1Qj7",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7500,7 +7500,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1430:OQT16b",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7509,7 +7509,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:11763:eoKCXh",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7518,7 +7518,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:3601:1woG04",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7527,7 +7527,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1765884:VsAcBg",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7536,7 +7536,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1402:aarfJH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7545,7 +7545,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1410:6nHQle",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7554,7 +7554,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1373:DkYJEL",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7563,7 +7563,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1428:qbw8yH",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7572,7 +7572,7 @@
     "libraryType" : "CSS",
     "refId" : "GameModelContent:931960:ESoRSz",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7581,7 +7581,7 @@
     "libraryType" : "SelectedThemes",
     "refId" : "GameModelContent:56946:YZFvpW",
     "version" : null,
-    "visibility" : "INHERITED"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7590,7 +7590,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:1087230:VYn2cq",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7599,7 +7599,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24057431:HXoDew",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7608,7 +7608,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24034258:gJ8AN1",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7617,7 +7617,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24099001:3WXEyv",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7626,7 +7626,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24070212:CWLosV",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7635,7 +7635,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24076752:gXgWkb",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7644,7 +7644,7 @@
     "libraryType" : "ServerScript",
     "refId" : "GameModelContent:24034174:8tjDw7",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7653,7 +7653,7 @@
     "libraryType" : "Theme",
     "refId" : "GameModelContent:24032588:ptHBSD",
     "version" : null,
-    "visibility" : "INHERITED"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -7662,7 +7662,7 @@
     "libraryType" : "Theme",
     "refId" : "GameModelContent:28935927:DvDkSY",
     "version" : null,
-    "visibility" : "INHERITED"
+    "visibility" : "PRIVATE"
   } ],
   "name" : "Basic scenario",
   "pages" : { },
