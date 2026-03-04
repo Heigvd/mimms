@@ -5,6 +5,8 @@ DESTINATION_FOLDER=".."
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
 
+CURRENT_BRANCH=$(git branch --show-current)
+
 function show_help {
     echo Usage "$0" [-hv] SCENARIO_NAME
     echo "SCENARIO_NAME : name of the folder to create zip from, scenario or model"
@@ -64,7 +66,11 @@ if [ ! -d "$SCENARIO_NAME" ]; then
     exit 1;
 fi
 
-NAME=gameModel_${SCENARIO_NAME}_$(date +%Y-%m-%d_%Hh%M)
+if [ $SCENARIO_NAME = $DEFAULT_SCENARIO ]; then
+    NAME=gameModel_${CURRENT_BRANCH}_$(date +%Y-%m-%d_%Hh%M)
+else
+    NAME=${SCENARIO_NAME}_gameModel_${CURRENT_BRANCH}_$(date +%Y-%m-%d_%Hh%M)
+fi
 
 # make sure the given folder does not exist
 if [ -d "${NAME}" ]; then

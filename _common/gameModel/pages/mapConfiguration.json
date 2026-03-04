@@ -169,7 +169,9 @@
                           "type" : "Button"
                         } ],
                         "className" : "map-configuration-gap",
-                        "layout" : { },
+                        "layout" : {
+                          "flexWrap" : "wrap"
+                        },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "Buttons",
@@ -389,7 +391,9 @@
                           },
                           "type" : "FlexList"
                         } ],
-                        "layout" : { },
+                        "layout" : {
+                          "flexWrap" : "wrap"
+                        },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "Inputs",
@@ -409,8 +413,7 @@
                   "type" : "FlexList"
                 } ],
                 "layout" : {
-                  "alignItems" : "flex-end",
-                  "flexWrap" : "wrap"
+                  "alignItems" : "flex-start"
                 },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
