@@ -768,12 +768,23 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
+    binding: LOCATION_ENUM.pcFront,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[]
   ) {
-    super(uid, title, description, duration, requiredFlags, raisedFlags, availableToRoles, choices);
+    super(
+      uid,
+      title,
+      description,
+      duration,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices,
+      binding
+    );
   }
 
   protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCFrontChoiceAction {
@@ -803,12 +814,23 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
+    binding: LOCATION_ENUM.PC,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[]
   ) {
-    super(uid, title, description, duration, requiredFlags, raisedFlags, availableToRoles, choices);
+    super(
+      uid,
+      title,
+      description,
+      duration,
+      requiredFlags,
+      raisedFlags,
+      availableToRoles,
+      choices,
+      binding
+    );
   }
 
   protected override createActionFromEvent(event: FullEvent<MapChoiceEvent>): PCChoiceAction {
