@@ -618,7 +618,13 @@
           "@class" : "Page",
           "id" : "59",
           "name" : "mainSim_events",
-          "scenaristPage" : null,
+          "scenaristPage" : false,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "60",
+          "name" : "mainSim_local events",
+          "scenaristPage" : false,
           "trainerPage" : null
         }, {
           "@class" : "Page",

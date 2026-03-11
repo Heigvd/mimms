@@ -87,7 +87,7 @@ function evaluateTriggerImpacts(
   trigger: Trigger
 ): LocalEventBase[] {
   return trigger.impacts.flatMap((impact: Impact) =>
-    convertToLocalEvents(state, impact, trigger.uid)
+    convertToLocalEvents(state, impact, { type: 'trigger', id: trigger.uid })
   );
 }
 
@@ -100,7 +100,7 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
     impacts.push(
       new IncrementCountLocalEvent({
         parentEventId: state.getLastEventId(),
-        sourceId: trigger.uid,
+        source: { type: 'trigger', id: trigger.uid },
         simTimeStamp: state.getSimTime(),
         target: trigger.uid,
       })
@@ -110,7 +110,7 @@ function evaluateTrigger(state: Readonly<MainSimulationState>, trigger: Trigger)
       impacts.push(
         new ChangeActivableStatusLocalEvent({
           parentEventId: state.getLastEventId(),
-          sourceId: trigger.uid,
+          source: { type: 'trigger', id: trigger.uid },
           simTimeStamp: state.getSimTime(),
           target: trigger.uid,
           option: 'deactivate',

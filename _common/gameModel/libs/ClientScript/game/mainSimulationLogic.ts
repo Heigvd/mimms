@@ -146,6 +146,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
             getLocalEventManager().queueLocalEvent(
               new AddNotificationLocalEvent({
                 parentEventId: event.id,
+                source: { type: 'plan-action' },
                 simTimeStamp: getCurrentState().getSimTime(),
                 recipientId: ownerId,
                 message: getTranslation('mainSim-interface', 'notification-concurrent-stop'),
@@ -173,6 +174,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         } else {
           const localEvent = new CancelActionLocalEvent({
             parentEventId: event.id,
+            source: { type: 'unplan-action' },
             simTimeStamp: event.payload.triggerTime,
             templateId: event.payload.templateId,
             actorUid: event.payload.actorId,
@@ -202,6 +204,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           for (let i = 0; i < timeJump; i += TimeSliceDuration) {
             const timefwdEvent = new TimeForwardLocalEvent({
               parentEventId: event.id,
+              source: { type: 'time-forward' },
               simTimeStamp: event.payload.triggerTime + i,
               actors: involved,
               timeJump: TimeSliceDuration,
@@ -215,6 +218,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       {
         const timefwdEvent = new TimeForwardCancelLocalEvent({
           parentEventId: event.id,
+          source: { type: 'time-forward-cancel' },
           simTimeStamp: event.payload.triggerTime,
           actors: event.payload.involvedActors,
         });
@@ -225,6 +229,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const radioMessageEvent = new AddRadioMessageLocalEvent({
         parentEventId: event.id,
+        source: { type: 'trainer' },
         simTimeStamp: event.payload.triggerTime,
         senderName: trainerName,
         message: event.payload.message,
@@ -245,6 +250,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         if (actorId) {
           const notificationMessageEvent = new AddNotificationLocalEvent({
             parentEventId: event.id,
+            source: { type: 'trainer' },
             simTimeStamp: payload.triggerTime,
             senderName: trainerName,
             recipientId: actorId,
@@ -259,6 +265,7 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
     case 'GameOptionsEvent': {
       const optionChange = new GameOptionsUpdateLocalEvent({
         parentEventId: event.id,
+        source: { type: event.payload.source },
         simTimeStamp: event.payload.triggerTime,
         options: event.payload.options,
       });
@@ -384,6 +391,7 @@ export async function initGameOptions(): Promise<IManagedResponse> {
     triggerTime: 0,
     options: options,
     type: 'GameOptionsEvent',
+    source: 'initialisation',
   };
 
   return await sendEvent(go);

@@ -59,7 +59,8 @@ export class PreTriageTask extends TaskBase {
     if (getTaskCurrentStatus(state, this.Uid) === 'Uninitialized') {
       getLocalEventManager().queueLocalEvent(
         new TaskStatusChangeLocalEvent({
-          parentEventId: 0,
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           taskId: this.Uid,
           status: 'OnGoing',
@@ -100,7 +101,8 @@ export class PreTriageTask extends TaskBase {
     if (getNonPreTriagedPatientsSize(state, this.locationSource) === 0) {
       getLocalEventManager().queueLocalEvent(
         new TaskStatusChangeLocalEvent({
-          parentEventId: 0,
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           taskId: this.Uid,
           status: 'Completed',
@@ -108,7 +110,8 @@ export class PreTriageTask extends TaskBase {
       );
       getLocalEventManager().queueLocalEvent(
         new ReleaseResourcesFromTaskLocalEvent({
-          parentEventId: 0,
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           taskId: this.Uid,
         })
@@ -117,7 +120,8 @@ export class PreTriageTask extends TaskBase {
       // We broadcast a message that task is completed (recipient = 0)
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
-          parentEventId: 0,
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           message: formatStandardPretriageReport(

@@ -1,3 +1,4 @@
+import { getLocalEventManager } from '../game/common/localEvents/localEventManager';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { resetState, getCurrentState, runUpdateLoop } from '../game/mainSimulationLogic';
 import { getStateHistory, setCurrentStateDebug } from '../game/testing/stateDebug';
@@ -69,4 +70,13 @@ export function getTimeFrameHistory() {
   return h.map(s => {
     return { id: i++, tf: s.getCurrentTimeFrame() };
   });
+}
+
+export function getAllLocalEvents() {
+  let counter = 0;
+  return getLocalEventManager()
+    .getProcessedEvents()
+    .map(pe => {
+      return { id: counter++, parentId: pe.parentEventId, type: pe.type, time: pe.simTimeStamp };
+    });
 }
