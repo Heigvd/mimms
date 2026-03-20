@@ -298,7 +298,9 @@
                       "flexDirection" : "column"
                     },
                     "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "overflow" : "auto"
+                    },
                     "name" : "Map object",
                     "style" : { }
                   },
