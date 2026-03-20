@@ -28,7 +28,7 @@ export enum ResourcesManagementActivityType {
   requestReport = 'requestReport',
 }
 
-export type CasuAction = 'CasuMessage' | 'channelsActivation' | 'freeMessage' | undefined;
+export type CasuAction = 'CasuMessage' | 'channelsActivation' | undefined;
 
 export interface InterfaceState {
   currentActorUid: number | undefined;
