@@ -3,7 +3,8 @@ import { FilterTypeProperties } from '../../tools/helper';
 import { scaleExtent } from '../../gameMap/utils/mapUtils';
 
 const MAP_FOLDER = 'maps';
-const GEOJSON = '.geojson';
+// const GEOJSON = '.geojson';
+const ZIP = '.zip';
 
 export const MAP_EXTENT_SCALE_FACTOR = 1.5;
 
@@ -41,7 +42,7 @@ export enum LayerType {
 }
 
 export function layerDataPath(layerType: LayerType): string {
-  const filename = layerType.toLowerCase() + GEOJSON;
+  const filename = layerType.toLowerCase() + ZIP;
   return [MAP_FOLDER, getMapConfig().mapId, filename].join('/');
 }
 

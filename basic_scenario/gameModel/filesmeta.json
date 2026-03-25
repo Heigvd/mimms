@@ -35,27 +35,27 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/Avenches/buildings.geojson" : {
+  "/maps/Avenches/buildings.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/Avenches/rails.geojson" : {
+  "/maps/Avenches/rails.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/Avenches/roads.geojson" : {
+  "/maps/Avenches/roads.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/Avenches/water.geojson" : {
+  "/maps/Avenches/water.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -71,27 +71,27 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA-center/buildings.geojson" : {
+  "/maps/GVA-center/buildings.zip" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA-center/rails.geojson" : {
+  "/maps/GVA-center/rails.zip" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA-center/roads.geojson" : {
+  "/maps/GVA-center/roads.zip" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA-center/water.geojson" : {
+  "/maps/GVA-center/water.zip" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
@@ -107,27 +107,27 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA/buildings.geojson" : {
+  "/maps/GVA/buildings.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA/rails.geojson" : {
+  "/maps/GVA/rails.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA/roads.geojson" : {
+  "/maps/GVA/roads.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/maps/GVA/water.geojson" : {
+  "/maps/GVA/water.zip" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "PRIVATE"
   },
