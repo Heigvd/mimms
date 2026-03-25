@@ -4,10 +4,11 @@
  * Put minimal logic in here.
  */
 
-import { SimFlag } from '../game/common/actions/actionTemplateBase';
+import { MapChoiceActionTemplate, SimFlag } from '../game/common/actions/actionTemplateBase';
 import { InterventionRole } from '../game/common/actors/actor';
 import { getRoleLongTranslation, getRoleShortTranslation } from '../game/common/actors/actorLogic';
 import {
+  getLocationLongTranslation,
   // getIndexOfSelectedChoice,
   // getLocationLongTranslation,
   getLocationShortTranslation,
@@ -57,6 +58,7 @@ import {
 } from './impacts';
 import { dashboardLogger } from '../tools/logger';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
+import { getActionTemplates } from '../game/mainSimulationLogic';
 
 // -------------------------------------------------------------------------------------------------
 // state part
@@ -172,8 +174,7 @@ export function getLocationsContext(): {
     id: loc,
     location: loc,
     shortName: getLocationShortTranslation(loc),
-    // TODO Replacement
-    longName: '', // getLocationLongTranslation(loc),
+    longName: getLocationLongTranslation(loc),
   }));
 }
 
@@ -190,18 +191,14 @@ export function getLocationChoice(
       .find(mapLoc => (mapLoc as MapEntityActivable).binding === location);
 
     if (mapLocation) {
-      // TODO Replacement
-      /* XGO : The following should be done: the templates associated with this task
-       * 1. find the template that have this location binding (one only)
-       * 2. find the non cancelled choice actions that have this binding (supposedly only one)
-       * 3. get its choice id
-       * 4. find its index in the template (sorting)
-       *
-       * Alternatively the payload of the choice action constructor could have the associated index/letter injected on playerside
-       */
-      const index = 1; // getIndexOfSelectedChoice(mapLocation);
+      const actionTmpl = Object.values(getActionTemplates())
+        .filter(at => Object.keys(at).includes('binding'))
+        .find(at => (at as MapChoiceActionTemplate).binding === location);
 
-      if (index !== undefined) {
+      if (actionTmpl !== undefined) {
+        const index = (actionTmpl as MapChoiceActionTemplate).choices.findIndex(
+          c => c.displayedMapEntity === mapLocation.uid
+        );
         return getLetterRepresentationOfIndex(index);
       }
     }

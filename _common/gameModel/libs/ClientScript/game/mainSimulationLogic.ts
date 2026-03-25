@@ -102,7 +102,7 @@ function tryLoadTemplates(): void {
   }
 }
 
-function getActionTemplates(): Record<ActionTemplateUid, ActionTemplateBase> {
+export function getActionTemplates(): Record<ActionTemplateUid, ActionTemplateBase> {
   if (!actionTemplates) {
     tryLoadTemplates();
   }
