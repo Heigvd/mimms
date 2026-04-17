@@ -152,7 +152,8 @@ for the gap between the modal elements */
 
 .location-config-modal {
   min-width: 286.5px;
-  max-height: fit-content;
+  height: fit-content;
+  max-height: 100%;
   padding: 1rem;
   background-image: linear-gradient(to bottom right, #D0E9F319 0%, #D0E9F30A 100%);
   backdrop-filter: blur(8px);
@@ -169,7 +170,7 @@ for the gap between the modal elements */
 
 /* better selectors could have been made with the .location class */
 .generic-item__page-loader:last-of-type .mapobject {
-  padding: 10px 0 0 0;
+  padding: 10px 0 4px 0;
 }
 
 .generic-item__page-loader:has(.mapobject) {
