@@ -67,6 +67,7 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
+        LOCATION_ENUM.PC,
         undefined, // required flags
         [SimFlag.PC_BUILT], // raised flags
         getFilteredAsArray(desc.availableToRoles),
@@ -78,6 +79,7 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
+        LOCATION_ENUM.pcFront,
         [],
         [SimFlag.PCFRONT_BUILT], // raised flags
         getFilteredAsArray(desc.availableToRoles),

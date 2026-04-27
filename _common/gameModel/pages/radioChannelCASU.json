@@ -249,37 +249,6 @@
                 "style" : { }
               },
               "type" : "Button"
-            }, {
-              "props" : {
-                "className" : "rectangleButton",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "selected",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { getSelectedCasuAction } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'freeMessage';",
-                    "language" : "typescript"
-                  }
-                } ],
-                "id" : "",
-                "label" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','send-radio-title');",
-                  "language" : "TypeScript"
-                },
-                "layoutClassName" : "",
-                "layoutStyle" : { },
-                "localScriptEval" : {
-                  "script" : {
-                    "@class" : "ClientScript",
-                    "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('freeMessage');",
-                    "language" : "TypeScript"
-                  }
-                },
-                "name" : "send a free message button",
-                "style" : { }
-              },
-              "type" : "Button"
             } ],
             "className" : "noPadding",
             "layout" : {

@@ -97,8 +97,6 @@ export function showActionParamsPanel(action: CasuAction): string {
     return 'actionMETHANE';
   } else if (action === 'channelsActivation') {
     return 'actionRadioChannelActivation';
-  } else if (action === 'freeMessage') {
-    return 'radioMessageInput';
   }
   return '';
 }
