@@ -289,9 +289,7 @@
                                               "language" : "typescript"
                                             },
                                             "layoutClassName" : "menuItem-container",
-                                            "layoutStyle" : {
-                                              "width" : "100%"
-                                            },
+                                            "layoutStyle" : { },
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",

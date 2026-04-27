@@ -298,7 +298,11 @@
                       "flexDirection" : "column"
                     },
                     "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
+                    "layoutStyle" : {
+                      "overflow" : "auto",
+                      "scrollbarColor" : "rgba(127, 134, 138, .5) transparent",
+                      "scrollbarWidth" : "thin"
+                    },
                     "name" : "Map object",
                     "style" : { }
                   },

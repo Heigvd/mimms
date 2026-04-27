@@ -146,16 +146,21 @@ for the gap between the modal elements */
   position: absolute;
   top: 5rem;
   left: 2.875rem;
+  bottom: 9.375rem;
+  pointer-events: none;
 }
 
 .location-config-modal {
   min-width: 286.5px;
+  height: fit-content;
+  max-height: 100%;
   padding: 1rem;
   background-image: linear-gradient(to bottom right, #D0E9F319 0%, #D0E9F30A 100%);
   backdrop-filter: blur(8px);
   border: 1px solid #D0E9F399;
   border-radius: var(--XS_borderRadius);
   box-shadow: 0 20px 40px rgba(0, 0, 0, .1);
+  pointer-events: auto;
 }
 
 .mapobject {
@@ -165,7 +170,7 @@ for the gap between the modal elements */
 
 /* better selectors could have been made with the .location class */
 .generic-item__page-loader:last-of-type .mapobject {
-  padding: 10px 0 0 0;
+  padding: 10px 0 4px 0;
 }
 
 .generic-item__page-loader:has(.mapobject) {
