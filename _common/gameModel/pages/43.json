@@ -1830,6 +1830,7 @@
                                     "layerProps" : { },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : true,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
@@ -1855,6 +1856,7 @@
                                     "layerProps" : { },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : true,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
@@ -1882,6 +1884,7 @@
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : true,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
@@ -1911,6 +1914,7 @@
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : true,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
