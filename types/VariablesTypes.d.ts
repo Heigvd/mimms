@@ -49,6 +49,7 @@ interface VariableClasses {
   "actionsDurations": SObjectDescriptor;
   "containers_config": SObjectDescriptor;
   "patients-elapsed-minutes": SNumberDescriptor;
+  "patientCapacity": SNumberDescriptor;
   "state": SListDescriptor;
   "whoAmI": SStringDescriptor;
   "currentPatient": SStringDescriptor;
