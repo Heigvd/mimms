@@ -127,7 +127,7 @@ function initContainerDefinitions(): void {
     secouriste: 4,
   });
 
-  definitionsMapping['PICA'] = addContainerDefinition('PICA', 'pica', {
+  definitionsMapping['DPMA'] = addContainerDefinition('DPMA', 'dpma', {
     secouriste: 10,
   });
 

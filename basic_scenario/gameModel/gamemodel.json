@@ -847,7 +847,7 @@
         "s2BP15YOKg" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":20,\"travelTime\":5,\"name\":\"GE-009\",\"type\":\"AMB-T\"},\"index\":7}",
         "tQivP0ViG1" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":30,\"travelTime\":5,\"name\":\"SMUR-003\",\"type\":\"SMUR\"},\"index\":33}",
         "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}",
-        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"PICA-001\",\"type\":\"PICA\"},\"index\":28}"
+        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"DPMA-001\",\"type\":\"DPMA\"},\"index\":28}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
@@ -4100,6 +4100,7 @@
           "ambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambul.\",\"lang\":\"FR\"}},\"version\":0}",
           "arrival-in" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"arrival in\"},\"FR\":{\"status\":\"\",\"translation\":\"arrivée dans\",\"lang\":\"FR\"}},\"version\":0}",
           "comeback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"come back to site after evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"revenir sur site après transport\",\"lang\":\"FR\"}},\"version\":0}",
+          "dpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"dPMA\"},\"FR\":{\"status\":\"\",\"translation\":\"dPMA\",\"lang\":\"FR\"}},\"version\":0}",
           "driver" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"driver\"},\"FR\":{\"status\":\"\",\"translation\":\"conducteur\",\"lang\":\"FR\"}},\"version\":0}",
           "emergencyambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"emergency ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance urgence\",\"lang\":\"FR\"}},\"version\":0}",
           "healer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"healer\"},\"FR\":{\"status\":\"\",\"translation\":\"soignant(s)\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4122,7 +4123,6 @@
           "pca-separate-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"separate entry/exit:\"},\"FR\":{\"status\":\"\",\"translation\":\"entrée/sortie séparées:\",\"lang\":\"FR\"}},\"version\":0}",
           "pca-true" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yes\"},\"FR\":{\"status\":\"\",\"translation\":\"oui\",\"lang\":\"FR\"}},\"version\":0}",
           "pca-water" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access to water:\"},\"FR\":{\"status\":\"\",\"translation\":\"accès à l'eau:\",\"lang\":\"FR\"}},\"version\":0}",
-          "pica" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pICA\"},\"FR\":{\"status\":\"\",\"translation\":\"pICA\",\"lang\":\"FR\"}},\"version\":0}",
           "pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pMA\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
           "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "secouriste" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first aider\"},\"FR\":{\"status\":\"\",\"translation\":\"secouriste\",\"lang\":\"FR\"}},\"version\":0}",
