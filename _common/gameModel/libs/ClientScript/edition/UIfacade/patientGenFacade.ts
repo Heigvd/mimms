@@ -431,8 +431,13 @@ export function getPatientModalData(selectedTime: number | undefined = undefined
   const mainState = getTypedGenState();
   const time = selectedTime || getInitialTimeJumpSeconds();
   const patient = patientsSamplesCache[mainState.patientId]![time];
-  return { ...patient, observedBlock: '' };
-  // return { ...patient, observedBlock: '', showPathologies: true };
+  const bodyParams = patientsBodyParamsCache[mainState.patientId];
+  return {
+    ...patient,
+    observedBlock: '',
+    showPathologies: true,
+    pathologyNames: bodyParams?.pathologyNames ?? [],
+  };
 }
 
 export function setPatientModalData(selectedTime: number | undefined = undefined) {

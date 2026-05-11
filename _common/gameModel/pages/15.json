@@ -241,7 +241,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s).\";",
+                  "content" : "import { getMaxPatients, totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s). Maximum patient capacity: \" + getMaxPatients();",
                   "language" : "TypeScript"
                 }
               },
