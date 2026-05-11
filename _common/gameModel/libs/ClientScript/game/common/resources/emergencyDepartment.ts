@@ -5,7 +5,8 @@ import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
 import {
   AddRadioMessageLocalEvent,
-  ResourceMobilizationEvent,
+  ResourceMobilizationLocalEvent,
+  SourceType,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -41,6 +42,7 @@ export function hasContainerOfType(
 export function resolveResourceRequest(
   state: Readonly<MainSimulationState>,
   globalEventId: GlobalEventId,
+  source: SourceType,
   senderId: ActorId | undefined,
   request: Partial<Record<ResourceContainerType, number>>
 ) {
@@ -86,8 +88,9 @@ export function resolveResourceRequest(
 
         const departureTime = Math.max(c.availabilityTime, now);
         const definition = getContainerDef(c.templateId);
-        const evt = new ResourceMobilizationEvent({
+        const evt = new ResourceMobilizationLocalEvent({
           parentEventId: globalEventId,
+          source: source,
           simTimeStamp: now,
           departureTime,
           travelTime: c.travelTime,
@@ -99,7 +102,7 @@ export function resolveResourceRequest(
         addDepartureEntry(departureTime, c.travelTime, c.name, definition);
       }
     });
-  queueResourceDepartureRadioMessageEvents(sentContainers, globalEventId, senderId);
+  queueResourceDepartureRadioMessageEvents(sentContainers, globalEventId, source, senderId);
 }
 
 /**
@@ -114,6 +117,7 @@ function queueResourceDepartureRadioMessageEvents(
     { name: string; def: ResourceContainerDefinition; travelTime: number }[]
   >,
   globalEventId: GlobalEventId,
+  source: SourceType,
   senderId: ActorId | undefined
 ): void {
   Object.entries(sentContainers).forEach(([depTime, sent]) => {
@@ -126,6 +130,7 @@ function queueResourceDepartureRadioMessageEvents(
 
     const evt = new AddRadioMessageLocalEvent({
       parentEventId: globalEventId,
+      source,
       simTimeStamp: dtime,
       senderId: getCasuActorId(),
       recipientId: senderId,

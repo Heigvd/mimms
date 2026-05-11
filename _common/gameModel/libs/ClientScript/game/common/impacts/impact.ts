@@ -1,6 +1,5 @@
-import { ActorId } from '../baseTypes';
-import { IDescriptor, Indexed, Typed, Uid } from '../interfaces';
-import { LocalEventBase } from '../localEvents/localEventBase';
+import { IDescriptor, Indexed, Typed } from '../interfaces';
+import { LocalEventBase, SourceType } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import {
   ActivationImpact,
@@ -37,24 +36,24 @@ export type Impact =
 /***
  * @param state the game current state
  * @param impact the impact descriptor
- * @param sourceId id of the trigger or actor that triggered this impact
+ * @param source the trigger or action that triggered this impact
  */
 export function convertToLocalEvents(
   state: Readonly<MainSimulationState>,
   impact: Impact,
-  sourceId: Uid | ActorId
+  source: SourceType
 ): LocalEventBase[] {
   switch (impact.type) {
     case 'activation':
-      return convertActivationImpact(state, impact, sourceId);
+      return convertActivationImpact(state, impact, source);
     case 'mapActivation':
-      return convertMapActivationImpact(state, impact, sourceId);
+      return convertMapActivationImpact(state, impact, source);
     case 'effectSelection':
-      return convertChoiceEffectSelectionImpact(state, impact, sourceId);
+      return convertChoiceEffectSelectionImpact(state, impact, source);
     case 'notification':
-      return convertNotificationImpact(state, impact, sourceId);
+      return convertNotificationImpact(state, impact, source);
     case 'radio':
-      return convertRadioMessageImpact(state, impact, sourceId);
+      return convertRadioMessageImpact(state, impact, source);
     default:
       return [];
   }

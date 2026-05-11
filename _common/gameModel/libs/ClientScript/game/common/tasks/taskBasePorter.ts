@@ -124,7 +124,8 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         ) {
           getLocalEventManager().queueLocalEvent(
             new MovePatientLocalEvent({
-              parentEventId: 0,
+              parentEventId: 0, // TODO check
+              source: { type: 'task', id: this.Uid },
               simTimeStamp: state.getSimTime(),
               patientId: patient.patientId,
               location: {
@@ -142,7 +143,8 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         if (subTask.cumulatedTime >= this.TIME_REQUIRED_FOR_TRANSPORT) {
           getLocalEventManager().queueLocalEvent(
             new MovePatientLocalEvent({
-              parentEventId: 0,
+              parentEventId: 0, // TODO check
+              source: { type: 'task', id: this.Uid },
               simTimeStamp: state.getSimTime(),
               patientId: patient.patientId,
               location: {
@@ -199,7 +201,8 @@ export class PorterTask extends TaskBase<PorterSubTask> {
       // We broadcast a message when the task is completed
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
-          parentEventId: 0,
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           message: this.getFeedbackIfNoTargetLocation(),
