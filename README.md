@@ -8,6 +8,11 @@ Then, run `./updateFromZip.sh <EXPORT.zip>`.
 
 If you want to update another scenario than basic_scenario, you can add the name of the folder at the end of the command.
 
+### Common and shared content updates
+
+Any changes made to common files, that is libs and pages will extend to all scenarios.
+Scenario specific content will not be propagated neither will changes to the model configurations, if changes are made to the model variables, please ensure these are manually propagated !
+
 ## Update gamemodel in wegas
 
 1. Run `./createZip.sh [SCENARIO_NAME]`.
