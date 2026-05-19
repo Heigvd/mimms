@@ -15,7 +15,7 @@ export const ResourceContainerTypeArray = [
   'Ambulance',
   'SMUR',
   'PMA',
-  'PICA',
+  'DPMA',
   'PC-San',
   'Helicopter',
 ] as const;
@@ -33,7 +33,7 @@ export const ResourceContainerDefinitionNameArray = [
   'Helico',
   'ACS-MCS',
   'PMA',
-  'PICA',
+  'DPMA',
   'PC-San',
 ] as const;
 
@@ -45,7 +45,7 @@ export const optionalResourceDefinitions: Record<ResourceContainerDefinitionName
   Helico: true,
   'ACS-MCS': false,
   PMA: false,
-  PICA: false,
+  DPMA: false,
   'PC-San': false,
 };
 
@@ -54,7 +54,7 @@ export type ResourceContainerDefinitionName = typeof ResourceContainerDefinition
 export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {
   'ACS-MCS': true,
   'PC-San': true,
-  PICA: true,
+  DPMA: true,
   PMA: true,
   Ambulance: false,
   Helicopter: false,
