@@ -522,6 +522,17 @@ function getVO2_mLperMin(bodyState: BodyState, meta: HumanMeta): number {
   return vo2 * meta.effectiveWeight_kg;
 }
 
+/**
+ * Updates the body vitals,
+ * 1. cardiovascular,
+ * 2. respiration
+ * 3. brain
+ * @param body
+ * @param meta
+ * @param env
+ * @param duration_min
+ * @returns the vitals (XGO : TODO remove return, misleading)
+ */
 export function compute(
   body: BodyState,
   meta: HumanBody['meta'],
@@ -565,7 +576,9 @@ export function compute(
   //		body.vitals.cardio.endDiastolicVolume_mL -
   //		body.vitals.cardio.endSystolicVolume_mL, stressedCapacitance_L * 1000);
 
+  // end diastolic volume theoretical
   const edv_th = 120;
+  // end diastolic volume theoretical maximum
   const edv_th_max = 160;
 
   /**
@@ -1333,18 +1346,24 @@ export type SympSystem = Partial<Record<BodyStateKeys, Point[]>>;
  *
  */
 interface CompensationRule {
+  /**
+   * Alternative value in case T4 vertebra is damaged
+   */
   t4Nerve?: number | undefined;
+  /**
+   * Response curve
+   */
   points: Point[];
 }
 
-export type CompesationKeys =
+type CompensationKeys =
   | 'vitals.respiration.tidalVolume_L'
   | 'vitals.cardio.hr'
   | 'vitals.cardio.contractilityBoost'
   | 'vitals.cardio.Ra_mmHgMinPerL'
   | 'vitals.respiration.rr';
 
-export type Compensation = Record<CompesationKeys, CompensationRule>;
+export type Compensation = Record<CompensationKeys, CompensationRule>;
 
 //'respiration.rr'?: CompensationRule;
 //'respiration.tidalVolume_L?': CompensationRule;
@@ -1356,14 +1375,14 @@ export function computeOrthoLevel(
   state: BodyState,
   _meta: HumanBody['meta'],
   _duration_min: number
-) {
+) : void {
   if (state.vitals.cardiacArrest! > 0) {
     state.variables.paraOrthoLevel = 0;
     return;
   }
 
   /*
-   * compute (para)symptathic system level
+   * compute (para)sympathetic system level
    */
   const sympSystem = getSystemModel();
 
@@ -1409,13 +1428,13 @@ function computeVitals(
   meta: HumanBody['meta'],
   duration_min: number,
   t4Fine: boolean
-): Record<CompesationKeys, number> {
+): Record<CompensationKeys, number> {
   compLogger.info('CompensationProfile: ', model);
 
-  const result: Partial<Record<CompesationKeys, number>> = {};
+  const result: Partial<Record<CompensationKeys, number>> = {};
 
   Object.entries(model).forEach(([k, value]) => {
-    const key = k as CompesationKeys;
+    const key = k as CompensationKeys;
     const currentValue = getVitals(state, key);
 
     if (
@@ -1458,7 +1477,7 @@ function computeVitals(
     result[key] = newValue;
   });
 
-  return result as Record<CompesationKeys, number>;
+  return result as Record<CompensationKeys, number>;
 }
 
 const icp_model: Point[] = [
@@ -1660,9 +1679,10 @@ export function getSystemModel(): SympSystem {
 }
 
 /**
- * Update some vitals according to current orthosympathetic kevel
+ * Update some vitals according to current orthosympathetic level and overdrive level
+ *
  */
-export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration_min: number) {
+export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration_min: number) : void {
   if (state.vitals.cardiacArrest! > 0) {
     return;
   }
@@ -1699,8 +1719,9 @@ export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration
     );
     compLogger.info('Values', sympValues, overdrivenValues);
     Object.entries(sympValues).forEach(([key, sympValue]) => {
-      const overdriven = overdrivenValues[key as CompesationKeys];
+      const overdriven = overdrivenValues[key as CompensationKeys];
 
+      // linear interpolation between sympathetic and overdrive level
       const value = overdriveLevel * overdriven + (1 - overdriveLevel) * sympValue;
       compLogger.info('OverdriveSet ', key, ' => ', value, {
         overdriveLevel,

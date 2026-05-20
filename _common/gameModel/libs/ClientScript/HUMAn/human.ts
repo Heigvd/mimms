@@ -233,6 +233,9 @@ export interface BodyState {
      * Time cariac arrest occured; undefined means alive
      */
     cardiacArrest: number | undefined;
+    /**
+     * Artificial mechanism to reflect cardiac arrest resilience
+     */
     gambateBar: number;
     /** Glasgow coma scale */
     glasgow: Glasgow;
@@ -294,15 +297,15 @@ export interface BodyState {
         [id: string]: number;
       };
 
-      /** end diastolic volume [mL] (Vtd)*/
+      /** end diastolic volume [mL] EDV (Vtd volume tele-diastolique)*/
       endDiastolicVolume_mL: number; // input dans excel, valeur initiale basée sur XX/XY ? ça varie en f(...) ?
       // on peut baser sur la taille et utiliser des constante
-      /** end systolic volume [mL] (Vts)*/
+      /** end systolic volume [mL] ESV (Vts)*/
       endSystolicVolume_mL: number; // idem // idem
 
       contractilityBoost: number;
       /**
-       * Stroke volume
+       * Stroke volume (volume d'ejection)
        */
       strokeVolume_mL: number;
       /** Arterial Resistance */
@@ -1398,6 +1401,11 @@ export function createHumanBody(param: BodyFactoryParam, env: Environnment): Hum
   return body;
 }
 
+/**
+ * Empirical ortho level stabilization
+ * @param body
+ * @param env
+ */
 function stabilizeOrthoLevel(body: HumanBody, env: Environnment) {
   logger.info('Stabilize Para/Ortho level');
   let orthoDelta = 0;
@@ -2554,9 +2562,12 @@ function updateVitals(
     newState.vitals.cardio.q_delta_mLPermin = durationInMin > 0 ? delta_ml / durationInMin : 0;
     logger.debug('Blood Sum delta/min: ', newState.vitals.cardio.q_delta_mLPermin);
 
+    // Blood circulation, respiration, brain update
     const newVitals = compute(newState, meta, env, durationInMin);
+    // XGO : TODO seems unecessary as the compute function modifies vitals in place
     newState.vitals = newVitals;
 
+    // compute (para)sympathetic and overdrive compensations
     compensate(newState, meta, durationInMin);
 
     inferExtraOutputs({ state: newState, meta: meta });

@@ -887,5 +887,9 @@ export interface ChemicalDefinition extends BaseDefinition {
    *
    */
   vd_LperKg?: number;
+  /**
+   * Half life of chemical in seconds
+   *
+   */
   halflife_s?: number;
 }
