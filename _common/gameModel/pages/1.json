@@ -76,6 +76,40 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Ra delta</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'raDelta')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Number input"
+        } ],
+        "layout" : {
+          "flexDirection" : "row"
+        },
+        "layoutStyle" : { },
+        "name" : "Ra test",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
             "icon" : "eraser",
             "label" : {
               "@class" : "Script",
@@ -119,7 +153,9 @@
         "layout" : {
           "flexDirection" : "row"
         },
-        "name" : "Tools"
+        "layoutStyle" : { },
+        "name" : "Controls",
+        "style" : { }
       },
       "type" : "FlexList"
     }, {
