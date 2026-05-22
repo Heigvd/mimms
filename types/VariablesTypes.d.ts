@@ -155,6 +155,7 @@ interface VariableClasses {
   "map": SListDescriptor;
   "mapConfiguration": SObjectDescriptor;
   "map_entity_data": SObjectDescriptor;
+  "showGreenery": SBooleanDescriptor;
   "triggers_data": SObjectDescriptor;
   "action_template_data": SObjectDescriptor;
 }

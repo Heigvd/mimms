@@ -961,6 +961,35 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "INHERITED"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "Do the meadows and forests show on the different maps?",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:3019473:BWkFrl",
+        "value" : false
+      },
+      "editorTag" : "showGreenery",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:3019474:ievHB7",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:3019474:ievHB7::FR",
+            "status" : "",
+            "translation" : "showGreenery"
+          }
+        }
+      },
+      "name" : "showGreenery",
+      "refId" : "BooleanDescriptor:3019472:zUFptc",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "INHERITED"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
