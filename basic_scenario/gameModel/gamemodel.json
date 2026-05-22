@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1779458229952,
+  "createdTime" : 1779463171049,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -563,11 +563,11 @@
       },
       "name" : "patients",
       "properties" : {
-        "CH-FO-984" : "{\"sex\":\"male\",\"age\":33,\"height_cm\":171,\"bmi\":21,\"sugarLevel\":5.372849465422318,\"temperature\":36.60635579868608,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"UNIT_BRONCHUS_2\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":2}]}}],\"pathologyNames\":[\"Simple injury\"]}",
-        "CH-FT-956" : "{\"sex\":\"male\",\"age\":20,\"height_cm\":177,\"bmi\":21.35,\"sugarLevel\":5.670974269437644,\"temperature\":36.79166482753905,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":8}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"LEFT_ARM\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":2}]}}],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
-        "CH-GI-910" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":174,\"bmi\":25.45,\"sugarLevel\":5.2929001740761805,\"temperature\":36.63584585271377,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"LEFT_THIGH\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":8}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"BRAIN\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":1}]}}],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
-        "CH-VH-348" : "{\"sex\":\"male\",\"age\":27,\"height_cm\":182,\"bmi\":18.69,\"sugarLevel\":5.414778630893669,\"temperature\":37.17589567104271,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"LEFT_HAND\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":3}]}},{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"RIGHT_FOREARM\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":4}]}}],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
-        "CH-ZU-604" : "{\"sex\":\"male\",\"age\":93,\"height_cm\":175,\"bmi\":22.11,\"sugarLevel\":5.1826071920919,\"temperature\":36.37577496648396,\"lungDepth\":1,\"scriptedEvents\":[{\"time\":10,\"payload\":{\"type\":\"HumanPathology\",\"targetType\":\"Human\",\"targetId\":\"\",\"emitterPlayerId\":\"\",\"emitterCharacterId\":\"\",\"pathologyId\":\"pain\",\"afflictedBlocks\":[\"PELVIS\"],\"modulesArguments\":[{\"type\":\"PainArgs\",\"pain\":1}]}}],\"pathologyNames\":[\"Simple injury\"]}"
+        "CH-FO-984" : "{\"sex\":\"male\",\"age\":33,\"height_cm\":171,\"bmi\":21,\"sugarLevel\":5.372849465422318,\"temperature\":36.60635579868608,\"lungDepth\":1,\"scriptedEvents\":[],\"pathologyNames\":[\"Simple injury\"]}",
+        "CH-FT-956" : "{\"sex\":\"male\",\"age\":20,\"height_cm\":177,\"bmi\":21.35,\"sugarLevel\":5.670974269437644,\"temperature\":36.79166482753905,\"lungDepth\":1,\"scriptedEvents\":[],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
+        "CH-GI-910" : "{\"sex\":\"female\",\"age\":61,\"height_cm\":174,\"bmi\":25.45,\"sugarLevel\":5.2929001740761805,\"temperature\":36.63584585271377,\"lungDepth\":1,\"scriptedEvents\":[],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
+        "CH-VH-348" : "{\"sex\":\"male\",\"age\":27,\"height_cm\":182,\"bmi\":18.69,\"sugarLevel\":5.414778630893669,\"temperature\":37.17589567104271,\"lungDepth\":1,\"scriptedEvents\":[],\"pathologyNames\":[\"Simple injury\",\"Simple injury\"]}",
+        "CH-ZU-604" : "{\"sex\":\"male\",\"age\":93,\"height_cm\":175,\"bmi\":22.11,\"sugarLevel\":5.1826071920919,\"temperature\":36.37577496648396,\"lungDepth\":1,\"scriptedEvents\":[],\"pathologyNames\":[\"Simple injury\"]}"
       },
       "refId" : "ObjectDescriptor:22373360:hiolYk",
       "scopeType" : "TeamScope",
@@ -5112,6 +5112,32 @@
       "minValue" : null,
       "name" : "raDeltaDelaySeconds",
       "refId" : "NumberDescriptor:3019462:Bqg6gz",
+      "scopeType" : "TeamScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "TeamScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:3019468:2Fz1jF",
+        "value" : 10.0
+      },
+      "defaultValue" : 10.0,
+      "editorTag" : "Ra duration",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:3019469:vpSGN1",
+        "translations" : { }
+      },
+      "maxValue" : null,
+      "minValue" : 10.0,
+      "name" : "raDuration",
+      "refId" : "NumberDescriptor:3019467:zsK5yB",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"

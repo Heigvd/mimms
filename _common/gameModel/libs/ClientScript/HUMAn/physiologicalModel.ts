@@ -1375,7 +1375,7 @@ export function computeOrthoLevel(
   state: BodyState,
   _meta: HumanBody['meta'],
   _duration_min: number
-) : void {
+): void {
   if (state.vitals.cardiacArrest! > 0) {
     state.variables.paraOrthoLevel = 0;
     return;
@@ -1682,7 +1682,11 @@ export function getSystemModel(): SympSystem {
  * Update some vitals according to current orthosympathetic level and overdrive level
  *
  */
-export function doCompensate(state: BodyState, meta: HumanBody['meta'], duration_min: number) : void {
+export function doCompensate(
+  state: BodyState,
+  meta: HumanBody['meta'],
+  duration_min: number
+): void {
   if (state.vitals.cardiacArrest! > 0) {
     return;
   }

@@ -97,6 +97,52 @@
             "style" : { }
           },
           "type" : "Number input"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Delay Ra seconds</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'raDeltaDelaySeconds')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Number input"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Delay Ra duration</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : { },
+            "onVariableChange" : { },
+            "script" : {
+              "@class" : "Script",
+              "content" : "Variable.find(gameModel,'raDuration')",
+              "language" : "TypeScript"
+            },
+            "style" : { }
+          },
+          "type" : "Number input"
         } ],
         "layout" : {
           "flexDirection" : "row"

@@ -221,6 +221,9 @@ export interface Motricity {
  * Human being at a given point in time
  */
 export interface BodyState {
+  /*
+   * in seconds
+   */
   time: number;
   blocks: Map<string, Block>;
   connections: ConnectionParam[];
@@ -2569,6 +2572,12 @@ function updateVitals(
 
     // compute (para)sympathetic and overdrive compensations
     compensate(newState, meta, durationInMin);
+    const start = Variable.find(gameModel, 'raDeltaDelaySeconds').getValue(self);
+    const end = start + Variable.find(gameModel, 'raDuration').getValue(self);
+    if (newTime >= start && newTime < end) {
+      newState.vitals.cardio.Ra_mmHgMinPerL += Variable.find(gameModel, 'raDelta').getValue(self);
+    }
+    wlog('Ra', newState.vitals.cardio.Ra_mmHgMinPerL);
 
     inferExtraOutputs({ state: newState, meta: meta });
   }
