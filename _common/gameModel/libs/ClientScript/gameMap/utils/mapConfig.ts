@@ -80,6 +80,10 @@ export function getScaledExtent(): ExtentLikeObject {
   }
 }
 
+export function showGreeneryLayer(): boolean {
+  return Variable.find(gameModel, 'showGreenery').getValue(self);
+}
+
 export function getLayerZIndex(type: LayerType | LogicalLayerType): VectorLayerProps {
   switch (type) {
     case LogicalLayerType.SCENARIO_LOCATIONS:

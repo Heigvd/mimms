@@ -209,6 +209,11 @@
                       "type" : "WegasMapVectorLayer"
                     }, {
                       "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { showGreeneryLayer } from \"./gameMap/utils/mapConfig\";\n!showGreeneryLayer();",
+                          "language" : "typescript"
+                        },
                         "layerId" : "",
                         "layerProps" : {
                           "@class" : "Script",
@@ -1020,6 +1025,11 @@
                           "type" : "WegasMapVectorLayer"
                         }, {
                           "props" : {
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { showGreeneryLayer } from \"./gameMap/utils/mapConfig\";\n!showGreeneryLayer();",
+                              "language" : "typescript"
+                            },
                             "layerId" : "",
                             "layerProps" : {
                               "@class" : "Script",

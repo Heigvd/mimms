@@ -207,7 +207,7 @@ export function getBuildingStyle(_feature: any, _resolution: number): LayerStyle
 }
 
 export function getViewSelectionStyle(feature: any): LayerStyleObject {
-  const color = '#539265';
+  const color = '#554994';
   const props = feature.getProperties();
 
   const stroke: StrokeStyleObject = {
