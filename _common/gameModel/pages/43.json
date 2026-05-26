@@ -1764,10 +1764,13 @@
                                     },
                                     "layerId" : "activableSelection",
                                     "layerProps" : {
-                                      "zIndex" : 91
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LogicalLayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LogicalLayerType.SCENARIO_LOCATIONS);",
+                                      "language" : "typescript"
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : false,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { getMapActivableSelectionLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivableSelectionLayer();",
@@ -1796,10 +1799,13 @@
                                   "props" : {
                                     "layerId" : "activables",
                                     "layerProps" : {
-                                      "zIndex" : 91
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LogicalLayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LogicalLayerType.SCENARIO_LOCATIONS);",
+                                      "language" : "typescript"
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
+                                      "isSourceZipped" : false,
                                       "source" : {
                                         "@class" : "Script",
                                         "content" : "import { getMapActivablesLayer } from \"./gameMap/layers/activablesLayer\";\ngetMapActivablesLayer();",
@@ -1827,7 +1833,11 @@
                                 }, {
                                   "props" : {
                                     "layerId" : "",
-                                    "layerProps" : { },
+                                    "layerProps" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.WATER);",
+                                      "language" : "typescript"
+                                    },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
                                       "isSourceZipped" : true,
@@ -1853,7 +1863,11 @@
                                 }, {
                                   "props" : {
                                     "layerId" : "",
-                                    "layerProps" : { },
+                                    "layerProps" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.RAILS);",
+                                      "language" : "typescript"
+                                    },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
                                       "isSourceZipped" : true,
@@ -1880,7 +1894,9 @@
                                   "props" : {
                                     "layerId" : "",
                                     "layerProps" : {
-                                      "zIndex" : 10
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.ROADS);",
+                                      "language" : "typescript"
                                     },
                                     "layerSource" : {
                                       "dataType" : "GeoJSON",
@@ -1909,7 +1925,7 @@
                                     "layerId" : "buildings",
                                     "layerProps" : {
                                       "@class" : "Script",
-                                      "content" : "({})",
+                                      "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.BUILDINGS);",
                                       "language" : "typescript"
                                     },
                                     "layerSource" : {
@@ -1931,6 +1947,36 @@
                                     },
                                     "layoutStyle" : { },
                                     "name" : "buildings",
+                                    "style" : { }
+                                  },
+                                  "type" : "WegasMapVectorLayer"
+                                }, {
+                                  "props" : {
+                                    "layerId" : "",
+                                    "layerProps" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.GREENERY);",
+                                      "language" : "typescript"
+                                    },
+                                    "layerSource" : {
+                                      "dataType" : "GeoJSON",
+                                      "isSourceZipped" : true,
+                                      "source" : {
+                                        "@class" : "Script",
+                                        "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.GREENERY);",
+                                        "language" : "typescript"
+                                      },
+                                      "sourceProjection" : "EPSG:4326",
+                                      "type" : "VectorLayer",
+                                      "useSpatialIndex" : true
+                                    },
+                                    "layerStyle" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ "feature", "resolution" ],
+                                      "content" : "import { getGreeneryStyle } from \"./gameMap/styling/mapStyling\";\ngetGreeneryStyle(feature, resolution);"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "greenery",
                                     "style" : { }
                                   },
                                   "type" : "WegasMapVectorLayer"

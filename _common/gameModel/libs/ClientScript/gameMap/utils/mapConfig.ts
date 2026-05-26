@@ -38,6 +38,12 @@ export enum LayerType {
   RAILS = 'RAILS',
   ROADS = 'ROADS',
   WATER = 'WATER',
+  GREENERY = 'GREENERY',
+}
+
+export enum LogicalLayerType {
+  SCENARIO_LOCATIONS = 'SCENARIO_LOCATIONS',
+  SCENARIO_SELECTED_VIEW = 'SCENARIO_SELECTED_VIEW',
 }
 
 export function layerDataPath(layerType: LayerType): string {
@@ -71,5 +77,24 @@ export function getScaledExtent(): ExtentLikeObject {
     return scaleExtent(config.extent, MAP_EXTENT_SCALE_FACTOR);
   } else {
     return config.extent;
+  }
+}
+
+export function getLayerZIndex(type: LayerType | LogicalLayerType): VectorLayerProps {
+  switch (type) {
+    case LogicalLayerType.SCENARIO_LOCATIONS:
+      return { zIndex: 90 };
+    case LogicalLayerType.SCENARIO_SELECTED_VIEW:
+      return { zIndex: 100 };
+    case LayerType.BUILDINGS:
+      return { zIndex: 40 };
+    case LayerType.GREENERY:
+      return { zIndex: 10 };
+    case LayerType.RAILS:
+      return { zIndex: 30 };
+    case LayerType.ROADS:
+      return { zIndex: 50 };
+    case LayerType.WATER:
+      return { zIndex: 20 };
   }
 }
