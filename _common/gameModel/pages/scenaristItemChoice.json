@@ -488,7 +488,7 @@
               "type" : "Text"
             }, {
               "props" : {
-                "icon" : "caret-down",
+                "icon" : "caret-up",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "style" : { }
