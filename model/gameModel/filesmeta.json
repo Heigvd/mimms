@@ -131,6 +131,42 @@
     "note" : "",
     "visibility" : "INHERITED"
   },
+  "/maps/Nice/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/Nice/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/Nice/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/Nice/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/Nice/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/Nice/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
   "/maps/mapIcons/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",
