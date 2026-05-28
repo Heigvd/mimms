@@ -7639,7 +7639,7 @@
     "version" : null,
     "visibility" : "INHERITED"
   } ],
-  "name" : "MIM-650 test",
+  "name" : "MIMMS Model",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
