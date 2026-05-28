@@ -149,6 +149,12 @@
     "note" : "",
     "visibility" : "INHERITED"
   },
+  "/maps/Nice/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
   "/maps/Nice/rails.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
