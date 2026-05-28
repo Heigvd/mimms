@@ -961,6 +961,35 @@
       "scopeType" : "GameModelScope",
       "version" : null,
       "visibility" : "INHERITED"
+    }, {
+      "@class" : "BooleanDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "Do the meadows and forests show on the different maps?",
+      "defaultInstance" : {
+        "@class" : "BooleanInstance",
+        "refId" : "BooleanInstance:3019473:BWkFrl",
+        "value" : false
+      },
+      "editorTag" : "showGreenery",
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:3019474:ievHB7",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:3019474:ievHB7::FR",
+            "status" : "",
+            "translation" : "showGreenery"
+          }
+        }
+      },
+      "name" : "showGreenery",
+      "refId" : "BooleanDescriptor:3019472:zUFptc",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "INHERITED"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -4219,6 +4248,7 @@
           "all-teams" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"all Teams\"},\"FR\":{\"status\":\"\",\"translation\":\"toutes les équipes\",\"lang\":\"FR\"}},\"version\":0}",
           "attention-please" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the chosen time has to be later than the most advanced team at {0}.\"},\"FR\":{\"status\":\"\",\"translation\":\"l'heure choisie doit être ultérieure à l'équipe la plus avancée {0}.\",\"lang\":\"FR\"}},\"version\":0}",
           "godview-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"when enabled, all actors and places are visible. When disabled, only the place of the selected actor's place is displayed.\"},\"FR\":{\"status\":\"\",\"translation\":\"visibilité de tous les lieux et acteurs pour tous les joueurs. Si désactivé, la vue est limitée à l'acteur sélectionné.\",\"lang\":\"FR\"}},\"version\":0}",
+          "greenery-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Visibilité des calques de verdures pour chaque instance de la carte. Si désactivé, le calque de verdure ne sera pas affiché.\"},\"EN\":{\"status\":\"\",\"translation\":\"Visibility of greenery layers of each instance of the map. When disabled, the greenery layer will not be displayed.\",\"lang\":\"EN\"}},\"version\":0}",
           "hierarchy-param" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources refuse orders that break hierarchy rules. When disabled, the resources will accept any orders.\"},\"FR\":{\"status\":\"\",\"translation\":\"les ressources refusent les ordres qui enfreignent la hiérarchie. Si désactivé, tous les ordres sont acceptés.\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hour(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"heure(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "hour-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"h(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"h(s)\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4990,7 +5020,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":0,\"extent\":[2499286.105929431,1117873.1533189379,2500468.462442313,1118797.7898341562],\"center\":[2499877.284185872,1118335.471576547],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"Nice\",\"zoom\":0,\"extent\":[2585088.494075889,837640.5359021544,2587033.724384446,839536.9406092056],\"center\":[2586061.109230167,838588.7382556801],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
         },
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",
@@ -7609,7 +7639,7 @@
     "version" : null,
     "visibility" : "INHERITED"
   } ],
-  "name" : "MIMMS Model - 27.05.2026",
+  "name" : "MIMMS Model",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -7625,7 +7655,7 @@
     "websocket" : ""
   },
   "protected" : false,
-  "refId" : "GameModel:3701:Pz8Uau",
+  "refId" : "GameModel:32304:j4aKnt",
   "status" : "LIVE",
   "template" : true,
   "type" : "SCENARIO",
