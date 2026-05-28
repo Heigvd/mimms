@@ -37,25 +37,31 @@
   },
   "/maps/Avenches/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/Avenches/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/Avenches/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/Avenches/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/Avenches/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
@@ -73,25 +79,31 @@
   },
   "/maps/GVA-center/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA-center/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA-center/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA-center/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA-center/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/octet-stream",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
@@ -109,25 +121,31 @@
   },
   "/maps/GVA/buildings.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "INHERITED"
+  },
+  "/maps/GVA/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA/rails.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA/roads.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
   "/maps/GVA/water.geojson" : {
     "description" : "",
-    "mimeType" : "application/geo+json",
+    "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
   },
