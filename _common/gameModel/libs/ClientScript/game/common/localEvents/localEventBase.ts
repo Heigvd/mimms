@@ -55,21 +55,24 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
-import { TaskStatus, TaskType } from '../tasks/taskBase';
+import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
-import { evaluateAllTriggers } from '../triggers/trigger';
+import { evaluateAllTriggers, Trigger } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
 
 export interface LocalEvent {
   type: string;
-  parentEventId: GlobalEventId; // The Global Event that causes this local event
+  /**
+   * The Global Event that causes this local event
+   */
+  parentEventId: GlobalEventId;
   /**
    * The agent is of the object that triggered this event
-   * Can be either a trigger id or an actor id
+   * Can be either an action, a trigger or a task.
    */
-  sourceId?: Uid;
+  source: SourceType;
   /**
-   * SimTime at which this happens in seconds from ambuance arrival
+   * SimTime at which this happens in seconds from ambulance arrival
    */
   simTimeStamp: SimTime;
   /**
@@ -77,6 +80,29 @@ export interface LocalEvent {
    */
   priority?: number; // The smaller priority is the first to be processed
 }
+
+export type SourceType =
+  | {
+      type:
+        | 'initialisation'
+        | 'trainer'
+        | 'time-forward'
+        | 'time-forward-cancel'
+        | 'plan-action'
+        | 'unplan-action';
+    }
+  | {
+      type: 'action';
+      id: ActionBase['Uid'];
+    }
+  | {
+      type: 'trigger';
+      id: Trigger['uid'];
+    }
+  | {
+      type: 'task';
+      id: TaskBase['Uid'];
+    };
 
 export abstract class LocalEventBase {
   private static eventCounter = 0;
@@ -88,14 +114,14 @@ export abstract class LocalEventBase {
 
   readonly type: string;
   readonly parentEventId: GlobalEventId;
-  readonly sourceId: Uid;
+  readonly source: SourceType;
   readonly simTimeStamp: number;
   readonly priority: number;
 
   protected constructor(props: LocalEvent) {
     this.type = props.type;
     this.parentEventId = props.parentEventId;
-    this.sourceId = props.sourceId || 'no source provided';
+    this.source = props.source;
     this.simTimeStamp = props.simTimeStamp;
     this.priority = props.priority ?? 0;
 
@@ -140,6 +166,7 @@ export class PlanActionLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly action: ActionBase;
     }
@@ -160,6 +187,7 @@ export class CancelActionLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly templateId: ActionTemplateUid;
       readonly actorUid: ActorId;
@@ -200,6 +228,7 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly priority?: number;
       readonly type: string;
@@ -223,6 +252,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly actors: ActorId[];
       readonly timeJump: number;
@@ -258,6 +288,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       if (isTimeForwardReady(state)) {
         const tfw = new TimeForwardLocalEvent({
           parentEventId: this.extensionProps.parentEventId,
+          source: this.extensionProps.source,
           simTimeStamp: state.getSimTime(),
           actors: [],
           timeJump: TimeSliceDuration,
@@ -288,6 +319,7 @@ export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly actors: ActorId[];
     }
@@ -314,6 +346,7 @@ export class AddActorLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly role: InterventionRole; // spawned role
       readonly location?: LOCATION_ENUM | undefined; // if undefined automatically resolved
@@ -349,6 +382,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly actorUid: ActorId;
       readonly location: LOCATION_ENUM;
@@ -382,7 +416,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId?: Uid;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -424,7 +458,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId?: Uid;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -443,7 +477,7 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId?: Uid;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
@@ -471,6 +505,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly actorUid: ActorId | undefined;
       readonly request: CasuMessagePayload;
@@ -485,6 +520,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
       resolveResourceRequest(
         state,
         this.props.parentEventId,
+        this.props.source,
         this.props.actorUid,
         this.props.request.resourceRequest
       );
@@ -496,6 +532,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
     }
   ) {
@@ -507,7 +544,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         Ambulance: 0,
         SMUR: 0,
         PMA: 0,
-        PICA: 0,
+        DPMA: 0,
         'PC-San': 0,
         Helicopter: 0,
       },
@@ -524,10 +561,11 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
 /**
  * Spawned when the emergency dept sends resource containers
  */
-export class ResourceMobilizationEvent extends LocalEventBase {
+export class ResourceMobilizationLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly departureTime: SimTime;
       readonly travelTime: SimDuration;
@@ -536,7 +574,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       readonly configName: string;
     }
   ) {
-    super({ ...props, type: 'ResourceMobilizationEvent' });
+    super({ ...props, type: 'ResourceMobilizationLocalEvent' });
   }
 
   override applyStateUpdate(_state: MainSimulationState): void {
@@ -549,6 +587,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
     containerDef.roles.forEach(role => {
       const evt = new AddActorLocalEvent({
         parentEventId: this.props.parentEventId,
+        source: this.props.source,
         simTimeStamp: this.props.departureTime,
         role,
         travelTime: this.props.travelTime,
@@ -563,6 +602,7 @@ export class ResourceMobilizationEvent extends LocalEventBase {
       // schedule resource arrival event
       const evt = new ResourcesArrivalLocalEvent({
         parentEventId: this.props.parentEventId,
+        source: this.props.source,
         simTimeStamp: this.props.departureTime + this.props.travelTime,
         containerDefId: this.props.containerDefId,
         amount: this.props.amount,
@@ -581,6 +621,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly containerDefId: ResourceContainerDefinitionId;
       readonly amount: number;
@@ -625,6 +666,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
             getLocalEventManager().queueLocalEvent(
               new ResourceArrivalAnnouncementLocalEvent({
                 parentEventId: this.props.parentEventId,
+                source: this.props.source,
                 simTimeStamp: this.props.simTimeStamp,
                 recipientActor: actorId,
                 resources: sentResourcesByLocations[location]!,
@@ -645,6 +687,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       getLocalEventManager().queueLocalEvent(
         new ResourcesArrivalLocalEvent({
           parentEventId: this.props.parentEventId,
+          source: this.props.source,
           simTimeStamp: this.props.simTimeStamp + FailedRessourceArrivalDelay,
           containerDefId: this.props.containerDefId,
           amount: this.props.amount,
@@ -670,6 +713,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
     ]);
     return new AddRadioMessageLocalEvent({
       parentEventId: this.props.parentEventId,
+      source: this.props.source,
       simTimeStamp: state.getSimTime(),
       senderName: this.props.squadName,
       message,
@@ -683,6 +727,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly recipientActor: ActorId;
       readonly resources: Partial<Record<ResourceType, number>>;
@@ -695,6 +740,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
     getLocalEventManager().queueLocalEvent(
       new AddNotificationLocalEvent({
         parentEventId: this.props.parentEventId,
+        source: this.props.source,
         simTimeStamp: state.getSimTime(),
         senderName: RadioLogic.getResourceAsSenderName(),
         recipientId: this.props.recipientActor,
@@ -717,6 +763,7 @@ export class ReserveResourcesLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
       readonly actionId: ActionId;
@@ -734,6 +781,7 @@ export class UnReserveResourcesLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
     }
@@ -750,6 +798,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
     private readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly type: string;
       readonly ownerUid: ActorId;
@@ -777,6 +826,7 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly ownerUid: ActorId;
       readonly resourcesId: ResourceId[];
@@ -797,6 +847,7 @@ export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLoc
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly ownerUid: ActorId;
       readonly sourceLocation: LOCATION_ENUM;
@@ -818,6 +869,7 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly ownerUid: ActorId;
       readonly resourceType: ResourceType;
@@ -839,6 +891,7 @@ export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesIds: ResourceId[];
     }
@@ -859,6 +912,7 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
       readonly taskId: TaskId;
@@ -876,6 +930,7 @@ export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
     }
@@ -892,6 +947,7 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly taskId: TaskId;
     }
@@ -921,6 +977,7 @@ export class DeleteResourceLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourceId: ResourceId;
     }
@@ -943,6 +1000,7 @@ export class TaskStatusChangeLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly taskId: TaskId;
       readonly status: TaskStatus;
@@ -966,6 +1024,7 @@ export class MovePatientLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly patientId: string;
       readonly location: PatientLocation;
@@ -989,6 +1048,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly senderId: ActorId | undefined;
       readonly hospitalRequestPayload: HospitalRequestPayload;
@@ -1022,6 +1082,7 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
     updateHospitalProximityRequest(state, this.props.hospitalRequestPayload.proximity);
     const evt = new AddRadioMessageLocalEvent({
       parentEventId: this.props.parentEventId,
+      source: this.props.source,
       simTimeStamp: this.props.simTimeStamp,
       senderId: getCasuActorId(),
       recipientId: this.props.senderId,
@@ -1042,6 +1103,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly senderName: string;
       readonly recipient: number;
@@ -1061,6 +1123,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.props.parentEventId,
+        source: this.props.source,
         simTimeStamp: this.props.simTimeStamp,
         senderName: this.props.senderName,
         recipientId: this.props.recipient,
@@ -1096,7 +1159,7 @@ export class ChangeActivableStatusLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId?: Uid;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly option: ActivationOperator;
@@ -1126,7 +1189,7 @@ export class ChangeMapActivableStatusLocalEvent extends ChangeActivableStatusLoc
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId?: Uid;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly option: ActivationOperator;
@@ -1161,13 +1224,12 @@ export class IncrementCountLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId: Uid | ActorId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
     }
   ) {
-    const { sourceId, ...otherProps } = props;
-    super({ ...otherProps, sourceId: String(sourceId), type: 'IncrementCountLocalEvent' });
+    super({ ...props, type: 'IncrementCountLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {
@@ -1183,14 +1245,13 @@ export class SelectChoiceEffectLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
-      readonly sourceId: Uid | ActorId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly target: Uid;
       readonly effect: Uid;
     }
   ) {
-    const { sourceId, ...otherProps } = props;
-    super({ ...otherProps, sourceId: String(sourceId), type: 'SelectChoiceEffectLocalEvent' });
+    super({ ...props, type: 'SelectChoiceEffectLocalEvent' });
   }
 
   override applyStateUpdate(state: MainSimulationState): void {
@@ -1216,6 +1277,7 @@ export class GameOptionsUpdateLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly options: GameOptions;
     }
@@ -1241,9 +1303,9 @@ export class T0TriggerEvaluationLocalEvent extends LocalEventBase {
   constructor() {
     super({
       type: 'T0TriggerEvaluationLocalEvent',
-      parentEventId: 0,
+      parentEventId: 0, // TODO check
+      source: { type: 'initialisation' },
       simTimeStamp: 0,
-      sourceId: 'T0 initial trigger evaluation',
     });
   }
 

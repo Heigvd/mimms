@@ -261,7 +261,7 @@ export abstract class ChoiceAction extends StartEndAction {
       );
 
       if (selectedEffect) {
-        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.ownerId);
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.Uid);
         eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
       } else {
         actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
@@ -347,6 +347,7 @@ export class DisplayMessageAction extends StartEndAction {
     getLocalEventManager().queueLocalEvent(
       new AddMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         recipientId: this.ownerId,
         message: this.messageKey,
@@ -463,6 +464,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: now,
         senderId: this.getSenderId(),
         recipientId: this.getRecipientId(),
@@ -475,6 +477,7 @@ export class CasuMessageAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new HospitalRequestUpdateLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: now,
           senderId: this.ownerId,
           hospitalRequestPayload: this.casuMessagePayload,
@@ -484,6 +487,7 @@ export class CasuMessageAction extends RadioDrivenAction {
       // Handle METHANE resource request
       const dispatchEvent = new ResourceRequestResolutionLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: now,
         actorUid: this.ownerId,
         request: this.casuMessagePayload,
@@ -500,6 +504,7 @@ export class CasuMessageAction extends RadioDrivenAction {
         getLocalEventManager().queueLocalEvent(
           new AutoSendACSMCSLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: now + ACSMCSAutoRequestDelay,
           })
         );
@@ -576,6 +581,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         senderId: this.getSenderId(),
         recipientId: this.getRecipientId(),
@@ -592,6 +598,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderId: getCasuActorId(),
           recipientId: this.ownerId,
@@ -603,6 +610,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderId: getCasuActorId(),
           recipientId: this.ownerId,
@@ -721,6 +729,7 @@ export class MapChoiceAction extends ChoiceAction {
       new ChangeMapActivableStatusLocalEvent(
         {
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           target: this.choice.displayedMapEntity,
           option: 'activate',
@@ -742,6 +751,7 @@ export class MapChoiceAction extends ChoiceAction {
       new ChangeMapActivableStatusLocalEvent(
         {
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           target: this.choice.displayedMapEntity,
           option: 'activate',
@@ -761,6 +771,7 @@ export class MapChoiceAction extends ChoiceAction {
       new ChangeMapActivableStatusLocalEvent(
         {
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           target: this.choice.displayedMapEntity,
           option: 'deactivate',
@@ -805,6 +816,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     getLocalEventManager().queueLocalEvent(
       new MoveActorLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         actorUid: this.ownerId,
         location: this.binding!,
@@ -816,6 +828,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     getLocalEventManager().queueLocalEvent(
       new MoveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourcesId: [resourceUid],
@@ -825,6 +838,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     getLocalEventManager().queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: [resourceUid],
       })
@@ -871,6 +885,7 @@ export class PCChoiceAction extends MapChoiceAction {
       getLocalEventManager().queueLocalEvent(
         new MoveActorLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           actorUid: actor.Uid,
           location: this.binding!,
@@ -881,6 +896,7 @@ export class PCChoiceAction extends MapChoiceAction {
     getLocalEventManager().queueLocalEvent(
       new MoveFreeHumanResourcesByLocationLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         sourceLocation: LOCATION_ENUM.pcFront,
@@ -893,6 +909,7 @@ export class PCChoiceAction extends MapChoiceAction {
       new ChangeMapActivableStatusLocalEvent(
         {
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           target: pcFrontActivable!.uid,
           option: 'deactivate',
@@ -944,6 +961,7 @@ export class ParkChoiceAction extends MapChoiceAction {
     getLocalEventManager().queueLocalEvent(
       new MoveFreeWaitingResourcesByTypeLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourceType: this.vehicleType,
@@ -994,6 +1012,7 @@ export class MoveActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           recipientId: this.ownerId,
           message: 'move-actor-no-location',
@@ -1003,6 +1022,7 @@ export class MoveActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new MoveActorLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           actorUid: this.ownerId,
           location: this.location,
@@ -1068,6 +1088,7 @@ export class AppointActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new ReserveResourcesLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           resourcesId: [this.involvedResourceId],
           actionId: this.Uid,
@@ -1078,6 +1099,7 @@ export class AppointActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1093,6 +1115,7 @@ export class AppointActorAction extends StartEndAction {
         getLocalEventManager().queueLocalEvent(
           new AddActorLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             role: this.actorRole,
             location: this.location,
@@ -1104,6 +1127,7 @@ export class AppointActorAction extends StartEndAction {
         getLocalEventManager().queueLocalEvent(
           new DeleteResourceLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             resourceId: this.involvedResourceId,
           })
@@ -1115,6 +1139,7 @@ export class AppointActorAction extends StartEndAction {
         getLocalEventManager().queueLocalEvent(
           new UnReserveResourcesLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             resourcesId: [this.involvedResourceId],
           })
@@ -1125,6 +1150,7 @@ export class AppointActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1140,6 +1166,7 @@ export class AppointActorAction extends StartEndAction {
       getLocalEventManager().queueLocalEvent(
         new UnReserveResourcesLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           resourcesId: [this.involvedResourceId],
         })
@@ -1259,6 +1286,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new ReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
         actionId: this.Uid,
@@ -1273,6 +1301,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderId: this.getSenderId(),
           recipientId: this.getRecipientId(),
@@ -1288,6 +1317,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime() + this.timeDelay,
         resourcesId: this.involvedResourcesId,
       })
@@ -1304,6 +1334,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         getLocalEventManager().queueLocalEvent(
           new MoveResourcesLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             ownerUid: this.ownerId,
             resourcesId: this.involvedResourcesId,
@@ -1315,6 +1346,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         getLocalEventManager().queueLocalEvent(
           new AssignResourcesToWaitingTaskLocalEvent({
             parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             resourcesId: this.involvedResourcesId,
           })
@@ -1325,6 +1357,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime() + this.timeDelay,
           resourcesId: this.involvedResourcesId,
           taskId: this.targetTaskId,
@@ -1356,6 +1389,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1367,6 +1401,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1411,6 +1446,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
       })
@@ -1453,6 +1489,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         senderId: this.getSenderId(),
         recipientId: this.getRecipientId(),
@@ -1465,6 +1502,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new PretriageReportResponseLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime() + PretriageReportResponseDelay,
         senderName: RadioLogic.getResourceAsSenderName(),
         recipient: this.ownerId,
@@ -1529,6 +1567,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         senderId: this.getSenderId(),
         recipientId: this.getRecipientId(),
@@ -1638,6 +1677,7 @@ export class EvacuationAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new ReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
         actionId: this.Uid,
@@ -1652,6 +1692,7 @@ export class EvacuationAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
       })
@@ -1660,6 +1701,7 @@ export class EvacuationAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         senderId: this.getSenderId(),
         recipientId: this.getRecipientId(),
@@ -1674,6 +1716,7 @@ export class EvacuationAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1685,6 +1728,7 @@ export class EvacuationAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
@@ -1700,6 +1744,7 @@ export class EvacuationAction extends RadioDrivenAction {
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           resourcesId: this.involvedResourcesId,
           taskId: evacuationTask.Uid,
@@ -1726,6 +1771,7 @@ export class EvacuationAction extends RadioDrivenAction {
     getLocalEventManager().queueLocalEvent(
       new UnReserveResourcesLocalEvent({
         parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
       })

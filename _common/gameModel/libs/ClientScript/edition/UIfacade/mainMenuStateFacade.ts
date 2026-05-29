@@ -101,3 +101,17 @@ export function setValidationMessages(validation: ValidationMessage<any>[]): voi
   newState.validation = [...validation];
   Context[MENU_CONTEXT_KEY].setState(newState);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// menu tabs shown depending on game mode
+
+export function isPretriMode(): boolean {
+  return Variable.find(gameModel, 'gameMode').getValue(self) === 'pretriMode';
+}
+
+export function getGameMode(): string {
+  if (isPretriMode()) {
+    return 'patientGeneration';
+  }
+  return 'scenaristMainMenu';
+}

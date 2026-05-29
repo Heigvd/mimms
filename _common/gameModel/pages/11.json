@@ -9,6 +9,7 @@
           "language" : "TypeScript"
         },
         "layoutStyle" : { },
+        "name" : "role view / god view",
         "onVariableChange" : { },
         "script" : {
           "@class" : "Script",
@@ -26,6 +27,7 @@
       "props" : {
         "className" : "attention-please",
         "layoutStyle" : { },
+        "name" : "role view / god view",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -51,6 +53,7 @@
             "returnType" : "Promise<unknown> | undefined"
           }
         },
+        "name" : "respect hierarchy",
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
@@ -74,6 +77,7 @@
       "props" : {
         "className" : "attention-please",
         "layoutStyle" : { },
+        "name" : "respect hierarchy",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -87,6 +91,7 @@
         "className" : "",
         "layoutClassName" : "modal-title",
         "layoutStyle" : { },
+        "name" : "messages life length",
         "style" : { },
         "text" : {
           "@class" : "Script",
@@ -111,6 +116,7 @@
           "value" : "10"
         } ],
         "layoutStyle" : { },
+        "name" : "messages life length",
         "onVariableChange" : { },
         "script" : {
           "@class" : "Script",
@@ -124,10 +130,47 @@
       "props" : {
         "className" : "attention-please",
         "layoutStyle" : { },
+        "name" : "messages life length",
         "style" : { },
         "text" : {
           "@class" : "Script",
           "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'message-time-param');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "className" : "modal-title",
+        "label" : {
+          "@class" : "Script",
+          "content" : "\"Greenery\"",
+          "language" : "TypeScript"
+        },
+        "layoutStyle" : { },
+        "name" : "greenery",
+        "onVariableChange" : { },
+        "script" : {
+          "@class" : "Script",
+          "content" : "Variable.find(gameModel,'showGreenery')",
+          "language" : "TypeScript"
+        },
+        "style" : {
+          "margin-bottom" : "16px",
+          "margin-top" : "16px"
+        },
+        "type" : "toggler"
+      },
+      "type" : "Boolean"
+    }, {
+      "props" : {
+        "className" : "attention-please",
+        "layoutStyle" : { },
+        "name" : "greenery",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-dashboard', 'greenery-param');",
           "language" : "TypeScript"
         }
       },

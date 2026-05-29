@@ -37,7 +37,7 @@ export const PatientEvolutionEVACTimeModifier = 0;
 /**
  * Pretriage report delay
  */
-export const PretriageReportResponseDelay = OneMinuteDuration * 2;
+export const PretriageReportResponseDelay = 0;
 
 /**
  * in minutes

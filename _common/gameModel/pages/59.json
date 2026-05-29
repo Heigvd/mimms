@@ -3,15 +3,323 @@
     "children" : [ {
       "props" : {
         "layoutStyle" : { },
-        "name" : "Events",
+        "name" : "title",
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n'EVENTS ' + JSON.stringify(getAllEvents())",
+          "content" : "\"<p>GLOBAL EVENTS </p>\"",
           "language" : "TypeScript"
         }
       },
       "type" : "Text"
+    }, {
+      "props" : {
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "true;",
+          "language" : "typescript"
+        },
+        "layoutStyle" : { },
+        "name" : "json stringify",
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n  JSON.stringify(getAllEvents())",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "7rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  \"id\";",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "7rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>previousEventId</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "12rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  \"timestamp\";",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "7rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>eventBoxId</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "12rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "  \"type\";",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "7rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>triggerTime</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "5rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>emitterCharacterId</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "7rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>emitterPlayerId</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "layoutStyle" : {
+              "width" : "25rem"
+            },
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p><br></p><p>...<br></p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        } ],
+        "layout" : { },
+        "layoutStyle" : { },
+        "name" : "titles",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "true;",
+                  "language" : "typescript"
+                },
+                "layoutStyle" : { },
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "  JSON.stringify(Context.globalEvent);",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.id ?? 0);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  JSON.stringify(Context.globalEvent.previousEventId);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "12rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.timestamp ?? 0);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.eventBoxId || '');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "12rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.payload?.type || '');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.payload?.triggerTime || '');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "5rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.payload?.emitterCharacterId || '');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "7rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  String(Context.globalEvent.payload?.emitterPlayerId || '');",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutStyle" : {
+                      "width" : "25rem"
+                    },
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  const { id, previousEventId, timestamp, eventBoxId, ...remaining } = Context.globalEvent\n  JSON.stringify(remaining);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ]
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "exposeAs" : "globalEvent",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getAllEvents } from \"./game/common/events/eventUtils\";\n  getAllEvents();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "id",
+        "layout" : {
+          "flexDirection" : "column"
+        },
+        "layoutStyle" : { },
+        "style" : { }
+      },
+      "type" : "For each"
     } ],
     "layout" : {
       "flexDirection" : "column"

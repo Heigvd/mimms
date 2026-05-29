@@ -61,7 +61,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"Avenches\", value: \"Avenches\"}]",
+                              "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"Avenches\", value: \"Avenches\"}, {label: \"Nice\", value: \"Nice\"}]",
                               "language" : "typescript"
                             },
                             "className" : "scenarist-dropdown",
@@ -432,10 +432,13 @@
                       "props" : {
                         "layerId" : "",
                         "layerProps" : {
-                          "zIndex" : 100
+                          "@class" : "Script",
+                          "content" : "import { getLayerZIndex, LogicalLayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LogicalLayerType.SCENARIO_SELECTED_VIEW);",
+                          "language" : "typescript"
                         },
                         "layerSource" : {
                           "dataType" : "GeoJSON",
+                          "isSourceZipped" : false,
                           "source" : {
                             "@class" : "Script",
                             "content" : "import { getViewGeometry } from \"./UIfacade/mapConfigFacade\";\ngetViewGeometry();",
@@ -463,9 +466,14 @@
                     }, {
                       "props" : {
                         "layerId" : "",
-                        "layerProps" : { },
+                        "layerProps" : {
+                          "@class" : "Script",
+                          "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.WATER);",
+                          "language" : "typescript"
+                        },
                         "layerSource" : {
                           "dataType" : "GeoJSON",
+                          "isSourceZipped" : true,
                           "source" : {
                             "@class" : "Script",
                             "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.WATER);",
@@ -488,9 +496,14 @@
                     }, {
                       "props" : {
                         "layerId" : "",
-                        "layerProps" : { },
+                        "layerProps" : {
+                          "@class" : "Script",
+                          "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.RAILS);",
+                          "language" : "typescript"
+                        },
                         "layerSource" : {
                           "dataType" : "GeoJSON",
+                          "isSourceZipped" : true,
                           "source" : {
                             "@class" : "Script",
                             "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.RAILS);",
@@ -514,10 +527,13 @@
                       "props" : {
                         "layerId" : "",
                         "layerProps" : {
-                          "zIndex" : 10
+                          "@class" : "Script",
+                          "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.ROADS);",
+                          "language" : "typescript"
                         },
                         "layerSource" : {
                           "dataType" : "GeoJSON",
+                          "isSourceZipped" : true,
                           "source" : {
                             "@class" : "Script",
                             "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.ROADS);",
@@ -542,11 +558,12 @@
                         "layerId" : "buildings",
                         "layerProps" : {
                           "@class" : "Script",
-                          "content" : "({})",
+                          "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.BUILDINGS);",
                           "language" : "typescript"
                         },
                         "layerSource" : {
                           "dataType" : "GeoJSON",
+                          "isSourceZipped" : true,
                           "source" : {
                             "@class" : "Script",
                             "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.BUILDINGS);",
@@ -563,6 +580,41 @@
                         },
                         "layoutStyle" : { },
                         "name" : "buildings",
+                        "style" : { }
+                      },
+                      "type" : "WegasMapVectorLayer"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { showGreeneryLayer } from \"./gameMap/utils/mapConfig\";\n!showGreeneryLayer();",
+                          "language" : "typescript"
+                        },
+                        "layerId" : "",
+                        "layerProps" : {
+                          "@class" : "Script",
+                          "content" : "import { getLayerZIndex, LayerType } from \"./gameMap/utils/mapConfig\";\ngetLayerZIndex(LayerType.GREENERY);",
+                          "language" : "typescript"
+                        },
+                        "layerSource" : {
+                          "dataType" : "GeoJSON",
+                          "isSourceZipped" : true,
+                          "source" : {
+                            "@class" : "Script",
+                            "content" : "import { layerDataPath, LayerType } from \"./gameMap/utils/mapConfig\";\nlayerDataPath(LayerType.GREENERY);",
+                            "language" : "typescript"
+                          },
+                          "sourceProjection" : "EPSG:4326",
+                          "type" : "VectorLayer",
+                          "useSpatialIndex" : true
+                        },
+                        "layerStyle" : {
+                          "@class" : "ScriptCallback",
+                          "args" : [ "feature", "resolution" ],
+                          "content" : "import { getGreeneryStyle } from \"./gameMap/styling/mapStyling\";\ngetGreeneryStyle(feature, resolution);"
+                        },
+                        "layoutStyle" : { },
+                        "name" : "greenery",
                         "style" : { }
                       },
                       "type" : "WegasMapVectorLayer"
