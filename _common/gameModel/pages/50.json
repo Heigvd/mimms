@@ -101,6 +101,50 @@
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "mimms_h2title noPadding noMargin",
+                "layoutStyle" : { },
+                "name" : "pathologies",
+                "style" : {
+                  "margin" : "0"
+                },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>Pathologies</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "layoutStyle" : { },
+                "name" : "pathologies",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "Context.currentPatient.state.pathologyNames.join(\", \")",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "APP_CONTEXT !== \"Editor\";",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "",
+            "layoutStyle" : { },
+            "name" : "pathologies",
+            "style" : { }
+          },
+          "type" : "FlexList"
         } ],
         "className" : "noPadding noMargin",
         "layout" : {

@@ -962,6 +962,40 @@
       "version" : null,
       "visibility" : "INHERITED"
     }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:3014329:XbGDls",
+        "value" : 200.0
+      },
+      "defaultValue" : 200.0,
+      "editorTag" : "",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:3014330:RJ6y7B",
+        "translations" : {
+          "EN" : {
+            "@class" : "Translation",
+            "lang" : "EN",
+            "refId" : "TranslatableContent:3014330:RJ6y7B::EN",
+            "status" : "",
+            "translation" : "patientCapacity"
+          }
+        }
+      },
+      "maxValue" : 200.0,
+      "minValue" : 0.0,
+      "name" : "patientCapacity",
+      "refId" : "NumberDescriptor:3014328:554JlT",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "INHERITED"
+    }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "Do the meadows and forests show on the different maps?",

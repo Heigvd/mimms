@@ -1017,6 +1017,40 @@
       "version" : null,
       "visibility" : "PRIVATE"
     }, {
+      "@class" : "NumberDescriptor",
+      "broadcastScope" : "GameModelScope",
+      "comments" : "",
+      "defaultInstance" : {
+        "@class" : "NumberInstance",
+        "history" : [ ],
+        "refId" : "NumberInstance:2995761:qDV6IG",
+        "value" : 200.0
+      },
+      "defaultValue" : 200.0,
+      "editorTag" : "patientCapacity",
+      "historySize" : 20,
+      "isolation" : "OPEN",
+      "label" : {
+        "@class" : "TranslatableContent",
+        "refId" : "TranslatableContent:2995762:DD5PV0",
+        "translations" : {
+          "FR" : {
+            "@class" : "Translation",
+            "lang" : "FR",
+            "refId" : "TranslatableContent:2995762:DD5PV0::FR",
+            "status" : "",
+            "translation" : "patientCapacity"
+          }
+        }
+      },
+      "maxValue" : 200.0,
+      "minValue" : 0.0,
+      "name" : "patientCapacity",
+      "refId" : "NumberDescriptor:2995760:baEuNq",
+      "scopeType" : "GameModelScope",
+      "version" : null,
+      "visibility" : "PRIVATE"
+    }, {
       "@class" : "BooleanDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "Do the meadows and forests show on the different maps?",
@@ -7694,7 +7728,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIMMS - MIM-633 Unlinked",
+  "name" : "Basic scenario",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
