@@ -69,36 +69,6 @@
                       "className" : "boolean-button--selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "!Context.item.activeAtStart;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Inactive</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: false });",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "inactive",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "boolean-button boolean-button-right",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button--selected",
-                      "condition" : {
-                        "@class" : "Script",
                         "content" : "Context.item.activeAtStart;",
                         "language" : "typescript"
                       }
@@ -118,6 +88,36 @@
                       }
                     },
                     "name" : "active",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.item.activeAtStart;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Inactive</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: false });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "inactive",
                     "style" : { }
                   },
                   "type" : "Button"
