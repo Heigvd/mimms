@@ -214,7 +214,7 @@
                         "language" : "TypeScript"
                       }
                     },
-                    "name" : "inactive",
+                    "name" : "only once",
                     "style" : { }
                   },
                   "type" : "Button"
@@ -244,7 +244,7 @@
                         "language" : "TypeScript"
                       }
                     },
-                    "name" : "active",
+                    "name" : "every time",
                     "style" : { }
                   },
                   "type" : "Button"
@@ -253,7 +253,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "Deactivate itself",
+                "name" : "deactivateItself ",
                 "style" : { }
               },
               "type" : "FlexList"

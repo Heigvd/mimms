@@ -43,7 +43,7 @@ export function getTriggerDefinition(): TriggerDefinition {
       comment: '',
       accessLevel: 'basic',
       mandatory: false,
-      deactivateItself: false,
+      deactivateItself: true,
       operator: 'AND',
       conditions: [],
       impacts: [],

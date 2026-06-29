@@ -564,7 +564,7 @@
           "content" : "import { getGameMode } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetGameMode() === 'patientGeneration';",
           "language" : "typescript"
         },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "noPadding fullWidth",
         "layoutStyle" : { },
         "style" : { }
       },
