@@ -9,7 +9,7 @@
                 "className" : "",
                 "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
-                "name" : "tag",
+                "name" : "ref",
                 "onCancel" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -38,13 +38,14 @@
               "type" : "String input"
             }, {
               "props" : {
+                "className" : "noMargin",
                 "layoutClassName" : "generic-item__label",
                 "layoutStyle" : { },
                 "name" : "label",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"Tag\"",
+                  "content" : "\"<p>Ref</p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -53,7 +54,7 @@
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "tag",
+            "name" : "ref",
             "style" : { }
           },
           "type" : "FlexList"

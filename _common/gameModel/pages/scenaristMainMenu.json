@@ -546,7 +546,7 @@
                   "content" : "import { getInitialMenuUIState } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetInitialMenuUIState();",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding fullSize",
+                "layoutClassName" : "noPadding fullWidth fullHeight",
                 "layoutStyle" : { },
                 "localState" : true,
                 "name" : "Menu",
@@ -559,6 +559,7 @@
           },
           "type" : "PlayerElse"
         } ],
+        "className" : "fullWidth",
         "ifCondition" : {
           "@class" : "Script",
           "content" : "import { getGameMode } from \"./edition/UIfacade/mainMenuStateFacade\";\ngetGameMode() === 'patientGeneration';",
@@ -574,7 +575,7 @@
     "layout" : {
       "flexDirection" : "row"
     },
-    "layoutClassName" : "fullSize noPadding scenarist-menu",
+    "layoutClassName" : "fullWidth fullHeight noPadding scenarist-menu",
     "layoutStyle" : { },
     "name" : "Menu Page",
     "style" : { }

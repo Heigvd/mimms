@@ -1274,7 +1274,7 @@
               "type" : "Button"
             } ],
             "layout" : {
-              "flexDirection" : "column"
+              "flexDirection" : "row"
             },
             "layoutStyle" : { },
             "name" : "table",

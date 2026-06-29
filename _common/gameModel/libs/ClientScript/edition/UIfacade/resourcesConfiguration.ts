@@ -105,7 +105,6 @@ export function updateStringValue(id: string, field: 'name' | 'type', value: str
 }
 
 let lastAdded: string = '';
-let lastIndex: number = -1;
 
 export function getLastAdded(): string {
   return lastAdded;
@@ -113,9 +112,10 @@ export function getLastAdded(): string {
 
 export function addContainerConfiguration() {
   const containerConfigurations = loadResourceContainersConfigurationData();
+  const lastIndex = Object.values(containerConfigurations).length;
   const newConfig: ContainerConfigurationData = {
     mandatory: false,
-    index: lastIndex--,
+    index: lastIndex,
     payload: {
       name: 'unnamed',
       type: '',
@@ -128,6 +128,9 @@ export function addContainerConfiguration() {
   persistAll(containerConfigurations);
   lastSortType = undefined;
   lastAdded = id;
+  setTimeout(() => {
+    Helpers.scrollIntoView('.new-resource-line', { behavior: 'smooth', block: 'start' });
+  }, 200);
 }
 
 export function removeContainerConfiguration(id: string) {
