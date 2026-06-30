@@ -1254,7 +1254,7 @@
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
-                  "content" : "\"resource\"",
+                  "content" : "\"<p>resource</p>\"",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "add-resource-button",
@@ -1262,8 +1262,9 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addContainerConfiguration } from \"./edition/UIfacade/resourcesConfiguration\";\n\naddContainerConfiguration();",
-                    "language" : "TypeScript"
+                    "content" : "import { addContainerConfiguration } from \"./edition/UIfacade/resourcesConfiguration\";\naddContainerConfiguration();",
+                    "language" : "TypeScript",
+                    "returnType" : "Promise<unknown> | undefined"
                   }
                 },
                 "name" : "add resource",
