@@ -254,7 +254,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "deactivateItself ",
+                "name" : "deactivateItself",
                 "style" : { }
               },
               "type" : "FlexList"
