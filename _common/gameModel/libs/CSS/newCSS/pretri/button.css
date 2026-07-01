@@ -1,5 +1,93 @@
+/* ------------------------------------------------------------
+   BUTTON
+   ------------------------------------------------------------ */
+
+.pretri-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-pill);
+  /*font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1;*/
+  padding: 14px 28px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .3s ease-in-out, box-shadow .3s ease-in-out, background-color .3s ease-in-out, border-color .3s ease-in-out;
+}
+
+.pretri-button > div {
+  gap: 10px;
+}
+
+.pretri-button.selected,
+.pretri-button:active { 
+  transform: translateY(1px);
+}
+
+.pretri-button svg {
+  width: 16px; 
+  height: 16px; 
+  flex: 0 0 auto;
+}
+
+/* variant: style */
+.pretri-button.pretri-primary {
+  color: #fff;
+  background-color: var(--color-teal);
+  box-shadow: var(--shadow-teal);
+}
+
+.pretri-button.pretri-primary:hover {
+  background-color: #1b7e95;
+}
+
+.pretri-button.pretri-secondary {
+  /* font-weight: 600; */
+  color: var(--color-muted);
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.pretri-button.pretri-secondary:hover {
+  color: var(--color-fg);
+  border-color: var(--color-faint);
+}
+
+.pretri-button.pretri-tertiary {
+  /* font-weight: 600; */
+  color: var(--color-teal);
+  background-color: transparent;
+}
+
+.pretri-button.pretri-tertiary:hover {
+  background-color: var(--color-teal-soft);
+}
+
+/* size */
+.pretri-button.sm-size {
+  font-size: 13px;
+  padding: 9px 16px;
+}
+
+.pretri-button.lg-size {
+  font-size: 15px;
+  padding: 15px 28px;
+}
+
+/* state: disabled */
+.pretri-button:disabled,
+.pretri-button.disabled {
+  opacity: .5;
+  pointer-events: none;
+  box-shadow: none;
+}
+
 /**** SPECIFICS BUTTONS ****/
-.actionMeasure-button * div {
+/* .actionMeasure-button * div {
   white-space: nowrap;
   min-width: 8rem;
 }
@@ -21,4 +109,4 @@
 
 .actionMeasure-button.selected:hover {
 	background-color: var(--primary_30);
-}
+} */

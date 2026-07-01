@@ -1,3 +1,29 @@
+/* ------------------------------------------------------------
+   CHIP / TAG
+   ------------------------------------------------------------ */
+
+.pretri-chip { /* to be paired with text-pill */
+  display: inline-flex;
+  align-items: center;
+  /* gap: 6px; */
+  padding: 4px 8px;
+  color: var(--color-muted);
+  background-color: var(--color-subtle-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.pretri-chip.action-chip {
+  color: var(--color-teal-ink);
+  background-color: var(--color-teal-soft);
+  border-color: transparent;
+}
+
+.pretri-chip.mesure-chip {
+  color: #8a5e16;
+  background-color: var(--color-p2-soft);
+  border-color: transparent;
+}
 
 
 /* Result of action or measure in the history console*/
@@ -20,9 +46,6 @@
 .resultConsole{
 	margin-left: 1rem;
 }
-
-
-
 
 .consoleTime{
 	font-weight: var(--boldWeight);

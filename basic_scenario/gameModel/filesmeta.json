@@ -383,18 +383,6 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
-  "/patient/scales/colorScale_EN.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
-  "/patient/scales/colorScale_FR.png" : {
-    "description" : "",
-    "mimeType" : "image/png",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/patient/scales/painsScale_EN.png" : {
     "description" : "",
     "mimeType" : "image/png",

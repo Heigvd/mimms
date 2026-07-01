@@ -1,5 +1,65 @@
 /* CSS pour la page d'accueil du pretri */
 
-.welcomeColumns{
-	padding: 15px;
+.welcome-page {
+  width: 100%;
+  height: 100%;
+  gap: 1.25rem;
+  padding: 3rem;
+  background-color: var(--color-bg);
+}
+
+.welcome-columns {
+	padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background-color: var(--color-card);
+  box-shadow: var(--shadow-card);
+}
+
+.welcome-images-container {
+  /*gap: 1rem;*/
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.coloration-container img {
+  width: 4rem;
+  height: auto;
+  border-radius: 2rem;
+}
+
+.pain-scale-container img {
+  width: 3rem;
+  height: auto;
+  background-color: var(--color-card);
+  border-radius: 1.5rem;
+}
+
+.pain-scale-container .text-column {
+  text-align: center;
+}
+
+.pain-scale-container > div {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border-2);
+}
+
+.pain-scale-container > div:nth-child(-n+6) {
+  padding-top: 0;
+}
+
+.pain-scale-container > div:nth-last-child(-n+6) {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.pain-scale-container > div:nth-child(6n+1) {
+  justify-content: flex-end;
 }
