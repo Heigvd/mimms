@@ -270,13 +270,26 @@ export function clearObjectInstance(oi: SObjectInstance, data: object) {
   APIMethods.updateInstance(newInstance);
 }
 
-export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<string, T>) {
+function patchObject<T>(od: SObjectDescriptor, data: Record<string, T>): IObjectDescriptor {
   const newObject = Helpers.cloneDeep(od.getEntity());
   newObject.properties = {};
   Object.entries(data).forEach(([k, v]) => {
     newObject.properties[k] = JSON.stringify(v);
   });
+  return newObject;
+}
+
+export function saveToObjectDescriptor<T>(od: SObjectDescriptor, data: Record<string, T>): void {
+  const newObject = patchObject(od, data);
   APIMethods.updateVariable(newObject);
+}
+
+export async function saveToObjectDescriptorAsync<T>(
+  od: SObjectDescriptor,
+  data: Record<string, T>
+): Promise<unknown> {
+  const newObject = patchObject(od, data);
+  return APIMethods.updateVariableAsync(newObject);
 }
 
 export async function updateNumberDescriptor(

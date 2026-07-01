@@ -9,7 +9,7 @@
                 "className" : "",
                 "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
-                "name" : "tag",
+                "name" : "ref",
                 "onCancel" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -45,7 +45,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"<p>Tag</p>\"",
+                  "content" : "\"<p>Ref</p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -54,7 +54,7 @@
             "layout" : { },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "tag",
+            "name" : "ref",
             "style" : { }
           },
           "type" : "FlexList"

@@ -41,6 +41,20 @@ export function getMapEntitiesOptions(expectedBinding?: LOCATION_ENUM): MapEntit
   return internalGetMapEntitiesOptions(filter);
 }
 
+const missingRef = 'Missing Ref';
+
+function buildLabel(tag: string, title: string): string {
+  let label: string;
+  if (tag.length > 0 && title.length > 0) {
+    label = tag + ' - ' + title;
+  } else if (tag.length === 0) {
+    label = title;
+  } else {
+    label = tag;
+  }
+  return label;
+}
+
 function internalGetMapEntitiesOptions(
   filterFn?: (mapEntity: FlatMapEntity) => boolean
 ): MapEntitiesOptionType {
@@ -50,7 +64,7 @@ function internalGetMapEntitiesOptions(
     .filter(mapEntity => !filterFn || filterFn(mapEntity))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 
@@ -63,7 +77,7 @@ export function getTriggersOptions(
     .filter(trigger => !filterFn || filterFn(trigger))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 
@@ -79,7 +93,8 @@ export function getActionTemplatesOptions(
     .filter(actionTemplate => !filterFn || filterFn(actionTemplate))
     .sort(compareByIndex)
     .map(actionTemplate => {
-      return { label: actionTemplate.tag, value: actionTemplate.uid };
+      const label = buildLabel(actionTemplate.tag, I18n.translate(actionTemplate.title));
+      return { label: label || missingRef, value: actionTemplate.uid };
     });
 }
 
@@ -106,8 +121,9 @@ export function getChoicesOptions(
     .filter(choice => choice.parent === actionTemplateUid)
     .filter(choice => !filterFn || filterFn(choice))
     .sort(compareByIndex)
-    .map(item => {
-      return { label: item.tag, value: item.uid };
+    .map(choice => {
+      const label = buildLabel(choice.tag, I18n.translate(choice.title));
+      return { label: label || missingRef, value: choice.uid };
     });
 }
 
@@ -122,7 +138,7 @@ export function getEffectsOptions(
     .filter(effect => !filterFn || filterFn(effect))
     .sort(compareByIndex)
     .map(item => {
-      return { label: item.tag, value: item.uid };
+      return { label: item.tag || missingRef, value: item.uid };
     });
 }
 

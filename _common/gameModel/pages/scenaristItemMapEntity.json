@@ -9,7 +9,7 @@
                 "className" : "",
                 "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
-                "name" : "tag",
+                "name" : "ref",
                 "onCancel" : { },
                 "onVariableChange" : {
                   "client" : {
@@ -38,13 +38,14 @@
               "type" : "String input"
             }, {
               "props" : {
+                "className" : "noMargin",
                 "layoutClassName" : "generic-item__label",
                 "layoutStyle" : { },
                 "name" : "label",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "\"Tag\"",
+                  "content" : "\"<p>Ref</p>\"",
                   "language" : "TypeScript"
                 }
               },
@@ -53,7 +54,7 @@
             "layout" : { },
             "layoutClassName" : "noPadding fullWidth",
             "layoutStyle" : { },
-            "name" : "tag",
+            "name" : "ref",
             "style" : { }
           },
           "type" : "FlexList"
@@ -64,36 +65,6 @@
                 "children" : [ {
                   "props" : {
                     "className" : "boolean-button boolean-button-left",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button--selected",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "!Context.item.activeAtStart;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>Inactive</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: false });",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "inactive",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "boolean-button boolean-button-right",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
                       "className" : "boolean-button--selected",
@@ -118,6 +89,36 @@
                       }
                     },
                     "name" : "active",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                }, {
+                  "props" : {
+                    "className" : "boolean-button boolean-button-right",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "!Context.item.activeAtStart;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Inactive</p>\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { FlatMapEntity } from \"./edition/typeDefinitions/mapEntityDefinition\";\nimport { updateItem } from \"./edition/UIfacade/locationConfigFacade\";\n\nupdateItem<FlatMapEntity>(Context.item.uid, { activeAtStart: false });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "inactive",
                     "style" : { }
                   },
                   "type" : "Button"
