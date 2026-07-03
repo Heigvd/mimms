@@ -60,11 +60,7 @@ export interface HumanMeasureEvent extends TargetedEvent {
 }
 
 export type MeasureResultStatus =
-  | 'success'
-  | 'failed_missing_object'
-  | 'failed_missing_skill'
-  | 'cancelled'
-  | 'unknown';
+  'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
   type: 'HumanMeasureResult';
@@ -82,6 +78,7 @@ export interface HumanTreatmentEvent extends TargetedEvent {
 }
 
 export interface CancelActionEvent {
+  // ?
   type: 'CancelAction';
   eventId: number;
 }
@@ -125,9 +122,9 @@ export type EventPayload =
   | AgingEvent
   // NEW EVENTS
   | TimeForwardEvent
-  | TimeForwardCancelEvent
+  // | TimeForwardCancelEvent
   | ActionCreationEvent
-  | ActionCancellationEvent
+  // | ActionCancellationEvent
   // TRAINER EVENT
   | DashboardRadioMessageEvent
   | DashboardNotificationMessageEvent
@@ -168,12 +165,12 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
   templateUid: ActionTemplateUid;
 }
 
-export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
-  type: 'ActionCancellationEvent';
-  templateId: ActionTemplateUid;
-  actorId: ActorId;
-  timeStamp: SimTime;
-}
+// export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
+//   type: 'ActionCancellationEvent';
+//   templateId: ActionTemplateUid;
+//   actorId: ActorId;
+//   timeStamp: SimTime;
+// }
 
 export interface GameOptionsEvent extends BaseEvent, TimedPayload {
   type: 'GameOptionsEvent';
@@ -226,9 +223,9 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
 /**
  * Emitted When a player cancels his request to forward time
  */
-export interface TimeForwardCancelEvent extends TimeForwardEventBase {
-  type: 'TimeForwardCancelEvent';
-}
+// export interface TimeForwardCancelEvent extends TimeForwardEventBase {
+//   type: 'TimeForwardCancelEvent';
+// }
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
   switch (event.payload.type) {

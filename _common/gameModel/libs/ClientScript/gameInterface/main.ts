@@ -5,7 +5,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
-  cancelAction,
+  // cancelAction,
   getAllActions,
   getAvailableChoices,
   hasMapChoices,
@@ -113,9 +113,10 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 
   if (canPlanAction()) {
     planAction(template, actorId, params);
-  } else if (isPlannedAction(template.uid)) {
-    cancelAction(actorId, template.uid);
   }
+  // else if (isPlannedAction(template.uid)) {
+  //   cancelAction(actorId, template.uid);
+  // }
 }
 
 /**

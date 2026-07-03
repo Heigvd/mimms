@@ -9,12 +9,12 @@ import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
 import { initBaseEvent } from './common/events/baseEvent';
 import {
-  ActionCancellationEvent,
+  // ActionCancellationEvent,
   ActionCreationEvent,
   GameOptionsEvent,
   isLegacyGlobalEvent,
   TimedEventPayload,
-  TimeForwardCancelEvent,
+  // TimeForwardCancelEvent,
   TimeForwardEvent,
 } from './common/events/eventTypes';
 import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
@@ -22,10 +22,10 @@ import { getCurrentGameOptions } from './common/gameOptions';
 import {
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
-  CancelActionLocalEvent,
+  // CancelActionLocalEvent,
   GameOptionsUpdateLocalEvent,
   LocalEventBase,
-  TimeForwardCancelLocalEvent,
+  // TimeForwardCancelLocalEvent,
   TimeForwardLocalEvent,
 } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
@@ -157,33 +157,33 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         }
       }
       break;
-    case 'ActionCancellationEvent':
-      {
-        const payload = event.payload;
-        const now = getCurrentState().getSimTime();
-        const action = getCurrentState()
-          .getAllActions()
-          .find(
-            a =>
-              a.getTemplateId() === payload.templateId &&
-              a.ownerId === payload.actorId &&
-              a.startTime == now
-          );
-        if (!action) {
-          mainSimLogger.error('no action was found with id ', payload.templateId);
-        } else {
-          const localEvent = new CancelActionLocalEvent({
-            parentEventId: event.id,
-            source: { type: 'unplan-action' },
-            simTimeStamp: event.payload.triggerTime,
-            templateId: event.payload.templateId,
-            actorUid: event.payload.actorId,
-            planTime: event.payload.timeStamp,
-          });
-          getLocalEventManager().queueLocalEvent(localEvent);
-        }
-      }
-      break;
+    // case 'ActionCancellationEvent':
+    // {
+    //   const payload = event.payload;
+    //   const now = getCurrentState().getSimTime();
+    //   const action = getCurrentState()
+    //     .getAllActions()
+    //     .find(
+    //       a =>
+    //         a.getTemplateId() === payload.templateId &&
+    //         a.ownerId === payload.actorId &&
+    //         a.startTime == now
+    //     );
+    //   if (!action) {
+    //     mainSimLogger.error('no action was found with id ', payload.templateId);
+    //   } else {
+    //     const localEvent = new CancelActionLocalEvent({
+    //       parentEventId: event.id,
+    //       source: { type: 'unplan-action' },
+    //       simTimeStamp: event.payload.triggerTime,
+    //       templateId: event.payload.templateId,
+    //       actorUid: event.payload.actorId,
+    //       planTime: event.payload.timeStamp,
+    //     });
+    //     getLocalEventManager().queueLocalEvent(localEvent);
+    //   }
+    // }
+    // break;
     case 'TimeForwardEvent':
       {
         const timeJump = event.payload.timeJump;
@@ -214,17 +214,17 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         }
       }
       break;
-    case 'TimeForwardCancelEvent':
-      {
-        const timefwdEvent = new TimeForwardCancelLocalEvent({
-          parentEventId: event.id,
-          source: { type: 'time-forward-cancel' },
-          simTimeStamp: event.payload.triggerTime,
-          actors: event.payload.involvedActors,
-        });
-        getLocalEventManager().queueLocalEvent(timefwdEvent);
-      }
-      break;
+    // case 'TimeForwardCancelEvent':
+    //   {
+    //     const timefwdEvent = new TimeForwardCancelLocalEvent({
+    //       parentEventId: event.id,
+    //       source: { type: 'time-forward-cancel' },
+    //       simTimeStamp: event.payload.triggerTime,
+    //       actors: event.payload.involvedActors,
+    //     });
+    //     getLocalEventManager().queueLocalEvent(timefwdEvent);
+    //   }
+    // break;
     case 'DashboardRadioMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const radioMessageEvent = new AddRadioMessageLocalEvent({
@@ -321,30 +321,30 @@ export async function buildAndLaunchActionFromTemplate(
   }
 }
 
-export async function buildAndLaunchActionCancellation(
-  selectedActor: ActorId,
-  templateId: ActionTemplateUid
-): Promise<IManagedResponse | undefined> {
-  const action = getCurrentState()
-    .getAllActions()
-    .find(a => a.getTemplateId() === templateId && a.ownerId === selectedActor);
+// export async function buildAndLaunchActionCancellation(
+//   selectedActor: ActorId,
+//   templateId: ActionTemplateUid
+// ): Promise<IManagedResponse | undefined> {
+//   const action = getCurrentState()
+//     .getAllActions()
+//     .find(a => a.getTemplateId() === templateId && a.ownerId === selectedActor);
 
-  const simTime = getCurrentState().getSimTime();
-  if (action && selectedActor) {
-    const cancellationEvent: ActionCancellationEvent = {
-      ...initBaseEvent(0),
-      triggerTime: simTime,
-      type: 'ActionCancellationEvent',
-      templateId: templateId,
-      actorId: selectedActor,
-      timeStamp: simTime,
-    };
+//   const simTime = getCurrentState().getSimTime();
+//   if (action && selectedActor) {
+//     const cancellationEvent: ActionCancellationEvent = {
+//       ...initBaseEvent(0),
+//       triggerTime: simTime,
+//       type: 'ActionCancellationEvent',
+//       templateId: templateId,
+//       actorId: selectedActor,
+//       timeStamp: simTime,
+//     };
 
-    return await sendEvent(cancellationEvent);
-  } else {
-    mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor);
-  }
-}
+//     return await sendEvent(cancellationEvent);
+//   } else {
+//     mainSimLogger.error('Could not find action or actor with uids', templateId, selectedActor);
+//   }
+// }
 
 /**
  * Triggers time forward in the simulation
@@ -368,18 +368,18 @@ export async function triggerTimeForward(): Promise<IManagedResponse> {
 /**
  * Cancel a pending time forward
  */
-export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
-  const currentSimulationState = getCurrentState();
-  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
-  const tfc: TimeForwardCancelEvent = {
-    ...initBaseEvent(0),
-    triggerTime: currentSimulationState.getSimTime(),
-    involvedActors: actorIds,
-    type: 'TimeForwardCancelEvent',
-  };
+// export async function triggerTimeForwardCancel(): Promise<IManagedResponse> {
+//   const currentSimulationState = getCurrentState();
+//   const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
+//   const tfc: TimeForwardCancelEvent = {
+//     ...initBaseEvent(0),
+//     triggerTime: currentSimulationState.getSimTime(),
+//     involvedActors: actorIds,
+//     type: 'TimeForwardCancelEvent',
+//   };
 
-  return await sendEvent(tfc);
-}
+//   return await sendEvent(tfc);
+// }
 
 /**
  *  Set the games options (triggered when players start the simulation)
