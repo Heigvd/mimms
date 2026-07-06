@@ -100,6 +100,11 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "true;",
+                  "language" : "typescript"
+                },
                 "ifCondition" : {
                   "@class" : "Script",
                   "content" : "true",
@@ -202,7 +207,7 @@
           },
           "type" : "PageLoader"
         } ],
-        "className" : "",
+        "className" : "ongoing-page",
         "hideIf" : {
           "@class" : "Script",
           "content" : "import { getDrillStatus } from './game/pretri/drill';\nconst status = getDrillStatus();\nstatus != 'ongoing'",
@@ -211,7 +216,10 @@
         "layout" : {
           "flexDirection" : "column"
         },
-        "layoutStyle" : { },
+        "layoutClassName" : "fullWidth fullHeight",
+        "layoutStyle" : {
+          "padding" : "0"
+        },
         "name" : "ongoing",
         "style" : { }
       },
@@ -385,7 +393,7 @@
                   },
                   "type" : "Text"
                 } ],
-                "className" : "welcome-columns",
+                "className" : "pretri-card",
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -1080,27 +1088,8 @@
                     "style" : { }
                   },
                   "type" : "Grid"
-                }, {
-                  "props" : {
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "true;",
-                      "language" : "typescript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "const lang = I18n.currentLanguageCode;\nif (lang === \"FR\") {\n    return \"/patient/scales/painsScale_FR.png\";\n}\n\"/patient/scales/painsScale_EN.png\";",
-                      "language" : "TypeScript"
-                    },
-                    "style" : {
-                      "max-width" : "100%"
-                    }
-                  },
-                  "type" : "Image"
                 } ],
-                "className" : "welcome-columns",
+                "className" : "pretri-card",
                 "layout" : {
                   "flexDirection" : "column"
                 },
@@ -1619,7 +1608,7 @@
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding drillPretriPage-container",
+    "layoutClassName" : "drillPretriPage-container",
     "layoutStyle" : { },
     "name" : "drillPretriPage",
     "style" : { }

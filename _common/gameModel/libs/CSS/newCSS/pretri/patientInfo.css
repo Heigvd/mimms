@@ -1,3 +1,7 @@
+.ongoing-page .action-chip svg {
+  width: 1rem;
+  height: auto;
+}
 
 /* SAP */
 .patientSAP{
@@ -8,9 +12,9 @@ font-size: var(--M_text);
 }
 
 /* Drill Card (the label put on a patient: p3 to dead) */
-.cat_card {
+/*.cat_card {
 	width: 2em;
-}
+}*/
 .cat_card.undefined {
 	background: transparent;
 }

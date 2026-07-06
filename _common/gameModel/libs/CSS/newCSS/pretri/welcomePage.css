@@ -1,6 +1,6 @@
 /* CSS pour la page d'accueil du pretri */
 
-.welcome-page {
+/*.welcome-page {
   width: 100%;
   height: 100%;
   gap: 1.25rem;
@@ -14,7 +14,7 @@
   border-radius: var(--radius-card);
   background-color: var(--color-card);
   box-shadow: var(--shadow-card);
-}
+}*/
 
 .welcome-images-container {
   /*gap: 1rem;*/

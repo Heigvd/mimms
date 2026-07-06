@@ -1,22 +1,116 @@
+/* ------------------------------------------------------------
+   TRIAGE BUTTON
+   ------------------------------------------------------------ */
+.tri-button {
+  gap: 14px;
+  width: 100%;
+  padding: .75rem;
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: -1px;
+  /*border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-card);*/
+  cursor: pointer;
+  text-align: left;
+  transition: outline-color .3s ease-in-out, outline-width .3s ease-in-out, outline-offset .3s ease-in-out, .3s ease-in-out, box-shadow .3s ease-in-out;
+  /*box-sizing: border-box;*/
+}
+
+.tri-button__key {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+/* color by category (border + soft tint on hover/selected) */
+.tri-dead {
+  background-color: var(--color-dead-soft);
+  outline-color: var(--color-dead); 
+  border-radius: var(--radius-md);
+}
+
+.tri-p1 {
+  background-color: var(--color-p1-soft);
+  outline-color: var(--color-p1); 
+  border-radius: var(--radius-md);
+}
+
+.tri-p2 {
+  background-color: var(--color-p2-soft);
+  outline-color: var(--color-p2); 
+  border-radius: var(--radius-md);
+}
+
+.tri-p3 {
+  background-color: var(--color-p3-soft);
+  outline-color: var(--color-p3);
+  border-radius: var(--radius-md);
+}
+
+.tri-dead .tri-button__key {
+  background-color: var(--color-dead);
+}
+
+.tri-p1 .tri-button__key {
+  background-color: var(--color-p1);
+}
+
+.tri-p2 .tri-button__key {
+  background-color: var(--color-p2);
+}
+
+.tri-p3 .tri-button__key {
+  background-color: var(--color-p3);
+}
+
+.tri-button:hover {
+  outline-width: 3px;
+  outline-offset: -3px;
+  box-sizing: border-box;
+	-moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.tri-button__current {
+  outline-width: 3px;
+  outline-offset: -3px;
+  /*box-shadow: inset 0 0 0 5px black;*/
+  box-sizing: border-box;
+	-moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
 /* DRILL BUTTONS */ 
 .tagCategory {
-	padding: 8px;
+	/*padding: 8px;
   font-weight: var(--boldWeight);
   text-align: center;
 	border-radius: var(--L_borderRadius);
 	cursor: pointer;
-  transition: outline .3s ease-in-out;
+  transition: outline .3s ease-in-out;*/
 }
 
-.tagCategory:hover {
+/*.tagCategory:hover {
 	outline: 3px solid var(--grey_100);
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-}
+}*/
 
-.tagCategory.current {
+/*.tagCategory.current {
 	outline: 3px solid var(--grey_100);
+}*/
+
+.tagSystemCategories {
+  gap: 10px;
 }
 
 /* Probably not useful

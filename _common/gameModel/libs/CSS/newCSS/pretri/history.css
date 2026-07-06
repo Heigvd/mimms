@@ -5,8 +5,9 @@
 .pretri-chip { /* to be paired with text-pill */
   display: inline-flex;
   align-items: center;
-  /* gap: 6px; */
-  padding: 4px 8px;
+  justify-content: center;
+  gap: .5rem;
+  padding: 2px 8px;
   color: var(--color-muted);
   background-color: var(--color-subtle-2);
   border: 1px solid var(--color-border);
@@ -27,28 +28,39 @@
 
 
 /* Result of action or measure in the history console*/
-.lastResult div .log_container{
+.log_container {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.ongoing-page .text-clock {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.lastResult div .log_container {
 	color: var(--grey_100);
 	background-color:transparent;
-	padding: 0px 10px;
 	margin-bottom: .8rem;
 	align-items: baseline;
 	font-size: var(--M_text);
-	border-radius: var(--XS_borderRadius) ;
-	
-	}
+	border-radius: var(--XS_borderRadius);
+}
+
+.lastResult div .log_container:nth-child(odd) {
+  background-color: var(--color-subtle-2);
+}
+
+.lastResult div .log_container:last-of-type {
+  margin-bottom: 0;
+}
 
 .lastResult {
 	max-height: 40vh;
 	overflow: auto;	
-}
-
-.resultConsole{
-	margin-left: 1rem;
-}
-
-.consoleTime{
-	font-weight: var(--boldWeight);
 }
 
 
@@ -78,7 +90,7 @@ animation-duration: 3s;
 @media screen and (max-width: 1199px){
 	.lastResult div .log_container{
 		font-size: var(--SM_text);
-		padding:  0px;
-		margin:  5px  0px 0px 5px;
+		/*padding:  0px;
+		margin:  5px  0px 0px 5px;*/
 	}
 }

@@ -1,5 +1,5 @@
 {
-  "defaultPageId" : "47",
+  "defaultPageId" : "mainSimTester",
   "root" : {
     "@class" : "Folder",
     "items" : [ {

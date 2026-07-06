@@ -84,8 +84,10 @@
                         } ],
                         "className" : "noPadding noMargin",
                         "layout" : { },
-                        "layoutClassName" : "mainpage-timebanner noPadding noMargin",
-                        "layoutStyle" : { },
+                        "layoutClassName" : "mainpage-timebanner noMargin",
+                        "layoutStyle" : {
+                          "padding" : "0"
+                        },
                         "name" : "Time banner",
                         "style" : { }
                       },
@@ -100,9 +102,9 @@
                           "content" : "import { getGamePageId } from './game/legacy/gameMaster';\ngetGamePageId()",
                           "language" : "TypeScript"
                         },
-                        "layoutClassName" : "noPadding",
+                        "layoutClassName" : "fullHeight",
                         "layoutStyle" : {
-                          "height" : "100%"
+                          "padding" : "0"
                         },
                         "name" : "gamePageLoader",
                         "style" : { }
@@ -165,19 +167,15 @@
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "noPadding noMargin",
+                    "className" : "fullWidth fullHeight noPadding noMargin",
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noPadding noMargin",
+                    "layoutClassName" : "fullWidth fullHeight noMargin",
                     "layoutStyle" : {
-                      "height" : "100%",
-                      "width" : "100%"
+                      "padding" : "0"
                     },
-                    "style" : {
-                      "height" : "100%",
-                      "width" : "100%"
-                    }
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
@@ -188,10 +186,9 @@
                   "content" : "({time: 0});",
                   "language" : "TypeScript"
                 },
-                "layoutClassName" : "noPadding noMargin",
+                "layoutClassName" : "fullWidth fullHeight noMargin",
                 "layoutStyle" : {
-                  "height" : "100%",
-                  "width" : "100%"
+                  "padding" : "0"
                 },
                 "localState" : true,
                 "name" : "TimeManager",
@@ -236,30 +233,25 @@
           "content" : "import { getTimeMode } from './game/legacy/gameMaster';\ngetTimeMode() === 'LIVE_WORLD';",
           "language" : "JavaScript"
         },
-        "layoutClassName" : "noPadding noMargin",
+        "layoutClassName" : "fullWidth fullHeight noMargin",
         "layoutStyle" : {
-          "height" : "100%",
-          "width" : "100%"
+          "padding" : "0"
         },
         "style" : { }
       },
       "type" : "If Else"
     } ],
-    "className" : "noPadding ",
+    "className" : "fullWidth fullHeight noPadding ",
     "id" : "rootPage",
     "layout" : {
       "flexDirection" : "column"
     },
-    "layoutClassName" : "noPadding rootPage",
+    "layoutClassName" : "fullWidth fullHeight rootPage",
     "layoutStyle" : {
-      "height" : "100%",
-      "width" : "100%"
+      "padding" : "0"
     },
     "localState" : false,
-    "style" : {
-      "height" : "100%",
-      "width" : "100%"
-    }
+    "style" : { }
   },
   "type" : "FlexList"
 }

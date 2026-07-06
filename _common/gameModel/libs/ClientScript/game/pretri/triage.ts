@@ -85,9 +85,11 @@ export interface Category<
   bgColor: string;
   color: string;
   name: string;
+  descriptionTag?: string;
   shouldBeHandledBy: 'ES' | 'POLICE';
   /** order of extraction/treatment */
   priority: number;
+  style?: string;
 }
 
 export type SystemName = 'SACCO' | 'CareFlight' | 'swissNew' | 'swissOld' | 'SIEVE_NARU' | 'START';
@@ -105,6 +107,7 @@ export function getTagSystem(): SystemName {
 
 /**COLORS DECLARATION FOR TAGS */
 
+/* also declared in newCSS/pretri/pretriGeneralStyle */
 const deadTag = '#797979';
 const yellowTag = '#E9B406';
 const greenTag = '#86b700';
@@ -220,17 +223,21 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
       bgColor: greenTag,
       color: 'white',
       name: 'P3',
+      descriptionTag: getTranslation('pretriage-interface', 'p-three'),
       shouldBeHandledBy: 'ES',
       priority: 3,
+      style: 'tri-p3',
     },
     {
       id: URGENT,
       tagName: 'yellow',
       bgColor: yellowTag,
-      color: 'black',
+      color: 'white',
       name: 'P2',
+      descriptionTag: getTranslation('pretriage-interface', 'p-two'),
       shouldBeHandledBy: 'ES',
       priority: 2,
+      style: 'tri-p2',
     },
     {
       id: IMMEDIATE,
@@ -238,8 +245,10 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
       bgColor: redTag,
       color: 'white',
       name: 'P1',
+      descriptionTag: getTranslation('pretriage-interface', 'p-one'),
       shouldBeHandledBy: 'ES',
       priority: 1,
+      style: 'tri-p1',
     },
     {
       id: DEAD,
@@ -247,8 +256,10 @@ const sieveSystem: TagSystem<STANDARD_CATEGORY> = {
       bgColor: deadTag,
       color: 'white',
       name: 'DEAD',
+      descriptionTag: getTranslation('pretriage-interface', 'dead'),
       shouldBeHandledBy: 'POLICE',
       priority: 99,
+      style: 'tri-dead',
     },
   ],
 };

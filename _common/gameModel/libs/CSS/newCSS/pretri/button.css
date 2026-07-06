@@ -16,7 +16,7 @@
   padding: 14px 28px;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform .3s ease-in-out, box-shadow .3s ease-in-out, background-color .3s ease-in-out, border-color .3s ease-in-out;
+  transition: transform .3s ease-in-out, box-shadow .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out, border-color .3s ease-in-out;
 }
 
 .pretri-button > div {
@@ -85,6 +85,82 @@
   pointer-events: none;
   box-shadow: none;
 }
+
+/* ------------------------------------------------------------
+   ACTION BUTTON
+   Puce d'action sélectionnable du panneau « Actions »
+   (Position de sécurité, LVAS, Ballon de ventilation, Guedel…)
+   ------------------------------------------------------------ */
+.pretri-action-button {
+  display: inline-flex;
+  align-items: center;
+  padding: .5rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
+  background-color: #eef1f5;
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.pretri-action-button:hover {
+  color: var(--color-teal-ink);
+  background-color: var(--color-teal-soft);
+}
+
+/* variant: selected */
+.pretri-action-button.selected,
+.pretri-action-button:active {
+  font-weight: 600;
+  color: var(--color-teal);
+  background-color: var(--color-teal-soft);
+  border-color: var(--color-teal);
+}
+
+/* state: disabled */
+.pretri-action-button:disabled,
+.pretri-action-button.disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Wrapper for the action list */
+.pretri-action-button-container {
+  gap: .5rem;
+}
+
+/* ------------------------------------------------------------
+   ACTION CTA
+   Bouton « Appliquer (15 sec.) » qui valide l'action choisie
+   ------------------------------------------------------------ */
+.cc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-teal);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-teal);
+  transition: background .12s ease, transform .12s ease;
+}
+.cc-cta:hover { background: #1b7e95; }
+.cc-cta:active { transform: translateY(1px); }
+.cc-cta svg { width: 13px; height: 13px; flex: 0 0 auto; }
+.cc-cta:disabled, .cc-cta.is-disabled { opacity: .45; pointer-events: none; box-shadow: none; }
+
 
 /**** SPECIFICS BUTTONS ****/
 /* .actionMeasure-button * div {

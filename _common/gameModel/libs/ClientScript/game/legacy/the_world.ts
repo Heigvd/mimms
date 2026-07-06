@@ -1404,7 +1404,7 @@ function doTreatment(
 
   const { snapshot, futures } = getHumanSnapshotAtTime(objId, event.time);
 
-  const message = getTranslation('pretriage-interface', 'treatment') + ': ' + label;
+  const message = label;
 
   const entry: TreatmentLog = {
     time: event.time,

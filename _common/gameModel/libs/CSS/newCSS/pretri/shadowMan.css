@@ -10,12 +10,11 @@
 	.block-subtitle {
 		font-weight: var(--boldWeight);
 		font-size: var(--M_text);
-		padding: 5px 0px 5px 10px;
+		padding: 5px 0px;
 	}
 
 	.block-entry-title {
 		font-size: var(--M_text);
-		padding-left:10px;
 		padding-bottom: 10px;
 
 	}
@@ -40,6 +39,15 @@
 
 	/***** Blocks colors gestion *****/
 
+
+.observe {
+  position: absolute;
+  left: 0;
+}
+
+.shadowMan__image {
+  width: 175px;
+}
 
 	.observe .block:not(.forTreatmentBlock, .afflictedBlock) {
 		position: absolute;
