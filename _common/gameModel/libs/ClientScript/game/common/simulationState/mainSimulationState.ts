@@ -132,10 +132,6 @@ export class MainSimulationState {
     return this.internalState.actions;
   }
 
-  public getAllCancelledActions(): Readonly<ActionBase[]> {
-    return this.internalState.cancelledActions;
-  }
-
   /**
    * @returns A map of action arrays grouped by actor ids
    */
@@ -187,7 +183,6 @@ export interface MainStateObject {
    * All actions that have been created
    */
   actions: ActionBase[];
-  cancelledActions: ActionBase[];
   tasks: TaskBase[];
   patients: PatientState[];
   actors: Actor[];

@@ -1631,10 +1631,8 @@ function processEvent(
       break;
     case 'HumanMeasureResult':
       break;
-    // case 'ActionCancellationEvent':
     case 'ActionCreationEvent':
     case 'TimeForwardEvent':
-    // case 'TimeForwardCancelEvent':
     case 'GameOptionsEvent':
     case 'DashboardRadioMessageEvent':
     case 'DashboardNotificationMessageEvent':

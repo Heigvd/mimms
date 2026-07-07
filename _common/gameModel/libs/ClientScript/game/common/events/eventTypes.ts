@@ -77,8 +77,8 @@ export interface HumanTreatmentEvent extends TargetedEvent {
   blocks: BlockName[];
 }
 
+// Related to pretri (legacy)
 export interface CancelActionEvent {
-  // ?
   type: 'CancelAction';
   eventId: number;
 }
@@ -122,9 +122,7 @@ export type EventPayload =
   | AgingEvent
   // NEW EVENTS
   | TimeForwardEvent
-  // | TimeForwardCancelEvent
   | ActionCreationEvent
-  // | ActionCancellationEvent
   // TRAINER EVENT
   | DashboardRadioMessageEvent
   | DashboardNotificationMessageEvent
@@ -164,13 +162,6 @@ export interface ActionCreationEvent extends BaseEvent, TimedPayload {
   type: 'ActionCreationEvent';
   templateUid: ActionTemplateUid;
 }
-
-// export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
-//   type: 'ActionCancellationEvent';
-//   templateId: ActionTemplateUid;
-//   actorId: ActorId;
-//   timeStamp: SimTime;
-// }
 
 export interface GameOptionsEvent extends BaseEvent, TimedPayload {
   type: 'GameOptionsEvent';
@@ -219,13 +210,6 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
    */
   timeJump: SimDuration;
 }
-
-/**
- * Emitted When a player cancels his request to forward time
- */
-// export interface TimeForwardCancelEvent extends TimeForwardEventBase {
-//   type: 'TimeForwardCancelEvent';
-// }
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
   switch (event.payload.type) {

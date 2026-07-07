@@ -28,7 +28,6 @@ import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
-  // buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
   getCurrentState,
@@ -111,29 +110,11 @@ export async function planAction(
   return await buildAndLaunchActionFromTemplate(actionTemplate, selectedActor, params);
 }
 
-// TODO Maybe ensure only owning actor can cancel actions
-// /**
-//  *
-//  * @param selectedActor The actor that cancels the action
-//  * @param templateId The template of the action to cancel
-//  * @returns
-//  */
-// export async function cancelAction(
-//   selectedActor: ActorId,
-//   templateId: ActionTemplateUid
-// ): Promise<IManagedResponse | undefined> {
-//   return await buildAndLaunchActionCancellation(selectedActor, templateId);
-// }
-
 /**
  * @returns All the actions that have been planned
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
-}
-
-export function getAllCancelledActions(): Readonly<ActionBase[]> {
-  return getCurrentState().getAllCancelledActions();
 }
 
 export function getDefaultSituationUpdateDuration(): number {

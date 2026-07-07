@@ -39,7 +39,6 @@ function buildStartingMainState(): MainSimulationState {
     {
       simulationTimeSec: 0,
       actions: [],
-      cancelledActions: [],
       actors: [testAL, testCASU],
       patients: loadPatients(),
       tasks: tasks,
@@ -64,7 +63,6 @@ export function shallowState(): MainSimulationState {
     {
       simulationTimeSec: 0,
       actions: [],
-      cancelledActions: [],
       actors: [],
       patients: [],
       tasks: [],
