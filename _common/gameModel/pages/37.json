@@ -1,27 +1,25 @@
 {
-  "props": {
-    "children": [
-      {
-        "props": {
-          "layoutStyle": {},
-          "style": {},
-          "text": {
-            "@class": "Script",
-            "content": "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  const { actions, activables, actors, flags, patients, tasks, radioMessages, resources, resourceContainers, ...state } = getCurrentState().getInternalStateObject();\n  'STATE ' + JSON.stringify(state, undefined, '<br/>');",
-            "language": "TypeScript"
-          }
-        },
-        "type": "Text"
-      }
-    ],
-    "layout": {
-      "flexDirection": "column"
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "layoutStyle" : { },
+        "style" : { },
+        "text" : {
+          "@class" : "Script",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  const { actions, activables, actors, flags, patients, tasks, radioMessages, resources, resourceContainers, ...state } = getCurrentState().getInternalStateObject();\n  'STATE ' + JSON.stringify(state, undefined, '<br/>');",
+          "language" : "TypeScript"
+        }
+      },
+      "type" : "Text"
+    } ],
+    "layout" : {
+      "flexDirection" : "column"
     },
-    "layoutStyle": {
-      "height": "100%",
-      "overflow": "auto",
-      "width": "100%"
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
     }
   },
-  "type": "FlexList"
+  "type" : "FlexList"
 }

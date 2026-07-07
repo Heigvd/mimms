@@ -380,7 +380,7 @@
                   "className" : "abort",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
+                    "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\n  isOrderValidationDisabled() || !canPlanAction();",
                     "language" : "typescript"
                   }
                 } ],
@@ -396,7 +396,7 @@
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

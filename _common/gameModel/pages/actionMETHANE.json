@@ -633,12 +633,12 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nisMethaneSendDisabled();",
+                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nimport { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nconst isPlanned = canCancel(uniqueActionTemplates()?.CasuMessageTemplate);\nisMethaneSendDisabled() || isPlanned ;",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates()?.CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send-one-minute');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

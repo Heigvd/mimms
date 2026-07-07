@@ -1064,7 +1064,7 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nif(!isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate)) return true;\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
+                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nconst params = Context.interfaceState.state.evacuation.data;\n!isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate) || Object.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "hideIf" : {
@@ -1074,7 +1074,7 @@
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

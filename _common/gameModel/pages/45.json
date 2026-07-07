@@ -214,6 +214,11 @@
                         "language" : "typescript"
                       }
                     } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid)",
+                      "language" : "typescript"
+                    },
                     "hideIf" : {
                       "@class" : "Script",
                       "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.uid);",
@@ -223,7 +228,7 @@
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nif(isPlannedAction(Context.action.uid)){\n\treturn getTranslation('mainSim-interface', 'cancel')\n}\ngetTranslation('mainSim-interface', 'send')",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send')",
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : {

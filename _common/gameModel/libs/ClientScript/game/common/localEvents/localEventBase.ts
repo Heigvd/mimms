@@ -15,7 +15,6 @@ import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
-  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   PatientUnitId,

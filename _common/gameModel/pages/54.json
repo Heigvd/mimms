@@ -40,25 +40,6 @@
       "type" : "For each"
     }, {
       "props" : {
-        "label" : {
-          "@class" : "Script",
-          "content" : "\"<p>Cancel<br></p>\"",
-          "language" : "TypeScript"
-        },
-        "layoutStyle" : { },
-        "localScriptEval" : {
-          "script" : {
-            "@class" : "ClientScript",
-            "content" : "import { cancelTimeForward } from \"./UIfacade/timeFacade\";\n  cancelTimeForward();",
-            "language" : "TypeScript",
-            "returnType" : "Promise<unknown> | undefined"
-          }
-        },
-        "style" : { }
-      },
-      "type" : "Button"
-    }, {
-      "props" : {
         "layoutStyle" : { },
         "style" : { },
         "text" : {

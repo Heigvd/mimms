@@ -187,12 +187,12 @@
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\n  isPretriageReportRequestDisabled();",
+                  "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\n  isPretriageReportRequestDisabled() || !canPlanAction();",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "noPadding",

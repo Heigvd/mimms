@@ -1230,27 +1230,6 @@
                                     }
                                   },
                                   "type" : "Text"
-                                }, {
-                                  "props" : {
-                                    "className" : "button-L button-secondaryColor",
-                                    "label" : {
-                                      "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'cancel')}`",
-                                      "language" : "TypeScript"
-                                    },
-                                    "layoutClassName" : "modal-buttons-container",
-                                    "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { cancelTimeForward } from \"./UIfacade/timeFacade\";\n\ncancelTimeForward()",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
-                                      }
-                                    },
-                                    "style" : { }
-                                  },
-                                  "type" : "Button"
                                 } ],
                                 "className" : "modal",
                                 "hideIf" : {

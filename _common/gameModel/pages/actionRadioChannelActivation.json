@@ -28,7 +28,7 @@
         } ],
         "disableIf" : {
           "@class" : "Script",
-          "content" : "import { canPlanOrCancel, isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nconst action = uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate;\nif(!isAvailable(action)){\n  return true;\n}\n!canPlanOrCancel(action);",
+          "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction, canPlanAction } from \"./gameInterface/main\";\nconst action = uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate;\n!action || !isAvailable(action) || isPlannedAction(action.uid) || !canPlanAction();",
           "language" : "typescript"
         },
         "hideIf" : {
@@ -38,7 +38,7 @@
         },
         "label" : {
           "@class" : "Script",
-          "content" : "import { uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = isPlannedAction(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate.uid);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send-one-minute');",
           "language" : "TypeScript"
         },
         "layoutStyle" : {
