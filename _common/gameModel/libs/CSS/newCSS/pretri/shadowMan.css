@@ -7,6 +7,14 @@
 
 
 	/**** Texts related to shadowMan ****/
+  .block-details .text-meta {
+    margin-top: .5rem;
+  }
+
+  .block-details .text-meta:first-of-type {
+    margin-top: 0;
+  }
+
 	.block-subtitle {
 		font-weight: var(--boldWeight);
 		font-size: var(--M_text);

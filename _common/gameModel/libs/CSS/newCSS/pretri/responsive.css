@@ -16,7 +16,7 @@
 	.westSide-container{
 		width: 40%;
 		padding: 0px;
-		margin: 0px;
+		margin: 0 1.5rem 0 0;
 	}
 
 	.eastSide-container{
@@ -33,11 +33,11 @@
 	}
 
 	
-	.information-container{
+	/*.information-container {
 		flex-basis: auto;
 		flex-grow:1;
 		flex-shrink: 1;
-	}
+	}*/
 	
 }
 

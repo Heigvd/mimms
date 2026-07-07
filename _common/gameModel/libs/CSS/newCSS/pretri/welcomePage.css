@@ -25,6 +25,12 @@
   border-radius: var(--radius-md);
 }
 
+.welcome-page__column {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: auto;
+}
+
 .coloration-container img {
   width: 4rem;
   height: auto;

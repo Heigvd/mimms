@@ -1,14 +1,17 @@
 /**** BLOODY PATIENT ****/
-.bloodyPatient-container{
+.bloodyPatient-container {
+  flex: 5 1 0;
+  min-width: 0;
 	justify-content: center;
 	align-items: center;
 }
 
-.bloodyPatient{
-	width: 50%;
+.bloodyPatient {
+  width: 100%;
+	/*width: 50%;
 	min-width: 10em;
 	max-width: 100%;
-	text-align: center;
+	text-align: center;*/
 	padding: 0px;
 }
 
@@ -16,12 +19,15 @@
 /**** FACE (SMILEY) ****/
 /* Pain smiley background  - the classe is given in the client script */
 
+.visualDetail_elem img {
+  width: 100%;
+}
 
 .coloration_pain {
 	border-radius: 50%;
 	margin: auto;
-	max-width: 7em;
-	min-width: 4em;
+	/*max-width: 7em;
+	min-width: 4em;*/
 }
 
 /*************************** RESPONSIVE ***************************/
@@ -31,12 +37,11 @@
 		min-width: 6em;
 	}
 
-	.coloration_pain{
+	/*.coloration_pain{
 		max-width: 3em;
-		min-width: 1em;
-		
-		
-	}
+		min-width: 1em;	
+	}*/
+
 	.faceAndBloodyPatient{
 		align-items: center;
 		justify-content: space-around;
@@ -62,9 +67,8 @@
 		justify-content: space-around;
 	}
 
-	.bloodyPatient{
-		
-		flex-grow: 3;
+	.bloodyPatient {
+		/*flex-grow: 3;*/
 		text-align: center;
 	}
 
@@ -73,10 +77,10 @@
 		
 	}
 
-	.coloration_pain{
+	/*.coloration_pain{
 		max-width: 4em;
 		min-width: 3em;
-	}
+	}*/
 
 }
 

@@ -45,7 +45,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "text-title",
+                                "className" : "text-h3",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "name",
@@ -128,7 +128,7 @@
                             "layoutStyle" : { },
                             "name" : "categoryAndID",
                             "style" : {
-                              "flexGrow" : "1"
+                              "flexGrow" : "0"
                             }
                           },
                           "type" : "FlexList"
@@ -149,14 +149,14 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "noMargin text-h3",
+                            "className" : "text-h3",
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "observations",
                             "style" : { },
                             "text" : {
                               "@class" : "Script",
-                              "content" : "\"<p>Observation sur site</p>\"",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'onsite-observations');",
                               "language" : "TypeScript"
                             }
                           },
@@ -183,7 +183,10 @@
                                 "className" : "",
                                 "layout" : { },
                                 "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
+                                "layoutStyle" : {
+                                  "flex" : "2 1 0",
+                                  "minWidth" : "0"
+                                },
                                 "name" : "painSmiley",
                                 "style" : { },
                                 "text" : {
@@ -199,7 +202,9 @@
                             "layoutClassName" : "noPadding information-container faceAndBloodyPatient-container",
                             "layoutStyle" : { },
                             "name" : "faceAndBloodyPatient",
-                            "style" : { }
+                            "style" : {
+                              "gap" : ".5rem"
+                            }
                           },
                           "type" : "FlexList"
                         } ],
@@ -207,7 +212,7 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "noPadding",
+                        "layoutClassName" : "noPadding information-container",
                         "layoutStyle" : { },
                         "name" : "onSiteObservations",
                         "style" : { }
@@ -223,7 +228,7 @@
                     "layoutStyle" : { },
                     "name" : "detailsPanel",
                     "style" : {
-                      "gap" : "2rem"
+                      "gap" : "1.5rem"
                     }
                   },
                   "type" : "FlexList"
@@ -231,85 +236,212 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "className" : "text-h3",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "anatomic position",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'anatomical-position');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
                         "children" : [ {
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "shadowMan__image",
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "margin" : "10px"
-                                },
-                                "name" : "human",
-                                "onPointerOver" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ ],
-                                  "content" : "import { observeBlock } from \"./game/patientZoom/currentPatientZoom\";\nobserveBlock(undefined, Context.patientConsole.setState);\nreturn"
-                                },
-                                "style" : { },
-                                "text" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "shadowMan__image",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "margin" : "10px"
+                                    },
+                                    "name" : "human",
+                                    "onPointerOver" : {
+                                      "@class" : "ScriptCallback",
+                                      "args" : [ ],
+                                      "content" : "import { observeBlock } from \"./game/patientZoom/currentPatientZoom\";\nobserveBlock(undefined, Context.patientConsole.setState);\nreturn"
+                                    },
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getShadowMan } from './game/patientZoom/graphics';\ngetShadowMan();",
+                                      "language" : "JavaScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "observedBlock",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.block.blockName === Context.patientConsole.state.observedBlock;",
+                                            "language" : "JavaScript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "selectedBlock",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
+                                            "language" : "JavaScript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "afflictedBlock",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.block.observable;",
+                                            "language" : "JavaScript"
+                                          }
+                                        }, {
+                                          "applyOn" : "Inside",
+                                          "className" : "forTreatmentBlock",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.block.selectable;",
+                                            "language" : "JavaScript"
+                                          }
+                                        } ],
+                                        "layoutClassName" : "block",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { observeBlock, selectWheelBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.selectable) {\n\tselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);\n\tif (Context.block.observable) {\n\t\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n\t}\n\t\n}\n",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "onPointerOver" : {
+                                          "@class" : "ScriptCallback",
+                                          "args" : [ ],
+                                          "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.observable) {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n}\nreturn;"
+                                        },
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "`${Context.block.svg}${Context.block.svg}`;",
+                                          "language" : "JavaScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    } ],
+                                    "exposeAs" : "block",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAllLocalizedBlocks } from './game/patientZoom/graphics';\ngetAllLocalizedBlocks()",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "blockName",
+                                    "itemsOnly" : true,
+                                    "layout" : { },
+                                    "layoutClassName" : "observe",
+                                    "layoutStyle" : { },
+                                    "name" : "block to observe",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { getShadowMan } from './game/patientZoom/graphics';\ngetShadowMan();",
-                                  "language" : "JavaScript"
-                                }
+                                  "content" : "false;",
+                                  "language" : "typescript"
+                                },
+                                "layout" : { },
+                                "layoutClassName" : "noPadding shadowMan",
+                                "layoutStyle" : {
+                                  "justifiyContent" : "center",
+                                  "width" : "200px"
+                                },
+                                "style" : { }
                               },
-                              "type" : "Text"
+                              "type" : "FlexList"
                             }, {
                               "props" : {
                                 "children" : [ {
                                   "props" : {
-                                    "className" : "",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Inside",
-                                      "className" : "observedBlock",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.block.blockName === Context.patientConsole.state.observedBlock;",
-                                        "language" : "JavaScript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "selectedBlock",
+                                      "className" : "selected",
                                       "condition" : {
                                         "@class" : "Script",
                                         "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
                                         "language" : "JavaScript"
                                       }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "afflictedBlock",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.block.observable;",
-                                        "language" : "JavaScript"
-                                      }
-                                    }, {
-                                      "applyOn" : "Inside",
-                                      "className" : "forTreatmentBlock",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.block.selectable;",
-                                        "language" : "JavaScript"
-                                      }
                                     } ],
-                                    "layoutClassName" : "block",
-                                    "layoutStyle" : { },
+                                    "label" : {
+                                      "@class" : "Script",
+                                      "content" : "Context.block.blockName",
+                                      "language" : "JavaScript"
+                                    },
+                                    "layoutStyle" : {
+                                      "padding" : "5px 0px"
+                                    },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "Script",
+                                        "content" : "import { selectWheelBlock } from './game/patientZoom/currentPatientZoom';\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
+                                    "style" : {
+                                      "fontSize" : "12px"
+                                    }
+                                  },
+                                  "type" : "Button"
+                                } ],
+                                "exposeAs" : "block",
+                                "getItemsFn" : {
+                                  "@class" : "Script",
+                                  "content" : "import { getLocalizedBlocks } from './game/patientZoom/graphics';\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
+                                  "language" : "TypeScript"
+                                },
+                                "itemKey" : "blockName",
+                                "itemsOnly" : true,
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : {
+                                  "flexDirection" : "column"
+                                },
+                                "name" : "block for treatments",
+                                "style" : { }
+                              },
+                              "type" : "For each"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "extraAfflictedBlock",
+                                    "layoutClassName" : "",
+                                    "layoutStyle" : {
+                                      "alignItems" : "flex-start"
+                                    },
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { observeBlock, selectWheelBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.selectable) {\n\tselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);\n\tif (Context.block.observable) {\n\t\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n\t}\n\t\n}\n",
+                                        "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\n/* Please always respect the return type : void */\n() : void => {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;\n};",
                                         "language" : "TypeScript"
                                       }
                                     },
                                     "onPointerOver" : {
                                       "@class" : "ScriptCallback",
                                       "args" : [ ],
-                                      "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nif (Context.block.observable) {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\n}\nreturn;"
+                                      "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
                                     },
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "`${Context.block.svg}${Context.block.svg}`;",
+                                      "content" : "Context.block.blockName",
                                       "language" : "JavaScript"
                                     }
                                   },
@@ -318,175 +450,76 @@
                                 "exposeAs" : "block",
                                 "getItemsFn" : {
                                   "@class" : "Script",
-                                  "content" : "import { getAllLocalizedBlocks } from './game/patientZoom/graphics';\ngetAllLocalizedBlocks()",
+                                  "content" : "import { getLocalizedAfflictedBlocks } from './game/patientZoom/graphics';\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
                                   "language" : "TypeScript"
                                 },
                                 "itemKey" : "blockName",
                                 "itemsOnly" : true,
-                                "layout" : { },
-                                "layoutClassName" : "observe",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "name" : "block to observe",
+                                "name" : "blocks to observe",
                                 "style" : { }
                               },
                               "type" : "For each"
                             } ],
-                            "hideIf" : {
-                              "@class" : "Script",
-                              "content" : "false;",
-                              "language" : "typescript"
-                            },
                             "layout" : { },
-                            "layoutClassName" : "noPadding shadowMan",
-                            "layoutStyle" : {
-                              "justifiyContent" : "center",
-                              "width" : "200px"
-                            },
-                            "style" : { }
+                            "layoutClassName" : "noPadding body",
+                            "layoutStyle" : { },
+                            "name" : "body",
+                            "style" : {
+                              "justifyContent" : "center"
+                            }
                           },
                           "type" : "FlexList"
                         }, {
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "conditionnalClassNames" : [ {
-                                  "applyOn" : "Inside",
-                                  "className" : "selected",
-                                  "condition" : {
-                                    "@class" : "Script",
-                                    "content" : "Context.block.blockName === Context.patientConsole.state.selectedBlock;",
-                                    "language" : "JavaScript"
-                                  }
-                                } ],
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "Context.block.blockName",
-                                  "language" : "JavaScript"
-                                },
-                                "layoutStyle" : {
-                                  "padding" : "5px 0px"
-                                },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "Script",
-                                    "content" : "import { selectWheelBlock } from './game/patientZoom/currentPatientZoom';\n\nselectWheelBlock(Context.block.blockName, Context.patientConsole.setState);",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "style" : {
-                                  "fontSize" : "12px"
-                                }
-                              },
-                              "type" : "Button"
-                            } ],
-                            "exposeAs" : "block",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getLocalizedBlocks } from './game/patientZoom/graphics';\ngetLocalizedBlocks(Context.patientConsole.state.availableBlocks).not_localized.map(b => ({blockName: b}))",
-                              "language" : "TypeScript"
-                            },
-                            "itemKey" : "blockName",
-                            "itemsOnly" : true,
-                            "layout" : { },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : {
-                              "flexDirection" : "column"
-                            },
-                            "name" : "block for treatments",
-                            "style" : { }
-                          },
-                          "type" : "For each"
-                        }, {
-                          "props" : {
-                            "children" : [ {
-                              "props" : {
-                                "className" : "extraAfflictedBlock",
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "alignItems" : "flex-start"
-                                },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\n/* Please always respect the return type : void */\n() : void => {\n\tobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;\n};",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "onPointerOver" : {
-                                  "@class" : "ScriptCallback",
-                                  "args" : [ ],
-                                  "content" : "import { observeBlock } from './game/patientZoom/currentPatientZoom';\nobserveBlock(Context.block.blockName, Context.patientConsole.setState);\treturn;"
-                                },
+                                "className" : "block-details",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "Details",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "Context.block.blockName",
+                                  "content" : "import { getBlockDetail } from './game/patientZoom/currentPatientZoom';\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
                                   "language" : "JavaScript"
                                 }
                               },
                               "type" : "Text"
                             } ],
-                            "exposeAs" : "block",
-                            "getItemsFn" : {
-                              "@class" : "Script",
-                              "content" : "import { getLocalizedAfflictedBlocks } from './game/patientZoom/graphics';\ngetLocalizedAfflictedBlocks().not_localized.map(b => ({blockName: b}))",
-                              "language" : "TypeScript"
-                            },
-                            "itemKey" : "blockName",
-                            "itemsOnly" : true,
                             "layout" : {
                               "flexDirection" : "column"
                             },
-                            "layoutClassName" : "noPadding",
+                            "layoutClassName" : "noPadding title_container",
                             "layoutStyle" : { },
-                            "name" : "blocks to observe",
+                            "name" : "details",
                             "style" : { }
                           },
-                          "type" : "For each"
+                          "type" : "FlexList"
                         } ],
                         "layout" : { },
-                        "layoutClassName" : "noPadding body",
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
-                        "name" : "body",
+                        "name" : "body & details",
                         "style" : {
-                          "justifyContent" : "center"
+                          "gap" : ".5rem"
                         }
-                      },
-                      "type" : "FlexList"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "className" : "block-details",
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
-                            "name" : "Details",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getBlockDetail } from './game/patientZoom/currentPatientZoom';\ngetBlockDetail(Context.patientConsole.state.observedBlock);",
-                              "language" : "JavaScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "layout" : {
-                          "flexDirection" : "column"
-                        },
-                        "layoutClassName" : "noPadding title_container",
-                        "layoutStyle" : { },
-                        "name" : "details",
-                        "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
                     "className" : "pretri-card",
-                    "layout" : { },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "patient",
                     "style" : {
-                      "gap" : ".5rem"
+                      "gap" : "1rem"
                     }
                   },
                   "type" : "FlexList"
@@ -498,7 +531,7 @@
                 "layoutStyle" : { },
                 "name" : "Left",
                 "style" : {
-                  "gap" : "2rem"
+                  "gap" : "1.5rem"
                 }
               },
               "type" : "FlexList"
@@ -1148,61 +1181,6 @@
                                       "type" : "For each"
                                     }, {
                                       "props" : {
-                                        "children" : [ {
-                                          "props" : {
-                                            "className" : "selectBodyPartTxt",
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "Context.patientConsole.state.selectedBlock;",
-                                              "language" : "JavaScript"
-                                            },
-                                            "layoutClassName" : "noPadding",
-                                            "layoutStyle" : { },
-                                            "style" : { },
-                                            "text" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getTranslation } from \"./tools/translation\";\nconst text = getTranslation('pretriage-interface', 'pleaseSelectBlock');\n`${text}`",
-                                              "language" : "JavaScript"
-                                            }
-                                          },
-                                          "type" : "Text"
-                                        } ],
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "Context.patientConsole.state.availableBlocks.length === 0||\nContext.patientConsole.state.selectedBlock;",
-                                          "language" : "typescript"
-                                        },
-                                        "layout" : {
-                                          "alignItems" : "center",
-                                          "justifyContent" : "flex-end"
-                                        },
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "style" : { }
-                                      },
-                                      "type" : "FlexList"
-                                    }, {
-                                      "props" : {
-                                        "alignSelf" : "center",
-                                        "className" : "selectBodyPartTxt",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "!Context.patientConsole.state.selectedBlock;",
-                                          "language" : "JavaScript"
-                                        },
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "name" : "selectedBodyPart",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\nconst label = getTranslation('pretriage-interface', 'bodyPart');\nconst block = getTranslation('human-blocks', Context.patientConsole.state.selectedBlock);\n`${label}: ${block}`;",
-                                          "language" : "JavaScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
                                         "alignSelf" : "flex-end",
                                         "className" : "pretri-button pretri-primary text-brand",
                                         "disableIf" : {
@@ -1241,7 +1219,7 @@
                                     "layout" : {
                                       "alignItems" : "center",
                                       "flexDirection" : "row",
-                                      "justifyContent" : "space-between"
+                                      "justifyContent" : "flex-end"
                                     },
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
@@ -1488,6 +1466,7 @@
                         },
                         "layoutClassName" : "resultConsole-container",
                         "layoutStyle" : {
+                          "overflow" : "auto",
                           "padding" : "0"
                         },
                         "name" : "resultConsole",
@@ -1499,7 +1478,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "noPadding",
+                    "layoutClassName" : "noPadding pretri-results__container",
                     "layoutStyle" : { },
                     "name" : "result",
                     "style" : { }
@@ -1858,7 +1837,7 @@
                 "layoutStyle" : { },
                 "name" : "Right",
                 "style" : {
-                  "gap" : "2rem"
+                  "gap" : "1.5rem"
                 }
               },
               "type" : "FlexList"
@@ -1874,9 +1853,7 @@
             "layoutClassName" : "noPadding theGame-container",
             "layoutStyle" : { },
             "name" : "THE GAME // class= patientConsole",
-            "style" : {
-              "gap" : "2rem"
-            }
+            "style" : { }
           },
           "type" : "FlexList"
         } ],

@@ -711,7 +711,10 @@ function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClass
 }
 
 function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
-  return `<div class='block-subtitle'>${getTranslation(translationVar, title)}</div>`;
+  return `<div class='text-meta' style="font-family: var(--font-sans);">${getTranslation(
+    translationVar,
+    title
+  )}</div>`;
 }
 
 function formatBlockEntry(
@@ -724,8 +727,8 @@ function formatBlockEntry(
     title = getTranslation(translationVar, title);
   }
   return `<div class='block-entry'>
-		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
-		<span class='block-entry-value'>${value || ''}</span>
+		 <span class='text-cell'>${title}${value ? ' — ' : ''}</span> 
+		<span class='text-cell'>${value || ''}</span>
 	</div>`;
 }
 

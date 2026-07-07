@@ -1,9 +1,28 @@
 /* ------------------------------------------------------------
+   CLOCK  —  (horloge de la TopBar)
+   ------------------------------------------------------------ */
+.pretri-clock {
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 1rem;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.pretri-clock svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-teal);
+}
+
+/* ------------------------------------------------------------
    TRIAGE BUTTON
    ------------------------------------------------------------ */
 .tri-button {
   gap: 14px;
   width: 100%;
+  max-width: 600px;
   padding: .75rem;
   outline-width: 1px;
   outline-style: solid;
@@ -13,7 +32,7 @@
   background-color: var(--color-card);*/
   cursor: pointer;
   text-align: left;
-  transition: outline-color .3s ease-in-out, outline-width .3s ease-in-out, outline-offset .3s ease-in-out, .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: outline-color .3s ease-in-out, outline-width .3s ease-in-out, outline-offset .3s ease-in-out, background-color .3s ease-in-out, box-shadow .3s ease-in-out;
   /*box-sizing: border-box;*/
 }
 
@@ -32,25 +51,25 @@
 
 /* color by category (border + soft tint on hover/selected) */
 .tri-dead {
-  background-color: var(--color-dead-soft);
+  background-color: color-mix(in srgb, var(--color-dead-soft) var(--half-opacity), transparent);
   outline-color: var(--color-dead); 
   border-radius: var(--radius-md);
 }
 
 .tri-p1 {
-  background-color: var(--color-p1-soft);
+  background-color: color-mix(in srgb, var(--color-p1-soft) var(--half-opacity), transparent);
   outline-color: var(--color-p1); 
   border-radius: var(--radius-md);
 }
 
 .tri-p2 {
-  background-color: var(--color-p2-soft);
+  background-color: color-mix(in srgb, var(--color-p2-soft) var(--half-opacity), transparent);
   outline-color: var(--color-p2); 
   border-radius: var(--radius-md);
 }
 
 .tri-p3 {
-  background-color: var(--color-p3-soft);
+  background-color: color-mix(in srgb, var(--color-p3-soft) var(--half-opacity), transparent);
   outline-color: var(--color-p3);
   border-radius: var(--radius-md);
 }
@@ -80,6 +99,7 @@
 }
 
 .tri-button__current {
+  --half-opacity: 100%;
   outline-width: 3px;
   outline-offset: -3px;
   /*box-shadow: inset 0 0 0 5px black;*/
@@ -110,7 +130,7 @@
 }*/
 
 .tagSystemCategories {
-  gap: 10px;
+  gap: .5rem;
 }
 
 /* Probably not useful

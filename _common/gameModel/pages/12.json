@@ -125,12 +125,15 @@
                 "children" : [ {
                   "props" : {
                     "icon" : "clock",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "style" : { }
                   },
                   "type" : "Icon"
                 }, {
                   "props" : {
+                    "className" : "text-clock",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "currentTime",
                     "style" : { },
@@ -142,10 +145,11 @@
                   },
                   "type" : "Text"
                 } ],
+                "className" : "pretri-clock",
                 "layout" : {
-                  "alignItems" : "center",
-                  "justifyContent" : "flex-end"
+                  "alignItems" : "center"
                 },
+                "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
                 "name" : "time",
                 "style" : { }
@@ -154,19 +158,23 @@
             } ],
             "hideIf" : {
               "@class" : "Script",
-              "content" : "!Variable.find(gameModel, 'currentPatient').getValue(self)",
+              "content" : "false;",
               "language" : "typescript"
             },
             "layout" : {
               "alignItems" : "center",
-              "justifyContent" : "space-between"
+              "justifyContent" : "flex-end"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "0"
             },
             "name" : "toolbar",
-            "style" : { }
+            "style" : {
+              "position" : "absolute",
+              "right" : "0",
+              "top" : "-42px"
+            }
           },
           "type" : "FlexList"
         }, {
@@ -190,7 +198,7 @@
           "type" : "PageLoader"
         }, {
           "props" : {
-            "className" : "",
+            "className" : "fullHeight",
             "exposePageSizeAs" : "",
             "id" : "",
             "initialSelectedPageId" : {
@@ -198,7 +206,7 @@
               "content" : "\"6\"",
               "language" : "TypeScript"
             },
-            "layoutClassName" : "",
+            "layoutClassName" : "fullHeight",
             "layoutStyle" : {
               "padding" : "0"
             },
@@ -232,7 +240,12 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "avantDeCommencer",
-            "style" : { },
+            "style" : {
+              "position" : "absolute",
+              "right" : "0",
+              "top" : "-30px",
+              "whiteSpace" : "nowrap"
+            },
             "text" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'before-you-begin');",
@@ -397,7 +410,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding welcome-page__column",
                 "layoutStyle" : { },
                 "name" : "colLeft",
                 "style" : { }
@@ -464,22 +477,6 @@
                     }
                   },
                   "type" : "FlexList"
-                }, {
-                  "props" : {
-                    "className" : "text-body-lg",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "colorationExplanation",
-                    "style" : {
-                      "marginBottom" : "10px"
-                    },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'coloration-explanation');",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
                 }, {
                   "props" : {
                     "children" : [ {
@@ -1093,7 +1090,7 @@
                 "layout" : {
                   "flexDirection" : "column"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding welcome-page__column",
                 "layoutStyle" : { },
                 "name" : "colRight",
                 "style" : { }
@@ -1105,7 +1102,7 @@
             "layoutStyle" : { },
             "name" : "columns",
             "style" : {
-              "gap" : "2rem"
+              "gap" : "1.5rem"
             }
           },
           "type" : "FlexList"
@@ -1129,7 +1126,9 @@
             },
             "name" : "start",
             "prefixedLabel" : true,
-            "style" : { }
+            "style" : {
+              "marginTop" : "1.5rem"
+            }
           },
           "type" : "Button"
         } ],
@@ -1261,26 +1260,6 @@
                     }
                   },
                   "type" : "Text"
-                }, {
-                  "props" : {
-                    "className" : "pink l_button",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
-                      "language" : "JavaScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "Script",
-                        "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
-                        "language" : "typescript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
                 } ],
                 "layout" : {
                   "alignItems" : "center",
@@ -1537,6 +1516,29 @@
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "alignSelf" : "flex-end",
+            "className" : "pretri-button pretri-primary text-brand",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
+              "language" : "JavaScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "1rem"
+            },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
         }, {
           "props" : {
             "children" : [ {
