@@ -19,21 +19,16 @@
         "className" : "button-secondaryColor button-S",
         "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
-          "className" : "abort",
+          "className" : "disabled",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+            "content" : "import { canPlanAction } from './gameInterface/main';\n!canPlanAction();",
             "language" : "typescript"
           }
         } ],
         "disableIf" : {
           "@class" : "Script",
-          "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { isPlannedAction, canPlanAction } from \"./gameInterface/main\";\nconst action = uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate;\n!action || !isAvailable(action) || isPlannedAction(action.uid) || !canPlanAction();",
-          "language" : "typescript"
-        },
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!isAvailable(uniqueActionTemplates()?.ActivateRadioSchemaActionTemplate);",
+          "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
           "language" : "typescript"
         },
         "label" : {

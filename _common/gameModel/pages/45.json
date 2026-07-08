@@ -205,15 +205,6 @@
                 }, {
                   "props" : {
                     "className" : " button-S button-secondaryColor ",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "abort",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid);",
-                        "language" : "typescript"
-                      }
-                    } ],
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid)",

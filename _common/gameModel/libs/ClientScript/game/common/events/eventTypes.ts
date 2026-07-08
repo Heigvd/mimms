@@ -60,7 +60,11 @@ export interface HumanMeasureEvent extends TargetedEvent {
 }
 
 export type MeasureResultStatus =
-  'success' | 'failed_missing_object' | 'failed_missing_skill' | 'cancelled' | 'unknown';
+  | 'success'
+  | 'failed_missing_object'
+  | 'failed_missing_skill'
+  | 'cancelled'
+  | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
   type: 'HumanMeasureResult';

@@ -16,7 +16,7 @@
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
               "language" : "typescript"
             },
             "id" : "",
@@ -54,7 +54,7 @@
             } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
               "language" : "typescript"
             },
             "id" : "",
@@ -176,15 +176,6 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "abort",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\n  isPretriageReportRequestDisabled();",
-                    "language" : "typescript"
-                  }
-                } ],
                 "disableIf" : {
                   "@class" : "Script",
                   "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\n  isPretriageReportRequestDisabled() || !canPlanAction();",
@@ -245,7 +236,7 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.PretriageReportTemplate);",
+        "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
         "language" : "typescript"
       }
     } ],
