@@ -1310,7 +1310,7 @@
                                         "style" : { },
                                         "text" : {
                                           "@class" : "Script",
-                                          "content" : "  Context.tagCategory.descriptionTag;",
+                                          "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('pretriage-interface', Context.tagCategory.descriptionTag);",
                                           "language" : "TypeScript"
                                         }
                                       },
@@ -1343,8 +1343,7 @@
                                       "script" : {
                                         "@class" : "ClientScript",
                                         "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
-                                        "language" : "TypeScript",
-                                        "returnType" : "Promise<unknown> | undefined"
+                                        "language" : "TypeScript"
                                       }
                                     },
                                     "style" : { }

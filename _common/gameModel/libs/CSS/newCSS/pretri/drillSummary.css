@@ -1,54 +1,117 @@
 .patient-overview {
-  gap: 10px;
-	padding: 20px;
-  background-color: var(--grey_0);
-	border-radius: var(--XS_borderRadius);
-  box-shadow: var(--buttonShadow);
-  font-weight: var(--boldWeight);
-  text-align: center;
-  color: var(--grey_base);
+  gap: 1rem;
 }
 
-.patient-overview .svg-inline--fa {
-  height: 36px;
-  width: auto;
-  color: var(--primary_base);
+.patient-overview .text-meta {
+  font-family: var(--font-sans);
+  letter-spacing: normal;
+  text-transform: none;
 }
 
-.patient-overview span,
+.patient-overview__icon-container {
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  min-height: 3rem;
+  min-width: 3rem;
+  background-color: var(--color-teal-soft);
+  border-radius: var(--radius-md);
+}
+
+.patient-overview__icon-container svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-teal);
+}
+
+/*.patient-overview span,
 .patient-overview__end-message > div:nth-of-type(1) {
   font-size: 32px;
   color: var(--colors-darktextcolor);
   line-height: 52px;
+}*/
+
+
+/* ------------------------------------------------------------
+   TABLE ROW
+   Summary : colonnes + pastilles + résultat (correct|incorrect) + bouton Revoir
+   ------------------------------------------------------------ */
+.patient-summary-table {
+  display: grid;
+grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
+align-items: center;
+padding: 0 0 16px 0;
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.patient-summary--header {
+	/*color: var(--grey_100);
+	font-size: 14px;
+  font-weight: var(--boldWeight);*/
+
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: var(--color-subtle-2);
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+
+  display: inline;
+    width: 100%;
+    height: 100%;
+}
+
+.patient-summary-table .patient-summary--line {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border-2);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: var(--color-fg);
+  vertical-align: middle;
+}
+
+.patient-summary-table tbody tr:last-child td,
+.patient-summary-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.patient-summary-row.is-even {
+  background: var(--color-subtle);
+}
+
+.patient-summary-row:hover {
+  background: var(--color-teal-soft);
 }
 
 
 /* - - - - -  T A B L E  - - - - - */
 
-.patient-summary--header {
+/*.patient-summary--header {
 	color: var(--grey_100);
 	font-size: 14px;
   font-weight: var(--boldWeight);
+}*/
+
+.patient-summary__cell {
+  padding: 13px 18px;
+  white-space: nowrap;
 }
 
 .patient-summary--line {
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
 }
-
-/*.patient-summary--line:nth-of-type(4n) > div,
-.patient-summary--line:nth-of-type(4n-1) > div {
-  background-color:rgb(0, 255, 76);
-}
-
-.patient-summary--line:nth-of-type(2n) > div > div {
-	background-color: var(--colors-hovercolor);
-}
-
-.patient-summary--header,
-.patient-summary--line > div > div > div {
-	margin: auto;
-}*/
 
 .patient-summary--line .tagCategory {
 	width: 1rem;
@@ -95,17 +158,22 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 38.4px;
+  /*height: 38.4px;*/
   color: var(--grey_base);
-  background-color: var(--grey05);
+  /*background-color: var(--grey05);*/
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
+
+  display: grid;
+grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
+padding: 18px 24px;
+/*border-bottom: 1px solid rgb(227, 231, 236);*/
 }
 
-.patient-summary--line:hover > * {
+/*.patient-summary--line:hover > * {
   color: var(--primary_base);
   background-color: var(--primary_10);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
-}
+}*/
 
 .patient-summary--line > *:first-child {
   border-top-left-radius: var(--XS_borderRadius);

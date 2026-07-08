@@ -162,6 +162,25 @@
 .cc-cta:disabled, .cc-cta.is-disabled { opacity: .45; pointer-events: none; box-shadow: none; }
 
 
+/* ------------------------------------------------------------
+   SEE AGAIN BUTTON
+   ------------------------------------------------------------ */
+.see-again__button {
+  background-color: var(--color-card);
+  color: var(--color-teal);
+  border: 1px solid var(--color-teal-soft);
+  padding: .5rem 1rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 12.5px;
+  font-family: Inter, system-ui, sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+
 /**** SPECIFICS BUTTONS ****/
 /* .actionMeasure-button * div {
   white-space: nowrap;
