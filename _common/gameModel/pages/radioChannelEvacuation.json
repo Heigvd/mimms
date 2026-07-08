@@ -1069,7 +1069,7 @@
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.EvacuationActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {

@@ -391,7 +391,7 @@
                 },
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -447,13 +447,13 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
         "language" : "typescript"
       }
     } ],
     "disableIf" : {
       "@class" : "Script",
-      "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+      "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
       "language" : "typescript"
     },
     "layout" : {
