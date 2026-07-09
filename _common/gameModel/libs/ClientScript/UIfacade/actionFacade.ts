@@ -72,15 +72,6 @@ export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[
   return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
-/**
- * @param template
- * @returns true if the action can be played or is currently planned, thus can be cancelled
- */
-export function canCancel(template: ActionTemplateBase | undefined): boolean {
-  if (!template) return false;
-  return isAvailable(template) && isPlannedAction(template.uid);
-}
-
 export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return getUniqueActionTemplates();
 }
@@ -210,9 +201,6 @@ export function isPCFrontBuilt(): boolean {
 }
 
 export function isMethaneSendDisabled(): boolean {
-  if (canCancel(uniqueActionTemplates()?.CasuMessageTemplate)) {
-    return false;
-  }
   const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
   return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
 }
