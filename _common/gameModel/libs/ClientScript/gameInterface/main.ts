@@ -63,24 +63,6 @@ export function canActorPlanAction(actorId: number): boolean {
 }
 
 /**
- * Check if player is owner of the action and can thus cancel it
- */
-export function canCancelOnGoingAction(): boolean {
-  const currentTime = getSimTime();
-  const actorUid = Context.interfaceState.state.currentActorUid;
-  const actions = getOngoingActionsForActor(getCurrentState(), actorUid);
-
-  for (const action of actions!) {
-    // Is a future action planned ?
-    if (action.startTime === currentTime) return true;
-    // Is a previous action finished ?
-    if (action.startTime + action.duration() > currentTime) return true;
-  }
-
-  return false;
-}
-
-/**
  * Is the given actionUid the currently planned action by the current actor ?
  *
  * @params number uid of the action

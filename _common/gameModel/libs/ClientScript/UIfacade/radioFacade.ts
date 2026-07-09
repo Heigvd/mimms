@@ -15,7 +15,7 @@ import {
   InterfaceState,
   setInterfaceState,
 } from '../gameInterface/interfaceState';
-import { canCancelOnGoingAction, formatTime, getSimStartDateTime } from '../gameInterface/main';
+import { formatTime, getSimStartDateTime } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
 import { getTranslation } from '../tools/translation';
 import { selectActorAndOpenMapLocation } from './actorFacade';
@@ -348,16 +348,6 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
     isRadioMessage: true,
     pending: true,
   }));
-}
-
-export function isChannelBusy(channel: RadioType): boolean {
-  if (
-    getOngoingRadioMessagesForActorOnChannel(Context.interfaceState.state.currentActorUid, channel)
-      .length > 0
-  ) {
-    return !canCancelOnGoingAction();
-  }
-  return false;
 }
 
 export function showActorNotifications(actorUid: ActorId) {
