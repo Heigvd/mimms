@@ -46,18 +46,9 @@
         }, {
           "props" : {
             "className" : "button-S button-secondaryColor",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "abort",
-              "condition" : {
-                "@class" : "Script",
-                "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/radio/communicationType\";\nimport { isPlannedAction } from \"./gameInterface/main\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\nconst actTemplate = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nisPlannedAction(actTemplate!.uid);",
-                "language" : "typescript"
-              }
-            } ],
             "disableIf" : {
               "@class" : "Script",
-              "content" : "import { getSendRadioMessageTemplate } from \"./game/common/actions/actionLogic\";\nimport { RadioType } from \"./game/common/radio/communicationType\";\nimport { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nimport { getSelectedChannel } from \"./UIfacade/radioFacade\";\n  if (canPlanAction()) return false;\n  const actTemplate = getSendRadioMessageTemplate(getSelectedChannel() as RadioType);\nisPlannedAction(actTemplate?.uid)",
+              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n  !canPlanAction();",
               "language" : "typescript"
             },
             "label" : {
