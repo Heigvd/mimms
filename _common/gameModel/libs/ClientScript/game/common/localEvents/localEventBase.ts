@@ -86,7 +86,6 @@ export type SourceType =
         | 'initialisation'
         | 'trainer'
         | 'time-forward'
-        | 'time-forward-cancel'
         | 'plan-action'
         | 'unplan-action';
     }

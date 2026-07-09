@@ -112,25 +112,6 @@ export abstract class ActionBase {
 
   public abstract duration(): SimDuration;
 
-  /**
-   * TODO could be a pure function that returns a cloned instance
-   * @returns True if cancellation could be applied
-   */
-  public cancel(state: Readonly<MainSimulationState>): boolean {
-    if (this.status === 'Cancelled') {
-      this.logger.warn('This action was already cancelled');
-    } else if (this.status === 'Completed') {
-      this.logger.error('This action is completed, it cannot be cancelled');
-      return false;
-    }
-    this.status = 'Cancelled';
-    this.cancelInternal(state);
-
-    return true;
-  }
-
-  protected abstract cancelInternal(state: Readonly<MainSimulationState>): void;
-
   public getStatus(): ActionStatus {
     return this.status;
   }
@@ -355,11 +336,6 @@ export class DisplayMessageAction extends StartEndAction {
       })
     );
   }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
 }
 
 export class OnTheRoadAction extends StartEndAction {
@@ -384,11 +360,6 @@ export class OnTheRoadAction extends StartEndAction {
     // Once actor arrives, we change location from remote
     const actor = state.getActorById(this.ownerId)!;
     actor.setLocation(actor.getComputedSymbolicLocation(state));
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 }
 
@@ -512,11 +483,6 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
-
   public override getTitle(): string {
     return getTranslation(
       'mainSim-actions-tasks',
@@ -621,11 +587,6 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
-
   public getChannel(): RadioType {
     return this.channel;
   }
@@ -679,10 +640,6 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
     // nothing more to do
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
   }
 }
 
@@ -757,26 +714,6 @@ export class MapChoiceAction extends ChoiceAction {
           option: 'activate',
         },
         'built'
-      )
-    );
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    if (!this.choice.displayedMapEntity) {
-      this.logger.error('Choice has no map entity to display');
-      return;
-    }
-
-    getLocalEventManager().queueLocalEvent(
-      new ChangeMapActivableStatusLocalEvent(
-        {
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          target: this.choice.displayedMapEntity,
-          option: 'deactivate',
-        },
-        'pending'
       )
     );
   }
@@ -1030,11 +967,6 @@ export class MoveActorAction extends StartEndAction {
       );
     }
   }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
 }
 
 export class AppointActorAction extends StartEndAction {
@@ -1160,19 +1092,6 @@ export class AppointActorAction extends StartEndAction {
     }
   }
 
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    if (this.involvedResourceId != undefined) {
-      getLocalEventManager().queueLocalEvent(
-        new UnReserveResourcesLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          resourcesId: [this.involvedResourceId],
-        })
-      );
-    }
-  }
 }
 
 /**
@@ -1205,11 +1124,6 @@ export class SituationUpdateAction extends StartEndAction {
 
   protected dispatchEndedEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 }
 
@@ -1440,18 +1354,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   public getRecipientId(): ActorId | undefined {
     return undefined;
   }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-      })
-    );
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1510,11 +1412,6 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
         feedbackWhenReport: this.feedbackWhenReport,
       })
     );
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 
   private formatStartMessage(): string {
@@ -1576,11 +1473,6 @@ export class SendRadioMessageAction extends RadioDrivenAction {
         omitTranslation: true,
       })
     );
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 
   public getRadioMessagePayload(): RadioMessagePayload {
@@ -1764,18 +1656,6 @@ export class EvacuationAction extends RadioDrivenAction {
         getSquadDef(this.evacuationActionPayload.transportSquad)
       );
     }
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-      })
-    );
   }
 
   private formatRequestMessage(payload: EvacuationActionPayload) {

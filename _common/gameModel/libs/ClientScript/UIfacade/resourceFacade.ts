@@ -137,7 +137,6 @@ export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined
 
 export function isOrderValidationDisabled(): boolean {
   if (!canPlanAction()) {
-    // to be able to cancel the action
     return false;
   }
 
@@ -179,7 +178,6 @@ export function getReportLocationRequest(): LOCATION_ENUM | undefined {
 // used in page 68
 export function isPretriageReportRequestDisabled(): boolean {
   if (!canPlanAction()) {
-    // to be able to cancel the action
     return false;
   }
   return getReportLocationRequest() === undefined;
