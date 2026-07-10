@@ -1055,7 +1055,7 @@
                 "className" : "button-S button-secondaryColor",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif (!canPlanAction() || !isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate)) return true\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "label" : {

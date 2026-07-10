@@ -34,7 +34,6 @@ import {
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
-import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';

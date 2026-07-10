@@ -1,7 +1,5 @@
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
-import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {

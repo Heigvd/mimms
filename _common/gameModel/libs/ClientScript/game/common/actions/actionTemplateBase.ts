@@ -31,7 +31,6 @@ import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resour
 import {
   getOngoingActions,
   getStartedActionsOfTemplate,
-  isThisNextPlannedAction,
 } from '../simulationState/actionStateAccess';
 import {
   ActionTemplateActivable,

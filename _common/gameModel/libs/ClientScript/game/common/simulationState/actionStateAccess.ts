@@ -96,23 +96,6 @@ function isActionOngoingAndStarted(
   return action.getStatus() === 'OnGoing' && action.startTime < state.getSimTime();
 }
 
-export function isThisNextPlannedAction(
-  state: Readonly<MainSimulationState>,
-  actionTemplateId: ActionTemplateUid,
-  actorUid: number
-): boolean {
-  const actions = state.getActionsByActorIds()[actorUid];
-
-  if (actions) {
-    return actions.some(
-      action =>
-        action.startTime === state.getSimTime() && action.getTemplateId() === actionTemplateId
-    );
-  }
-
-  return false;
-}
-
 /**
  * Some action of this template has completed at least once.
  */
