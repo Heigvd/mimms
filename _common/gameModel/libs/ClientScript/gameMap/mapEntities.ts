@@ -1,5 +1,4 @@
-import { getActorsByLocation, isCurrentActorAtLocation } from '../UIfacade/actorFacade';
-import { Actor } from '../game/common/actors/actor';
+import { getActorsByLocation } from '../UIfacade/actorFacade';
 import { ActorId } from '../game/common/baseTypes';
 import * as ResourceLogic from '../game/common/resources/resourceLogic';
 import {
@@ -8,17 +7,13 @@ import {
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { isGodView } from '../gameInterface/interfaceConfiguration';
 import { MapState } from './main';
-import { mainSimMapLogger } from '../tools/logger';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from '../gameMap/utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
-
-let wasGodView = true;
 
 // Replacement based on activables/descriptors
 export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
@@ -69,20 +64,6 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
           ),
         },
       });
-    }
-  }
-
-  // detect change of view mode
-  if (wasGodView !== isGodView()) {
-    wasGodView = isGodView();
-    // Force close entities if role view enabled
-    if (!isGodView()) {
-      const newState: MapState = Helpers.cloneDeep<MapState>(Context.mapState.state);
-      newState.overlayState = newState.overlayState.filter((l: LOCATION_ENUM) =>
-        canViewLocation(l)
-      );
-      mainSimMapLogger.info('Role view map toggle', newState.overlayState);
-      Context.mapState.setState(newState);
     }
   }
 
@@ -151,29 +132,4 @@ export function openOverlayItem(itemId: LOCATION_ENUM) {
 
 export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
   return Context.mapState?.state.overlayState.includes(itemId);
-}
-
-/**
- * Should ressource be visible to current actor at location
- */
-export function canViewLocation(location: LOCATION_ENUM): boolean {
-  if (!isGodView()) {
-    return isCurrentActorAtLocation(location);
-  }
-
-  return true;
-}
-
-/**
- * Filter actors of location according to view mode
- */
-export function actorViewFilter(actors: Actor[]): Actor[] {
-  const currentActorUid = Context.interfaceState.state.currentActorUid;
-
-  if (!isGodView()) {
-    // If the current actor is not at the location, we see nothing
-    return actors.some(a => a.Uid === currentActorUid) ? actors : [];
-  }
-
-  return actors;
 }

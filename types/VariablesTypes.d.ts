@@ -150,7 +150,6 @@ interface VariableClasses {
   "multiplayer": SListDescriptor;
   "multiplayerMatrix": SObjectDescriptor;
   "trainer_Zix3IY": SListDescriptor;
-  "godView": SBooleanDescriptor;
   "messagesLifeLength": SNumberDescriptor;
   "respectHierarchy": SBooleanDescriptor;
   "map": SListDescriptor;
