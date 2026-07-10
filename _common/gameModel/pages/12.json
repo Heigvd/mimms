@@ -231,7 +231,7 @@
       "props" : {
         "children" : [ {
           "props" : {
-            "className" : "text-meta noMargin",
+            "className" : "noMargin text-meta",
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "avantDeCommencer",
@@ -1149,22 +1149,68 @@
       "props" : {
         "children" : [ {
           "props" : {
+            "className" : "noMargin text-meta",
+            "layoutClassName" : "noPadding fullWidth",
+            "layoutStyle" : { },
+            "name" : "finished session",
+            "style" : {
+              "position" : "absolute",
+              "right" : "0",
+              "top" : "-30px",
+              "whiteSpace" : "nowrap"
+            },
+            "text" : {
+              "@class" : "Script",
+              "content" : "\"<p>Session terminée</p>\"",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
             "children" : [ {
               "props" : {
-                "className" : "text-display",
+                "children" : [ {
+                  "props" : {
+                    "className" : "text-display",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "summary",
+                    "style" : {
+                      "color" : "var(--color-teal)"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<h2 style='margin:0'>Summary</h2>\"",
+                      "language" : "JavaScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "algorithm",
+                    "style" : {
+                      "gap" : ".5"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n  const algorithm = I18n.toString(Variable.find(gameModel, 'tagSystem'));\n  const text = getTranslation('pretriage-interface', 'category-explanation');\n  const tagSystem =\n\t  `<p class=\"text-body-lg\">${text + ' '}<span class=\"text-clock\">${algorithm}</span></p>`\n  tagSystem;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "flexDirection" : "column"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "summary",
-                "style" : {
-                  "color" : "var(--color-teal)"
-                },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<h2 style='margin:0'>Summary</h2>\"",
-                  "language" : "JavaScript"
-                }
+                "name" : "texts",
+                "style" : { }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "children" : [ {
@@ -1359,7 +1405,7 @@
                         "children" : [ {
                           "props" : {
                             "className" : "patient-summary__cell",
-                            "layoutClassName" : "noPadding",
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "n",
                             "style" : { },
@@ -1372,36 +1418,125 @@
                           "type" : "Text"
                         }, {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "icon" : "tag",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "tag",
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "className" : "text-clock",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "patientID",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patient.data.id;",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
                             "className" : "patient-summary__cell",
-                            "layoutClassName" : "noPadding",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "patientID",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "Context.patient.data.id;",
-                              "language" : "TypeScript"
+                            "style" : {
+                              "color" : "var(--color-muted)",
+                              "gap" : ".5rem"
                             }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId;",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "times",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "wrong",
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "Context.patient.data.categorization.category !== \n\tContext.patient.data.categorization.autoTriage.categoryId;",
+                                  "language" : "typescript"
+                                },
+                                "icon" : "check",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "correct",
+                                "style" : { }
+                              },
+                              "type" : "Icon"
+                            }, {
+                              "props" : {
+                                "className" : "noMargin",
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "R-W",
+                                "style" : { },
+                                "text" : {
+                                  "@class" : "Script",
+                                  "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p>Correct</p>'\n}\n'<p>Wrong</p>'",
+                                  "language" : "TypeScript"
+                                }
+                              },
+                              "type" : "Text"
+                            } ],
                             "className" : "patient-summary__cell",
-                            "layoutClassName" : "noPadding",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "correct",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId;",
+                                "language" : "typescript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "wrong",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "Context.patient.data.categorization.category !== \n\tContext.patient.data.categorization.autoTriage.categoryId;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "layout" : { },
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "R-W",
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "if(Context.patient.data.categorization.category == \n\tContext.patient.data.categorization.autoTriage.categoryId){\n\treturn '<p class=\"correct\">Correct</p>'\n}\n'<p class=\"wrong\">Wrong</p>'",
-                              "language" : "TypeScript"
-                            }
+                            "style" : { }
                           },
-                          "type" : "Text"
+                          "type" : "FlexList"
                         }, {
                           "props" : {
                             "className" : "patient-summary__cell",
-                            "layoutClassName" : "noPadding",
+                            "computedClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : {
+                                "@class" : "Script",
+                                "content" : "import { preTriSummaryCategory } from \"./game/pretri/triage\";\n  preTriSummaryCategory(Context.patient.data.categorization.category);",
+                                "language" : "TypeScript"
+                              }
+                            } ],
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "given-answer",
                             "style" : { },
@@ -1415,7 +1550,15 @@
                         }, {
                           "props" : {
                             "className" : "patient-summary__cell answer",
-                            "layoutClassName" : "noPadding",
+                            "computedClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : {
+                                "@class" : "Script",
+                                "content" : "import { preTriSummaryCategory } from \"./game/pretri/triage\";\n  preTriSummaryCategory(Context.patient.data.categorization.autoTriage.categoryId);",
+                                "language" : "TypeScript"
+                              }
+                            } ],
+                            "layoutClassName" : "",
                             "layoutStyle" : { },
                             "name" : "correction",
                             "style" : { },
@@ -1428,15 +1571,17 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "reviewBtn",
+                            "className" : "review-button",
                             "icon" : "eye",
                             "label" : {
                               "@class" : "Script",
-                              "content" : "\"\"",
+                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'review-button');",
                               "language" : "TypeScript"
                             },
-                            "layoutClassName" : "noPadding",
-                            "layoutStyle" : { },
+                            "layoutClassName" : "",
+                            "layoutStyle" : {
+                              "justifyContent" : "flex-end"
+                            },
                             "localScriptEval" : {
                               "script" : {
                                 "@class" : "ClientScript",
@@ -1444,7 +1589,10 @@
                                 "language" : "TypeScript"
                               }
                             },
-                            "style" : { }
+                            "name" : "review",
+                            "style" : {
+                              "margin" : "0"
+                            }
                           },
                           "type" : "Button"
                         } ],
@@ -1510,29 +1658,6 @@
           "type" : "FlexList"
         }, {
           "props" : {
-            "alignSelf" : "flex-end",
-            "className" : "pretri-button pretri-primary text-brand",
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
-              "language" : "JavaScript"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : {
-              "marginTop" : "1rem"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "Script",
-                "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
-                "language" : "typescript"
-              }
-            },
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
             "children" : [ {
               "props" : {
                 "layoutClassName" : "noPadding",
@@ -1579,6 +1704,29 @@
             "style" : { }
           },
           "type" : "FlexList"
+        }, {
+          "props" : {
+            "alignSelf" : "flex-end",
+            "className" : "pretri-button pretri-primary text-brand",
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'finish')",
+              "language" : "JavaScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : {
+              "marginTop" : "1rem"
+            },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "Script",
+                "content" : "import { setDrillStatus } from './game/pretri/drill';\n\nsetDrillStatus('validated');",
+                "language" : "typescript"
+              }
+            },
+            "style" : { }
+          },
+          "type" : "Button"
         } ],
         "className" : "summary-page",
         "hideIf" : {

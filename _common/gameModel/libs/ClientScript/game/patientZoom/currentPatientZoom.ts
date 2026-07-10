@@ -1340,8 +1340,7 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
     const age = exact ? human.meta.age : `${getRoundedAge(human.meta.age)}`;
     const sex = getTranslation('human-general', human!.meta.sex);
     const years = getTranslation('human-general', 'years', false);
-    return `<span class='human-sex'>${sex}</span>,
-		  <span class='human-age'>${age} ${years}</span>`;
+    return `<p class='text-h3'>${sex}, ${age} ${years}</p>`;
   }
   return '';
 }

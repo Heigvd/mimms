@@ -41,7 +41,7 @@
   display: grid;
 grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
 align-items: center;
-padding: 0 0 16px 0;
+/*padding: 0 0 16px 0;*/
   width: 100%;
   border-collapse: collapse;
   background: var(--color-card);
@@ -75,9 +75,9 @@ padding: 0 0 16px 0;
 .patient-summary-table .patient-summary--line {
   padding: 14px 18px;
   border-bottom: 1px solid var(--color-border-2);
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
   vertical-align: middle;
 }
 
@@ -95,6 +95,77 @@ padding: 0 0 16px 0;
 }
 
 
+/* ------------------------------------------------------------
+   TRIAGE PILL
+   ------------------------------------------------------------ */
+.patient-summary--line .tagCategory,
+.patient-correction .tagCategory {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-width: 4.5rem;
+  padding: .25rem .75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.tagCategory::before {
+  display: flex;
+  content: '';
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  /*flex: 0 0 auto;
+  background-color: red;*/
+}
+
+.pretri-pill__dead .tagCategory {
+  background-color: var(--color-dead-soft);
+  color: var(--color-dead);
+  border-color: color-mix(in srgb, var(--color-dead) 33%, transparent);
+}
+
+.pretri-pill__dead .tagCategory::before {
+  background: var(--color-dead);
+}
+
+.pretri-pill__p1 .tagCategory {
+  background: var(--color-p1-soft);
+  color: var(--color-p1);
+  border-color: color-mix(in srgb, var(--color-p1) 33%, transparent);
+}
+
+.pretri-pill__p1 .tagCategory::before {
+  background: var(--color-p1);
+}
+
+.pretri-pill__p2 .tagCategory {
+  background: var(--color-p2-soft);
+  color: var(--color-p2);
+  border-color: color-mix(in srgb, var(--color-p2) 33%, transparent);
+}
+
+.pretri-pill__p2 .tagCategory::before {
+  background: var(--color-p2);
+}
+
+.pretri-pill__p3 .tagCategory {
+  background: var(--color-p3-soft);
+  color: var(--color-p3);
+  border-color: color-mix(in srgb, var(--color-p3) 33%, transparent);
+}
+
+.pretri-pill__p3 .tagCategory::before {
+  background: var(--color-p3);
+}
+
+
 /* - - - - -  T A B L E  - - - - - */
 
 /*.patient-summary--header {
@@ -104,7 +175,7 @@ padding: 0 0 16px 0;
 }*/
 
 .patient-summary__cell {
-  padding: 13px 18px;
+  /*padding: 13px 18px;*/
   white-space: nowrap;
 }
 
@@ -113,12 +184,11 @@ padding: 0 0 16px 0;
   font-weight: var(--boldWeight);
 }
 
-.patient-summary--line .tagCategory {
+/*.patient-summary--line .tagCategory {
 	width: 1rem;
   height: 1rem;
   border-radius: var(--XS_borderRadius);
-  font-size: 0;
-}
+}*/
 
 .patient-summary--line .tagCategory:hover {
   outline: none;
@@ -132,22 +202,28 @@ padding: 0 0 16px 0;
 
 .patient-summary--line .wrong {
 	color: var(--red_base);
+  background-color: var(--color-p1-soft);
 }
 
 .patient-summary--line .correct {
-	color: #86b700;
+	color: var(--color-p3);
+  background-color: var(--color-p3-soft);
 }
 
-.patient-summary--line .reviewBtn.iconOnly {
-  font-size: 1em;
-	color: var(--grey_base);
-  transition: color .3s ease-in-out;
-}
-
-.patient-summary--line:hover .reviewBtn {
-	color: var(--primary_base);
-	background-color: transparent;
-  transition: color .3s ease-in-out;
+.wrong,
+.correct {
+  display: inline-flex;
+  flex: 0 0 0;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-width: 6rem;
+  padding: .25rem .75rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
 }
 
 .patient-summary--grid {
@@ -156,17 +232,23 @@ padding: 0 0 16px 0;
 
 .patient-summary--line > * {
   align-items: center;
-  justify-content: center;
+  /*justify-content: center;*/
   width: 100%;
-  /*height: 38.4px;*/
-  color: var(--grey_base);
+  height: 100%;
+  padding: 1rem;
+  /*color: var(--grey_base);*/
   /*background-color: var(--grey05);*/
+  border-bottom: 1px solid var(--color-border);
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 
-  display: grid;
+  /*display: grid;
 grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
 padding: 18px 24px;
-/*border-bottom: 1px solid rgb(227, 231, 236);*/
+border-bottom: 1px solid rgb(227, 231, 236);*/
+}
+
+.patient-summary-table > div:nth-of-type(7) > div > div:last-of-type .patient-summary--line > div {
+  border-bottom: none;
 }
 
 /*.patient-summary--line:hover > * {
@@ -175,7 +257,7 @@ padding: 18px 24px;
   transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }*/
 
-.patient-summary--line > *:first-child {
+/*.patient-summary--line > *:first-child {
   border-top-left-radius: var(--XS_borderRadius);
   border-bottom-left-radius: var(--XS_borderRadius);
 }
@@ -183,7 +265,7 @@ padding: 18px 24px;
 .patient-summary--line > *:last-child {
   border-top-right-radius: var(--XS_borderRadius);
   border-bottom-right-radius: var(--XS_borderRadius);
-}
+}*/
 
 .patient-summary--grid.exam-mode {
 	grid-template-columns: repeat(5, 1fr);

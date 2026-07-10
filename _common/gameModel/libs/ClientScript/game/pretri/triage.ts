@@ -1464,6 +1464,22 @@ export function doAutomaticTriageAndLogToConsole() {
 }
 
 /**
+ * Computed class for pre-tri summary categories
+ */
+export function preTriSummaryCategory(categoryId: string | undefined): string {
+  if (categoryId === NON_URGENT) {
+    return 'pretri-pill__p3';
+  } else if (categoryId === URGENT) {
+    return 'pretri-pill__p2';
+  } else if (categoryId === IMMEDIATE) {
+    return 'pretri-pill__p1';
+  } else if (categoryId === DEAD) {
+    return 'pretri-pill__dead';
+  }
+  return 'notCategorized';
+}
+
+/**
  * Html formated pre-triage category
  */
 export function categoryToHtml(categoryId: string | undefined): string {
@@ -1473,7 +1489,8 @@ export function categoryToHtml(categoryId: string | undefined): string {
 
   const cat = getCategory(categoryId)?.category;
   if (cat) {
-    return `<div class='tagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}">${cat.name}</div>`;
+    //return `<div class='tagCategory' style="color: ${cat.color}; background-color: ${cat.bgColor}">${cat.name}</div>`;
+    return `<div class='tagCategory'">${cat.name}</div>`;
   } else {
     return `Error: unresolved category: ${categoryId}`;
   }

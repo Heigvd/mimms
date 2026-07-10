@@ -1079,7 +1079,7 @@
                                     "children" : [ {
                                       "props" : {
                                         "alignSelf" : "flex-end",
-                                        "className" : "pretri-button pretri-primary text-brand",
+                                        "className" : "pretri-button pretri-primary sm-size text-brand",
                                         "disableIf" : {
                                           "@class" : "Script",
                                           "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
@@ -1182,7 +1182,7 @@
                                     }, {
                                       "props" : {
                                         "alignSelf" : "flex-end",
-                                        "className" : "pretri-button pretri-primary text-brand",
+                                        "className" : "pretri-button pretri-primary sm-size text-brand",
                                         "disableIf" : {
                                           "@class" : "Script",
                                           "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
@@ -1493,12 +1493,13 @@
                             "children" : [ {
                               "props" : {
                                 "layout" : { },
+                                "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "title-patient ID",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { getCurrentPatientTitle } from \"./game/patientZoom/currentPatientZoom\";\n`<h2>${getCurrentPatientTitle()}</h2>`;",
+                                  "content" : "import { getCurrentPatientTitle } from \"./game/patientZoom/currentPatientZoom\";\n`${getCurrentPatientTitle()}`;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -1507,6 +1508,8 @@
                               "props" : {
                                 "children" : [ {
                                   "props" : {
+                                    "className" : "text-section",
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : {
                                       "borderBottom" : "1px solid var(--colors-disabledcolor)",
                                       "borderTop" : "1px solid var(--colors-disabledcolor)"
@@ -1515,13 +1518,15 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'suggested-answer')}</h3>`;",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'suggested-answer');",
                                       "language" : "TypeScript"
                                     }
                                   },
                                   "type" : "Text"
                                 }, {
                                   "props" : {
+                                    "className" : "text-section",
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : {
                                       "border" : "1px solid var(--colors-disabledcolor)",
                                       "borderRight" : "transparent"
@@ -1530,7 +1535,7 @@
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTranslation } from \"./tools/translation\";\n`<h3 style='margin: 0'>${getTranslation('pretriage-interface', 'given-answer')}</h3>`;",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'given-answer');",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -1539,7 +1544,8 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "subtitle",
+                                        "className" : "text-meta",
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "category title",
                                         "style" : { },
@@ -1553,9 +1559,20 @@
                                     }, {
                                       "props" : {
                                         "className" : "",
+                                        "computedClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getCurrentPatientId, getHuman } from \"./game/legacy/the_world\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
+                                            "language" : "TypeScript"
+                                          }
+                                        } ],
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "category",
-                                        "style" : { },
+                                        "style" : {
+                                          "marginBottom" : ".5rem"
+                                        },
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
@@ -1567,7 +1584,8 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "className" : "subtitle",
+                                            "className" : "noMargin text-meta",
+                                            "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "name" : "justification title",
                                             "style" : { },
@@ -1580,9 +1598,13 @@
                                           "type" : "Text"
                                         }, {
                                           "props" : {
+                                            "className" : "text-body",
+                                            "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "name" : "justification",
-                                            "style" : { },
+                                            "style" : {
+                                              "marginBottom" : "1rem"
+                                            },
                                             "text" : {
                                               "@class" : "Script",
                                               "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
@@ -1594,6 +1616,7 @@
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "justification block",
                                         "style" : { }
@@ -1603,6 +1626,7 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : {
                                       "borderBottom" : "1px solid var(--colors-disabledcolor)"
                                     },
@@ -1614,7 +1638,8 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "subtitle",
+                                        "className" : "text-meta",
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "category title",
                                         "style" : { },
@@ -1628,8 +1653,20 @@
                                     }, {
                                       "props" : {
                                         "className" : "",
+                                        "computedClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getCurrentPatientId, getHuman } from \"./game/legacy/the_world\";\nimport { preTriSummaryCategory } from \"./game/pretri/triage\";\nconst id = getCurrentPatientId();\nconst human = getHuman(id);\npreTriSummaryCategory(human?.category?.autoTriage.categoryId);",
+                                            "language" : "TypeScript"
+                                          }
+                                        } ],
+                                        "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
-                                        "style" : { },
+                                        "name" : "category",
+                                        "style" : {
+                                          "marginBottom" : ".5rem"
+                                        },
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
@@ -1641,6 +1678,7 @@
                                     "layout" : {
                                       "flexDirection" : "column"
                                     },
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : {
                                       "borderBottom" : "1px solid var(--colors-disabledcolor)",
                                       "borderLeft" : "1px solid var(--colors-disabledcolor)"
@@ -1653,15 +1691,14 @@
                                 "layout" : {
                                   "gridTemplateColumns" : "1fr 1fr"
                                 },
-                                "layoutClassName" : "patient-correction",
+                                "layoutClassName" : "noPadding patient-correction",
                                 "layoutStyle" : { },
                                 "style" : { }
                               },
                               "type" : "Grid"
                             }, {
                               "props" : {
-                                "alignSelf" : "flex-end",
-                                "className" : "pink s_button",
+                                "className" : "pretri-button pretri-primary sm-size text-brand",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "import {getDrillStatus} from './game/pretri/drill'\ngetDrillStatus() !== 'ongoing'",
@@ -1673,6 +1710,7 @@
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : {
+                                  "justifyContent" : "flex-end",
                                   "marginTop" : "10px"
                                 },
                                 "localScriptEval" : {
@@ -1685,7 +1723,9 @@
                                 },
                                 "name" : "next-patient",
                                 "prefixedLabel" : true,
-                                "style" : { }
+                                "style" : {
+                                  "margin" : "0"
+                                }
                               },
                               "type" : "Button"
                             } ],
