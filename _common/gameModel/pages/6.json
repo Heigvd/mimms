@@ -22,10 +22,8 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "layoutClassName" : "",
-                "layoutStyle" : {
-                  "padding" : "0"
-                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
                 "name" : "hack",
                 "style" : { },
                 "text" : {
@@ -45,7 +43,7 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
-                                "className" : "text-h3",
+                                "className" : "noMargin text-h3",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "name",
@@ -72,16 +70,15 @@
                               },
                               "type" : "Text"
                             } ],
+                            "className" : "pretri-ms-space",
                             "layout" : {
                               "alignContent" : "flex-end",
                               "flexDirection" : "column"
                             },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "nameAndState",
-                            "style" : {
-                              "gap" : "1rem"
-                            }
+                            "name" : "name & state",
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         }, {
@@ -107,7 +104,7 @@
                                 "className" : "text-meta",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "name" : "patientID",
+                                "name" : "patient id",
                                 "style" : {
                                   "color" : "var(--color-teal-ink)"
                                 },
@@ -126,23 +123,21 @@
                             },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
-                            "name" : "categoryAndID",
+                            "name" : "category & id",
                             "style" : {
                               "flexGrow" : "0"
                             }
                           },
                           "type" : "FlexList"
                         } ],
-                        "className" : "pretri-card",
+                        "className" : "pretri-card pretri-small-space",
                         "layout" : {
                           "flexDirection" : "column"
                         },
                         "layoutClassName" : "noPadding information-container",
                         "layoutStyle" : { },
-                        "name" : "patientTitle",
-                        "style" : {
-                          "gap" : ".5rem"
-                        }
+                        "name" : "patient title",
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     }, {
@@ -169,7 +164,7 @@
                                 "layout" : { },
                                 "layoutClassName" : "noPadding bloodyPatient-container",
                                 "layoutStyle" : { },
-                                "name" : "bloodyPatient",
+                                "name" : "bloody patient",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -187,7 +182,7 @@
                                   "flex" : "2 1 0",
                                   "minWidth" : "0"
                                 },
-                                "name" : "painSmiley",
+                                "name" : "pain smiley",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -197,14 +192,14 @@
                               },
                               "type" : "Text"
                             } ],
-                            "className" : "faceAndBloodyPatient",
-                            "layout" : { },
-                            "layoutClassName" : "noPadding information-container faceAndBloodyPatient-container",
+                            "className" : "pretri-small-space",
+                            "layout" : {
+                              "alignItems" : "center"
+                            },
+                            "layoutClassName" : "noPadding information-container",
                             "layoutStyle" : { },
-                            "name" : "faceAndBloodyPatient",
-                            "style" : {
-                              "gap" : ".5rem"
-                            }
+                            "name" : "face & bloody patient",
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         } ],
@@ -214,22 +209,20 @@
                         },
                         "layoutClassName" : "noPadding information-container",
                         "layoutStyle" : { },
-                        "name" : "onSiteObservations",
+                        "name" : "on site observations",
                         "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "",
+                    "className" : "pretri-medium-space",
                     "layout" : {
                       "alignContent" : "space-between",
                       "flexDirection" : "row"
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "detailsPanel",
-                    "style" : {
-                      "gap" : "1.5rem"
-                    }
+                    "name" : "details panel",
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 }, {
@@ -352,17 +345,10 @@
                                   },
                                   "type" : "For each"
                                 } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "false;",
-                                  "language" : "typescript"
-                                },
                                 "layout" : { },
                                 "layoutClassName" : "noPadding shadowMan",
-                                "layoutStyle" : {
-                                  "justifiyContent" : "center",
-                                  "width" : "200px"
-                                },
+                                "layoutStyle" : { },
+                                "name" : "shadow man",
                                 "style" : { }
                               },
                               "type" : "FlexList"
@@ -465,13 +451,13 @@
                               },
                               "type" : "For each"
                             } ],
-                            "layout" : { },
-                            "layoutClassName" : "noPadding body",
+                            "layout" : {
+                              "justifyContent" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "body",
-                            "style" : {
-                              "justifyContent" : "center"
-                            }
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         }, {
@@ -481,7 +467,7 @@
                                 "className" : "block-details",
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "name" : "Details",
+                                "name" : "details",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -501,38 +487,34 @@
                           },
                           "type" : "FlexList"
                         } ],
+                        "className" : "pretri-small-space",
                         "layout" : { },
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
                         "name" : "body & details",
-                        "style" : {
-                          "gap" : ".5rem"
-                        }
+                        "style" : { }
                       },
                       "type" : "FlexList"
                     } ],
-                    "className" : "pretri-card",
+                    "className" : "pretri-card pretri-ms-space",
                     "layout" : {
                       "flexDirection" : "column"
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
                     "name" : "patient",
-                    "style" : {
-                      "gap" : "1rem"
-                    }
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
+                "className" : "pretri-medium-space",
                 "layout" : {
                   "flexDirection" : "column"
                 },
                 "layoutClassName" : "westSide-container",
                 "layoutStyle" : { },
                 "name" : "Left",
-                "style" : {
-                  "gap" : "1.5rem"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             }, {
@@ -547,7 +529,7 @@
                           "language" : "JavaScript"
                         },
                         "layoutStyle" : { },
-                        "name" : "Spy Context",
+                        "name" : "spy context",
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
@@ -592,7 +574,7 @@
                                       "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
                                       "language" : "JavaScript"
                                     },
-                                    "layoutClassName" : "noPadding menuABC-button",
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : {
                                       "justifyContent" : "center"
                                     },
@@ -603,13 +585,11 @@
                                         "language" : "TypeScript"
                                       }
                                     },
-                                    "style" : {
-                                      "margin" : "0"
-                                    }
+                                    "style" : { }
                                   },
                                   "type" : "Button"
                                 } ],
-                                "className" : "menuABC noPadding noMargin",
+                                "className" : "noPadding noMargin",
                                 "exposeAs" : "wheelItem",
                                 "getItemsFn" : {
                                   "@class" : "Script",
@@ -657,7 +637,7 @@
                                       "content" : "import { getButtonLabel } from './game/patientZoom/currentPatientZoom';\ngetButtonLabel(Context.wheelItem);",
                                       "language" : "JavaScript"
                                     },
-                                    "layoutClassName" : "noPadding menuABC-button",
+                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "localScriptEval" : {
                                       "script" : {
@@ -670,7 +650,7 @@
                                   },
                                   "type" : "Button"
                                 } ],
-                                "className" : "menuABC noPadding noMargin",
+                                "className" : "noPadding noMargin",
                                 "exposeAs" : "wheelItem",
                                 "getItemsFn" : {
                                   "@class" : "Script",
@@ -693,18 +673,7 @@
                             "layout" : { },
                             "layoutClassName" : "noPadding noMargin",
                             "layoutStyle" : { },
-                            "name" : "MenuButtons",
-                            "style" : { }
-                          },
-                          "type" : "FlexList"
-                        }, {
-                          "props" : {
-                            "children" : [ ],
-                            "className" : "theLine noPadding noMargin",
-                            "layout" : { },
-                            "layoutClassName" : "noPadding noMargin",
-                            "layoutStyle" : { },
-                            "name" : "theLine",
+                            "name" : "menu buttons",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -736,12 +705,10 @@
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "mesures",
-                                    "style" : {
-                                      "fontFamily" : "var(--font-sans)"
-                                    },
+                                    "style" : { },
                                     "text" : {
                                       "@class" : "Script",
-                                      "content" : "import { getSubWheelSubmenu } from \"./game/patientZoom/currentPatientZoom\";\nimport { getTranslation } from \"./tools/translation\";\n\ngetTranslation('pretriage-interface', 'measures');",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\n\ngetTranslation('pretriage-interface', 'measures');",
                                       "language" : "TypeScript"
                                     }
                                   },
@@ -790,7 +757,7 @@
                                         "name" : "thumbnails",
                                         "prefixedLabel" : false,
                                         "style" : {
-                                          "justify-content" : "center"
+                                          "justifyContent" : "center"
                                         }
                                       },
                                       "type" : "Button"
@@ -808,15 +775,14 @@
                                       "flexWrap" : "wrap",
                                       "justifyContent" : "flex-start"
                                     },
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : {
-                                      "width" : "100%"
-                                    },
+                                    "layoutClassName" : "fullWidth noPadding",
+                                    "layoutStyle" : { },
                                     "name" : "selected main menu - measure",
                                     "style" : { }
                                   },
                                   "type" : "For each"
                                 } ],
+                                "className" : "pretri-small-space",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "Context.patientConsole.state.selectedPanel;",
@@ -828,9 +794,7 @@
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "mesures",
-                                "style" : {
-                                  "gap" : ".5rem"
-                                }
+                                "style" : { }
                               },
                               "type" : "FlexList"
                             }, {
@@ -846,9 +810,7 @@
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "actions",
-                                    "style" : {
-                                      "fontFamily" : "var(--font-sans)"
-                                    },
+                                    "style" : { },
                                     "text" : {
                                       "@class" : "Script",
                                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'treatments');",
@@ -900,7 +862,7 @@
                                         "name" : "thumbnails",
                                         "prefixedLabel" : false,
                                         "style" : {
-                                          "justify-content" : "center"
+                                          "justifyContent" : "center"
                                         }
                                       },
                                       "type" : "Button"
@@ -918,15 +880,14 @@
                                       "flexWrap" : "wrap",
                                       "justifyContent" : "flex-start"
                                     },
-                                    "layoutClassName" : "noPadding",
-                                    "layoutStyle" : {
-                                      "width" : "100%"
-                                    },
+                                    "layoutClassName" : "fullWidth noPadding",
+                                    "layoutStyle" : { },
                                     "name" : "selected main menu  - actions",
                                     "style" : { }
                                   },
                                   "type" : "For each"
                                 } ],
+                                "className" : "pretri-small-space",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "Context.patientConsole.state.selectedPanel;",
@@ -938,21 +899,18 @@
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
                                 "name" : "actions",
-                                "style" : {
-                                  "gap" : ".5rem"
-                                }
+                                "style" : { }
                               },
                               "type" : "FlexList"
                             } ],
+                            "className" : "pretri-ms-space",
                             "layout" : {
                               "flexDirection" : "column"
                             },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "action/measures",
-                            "style" : {
-                              "gap" : "1rem"
-                            }
+                            "style" : { }
                           },
                           "type" : "FlexList"
                         }, {
@@ -965,7 +923,7 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "className" : "s_button whiteButton ",
+                                            "className" : "whiteButton s_button",
                                             "conditionnalClassNames" : [ {
                                               "applyOn" : "Inside",
                                               "className" : "actionMeasureSelected",
@@ -1101,7 +1059,7 @@
                                             "returnType" : "Promise<unknown> | undefined"
                                           }
                                         },
-                                        "name" : "doMeasure",
+                                        "name" : "do measure",
                                         "style" : { }
                                       },
                                       "type" : "Button"
@@ -1112,13 +1070,13 @@
                                       "language" : "JavaScript"
                                     },
                                     "layout" : {
-                                      "flexDirection" : "column"
+                                      "flexDirection" : "column",
+                                      "justifyContent" : "center"
                                     },
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "measure selected",
                                     "style" : {
-                                      "justifyContent" : "center",
                                       "maxHeight" : "255px",
                                       "min-Height" : "200px"
                                     }
@@ -1196,9 +1154,7 @@
                                           "language" : "JavaScript"
                                         },
                                         "layoutClassName" : "noPadding",
-                                        "layoutStyle" : {
-                                          "align-content" : "flex-end"
-                                        },
+                                        "layoutStyle" : { },
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
@@ -1206,7 +1162,7 @@
                                             "language" : "TypeScript"
                                           }
                                         },
-                                        "name" : "doAction",
+                                        "name" : "do action",
                                         "style" : { }
                                       },
                                       "type" : "Button"
@@ -1252,9 +1208,9 @@
                             "layout" : {
                               "flexDirection" : "column"
                             },
-                            "layoutClassName" : "subMenu noPadding noMargin",
+                            "layoutClassName" : "noPadding noMargin subMenu",
                             "layoutStyle" : { },
-                            "name" : "applyBtnZone",
+                            "name" : "apply button zone",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -1269,7 +1225,7 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "\"Debug: do auto-triage (dry-run)\"",
+                                  "content" : "\"<p>Debug: do auto-triage (dry-run)</p>\"",
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : { },
@@ -1342,7 +1298,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
+                                        "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -1402,7 +1358,7 @@
                         "layoutStyle" : {
                           "overflow" : "auto"
                         },
-                        "name" : "actionmeasure & drill",
+                        "name" : "action measure & drill",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -1413,7 +1369,7 @@
                     },
                     "layoutClassName" : "noPadding rightPanel-container",
                     "layoutStyle" : { },
-                    "name" : "rightPanel",
+                    "name" : "right panel",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -1423,15 +1379,11 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "text-h3",
-                            "layoutClassName" : "",
-                            "layoutStyle" : {
-                              "padding" : "0"
-                            },
-                            "name" : "HistoryConsoleTitle",
-                            "style" : {
-                              "marginBottom" : "10px"
-                            },
+                            "className" : "text-h3 pretri-small-margin",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "history console title",
+                            "style" : { },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('pretriage-interface', 'result');",
@@ -1441,16 +1393,12 @@
                           "type" : "Text"
                         }, {
                           "props" : {
-                            "className" : "",
+                            "className" : "fullWidth",
                             "id" : "",
-                            "layoutClassName" : "lastResult",
-                            "layoutStyle" : {
-                              "padding" : "0"
-                            },
-                            "name" : "resultConsole",
-                            "style" : {
-                              "width" : "100%"
-                            },
+                            "layoutClassName" : "noPadding lastResult",
+                            "layoutStyle" : { },
+                            "name" : "result console",
+                            "style" : { },
                             "text" : {
                               "@class" : "Script",
                               "content" : "import { getPatientConsole } from './game/patientZoom/currentPatientZoom';\ngetPatientConsole();",
@@ -1463,12 +1411,11 @@
                         "layout" : {
                           "flexDirection" : "column"
                         },
-                        "layoutClassName" : "resultConsole-container",
+                        "layoutClassName" : "noPadding",
                         "layoutStyle" : {
-                          "overflow" : "auto",
-                          "padding" : "0"
+                          "overflow" : "auto"
                         },
-                        "name" : "resultConsole",
+                        "name" : "result console",
                         "style" : { }
                       },
                       "type" : "FlexList"
@@ -1492,10 +1439,11 @@
                             "attachedToId" : "drillPretriPage",
                             "children" : [ {
                               "props" : {
+                                "className" : "noMargin pretri-small-margin",
                                 "layout" : { },
                                 "layoutClassName" : "noPadding",
                                 "layoutStyle" : { },
-                                "name" : "title-patient ID",
+                                "name" : "title patient id",
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
@@ -1514,7 +1462,7 @@
                                       "borderBottom" : "1px solid var(--colors-disabledcolor)",
                                       "borderTop" : "1px solid var(--colors-disabledcolor)"
                                     },
-                                    "name" : "suggested-answer",
+                                    "name" : "suggested answer",
                                     "style" : { },
                                     "text" : {
                                       "@class" : "Script",
@@ -1558,7 +1506,7 @@
                                       "type" : "Text"
                                     }, {
                                       "props" : {
-                                        "className" : "",
+                                        "className" : "pretri-small-margin",
                                         "computedClassNames" : [ {
                                           "applyOn" : "Inside",
                                           "className" : {
@@ -1570,9 +1518,7 @@
                                         "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "category",
-                                        "style" : {
-                                          "marginBottom" : ".5rem"
-                                        },
+                                        "style" : { },
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\nautotriage?.autoTriage.category;",
@@ -1598,13 +1544,11 @@
                                           "type" : "Text"
                                         }, {
                                           "props" : {
-                                            "className" : "text-body",
+                                            "className" : "text-body pretri-medium-margin",
                                             "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "name" : "justification",
-                                            "style" : {
-                                              "marginBottom" : "1rem"
-                                            },
+                                            "style" : { },
                                             "text" : {
                                               "@class" : "Script",
                                               "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.autoTriage.explanations}</div>`;",
@@ -1630,7 +1574,7 @@
                                     "layoutStyle" : {
                                       "borderBottom" : "1px solid var(--colors-disabledcolor)"
                                     },
-                                    "name" : "suggested-answer-block",
+                                    "name" : "suggested answer block",
                                     "style" : { }
                                   },
                                   "type" : "FlexList"
@@ -1652,7 +1596,7 @@
                                       "type" : "Text"
                                     }, {
                                       "props" : {
-                                        "className" : "",
+                                        "className" : "pretri-small-margin",
                                         "computedClassNames" : [ {
                                           "applyOn" : "Inside",
                                           "className" : {
@@ -1664,9 +1608,7 @@
                                         "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
                                         "name" : "category",
-                                        "style" : {
-                                          "marginBottom" : ".5rem"
-                                        },
+                                        "style" : { },
                                         "text" : {
                                           "@class" : "Script",
                                           "content" : "import { getCurrentPatientAutoTriage } from './game/patientZoom/currentPatientZoom';\nconst autotriage = getCurrentPatientAutoTriage();\n`<div>${autotriage?.givenAnswer}</div>`;",
@@ -1688,6 +1630,7 @@
                                   },
                                   "type" : "FlexList"
                                 } ],
+                                "className" : "pretri-small-margin",
                                 "layout" : {
                                   "gridTemplateColumns" : "1fr 1fr"
                                 },
@@ -1710,8 +1653,7 @@
                                   "language" : "JavaScript"
                                 },
                                 "layoutStyle" : {
-                                  "justifyContent" : "flex-end",
-                                  "marginTop" : "10px"
+                                  "justifyContent" : "flex-end"
                                 },
                                 "localScriptEval" : {
                                   "script" : {
@@ -1721,14 +1663,15 @@
                                     "returnType" : "Promise<unknown> | undefined"
                                   }
                                 },
-                                "name" : "next-patient",
-                                "prefixedLabel" : true,
+                                "name" : "next patient",
+                                "prefixedLabel" : false,
                                 "style" : {
                                   "margin" : "0"
                                 }
                               },
                               "type" : "Button"
                             } ],
+                            "className" : "",
                             "hideIf" : {
                               "@class" : "Script",
                               "content" : "import { isCurrentPatientCategorized } from \"./game/pretri/drill\";\n!Context.explanation.state.showExplanation || !isCurrentPatientCategorized()",
@@ -1771,7 +1714,7 @@
                                 "language" : "typescript"
                               }
                             },
-                            "name" : "show-correction",
+                            "name" : "show correction",
                             "style" : { }
                           },
                           "type" : "Button"
@@ -1851,33 +1794,31 @@
                             "returnType" : "Promise<unknown> | undefined"
                           }
                         },
-                        "name" : "next-patient",
+                        "name" : "next patient",
                         "prefixedLabel" : true,
                         "style" : { }
                       },
                       "type" : "Button"
                     } ],
+                    "className" : "pretri-ms-space",
                     "layout" : {
                       "justifyContent" : "flex-end"
                     },
-                    "layoutClassName" : "noPadding nextAndCorrection",
+                    "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "name" : "NextAndCorrection",
-                    "style" : {
-                      "gap" : "1rem"
-                    }
+                    "name" : "next & correction",
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
+                "className" : "pretri-medium-space",
                 "layout" : {
                   "flexDirection" : "column"
                 },
                 "layoutClassName" : "noPadding eastSide-container",
                 "layoutStyle" : { },
                 "name" : "Right",
-                "style" : {
-                  "gap" : "1.5rem"
-                }
+                "style" : { }
               },
               "type" : "FlexList"
             } ],
@@ -1904,11 +1845,9 @@
           "language" : "TypeScript"
         },
         "layout" : { },
-        "layoutClassName" : "noPadding",
+        "layoutClassName" : "fullHeight noPadding",
         "layoutStyle" : {
-          "flexDirection" : "column",
-          "height" : "100%",
-          "padding" : "0"
+          "flexDirection" : "column"
         },
         "localState" : true,
         "style" : { }
@@ -1920,11 +1859,7 @@
       "flexDirection" : "column"
     },
     "layoutClassName" : "fullWidth fullHeight zoomMedicalCarePage",
-    "layoutStyle" : {
-      "flexGrow" : "1",
-      "overflow" : "visible",
-      "padding" : "0"
-    },
+    "layoutStyle" : { },
     "style" : { }
   },
   "type" : "FlexList"

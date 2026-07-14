@@ -1,8 +1,7 @@
 /* ------------------------------------------------------------
-   CLOCK  —  (horloge de la TopBar)
-   ------------------------------------------------------------ */
+CLOCK  —  (horloge de la TopBar)
+------------------------------------------------------------ */
 .pretri-clock {
-  align-items: center;
   gap: .5rem;
   padding: .5rem 1rem;
   background-color: var(--color-card);
@@ -17,36 +16,47 @@
 }
 
 /* ------------------------------------------------------------
-   TRIAGE BUTTON
-   ------------------------------------------------------------ */
+TRIAGE BUTTON
+------------------------------------------------------------ */
+/* display */
+.tagSystemCategories {
+  gap: .5rem;
+}
+
+/* buttons */
 .tri-button {
-  gap: 14px;
+  gap: 1rem;
   width: 100%;
   max-width: 600px;
   padding: .75rem;
   outline-width: 1px;
   outline-style: solid;
   outline-offset: -1px;
-  /*border-radius: var(--radius-md);
-  border: 1.5px solid var(--color-border);
-  background-color: var(--color-card);*/
   cursor: pointer;
-  text-align: left;
-  transition: outline-color .3s ease-in-out, outline-width .3s ease-in-out, outline-offset .3s ease-in-out, background-color .3s ease-in-out, box-shadow .3s ease-in-out;
-  /*box-sizing: border-box;*/
+  transition: outline-color .3s ease-in-out, outline-width .3s ease-in-out, outline-offset .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.tri-button:hover {
+  outline-width: 3px;
+  outline-offset: -3px;
+}
+
+.tri-button__current {
+  --half-opacity: 100%;
+  outline-width: 3px;
+  outline-offset: -3px;
 }
 
 .tri-button__key {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
   display: grid;
   place-items: center;
-  color: #fff;
+  width: 2rem;
+  height: 2rem;
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 800;
-  flex: 0 0 auto;
+  color: var(--color-card);
+  border-radius: var(--radius-sm);
 }
 
 /* color by category (border + soft tint on hover/selected) */
@@ -89,87 +99,3 @@
 .tri-p3 .tri-button__key {
   background-color: var(--color-p3);
 }
-
-.tri-button:hover {
-  outline-width: 3px;
-  outline-offset: -3px;
-  box-sizing: border-box;
-	-moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
-
-.tri-button__current {
-  --half-opacity: 100%;
-  outline-width: 3px;
-  outline-offset: -3px;
-  /*box-shadow: inset 0 0 0 5px black;*/
-  box-sizing: border-box;
-	-moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
-
-/* DRILL BUTTONS */ 
-.tagCategory {
-	/*padding: 8px;
-  font-weight: var(--boldWeight);
-  text-align: center;
-	border-radius: var(--L_borderRadius);
-	cursor: pointer;
-  transition: outline .3s ease-in-out;*/
-}
-
-/*.tagCategory:hover {
-	outline: 3px solid var(--grey_100);
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-}*/
-
-/*.tagCategory.current {
-	outline: 3px solid var(--grey_100);
-}*/
-
-.tagSystemCategories {
-  gap: .5rem;
-}
-
-/* Probably not useful
-
-
-.patientConsole .tagSystemCategories.sacco {
-	flex-direction: row  !important ;
-	flex-wrap: wrap;
-}
-
-.patientConsole .tagSystemCategories.sacco > div {
-	display: block;
-}
-
-
-.patientConsole .tagSystemCategories.sacco .tagCategory{
-	width: 50px;
-}
-
-.patientConsole .tagSystemCategories {
-	margin-top: 15px;
-}
-.patientConsole .tagCategory {
-	padding: 8px;
-	margin-top: 15px;
-	text-align: center;
-	font-weight: bolder;
-	border: 3px solid transparent ;
-	border-radius: 50px;
-	transition-duration: 0.1s;
-	transition-property: border-color;
-	background-color: white ;
-}
-
-.patientConsole .tagCategory.clickable {
-	cursor: pointer;
-}
-
-.patientConsole .tagCategory.current {
-	border: 3px solid  #302C54;	
-}
-*/

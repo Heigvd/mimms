@@ -1,20 +1,10 @@
 /* ------------------------------------------------------------
-   BUTTON
-   ------------------------------------------------------------ */
-
+BUTTON
+------------------------------------------------------------ */
 .pretri-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 1rem 1.5rem;
   border: none;
   border-radius: var(--radius-pill);
-  /*font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.005em;
-  line-height: 1;*/
-  padding: 14px 28px;
-  cursor: pointer;
   white-space: nowrap;
   transition: transform .3s ease-in-out, box-shadow .3s ease-in-out, color .3s ease-in-out, background-color .3s ease-in-out, border-color .3s ease-in-out;
 }
@@ -23,20 +13,24 @@
   gap: 10px;
 }
 
-.pretri-button.selected,
-.pretri-button:active { 
-  transform: translateY(1px);
-}
-
 .pretri-button svg {
   width: 16px; 
   height: 16px; 
   flex: 0 0 auto;
 }
 
+.pretri-button.selected { 
+  transform: translateY(1px);
+}
+
+.pretri-button.disabled {
+  opacity: .5;
+  box-shadow: none;
+}
+
 /* variant: style */
 .pretri-button.pretri-primary {
-  color: #fff;
+  color: var(--color-card);
   background-color: var(--color-teal);
   box-shadow: var(--shadow-teal);
 }
@@ -45,8 +39,8 @@
   background-color: #1b7e95;
 }
 
-.pretri-button.pretri-secondary {
-  /* font-weight: 600; */
+.pretri-button.pretri-secondary,
+.pretri-button.pretri-secondary.disabled:hover {
   color: var(--color-muted);
   background-color: var(--color-card);
   border: 1px solid var(--color-border);
@@ -57,54 +51,28 @@
   border-color: var(--color-faint);
 }
 
-.pretri-button.pretri-tertiary {
-  /* font-weight: 600; */
-  color: var(--color-teal);
-  background-color: transparent;
-}
-
-.pretri-button.pretri-tertiary:hover {
-  background-color: var(--color-teal-soft);
-}
-
-/* size */
+/* variant: size */
 .pretri-button.sm-size {
   font-size: 13px;
   padding: .5rem 1rem;
 }
 
-.pretri-button.lg-size {
-  font-size: 15px;
-  padding: 15px 28px;
-}
-
-/* state: disabled */
-.pretri-button:disabled,
-.pretri-button.disabled {
-  opacity: .5;
-  pointer-events: none;
-  box-shadow: none;
-}
 
 /* ------------------------------------------------------------
-   ACTION BUTTON
-   Puce d'action sélectionnable du panneau « Actions »
-   (Position de sécurité, LVAS, Ballon de ventilation, Guedel…)
-   ------------------------------------------------------------ */
+ACTION BUTTON
+Ex: Position de sécurité, LVAS, Ballon de ventilation, Guedel…
+------------------------------------------------------------ */
 .pretri-action-button {
-  display: inline-flex;
-  align-items: center;
   padding: .5rem 1rem;
-  border-radius: var(--radius-pill);
-  border: 1.5px solid transparent;
-  background-color: #eef1f5;
-  color: var(--color-fg);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
   letter-spacing: -0.005em;
   line-height: 1;
-  cursor: pointer;
+  color: var(--color-fg);
+  background-color: var(--color-border-2);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
   transition: background-color .3s ease-in-out, color .3s ease-in-out, border-color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
@@ -113,20 +81,15 @@
   background-color: var(--color-teal-soft);
 }
 
-/* variant: selected */
-.pretri-action-button.selected,
-.pretri-action-button:active {
+.pretri-action-button.selected {
   font-weight: 600;
   color: var(--color-teal);
   background-color: var(--color-teal-soft);
   border-color: var(--color-teal);
 }
 
-/* state: disabled */
-.pretri-action-button:disabled,
 .pretri-action-button.disabled {
   opacity: .5;
-  pointer-events: none;
 }
 
 /* Wrapper for the action list */
@@ -134,40 +97,11 @@
   gap: .5rem;
 }
 
-/* ------------------------------------------------------------
-   ACTION CTA
-   Bouton « Appliquer (15 sec.) » qui valide l'action choisie
-   ------------------------------------------------------------ */
-.cc-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 18px;
-  border: none;
-  border-radius: var(--radius-pill);
-  background: var(--color-teal);
-  color: #fff;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: var(--shadow-teal);
-  transition: background .12s ease, transform .12s ease;
-}
-.cc-cta:hover { background: #1b7e95; }
-.cc-cta:active { transform: translateY(1px); }
-.cc-cta svg { width: 13px; height: 13px; flex: 0 0 auto; }
-.cc-cta:disabled, .cc-cta.is-disabled { opacity: .45; pointer-events: none; box-shadow: none; }
-
 
 /* ------------------------------------------------------------
-   REVIEW BUTTON
-   ------------------------------------------------------------ */
+REVIEW BUTTON
+------------------------------------------------------------ */
 .review-button {
-  display: inline-flex;
-  align-items: center;
   padding: .5rem 1rem;
   font-family: Inter, system-ui, sans-serif;
   font-size: 12.5px;
@@ -176,7 +110,6 @@
   background-color: var(--color-card);
   border: 1px solid var(--color-teal-soft);
   border-radius: var(--radius-pill);
-  cursor: pointer;
 }
 
 .review-button > div {
@@ -186,29 +119,3 @@
 .review-button:hover {
   background-color: transparent;
 }
-
-
-/**** SPECIFICS BUTTONS ****/
-/* .actionMeasure-button * div {
-  white-space: nowrap;
-  min-width: 8rem;
-}
-
-.actionMeasure-button {
-  background-color: var(--grey_20);
-  transition: background-color .3s ease-in-out;
-}
-
-.actionMeasure-button:hover {
-  background-color: var(--grey_30);
-}
-
-.actionMeasure-button.selected {
-  color: var(--grey-white);
-	background-color: var(--primary_base);
-  transition: background-color .3s ease-in-out;
-}
-
-.actionMeasure-button.selected:hover {
-	background-color: var(--primary_30);
-} */

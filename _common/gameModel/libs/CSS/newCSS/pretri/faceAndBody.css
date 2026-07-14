@@ -1,4 +1,4 @@
-/**** BLOODY PATIENT ****/
+/* - - - -  B L O O D Y   P A T I E N T  - - - */
 .bloodyPatient-container {
   flex: 5 1 0;
   min-width: 0;
@@ -8,17 +8,12 @@
 
 .bloodyPatient {
   width: 100%;
-	/*width: 50%;
-	min-width: 10em;
-	max-width: 100%;
-	text-align: center;*/
 	padding: 0px;
 }
 
 
-/**** FACE (SMILEY) ****/
-/* Pain smiley background  - the classe is given in the client script */
-
+/* - - - -  F A C E / S M I L E Y  - - - */
+/* Pain smiley background - the class is given in the client script */
 .visualDetail_elem img {
   width: 100%;
 }
@@ -26,69 +21,4 @@
 .coloration_pain {
 	border-radius: 50%;
 	margin: auto;
-	/*max-width: 7em;
-	min-width: 4em;*/
 }
-
-/*************************** RESPONSIVE ***************************/
-/*** SMALL SCREENS ***/
-@media screen and (max-width: 1199px){
-	.bloodyPatient{
-		min-width: 6em;
-	}
-
-	/*.coloration_pain{
-		max-width: 3em;
-		min-width: 1em;	
-	}*/
-
-	.faceAndBloodyPatient{
-		align-items: center;
-		justify-content: space-around;
-	}
-
-		/* Left and containers */
-	.faceAndBloodyPatient-container{
-		display: flex;
-		
-		
-	}
-
-
-	
-}
-
-/*** BIG SCREENS ***/
-
-@media screen and (min-width: 1200px){
-
-	.faceAndBloodyPatient{
-		align-items: center;
-		justify-content: space-around;
-	}
-
-	.bloodyPatient {
-		/*flex-grow: 3;*/
-		text-align: center;
-	}
-
-	.visualDetail_elem{
-		flex-grow: 1;
-		
-	}
-
-	/*.coloration_pain{
-		max-width: 4em;
-		min-width: 3em;
-	}*/
-
-}
-
-
-
-
-
-
-
-
-	

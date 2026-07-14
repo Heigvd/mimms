@@ -1,4 +1,5 @@
-/* Correction modal styling */
+/* - - - -  C O R R E C T I O N   M O D A L   S T Y L I N G  - - - */
+/* display (would be nice to have better selectors) */
 .patient-correction > * > div:nth-child(odd) {
   padding-right: 1rem;
 }
@@ -7,15 +8,16 @@
   padding-left: 1rem;
 }
 
+.patient-correction ul {
+	margin: 0;
+}
+
+/* texts */
 .patient-correction .text-section {
 	padding: .5rem 0;
 }
 
 .patient-correction .text-meta {
   padding: .5rem 0;
-	font-family: var(--font-sans);
-}
-
-.patient-correction ul {
-	margin: 0;
+	font-family: var(--font-sans)
 }

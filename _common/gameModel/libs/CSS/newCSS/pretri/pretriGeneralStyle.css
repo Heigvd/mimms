@@ -1,7 +1,7 @@
 /* ============================================================
-   Drill pré-tri — General Style
-   Variables de couleur + styles de paragraphe
-   ============================================================ */
+Drill pré-tri — General Style
+Variables de couleur + styles de paragraphe
+============================================================ */
 
 :root {
   /* ---------- Brand / Teal ---------- */
@@ -34,11 +34,8 @@
 
   /* ---------- Skin / coloration cutanée ---------- */
   --color-skin-fit:        #d77e8e;  /* Skin/En forme */
-  --color-skin-fit-line:   #7a2230;  /* Skin/En forme line */
   --color-skin-cyan:       #7a8cd6;  /* Skin/Cyanose */
-  --color-skin-cyan-line:  #1f2e6b;  /* Skin/Cyanose line */
   --color-skin-pale:       #e9ebee;  /* Skin/Pâle */
-  --color-skin-pale-line:  #3a4150;  /* Skin/Pâle line */
 
   /* ---------- Anatomy / silhouette ---------- */
   --color-anatomy:         #d3d8df;  /* Anatomy/Silhouette */
@@ -60,13 +57,13 @@
 }
 
 /* ============================================================
-   STYLES DE PARAGRAPHE
-   ============================================================ */
+STYLES DE PARAGRAPHE
+============================================================ */
 
 /* Display/Summary — grand titre d'écran (ex. « Summary ») */
 .text-display {
   font-family: var(--font-sans);
-  font-size: 36px;
+  font-size: 2.25rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1;
@@ -76,28 +73,27 @@
 /* Heading/H2 — titre de section (ex. « Explications », « Gameplay ») */
 .text-h2 {
   font-family: var(--font-sans);
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--color-teal);
-  /*color: var(--color-fg);*/
 }
 
 /* Title/Patient — nom de patient */
-.text-title {
+/*.text-title {
   font-family: var(--font-sans);
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 700;
   letter-spacing: -0.015em;
   line-height: 1.2;
   color: var(--color-fg);
-}
+}*/
 
 /* Heading/H3 — sous-titre de panneau (ex. « Résultat ») */
 .text-h3 {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.2;
@@ -107,7 +103,7 @@
 /* Heading/Section — en-tête de bloc (ex. « Temporalité dans le jeu ») */
 .text-section {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.005em;
   line-height: 1.3;
@@ -121,7 +117,6 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-card);
-  /*color: var(--color-fg);*/
 }
 
 /* Label/Triage — libellé de bouton de catégorie / action principale */
@@ -145,7 +140,7 @@
 /* Body/Default — corps de texte courant */
 .text-body {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 400;
   line-height: 1.65;
   color: var(--color-muted);
@@ -160,20 +155,10 @@
   color: var(--color-fg);
 }
 
-/* Overline/Eyebrow — surtitre (ex. « BRIEFING », « PATIENT ») */
-.text-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-teal);
-}
-
 /* Mono/Stat — grand chiffre (ex. « 3/4 », « 00:05:04 ») */
 .text-stat {
   font-family: var(--font-mono);
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -211,18 +196,9 @@
 /* Mono/Meta — méta-information (ex. « Module · v1.0 », score) */
 .text-meta {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: .75rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-muted);
-}
-
-/* Mono/Caption — légende fine (ex. « 4 niveaux × 5 niveaux ») */
-.text-caption {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 400;
-  letter-spacing: 0.04em;
   color: var(--color-muted);
 }

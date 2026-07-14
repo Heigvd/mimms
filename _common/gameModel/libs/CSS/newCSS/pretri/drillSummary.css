@@ -1,11 +1,7 @@
+/* display */
 .patient-overview {
   gap: 1rem;
-}
-
-.patient-overview .text-meta {
-  font-family: var(--font-sans);
-  letter-spacing: normal;
-  text-transform: none;
+  min-width: 20rem;
 }
 
 .patient-overview__icon-container {
@@ -25,25 +21,21 @@
   color: var(--color-teal);
 }
 
-/*.patient-overview span,
-.patient-overview__end-message > div:nth-of-type(1) {
-  font-size: 32px;
-  color: var(--colors-darktextcolor);
-  line-height: 52px;
-}*/
+/* texts */
+.patient-overview .text-meta {
+  font-family: var(--font-sans);
+  letter-spacing: normal;
+  text-transform: none;
+}
 
 
 /* ------------------------------------------------------------
-   TABLE ROW
-   Summary : colonnes + pastilles + résultat (correct|incorrect) + bouton Revoir
-   ------------------------------------------------------------ */
+TABLE
+------------------------------------------------------------ */
 .patient-summary-table {
-  display: grid;
-grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
-align-items: center;
-/*padding: 0 0 16px 0;*/
-  width: 100%;
+  grid-template-columns: 80px 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr;
   border-collapse: collapse;
+  width: 100%;
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
@@ -51,11 +43,10 @@ align-items: center;
 }
 
 .patient-summary--header {
-	/*color: var(--grey_100);
-	font-size: 14px;
-  font-weight: var(--boldWeight);*/
-
-  text-align: left;
+  display: inline;
+  width: 100%;
+  height: 100%;
+  padding: .75rem 1rem;
   font-family: var(--font-mono);
   font-size: 10.5px;
   font-weight: 600;
@@ -63,41 +54,43 @@ align-items: center;
   text-transform: uppercase;
   color: var(--color-muted);
   background: var(--color-subtle-2);
-  padding: 13px 18px;
   border-bottom: 1px solid var(--color-border);
   white-space: nowrap;
+}
 
-  display: inline;
-    width: 100%;
-    height: 100%;
+.patient-summary--line > * {
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.patient-summary-table > div:nth-of-type(6) .patient-summary--header {
+  text-align: right;
 }
 
 .patient-summary-table .patient-summary--line {
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--color-border-2);
   font-family: var(--font-mono);
   font-size: 13px;
+  font-weight: 700;
   color: var(--color-muted);
-  vertical-align: middle;
 }
 
-.patient-summary-table tbody tr:last-child td,
-.patient-summary-table tbody tr:last-child td {
+/* would be nice to have a better selector for this */
+.patient-summary-table > div:nth-of-type(7) > div > div:last-of-type .patient-summary--line > div {
   border-bottom: none;
 }
 
-.patient-summary-row.is-even {
-  background: var(--color-subtle);
-}
-
-.patient-summary-row:hover {
-  background: var(--color-teal-soft);
-}
+/*.patient-summary--grid.exam-mode {
+	grid-template-columns: repeat(5, 1fr);
+}*/
 
 
 /* ------------------------------------------------------------
-   TRIAGE PILL
-   ------------------------------------------------------------ */
+TRIAGE PILL
+------------------------------------------------------------ */
 .patient-summary--line .tagCategory,
 .patient-correction .tagCategory {
   display: inline-flex;
@@ -106,23 +99,19 @@ align-items: center;
   gap: .5rem;
   min-width: 4.5rem;
   padding: .25rem .75rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
 }
 
 .tagCategory::before {
-  display: flex;
   content: '';
   width: .5rem;
   height: .5rem;
   border-radius: 50%;
-  /*flex: 0 0 auto;
-  background-color: red;*/
 }
 
 .pretri-pill__dead .tagCategory {
@@ -165,39 +154,29 @@ align-items: center;
   background: var(--color-p3);
 }
 
-
-/* - - - - -  T A B L E  - - - - - */
-
-/*.patient-summary--header {
-	color: var(--grey_100);
-	font-size: 14px;
-  font-weight: var(--boldWeight);
-}*/
-
-.patient-summary__cell {
-  /*padding: 13px 18px;*/
-  white-space: nowrap;
-}
-
-.patient-summary--line {
-  font-size: var(--SM_text);
-  font-weight: var(--boldWeight);
-}
-
-/*.patient-summary--line .tagCategory {
-	width: 1rem;
-  height: 1rem;
-  border-radius: var(--XS_borderRadius);
-}*/
-
 .patient-summary--line .tagCategory:hover {
-  outline: none;
-  cursor: auto;
+  cursor: default;
 }
 
 .patient-summary--line .tagCategory.notCategorized {
 	border-style: dashed;
 	border-width: 1px;
+}
+
+/* wrong / correct */
+.wrong,
+.correct {
+  flex: 0 0 0;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-width: 6rem;
+  padding: .25rem .75rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  border-radius: var(--radius-pill);
 }
 
 .patient-summary--line .wrong {
@@ -210,67 +189,7 @@ align-items: center;
   background-color: var(--color-p3-soft);
 }
 
-.wrong,
-.correct {
-  display: inline-flex;
-  flex: 0 0 0;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  min-width: 6rem;
-  padding: .25rem .75rem;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-}
-
-.patient-summary--grid {
-	grid-template-columns: repeat(6, 1fr);
-}
-
-.patient-summary--line > * {
-  align-items: center;
-  /*justify-content: center;*/
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  /*color: var(--grey_base);*/
-  /*background-color: var(--grey05);*/
-  border-bottom: 1px solid var(--color-border);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
-
-  /*display: grid;
-grid-template-columns: 80px 1.2fr 1.4fr 1.4fr 1.1fr 1fr;
-padding: 18px 24px;
-border-bottom: 1px solid rgb(227, 231, 236);*/
-}
-
-.patient-summary-table > div:nth-of-type(7) > div > div:last-of-type .patient-summary--line > div {
-  border-bottom: none;
-}
-
-/*.patient-summary--line:hover > * {
-  color: var(--primary_base);
-  background-color: var(--primary_10);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
-}*/
-
-/*.patient-summary--line > *:first-child {
-  border-top-left-radius: var(--XS_borderRadius);
-  border-bottom-left-radius: var(--XS_borderRadius);
-}
-
-.patient-summary--line > *:last-child {
-  border-top-right-radius: var(--XS_borderRadius);
-  border-bottom-right-radius: var(--XS_borderRadius);
-}*/
-
-.patient-summary--grid.exam-mode {
-	grid-template-columns: repeat(5, 1fr);
-}
-
+/* modal */
 .patient-summary__modal > div {
   overflow: auto;
 }
