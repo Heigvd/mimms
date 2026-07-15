@@ -505,11 +505,6 @@
                 "language" : "typescript"
               }
             } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
-              "language" : "typescript"
-            },
             "layout" : {
               "alignItems" : "center",
               "justifyContent" : "space-between"
@@ -764,11 +759,6 @@
             }, {
               "props" : {
                 "className" : "header-button",
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
-                  "language" : "typescript"
-                },
                 "icon" : "plus",
                 "label" : {
                   "@class" : "Script",
@@ -801,11 +791,6 @@
                 "language" : "typescript"
               }
             } ],
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { isInMandatoryAction } from \"./edition/UIfacade/actionConfigFacade\";\n  isInMandatoryAction(Context.item);",
-              "language" : "typescript"
-            },
             "layout" : {
               "flexDirection" : "column"
             },
