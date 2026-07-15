@@ -112,7 +112,7 @@
                               "className" : "presentResources",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
+                                "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0;",
                                 "language" : "typescript"
                               }
                             } ],
@@ -137,7 +137,7 @@
                                 "className" : "noPadding noMargin resourceTypeChosenNumber",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() == 0 && isGodView();",
+                                  "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() == 0;",
                                   "language" : "typescript"
                                 },
                                 "layoutClassName" : "noPadding noMargin",
@@ -176,15 +176,10 @@
                                   "className" : "presentResources",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
+                                    "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0;",
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\n!isGodView();",
-                                  "language" : "typescript"
-                                },
                                 "layoutClassName" : "noPadding selectableRessources ",
                                 "layoutStyle" : { },
                                 "name" : "availableResourcesByType",

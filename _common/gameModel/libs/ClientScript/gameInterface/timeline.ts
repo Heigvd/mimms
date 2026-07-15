@@ -1,8 +1,7 @@
 import { StartEndAction } from '../game/common/actions/actionBase';
 import { getAllActions } from '../UIfacade/actionFacade';
-import { getAllActors, getCurrentPlayerActors } from '../UIfacade/actorFacade';
+import { getAllActors } from '../UIfacade/actorFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { isGodView } from './interfaceConfiguration';
 import { formatTime, getSimStartDateTime } from './main';
 
 interface Action {
@@ -24,11 +23,9 @@ interface Timeline {
  * @return {Timeline[]}
  */
 export function buildTimelineObject(): Timeline[] {
-  const timelines: any = [];
+  const timelines: Timeline[] = [];
 
-  const actors = isGodView()
-    ? getAllActors().filter(a => a.Role !== 'CASU')
-    : getCurrentPlayerActors();
+  const actors = getAllActors().filter(a => a.Role !== 'CASU');
   const actions = getAllActions();
 
   for (const actor of actors) {
