@@ -7637,15 +7637,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "newCSS/pretri/task",
-    "contentType" : "text/css",
-    "libraryType" : "CSS",
-    "refId" : "GameModelContent:1410:6nHQle",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "newCSS/pretri/welcomePage",
     "contentType" : "text/css",
     "libraryType" : "CSS",
