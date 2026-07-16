@@ -1394,7 +1394,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { canViewLocation, openOverlayItem } from \"./gameMap/mapEntities\";\n\nif (isGodView() || canViewLocation(Context.overlayItem.id)) {\n  openOverlayItem(Context.overlayItem.id);\n}",
+                                                "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -1612,7 +1612,7 @@
                                                 "exposeAs" : "actor",
                                                 "getItemsFn" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { actorViewFilter } from \"./gameMap/mapEntities\";\nactorViewFilter(Context.overlayItem.actors);",
+                                                  "content" : "Context.overlayItem.actors;",
                                                   "language" : "TypeScript"
                                                 },
                                                 "itemKey" : "Uid",

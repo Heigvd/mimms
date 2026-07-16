@@ -914,23 +914,6 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   }
 }
 
-export class DeleteResourceLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly resourceId: ResourceId;
-    }
-  ) {
-    super({ ...props, type: 'DeleteResourceLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.deleteResource(state, this.props.resourceId);
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // TASKS

@@ -42,7 +42,6 @@ import {
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
   ChangeMapActivableStatusLocalEvent,
-  DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
   MoveFreeHumanResourcesByLocationLocalEvent,
@@ -61,7 +60,6 @@ import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
 import {
-  HumanResourceType,
   ResourceType,
   ResourceTypeAndNumber,
   VehicleType,
@@ -972,7 +970,6 @@ export class MoveActorAction extends StartEndAction {
 export class AppointActorAction extends StartEndAction {
   private location: LOCATION_ENUM | undefined;
   private compliantWithHierarchy: boolean;
-  private involvedResourceId: ResourceId | undefined;
 
   constructor(
     startTimeSec: SimTime,
@@ -983,9 +980,7 @@ export class AppointActorAction extends StartEndAction {
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly requiredResourceType: HumanResourceType[],
-    readonly noResourceFailureMessageKey: TranslationKey,
-    readonly refusalFailureMessageKey: TranslationKey
+    readonly hierarchyNotRespectedMessageKey: TranslationKey
   ) {
     super(
       startTimeSec,
@@ -999,86 +994,26 @@ export class AppointActorAction extends StartEndAction {
 
     this.location = undefined;
     this.compliantWithHierarchy = false;
-    this.involvedResourceId = undefined;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.location = state.getActorById(this.ownerId)!.Location;
-
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
-
-    const matchingResources = ResourceState.getFreeWaitingResourcesByTypeAndLocation(
-      state,
-      this.requiredResourceType,
-      this.location
-    );
-
-    if (matchingResources.length > 0) {
-      this.involvedResourceId = matchingResources[0]!.Uid;
-
-      // we reserve the resources for this action so that they cannot be used by anything else
-      getLocalEventManager().queueLocalEvent(
-        new ReserveResourcesLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          resourcesId: [this.involvedResourceId],
-          actionId: this.Uid,
-        })
-      );
-    } else {
-      // if no resource is available, send directly a notification
-      getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          recipientId: this.ownerId,
-          message: this.noResourceFailureMessageKey,
-        })
-      );
-    }
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    if (this.compliantWithHierarchy) {
-      if (this.involvedResourceId != undefined) {
-        getLocalEventManager().queueLocalEvent(
-          new AddActorLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            role: this.actorRole,
-            location: this.location,
-          })
-        );
+    getLocalEventManager().queueLocalEvent(
+      new AddActorLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime(),
+        role: this.actorRole,
+        location: this.location,
+      })
+    );
 
-        // no need to free the resource as long as it will be deleted
-
-        getLocalEventManager().queueLocalEvent(
-          new DeleteResourceLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourceId: this.involvedResourceId,
-          })
-        );
-      }
-    } else {
-      // we free the resources so that they are available for other actions
-      if (this.involvedResourceId != undefined) {
-        getLocalEventManager().queueLocalEvent(
-          new UnReserveResourcesLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourcesId: [this.involvedResourceId],
-          })
-        );
-      }
-
-      // Resources refused the order due to hierarchy conflict
+    if (!this.compliantWithHierarchy) {
+      // The order is carried out anyway, but the chain of command was not respected
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
@@ -1086,12 +1021,11 @@ export class AppointActorAction extends StartEndAction {
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
-          message: this.refusalFailureMessageKey,
+          message: this.hierarchyNotRespectedMessageKey,
         })
       );
     }
   }
-
 }
 
 /**
@@ -1238,9 +1172,11 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     );
 
     if (!this.compliantWithHierarchy) {
-      // Resources refused the order due to hierarchy conflict
-      this.sendFeedbackMessage(state, 'move-res-task-refused');
-    } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
+      // The order is carried out anyway, but the chain of command was not respected
+      this.sendFeedbackMessage(state, 'move-res-task-hierarchy-not-respected');
+    }
+
+    if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       this.sendFeedbackMessage(state, 'move-res-task-no-location');
     } else {
@@ -1524,7 +1460,7 @@ export class EvacuationAction extends RadioDrivenAction {
     readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
-    readonly msgEvacuationRefused: TranslationKey,
+    readonly msgEvacuationHierarchyNotRespected: TranslationKey,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     readonly evacuationActionPayload: EvacuationActionPayload,
@@ -1604,7 +1540,7 @@ export class EvacuationAction extends RadioDrivenAction {
     );
 
     if (!this.compliantWithHierarchy) {
-      // Resources refused the order due to hierarchy conflict
+      // The order is carried out anyway, but the chain of command was not respected
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
@@ -1612,11 +1548,13 @@ export class EvacuationAction extends RadioDrivenAction {
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
-          message: this.msgEvacuationRefused,
+          message: this.msgEvacuationHierarchyNotRespected,
           channel: this.getChannel(),
         })
       );
-    } else if (!this.isEnoughResources) {
+    }
+
+    if (!this.isEnoughResources) {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,

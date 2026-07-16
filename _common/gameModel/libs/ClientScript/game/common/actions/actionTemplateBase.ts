@@ -27,7 +27,7 @@ import { RadioMessageActionEvent, RadioMessagePayload } from '../events/radioMes
 import { PlanActionLocalEvent } from '../localEvents/localEventBase';
 import { RadioType } from '../radio/communicationType';
 import { CommMedia } from '../resources/resourceReachLogic';
-import { HumanResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import {
   getOngoingActions,
   getStartedActionsOfTemplate,
@@ -1142,10 +1142,8 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     title: TranslationKey,
     description: TranslationKey,
     duration: SimDuration,
-    readonly noResourceFailureMessageKey: TranslationKey,
-    readonly refusalFailureMessageKey: TranslationKey,
+    readonly hierarchyNotRespectedMessageKey: TranslationKey,
     readonly actorRole: InterventionRole,
-    readonly typeOfResource: HumanResourceType[],
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[]
@@ -1155,7 +1153,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       title,
       description,
       duration,
-      0, // repeats is forced to 0. Because the action can be refused and must be run again
+      1, // an appointed role can only exist once, so this action cannot be repeated
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
@@ -1175,9 +1173,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.uid,
       this.raisedFlags,
       this.actorRole,
-      this.typeOfResource,
-      this.noResourceFailureMessageKey,
-      this.refusalFailureMessageKey
+      this.hierarchyNotRespectedMessageKey
     );
   }
 
@@ -1269,7 +1265,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
-    readonly msgEvacuationRefused: TranslationKey,
+    readonly msgEvacuationHierarchyNotRespected: TranslationKey,
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
@@ -1299,7 +1295,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       this.msgTaskRequest,
       this.feedbackWhenReturning,
       this.msgEvacuationAbort,
-      this.msgEvacuationRefused,
+      this.msgEvacuationHierarchyNotRespected,
       ownerId,
       this.uid,
       payload.evacuationActionPayload,
