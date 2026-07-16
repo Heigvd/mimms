@@ -1073,7 +1073,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
     case 'vitals.respiration.rr':
       return [metricName, intFormatter(value) + '/min'];
     case 'vitals.capillaryRefillTime_s':
-      return [metricName, twoDecimalFormatter(value)];
+      return [metricName, oneDecimalFormatter(value) + ' sec'];
     case 'vitals.respiration.PaO2':
       return [metricName, oneDecimalFormatter(value) + ' mmHg'];
     case 'vitals.respiration.PaCO2':
@@ -1526,6 +1526,7 @@ export function getCurrentPatientAutoTriage() {
   return {
     autoTriage: resultToHtmlObject(human.category.autoTriage),
     givenAnswer: categoryToHtml(human.category.category),
+    givenAnswerId: human.category.category,
   };
 }
 

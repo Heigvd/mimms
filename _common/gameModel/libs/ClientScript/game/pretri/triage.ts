@@ -1480,6 +1480,22 @@ export function preTriSummaryCategory(categoryId: string | undefined): string {
 }
 
 /**
+ * Computed class for pre-tri correction results categories
+ */
+export function preTriCorrectionCategory(autotriage: string | undefined): string {
+  if (autotriage === NON_URGENT) {
+    return 'pretri-pill__p3';
+  } else if (autotriage === URGENT) {
+    return 'pretri-pill__p2';
+  } else if (autotriage === IMMEDIATE) {
+    return 'pretri-pill__p1';
+  } else if (autotriage === DEAD) {
+    return 'pretri-pill__dead';
+  }
+  return 'notCategorized';
+}
+
+/**
  * Html formated pre-triage category
  */
 export function categoryToHtml(categoryId: string | undefined): string {
