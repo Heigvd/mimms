@@ -1,11 +1,8 @@
 import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
-import { getOngoingActionsForActor } from '../game/common/simulationState/actionStateAccess';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
-  cancelAction,
   getAllActions,
   getAvailableChoices,
   hasMapChoices,
@@ -64,24 +61,6 @@ export function canActorPlanAction(actorId: number): boolean {
 }
 
 /**
- * Check if player is owner of the action and can thus cancel it
- */
-export function canCancelOnGoingAction(): boolean {
-  const currentTime = getSimTime();
-  const actorUid = Context.interfaceState.state.currentActorUid;
-  const actions = getOngoingActionsForActor(getCurrentState(), actorUid);
-
-  for (const action of actions!) {
-    // Is a future action planned ?
-    if (action.startTime === currentTime) return true;
-    // Is a previous action finished ?
-    if (action.startTime + action.duration() > currentTime) return true;
-  }
-
-  return false;
-}
-
-/**
  * Is the given actionUid the currently planned action by the current actor ?
  *
  * @params number uid of the action
@@ -113,8 +92,6 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 
   if (canPlanAction()) {
     planAction(template, actorId, params);
-  } else if (isPlannedAction(template.uid)) {
-    cancelAction(actorId, template.uid);
   }
 }
 

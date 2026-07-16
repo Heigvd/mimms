@@ -15,7 +15,6 @@ import { Actor, InterventionRole } from '../actors/actor';
 import { getCasuActorId, getHighestAuthorityActorsByLocation } from '../actors/actorLogic';
 import {
   ActionId,
-  ActionTemplateUid,
   ActorId,
   GlobalEventId,
   PatientUnitId,
@@ -87,7 +86,6 @@ export type SourceType =
         | 'initialisation'
         | 'trainer'
         | 'time-forward'
-        | 'time-forward-cancel'
         | 'plan-action'
         | 'unplan-action';
     }
@@ -182,42 +180,6 @@ export class PlanActionLocalEvent extends LocalEventBase {
   }
 }
 
-// Update status of action
-export class CancelActionLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly templateId: ActionTemplateUid;
-      readonly actorUid: ActorId;
-      readonly planTime: SimTime;
-    }
-  ) {
-    super({ ...props, type: 'CancelActionLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const so = state.getInternalStateObject();
-    const now = state.getSimTime();
-    const action = so.actions.find(
-      a =>
-        a.getTemplateId() === this.props.templateId &&
-        a.ownerId === this.props.actorUid &&
-        a.startTime == now
-    );
-
-    if (action && action.startTime === this.props.planTime) {
-      // We remove the action and place it in cancelled actions
-      so.actions.splice(so.actions.indexOf(action), 1);
-      so.cancelledActions.push(action);
-      action.cancel(state);
-    } else {
-      // err.log
-    }
-  }
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // time
@@ -309,27 +271,6 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
 
   private updateTasks(state: MainSimulationState) {
     TaskState.getAllTasks(state).forEach(t => t.update(state, this.extensionProps.timeJump));
-  }
-}
-
-/**
- * When applied, bumps down being readiness for a time forward for the provided actors
- */
-export class TimeForwardCancelLocalEvent extends TimeForwardLocalBaseEvent {
-  constructor(
-    readonly extensionProps: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly actors: ActorId[];
-    }
-  ) {
-    super({ ...extensionProps, type: 'TimeForwardCancelLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    // decrement timeforward 'readiness'
-    this.updateCurrentTimeFrame(state, -1);
   }
 }
 

@@ -624,21 +624,21 @@
                 "className" : "button-secondaryColor button-S",
                 "conditionnalClassNames" : [ {
                   "applyOn" : "Inside",
-                  "className" : "abort",
+                  "className" : "disabled",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.CasuMessageTemplate);",
+                    "content" : "import { canPlanAction } from './gameInterface/main';\n!canPlanAction();",
                     "language" : "typescript"
                   }
                 } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nisMethaneSendDisabled();",
+                  "content" : "import { isMethaneSendDisabled } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from './gameInterface/main';\nisMethaneSendDisabled() || !canPlanAction() ;",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { getTranslation } from \"./tools/translation\";\nconst isPlanned = canCancel(uniqueActionTemplates()?.CasuMessageTemplate);\ngetTranslation('mainSim-interface', isPlanned ? 'cancel' : 'send-one-minute');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send-one-minute');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

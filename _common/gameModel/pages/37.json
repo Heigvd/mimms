@@ -6,7 +6,7 @@
         "style" : { },
         "text" : {
           "@class" : "Script",
-          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  const { actions, cancelledActions, activables, actors, flags, patients, tasks, radioMessages, resources, resourceContainers, ...state } = getCurrentState().getInternalStateObject();\n  'STATE ' + JSON.stringify(state, undefined, '<br/>');",
+          "content" : "import { getCurrentState } from \"./game/mainSimulationLogic\";\n  const { actions, activables, actors, flags, patients, tasks, radioMessages, resources, resourceContainers, ...state } = getCurrentState().getInternalStateObject();\n  'STATE ' + JSON.stringify(state, undefined, '<br/>');",
           "language" : "TypeScript"
         }
       },

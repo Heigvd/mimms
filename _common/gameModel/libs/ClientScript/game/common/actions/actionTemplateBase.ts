@@ -31,7 +31,6 @@ import { ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import {
   getOngoingActions,
   getStartedActionsOfTemplate,
-  isThisNextPlannedAction,
 } from '../simulationState/actionStateAccess';
 import {
   ActionTemplateActivable,
@@ -138,11 +137,6 @@ export abstract class ActionTemplateBase<
    * @returns true if the player can trigger this action
    */
   public isAvailable(state: Readonly<MainSimulationState>, actor: Readonly<Actor>): boolean {
-    // A "just now planned action by the actor" is always available, so that it can be canceled
-    if (isThisNextPlannedAction(state, this.uid, actor.Uid)) {
-      return true;
-    }
-
     return (
       this.flagWiseAvailable(state) &&
       this.roleWiseAvailable(actor.Role) &&
