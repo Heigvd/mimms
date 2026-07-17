@@ -209,7 +209,7 @@ export function moveDown(itemId: Uid): void {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-// deletion permission
+// deletion (& duplication) permission
 
 export function canBeDeleted(item: FlatTypes): boolean {
   if (item.superType === 'mapEntity') {

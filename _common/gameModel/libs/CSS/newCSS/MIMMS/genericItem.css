@@ -28,9 +28,11 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
+  width: 2.5rem;
 }
 
 .generic-item-container .generic-item__actions {
+  gap: 4px;
   opacity: 0;
   transition: opacity .3s ease-in-out;
 }
@@ -39,7 +41,12 @@
   opacity: 100%;
 }
 
+.generic-item__actions .iconOnly {
+  padding: 0;
+}
+
 .generic-item__actions svg {
+  height: 10px;
   color: var(--grey_base);
   transition: color .3s ease-in-out;
 }
