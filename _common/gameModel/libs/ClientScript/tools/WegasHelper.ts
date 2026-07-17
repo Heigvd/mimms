@@ -375,8 +375,6 @@ export function prettyPrint(id: string, param: BodyFactoryParam, short: boolean 
             return `unknown ${source.itemId}::${source.actionId} item`;
           }
         }
-      } else if (sp.payload.type === 'Teleport') {
-        return `Located at [${sp.payload.location.x};${sp.payload.location.y}] on ${sp.payload.location.mapId}`;
       } else {
         checkUnreachable(sp.payload);
       }

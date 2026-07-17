@@ -1,5 +1,4 @@
 import { getDrillStatus } from '../pretri/drill';
-import { FogType } from './the_world';
 import { getRunningMode } from './TimeManager';
 
 type DrillType = 'PRE-TRIAGE' | 'LIKERT';
@@ -77,19 +76,6 @@ export function getDefaultBag(): string | undefined {
   }
 
   return undefined;
-}
-
-// TODO remove entirely
-export function getFogType(): FogType {
-  if (isDrillMode()) {
-    switch (getDrillType()) {
-      case 'PRE-TRIAGE':
-        // not map, all humans are visible
-        return 'NONE';
-    }
-  }
-
-  return 'SIGHT';
 }
 
 export function isInterfaceDisabled(): boolean {

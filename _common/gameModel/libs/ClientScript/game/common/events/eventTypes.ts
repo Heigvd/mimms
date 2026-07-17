@@ -1,7 +1,6 @@
 import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
-import { Location } from '../../../map/locationTypes';
 import { ActionSource, ResolvedAction } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
@@ -15,21 +14,6 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { BaseEvent, TargetedEvent } from './baseEvent';
 import { FullEvent } from './eventUtils';
 import { SourceType } from '../localEvents/localEventBase';
-
-/**
- * Walk, drive, fly to destination
- */
-export interface FollowPathEvent extends TargetedEvent {
-  type: 'FollowPath';
-  from: Location;
-  destination: Location;
-}
-
-/** Aka teleportation */
-export interface TeleportEvent extends TargetedEvent {
-  type: 'Teleport';
-  location: Location;
-}
 
 export interface PathologyEvent extends TargetedEvent, AfflictedPathology {
   type: 'HumanPathology';
@@ -81,12 +65,6 @@ export interface HumanTreatmentEvent extends TargetedEvent {
   blocks: BlockName[];
 }
 
-// Related to pretri (legacy)
-export interface CancelActionEvent {
-  type: 'CancelAction';
-  eventId: number;
-}
-
 export interface CategorizeEvent extends TargetedEvent, Categorization {
   type: 'Categorize';
 }
@@ -103,7 +81,7 @@ export interface FreezeEvent extends TargetedEvent {
 
 export interface ScriptedEvent {
   time: number;
-  payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
+  payload: PathologyEvent | HumanTreatmentEvent;
 }
 
 export interface AgingEvent extends TargetedEvent {
@@ -112,8 +90,6 @@ export interface AgingEvent extends TargetedEvent {
 }
 
 export type EventPayload =
-  | FollowPathEvent
-  | TeleportEvent
   | PathologyEvent
   | HumanTreatmentEvent
   | HumanMeasureEvent
@@ -121,7 +97,6 @@ export type EventPayload =
   | HumanLogMessageEvent
   | CategorizeEvent
   | GiveBagEvent
-  | CancelActionEvent
   | FreezeEvent
   | AgingEvent
   // NEW EVENTS
@@ -217,15 +192,12 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
 
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
   switch (event.payload.type) {
-    case 'Teleport':
-    case 'FollowPath':
     case 'HumanPathology':
     case 'HumanTreatment':
     case 'HumanMeasure':
     case 'Categorize':
     case 'HumanLogMessage':
     case 'GiveBag':
-    case 'CancelAction':
     case 'Freeze':
     case 'Aging':
     case 'HumanMeasureResult':
