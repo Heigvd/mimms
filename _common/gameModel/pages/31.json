@@ -71,6 +71,11 @@
           "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action);",
           "language" : "TypeScript"
         },
+        "hideIf" : {
+          "@class" : "Script",
+          "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action).length === 1;",
+          "language" : "typescript"
+        },
         "itemKey" : "uid",
         "layout" : {
           "flexDirection" : "column"
