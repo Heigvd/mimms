@@ -132,7 +132,10 @@ export function initActionTemplates(): ActionTemplateData {
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
-    RadioType.CASU
+    RadioType.CASU,
+    undefined,
+    undefined,
+    ['ACS', 'MCS']
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
