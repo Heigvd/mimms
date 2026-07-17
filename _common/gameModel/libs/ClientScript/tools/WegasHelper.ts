@@ -15,14 +15,8 @@ import {
   getSystemModel,
 } from '../HUMAn/physiologicalModel';
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
-import { BagDefinition } from '../game/legacy/the_world';
 import { checkUnreachable, NumberVariableClasses } from './helper';
-import {
-  getDefaultBag,
-  getDrillType,
-  isDrillMode,
-  shouldProvideDefaultBag,
-} from '../game/legacy/gameMaster';
+import { getDrillType, isDrillMode } from '../game/legacy/gameMaster';
 import { getActTranslation, getItemActionTranslation } from './translation';
 import { HumanTreatmentEvent, PathologyEvent } from '../game/common/events/eventTypes';
 
@@ -171,14 +165,10 @@ Helpers.registerEffect(() => {
 
 export async function instantiateWhoAmI(force: boolean = false): Promise<string> {
   if (instantiationStatus === 'UNDONE' || force) {
-    const defaultBag = shouldProvideDefaultBag() ? getDefaultBag() : '';
-
     instantiationStatus = 'ONGOING';
     const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
     const response = await APIMethods.runScript(
-      `EventManager.instantiateCharacter(${JSON.stringify(profileId)} ${
-        defaultBag ? `, ${JSON.stringify(defaultBag)}` : ''
-      })`,
+      `EventManager.instantiateCharacter(${JSON.stringify(profileId)})`,
       {}
     );
     const entity = response.updatedEntities[0];
@@ -468,11 +458,6 @@ export function getOverdriveSeries(): Graph[] {
   });
 
   return graphs;
-}
-
-export function getBagDefinition(bagId: string) {
-  const sdef = Variable.find(gameModel, 'bagsDefinitions').getProperties()[bagId];
-  return parse<BagDefinition>(sdef || '');
 }
 
 /**

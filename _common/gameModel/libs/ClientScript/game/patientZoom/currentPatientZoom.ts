@@ -19,7 +19,7 @@ import {
   ModuleDefinition,
   PathologyDefinition,
 } from '../../HUMAn/pathology';
-import { getAct, getItem, getPathology } from '../../HUMAn/registries';
+import { getAct, getItem, getItems, getPathology } from '../../HUMAn/registries';
 import {
   getCurrentPatientBody,
   getCurrentPatientId,
@@ -27,9 +27,7 @@ import {
   getHuman,
   getHumanConsole,
   getHumanSkillLevelForAction,
-  getMyInventory,
   HumanHealth,
-  Inventory,
 } from '../legacy/the_world';
 import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
 import {
@@ -83,8 +81,6 @@ type WheelItemAction = BaseItem &
       itemId: string;
       actionId: string;
     };
-    disposable: boolean;
-    counter: number | 'infinity';
   };
 
 type WheelAct = BaseItem &
@@ -224,31 +220,25 @@ function getActionIcon(action: HumanAction): string {
   return '';
 }
 
-function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
-  return Object.entries(inventory).flatMap(([itemId, count]) => {
-    const item = getItem(itemId);
-    if (item != null) {
-      return Object.entries(item.actions).map(([key, action], i, entries) => {
-        const iaKey = `${item.id}::${key}`;
-        return {
-          id: iaKey,
-          label: getItemActionTranslation(item, key),
-          type: 'WheelItemAction',
-          actionType: action.type,
-          actionCategory: action.category,
-          priority: item.priority,
-          itemActionId: {
-            itemId: item.id,
-            actionId: key,
-          },
-          icon: getActionIcon(action),
-          disposable: item.disposable,
-          counter: count,
-        };
-      });
-    }
-
-    return [];
+// Objects are always at hand: expose every item's actions, with no bag/inventory check
+function getWheelActionFromItems(): WheelAction[] {
+  return getItems().flatMap(({ item }) => {
+    return Object.entries(item.actions).map(([key, action]) => {
+      const iaKey = `${item.id}::${key}`;
+      return {
+        id: iaKey,
+        label: getItemActionTranslation(item, key),
+        type: 'WheelItemAction',
+        actionType: action.type,
+        actionCategory: action.category,
+        priority: item.priority,
+        itemActionId: {
+          itemId: item.id,
+          actionId: key,
+        },
+        icon: getActionIcon(action),
+      };
+    });
   });
 }
 
@@ -302,7 +292,7 @@ function getWheelMenuItems(bag: ByType): WheelMenuItem[] {
 
 function getABCDEWheel(): Wheel {
   // Fetch all item and act action
-  const itemActions = getWheelActionFromInventory(getMyInventory());
+  const itemActions = getWheelActionFromItems();
   const actActions = getWheelActionFromActs(getMyMedicalActs());
 
   const bag: Record<ABCDECategory, ByType> = {
@@ -413,12 +403,7 @@ export function getMyMedicalActs(): ActDefinition[] {
 export function getButtonLabel(item: WheelItem | WheelMenu | WheelAction): string {
   switch (item.type) {
     case 'WheelItemAction':
-      if (item.disposable && item.counter != 'infinity') {
-        return `${item.label} (${item.counter})`;
-      } else {
-        return item.label;
-      }
-
+    // falls through
     case 'WheelMenuItem':
     // falls through
     case 'WheelAct':

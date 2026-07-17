@@ -35,49 +35,6 @@ export function getGamePageId() {
   return '404';
 }
 
-/**
- * Does the current game mode gives an infinite number of objects?
- */
-export function infiniteBags(): boolean {
-  if (isDrillMode()) {
-    switch (getDrillType()) {
-      case 'PRE-TRIAGE':
-        return true;
-    }
-  }
-
-  return false;
-}
-
-/**
- * Does the current game mode provide a bag automatically?
- */
-export function shouldProvideDefaultBag(): boolean {
-  if (isDrillMode()) {
-    switch (getDrillType()) {
-      case 'PRE-TRIAGE':
-        return true;
-    }
-  }
-
-  return false;
-}
-
-/**
- * Does the current game mode provide a bag automatically?
- * @returns name of the bag to give or undefined
- */
-export function getDefaultBag(): string | undefined {
-  if (isDrillMode()) {
-    switch (getDrillType()) {
-      case 'PRE-TRIAGE':
-        return Variable.find(gameModel, 'bagType').getValue(self);
-    }
-  }
-
-  return undefined;
-}
-
 export function isInterfaceDisabled(): boolean {
   const timeMode = getRunningMode();
 

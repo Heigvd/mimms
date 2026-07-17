@@ -25,7 +25,6 @@ import {
 import { getAct, getItem, getPathology } from '../../HUMAn/registries';
 import { getCurrentSimulationTime } from './TimeManager';
 import {
-  getBagDefinition,
   getBodyParam,
   getEnv,
   getHumanSkillLevelForAct,
@@ -35,13 +34,11 @@ import {
 import { TargetedEvent } from '../common/events/baseEvent';
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
 import { Categorization } from '../pretri/triage';
-import { infiniteBags } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
+import { worldLogger, delayedLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
   getActTranslation,
   getItemActionTranslation,
-  getItemTranslation,
   getTranslation,
 } from '../../tools/translation';
 import {
@@ -51,7 +48,6 @@ import {
   EventPayload,
   EventType,
   FreezeEvent,
-  GiveBagEvent,
   HumanLogMessageEvent,
   HumanMeasureEvent,
   HumanMeasureResultEvent,
@@ -71,13 +67,6 @@ export interface HumanHealth {
 }
 
 type HumanHealthState = Record<string, HumanHealth>;
-
-export type Inventory = Record<string, number | 'infinity'>;
-
-export interface BagDefinition {
-  name: string;
-  items: Inventory;
-}
 
 export interface HumanState {
   type: 'Human';
@@ -146,8 +135,6 @@ const humanMetas: Record<string, HumanMeta> = {};
 
 // object key to list of snapshots
 let humanSnapshots: Snapshots<HumanState> = {};
-
-let inventoriesSnapshots: Snapshots<Inventory> = {};
 
 /** current visible state */
 const worldState: WorldState = {
@@ -588,55 +575,6 @@ function doMeasure(
   });
 }
 
-function checkItemAvailabilityAndConsume(
-  time: number,
-  ownerId: ObjectId,
-  item: ItemDefinition,
-  patientId: string
-): boolean {
-  const inventory = getInventory(time, ownerId);
-  const count = inventory[item.id];
-  inventoryLogger.info('Check Item availability', { time, ownerId, item: item.id });
-
-  if (count == null) {
-    // character do not own such item;
-    inventoryLogger.info('Owner does not have any');
-    const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-    addLogMessage(
-      ownerId.objectId,
-      patientId,
-      time,
-      `${missingMessage} ${getItemTranslation(item)}`
-    );
-    return false;
-  } else if (typeof count === 'number') {
-    if (count > 0) {
-      inventoryLogger.info('Owner owns an item');
-      if (item.disposable) {
-        // item is diposable: consume one
-        inventoryLogger.info('item is disposable: consume one');
-        updateInventoriesSnapshots(ownerId, time, { [item.id]: -1 });
-      }
-      return true;
-    } else {
-      // no more item
-      inventoryLogger.info('Owner do not have any item any longer');
-      const missingMessage = getTranslation('pretriage-interface', 'itemMissing');
-      addLogMessage(
-        ownerId.objectId,
-        patientId,
-        time,
-        `${missingMessage} ${getItemTranslation(item)}`
-      );
-      return false;
-    }
-  } else {
-    // infinity never decreases
-    inventoryLogger.info('Infinity');
-    return true;
-  }
-}
-
 function getDelayedActionToProcess(time: number): DelayedAction[] {
   return delayedActions.filter(dA => dA.dueDate <= time);
 }
@@ -778,27 +716,6 @@ function processHumanMeasureEvent(
 
     const { source, action } = resolvedAction;
     if (resolvedAction.action.type === 'ActionBodyMeasure') {
-      if (source.type === 'item') {
-        const characterId: ObjectId = {
-          objectType: 'Human',
-          objectId: event.payload.emitterCharacterId.toString(),
-        };
-        if (
-          checkItemAvailabilityAndConsume(
-            event.time,
-            characterId,
-            source,
-            event.payload.targetId
-          ) === false
-        ) {
-          if (resultEvent) {
-            // TODO if multiple client have the same game opened, there might be two events
-            sendEvent(resultEvent);
-          }
-          return;
-        }
-      }
-
       worldLogger.log(
         'Do Measure: ',
         { time: event.time, source: event.payload.source, action },
@@ -1007,26 +924,8 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
   const resolvedAction = resolveAction(event.payload);
 
   if (resolvedAction != null) {
-    const { source, action } = resolvedAction;
+    const { action } = resolvedAction;
     if (resolvedAction.action.type === 'ActionBodyEffect') {
-      if (source.type === 'item') {
-        const characterId: ObjectId = {
-          objectType: 'Human',
-          objectId: event.payload.emitterCharacterId.toString(),
-        };
-
-        if (
-          checkItemAvailabilityAndConsume(
-            event.time,
-            characterId,
-            source,
-            event.payload.targetId
-          ) === false
-        ) {
-          return;
-        }
-      }
-
       const skillLevel = getHumanSkillLevelForAction(
         event.payload.emitterCharacterId.toString(),
         event.payload.source
@@ -1071,87 +970,6 @@ function unreachable(x: never) {
   worldLogger.error('Unreachable ', x);
 }
 
-function updateInventory(inventory: Inventory, from: Inventory) {
-  const forceInfinity = infiniteBags();
-
-  Object.entries(from).forEach(([itemId, count]) => {
-    inventoryLogger.log('Give ', count, ' ', itemId);
-    if (forceInfinity || count === 'infinity') {
-      // new count will always equals infinity
-      inventoryLogger.info(' to infinity');
-      inventory[itemId] = 'infinity';
-    } else if (typeof count === 'number') {
-      const currentCount = inventory[itemId];
-      if (currentCount == null) {
-        // init item to count
-        inventory[itemId] = count;
-        inventoryLogger.info('Init to', inventory[itemId]);
-      } else if (typeof currentCount === 'number') {
-        inventory[itemId] = currentCount + count;
-        inventoryLogger.info('New count', inventory[itemId]);
-      } /* else {
-				was infinity: do not touch
-			}*/
-    }
-  });
-}
-
-/**
- * give owner the content of the given inventery at the given time
- */
-function updateInventoriesSnapshots(owner: ObjectId, time: number, inventory: Inventory) {
-  const oKey = getObjectKey(owner);
-
-  // Fetch most recent snapshot
-  const mostRecents = getMostRecentSnapshot(inventoriesSnapshots, owner, time);
-  let { mostRecent } = mostRecents;
-  const { mostRecentIndex, futures } = mostRecents;
-
-  let currentSnapshot: { time: number; state: Inventory };
-
-  if (mostRecent == null) {
-    mostRecent = {
-      time: time,
-      state: {},
-    };
-    inventoriesSnapshots[oKey]!.unshift(mostRecent);
-  }
-
-  if (mostRecent.time < time) {
-    currentSnapshot = {
-      time: time,
-      state: { ...mostRecent.state },
-    };
-    // register new snapshot
-    inventoriesSnapshots[oKey]!.splice(mostRecentIndex + 1, 0, currentSnapshot);
-  } else {
-    // update mostRecent snapshot in place
-    currentSnapshot = mostRecent;
-  }
-
-  updateInventory(currentSnapshot.state, inventory);
-
-  futures.forEach(snapshot => {
-    updateInventory(snapshot.state, inventory);
-  });
-}
-
-function processGiveBagEvent(event: FullEvent<GiveBagEvent>) {
-  const owner = {
-    objectType: event.payload.targetType,
-    objectId: event.payload.targetId,
-  };
-
-  const bag = getBagDefinition(event.payload.bagId);
-  //worldLogger.setLevel('INFO');
-  worldLogger.info('Process Give Bag Event', { owner, bag });
-  //worldLogger.setLevel('WARN');
-
-  if (bag != null) {
-    updateInventoriesSnapshots(owner, event.time, bag.items);
-  }
-}
-
 function processFreezeEvent(event: FullEvent<FreezeEvent>) {
   const owner = {
     objectType: event.payload.targetType,
@@ -1194,9 +1012,6 @@ function processEvent(
       break;
     case 'HumanLogMessage':
       processHumanLogMessageEvent(event as FullEvent<HumanLogMessageEvent>);
-      break;
-    case 'GiveBag':
-      processGiveBagEvent(event as FullEvent<GiveBagEvent>);
       break;
     case 'Freeze':
       processFreezeEvent(event as FullEvent<FreezeEvent>);
@@ -1306,33 +1121,10 @@ export function getCurrentPatientHealth(): HumanHealth | undefined {
   return getHealth(getCurrentPatientId());
 }
 
-function getInventory(time: number, objectId: ObjectId): Inventory {
-  const state = getMostRecentSnapshot(inventoriesSnapshots, objectId, time);
-  if (state.mostRecent != null) {
-    return state.mostRecent.state;
-  } else {
-    return {};
-  }
-}
-
-/**
- * Get current character inventory.
- */
-export function getMyInventory(): Inventory {
-  const myHumanId = whoAmI();
-
-  const time = getCurrentSimulationTime();
-
-  const myId = { objectId: myHumanId, objectType: 'Human' };
-
-  return getInventory(time, myId);
-}
-
 export function clearState() {
   processedEvent = {};
   humanSnapshots = {};
   worldState.humans = {};
-  inventoriesSnapshots = {};
   healths = {};
   delayedActions = [];
 }

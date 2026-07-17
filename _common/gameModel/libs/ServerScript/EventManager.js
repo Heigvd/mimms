@@ -134,7 +134,7 @@ var EventManager = (function () {
   }
 
   // TODO get rid of character logic for player aka whoAmI
-  function instantiateCharacter(profileId, bagId) {
+  function instantiateCharacter(profileId) {
     lock();
     var charactersDesc = Variable.find(gameModel, 'characters');
     var strProfile = charactersDesc.getProperty(profileId);
@@ -159,18 +159,6 @@ var EventManager = (function () {
       // persist data and set whoiAmI
       Variable.find(gameModel, 'whoAmI').setValue(self, id);
       charactersDesc.getInstance().setProperty(id, jsonParam);
-
-      if (bagId) {
-        var giveBagPayload = {
-          emitterPlayerId: self.getId(),
-          emitterCharacterId: id,
-          type: 'GiveBag',
-          targetType: 'Human',
-          targetId: id,
-          bagId: bagId,
-        };
-        sendNewEvent(giveBagPayload);
-      }
 
       return id;
     }

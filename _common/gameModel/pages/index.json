@@ -444,12 +444,6 @@
         "@class" : "Folder",
         "items" : [ {
           "@class" : "Page",
-          "id" : "13",
-          "name" : "bagsConfig",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "16",
           "name" : "skills config",
           "scenaristPage" : false,

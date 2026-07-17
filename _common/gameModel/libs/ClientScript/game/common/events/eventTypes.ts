@@ -45,7 +45,6 @@ export interface HumanMeasureEvent extends TargetedEvent {
 
 export type MeasureResultStatus =
   | 'success'
-  | 'failed_missing_object'
   | 'failed_missing_skill'
   | 'cancelled'
   | 'unknown';
@@ -67,11 +66,6 @@ export interface HumanTreatmentEvent extends TargetedEvent {
 
 export interface CategorizeEvent extends TargetedEvent, Categorization {
   type: 'Categorize';
-}
-
-export interface GiveBagEvent extends TargetedEvent {
-  type: 'GiveBag';
-  bagId: string;
 }
 
 export interface FreezeEvent extends TargetedEvent {
@@ -96,7 +90,6 @@ export type EventPayload =
   | HumanMeasureResultEvent
   | HumanLogMessageEvent
   | CategorizeEvent
-  | GiveBagEvent
   | FreezeEvent
   | AgingEvent
   // NEW EVENTS
@@ -197,7 +190,6 @@ export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
     case 'HumanMeasure':
     case 'Categorize':
     case 'HumanLogMessage':
-    case 'GiveBag':
     case 'Freeze':
     case 'Aging':
     case 'HumanMeasureResult':

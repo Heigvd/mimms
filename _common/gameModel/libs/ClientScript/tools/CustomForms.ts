@@ -541,12 +541,9 @@ Helpers.registerEffect(() => {
           },
         };
         return newSchema;
-      } else if (['bags', 'situations', 'skills', 'drill - presets'].indexOf(od.editorTag) > -1) {
+      } else if (['situations', 'skills', 'drill - presets'].indexOf(od.editorTag) > -1) {
         let keyName = 'actions';
         switch (od.editorTag) {
-          case 'bags':
-            keyName = 'items';
-            break;
           case 'situations':
             keyName = 'pathologies';
             break;
