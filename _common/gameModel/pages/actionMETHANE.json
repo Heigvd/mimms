@@ -380,11 +380,6 @@
                     "children" : [ {
                       "props" : {
                         "className" : "checkbox",
-                        "disableIf" : {
-                          "@class" : "Script",
-                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
-                          "language" : "typescript"
-                        },
                         "layoutStyle" : { },
                         "onVariableChange" : {
                           "client" : {
@@ -420,7 +415,15 @@
                         }
                       },
                       "type" : "Text"
-                    } ]
+                    } ],
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
+                      "language" : "typescript"
+                    },
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
@@ -529,7 +532,9 @@
               "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('E');",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "alignItems" : "flex-start"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterE",
