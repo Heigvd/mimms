@@ -846,8 +846,7 @@
         "r1jkQHYOoy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"ACSMCS-001\",\"type\":\"ACS-MCS\"},\"index\":2}",
         "s2BP15YOKg" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":20,\"travelTime\":5,\"name\":\"GE-009\",\"type\":\"AMB-T\"},\"index\":7}",
         "tQivP0ViG1" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":30,\"travelTime\":5,\"name\":\"SMUR-003\",\"type\":\"SMUR\"},\"index\":33}",
-        "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}",
-        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"DPMA-001\",\"type\":\"DPMA\"},\"index\":28}"
+        "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
