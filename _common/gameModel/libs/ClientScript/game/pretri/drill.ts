@@ -1,6 +1,5 @@
 import { BaseEvent, initEmitterIds } from '../common/events/baseEvent';
 import { getSendEventServerScript } from '../common/events/eventUtils';
-import { reviveScriptedEvent } from '../legacy/scenario';
 import {
   getCurrentPatientBody,
   getCurrentPatientId,
@@ -8,7 +7,7 @@ import {
 } from '../legacy/the_world';
 import { getCurrentSimulationTime, getRunningMode } from '../legacy/TimeManager';
 import { getBodyParam, getSortedPatientIds } from '../../tools/WegasHelper';
-import { AgingEvent } from '../common/events/eventTypes';
+import { AgingEvent, EventPayload, ScriptedEvent } from '../common/events/eventTypes';
 import { getInitialTimeJumpSeconds } from '../common/patients/handleState';
 
 interface DrillStatus {
@@ -188,6 +187,22 @@ function getFreezePatientEventScript(evt: BaseEvent, currentTime: number): strin
         currentTime
       )
     : '';
+}
+
+function reviveScriptedEvent(
+  emitter: {
+    emitterCharacterId: string;
+    emitterPlayerId: string;
+  },
+  targetId: string,
+  scripted: ScriptedEvent
+): EventPayload {
+  const pe: EventPayload = {
+    ...emitter,
+    ...scripted.payload,
+    targetId: targetId,
+  };
+  return pe;
 }
 
 export function showPatient(patientId: string) {

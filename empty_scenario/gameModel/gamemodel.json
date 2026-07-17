@@ -6269,15 +6269,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/scenario",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#69:OCwcyC",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/legacy/the_world",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

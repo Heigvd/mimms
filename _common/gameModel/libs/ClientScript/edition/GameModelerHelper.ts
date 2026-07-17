@@ -3,10 +3,7 @@ import { DataDef, MatrixConfig } from './MatrixEditor';
 import { getActs, getItems } from '../HUMAn/registries';
 import { getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
 import { compare } from '../tools/helper';
-import {
-  getActTranslation,
-  getItemActionTranslation,
-} from '../tools/translation';
+import { getActTranslation, getItemActionTranslation } from '../tools/translation';
 
 function extractAllKeys(obj: object, currentKey: string, list: string[]) {
   Object.entries(obj).forEach(([k, v]) => {

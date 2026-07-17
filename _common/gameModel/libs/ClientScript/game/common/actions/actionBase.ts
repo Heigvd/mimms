@@ -59,11 +59,7 @@ import { getProximityTranslation, getResourceAsSenderName } from '../radio/radio
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
-import {
-  ResourceType,
-  ResourceTypeAndNumber,
-  VehicleType,
-} from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import {
   canMoveToLocation,

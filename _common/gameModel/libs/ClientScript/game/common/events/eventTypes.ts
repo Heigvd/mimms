@@ -43,11 +43,7 @@ export interface HumanMeasureEvent extends TargetedEvent {
   source: ActionSource;
 }
 
-export type MeasureResultStatus =
-  | 'success'
-  | 'failed_missing_skill'
-  | 'cancelled'
-  | 'unknown';
+export type MeasureResultStatus = 'success' | 'failed_missing_skill' | 'cancelled' | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
   type: 'HumanMeasureResult';
