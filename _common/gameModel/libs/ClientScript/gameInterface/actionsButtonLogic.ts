@@ -189,11 +189,16 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
     return payload;
   } else {
     const msgType = casuMessage.messageType as 'METHANE' | 'E';
-    const payload: MethaneMessagePayload = { messageType: msgType };
-
-    if (casuMessage.messageType.endsWith('E')) {
-      payload.resourceRequest = resources.requestedResources;
-    }
+    const payload: MethaneMessagePayload = {
+      messageType: msgType,
+      major: casuMessage.major,
+      exact: casuMessage.exact,
+      incidentType: casuMessage.incidentType,
+      hazards: casuMessage.hazards,
+      access: casuMessage.access,
+      victims: casuMessage.victims,
+      resourceRequest: resources.requestedResources
+    };
 
     // Reset interfaceState
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
