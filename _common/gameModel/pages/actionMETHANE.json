@@ -380,6 +380,11 @@
                     "children" : [ {
                       "props" : {
                         "className" : "checkbox",
+                        "disableIf" : {
+                          "@class" : "Script",
+                          "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
+                          "language" : "typescript"
+                        },
                         "layoutStyle" : { },
                         "onVariableChange" : {
                           "client" : {
@@ -416,11 +421,6 @@
                       },
                       "type" : "Text"
                     } ],
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { isContainerTypeAvailable } from \"./UIfacade/methaneFacade\";\n!isContainerTypeAvailable(Context.item.type)",
-                      "language" : "typescript"
-                    },
                     "layout" : { },
                     "layoutStyle" : { },
                     "style" : { }

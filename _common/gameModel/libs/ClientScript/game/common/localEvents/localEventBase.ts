@@ -82,12 +82,7 @@ export interface LocalEvent {
 
 export type SourceType =
   | {
-      type:
-        | 'initialisation'
-        | 'trainer'
-        | 'time-forward'
-        | 'plan-action'
-        | 'unplan-action';
+      type: 'initialisation' | 'trainer' | 'time-forward' | 'plan-action' | 'unplan-action';
     }
   | {
       type: 'action';
@@ -485,7 +480,6 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         Ambulance: 0,
         SMUR: 0,
         PMA: 0,
-        DPMA: 0,
         'PC-San': 0,
         Helicopter: 0,
       },

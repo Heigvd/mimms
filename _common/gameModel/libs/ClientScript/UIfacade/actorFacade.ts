@@ -148,8 +148,6 @@ export function getInterfaceColorClass(id: ActorId): string {
         return 'theme-mcs';
       case 'EVASAN':
         return 'theme-evasan';
-      case 'LEADPMA':
-        return 'theme-leadpma';
     }
   }
   return 'theme-al';

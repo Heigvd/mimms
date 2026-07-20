@@ -160,18 +160,6 @@
                         }
                       },
                       "type" : "Text"
-                    }, {
-                      "props" : {
-                        "className" : "matrixHeaderRole",
-                        "layoutStyle" : { },
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actors', 'actor-leadpma');",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
                     } ],
                     "layout" : { },
                     "layoutStyle" : { },
@@ -317,26 +305,6 @@
                             "script" : {
                               "@class" : "Script",
                               "content" : "  Context.player.roles.EVASAN",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "className" : "matrixRowItem",
-                            "layoutStyle" : { },
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "import { updateRole } from \"./multiplayer/multiplayerManager\";\n\nupdateRole(Number(Context.player.id), 'LEADPMA');",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "  Context.player.roles.LEADPMA",
                               "language" : "TypeScript"
                             },
                             "style" : { },

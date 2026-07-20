@@ -69,7 +69,7 @@ export function shallowState(): MainSimulationState {
       radioMessages: [],
       resources: [],
       resourceContainers: [],
-      flags: {},
+      flags: {SimFlag.PMA_OPEN},
       hospital: {},
       gameOptions: { respectHierarchy: true },
       activables: {},

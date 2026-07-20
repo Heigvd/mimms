@@ -111,7 +111,7 @@ export function getMethaneStatus(state: DashboardGameState, teamId: number): boo
  * Ordered list of roles to be displayed
  */
 export function getRolesArray(): InterventionRole[] {
-  return ['AL', 'ACS', 'MCS', 'LEADPMA', 'EVASAN'];
+  return ['AL', 'ACS', 'MCS', 'EVASAN'];
 }
 
 export function getRolesContext(): {

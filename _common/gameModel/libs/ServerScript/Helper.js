@@ -59,7 +59,6 @@ var MultiplayerHelper = (function () {
       ACS: true,
       MCS: true,
       EVASAN: true,
-      LEADPMA: true,
     };
 
     if (currentPlayerId) {
