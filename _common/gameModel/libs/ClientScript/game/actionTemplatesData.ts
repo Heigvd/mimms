@@ -22,7 +22,7 @@ export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
-  readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
+  //readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
   readonly CasuMessageTemplate: CasuMessageTemplate;
   readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate;
   readonly MoveResourcesAssignTaskActionTemplate: MoveResourcesAssignTaskActionTemplate;
@@ -71,7 +71,7 @@ export function initActionTemplates(): ActionTemplateData {
     ActionType.CASU_RADIO
   );
 
-  const openPMA = new DisplayMessageActionTemplate(
+  /*const openPMA = new DisplayMessageActionTemplate(
     'open-PMA-uid-yxc',
     'open-PMA-title',
     'open-PMA-desc',
@@ -82,7 +82,7 @@ export function initActionTemplates(): ActionTemplateData {
     [SimFlag.PMA_OPEN],
     undefined,
     RadioType.RESOURCES
-  );
+  );*/
 
   const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
     'define-acsMcsArrival-uid-xcv',
@@ -170,7 +170,7 @@ export function initActionTemplates(): ActionTemplateData {
 
   const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
   templates[moveActor.uid] = moveActor;
-  templates[openPMA.uid] = openPMA;
+  //templates[openPMA.uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.uid] = acsMcsArrivalAnnouncement;
   templates[evasanArrivalAnnouncement.uid] = evasanArrivalAnnouncement;
   templates[activateRadioSchema.uid] = activateRadioSchema;
@@ -191,7 +191,7 @@ export function initActionTemplates(): ActionTemplateData {
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
       EvasanArrivalAnnouncement: evasanArrivalAnnouncement,
-      OpenPmaActionTemplate: openPMA,
+      //OpenPmaActionTemplate: openPMA,
       CasuMessageTemplate: casuMessage,
       ActivateRadioSchemaActionTemplate: activateRadioSchema,
       MoveResourcesAssignTaskActionTemplate: allocateResources,

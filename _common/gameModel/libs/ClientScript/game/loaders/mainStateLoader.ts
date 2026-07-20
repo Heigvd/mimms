@@ -12,6 +12,7 @@ import {
   LocalEventBase,
   T0TriggerEvaluationLocalEvent,
 } from '../common/localEvents/localEventBase';
+import { SimFlag } from '../common/actions/actionTemplateBase';
 
 let singletonStartState: MainSimulationState | undefined;
 
@@ -69,7 +70,7 @@ export function shallowState(): MainSimulationState {
       radioMessages: [],
       resources: [],
       resourceContainers: [],
-      flags: {SimFlag.PMA_OPEN},
+      flags: { [SimFlag.PMA_OPEN]: true },
       hospital: {},
       gameOptions: { respectHierarchy: true },
       activables: {},
