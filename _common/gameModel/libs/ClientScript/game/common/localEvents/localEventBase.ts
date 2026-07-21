@@ -82,12 +82,7 @@ export interface LocalEvent {
 
 export type SourceType =
   | {
-      type:
-        | 'initialisation'
-        | 'trainer'
-        | 'time-forward'
-        | 'plan-action'
-        | 'unplan-action';
+      type: 'initialisation' | 'trainer' | 'time-forward' | 'plan-action' | 'unplan-action';
     }
   | {
       type: 'action';
