@@ -6677,15 +6677,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/locationTypes",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#97:Qr2j9E",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "map/pathFinding",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
