@@ -6,7 +6,7 @@ import {
   SkillDefinition,
   SkillLevel,
 } from '../edition/GameModelerHelper';
-import { Point } from '../map/point2D';
+import { Point } from './point2D';
 import { BodyFactoryParam, Environnment } from '../HUMAn/human';
 import { logger } from './logger';
 import {

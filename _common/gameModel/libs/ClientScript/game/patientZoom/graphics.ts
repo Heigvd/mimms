@@ -1,6 +1,6 @@
 import { getAfflictedBlocks } from './currentPatientZoom';
 import { interpolate, normalize } from '../../tools/helper';
-import { Point } from '../../map/point2D';
+import { Point } from '../../tools/point2D';
 import { BlockName, BodyPosition, Glasgow, HumanBody } from '../../HUMAn/human';
 import { getCurrentPatientBody, getHuman } from '../pretri/patientProcessing';
 import { Categorization, Category, getCategory } from '../pretri/triage';

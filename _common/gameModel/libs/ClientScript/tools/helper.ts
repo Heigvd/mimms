@@ -8,7 +8,7 @@
  *  - Hôpitaux Universitaires Genève (HUG)
  */
 
-import { Point } from '../map/point2D';
+import { Point } from './point2D';
 import { logger } from './logger';
 
 export function checkUnreachable(x: never): void {

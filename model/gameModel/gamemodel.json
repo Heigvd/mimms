@@ -6716,7 +6716,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/point2D",
+    "contentKey" : "tools/point2D",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:57478:23476j",
