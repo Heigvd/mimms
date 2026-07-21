@@ -7688,7 +7688,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-684+686+687",
+  "name" : "Basic scenario",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
