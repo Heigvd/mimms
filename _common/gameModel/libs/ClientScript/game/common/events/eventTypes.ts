@@ -1,7 +1,7 @@
 import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
-import { ActionSource, ResolvedAction } from '../../legacy/the_world';
+import { ActionSource } from '../../legacy/the_world';
 import { Categorization } from '../../pretri/triage';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
@@ -24,22 +24,8 @@ export interface HumanLogMessageEvent extends TargetedEvent {
   message: string;
 }
 
-export interface DelayedAction {
-  id: number;
-  dueDate: number;
-  action: ResolvedAction;
-  event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
-  resultEvent: HumanMeasureResultEvent | undefined;
-  display:
-    | {
-        pulse_perMin?: number;
-      }
-    | undefined;
-}
-
 export interface HumanMeasureEvent extends TargetedEvent {
   type: 'HumanMeasure';
-  timeJump: boolean;
   source: ActionSource;
 }
 
@@ -55,7 +41,6 @@ export interface HumanMeasureResultEvent extends TargetedEvent {
 
 export interface HumanTreatmentEvent extends TargetedEvent {
   type: 'HumanTreatment';
-  timeJump: boolean;
   source: ActionSource;
   blocks: BlockName[];
 }

@@ -34,7 +34,7 @@ import {
 import { TargetedEvent } from '../common/events/baseEvent';
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
 import { Categorization } from '../pretri/triage';
-import { worldLogger, delayedLogger, extraLogger } from '../../tools/logger';
+import { worldLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
   getActTranslation,
@@ -44,7 +44,6 @@ import {
 import {
   AgingEvent,
   CategorizeEvent,
-  DelayedAction,
   EventPayload,
   EventType,
   FreezeEvent,
@@ -129,8 +128,6 @@ type Snapshots<T> = Record<string, Snapshot<T>[]>;
 // State & config
 ///////////////////////////////////////////////////////////////////////////
 
-// const spatialIndex: PositionState = {};
-
 const humanMetas: Record<string, HumanMeta> = {};
 
 // object key to list of snapshots
@@ -142,8 +139,6 @@ const worldState: WorldState = {
 };
 
 let healths: HumanHealthState = {};
-
-let delayedActions: DelayedAction[] = [];
 
 /**
  * Trace of processed events.
@@ -575,96 +570,8 @@ function doMeasure(
   });
 }
 
-function getDelayedActionToProcess(time: number): DelayedAction[] {
-  return delayedActions.filter(dA => dA.dueDate <= time);
-}
-
-function clearPastActions(time: number) {
-  delayedActions = delayedActions.filter(dA => dA.dueDate > time);
-}
-
-function processDelayedAction({ dueDate, action, event, resultEvent }: DelayedAction) {
-  delayedLogger.info('Process Delayed Action', { dueDate, action, event, resultEvent });
-  if (event.payload.type === 'HumanMeasure' && action.action.type === 'ActionBodyMeasure') {
-    doMeasure(
-      dueDate,
-      action.source,
-      action.action,
-      event as FullEvent<HumanMeasureEvent>,
-      resultEvent
-    );
-  } else if (event.payload.type === 'HumanTreatment' && action.action.type === 'ActionBodyEffect') {
-    doTreatment(dueDate, action, event as FullEvent<HumanTreatmentEvent>);
-  } else {
-    worldLogger.error('Unknwon delayed action', action, event);
-  }
-}
-
-function processDelayedActions(time: number) {
-  getDelayedActionToProcess(time).forEach(da => {
-    processDelayedAction(da);
-  });
-  clearPastActions(time);
-}
-
 export function getResolvedActionDisplayName(action: ResolvedAction): string {
   return action.label;
-}
-
-function getActionDisplay(
-  action: ResolvedAction,
-  objectId: ObjectId,
-  time: number
-): DelayedAction['display'] {
-  if (action.action.type === 'ActionBodyMeasure') {
-    const metrics = action.action.metricName;
-    const metric = metrics[0];
-    if (metrics.length === 1 && metric) {
-      switch (metric) {
-        case 'vitals.cardio.hr':
-        case 'vitals.respiration.rr': {
-          const { snapshot } = getHumanSnapshotAtTime(objectId, time);
-          const body = snapshot.state.bodyState;
-          const result = readMetrics([metric], body);
-          if (result[0] != null && typeof result[0].value === 'number') {
-            return {
-              pulse_perMin: result[0].value,
-            };
-          }
-        }
-      }
-    }
-  }
-
-  return undefined;
-}
-
-function delayAction(
-  dueDate: number,
-  action: ResolvedAction,
-  event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>,
-  resultEvent: HumanMeasureResultEvent | undefined
-) {
-  const dA: DelayedAction = {
-    id: event.id,
-    dueDate,
-    action,
-    event,
-    display: getActionDisplay(
-      action,
-      { objectType: 'Human', objectId: event.payload.targetId },
-      event.time
-    ),
-    resultEvent,
-  };
-  const start = getTranslation('pretriage-interface', 'start');
-  addLogMessage(
-    event.payload.emitterCharacterId.toString(),
-    event.payload.targetId,
-    event.time,
-    `${start} ${dA.action.label}`
-  );
-  delayedActions.push(dA);
 }
 
 export function getHumanSkillLevelForAction(
@@ -727,20 +634,11 @@ function processHumanMeasureEvent(
         event.payload.source
       );
       if (skillLevel) {
-        const duration = action.duration[skillLevel];
+        const duration = action.duration[skillLevel] || 0;
         if (resultEvent) {
           resultEvent.duration = duration;
         }
-        if (duration > 0 && !event.payload.timeJump) {
-          // emit an event if timejump is deactivated
-          delayAction(event.time + duration, resolvedAction, event, resultEvent);
-        } else {
-          if (duration > 0) {
-            // fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
-            // fastForward(duration);
-          }
-          doMeasure(event.time, source, action as ActionBodyMeasure, event, resultEvent);
-        }
+        doMeasure(event.time, source, action as ActionBodyMeasure, event, resultEvent);
       } else {
         const dontknow = getTranslation('pretriage-interface', 'skillMissing');
         addLogMessage(
@@ -933,20 +831,8 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
       const patientOnItselfAct =
         event.payload.emitterCharacterId === event.payload.targetId &&
         !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
-      if (patientOnItselfAct) {
+      if (patientOnItselfAct || skillLevel) {
         doTreatment(event.time, resolvedAction, event);
-      } else if (skillLevel) {
-        const duration = action.duration[skillLevel];
-        if (duration > 0 && !event.payload.timeJump) {
-          // delay event
-          delayAction(event.time + duration, resolvedAction, event, undefined);
-        } else {
-          if (duration > 0) {
-            // fastForward handled in patientZoom/currentPatientZoom.ts to avoid erroneous state rebuilding
-            // fastForward(duration);
-          }
-          doTreatment(event.time, resolvedAction, event);
-        }
       } else {
         const dontknow = getTranslation('pretriage-interface', 'skillMissing');
         addLogMessage(
@@ -964,10 +850,6 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
       `Action Failed: Action "${JSON.stringify(event.payload.source)}" does not exist`
     );
   }
-}
-
-function unreachable(x: never) {
-  worldLogger.error('Unreachable ', x);
 }
 
 function processFreezeEvent(event: FullEvent<FreezeEvent>) {
@@ -1034,6 +916,10 @@ function processEvent(
   processedEvent[event.id] = true;
 }
 
+function unreachable(x: never) {
+  worldLogger.error('Unreachable ', x);
+}
+
 export function syncWorld() {
   worldLogger.log('Sync World');
   const time = getCurrentSimulationTime();
@@ -1051,8 +937,6 @@ export function syncWorld() {
   const sortedEvents = eventsToProcess.sort(compareEvent);
 
   sortedEvents.forEach(e => processEvent(e, eventsToProcess));
-
-  processDelayedActions(time);
 
   rebuildState(time, env);
 }
@@ -1126,7 +1010,6 @@ export function clearState() {
   humanSnapshots = {};
   worldState.humans = {};
   healths = {};
-  delayedActions = [];
 }
 
 Helpers.registerEffect(() => {

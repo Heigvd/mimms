@@ -647,7 +647,6 @@ export function doWheelMeasure(
       targetType: 'Human',
       targetId: Context.patientConsole.state.currentPatient,
       source: source,
-      timeJump: true,
     });
   }
 }
@@ -682,7 +681,6 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
       targetId: Context.patientConsole.state.currentPatient,
       source: source,
       blocks: block ? [block] : [],
-      timeJump: true,
     });
   }
 }
@@ -709,7 +707,7 @@ function formatBlockEntry(
     title = getTranslation(translationVar, title);
   }
   return `<div class='block-entry'>
-		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
+		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span>
 		<span class='block-entry-value'>${value || ''}</span>
 	</div>`;
 }
