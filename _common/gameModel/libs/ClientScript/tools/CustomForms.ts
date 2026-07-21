@@ -551,7 +551,6 @@ Helpers.registerEffect(() => {
             keyName = 'patients';
             break;
         }
-        //keyName = od.editorTag === 'bags' ? 'items' :  od.editorTag === 'situations'  ? 'pathologies' : 'actions';
 
         const newSchema = Helpers.cloneDeep(schema);
         hideProperty(newSchema, 'description');

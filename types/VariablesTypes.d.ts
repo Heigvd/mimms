@@ -43,7 +43,6 @@ interface VariableClasses {
   "data": SListDescriptor;
   "patients": SObjectDescriptor;
   "characters": SObjectDescriptor;
-  "bagsDefinitions": SObjectDescriptor;
   "hospitals_config": SObjectDescriptor;
   "skillsDefinitions": SObjectDescriptor;
   "actionsDurations": SObjectDescriptor;
@@ -63,7 +62,6 @@ interface VariableClasses {
   "tagSystem": SStringDescriptor;
   "drillType": SStringDescriptor;
   "drill": SListDescriptor;
-  "bagType": SStringDescriptor;
   "defaultProfile": SStringDescriptor;
   "finished_custom_text": STextDescriptor;
   "examMode": SBooleanDescriptor;
