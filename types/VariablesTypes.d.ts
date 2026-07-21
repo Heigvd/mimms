@@ -53,7 +53,6 @@ interface VariableClasses {
   "whoAmI": SStringDescriptor;
   "currentPatient": SStringDescriptor;
   "drillStatus": SObjectDescriptor;
-  "scenarioRevived": SBooleanDescriptor;
   "variable": SListDescriptor;
   "gameMode": SStringDescriptor;
   "vasoconstriction": SBooleanDescriptor;
@@ -117,8 +116,6 @@ interface VariableClasses {
   "pretriage": SListDescriptor;
   "pretriage-interface": SObjectDescriptor;
   "pretriage-explanations": SObjectDescriptor;
-  "variable_6HaInb": SListDescriptor;
-  "qr-interface": SObjectDescriptor;
   "general": SListDescriptor;
   "general-interface": SObjectDescriptor;
   "general-likert": SObjectDescriptor;
@@ -131,8 +128,6 @@ interface VariableClasses {
   "mainSim-radio": SObjectDescriptor;
   "mainSim-summary": SObjectDescriptor;
   "mainSim-dashboard": SObjectDescriptor;
-  "trainer": SListDescriptor;
-  "trainer-interface": SObjectDescriptor;
   "debug": SListDescriptor;
   "debug_LMEBup": SNumberDescriptor;
   "debugStoredState": SNumberDescriptor;

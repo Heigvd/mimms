@@ -1108,27 +1108,6 @@
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "INHERITED"
-    }, {
-      "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "BooleanInstance",
-        "refId" : "BooleanInstance:24098834:WslyOa",
-        "value" : false
-      },
-      "editorTag" : "scenario revived",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098835:PV2cOY",
-        "translations" : { }
-      },
-      "name" : "scenarioRevived",
-      "refId" : "BooleanDescriptor:24098833:0jJFD7",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "INHERITED"
     } ],
     "label" : {
       "@class" : "TranslatableContent",
@@ -3506,80 +3485,6 @@
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
-        "refId" : "ListInstance:24098777:esCQTe"
-      },
-      "editorTag" : "",
-      "isolation" : "OPEN",
-      "items" : [ {
-        "@class" : "ObjectDescriptor",
-        "broadcastScope" : "GameModelScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ObjectInstance",
-          "properties" : { },
-          "refId" : "ObjectInstance:24098782:Zj59Gv"
-        },
-        "description" : "",
-        "editorTag" : "localization",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098783:2eLPVQ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098783:2eLPVQ::EN",
-              "status" : "",
-              "translation" : "interface"
-            }
-          }
-        },
-        "name" : "qr-interface",
-        "properties" : {
-          "join-as-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as observer\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'observateur\",\"lang\":\"FR\"}},\"version\":0}",
-          "join-as-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as patient\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant que patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "join-as-squad-member" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as participant\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'intervenant\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a patient QR code to examine him/her\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient pour l'ausculter\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to be an observer\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour être observateur\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play as this patient\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner ce patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play a character with this level of skills\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner votre personnage avec ce niveau de compétences\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-take-role" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a QR code to pick a role in the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez un QR code pour définir votre rôle dans la partie\",\"lang\":\"FR\"}},\"version\":0}",
-          "touch-camera-icon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"touch the camera icon below\"},\"FR\":{\"status\":\"\",\"translation\":\"touchez l'icône d'appareil photo ci-dessous\",\"lang\":\"FR\"}},\"version\":0}",
-          "you-are-participant" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are connected as a participant.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes connecté-e en tant qu'intervenant-e\",\"lang\":\"FR\"}},\"version\":0}"
-        },
-        "refId" : "ObjectDescriptor:24098781:HZZRDx",
-        "scopeType" : "GameModelScope",
-        "version" : null,
-        "visibility" : "INHERITED"
-      } ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098778:3wfBKz",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24098778:3wfBKz::EN",
-            "status" : "",
-            "translation" : "QR"
-          }
-        }
-      },
-      "name" : "variable_6HaInb",
-      "refId" : "ListDescriptor:24098776:LeCiBl",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "INTERNAL"
-    }, {
-      "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ListInstance",
         "refId" : "ListInstance:24098807:Y9BkDs"
       },
       "editorTag" : "general",
@@ -4245,62 +4150,6 @@
       "name" : "mainSim",
       "refId" : "ListDescriptor:49455:3wsqe7",
       "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "INTERNAL"
-    }, {
-      "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ListInstance",
-        "refId" : "ListInstance:622971:2PCqx6"
-      },
-      "editorTag" : "trainer",
-      "isolation" : "OPEN",
-      "items" : [ {
-        "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ObjectInstance",
-          "properties" : { },
-          "refId" : "ObjectInstance:622930:PnE9EA"
-        },
-        "description" : "",
-        "editorTag" : "localization",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:622931:uK61HZ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:622931:uK61HZ::EN",
-              "status" : "",
-              "translation" : "trainer-interface"
-            }
-          }
-        },
-        "name" : "trainer-interface",
-        "properties" : {
-          "patient-debug" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"button to display patient summary to user\"},\"FR\":{\"status\":\"\",\"translation\":\"bouton d'affichage du résumé des patient pour l'utilisateur\",\"lang\":\"FR\"}},\"version\":0}"
-        },
-        "refId" : "ObjectDescriptor:622929:2SsbX6",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "INHERITED"
-      } ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:622972:HOrnq9",
-        "translations" : { }
-      },
-      "name" : "trainer",
-      "refId" : "ListDescriptor:622970:cq64eO",
-      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "INTERNAL"
     } ],
