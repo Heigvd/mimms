@@ -1822,7 +1822,7 @@
               },
               "type" : "FlexList"
             } ],
-            "className" : "theGame",
+            "className" : "fullHeight",
             "hideIf" : {
               "@class" : "Script",
               "content" : "Variable.find(gameModel, 'currentPatient').getValue(self) === \"\"&&\nContext.patientConsole?.state == null;",
@@ -1830,7 +1830,7 @@
             },
             "id" : "",
             "layout" : { },
-            "layoutClassName" : "noPadding theGame-container",
+            "layoutClassName" : "fullHeight noPadding",
             "layoutStyle" : { },
             "name" : "THE GAME // class= patientConsole",
             "style" : { }

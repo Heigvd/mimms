@@ -213,7 +213,9 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "fullWidth fullHeight noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "justifyContent" : "center"
+        },
         "name" : "ongoing",
         "style" : { }
       },
@@ -1058,7 +1060,7 @@
             } ],
             "className" : "pretri-medium-space",
             "layout" : { },
-            "layoutClassName" : "noPadding",
+            "layoutClassName" : "fullHeight noPadding",
             "layoutStyle" : { },
             "name" : "columns",
             "style" : { }
@@ -1100,9 +1102,9 @@
           "alignItems" : "flex-end",
           "flexDirection" : "column"
         },
-        "layoutClassName" : "NOT_STARTED noPadding fullHeight",
+        "layoutClassName" : "NOT_STARTED fullHeight noPadding",
         "layoutStyle" : {
-          "maxWidth" : "2000px"
+          "justifyContent" : "center"
         },
         "name" : "not started",
         "style" : { }
@@ -1601,7 +1603,7 @@
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "fullWidth noPadding",
+            "layoutClassName" : "fullWidth fullHeight noPadding",
             "layoutStyle" : { },
             "name" : "patient list",
             "style" : { }
@@ -1688,7 +1690,9 @@
           "flexDirection" : "column"
         },
         "layoutClassName" : "fullWidth fullHeight noPadding",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "justifyContent" : "center"
+        },
         "name" : "summary",
         "style" : { }
       },

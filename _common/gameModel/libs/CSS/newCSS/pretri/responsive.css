@@ -1,15 +1,4 @@
 @media screen and (min-width: 1200px){
-	.theGame-container{
-    width: 100%;
-    height: 100%;
-		margin: auto;
-	}
-
-	/*.theGame{
-		padding: 0px;
-		margin: 0px;
-	}*/
-
 	.westSide-container {
     flex: 1 1 0;
     min-width: 0;
@@ -44,15 +33,4 @@
 		padding: 0px;
 		margin: 0px;
 	}*/
-}
-
-/*** GINORMOUS SCREENS ***/
-@media screen and (min-width: 2500px){
-	.theGame-container{
-		width: 75vw;
-	}
-
-	.fullSize {
-		width: 75vw;
-	}
 }
