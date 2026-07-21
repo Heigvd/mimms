@@ -4,8 +4,8 @@ import {
   getCurrentPatientBody,
   getCurrentPatientId,
   getInstantiatedHumanIds,
-} from '../legacy/the_world';
-import { getCurrentSimulationTime, getRunningMode } from '../legacy/TimeManager';
+} from './patientProcessing';
+import { getCurrentSimulationTime, getRunningMode } from './pretriTime';
 import { getBodyParam, getSortedPatientIds } from '../../tools/WegasHelper';
 import { AgingEvent, EventPayload, ScriptedEvent } from '../common/events/eventTypes';
 import { getInitialTimeJumpSeconds } from '../common/patients/handleState';

@@ -23,7 +23,7 @@ import {
   revivePathology,
 } from '../../HUMAn/pathology';
 import { getAct, getItem, getPathology } from '../../HUMAn/registries';
-import { getCurrentSimulationTime } from './TimeManager';
+import { getCurrentSimulationTime } from './pretriTime';
 import {
   getBodyParam,
   getEnv,
@@ -33,7 +33,7 @@ import {
 } from '../../tools/WegasHelper';
 import { TargetedEvent } from '../common/events/baseEvent';
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
-import { Categorization } from '../pretri/triage';
+import { Categorization } from './triage';
 import { worldLogger, extraLogger } from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
@@ -54,7 +54,7 @@ import {
   PathologyEvent,
 } from '../common/events/eventTypes';
 import { MeasureMetric } from '../../HUMAn/registry/acts';
-import { ConsoleLog, MeasureLog, TreatmentLog } from '../pretri/consoleLog';
+import { ConsoleLog, MeasureLog, TreatmentLog } from './consoleLog';
 
 ///////////////////////////////////////////////////////////////////////////
 // Typings

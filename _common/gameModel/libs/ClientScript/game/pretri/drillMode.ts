@@ -1,5 +1,5 @@
-import { getDrillStatus } from '../pretri/drill';
-import { getRunningMode } from './TimeManager';
+import { getDrillStatus } from './drill';
+import { getRunningMode } from './pretriTime';
 
 type DrillType = 'PRE-TRIAGE' | 'LIKERT';
 

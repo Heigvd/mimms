@@ -1,7 +1,7 @@
 import { PatientId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
-import { HumanHealth } from '../game/legacy/the_world';
+import { HumanHealth } from '../game/pretri/patientProcessing';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   AfflictedBlockDetails,

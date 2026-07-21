@@ -21,7 +21,7 @@ import {
   getPathologies,
   getPathologiesMap,
 } from '../HUMAn/registries';
-import { ActionSource, resolveAction } from '../game/legacy/the_world';
+import { ActionSource, resolveAction } from '../game/pretri/patientProcessing';
 import {
   getCurrentPatientId,
   getPatientsBodyFactoryParams,

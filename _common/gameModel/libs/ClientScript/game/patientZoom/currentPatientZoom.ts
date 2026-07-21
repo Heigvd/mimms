@@ -28,8 +28,8 @@ import {
   getHumanConsole,
   getHumanSkillLevelForAction,
   HumanHealth,
-} from '../legacy/the_world';
-import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
+} from '../pretri/patientProcessing';
+import { fastForward, getCurrentSimulationTime } from '../pretri/pretriTime';
 import {
   Categorization,
   categoryToHtml,

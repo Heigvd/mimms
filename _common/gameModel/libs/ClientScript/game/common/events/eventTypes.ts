@@ -1,7 +1,7 @@
 import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
-import { ActionSource } from '../../legacy/the_world';
+import { ActionSource } from '../../pretri/patientProcessing';
 import { Categorization } from '../../pretri/triage';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';

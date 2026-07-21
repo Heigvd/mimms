@@ -6281,7 +6281,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/gameMaster",
+    "contentKey" : "game/pretri/drillMode",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#73:Nu8q8h",
@@ -6290,7 +6290,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/likert",
+    "contentKey" : "game/pretri/likert",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#67:7aiTeC",
@@ -6299,7 +6299,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/the_world",
+    "contentKey" : "game/pretri/patientProcessing",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#68:h6AnTo",
@@ -6308,7 +6308,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/TimeManager",
+    "contentKey" : "game/pretri/pretriTime",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#72:gtpcJn",

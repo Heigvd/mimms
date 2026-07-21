@@ -2,7 +2,7 @@ import { getAfflictedBlocks } from './currentPatientZoom';
 import { interpolate, normalize } from '../../tools/helper';
 import { Point } from '../../map/point2D';
 import { BlockName, BodyPosition, Glasgow, HumanBody } from '../../HUMAn/human';
-import { getCurrentPatientBody, getHuman } from '../legacy/the_world';
+import { getCurrentPatientBody, getHuman } from '../pretri/patientProcessing';
 import { Categorization, Category, getCategory } from '../pretri/triage';
 import { convertMeterToMapUnit } from '../../map/layersData';
 

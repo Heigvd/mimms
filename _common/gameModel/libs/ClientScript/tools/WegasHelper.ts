@@ -16,7 +16,7 @@ import {
 } from '../HUMAn/physiologicalModel';
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { checkUnreachable, NumberVariableClasses } from './helper';
-import { getDrillType, isDrillMode } from '../game/legacy/gameMaster';
+import { getDrillType, isDrillMode } from '../game/pretri/drillMode';
 import { getActTranslation, getItemActionTranslation } from './translation';
 import { HumanTreatmentEvent, PathologyEvent } from '../game/common/events/eventTypes';
 

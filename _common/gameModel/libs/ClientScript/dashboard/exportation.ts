@@ -16,7 +16,7 @@ import {
 import { BodyFactoryParam } from '../HUMAn/human';
 import { compare } from '../tools/helper';
 import { exportLogger } from '../tools/logger';
-import { resolveAction } from '../game/legacy/the_world';
+import { resolveAction } from '../game/pretri/patientProcessing';
 import { PatientId } from '../game/common/baseTypes';
 
 type PlayerId = string;
