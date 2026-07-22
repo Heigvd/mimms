@@ -1,4 +1,3 @@
-import { whoAmI } from '../../../tools/WegasHelper';
 import { ActorId } from '../baseTypes';
 
 export interface BaseEvent {
@@ -8,13 +7,13 @@ export interface BaseEvent {
 }
 
 /**
- * Legacy use initBaseEvent instead
+ * Init a base event for the pre-triage player (no character concept).
  * @returns an initialized base event
  */
 export function initEmitterIds() {
   return {
     type: '',
-    emitterCharacterId: whoAmI(),
+    emitterCharacterId: '',
     emitterPlayerId: String(self.getId()),
   };
 }

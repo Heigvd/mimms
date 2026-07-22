@@ -8,7 +8,6 @@ import {
 } from '../edition/GameModelerHelper';
 import { Point } from './point2D';
 import { BodyFactoryParam, Environnment } from '../HUMAn/human';
-import { logger } from './logger';
 import {
   getCompensationModel,
   getOverdriveModel,
@@ -16,7 +15,6 @@ import {
 } from '../HUMAn/physiologicalModel';
 import { getAct, getItem, getPathology } from '../HUMAn/registries';
 import { checkUnreachable, NumberVariableClasses } from './helper';
-import { getDrillType, isDrillMode } from '../game/pretri/drillMode';
 import { getActTranslation, getItemActionTranslation } from './translation';
 import { HumanTreatmentEvent, PathologyEvent } from '../game/common/events/eventTypes';
 
@@ -90,16 +88,7 @@ export function getOtherVitalsSeries() {
 }
 
 function getRawHumanBodyParams() {
-  const patients = Variable.find(gameModel, 'patients').getProperties();
-  const characters = Variable.find(gameModel, 'characters').getInstance(self).getProperties();
-
-  const all = { ...patients, ...characters };
-
-  if (Object.keys(all).length !== Object.keys(patients).length + Object.keys(characters).length) {
-    logger.error('Patients And characters duplicates ids !');
-  }
-
-  return all;
+  return Variable.find(gameModel, 'patients').getProperties();
 }
 
 export function getHumanIds() {
@@ -129,60 +118,6 @@ export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
   }
 }
 
-/**
- * Should whoAmI being instantated automatically?
- * Based on game settings,
- */
-function shouldInstantiateWhoAmI(): boolean {
-  if (isDrillMode()) {
-    const drillType = getDrillType();
-    switch (drillType) {
-      case 'PRE-TRIAGE':
-        return true;
-      case 'LIKERT':
-        return false;
-    }
-  }
-  return false;
-}
-
-export function whoAmI(): string {
-  const id = Variable.find(gameModel, 'whoAmI').getValue(self);
-  if (!id && shouldInstantiateWhoAmI()) {
-    instantiateWhoAmI();
-  }
-  return id;
-}
-
-let instantiationStatus: 'UNDONE' | 'ONGOING' | 'DONE' = 'UNDONE';
-
-Helpers.registerEffect(() => {
-  instantiationStatus = whoAmI() ? 'DONE' : 'UNDONE';
-  return () => {
-    instantiationStatus = 'UNDONE';
-  };
-});
-
-export async function instantiateWhoAmI(force: boolean = false): Promise<string> {
-  if (instantiationStatus === 'UNDONE' || force) {
-    instantiationStatus = 'ONGOING';
-    const profileId = Variable.find(gameModel, 'defaultProfile').getValue(self);
-    const response = await APIMethods.runScript(
-      `EventManager.instantiateCharacter(${JSON.stringify(profileId)})`,
-      {}
-    );
-    const entity = response.updatedEntities[0];
-
-    if (typeof entity === 'string') {
-      instantiationStatus = 'DONE';
-      return entity;
-    } else {
-      return '';
-    }
-  }
-  // to avoid infinite recusion, avoid calling whoAmI()!
-  return Variable.find(gameModel, 'whoAmI').getValue(self);
-}
 
 export function getCurrentPatientId(): string {
   return Variable.find(gameModel, 'currentPatient').getValue(self);
@@ -303,34 +238,6 @@ export function getPatientsBodyFactoryParamsArray() {
     });
 }
 
-export interface CharacterProfile {
-  skillId: string;
-  description: '';
-}
-
-export function getCharacterProfiles() {
-  return parseObjectDescriptor<CharacterProfile>(Variable.find(gameModel, 'characters'));
-}
-
-export function getCharacterProfilesArray() {
-  return Object.entries(getCharacterProfiles())
-    .map(([id, profile]) => {
-      return { id: id, profile: profile };
-    })
-    .sort((a, b) => {
-      return alphaNumericSort(a.id, b.id);
-    });
-}
-
-export function getCharacterProfilesAsChoices() {
-  return Object.entries(getCharacterProfiles())
-    .map(([id, profile]) => {
-      return { label: profile.description || id, value: id };
-    })
-    .sort((a, b) => {
-      return alphaNumericSort(a.label, b.label);
-    });
-}
 
 /**
  * Pretty print human. Expose internal secret data ! Do not show to players
@@ -461,36 +368,27 @@ export function getOverdriveSeries(): Graph[] {
 }
 
 /**
- * Get character skills
+ * Skill of the current pre-triage player (configured via the `defaultSkill` variable)
  */
-export function getHumanSkillDefinition(humanId: string): SkillDefinition {
-  const humanDef = getBodyParam(humanId);
-  const skillId = humanDef?.skillId;
+export function getDefaultSkillDefinition(): SkillDefinition {
+  const skillId = Variable.find(gameModel, 'defaultSkill').getValue(self);
   return getSkillDefinition(skillId);
 }
 
 /**
- * Get current character skills, or drill skill level if in drill mode
+ * Current player's skillLevel for the given action
  */
-export function getMySkillDefinition(): SkillDefinition {
-  return getHumanSkillDefinition(whoAmI());
-}
-
-/**
- * Get humanId skillLevel for the given action
- */
-export function getHumanSkillLevelForItemAction(
-  humanId: string,
+export function getSkillLevelForItemAction(
   itemId: string,
   actionId: string
 ): SkillLevel | undefined {
   const key = getSkillItemActionId(itemId, actionId);
-  const skills = getHumanSkillDefinition(humanId);
+  const skills = getDefaultSkillDefinition();
   return skills.actions && skills.actions[key];
 }
 
-export function getHumanSkillLevelForAct(humanId: string, actId: string) {
+export function getSkillLevelForAct(actId: string): SkillLevel | undefined {
   const key = getSkillActId(actId);
-  const skills = getHumanSkillDefinition(humanId);
+  const skills = getDefaultSkillDefinition();
   return skills.actions && skills.actions[key];
 }

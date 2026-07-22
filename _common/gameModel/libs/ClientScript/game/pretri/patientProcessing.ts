@@ -27,9 +27,8 @@ import { getCurrentSimulationTime } from './pretriTime';
 import {
   getBodyParam,
   getEnv,
-  getHumanSkillLevelForAct,
-  getHumanSkillLevelForItemAction,
-  whoAmI,
+  getSkillLevelForAct,
+  getSkillLevelForItemAction,
 } from '../../tools/WegasHelper';
 import { TargetedEvent } from '../common/events/baseEvent';
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
@@ -574,14 +573,11 @@ export function getResolvedActionDisplayName(action: ResolvedAction): string {
   return action.label;
 }
 
-export function getHumanSkillLevelForAction(
-  humanId: string,
-  action: ActionSource
-): SkillLevel | undefined {
+export function getSkillLevelForAction(action: ActionSource): SkillLevel | undefined {
   if (action.type === 'act') {
-    return getHumanSkillLevelForAct(humanId, action.actId);
+    return getSkillLevelForAct(action.actId);
   } else {
-    return getHumanSkillLevelForItemAction(humanId, action.itemId, action.actionId);
+    return getSkillLevelForItemAction(action.itemId, action.actionId);
   }
 }
 
@@ -629,10 +625,7 @@ function processHumanMeasureEvent(
         event
       );
 
-      const skillLevel = getHumanSkillLevelForAction(
-        event.payload.emitterCharacterId.toString(),
-        event.payload.source
-      );
+      const skillLevel = getSkillLevelForAction(event.payload.source);
       if (skillLevel) {
         const duration = action.duration[skillLevel] || 0;
         if (resultEvent) {
@@ -824,10 +817,7 @@ function processHumanTreatmentEvent(event: FullEvent<HumanTreatmentEvent>) {
   if (resolvedAction != null) {
     const { action } = resolvedAction;
     if (resolvedAction.action.type === 'ActionBodyEffect') {
-      const skillLevel = getHumanSkillLevelForAction(
-        event.payload.emitterCharacterId.toString(),
-        event.payload.source
-      );
+      const skillLevel = getSkillLevelForAction(event.payload.source);
       const patientOnItselfAct =
         event.payload.emitterCharacterId === event.payload.targetId &&
         !!Variable.find(gameModel, 'patients').getProperties()[event.payload.emitterCharacterId];
@@ -983,14 +973,8 @@ export function getHumanMeta(humanId: string): HumanMeta | undefined {
 }
 
 export function getHumanConsole(id: string): ConsoleLog[] {
-  const myId = whoAmI();
   const human = worldState.humans[`Human::${id}`];
-
-  if (human?.human) {
-    return human.human.console.filter(log => log.emitterCharacterId === myId);
-  }
-
-  return [];
+  return human?.human ? human.human.console : [];
 }
 
 export function getCurrentPatientId() {

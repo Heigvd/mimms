@@ -13,7 +13,6 @@ import {
   getSkillItemActionId,
   SkillLevel,
 } from '../edition/GameModelerHelper';
-import { BodyFactoryParam } from '../HUMAn/human';
 import { compare } from '../tools/helper';
 import { exportLogger } from '../tools/logger';
 import { resolveAction } from '../game/pretri/patientProcessing';
@@ -32,7 +31,6 @@ type MeasureData = {
 
 export async function exportAllPlayersDrillResults(): Promise<void> {
   const patientEvents = await getPatientsEvents();
-  const characters = await getCharactersInfo();
 
   if (!patientEvents) {
     exportLogger.error('Could not get patient info');
@@ -142,8 +140,7 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
       wlog('****** Could not resolve action', event);
       return 0;
     }
-    const skillId = characters[event.emitterCharacterId]!.skillId;
-    const skillDef = getSkillDefinition(skillId);
+    const skillDef = getSkillDefinition(Variable.find(gameModel, 'defaultSkill').getValue(self));
 
     if (!skillDef) {
       if (event.type === 'HumanTreatment') {
@@ -162,19 +159,6 @@ export async function exportAllPlayersDrillResults(): Promise<void> {
         skillDef.actions![getSkillItemActionId(event.source.itemId, event.source.actionId)]!;
     }
     return resolvedAction.action.duration[skillLvl] || 0;
-
-    /*if(!skillLvl){
-			FALLBACK CODE, reading the variable set by the trainer in the setup interface
-			const profiles = getCharacterProfiles();
-			const selectedProfile = Variable.find(gameModel, 'defaultProfile').getValue(self);
-			const skillDef = getSkillDefinition(profiles[selectedProfile].skillId);
-			if (action.type === 'act') {
-				return getHumanSkillLevelForAct(humanId, action.actId);
-			} else {
-				return getHumanSkillLevelForItemAction(humanId, action.itemId, action.actionId);
-			}
-			wlog(skillDef);
-		}*/
   }
 
   const sortedPatientIds = Object.keys(patientsIds).sort((a, b) => compare(a, b));
@@ -401,19 +385,6 @@ export async function getPatientsEvents(): Promise<FullEvent<EventPayload>[]> {
   let info: FullEvent<EventPayload>[] = [];
   await APIMethods.runScript('PatientDashboard.patientInfo();', {}).then(response => {
     info = response.updatedEntities as FullEvent<EventPayload>[];
-  });
-
-  return info;
-}
-
-async function getCharactersInfo(): Promise<Record<string, BodyFactoryParam>> {
-  const info: Record<string, BodyFactoryParam> = {};
-  const response = await APIMethods.runScript('MimmsHelper.charactersInfo();', {});
-  const tmp = Object.values(response.updatedEntities[0] as Record<string, any>);
-  tmp.forEach(entry => {
-    Object.entries(entry.properties as Record<string, string>).forEach(([k, v]) => {
-      info[k] = JSON.parse(v) as BodyFactoryParam;
-    });
   });
 
   return info;

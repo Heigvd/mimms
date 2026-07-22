@@ -42,7 +42,6 @@ interface VariableClasses {
   "stepDuration": SNumberDescriptor;
   "data": SListDescriptor;
   "patients": SObjectDescriptor;
-  "characters": SObjectDescriptor;
   "hospitals_config": SObjectDescriptor;
   "skillsDefinitions": SObjectDescriptor;
   "actionsDurations": SObjectDescriptor;
@@ -50,7 +49,6 @@ interface VariableClasses {
   "patients-elapsed-minutes": SNumberDescriptor;
   "patientCapacity": SNumberDescriptor;
   "state": SListDescriptor;
-  "whoAmI": SStringDescriptor;
   "currentPatient": SStringDescriptor;
   "drillStatus": SObjectDescriptor;
   "variable": SListDescriptor;
@@ -61,7 +59,7 @@ interface VariableClasses {
   "tagSystem": SStringDescriptor;
   "drillType": SStringDescriptor;
   "drill": SListDescriptor;
-  "defaultProfile": SStringDescriptor;
+  "defaultSkill": SStringDescriptor;
   "finished_custom_text": STextDescriptor;
   "examMode": SBooleanDescriptor;
   "collectDemographicData": SBooleanDescriptor;

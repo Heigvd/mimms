@@ -131,48 +131,6 @@ Helpers.registerEffect(() => {
           },
         };
         return newSchema;
-      } else if (od.editorTag === 'characters') {
-        const newSchema = Helpers.cloneDeep(schema);
-        hideProperty(newSchema, 'description');
-        hideProperty(newSchema, 'defaultInstance');
-
-        //hideProperty(newSchema, "label");
-        turnPropertyReadOnly(newSchema, 'editorTag');
-        newSchema.properties.properties.view = {
-          label: 'Profile',
-          type: 'dictionary',
-          value: {},
-          keySchema: {
-            type: 'string',
-            view: {
-              label: 'Profile Id',
-              layout: 'shortInline',
-            },
-          },
-          valueSchema: {
-            type: 'string',
-            value: '{}',
-            view: {
-              type: 'serializer',
-              schema: {
-                type: 'object',
-                properties: {
-                  skillId: {
-                    type: 'string',
-                    view: {
-                      label: 'Skill',
-                      layout: 'shortInline',
-                      type: 'select',
-                      choices: skillChoices,
-                    },
-                  },
-                  description: { type: 'string', view: { label: 'Description' } },
-                },
-              },
-            },
-          },
-        };
-        return newSchema;
       } else if (od.editorTag === 'old_compensation') {
         const newSchema = Helpers.cloneDeep(schema);
         hideProperty(newSchema, 'description');

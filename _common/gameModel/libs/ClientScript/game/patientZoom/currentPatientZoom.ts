@@ -26,7 +26,7 @@ import {
   getHealth,
   getHuman,
   getHumanConsole,
-  getHumanSkillLevelForAction,
+  getSkillLevelForAction,
   HumanHealth,
 } from '../pretri/patientProcessing';
 import { fastForward, getCurrentSimulationTime } from '../pretri/pretriTime';
@@ -45,10 +45,9 @@ import {
   getTranslation,
 } from '../../tools/translation';
 import {
-  getHumanSkillLevelForAct,
-  getHumanSkillLevelForItemAction,
-  getMySkillDefinition,
-  whoAmI,
+  getDefaultSkillDefinition,
+  getSkillLevelForAct,
+  getSkillLevelForItemAction,
 } from '../../tools/WegasHelper';
 import { toHoursMinutesSecondsIso } from '../../tools/helper';
 import { getBloodRatio } from '../../HUMAn/physiologicalModel';
@@ -378,7 +377,7 @@ export function getWheel(): Wheel {
  * According to its skills, get all medical act available to current character and gameplay mode
  */
 export function getMyMedicalActs(): ActDefinition[] {
-  const skill = getMySkillDefinition();
+  const skill = getDefaultSkillDefinition();
 
   return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
     if (actionId.startsWith('act::')) {
@@ -634,8 +633,7 @@ export function doWheelMeasure(
           };
 
     // fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-    const { emitterCharacterId } = initEmitterIds();
-    const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+    const skillLevel = getSkillLevelForAction(source);
     if (skillLevel) {
       const duration = action.duration[skillLevel!];
       fastForward(duration);
@@ -667,8 +665,7 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
           };
 
     // fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-    const { emitterCharacterId } = initEmitterIds();
-    const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+    const skillLevel = getSkillLevelForAction(source);
     if (skillLevel) {
       const duration = action.duration[skillLevel!];
       fastForward(duration);
@@ -1520,10 +1517,9 @@ export function getSelectedActionDuration(
   let skillLevel: SkillLevel | undefined;
   if (action) {
     if (selectedAction.type === 'WheelAct') {
-      skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
+      skillLevel = getSkillLevelForAct(selectedAction.id);
     } else {
-      skillLevel = getHumanSkillLevelForItemAction(
-        whoAmI(),
+      skillLevel = getSkillLevelForItemAction(
         selectedAction.itemActionId.itemId,
         selectedAction.itemActionId.actionId
       );
