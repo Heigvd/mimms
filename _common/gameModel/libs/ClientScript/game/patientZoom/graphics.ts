@@ -4,7 +4,7 @@ import { Point } from '../../tools/point2D';
 import { BlockName, BodyPosition, Glasgow, HumanBody } from '../../HUMAn/human';
 import { getCurrentPatientBody, getHuman } from '../pretri/patientProcessing';
 import { Categorization, Category, getCategory } from '../pretri/triage';
-import { convertMeterToMapUnit } from '../../map/layersData';
+import { convertMeterToMapUnit } from '../../mapAlgorithms/layersData';
 
 export interface HumanOverview {
   height_cm: number;

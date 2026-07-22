@@ -6436,7 +6436,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/layersData",
+    "contentKey" : "mapAlgorithms/layersData",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:427114:jexCPN",
@@ -6445,7 +6445,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/lineOfSight",
+    "contentKey" : "mapAlgorithms/lineOfSight",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24073812:LHvCPq",
@@ -6454,7 +6454,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/pathFinding",
+    "contentKey" : "mapAlgorithms/pathFinding",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:441099:z0DmoU",
