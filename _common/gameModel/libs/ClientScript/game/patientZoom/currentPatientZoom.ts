@@ -219,25 +219,27 @@ function getActionIcon(action: HumanAction): string {
   return '';
 }
 
-// Objects are always at hand: expose every item's actions, with no bag/inventory check
+// Objects are always at hand (no bag/inventory), but item actions are still gated by the player's skill
 function getWheelActionFromItems(): WheelAction[] {
   return getItems().flatMap(({ item }) => {
-    return Object.entries(item.actions).map(([key, action]) => {
-      const iaKey = `${item.id}::${key}`;
-      return {
-        id: iaKey,
-        label: getItemActionTranslation(item, key),
-        type: 'WheelItemAction',
-        actionType: action.type,
-        actionCategory: action.category,
-        priority: item.priority,
-        itemActionId: {
-          itemId: item.id,
-          actionId: key,
-        },
-        icon: getActionIcon(action),
-      };
-    });
+    return Object.entries(item.actions)
+      .filter(([key]) => getSkillLevelForItemAction(item.id, key) != null)
+      .map(([key, action]) => {
+        const iaKey = `${item.id}::${key}`;
+        return {
+          id: iaKey,
+          label: getItemActionTranslation(item, key),
+          type: 'WheelItemAction',
+          actionType: action.type,
+          actionCategory: action.category,
+          priority: item.priority,
+          itemActionId: {
+            itemId: item.id,
+            actionId: key,
+          },
+          icon: getActionIcon(action),
+        };
+      });
   });
 }
 
