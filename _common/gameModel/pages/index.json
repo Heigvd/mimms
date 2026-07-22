@@ -441,16 +441,6 @@
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "16",
-          "name" : "skills config",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        } ],
-        "name" : "Legacy"
-      }, {
         "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
@@ -483,6 +473,12 @@
         "id" : "scenaristValidation",
         "name" : "Validation",
         "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "16",
+        "name" : "Skills Configuration",
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"

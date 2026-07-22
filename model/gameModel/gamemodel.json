@@ -596,7 +596,7 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
-      "comments" : "",
+      "comments" : "Defines medical acts capacity profiles. to configure a skill level use the Scenarist/Skill Configuration page",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
@@ -1479,7 +1479,7 @@
         "@class" : "StringDescriptor",
         "allowedValues" : [ ],
         "broadcastScope" : "GameModelScope",
-        "comments" : "",
+        "comments" : "Defines the default level of capacity to perform medical acts. See skills variable to add configurations and Scenarist's Skills Configuration page",
         "defaultInstance" : {
           "@class" : "StringInstance",
           "refId" : "StringInstance:24057039:VrWlLb",
@@ -1504,7 +1504,7 @@
             }
           }
         },
-        "editorTag" : "default skill",
+        "editorTag" : "default skill level",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",

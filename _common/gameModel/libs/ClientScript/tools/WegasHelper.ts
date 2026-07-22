@@ -118,7 +118,6 @@ export function getBodyParam(humanId: string): BodyFactoryParam | undefined {
   }
 }
 
-
 export function getCurrentPatientId(): string {
   return Variable.find(gameModel, 'currentPatient').getValue(self);
 }
@@ -237,7 +236,6 @@ export function getPatientsBodyFactoryParamsArray() {
       return alphaNumericSort(a.id, b.id);
     });
 }
-
 
 /**
  * Pretty print human. Expose internal secret data ! Do not show to players

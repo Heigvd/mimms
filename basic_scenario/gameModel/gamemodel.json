@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1779889713456,
+  "createdTime" : 1784704383715,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -640,7 +640,7 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
-      "comments" : "",
+      "comments" : "Defines medical acts capacity profiles. to configure a skill level use the Scenarist/Skill Configuration page",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
@@ -1029,7 +1029,7 @@
     },
     "editorTag" : "simulation",
     "isolation" : "OPEN",
-    "items" : [  {
+    "items" : [ {
       "@class" : "StringDescriptor",
       "allowedValues" : [ ],
       "broadcastScope" : "TeamScope",
@@ -1174,19 +1174,12 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298436:BVfOMu",
           "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:1298436:BVfOMu::EN",
-              "status" : "",
-              "translation" : "mainSimMode"
-            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "mainSimMode"
+              "translation" : "pretriMode"
             }
           }
         }
@@ -1530,11 +1523,11 @@
       },
       "editorTag" : "drill",
       "isolation" : "OPEN",
-      "items" : [  {
+      "items" : [ {
         "@class" : "StringDescriptor",
         "allowedValues" : [ ],
         "broadcastScope" : "GameModelScope",
-        "comments" : "",
+        "comments" : "Defines the default level of capacity to perform medical acts. See skills variable to add configurations and Scenarist's Skills Configuration page",
         "defaultInstance" : {
           "@class" : "StringInstance",
           "refId" : "StringInstance:24057039:VrWlLb",
@@ -1547,19 +1540,19 @@
                 "lang" : "EN",
                 "refId" : "TranslatableContent:24057040:pq7EBd::EN",
                 "status" : "",
-                "translation" : "SMURDoctor"
+                "translation" : "ias3"
               },
               "FR" : {
                 "@class" : "Translation",
                 "lang" : "FR",
                 "refId" : "TranslatableContent:24057040:pq7EBd::FR",
                 "status" : "",
-                "translation" : ""
+                "translation" : "ias3"
               }
             }
           }
         },
-        "editorTag" : "default skill",
+        "editorTag" : "default skill level",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
@@ -3685,9 +3678,9 @@
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint a resource as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer une ressource comme Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint Lead PMA\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
           "brancardage-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"brancardage\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3732,10 +3725,10 @@
           "move-actor-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move because the location does not exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de se déplacer car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move resources because the location doesn't exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de déplacer les ressources car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-resource" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is no available resource\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a aucune resource\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-not-enough-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is not enough resources. The available ones are assigned\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès\",\"lang\":\"FR\"}},\"version\":0}",
-          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-request" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} at {1} doing {2} will go to {3} to do {4}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} au {1} faisant {2} vont aller à {3} faire {4}\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resource\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner ressource\",\"lang\":\"FR\"}},\"version\":0}",
           "no-patient-selected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"select a patient to know more about him\"},\"FR\":{\"status\":\"\",\"translation\":\"sélectionner un patient pour en connaître plus sur lui\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6107,42 +6100,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/pretri/drillMode",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#73:Nu8q8h",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/likert",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#67:7aiTeC",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/patientProcessing",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#68:h6AnTo",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/pretriTime",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#72:gtpcJn",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/loaders/actionTemplateFactory",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6287,10 +6244,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/pretri/drillMode",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#73:Nu8q8h",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/likert",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#67:7aiTeC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/pretri/liveOverview",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#93:PinW8a",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/patientProcessing",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#68:h6AnTo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/pretriTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#72:gtpcJn",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6548,15 +6541,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "tools/point2D",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:57478:23476j",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "multiplayer/multiplayerManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6633,6 +6617,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "tools/point2D",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:57478:23476j",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
