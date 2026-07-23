@@ -33,10 +33,6 @@ import {
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
-import {
-  ChangeMapActivableStatusLocalEvent,
-
-} from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
@@ -79,6 +75,7 @@ import {
   AutoSendACSMCSLocalEvent,
   ResourceRequestResolutionLocalEvent,
 } from '../localEvents/localEventBaseResourceArrival';
+import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventBaseActivable';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
