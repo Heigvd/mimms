@@ -1,11 +1,11 @@
 import { Uid } from '../../interfaces';
 import {
   LocalEventBase,
-  SelectChoiceEffectLocalEvent,
   SourceType,
 } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
+import { SelectChoiceEffectLocalEvent } from '../../localEvents/localEventBaseActivable';
 
 export interface ChoiceEffectSelectionImpact extends ImpactBase {
   type: 'effectSelection';

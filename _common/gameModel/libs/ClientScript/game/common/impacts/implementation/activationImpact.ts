@@ -2,8 +2,6 @@ import { ITemplateDescriptor } from '../../actions/actionTemplateDescriptor/temp
 import { ChoiceDescriptor } from '../../actions/choiceDescriptor/choiceDescriptor';
 import { Uid } from '../../interfaces';
 import {
-  ChangeActivableStatusLocalEvent,
-  ChangeMapActivableStatusLocalEvent,
   LocalEventBase,
   SourceType,
 } from '../../localEvents/localEventBase';
@@ -11,6 +9,10 @@ import { BuildStatus, MapEntityDescriptor } from '../../mapEntities/mapEntityDes
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { Trigger } from '../../triggers/trigger';
 import { ImpactBase } from '../impact';
+import {
+  ChangeActivableStatusLocalEvent,
+  ChangeMapActivableStatusLocalEvent,
+} from '../../localEvents/localEventBaseActivable';
 
 export type ActivationOperator = 'activate' | 'deactivate';
 

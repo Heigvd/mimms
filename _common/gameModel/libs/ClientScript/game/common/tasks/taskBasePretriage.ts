@@ -6,8 +6,6 @@ import { taskLogger } from '../../../tools/logger';
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
 import {
-  AddRadioMessageLocalEvent,
-  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
@@ -25,6 +23,8 @@ import {
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { TaskBase, TaskType } from './taskBase';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventBaseResources';
 
 /**
  * Default behaviour of a task

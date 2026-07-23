@@ -34,23 +34,10 @@ import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
 import {
-  AddActorLocalEvent,
-  AddMessageLocalEvent,
-  AddNotificationLocalEvent,
-  AddRadioMessageLocalEvent,
-  AssignResourcesToTaskLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
   ChangeMapActivableStatusLocalEvent,
-  HospitalRequestUpdateLocalEvent,
-  MoveActorLocalEvent,
-  MoveFreeHumanResourcesByLocationLocalEvent,
-  MoveFreeWaitingResourcesByTypeLocalEvent,
-  MoveResourcesLocalEvent,
-  PretriageReportResponseLocalEvent,
-  ReserveResourcesLocalEvent,
   ResourceRequestResolutionLocalEvent,
-  UnReserveResourcesLocalEvent,
+
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -71,6 +58,23 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
+import { AddActorLocalEvent, MoveActorLocalEvent } from '../localEvents/localEventBaseActors';
+import {
+  AddMessageLocalEvent,
+  AddNotificationLocalEvent,
+  AddRadioMessageLocalEvent,
+} from '../localEvents/localEventBaseRadio';
+import {
+  HospitalRequestUpdateLocalEvent,
+  PretriageReportResponseLocalEvent,
+} from '../localEvents/localEventBaseHospital';
+import {
+  AssignResourcesToTaskLocalEvent,
+  AssignResourcesToWaitingTaskLocalEvent,
+  MoveFreeHumanResourcesByLocationLocalEvent, MoveFreeWaitingResourcesByTypeLocalEvent, MoveResourcesLocalEvent,
+  ReserveResourcesLocalEvent,
+  UnReserveResourcesLocalEvent,
+} from '../localEvents/localEventBaseResources';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 

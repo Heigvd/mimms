@@ -5,8 +5,6 @@ import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
 import {
-  AddRadioMessageLocalEvent,
-  ReleaseResourcesFromTaskLocalEvent,
   TaskStatusChangeLocalEvent,
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
@@ -20,6 +18,8 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventBaseResources';
 
 export enum TaskType {
   Waiting = 'Waiting',

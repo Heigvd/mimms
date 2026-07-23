@@ -4,13 +4,12 @@ import { getTriggers } from '../../loaders/triggerLoader';
 import { convertToLocalEvents, Impact } from '../impacts/impact';
 import { IActivableDescriptor, IDescriptor, Indexed, Typed } from '../interfaces';
 import {
-  ChangeActivableStatusLocalEvent,
-  IncrementCountLocalEvent,
   LocalEventBase,
 } from '../localEvents/localEventBase';
 import { getTriggerActivable, TriggerActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Condition, evaluateCondition } from './condition';
+import { ChangeActivableStatusLocalEvent, IncrementCountLocalEvent } from '../localEvents/localEventBaseActivable';
 
 /**
  * A trigger is a collection of conditions and impacts.

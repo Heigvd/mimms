@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784272646020,
+  "createdTime" : 1784807165838,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -974,7 +974,7 @@
     },
     "editorTag" : "simulation",
     "isolation" : "OPEN",
-    "items" : [  {
+    "items" : [ {
       "@class" : "StringDescriptor",
       "allowedValues" : [ ],
       "broadcastScope" : "TeamScope",
@@ -1475,7 +1475,7 @@
       },
       "editorTag" : "drill",
       "isolation" : "OPEN",
-      "items" : [  {
+      "items" : [ {
         "@class" : "StringDescriptor",
         "allowedValues" : [ ],
         "broadcastScope" : "GameModelScope",
@@ -3630,9 +3630,9 @@
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint a resource as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer une ressource comme Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-leadpma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint Lead PMA\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
           "brancardage-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"brancardage\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3677,10 +3677,10 @@
           "move-actor-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move because the location does not exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de se déplacer car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move resources because the location doesn't exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de déplacer les ressources car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-resource" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is no available resource\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a aucune resource\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-not-enough-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is not enough resources. The available ones are assigned\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès\",\"lang\":\"FR\"}},\"version\":0}",
-          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-request" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} at {1} doing {2} will go to {3} to do {4}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} au {1} faisant {2} vont aller à {3} faire {4}\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resource\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner ressource\",\"lang\":\"FR\"}},\"version\":0}",
           "no-patient-selected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"select a patient to know more about him\"},\"FR\":{\"status\":\"\",\"translation\":\"sélectionner un patient pour en connaître plus sur lui\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3857,6 +3857,7 @@
           "ambulancier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier\",\"lang\":\"FR\"}},\"version\":0}",
           "ambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambul.\",\"lang\":\"FR\"}},\"version\":0}",
           "arrival-in" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"arrival in\"},\"FR\":{\"status\":\"\",\"translation\":\"arrivée dans\",\"lang\":\"FR\"}},\"version\":0}",
+          "dpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"dPMA\"},\"FR\":{\"status\":\"\",\"translation\":\"dPMA\",\"lang\":\"FR\"}},\"version\":0}",
           "driver" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"driver\"},\"FR\":{\"status\":\"\",\"translation\":\"conducteur\",\"lang\":\"FR\"}},\"version\":0}",
           "emergencyambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"emergency ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance urgence\",\"lang\":\"FR\"}},\"version\":0}",
           "healer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"healer\"},\"FR\":{\"status\":\"\",\"translation\":\"soignant(s)\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3879,7 +3880,6 @@
           "pca-separate-road" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"separate entry/exit:\"},\"FR\":{\"status\":\"\",\"translation\":\"entrée/sortie séparées:\",\"lang\":\"FR\"}},\"version\":0}",
           "pca-true" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"yes\"},\"FR\":{\"status\":\"\",\"translation\":\"oui\",\"lang\":\"FR\"}},\"version\":0}",
           "pca-water" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"access to water:\"},\"FR\":{\"status\":\"\",\"translation\":\"accès à l'eau:\",\"lang\":\"FR\"}},\"version\":0}",
-          "dpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"dPMA\"},\"FR\":{\"status\":\"\",\"translation\":\"dPMA\",\"lang\":\"FR\"}},\"version\":0}",
           "pma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pMA\"},\"FR\":{\"status\":\"\",\"translation\":\"pMA\",\"lang\":\"FR\"}},\"version\":0}",
           "resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "secouriste" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first aider\"},\"FR\":{\"status\":\"\",\"translation\":\"secouriste\",\"lang\":\"FR\"}},\"version\":0}",
@@ -5682,6 +5682,60 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseActivable",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115973:bCjU7R",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseActors",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115003:aYKPX5",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseHospital",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115974:EcTBpT",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseRadio",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115971:07YmvS",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseResources",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115004:qolaXq",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#282:sxlwCg",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6051,42 +6105,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/pretri/drillMode",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#73:Nu8q8h",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/likert",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#67:7aiTeC",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/patientProcessing",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#68:h6AnTo",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/pretri/pretriTime",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#72:gtpcJn",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/loaders/actionTemplateFactory",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6231,10 +6249,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/pretri/drillMode",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#73:Nu8q8h",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/likert",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#67:7aiTeC",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/pretri/liveOverview",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#93:PinW8a",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/patientProcessing",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#68:h6AnTo",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/pretriTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#72:gtpcJn",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {
@@ -6492,15 +6546,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "tools/point2D",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:57478:23476j",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "multiplayer/multiplayerManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6577,6 +6622,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "tools/point2D",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:57478:23476j",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {
@@ -7318,7 +7372,7 @@
     "version" : null,
     "visibility" : "INHERITED"
   } ],
-  "name" : "MIMMS Model",
+  "name" : "MIM-576",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
@@ -7334,7 +7388,7 @@
     "websocket" : ""
   },
   "protected" : false,
-  "refId" : "GameModel:32304:j4aKnt",
+  "refId" : "GameModel:33901:abOOLM",
   "status" : "LIVE",
   "template" : true,
   "type" : "SCENARIO",

@@ -1,11 +1,11 @@
 import { Actor, InterventionRole } from '../../actors/actor';
 import {
-  AddNotificationLocalEvent,
   LocalEventBase,
   SourceType,
 } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
+import { AddNotificationLocalEvent } from '../../localEvents/localEventBaseRadio';
 
 /**
  * Extends the intervention roles with a dynamic value 'Initiator'

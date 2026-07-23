@@ -13,11 +13,8 @@ import {
 } from '../baseTypes';
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
 import {
-  AddRadioMessageLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
   MovePatientLocalEvent,
-  MoveResourcesAtArrivalLocationLocalEvent,
-  MoveResourcesLocalEvent,
+
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -26,6 +23,11 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import {
+  AssignResourcesToWaitingTaskLocalEvent,
+  MoveResourcesAtArrivalLocationLocalEvent, MoveResourcesLocalEvent,
+} from '../localEvents/localEventBaseResources';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task

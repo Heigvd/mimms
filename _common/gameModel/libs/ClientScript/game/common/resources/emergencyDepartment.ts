@@ -4,7 +4,6 @@ import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
 import {
-  AddRadioMessageLocalEvent,
   ResourceMobilizationLocalEvent,
   SourceType,
 } from '../localEvents/localEventBase';
@@ -16,6 +15,7 @@ import {
   ResourceContainerDefinition,
   ResourceContainerType,
 } from './resourceContainer';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
 
 export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return getContainersDefinitions()[id]!;
