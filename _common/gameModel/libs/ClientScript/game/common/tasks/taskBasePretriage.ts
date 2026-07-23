@@ -21,8 +21,8 @@ import {
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { TaskBase, TaskType } from './taskBase';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
-import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventBaseResources';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventResources';
 
 /**
  * Default behaviour of a task

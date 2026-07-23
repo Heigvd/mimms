@@ -29,11 +29,11 @@ import {
 import { loadActionTemplates } from './loaders/actionTemplateLoader';
 import { eraseInitialState, getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 import { getOmittedGlobalEvents } from './testing/stateDebug';
-import { TimeForwardLocalEvent } from './common/localEvents/localEventBaseTime';
+import { TimeForwardLocalEvent } from './common/localEvents/localEventTime';
 import {
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
-} from './common/localEvents/localEventBaseRadio';
+} from './common/localEvents/localEventRadio';
 
 /* all defined action templates */
 let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase> | undefined;

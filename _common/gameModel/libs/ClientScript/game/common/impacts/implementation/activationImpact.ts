@@ -9,7 +9,7 @@ import { ImpactBase } from '../impact';
 import {
   ChangeActivableStatusLocalEvent,
   ChangeMapActivableStatusLocalEvent,
-} from '../../localEvents/localEventBaseActivable';
+} from '../../localEvents/localEventActivable';
 
 export type ActivationOperator = 'activate' | 'deactivate';
 

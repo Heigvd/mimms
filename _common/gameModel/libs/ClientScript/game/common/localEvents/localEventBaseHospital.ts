@@ -5,7 +5,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { TaskStatus, TaskType } from '../tasks/taskBase';
 import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { getLocalEventManager } from './localEventManager';
-import { AddRadioMessageLocalEvent } from './localEventBaseRadio';
+import { AddRadioMessageLocalEvent } from './localEventRadio';
 import { getTranslation } from '../../../tools/translation';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { HospitalRequestPayload } from '../events/casuMessageEvent';

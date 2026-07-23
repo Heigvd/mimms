@@ -8,14 +8,14 @@ import {
 import { CasuMessagePayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
-import { AddActorLocalEvent } from './localEventBaseActors';
+import { AddActorLocalEvent } from './localEventActors';
 import { getLocalEventManager } from './localEventManager';
 import { ResourceType } from '../resources/resourceType';
 import {
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
-} from './localEventBaseRadio';
+} from './localEventRadio';
 import * as RadioLogic from '../radio/radioLogic';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';

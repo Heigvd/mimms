@@ -10,7 +10,7 @@ import { Condition, evaluateCondition } from './condition';
 import {
   ChangeActivableStatusLocalEvent,
   IncrementCountLocalEvent,
-} from '../localEvents/localEventBaseActivable';
+} from '../localEvents/localEventActivable';
 
 /**
  * A trigger is a collection of conditions and impacts.

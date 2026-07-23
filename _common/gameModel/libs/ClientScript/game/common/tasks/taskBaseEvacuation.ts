@@ -20,12 +20,12 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 import {
   AssignResourcesToWaitingTaskLocalEvent,
   MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
-} from '../localEvents/localEventBaseResources';
+} from '../localEvents/localEventResources';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task

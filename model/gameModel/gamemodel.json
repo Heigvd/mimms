@@ -5709,7 +5709,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseActivable",
+    "contentKey" : "game/common/localEvents/localEventActivable",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115973:bCjU7R",
@@ -5718,7 +5718,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseActors",
+    "contentKey" : "game/common/localEvents/localEventActors",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115003:aYKPX5",
@@ -5727,7 +5727,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseHospital",
+    "contentKey" : "game/common/localEvents/localEventHospital",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115974:EcTBpT",
@@ -5736,7 +5736,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseRadio",
+    "contentKey" : "game/common/localEvents/localEventRadio",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115971:07YmvS",
@@ -5745,7 +5745,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseResourceArrival",
+    "contentKey" : "game/common/localEvents/localEventResourceArrival",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115975:hPFgAp",
@@ -5754,7 +5754,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseResources",
+    "contentKey" : "game/common/localEvents/localEventResources",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115004:qolaXq",
@@ -5763,7 +5763,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBaseTime",
+    "contentKey" : "game/common/localEvents/localEventTime",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#282:sxlwCg",

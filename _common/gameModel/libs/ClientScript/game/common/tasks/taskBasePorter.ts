@@ -20,7 +20,7 @@ import {
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task

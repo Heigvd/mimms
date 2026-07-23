@@ -52,12 +52,12 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
-import { AddActorLocalEvent, MoveActorLocalEvent } from '../localEvents/localEventBaseActors';
+import { AddActorLocalEvent, MoveActorLocalEvent } from '../localEvents/localEventActors';
 import {
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
-} from '../localEvents/localEventBaseRadio';
+} from '../localEvents/localEventRadio';
 import {
   HospitalRequestUpdateLocalEvent,
   PretriageReportResponseLocalEvent,
@@ -70,12 +70,12 @@ import {
   MoveResourcesLocalEvent,
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
-} from '../localEvents/localEventBaseResources';
+} from '../localEvents/localEventResources';
 import {
   AutoSendACSMCSLocalEvent,
   ResourceRequestResolutionLocalEvent,
 } from '../localEvents/localEventBaseResourceArrival';
-import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventBaseActivable';
+import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventActivable';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 

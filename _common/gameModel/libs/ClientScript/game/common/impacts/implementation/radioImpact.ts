@@ -2,7 +2,7 @@ import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { RadioType } from '../../radio/communicationType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
-import { AddRadioMessageLocalEvent } from '../../localEvents/localEventBaseRadio';
+import { AddRadioMessageLocalEvent } from '../../localEvents/localEventRadio';
 
 export interface RadioMessageImpact extends ImpactBase {
   type: 'radio';

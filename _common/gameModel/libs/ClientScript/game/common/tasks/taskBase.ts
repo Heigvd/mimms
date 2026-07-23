@@ -16,8 +16,8 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
-import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventBaseResources';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventResources';
 
 export enum TaskType {
   Waiting = 'Waiting',
