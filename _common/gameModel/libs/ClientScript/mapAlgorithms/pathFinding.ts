@@ -1,8 +1,8 @@
 import { Heap } from '../tools/heap';
-import { Segment } from './point2D';
+import { Segment } from '../tools/point2D';
 import { DiscreteExtent, ObstacleType } from './layersData';
 import { pathFindingLogger } from '../tools/logger';
-import { Point, add, equalsStrict, sub, lengthSquared } from './point2D';
+import { Point, add, equalsStrict, sub, lengthSquared } from '../tools/point2D';
 
 /**
  * Class that implement a Node (or Vertex) for a pathfinding grid
