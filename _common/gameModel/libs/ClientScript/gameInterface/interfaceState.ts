@@ -72,7 +72,6 @@ export interface InterfaceState {
       hospitalId: HospitalId | undefined;
       patientUnitId: PatientUnitId | undefined;
       transportSquad: EvacuationSquadType | undefined;
-      doResourcesComeBack: boolean;
     };
     form: {
       showPatientChoice: boolean;
@@ -187,7 +186,6 @@ export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation']
       hospitalId: undefined,
       patientUnitId: undefined,
       transportSquad: undefined,
-      doResourcesComeBack: true,
     },
     form: {
       showPatientChoice: false,

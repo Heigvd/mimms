@@ -42,7 +42,6 @@ import {
   AssignResourcesToWaitingTaskLocalEvent,
   AutoSendACSMCSLocalEvent,
   ChangeMapActivableStatusLocalEvent,
-  DeleteResourceLocalEvent,
   HospitalRequestUpdateLocalEvent,
   MoveActorLocalEvent,
   MoveFreeHumanResourcesByLocationLocalEvent,
@@ -60,12 +59,7 @@ import { getProximityTranslation, getResourceAsSenderName } from '../radio/radio
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
-import {
-  HumanResourceType,
-  ResourceType,
-  ResourceTypeAndNumber,
-  VehicleType,
-} from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
 import { ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import {
   canMoveToLocation,
@@ -111,25 +105,6 @@ export abstract class ActionBase {
   public abstract update(state: MainSimulationState): void;
 
   public abstract duration(): SimDuration;
-
-  /**
-   * TODO could be a pure function that returns a cloned instance
-   * @returns True if cancellation could be applied
-   */
-  public cancel(state: Readonly<MainSimulationState>): boolean {
-    if (this.status === 'Cancelled') {
-      this.logger.warn('This action was already cancelled');
-    } else if (this.status === 'Completed') {
-      this.logger.error('This action is completed, it cannot be cancelled');
-      return false;
-    }
-    this.status = 'Cancelled';
-    this.cancelInternal(state);
-
-    return true;
-  }
-
-  protected abstract cancelInternal(state: Readonly<MainSimulationState>): void;
 
   public getStatus(): ActionStatus {
     return this.status;
@@ -355,11 +330,6 @@ export class DisplayMessageAction extends StartEndAction {
       })
     );
   }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
 }
 
 export class OnTheRoadAction extends StartEndAction {
@@ -384,11 +354,6 @@ export class OnTheRoadAction extends StartEndAction {
     // Once actor arrives, we change location from remote
     const actor = state.getActorById(this.ownerId)!;
     actor.setLocation(actor.getComputedSymbolicLocation(state));
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 }
 
@@ -512,11 +477,6 @@ export class CasuMessageAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
-
   public override getTitle(): string {
     return getTranslation(
       'mainSim-actions-tasks',
@@ -621,11 +581,6 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     }
   }
 
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
-
   public getChannel(): RadioType {
     return this.channel;
   }
@@ -679,10 +634,6 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
     // nothing more to do
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
   }
 }
 
@@ -757,26 +708,6 @@ export class MapChoiceAction extends ChoiceAction {
           option: 'activate',
         },
         'built'
-      )
-    );
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    if (!this.choice.displayedMapEntity) {
-      this.logger.error('Choice has no map entity to display');
-      return;
-    }
-
-    getLocalEventManager().queueLocalEvent(
-      new ChangeMapActivableStatusLocalEvent(
-        {
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          target: this.choice.displayedMapEntity,
-          option: 'deactivate',
-        },
-        'pending'
       )
     );
   }
@@ -1030,17 +961,11 @@ export class MoveActorAction extends StartEndAction {
       );
     }
   }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
 }
 
 export class AppointActorAction extends StartEndAction {
   private location: LOCATION_ENUM | undefined;
   private compliantWithHierarchy: boolean;
-  private involvedResourceId: ResourceId | undefined;
 
   constructor(
     startTimeSec: SimTime,
@@ -1051,9 +976,7 @@ export class AppointActorAction extends StartEndAction {
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly requiredResourceType: HumanResourceType[],
-    readonly noResourceFailureMessageKey: TranslationKey,
-    readonly refusalFailureMessageKey: TranslationKey
+    readonly hierarchyNotRespectedMessageKey: TranslationKey
   ) {
     super(
       startTimeSec,
@@ -1067,86 +990,26 @@ export class AppointActorAction extends StartEndAction {
 
     this.location = undefined;
     this.compliantWithHierarchy = false;
-    this.involvedResourceId = undefined;
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.location = state.getActorById(this.ownerId)!.Location;
-
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
-
-    const matchingResources = ResourceState.getFreeWaitingResourcesByTypeAndLocation(
-      state,
-      this.requiredResourceType,
-      this.location
-    );
-
-    if (matchingResources.length > 0) {
-      this.involvedResourceId = matchingResources[0]!.Uid;
-
-      // we reserve the resources for this action so that they cannot be used by anything else
-      getLocalEventManager().queueLocalEvent(
-        new ReserveResourcesLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          resourcesId: [this.involvedResourceId],
-          actionId: this.Uid,
-        })
-      );
-    } else {
-      // if no resource is available, send directly a notification
-      getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          recipientId: this.ownerId,
-          message: this.noResourceFailureMessageKey,
-        })
-      );
-    }
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    if (this.compliantWithHierarchy) {
-      if (this.involvedResourceId != undefined) {
-        getLocalEventManager().queueLocalEvent(
-          new AddActorLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            role: this.actorRole,
-            location: this.location,
-          })
-        );
+    getLocalEventManager().queueLocalEvent(
+      new AddActorLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime(),
+        role: this.actorRole,
+        location: this.location,
+      })
+    );
 
-        // no need to free the resource as long as it will be deleted
-
-        getLocalEventManager().queueLocalEvent(
-          new DeleteResourceLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourceId: this.involvedResourceId,
-          })
-        );
-      }
-    } else {
-      // we free the resources so that they are available for other actions
-      if (this.involvedResourceId != undefined) {
-        getLocalEventManager().queueLocalEvent(
-          new UnReserveResourcesLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourcesId: [this.involvedResourceId],
-          })
-        );
-      }
-
-      // Resources refused the order due to hierarchy conflict
+    if (!this.compliantWithHierarchy) {
+      // The order is carried out anyway, but the chain of command was not respected
       getLocalEventManager().queueLocalEvent(
         new AddNotificationLocalEvent({
           parentEventId: this.eventId,
@@ -1154,21 +1017,7 @@ export class AppointActorAction extends StartEndAction {
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
-          message: this.refusalFailureMessageKey,
-        })
-      );
-    }
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    if (this.involvedResourceId != undefined) {
-      getLocalEventManager().queueLocalEvent(
-        new UnReserveResourcesLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          resourcesId: [this.involvedResourceId],
+          message: this.hierarchyNotRespectedMessageKey,
         })
       );
     }
@@ -1205,11 +1054,6 @@ export class SituationUpdateAction extends StartEndAction {
 
   protected dispatchEndedEvents(_state: Readonly<MainSimulationState>): void {
     // nothing to do
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 }
 
@@ -1324,9 +1168,11 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     );
 
     if (!this.compliantWithHierarchy) {
-      // Resources refused the order due to hierarchy conflict
-      this.sendFeedbackMessage(state, 'move-res-task-refused');
-    } else if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
+      // The order is carried out anyway, but the chain of command was not respected
+      this.sendFeedbackMessage(state, 'move-res-task-hierarchy-not-respected');
+    }
+
+    if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
       // Resources cannot move to a non-existent location
       this.sendFeedbackMessage(state, 'move-res-task-no-location');
     } else {
@@ -1440,18 +1286,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   public getRecipientId(): ActorId | undefined {
     return undefined;
   }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-      })
-    );
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1510,11 +1344,6 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
         feedbackWhenReport: this.feedbackWhenReport,
       })
     );
-  }
-
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
   }
 
   private formatStartMessage(): string {
@@ -1578,11 +1407,6 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     );
   }
 
-  protected cancelInternal(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-    return;
-  }
-
   public getRadioMessagePayload(): RadioMessagePayload {
     return this.radioMessagePayload;
   }
@@ -1632,7 +1456,7 @@ export class EvacuationAction extends RadioDrivenAction {
     readonly msgTaskRequest: TranslationKey,
     readonly feedbackWhenReturning: TranslationKey,
     readonly msgEvacuationAbort: TranslationKey,
-    readonly msgEvacuationRefused: TranslationKey,
+    readonly msgEvacuationHierarchyNotRespected: TranslationKey,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     readonly evacuationActionPayload: EvacuationActionPayload,
@@ -1712,7 +1536,7 @@ export class EvacuationAction extends RadioDrivenAction {
     );
 
     if (!this.compliantWithHierarchy) {
-      // Resources refused the order due to hierarchy conflict
+      // The order is carried out anyway, but the chain of command was not respected
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
@@ -1720,11 +1544,13 @@ export class EvacuationAction extends RadioDrivenAction {
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
-          message: this.msgEvacuationRefused,
+          message: this.msgEvacuationHierarchyNotRespected,
           channel: this.getChannel(),
         })
       );
-    } else if (!this.isEnoughResources) {
+    }
+
+    if (!this.isEnoughResources) {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
@@ -1764,18 +1590,6 @@ export class EvacuationAction extends RadioDrivenAction {
         getSquadDef(this.evacuationActionPayload.transportSquad)
       );
     }
-  }
-
-  protected cancelInternal(state: Readonly<MainSimulationState>): void {
-    // we free the resources so that they are available for other actions
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-      })
-    );
   }
 
   private formatRequestMessage(payload: EvacuationActionPayload) {

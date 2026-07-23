@@ -4,11 +4,13 @@ VERBOSE=false
 SKIP_GIT_STATUS_RESTRICTION=false
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
+FLAG_LATEST=false
 
 function show_help {
     echo Usage "$0" ZIP_FILE "[SCENARIO_NAME]"
     echo "  ZIP_FILE : path to zipped gameModel"
     echo "  SCENARIO_NAME : name of the folder containing the scenario to patch (default is $DEFAULT_SCENARIO)"
+    echo "  -l : rename the used zip to 'latest_<name>.zip' after a successful update"
 }
 
 function printError() {
@@ -23,7 +25,7 @@ function printError() {
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 ## Parse options
-while getopts "h?vF" opt; do
+while getopts "h?vFl" opt; do
     case "$opt" in
     h|\?)
         show_help
@@ -32,6 +34,8 @@ while getopts "h?vF" opt; do
     v) VERBOSE=true
         ;;
     F) SKIP_GIT_STATUS_RESTRICTION=true
+        ;;
+    l) FLAG_LATEST=true
         ;;
     esac
 done
@@ -114,9 +118,28 @@ else
     exit 1;
 fi
 )
+UNZIP_STATUS=$?
+
+if [ "$UNZIP_STATUS" -ne 0 ]; then
+    exit 1
+fi
 
 rm -R "$TMP_DIR_COMMON";
 rm -R "$TMP_DIR_SCENARIO_SPECIFIC";
+
+# Flags the zip file used as "latest_*"
+if $FLAG_LATEST; then
+    ZIP_DIR=$(cd "$(dirname "$ZIP_FILE")" && pwd)
+    STEM=$(basename "$ZIP_FILE" .zip)
+    STEM=${STEM#latest_}
+    LATEST="$ZIP_DIR/latest_${STEM}.zip"
+
+    if [ "$ZIP_DIR/$(basename "$ZIP_FILE")" != "$LATEST" ]; then
+        [ -e "$LATEST" ] && rm -f "$LATEST"
+        mv "$ZIP_FILE" "$LATEST"
+        echo "Flagged $(basename "$ZIP_FILE") as $(basename "$LATEST")"
+    fi
+fi
 
 echo
 echo "Prettier formatting"

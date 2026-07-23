@@ -7,14 +7,12 @@ import {
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { isGodView } from '../gameInterface/interfaceConfiguration';
 import {
   getTypedInterfaceState,
   ResourcesManagementActivityType,
 } from '../gameInterface/interfaceState';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { canViewLocation } from '../gameMap/mapEntities';
 import { isPCFrontBuilt } from './actionFacade';
 import { getSelectedActorLocation, isCurrentActorAtLocation } from './actorFacade';
 import * as TaskFacade from './taskFacade';
@@ -57,11 +55,7 @@ export function countAvailableResourcesToAllocate(
   taskId: number | undefined,
   resourceType: ResourceType
 ): number {
-  if (
-    location == undefined ||
-    taskId == undefined ||
-    (!isGodView() && !canViewLocation(location))
-  ) {
+  if (location == undefined || taskId == undefined) {
     return 0;
   } else {
     return getFreeResourcesByTypeLocationAndTask(getCurrentState(), resourceType, location, taskId)
@@ -137,7 +131,6 @@ export function getAllocateResourcesCurrentLocation(): LOCATION_ENUM | undefined
 
 export function isOrderValidationDisabled(): boolean {
   if (!canPlanAction()) {
-    // to be able to cancel the action
     return false;
   }
 
@@ -179,7 +172,6 @@ export function getReportLocationRequest(): LOCATION_ENUM | undefined {
 // used in page 68
 export function isPretriageReportRequestDisabled(): boolean {
   if (!canPlanAction()) {
-    // to be able to cancel the action
     return false;
   }
   return getReportLocationRequest() === undefined;

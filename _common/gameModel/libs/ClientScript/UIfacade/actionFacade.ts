@@ -28,14 +28,12 @@ import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
-  buildAndLaunchActionCancellation,
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
-import { canPlanAction, isPlannedAction } from '../gameInterface/main';
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
@@ -73,24 +71,6 @@ export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[
   return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
-/**
- * @param template
- * @returns true if the action can be played or is currently planned, thus can be cancelled
- */
-export function canCancel(template: ActionTemplateBase | undefined): boolean {
-  if (!template) return false;
-  return isAvailable(template) && isPlannedAction(template.uid);
-}
-
-/**
- * @param template
- * @returns true if an action can be planned by the current actor
- * or that the current actor can cancel an action based on this template
- */
-export function canPlanOrCancel(template: ActionTemplateBase | undefined): boolean {
-  return canPlanAction() || canCancel(template);
-}
-
 export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return getUniqueActionTemplates();
 }
@@ -111,29 +91,11 @@ export async function planAction(
   return await buildAndLaunchActionFromTemplate(actionTemplate, selectedActor, params);
 }
 
-// TODO Maybe ensure only owning actor can cancel actions
-/**
- *
- * @param selectedActor The actor that cancels the action
- * @param templateId The template of the action to cancel
- * @returns
- */
-export async function cancelAction(
-  selectedActor: ActorId,
-  templateId: ActionTemplateUid
-): Promise<IManagedResponse | undefined> {
-  return await buildAndLaunchActionCancellation(selectedActor, templateId);
-}
-
 /**
  * @returns All the actions that have been planned
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
-}
-
-export function getAllCancelledActions(): Readonly<ActionBase[]> {
-  return getCurrentState().getAllCancelledActions();
 }
 
 export function getDefaultSituationUpdateDuration(): number {
@@ -238,9 +200,6 @@ export function isPCFrontBuilt(): boolean {
 }
 
 export function isMethaneSendDisabled(): boolean {
-  if (canCancel(uniqueActionTemplates()?.CasuMessageTemplate)) {
-    return false;
-  }
   const { casuMessage, hospitalInfoChosenProximity } = getTypedInterfaceState();
   return casuMessage.messageType === 'R' && hospitalInfoChosenProximity === undefined;
 }

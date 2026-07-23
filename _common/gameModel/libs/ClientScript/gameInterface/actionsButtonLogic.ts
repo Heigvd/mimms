@@ -188,22 +188,17 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 
     return payload;
   } else {
-    const msgType = casuMessage.messageType as 'METHANE' | 'MET' | 'HANE' | 'E';
-    const payload: MethaneMessagePayload = { messageType: msgType };
-
-    if (casuMessage.messageType.startsWith('MET')) {
-      payload.major = casuMessage.major;
-      payload.exact = casuMessage.exact;
-      payload.incidentType = casuMessage.incidentType;
-    }
-    if (casuMessage.messageType.endsWith('HANE')) {
-      payload.hazards = casuMessage.hazards;
-      payload.access = casuMessage.access;
-      payload.victims = casuMessage.victims;
-    }
-    if (casuMessage.messageType.endsWith('E')) {
-      payload.resourceRequest = resources.requestedResources;
-    }
+    const msgType = casuMessage.messageType as 'METHANE' | 'E';
+    const payload: MethaneMessagePayload = {
+      messageType: msgType,
+      major: casuMessage.major,
+      exact: casuMessage.exact,
+      incidentType: casuMessage.incidentType,
+      hazards: casuMessage.hazards,
+      access: casuMessage.access,
+      victims: casuMessage.victims,
+      resourceRequest: resources.requestedResources
+    };
 
     // Reset interfaceState
     const newState = Helpers.cloneDeep(Context.interfaceState.state);

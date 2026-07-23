@@ -131,7 +131,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getCurrentSimulationTime } from \"./game/legacy/TimeManager\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\ntoHoursMinutesSecondsIso(getCurrentSimulationTime());",
+                      "content" : "import { getCurrentSimulationTime } from \"./game/pretri/pretriTime\";\nimport { toHoursMinutesSecondsIso } from \"./tools/helper\";\ntoHoursMinutesSecondsIso(getCurrentSimulationTime());",
                       "language" : "TypeScript"
                     }
                   },
@@ -787,7 +787,7 @@
                     "exposeAs" : "patient",
                     "getItemsFn" : {
                       "@class" : "Script",
-                      "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/legacy/the_world\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
+                      "content" : "import { getSortedPatientIds } from \"./tools/WegasHelper\";\nimport { getCategorizedHumans } from \"./game/pretri/patientProcessing\";\nconst sortedId = getSortedPatientIds();\nconst allHumans = getCategorizedHumans();\nconst r = sortedId.map(id => {\n\treturn allHumans.find(h =>  h.id === id);\n}).flatMap(p => p ? [p] : []);\n//return r;\nr.map((p,i) => {return {n:i+1, data: p, id: p.id}});",
                       "language" : "TypeScript"
                     },
                     "itemKey" : "id",

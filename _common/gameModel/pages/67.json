@@ -112,7 +112,7 @@
                               "className" : "presentResources",
                               "condition" : {
                                 "@class" : "Script",
-                                "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
+                                "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0;",
                                 "language" : "typescript"
                               }
                             } ],
@@ -137,7 +137,7 @@
                                 "className" : "noPadding noMargin resourceTypeChosenNumber",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() == 0 && isGodView();",
+                                  "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() == 0;",
                                   "language" : "typescript"
                                 },
                                 "layoutClassName" : "noPadding noMargin",
@@ -176,15 +176,10 @@
                                   "className" : "presentResources",
                                   "condition" : {
                                     "@class" : "Script",
-                                    "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\nimport { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0 && isGodView();",
+                                    "content" : "import { currentCountAvailableResources } from \"./UIfacade/resourceFacade\";\ncurrentCountAvailableResources() > 0;",
                                     "language" : "typescript"
                                   }
                                 } ],
-                                "hideIf" : {
-                                  "@class" : "Script",
-                                  "content" : "import { isGodView } from \"./gameInterface/interfaceConfiguration\";\n!isGodView();",
-                                  "language" : "typescript"
-                                },
                                 "layoutClassName" : "noPadding selectableRessources ",
                                 "layoutStyle" : { },
                                 "name" : "availableResourcesByType",
@@ -375,28 +370,14 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "abort",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
-                    "language" : "typescript"
-                  }
-                } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\n  isOrderValidationDisabled();",
-                  "language" : "typescript"
-                },
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
+                  "content" : "import { isOrderValidationDisabled } from \"./UIfacade/resourceFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\n  isOrderValidationDisabled() || !canPlanAction();",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",
@@ -426,11 +407,6 @@
           "type" : "FlexList"
         } ],
         "className" : "noPadding resourcesManagement",
-        "disableIf" : {
-          "@class" : "Script",
-          "content" : "import { canPlanAction } from \"./gameInterface/main\";\nif (canPlanAction()) {\n    return false;\n  }\ntrue;",
-          "language" : "typescript"
-        },
         "layout" : {
           "flexDirection" : "column"
         },
@@ -447,13 +423,13 @@
       "className" : "unauthorizedAction",
       "condition" : {
         "@class" : "Script",
-        "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
+        "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
         "language" : "typescript"
       }
     } ],
     "disableIf" : {
       "@class" : "Script",
-      "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate);",
+      "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
       "language" : "typescript"
     },
     "layout" : {

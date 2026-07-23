@@ -745,60 +745,6 @@
                         "style" : { }
                       },
                       "type" : "For each"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "label" : {
-                              "@class" : "Script",
-                              "content" : " ''",
-                              "language" : "TypeScript"
-                            },
-                            "layoutClassName" : "",
-                            "layoutStyle" : { },
-                            "onVariableChange" : {
-                              "client" : {
-                                "@class" : "Script",
-                                "content" : "import { selectDoResourcesComeBack } from \"./UIfacade/evacuationFacade\";\n\nselectDoResourcesComeBack(Context.doResourcesComeBack);",
-                                "language" : "TypeScript"
-                              },
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"doResourcesComeBack\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "vectorComeback",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
                     } ],
                     "className" : " noPadding",
                     "hideIf" : {
@@ -960,55 +906,6 @@
                         "style" : { }
                       },
                       "type" : "For each"
-                    }, {
-                      "props" : {
-                        "children" : [ {
-                          "props" : {
-                            "disableIf" : {
-                              "@class" : "Script",
-                              "content" : "true;",
-                              "language" : "typescript"
-                            },
-                            "layoutClassName" : "",
-                            "layoutStyle" : { },
-                            "onVariableChange" : {
-                              "exposeVariableAs" : {
-                                "@class" : "Script",
-                                "content" : "\"doResourcesComeBack\"",
-                                "language" : "TypeScript"
-                              }
-                            },
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "import { isResourcesComeBack } from \"./UIfacade/evacuationFacade\";\nisResourcesComeBack();",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { },
-                            "type" : "checkbox"
-                          },
-                          "type" : "Boolean"
-                        }, {
-                          "props" : {
-                            "layoutStyle" : { },
-                            "style" : { },
-                            "text" : {
-                              "@class" : "Script",
-                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-resources', 'comeback')}`",
-                              "language" : "TypeScript"
-                            }
-                          },
-                          "type" : "Text"
-                        } ],
-                        "className" : "",
-                        "layout" : {
-                          "alignItems" : "center"
-                        },
-                        "layoutClassName" : "",
-                        "layoutStyle" : { },
-                        "name" : "vectorComeback",
-                        "style" : { }
-                      },
-                      "type" : "FlexList"
                     } ],
                     "className" : " noPadding",
                     "hideIf" : {
@@ -1053,28 +950,14 @@
             "children" : [ {
               "props" : {
                 "className" : "button-S button-secondaryColor",
-                "conditionnalClassNames" : [ {
-                  "applyOn" : "Inside",
-                  "className" : "abort",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { canCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\ncanCancel(uniqueActionTemplates()?.EvacuationActionTemplate);",
-                    "language" : "typescript"
-                  }
-                } ],
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\nif(!canPlanAction()) return false;\nif(!isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate)) return true;\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
-                  "language" : "typescript"
-                },
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { canPlanOrCancel, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\n!canPlanOrCancel(uniqueActionTemplates()?.EvacuationActionTemplate);",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { isAvailable, uniqueActionTemplates } from \"./UIfacade/actionFacade\";\nif (!canPlanAction() || !isAvailable(uniqueActionTemplates()?.EvacuationActionTemplate)) return true\nconst params = Context.interfaceState.state.evacuation.data;\nObject.values(params).includes(undefined);",
                   "language" : "typescript"
                 },
                 "label" : {
                   "@class" : "Script",
-                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { getTranslation } from \"./tools/translation\";\ncanPlanAction() ? getTranslation('mainSim-interface', 'send') : getTranslation('mainSim-interface', 'cancel');",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send');",
                   "language" : "TypeScript"
                 },
                 "layoutClassName" : "",

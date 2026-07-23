@@ -1,9 +1,5 @@
 import { isPlayerAwaitingTimeForward } from '../game/common/simulationState/timeState';
-import {
-  getCurrentState,
-  triggerTimeForward,
-  triggerTimeForwardCancel,
-} from '../game/mainSimulationLogic';
+import { getCurrentState, triggerTimeForward } from '../game/mainSimulationLogic';
 import { setInterfaceState } from '../gameInterface/interfaceState';
 import { getTranslation } from '../tools/translation';
 
@@ -17,14 +13,6 @@ export function timeForwardAskConfirmation(): void {
 export async function timeForward(): Promise<IManagedResponse> {
   setInterfaceState({ timeForwardAwaitingConfirmation: false });
   return await triggerTimeForward();
-}
-
-/**
- * Unsets the player's readiness to forward time
- */
-export async function cancelTimeForward(): Promise<IManagedResponse> {
-  setInterfaceState({ timeForwardAwaitingConfirmation: false }); // just to make sure
-  return await triggerTimeForwardCancel();
 }
 
 /**

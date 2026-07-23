@@ -140,10 +140,8 @@ export function initActionTemplates(): ActionTemplateData {
     'appoint-EVASAN-title',
     'appoint-EVASAN-desc',
     TimeSliceDuration,
-    'appoint-EVASAN-no-resource-feedback',
-    'appoint-refusal-feedback',
+    'appoint-hierarchy-not-respected',
     'EVASAN',
-    ['ambulancier'],
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
   );
@@ -153,10 +151,8 @@ export function initActionTemplates(): ActionTemplateData {
     'appoint-LeadPMA-title',
     'appoint-LeadPMA-desc',
     TimeSliceDuration,
-    'appoint-LeadPMA-no-resource-feedback',
-    'appoint-refusal-feedback',
+    'appoint-hierarchy-not-respected',
     'LEADPMA',
-    ['infirmier', 'ambulancier'],
     [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.LEADPMA_ARRIVED]
   );
@@ -176,7 +172,7 @@ export function initActionTemplates(): ActionTemplateData {
     'evacuate-task-request',
     'evacuate-feedback-return',
     'evacuate-task-abort',
-    'evacuate-task-refused'
+    'evacuate-task-hierarchy-not-respected'
   );
 
   const pretriageReport = new PretriageReportTemplate(

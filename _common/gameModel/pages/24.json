@@ -26,7 +26,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "Script",
-                "content" : "import { selectPatient } from './game/legacy/likert';\n\nselectPatient(Context.patientMenuItem.id);",
+                "content" : "import { selectPatient } from './game/pretri/likert';\n\nselectPatient(Context.patientMenuItem.id);",
                 "language" : "typescript"
               }
             },
@@ -44,7 +44,7 @@
         "exposeAs" : "patientMenuItem",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getPatientMenu } from './game/legacy/likert';\ngetPatientMenu();",
+          "content" : "import { getPatientMenu } from './game/pretri/likert';\ngetPatientMenu();",
           "language" : "TypeScript"
         },
         "itemKey" : "id",
@@ -79,7 +79,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "Script",
-            "content" : "import { gotoValidatePage } from './game/legacy/likert';\n\ngotoValidatePage();",
+            "content" : "import { gotoValidatePage } from './game/pretri/likert';\n\ngotoValidatePage();",
             "language" : "typescript"
           }
         },

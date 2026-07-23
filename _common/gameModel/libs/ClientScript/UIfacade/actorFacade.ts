@@ -3,7 +3,6 @@ import { ActorId } from '../game/common/baseTypes';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getInterfaceConfiguration } from '../gameInterface/interfaceConfiguration';
 import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
@@ -95,9 +94,7 @@ export function getIdleActorsWarningMessage(): string {
  * @returns All actors visible to the current player (in the timeline)
  */
 export function getVisibleActorsInTimelineForCurrentPlayer() {
-  return getInterfaceConfiguration().timeline.viewNonPlayerActors
-    ? getAllActors().filter(actor => actor.Role != 'CASU')
-    : getCurrentPlayerActors();
+  return getAllActors().filter(actor => actor.Role != 'CASU');
 }
 
 /**

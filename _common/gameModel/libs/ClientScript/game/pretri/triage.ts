@@ -15,7 +15,7 @@ import {
   getHuman,
   getHumanConsole,
   HumanHealth,
-} from '../legacy/the_world';
+} from './patientProcessing';
 import { getEnv } from '../../tools/WegasHelper';
 import { getTranslation } from '../../tools/translation';
 import { getOverview } from '../patientZoom/graphics';

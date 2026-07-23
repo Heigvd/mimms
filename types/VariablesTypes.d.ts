@@ -42,8 +42,6 @@ interface VariableClasses {
   "stepDuration": SNumberDescriptor;
   "data": SListDescriptor;
   "patients": SObjectDescriptor;
-  "characters": SObjectDescriptor;
-  "bagsDefinitions": SObjectDescriptor;
   "hospitals_config": SObjectDescriptor;
   "skillsDefinitions": SObjectDescriptor;
   "actionsDurations": SObjectDescriptor;
@@ -51,10 +49,8 @@ interface VariableClasses {
   "patients-elapsed-minutes": SNumberDescriptor;
   "patientCapacity": SNumberDescriptor;
   "state": SListDescriptor;
-  "whoAmI": SStringDescriptor;
   "currentPatient": SStringDescriptor;
   "drillStatus": SObjectDescriptor;
-  "scenarioRevived": SBooleanDescriptor;
   "variable": SListDescriptor;
   "gameMode": SStringDescriptor;
   "vasoconstriction": SBooleanDescriptor;
@@ -63,8 +59,7 @@ interface VariableClasses {
   "tagSystem": SStringDescriptor;
   "drillType": SStringDescriptor;
   "drill": SListDescriptor;
-  "bagType": SStringDescriptor;
-  "defaultProfile": SStringDescriptor;
+  "defaultSkill": SStringDescriptor;
   "finished_custom_text": STextDescriptor;
   "examMode": SBooleanDescriptor;
   "collectDemographicData": SBooleanDescriptor;
@@ -119,8 +114,6 @@ interface VariableClasses {
   "pretriage": SListDescriptor;
   "pretriage-interface": SObjectDescriptor;
   "pretriage-explanations": SObjectDescriptor;
-  "variable_6HaInb": SListDescriptor;
-  "qr-interface": SObjectDescriptor;
   "general": SListDescriptor;
   "general-interface": SObjectDescriptor;
   "general-likert": SObjectDescriptor;
@@ -133,8 +126,6 @@ interface VariableClasses {
   "mainSim-radio": SObjectDescriptor;
   "mainSim-summary": SObjectDescriptor;
   "mainSim-dashboard": SObjectDescriptor;
-  "trainer": SListDescriptor;
-  "trainer-interface": SObjectDescriptor;
   "debug": SListDescriptor;
   "debug_LMEBup": SNumberDescriptor;
   "debugStoredState": SNumberDescriptor;
@@ -150,7 +141,6 @@ interface VariableClasses {
   "multiplayer": SListDescriptor;
   "multiplayerMatrix": SObjectDescriptor;
   "trainer_Zix3IY": SListDescriptor;
-  "godView": SBooleanDescriptor;
   "messagesLifeLength": SNumberDescriptor;
   "respectHierarchy": SBooleanDescriptor;
   "map": SListDescriptor;

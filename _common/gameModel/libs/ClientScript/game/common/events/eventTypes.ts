@@ -1,8 +1,7 @@
 import { BlockName } from '../../../HUMAn/human';
 import { AfflictedPathology } from '../../../HUMAn/pathology';
 import { MeasureMetric } from '../../../HUMAn/registry/acts';
-import { Location } from '../../../map/locationTypes';
-import { ActionSource, ResolvedAction } from '../../legacy/the_world';
+import { ActionSource } from '../../pretri/patientProcessing';
 import { Categorization } from '../../pretri/triage';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
@@ -16,21 +15,6 @@ import { BaseEvent, TargetedEvent } from './baseEvent';
 import { FullEvent } from './eventUtils';
 import { SourceType } from '../localEvents/localEventBase';
 
-/**
- * Walk, drive, fly to destination
- */
-export interface FollowPathEvent extends TargetedEvent {
-  type: 'FollowPath';
-  from: Location;
-  destination: Location;
-}
-
-/** Aka teleportation */
-export interface TeleportEvent extends TargetedEvent {
-  type: 'Teleport';
-  location: Location;
-}
-
 export interface PathologyEvent extends TargetedEvent, AfflictedPathology {
   type: 'HumanPathology';
 }
@@ -40,31 +24,12 @@ export interface HumanLogMessageEvent extends TargetedEvent {
   message: string;
 }
 
-export interface DelayedAction {
-  id: number;
-  dueDate: number;
-  action: ResolvedAction;
-  event: FullEvent<HumanTreatmentEvent | HumanMeasureEvent>;
-  resultEvent: HumanMeasureResultEvent | undefined;
-  display:
-    | {
-        pulse_perMin?: number;
-      }
-    | undefined;
-}
-
 export interface HumanMeasureEvent extends TargetedEvent {
   type: 'HumanMeasure';
-  timeJump: boolean;
   source: ActionSource;
 }
 
-export type MeasureResultStatus =
-  | 'success'
-  | 'failed_missing_object'
-  | 'failed_missing_skill'
-  | 'cancelled'
-  | 'unknown';
+export type MeasureResultStatus = 'success' | 'failed_missing_skill' | 'cancelled' | 'unknown';
 
 export interface HumanMeasureResultEvent extends TargetedEvent {
   type: 'HumanMeasureResult';
@@ -76,23 +41,12 @@ export interface HumanMeasureResultEvent extends TargetedEvent {
 
 export interface HumanTreatmentEvent extends TargetedEvent {
   type: 'HumanTreatment';
-  timeJump: boolean;
   source: ActionSource;
   blocks: BlockName[];
 }
 
-export interface CancelActionEvent {
-  type: 'CancelAction';
-  eventId: number;
-}
-
 export interface CategorizeEvent extends TargetedEvent, Categorization {
   type: 'Categorize';
-}
-
-export interface GiveBagEvent extends TargetedEvent {
-  type: 'GiveBag';
-  bagId: string;
 }
 
 export interface FreezeEvent extends TargetedEvent {
@@ -102,7 +56,7 @@ export interface FreezeEvent extends TargetedEvent {
 
 export interface ScriptedEvent {
   time: number;
-  payload: PathologyEvent | HumanTreatmentEvent | TeleportEvent;
+  payload: PathologyEvent | HumanTreatmentEvent;
 }
 
 export interface AgingEvent extends TargetedEvent {
@@ -111,23 +65,17 @@ export interface AgingEvent extends TargetedEvent {
 }
 
 export type EventPayload =
-  | FollowPathEvent
-  | TeleportEvent
   | PathologyEvent
   | HumanTreatmentEvent
   | HumanMeasureEvent
   | HumanMeasureResultEvent
   | HumanLogMessageEvent
   | CategorizeEvent
-  | GiveBagEvent
-  | CancelActionEvent
   | FreezeEvent
   | AgingEvent
   // NEW EVENTS
   | TimeForwardEvent
-  | TimeForwardCancelEvent
   | ActionCreationEvent
-  | ActionCancellationEvent
   // TRAINER EVENT
   | DashboardRadioMessageEvent
   | DashboardNotificationMessageEvent
@@ -166,13 +114,6 @@ export interface DashboardNotificationMessageEvent extends BaseEvent, TimedPaylo
 export interface ActionCreationEvent extends BaseEvent, TimedPayload {
   type: 'ActionCreationEvent';
   templateUid: ActionTemplateUid;
-}
-
-export interface ActionCancellationEvent extends BaseEvent, TimedPayload {
-  type: 'ActionCancellationEvent';
-  templateId: ActionTemplateUid;
-  actorId: ActorId;
-  timeStamp: SimTime;
 }
 
 export interface GameOptionsEvent extends BaseEvent, TimedPayload {
@@ -223,24 +164,13 @@ export interface TimeForwardEvent extends TimeForwardEventBase {
   timeJump: SimDuration;
 }
 
-/**
- * Emitted When a player cancels his request to forward time
- */
-export interface TimeForwardCancelEvent extends TimeForwardEventBase {
-  type: 'TimeForwardCancelEvent';
-}
-
 export function isLegacyGlobalEvent(event: FullEvent<EventPayload>) {
   switch (event.payload.type) {
-    case 'Teleport':
-    case 'FollowPath':
     case 'HumanPathology':
     case 'HumanTreatment':
     case 'HumanMeasure':
     case 'Categorize':
     case 'HumanLogMessage':
-    case 'GiveBag':
-    case 'CancelAction':
     case 'Freeze':
     case 'Aging':
     case 'HumanMeasureResult':

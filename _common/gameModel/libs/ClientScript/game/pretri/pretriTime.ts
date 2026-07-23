@@ -1,4 +1,4 @@
-import { syncWorld } from './the_world';
+import { syncWorld } from './patientProcessing';
 
 const timeLogger = Helpers.getLogger('TimeManager');
 
