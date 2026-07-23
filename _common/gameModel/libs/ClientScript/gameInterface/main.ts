@@ -1,4 +1,4 @@
-import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';

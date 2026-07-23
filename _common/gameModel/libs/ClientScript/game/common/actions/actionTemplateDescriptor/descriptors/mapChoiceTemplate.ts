@@ -4,14 +4,16 @@ import { getMapEntityDescriptor } from '../../../../loaders/mapEntitiesLoader';
 import { VehicleType } from '../../../resources/resourceType';
 import { LOCATION_ENUM } from '../../../simulationState/locationState';
 import {
+  SimFlag,
+} from '../../actionTemplate/actionTemplateBase';
+import { ChoiceDescriptor } from '../../choiceDescriptor/choiceDescriptor';
+import { ITemplateDescriptor } from '../templateDescriptor';
+import {
   MapChoiceActionTemplate,
   ParkChoiceTemplate,
   PCChoiceTemplate,
   PCFrontChoiceTemplate,
-  SimFlag,
-} from '../../actionTemplateBase';
-import { ChoiceDescriptor } from '../../choiceDescriptor/choiceDescriptor';
-import { ITemplateDescriptor } from '../templateDescriptor';
+} from '../../actionTemplate/actionTemplateBaseMap';
 
 export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
   type: 'MapChoiceActionTemplateDescriptor';

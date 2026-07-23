@@ -1,7 +1,7 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getPriorityByCategoryId } from '../../pretri/triage';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
 import { MovePatientLocalEvent } from '../localEvents/localEventBase';

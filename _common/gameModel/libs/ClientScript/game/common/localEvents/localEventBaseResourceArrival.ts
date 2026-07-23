@@ -1,11 +1,21 @@
-import { ActorId, GlobalEventId, ResourceContainerDefinitionId, SimDuration, SimTime } from '../baseTypes';
+import {
+  ActorId,
+  GlobalEventId,
+  ResourceContainerDefinitionId,
+  SimDuration,
+  SimTime,
+} from '../baseTypes';
 import { CasuMessagePayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getContainerDef, resolveResourceRequest } from '../resources/emergencyDepartment';
 import { AddActorLocalEvent } from './localEventBaseActors';
 import { getLocalEventManager } from './localEventManager';
 import { ResourceType } from '../resources/resourceType';
-import { AddMessageLocalEvent, AddNotificationLocalEvent, AddRadioMessageLocalEvent } from './localEventBaseRadio';
+import {
+  AddMessageLocalEvent,
+  AddNotificationLocalEvent,
+  AddRadioMessageLocalEvent,
+} from './localEventBaseRadio';
 import * as RadioLogic from '../radio/radioLogic';
 import * as ResourceLogic from '../resources/resourceLogic';
 import { resourceArrivalLocationResolution } from '../resources/resourceLogic';
@@ -32,7 +42,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
       readonly simTimeStamp: SimTime;
       readonly actorUid: ActorId | undefined;
       readonly request: CasuMessagePayload;
-    },
+    }
   ) {
     super({ ...props, type: 'ResourceRequestResolutionLocalEvent' });
   }
@@ -45,7 +55,7 @@ export class ResourceRequestResolutionLocalEvent extends LocalEventBase {
         this.props.parentEventId,
         this.props.source,
         this.props.actorUid,
-        this.props.request.resourceRequest,
+        this.props.request.resourceRequest
       );
     }
   }
@@ -57,7 +67,7 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
       readonly parentEventId: GlobalEventId;
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
-    },
+    }
   ) {
     //Request ACS-MCS
     const casuMessage: MethaneMessagePayload = {
@@ -95,7 +105,7 @@ export class ResourceMobilizationLocalEvent extends LocalEventBase {
       readonly containerDefId: ResourceContainerDefinitionId;
       readonly amount: number;
       readonly configName: string;
-    },
+    }
   ) {
     super({ ...props, type: 'ResourceMobilizationLocalEvent' });
   }
@@ -149,7 +159,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       readonly containerDefId: ResourceContainerDefinitionId;
       readonly amount: number;
       readonly squadName: string;
-    },
+    }
   ) {
     super({ ...props, type: 'ResourcesArrivalLocalEvent' });
   }
@@ -193,7 +203,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
                 simTimeStamp: this.props.simTimeStamp,
                 recipientActor: actorId,
                 resources: sentResourcesByLocations[location]!,
-              }),
+              })
             );
           });
         });
@@ -202,7 +212,7 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
       // missing ambulance or helicopter park location
       // radio message to the user
       getLocalEventManager().queueLocalEvent(
-        this.buildArrivalFailureRadioEvent(containerDef.type, state),
+        this.buildArrivalFailureRadioEvent(containerDef.type, state)
       );
       // TODO later : we might want to make the ressources arrive as soon as the park is defined
       // TODO if more than one container of a given type fails, do we want to aggregate the warning messages?
@@ -215,14 +225,14 @@ export class ResourcesArrivalLocalEvent extends LocalEventBase {
           containerDefId: this.props.containerDefId,
           amount: this.props.amount,
           squadName: this.props.squadName,
-        }),
+        })
       );
     }
   }
 
   private buildArrivalFailureRadioEvent(
     rtype: ResourceContainerType,
-    state: MainSimulationState,
+    state: MainSimulationState
   ): AddMessageLocalEvent {
     let parkKey = '';
     if (rtype === 'Ambulance') parkKey = 'location-ambulancePark';
@@ -254,7 +264,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
       readonly simTimeStamp: SimTime;
       readonly recipientActor: ActorId;
       readonly resources: Partial<Record<ResourceType, number>>;
-    },
+    }
   ) {
     super({ ...props, type: 'ResourceArrivalAnnouncementLocalEvent' });
   }
@@ -271,7 +281,7 @@ export class ResourceArrivalAnnouncementLocalEvent extends LocalEventBase {
         messageValues: [
           ResourceLogic.formatResourceTypesAndNumber(this.props.resources).join(',<br/>'),
         ],
-      }),
+      })
     );
   }
 }

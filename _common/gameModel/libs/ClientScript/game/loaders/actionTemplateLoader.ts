@@ -1,6 +1,6 @@
 import { parseObjectDescriptor } from '../../tools/WegasHelper';
 import { initActionTemplates, IUniqueActionTemplates } from '../actionTemplatesData';
-import { ActionTemplateBase } from '../common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../common/actions/actionTemplate/actionTemplateBase';
 import { TemplateDescriptor } from '../common/actions/actionTemplateDescriptor/templateDescriptor';
 import { Uid } from '../common/interfaces';
 import { createInstance } from './actionTemplateFactory';

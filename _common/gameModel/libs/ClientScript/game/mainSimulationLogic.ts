@@ -3,7 +3,7 @@ import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { IUniqueActionTemplates } from './actionTemplatesData';
-import { ActionTemplateBase } from './common/actions/actionTemplateBase';
+import { ActionTemplateBase } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';

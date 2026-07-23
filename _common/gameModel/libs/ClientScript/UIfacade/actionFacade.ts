@@ -9,16 +9,12 @@ import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
 import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
-  CasuMessageTemplate,
   ChoiceTemplate,
   EvacuationActionTemplate,
-  MoveActorActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
-  PretriageReportTemplate,
-  SendRadioMessageTemplate,
   SimFlag,
-  SituationUpdateActionTemplate,
-} from '../game/common/actions/actionTemplateBase';
+
+} from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
@@ -37,6 +33,15 @@ import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/inte
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
+import {
+  CasuMessageTemplate,
+  PretriageReportTemplate,
+  SendRadioMessageTemplate,
+} from '../game/common/actions/actionTemplate/actionTemplateBaseRadio';
+import {
+  MoveActorActionTemplate,
+  SituationUpdateActionTemplate,
+} from '../game/common/actions/actionTemplate/actionTemplateBaseActors';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(

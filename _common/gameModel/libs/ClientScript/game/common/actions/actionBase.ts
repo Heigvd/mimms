@@ -50,7 +50,7 @@ import {
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
-import { SimFlag } from './actionTemplateBase';
+import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 import { AddActorLocalEvent, MoveActorLocalEvent } from '../localEvents/localEventBaseActors';
 import {
