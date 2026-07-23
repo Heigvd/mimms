@@ -24,7 +24,6 @@ import {
   LocalEventBase,
   TimeForwardRequestLocalEvent,
 } from './common/localEvents/localEventBase';
-import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
@@ -111,7 +110,7 @@ function resetActionTemplates(): void {
 }
 
 /**
- * converts a global event to local events and enqueue them for later evaluation
+ * converts a global event to local events
  * @param event a received global event
  */
 export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalEventBase[] {
@@ -141,7 +140,6 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           parentEventId: event.id,
           source: { type: 'time-forward' },
           simTimeStamp: event.payload.triggerTime,
-          actors: [ownerId],
           timeJump: TimeSliceDuration,
         }));
       } else {
@@ -169,20 +167,13 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           TimeSliceDuration
         );
       } else {
-        // if event is forced, take all actors regardless
-        const involved = event.payload.dashboardForced
-          ? getCurrentState()
-              .getAllActors()
-              .map(a => a.Uid)
-          : event.payload.involvedActors;
-
         for (let i = 0; i < timeJump; i += TimeSliceDuration) {
           localEvents.push(new TimeForwardRequestLocalEvent({
             parentEventId: event.id,
             source: { type: 'time-forward' },
             simTimeStamp: event.payload.triggerTime + i,
-            actors: involved,
             timeJump: TimeSliceDuration,
+            ignoreConditions: event.payload.dashboardForced
           }));
         }
       }
@@ -228,21 +219,11 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       break;
     }
     case 'GameOptionsEvent': {
-      const ownerId = event.payload.emitterCharacterId as ActorId;
-
       localEvents.push(new GameOptionsUpdateLocalEvent({
         parentEventId: event.id,
         source: { type: event.payload.source },
         simTimeStamp: event.payload.triggerTime,
         options: event.payload.options,
-      }));
-
-      localEvents.push(new TimeForwardRequestLocalEvent({
-        parentEventId: event.id,
-        source: { type: 'time-forward' },
-        simTimeStamp: event.payload.triggerTime,
-        actors: [ownerId],
-        timeJump: TimeSliceDuration,
       }));
 
       break;

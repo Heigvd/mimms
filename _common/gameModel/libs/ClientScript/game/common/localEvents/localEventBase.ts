@@ -53,7 +53,7 @@ import { changePatientLocation, PatientLocation } from '../simulationState/patie
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
-import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
+import { isTimeForwardReady } from '../simulationState/timeState';
 import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { evaluateAllTriggers, Trigger } from '../triggers/trigger';
@@ -187,28 +187,27 @@ export class PlanActionLocalEvent extends LocalEventBase {
 // -------------------------------------------------------------------------------------------------
 
 /**
- * When applied to state, bumps the readiness of the provided actors.
- * If all actors are ready, time forwards
+ * When applied to state, checks if on site actors can still plan or no.
+ * If all actors have planned and action, time forwards.
  */
 export class TimeForwardRequestLocalEvent extends LocalEventBase {
+  private readonly ignoreConditions: boolean
+
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
-      readonly actors: ActorId[];
       readonly timeJump: number;
+      readonly ignoreConditions?: boolean
     }
   ) {
     super({ ...props, type: 'TimeForwardLocalEvent', priority: 1 });
-  }
-
-  protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
-    updateCurrentTimeFrame(state, this.props.actors, modifier, this.props.simTimeStamp);
+    this.ignoreConditions = props.ignoreConditions || false
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    if (isTimeForwardReady(state)) {
+    if (isTimeForwardReady(state) || this.ignoreConditions) {
       state.incrementSimulationTime(this.props.timeJump);
 
       // update patients
@@ -234,7 +233,6 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
         parentEventId: this.props.parentEventId,
         source: this.props.source,
         simTimeStamp: state.getSimTime(),
-        actors: this.props.actors,
         timeJump: TimeSliceDuration,
       });
 

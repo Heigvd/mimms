@@ -1,5 +1,4 @@
 import { getCurrentPlayerActorIds } from '../../../UIfacade/actorFacade';
-import { timeLogger } from '../../../tools/logger';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 import { isOngoingAndStartedAction } from './actionStateAccess';
@@ -86,29 +85,4 @@ export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>
 
   const timeFrame = state.getCurrentTimeFrame();
   return actorIds.every(a => (timeFrame.waitingTimeForward[a] || 0) > 0);
-}
-
-/**
- * Fetches the current timeframe and updates its time forward readiness for the given actors.
- * used to apply a time forward or time forward cancel event.
- * If the expected time stamp (i.e. the timeforward event time stamp), doesn't match the current time frame's
- * timestamp, no changes are applied, that can happen if auto forward applies during a situation update.
- */
-export function updateCurrentTimeFrame(
-  state: MainSimulationState,
-  actors: ActorId[],
-  increment: number,
-  expectedTimeStamp: number
-) {
-  const timeFrame = state.getCurrentTimeFrame();
-  if (timeFrame.currentTime !== expectedTimeStamp) {
-    timeLogger.warn(`Current simulation time doesn't match the expected time. time frame update cancelled.
-      (current time ${timeFrame.currentTime})(event ts ${expectedTimeStamp}).
-      This warning can safely be ignored if the trainer has furthered the time while a situation update was occurring`);
-  } else {
-    actors.forEach(actorId => {
-      const v = timeFrame.waitingTimeForward[actorId] || 0;
-      timeFrame.waitingTimeForward[actorId] = Math.max(0, v + increment);
-    });
-  }
 }
