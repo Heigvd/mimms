@@ -5403,7 +5403,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBaseActors",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateActors",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115007:c9EcVI",
@@ -5412,7 +5412,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBaseMap",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateMap",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115006:h0b4xb",
@@ -5421,21 +5421,12 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBaseRadio",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateRadio",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115976:6AG7dT",
     "version" : null,
     "visibility" : "INHERITED"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateBase",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#84:ASnhzm",
-    "version" : null,
-    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",

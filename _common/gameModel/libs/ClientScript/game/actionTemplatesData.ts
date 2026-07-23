@@ -13,11 +13,11 @@ import { ActionTemplateData } from './loaders/actionTemplateLoader';
 import {
   ActivateRadioSchemaActionTemplate, CasuMessageTemplate, DisplayMessageActionTemplate, PretriageReportTemplate,
   SendRadioMessageTemplate,
-} from './common/actions/actionTemplate/actionTemplateBaseRadio';
+} from './common/actions/actionTemplate/actionTemplateRadio';
 import {
   AppointActorActionTemplate, MoveActorActionTemplate,
   SituationUpdateActionTemplate,
-} from './common/actions/actionTemplate/actionTemplateBaseActors';
+} from './common/actions/actionTemplate/actionTemplateActors';
 
 export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
