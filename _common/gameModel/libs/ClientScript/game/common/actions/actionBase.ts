@@ -3,7 +3,6 @@ import { actionLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { getCachedHospitalById } from '../../loaders/hospitalLoader';
-import { InterventionRole } from '../actors/actor';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
 import {
@@ -25,11 +24,7 @@ import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { computeTravelTime } from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../evacuation/hospitalType';
-import {
-  CasuMessagePayload,
-  HospitalRequestPayload,
-  MethaneMessagePayload,
-} from '../events/casuMessageEvent';
+import { CasuMessagePayload, HospitalRequestPayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
@@ -40,33 +35,23 @@ import { getProximityTranslation, getResourceAsSenderName } from '../radio/radio
 import { Resource } from '../resources/resource';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { CommMedia } from '../resources/resourceReachLogic';
-import { ResourceType, ResourceTypeAndNumber, VehicleType } from '../resources/resourceType';
+import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
-import {
-  canMoveToLocation,
-  getActiveMapEntityFromBinding,
-  LOCATION_ENUM,
-} from '../simulationState/locationState';
+import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
-import { AddActorLocalEvent, MoveActorLocalEvent } from '../localEvents/localEventActors';
 import {
   AddMessageLocalEvent,
   AddNotificationLocalEvent,
   AddRadioMessageLocalEvent,
 } from '../localEvents/localEventRadio';
-import {
-  HospitalRequestUpdateLocalEvent,
-  PretriageReportResponseLocalEvent,
-} from '../localEvents/localEventBaseHospital';
+import { HospitalRequestUpdateLocalEvent, PretriageReportResponseLocalEvent } from '../localEvents/localEventHospital';
 import {
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
-  MoveFreeHumanResourcesByLocationLocalEvent,
-  MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -74,8 +59,7 @@ import {
 import {
   AutoSendACSMCSLocalEvent,
   ResourceRequestResolutionLocalEvent,
-} from '../localEvents/localEventBaseResourceArrival';
-import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventActivable';
+} from '../localEvents/localEventResourceArrival';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 
@@ -334,31 +318,6 @@ export class DisplayMessageAction extends StartEndAction {
         channel: this.channel,
       })
     );
-  }
-}
-
-export class OnTheRoadAction extends StartEndAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    actionNameKey: TranslationKey,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    //likely nothing to do
-    this.logger.info('start event OnTheRoadAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event OnTheRoadAction');
-    // Once actor arrives, we change location from remote
-    const actor = state.getActorById(this.ownerId)!;
-    actor.setLocation(actor.getComputedSymbolicLocation(state));
   }
 }
 
@@ -644,423 +603,9 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// place map items
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-export class MapChoiceAction extends ChoiceAction {
-  public readonly binding?: LOCATION_ENUM;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor,
-    binding?: LOCATION_ENUM
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState,
-      choice
-    );
-    this.binding = binding;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    if (!this.choice.displayedMapEntity) {
-      this.logger.error('Choice has no map entity to display');
-      return;
-    }
-
-    getLocalEventManager().queueLocalEvent(
-      new ChangeMapActivableStatusLocalEvent(
-        {
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          target: this.choice.displayedMapEntity,
-          option: 'activate',
-        },
-        'pending'
-      )
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    if (!this.choice.displayedMapEntity) {
-      this.logger.error('Choice has no map entity to display');
-      return;
-    }
-
-    getLocalEventManager().queueLocalEvent(
-      new ChangeMapActivableStatusLocalEvent(
-        {
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          target: this.choice.displayedMapEntity,
-          option: 'activate',
-        },
-        'built'
-      )
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PC Front
-// -------------------------------------------------------------------------------------------------
-
-export class PCFrontChoiceAction extends MapChoiceAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState,
-      choice,
-      LOCATION_ENUM.pcFront
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new MoveActorLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        actorUid: this.ownerId,
-        location: this.binding!,
-      })
-    );
-
-    // First and only resource on scene comes with
-    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
-    getLocalEventManager().queueLocalEvent(
-      new MoveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        resourcesId: [resourceUid],
-        targetLocation: this.binding!,
-      })
-    );
-    getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: [resourceUid],
-      })
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place PC
-// -------------------------------------------------------------------------------------------------
-
-export class PCChoiceAction extends MapChoiceAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState,
-      choice,
-      LOCATION_ENUM.PC
-    );
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-    // Move actors to PC
-    const actors = state
-      .getInternalStateObject()
-      .actors.filter(a => a.Location === LOCATION_ENUM.pcFront);
-
-    for (const actor of actors) {
-      getLocalEventManager().queueLocalEvent(
-        new MoveActorLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          actorUid: actor.Uid,
-          location: this.binding!,
-        })
-      );
-    }
-    // Move human resources to PC
-    getLocalEventManager().queueLocalEvent(
-      new MoveFreeHumanResourcesByLocationLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        sourceLocation: LOCATION_ENUM.pcFront,
-        targetLocation: this.binding!,
-      })
-    );
-    // Remove PC Front once all actors and resources have been moved
-    const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
-    getLocalEventManager().queueLocalEvent(
-      new ChangeMapActivableStatusLocalEvent(
-        {
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          target: pcFrontActivable!.uid,
-          option: 'deactivate',
-        },
-        'pending'
-      )
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// place park
-// -------------------------------------------------------------------------------------------------
-
-export class ParkChoiceAction extends MapChoiceAction {
-  // The binding is always ambulancePark or helicopterPark
-  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
-  public readonly vehicleType: VehicleType;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor,
-    binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
-    vehicleType: VehicleType
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState,
-      choice
-    );
-    this.binding = binding;
-    this.vehicleType = vehicleType;
-  }
-
-  protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    super.dispatchEndedEvents(state);
-
-    getLocalEventManager().queueLocalEvent(
-      new MoveFreeWaitingResourcesByTypeLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        resourceType: this.vehicleType,
-        targetLocation: this.binding,
-      })
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
 // Actors
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-
-/**
- * Action to move actor from one location to another
- */
-export class MoveActorAction extends StartEndAction {
-  public readonly location: LOCATION_ENUM;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[] = [],
-    location: LOCATION_ENUM
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState
-    );
-    this.location = location;
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    if (!canMoveToLocation(state, 'Actors', this.location)) {
-      getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          recipientId: this.ownerId,
-          message: 'move-actor-no-location',
-        })
-      );
-    } else {
-      getLocalEventManager().queueLocalEvent(
-        new MoveActorLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          actorUid: this.ownerId,
-          location: this.location,
-        })
-      );
-    }
-  }
-}
-
-export class AppointActorAction extends StartEndAction {
-  private location: LOCATION_ENUM | undefined;
-  private compliantWithHierarchy: boolean;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[] = [],
-    readonly actorRole: InterventionRole,
-    readonly hierarchyNotRespectedMessageKey: TranslationKey
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState
-    );
-
-    this.location = undefined;
-    this.compliantWithHierarchy = false;
-  }
-
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
-    this.location = state.getActorById(this.ownerId)!.Location;
-    this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, this.location);
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    getLocalEventManager().queueLocalEvent(
-      new AddActorLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        role: this.actorRole,
-        location: this.location,
-      })
-    );
-
-    if (!this.compliantWithHierarchy) {
-      // The order is carried out anyway, but the chain of command was not respected
-      getLocalEventManager().queueLocalEvent(
-        new AddNotificationLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          recipientId: this.ownerId,
-          message: this.hierarchyNotRespectedMessageKey,
-        })
-      );
-    }
-  }
-}
-
-/**
- * Action book a moment for situation update (point de situation)
- */
-export class SituationUpdateAction extends StartEndAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    eventId: GlobalEventId,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[] = []
-  ) {
-    super(
-      startTimeSec,
-      durationSeconds,
-      eventId,
-      actionNameKey,
-      ownerId,
-      templateUid,
-      provideFlagsToState
-    );
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-  }
-
-  protected dispatchEndedEvents(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
-  }
-}
 
 /**
  * Action to send resources to a location and assign a task

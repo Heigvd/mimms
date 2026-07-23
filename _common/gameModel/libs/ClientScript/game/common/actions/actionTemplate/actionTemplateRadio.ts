@@ -33,7 +33,7 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
     category: ActionType,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -44,12 +44,12 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       category,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
   protected createActionFromEvent(
-    event: FullEvent<RadioMessageActionEvent>,
+    event: FullEvent<RadioMessageActionEvent>
   ): SendRadioMessageAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
@@ -61,14 +61,14 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
       ownerId,
       this.uid,
       this.radioChannel,
-      payload.radioMessagePayload,
+      payload.radioMessagePayload
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    params: RadioMessagePayload,
+    params: RadioMessagePayload
   ): RadioMessageActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -87,14 +87,14 @@ export class SendRadioMessageTemplate extends StartEndTemplate {
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId,
+    actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === this.radioChannel &&
-          (a as RadioDrivenAction).ownerId === actorUid,
+          (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
   }
@@ -114,7 +114,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    readonly channel?: RadioType | undefined,
+    readonly channel?: RadioType | undefined
   ) {
     super(
       uid,
@@ -125,7 +125,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
@@ -142,7 +142,7 @@ export class DisplayMessageActionTemplate extends StartEndTemplate<DisplayMessag
       ownerId,
       this.uid,
       this.raisedFlags,
-      this.channel,
+      this.channel
     );
   }
 
@@ -167,7 +167,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -178,7 +178,7 @@ export class CasuMessageTemplate extends StartEndTemplate<
       ActionType.CASU_RADIO,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
@@ -192,14 +192,14 @@ export class CasuMessageTemplate extends StartEndTemplate<
       event.id,
       ownerId,
       this.uid,
-      payload.casuMessagePayload,
+      payload.casuMessagePayload
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    params: CasuMessagePayload,
+    params: CasuMessagePayload
   ): CasuMessageActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -210,14 +210,14 @@ export class CasuMessageTemplate extends StartEndTemplate<
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId,
+    actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === RadioType.CASU &&
-          (a as RadioDrivenAction).ownerId === actorUid,
+          (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
   }
@@ -242,7 +242,7 @@ export class PretriageReportTemplate extends StartEndTemplate<
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -253,12 +253,12 @@ export class PretriageReportTemplate extends StartEndTemplate<
       ActionType.RESOURCES_RADIO,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
   protected createActionFromEvent(
-    event: FullEvent<RequestPretriageReportEvent>,
+    event: FullEvent<RequestPretriageReportEvent>
   ): RequestPretriageReportAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
@@ -271,14 +271,14 @@ export class PretriageReportTemplate extends StartEndTemplate<
       event.id,
       ownerId,
       this.uid,
-      payload.pretriageLocation,
+      payload.pretriageLocation
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    params: PretriageReportActionPayload,
+    params: PretriageReportActionPayload
   ): RequestPretriageReportEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -289,14 +289,14 @@ export class PretriageReportTemplate extends StartEndTemplate<
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId,
+    actorUid: ActorId
   ): boolean {
     return (
       getOngoingActions(state).filter(
         a =>
           a instanceof RadioDrivenAction &&
           (a as RadioDrivenAction).getChannel() === RadioType.RESOURCES &&
-          (a as RadioDrivenAction).ownerId === actorUid,
+          (a as RadioDrivenAction).ownerId === actorUid
       ).length === 0
     );
   }
@@ -314,7 +314,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
     readonly channel: RadioType,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -325,12 +325,12 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       ActionType.CASU_RADIO,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
   protected createActionFromEvent(
-    event: FullEvent<StandardActionEvent>,
+    event: FullEvent<StandardActionEvent>
   ): ActivateRadioSchemaAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
@@ -346,7 +346,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
       ownerId,
       this.uid,
       this.channel,
-      this.raisedFlags,
+      this.raisedFlags
     );
   }
 
@@ -359,7 +359,7 @@ export class ActivateRadioSchemaActionTemplate extends StartEndTemplate<Activate
 
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    _actor: Readonly<Actor>,
+    _actor: Readonly<Actor>
   ): boolean {
     return !state.hasFlag(SimFlag.RADIO_SCHEMA_ACTIVATED);
   }

@@ -1,4 +1,4 @@
-import { MapChoiceAction, ParkChoiceAction, PCChoiceAction, PCFrontChoiceAction } from '../actionBase';
+
 import { ActionTemplateUid, ActorId, SimDuration, TranslationKey } from '../../baseTypes';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { Actor, InterventionRole } from '../../actors/actor';
@@ -10,6 +10,7 @@ import { ActionType } from '../../actionType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { ChoiceTemplate, SimFlag } from './actionTemplateBase';
+import { MapChoiceAction, ParkChoiceAction, PCChoiceAction, PCFrontChoiceAction } from '../actionMap';
 
 export class MapChoiceActionTemplate<
   ActionT extends MapChoiceAction = MapChoiceAction
@@ -25,7 +26,7 @@ export class MapChoiceActionTemplate<
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[],
-    binding?: LOCATION_ENUM,
+    binding?: LOCATION_ENUM
   ) {
     super(
       uid,
@@ -37,7 +38,7 @@ export class MapChoiceActionTemplate<
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices,
+      choices
     );
     this.binding = binding;
   }
@@ -45,7 +46,7 @@ export class MapChoiceActionTemplate<
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    payload: ChoiceDescriptor,
+    payload: ChoiceDescriptor
   ): MapChoiceEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -67,20 +68,20 @@ export class MapChoiceActionTemplate<
       this.uid,
       this.raisedFlags,
       payload.choice,
-      this.binding,
+      this.binding
     ) as ActionT;
   }
 
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
+    actor: Readonly<Actor>
   ): boolean {
     return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actor.Uid);
   }
 
   protected override customCanConcurrencyWiseBePlayed(
     state: Readonly<MainSimulationState>,
-    actorUid: ActorId,
+    actorUid: ActorId
   ): boolean {
     return !ActionLogic.hasBeenPlannedByOtherActor(state, this.uid, actorUid);
   }
@@ -96,7 +97,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,
@@ -107,7 +108,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       raisedFlags,
       availableToRoles,
       choices,
-      binding,
+      binding
     );
   }
 
@@ -123,7 +124,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       ownerId,
       this.uid,
       this.raisedFlags,
-      payload.choice,
+      payload.choice
     );
   }
 }
@@ -138,7 +139,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,
@@ -149,7 +150,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       raisedFlags,
       availableToRoles,
       choices,
-      binding,
+      binding
     );
   }
 
@@ -165,7 +166,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       ownerId,
       this.uid,
       this.raisedFlags,
-      payload.choice,
+      payload.choice
     );
   }
 }
@@ -184,7 +185,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,
@@ -195,7 +196,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       raisedFlags,
       availableToRoles,
       choices,
-      binding,
+      binding
     );
     this.vehicleType = vehicleType;
   }
@@ -214,7 +215,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       this.raisedFlags,
       payload.choice,
       this.binding,
-      this.vehicleType,
+      this.vehicleType
     );
   }
 }

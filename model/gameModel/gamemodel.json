@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784809664923,
+  "createdTime" : 1784818401186,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5376,6 +5376,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/actions/actionActors",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115984:FU4wC4",
+    "version" : null,
+    "visibility" : "INHERITED"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/actionBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5394,10 +5403,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
+    "contentKey" : "game/common/actions/actionMap",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115977:pcliya",
+    "refId" : "GameModelContent:3115983:oVXb7o",
+    "version" : null,
+    "visibility" : "INHERITED"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionRadio",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115010:m9HYiE",
     "version" : null,
     "visibility" : "INHERITED"
   }, {
@@ -5407,6 +5425,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115007:c9EcVI",
+    "version" : null,
+    "visibility" : "INHERITED"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115977:pcliya",
     "version" : null,
     "visibility" : "INHERITED"
   }, {
@@ -5700,15 +5727,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/localEvents/localEventBase",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#79:DDVeKO",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/localEvents/localEventActivable",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5727,10 +5745,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBase",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#79:DDVeKO",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventHospital",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115974:EcTBpT",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventManager",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#76:ISxqrN",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {
@@ -5767,15 +5803,6 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#282:sxlwCg",
-    "version" : null,
-    "visibility" : "INTERNAL"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/localEvents/localEventManager",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#76:ISxqrN",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {

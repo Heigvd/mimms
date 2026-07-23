@@ -13,7 +13,7 @@ import {
   ResourceContainerType,
 } from './resourceContainer';
 import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
-import { ResourceMobilizationLocalEvent } from '../localEvents/localEventBaseResourceArrival';
+import { ResourceMobilizationLocalEvent } from '../localEvents/localEventResourceArrival';
 
 export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return getContainersDefinitions()[id]!;

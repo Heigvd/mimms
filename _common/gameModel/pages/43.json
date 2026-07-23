@@ -936,7 +936,7 @@
                                     } ],
                                     "ifCondition" : {
                                       "@class" : "Script",
-                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
+                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionActors\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                       "language" : "typescript"
                                     },
                                     "layoutStyle" : { },
@@ -971,7 +971,7 @@
                                         "exposeAs" : "actor",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(SituationUpdateAction);",
+                                          "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionActors\";\nimport { getActorsNotDoing } from \"./UIfacade/actionFacade\";\ngetActorsNotDoing(SituationUpdateAction);",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "Uid",
@@ -984,7 +984,7 @@
                                     "className" : "modal-buttons-container",
                                     "hideIf" : {
                                       "@class" : "Script",
-                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionBase\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
+                                      "content" : "import { SituationUpdateAction } from \"./game/common/actions/actionActors\";\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nareAllActorsDoing(SituationUpdateAction);",
                                       "language" : "typescript"
                                     },
                                     "layout" : { },
@@ -997,7 +997,7 @@
                                 "className" : "modal",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { SituationUpdateAction } from './game/common/actions/actionBase';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(SituationUpdateAction);",
+                                  "content" : "import { SituationUpdateAction } from './game/common/actions/actionActors';\nimport { isCurrentActorDoing } from \"./UIfacade/actionFacade\";\n!isCurrentActorDoing(SituationUpdateAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
@@ -1059,7 +1059,7 @@
                                 } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { OnTheRoadAction } from './game/common/actions/actionBase';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
+                                  "content" : "import { OnTheRoadAction } from './game/common/actions/actionMap';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : {

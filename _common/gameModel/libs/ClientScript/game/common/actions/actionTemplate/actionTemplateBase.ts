@@ -1,16 +1,36 @@
 import { getTranslation } from '../../../../tools/translation';
 import { ActionType } from '../../actionType';
 import { Actor, InterventionRole } from '../../actors/actor';
-import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId, TranslationKey } from '../../baseTypes';
+import {
+  ActionTemplateUid,
+  ActorId,
+  SimDuration,
+  SimTime,
+  TaskId,
+  TranslationKey,
+} from '../../baseTypes';
 import { initBaseEvent } from '../../events/baseEvent';
-import { EvacuationActionEvent, EvacuationActionPayload } from '../../events/evacuationMessageEvent';
-import { ActionCreationEvent, ChoiceEvent, MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
+import {
+  EvacuationActionEvent,
+  EvacuationActionPayload,
+} from '../../events/evacuationMessageEvent';
+import {
+  ActionCreationEvent,
+  ChoiceEvent,
+  MoveResourcesAssignTaskEvent,
+} from '../../events/eventTypes';
 import { FullEvent } from '../../events/eventUtils';
 import { PlanActionLocalEvent } from '../../localEvents/localEventBase';
 import { CommMedia } from '../../resources/resourceReachLogic';
 import { ResourceTypeAndNumber } from '../../resources/resourceType';
-import { getOngoingActions, getStartedActionsOfTemplate } from '../../simulationState/actionStateAccess';
-import { ActionTemplateActivable, getActionTemplateActivable } from '../../simulationState/activableState';
+import {
+  getOngoingActions,
+  getStartedActionsOfTemplate,
+} from '../../simulationState/actionStateAccess';
+import {
+  ActionTemplateActivable,
+  getActionTemplateActivable,
+} from '../../simulationState/activableState';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import {

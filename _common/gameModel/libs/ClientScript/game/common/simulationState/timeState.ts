@@ -3,7 +3,8 @@ import { timeLogger } from '../../../tools/logger';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 import { isOngoingAndStartedAction } from './actionStateAccess';
-import { SituationUpdateAction } from '../actions/actionBase';
+
+import { SituationUpdateAction } from '../actions/actionActors';
 
 /**
  * Data structure used to handle time forward for multiplayer.

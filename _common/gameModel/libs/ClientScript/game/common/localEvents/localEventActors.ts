@@ -3,8 +3,8 @@ import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationSta
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { mainSimLogger } from '../../../tools/logger';
 import { Actor, InterventionRole } from '../actors/actor';
-import { OnTheRoadAction } from '../actions/actionBase';
 import { LocalEventBase, SourceType } from './localEventBase';
+import { OnTheRoadAction } from '../actions/actionActors';
 
 export class AddActorLocalEvent extends LocalEventBase {
   /**

@@ -3,7 +3,6 @@ import {
   EvacuationActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SimFlag,
-
 } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid } from './common/baseTypes';
@@ -11,11 +10,15 @@ import { TimeSliceDuration } from './common/constants';
 import { RadioType } from './common/radio/communicationType';
 import { ActionTemplateData } from './loaders/actionTemplateLoader';
 import {
-  ActivateRadioSchemaActionTemplate, CasuMessageTemplate, DisplayMessageActionTemplate, PretriageReportTemplate,
+  ActivateRadioSchemaActionTemplate,
+  CasuMessageTemplate,
+  DisplayMessageActionTemplate,
+  PretriageReportTemplate,
   SendRadioMessageTemplate,
 } from './common/actions/actionTemplate/actionTemplateRadio';
 import {
-  AppointActorActionTemplate, MoveActorActionTemplate,
+  AppointActorActionTemplate,
+  MoveActorActionTemplate,
   SituationUpdateActionTemplate,
 } from './common/actions/actionTemplate/actionTemplateActors';
 

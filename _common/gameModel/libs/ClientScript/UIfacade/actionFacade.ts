@@ -13,7 +13,6 @@ import {
   EvacuationActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
   SimFlag,
-
 } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';

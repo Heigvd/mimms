@@ -3,11 +3,11 @@ import { Actor, InterventionRole } from '../../actors/actor';
 import { ActionType } from '../../actionType';
 import { FullEvent } from '../../events/eventUtils';
 import { AppointActorEvent, MoveActorEvent, StandardActionEvent } from '../../events/eventTypes';
-import { AppointActorAction, MoveActorAction, SituationUpdateAction } from '../actionBase';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
+import { AppointActorAction, MoveActorAction, SituationUpdateAction } from '../actionActors';
 
 export class MoveActorActionTemplate extends StartEndTemplate {
   constructor(
@@ -18,7 +18,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -29,7 +29,7 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
@@ -44,14 +44,14 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       ownerId,
       this.uid,
       [],
-      payload.location,
+      payload.location
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    params: LOCATION_ENUM,
+    params: LOCATION_ENUM
   ): MoveActorEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -78,7 +78,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
     readonly actorRole: InterventionRole,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -89,7 +89,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       ActionType.ACTION,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
@@ -105,14 +105,14 @@ export class AppointActorActionTemplate extends StartEndTemplate<
       this.uid,
       this.raisedFlags,
       this.actorRole,
-      this.hierarchyNotRespectedMessageKey,
+      this.hierarchyNotRespectedMessageKey
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
     initiator: Readonly<Actor>,
-    params: InterventionRole,
+    params: InterventionRole
   ): AppointActorEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -125,7 +125,7 @@ export class AppointActorActionTemplate extends StartEndTemplate<
   // cannot be planned more than once at the same time
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
+    actor: Readonly<Actor>
   ): boolean {
     return (
       state.getAllActors().every(act => act.Role !== this.actorRole) &&
@@ -159,14 +159,14 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
       event.id,
       this.title,
       ownerId,
-      this.uid,
+      this.uid
     );
   }
 
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: SituationUpdatePayload,
+    params: SituationUpdatePayload
   ): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),

@@ -14,10 +14,7 @@ import {
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import {
-  ActionTemplateBase,
-
-} from '../game/common/actions/actionTemplate/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
