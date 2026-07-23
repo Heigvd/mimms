@@ -17,11 +17,7 @@ import {
 } from './common/events/eventTypes';
 import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import { getCurrentGameOptions } from './common/gameOptions';
-import {
-  GameOptionsUpdateLocalEvent,
-  LocalEventBase,
-
-} from './common/localEvents/localEventBase';
+import { GameOptionsUpdateLocalEvent, LocalEventBase } from './common/localEvents/localEventBase';
 import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
@@ -34,7 +30,10 @@ import { loadActionTemplates } from './loaders/actionTemplateLoader';
 import { eraseInitialState, getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 import { getOmittedGlobalEvents } from './testing/stateDebug';
 import { TimeForwardLocalEvent } from './common/localEvents/localEventBaseTime';
-import { AddNotificationLocalEvent, AddRadioMessageLocalEvent } from './common/localEvents/localEventBaseRadio';
+import {
+  AddNotificationLocalEvent,
+  AddRadioMessageLocalEvent,
+} from './common/localEvents/localEventBaseRadio';
 
 /* all defined action templates */
 let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase> | undefined;

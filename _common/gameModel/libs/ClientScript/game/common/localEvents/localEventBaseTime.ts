@@ -21,7 +21,7 @@ export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
       readonly priority?: number;
       readonly type: string;
       readonly actors: ActorId[];
-    },
+    }
   ) {
     const defaultProps = { priority: 1 };
     super({ ...defaultProps, ...props });
@@ -44,7 +44,7 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       readonly simTimeStamp: SimTime;
       readonly actors: ActorId[];
       readonly timeJump: number;
-    },
+    }
   ) {
     super({ ...extensionProps, type: 'TimeForwardLocalEvent' });
   }

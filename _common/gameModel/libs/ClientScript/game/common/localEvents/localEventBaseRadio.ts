@@ -19,7 +19,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
       readonly channel?: RadioType | undefined;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
-    },
+    }
   ) {
     super({ ...props, type: 'AddMessageLocalEvent' });
   }
@@ -28,11 +28,11 @@ export class AddMessageLocalEvent extends LocalEventBase {
     const msg = this.props.omitTranslation
       ? this.props.message
       : getTranslation(
-        'mainSim-actions-tasks',
-        this.props.message,
-        undefined,
-        this.props.messageValues,
-      );
+          'mainSim-actions-tasks',
+          this.props.message,
+          undefined,
+          this.props.messageValues
+        );
 
     state.getInternalStateObject().radioMessages.push({
       senderId: this.props.senderId,
@@ -61,7 +61,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
       readonly channel: RadioType;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
-    },
+    }
   ) {
     super({ ...extensionProps });
   }
@@ -79,7 +79,7 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
       readonly message: TranslationKey;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
-    },
+    }
   ) {
     super({ ...extensionProps });
   }

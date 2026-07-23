@@ -5,9 +5,7 @@
 import { taskLogger } from '../../../tools/logger';
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
-import {
-  TaskStatusChangeLocalEvent,
-} from '../localEvents/localEventBase';
+import { TaskStatusChangeLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { doPatientAutomaticTriage } from '../patients/pretriage';
 import { formatStandardPretriageReport } from '../patients/pretriageUtils';

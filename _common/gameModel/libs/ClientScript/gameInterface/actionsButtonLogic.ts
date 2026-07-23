@@ -197,7 +197,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
       hazards: casuMessage.hazards,
       access: casuMessage.access,
       victims: casuMessage.victims,
-      resourceRequest: resources.requestedResources
+      resourceRequest: resources.requestedResources,
     };
 
     // Reset interfaceState

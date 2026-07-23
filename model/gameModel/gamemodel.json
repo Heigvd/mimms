@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784807165838,
+  "createdTime" : 1784808693503,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5713,6 +5713,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115971:07YmvS",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventBaseResourceArrival",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115975:hPFgAp",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {

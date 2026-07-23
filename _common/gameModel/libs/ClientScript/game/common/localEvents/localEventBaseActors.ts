@@ -18,7 +18,7 @@ export class AddActorLocalEvent extends LocalEventBase {
       readonly role: InterventionRole; // spawned role
       readonly location?: LOCATION_ENUM | undefined; // if undefined automatically resolved
       readonly travelTime?: SimDuration; // if 0 no travel time, if greater, a travel action is planned
-    },
+    }
   ) {
     super({ ...props, type: 'AddActorLocalEvent' });
   }
@@ -38,7 +38,7 @@ export class AddActorLocalEvent extends LocalEventBase {
         'on-the-road',
         0,
         actor.Uid,
-        '', // TODO SAM add the template id (from UniqueActionTemplates list -> InternalActionTemplates)
+        '' // TODO SAM add the template id (from UniqueActionTemplates list -> InternalActionTemplates)
       );
       state.getInternalStateObject().actions.push(travelAction);
     }
@@ -53,7 +53,7 @@ export class MoveActorLocalEvent extends LocalEventBase {
       readonly simTimeStamp: SimTime;
       readonly actorUid: ActorId;
       readonly location: LOCATION_ENUM;
-    },
+    }
   ) {
     super({ ...props, type: 'MoveActorLocalEvent' });
   }

@@ -3,10 +3,7 @@ import { getTranslation } from '../../../tools/translation';
 import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { getCasuActorId } from '../actors/actorLogic';
 import { ActorId, GlobalEventId, ResourceContainerDefinitionId } from '../baseTypes';
-import {
-  ResourceMobilizationLocalEvent,
-  SourceType,
-} from '../localEvents/localEventBase';
+import { SourceType } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -16,6 +13,7 @@ import {
   ResourceContainerType,
 } from './resourceContainer';
 import { AddRadioMessageLocalEvent } from '../localEvents/localEventBaseRadio';
+import { ResourceMobilizationLocalEvent } from '../localEvents/localEventBaseResourceArrival';
 
 export function getContainerDef(id: ResourceContainerDefinitionId): ResourceContainerDefinition {
   return getContainersDefinitions()[id]!;

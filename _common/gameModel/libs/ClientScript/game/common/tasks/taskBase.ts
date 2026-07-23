@@ -4,9 +4,7 @@ import { getContextUidGenerator } from '../../executionContext/gameExecutionCont
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
-import {
-  TaskStatusChangeLocalEvent,
-} from '../localEvents/localEventBase';
+import { TaskStatusChangeLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';

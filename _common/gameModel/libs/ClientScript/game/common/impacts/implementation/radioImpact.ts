@@ -1,7 +1,4 @@
-import {
-  LocalEventBase,
-  SourceType,
-} from '../../localEvents/localEventBase';
+import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { RadioType } from '../../radio/communicationType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';

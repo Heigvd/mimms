@@ -34,9 +34,7 @@ import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
 import {
-  AutoSendACSMCSLocalEvent,
   ChangeMapActivableStatusLocalEvent,
-  ResourceRequestResolutionLocalEvent,
 
 } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
@@ -71,10 +69,16 @@ import {
 import {
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
-  MoveFreeHumanResourcesByLocationLocalEvent, MoveFreeWaitingResourcesByTypeLocalEvent, MoveResourcesLocalEvent,
+  MoveFreeHumanResourcesByLocationLocalEvent,
+  MoveFreeWaitingResourcesByTypeLocalEvent,
+  MoveResourcesLocalEvent,
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventBaseResources';
+import {
+  AutoSendACSMCSLocalEvent,
+  ResourceRequestResolutionLocalEvent,
+} from '../localEvents/localEventBaseResourceArrival';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 

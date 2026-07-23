@@ -18,7 +18,7 @@ export class ReserveResourcesLocalEvent extends LocalEventBase {
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
       readonly actionId: ActionId;
-    },
+    }
   ) {
     super({ ...props, type: 'ReserveResourcesLocalEvent' });
   }
@@ -35,7 +35,7 @@ export class UnReserveResourcesLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
-    },
+    }
   ) {
     super({ ...props, type: 'UnReserveResourcesLocalEvent' });
   }
@@ -54,7 +54,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
       readonly type: string;
       readonly ownerUid: ActorId;
       readonly targetLocation: LOCATION_ENUM;
-    },
+    }
   ) {
     super({ ...props });
   }
@@ -82,14 +82,14 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
       readonly ownerUid: ActorId;
       readonly resourcesId: ResourceId[];
       readonly targetLocation: LOCATION_ENUM;
-    },
+    }
   ) {
     super({ ...extensionProps, type: 'MoveResourcesLocalEvent' });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
     return this.extensionProps.resourcesId.map(resourceId =>
-      ResourceState.getResourceById(state, resourceId),
+      ResourceState.getResourceById(state, resourceId)
     );
   }
 }
@@ -103,7 +103,7 @@ export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLoc
       readonly ownerUid: ActorId;
       readonly sourceLocation: LOCATION_ENUM;
       readonly targetLocation: LOCATION_ENUM;
-    },
+    }
   ) {
     super({
       ...extensionProps,
@@ -125,7 +125,7 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
       readonly ownerUid: ActorId;
       readonly resourceType: ResourceType;
       readonly targetLocation: LOCATION_ENUM;
-    },
+    }
   ) {
     super({
       ...extensionProps,
@@ -145,7 +145,7 @@ export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesIds: ResourceId[];
-    },
+    }
   ) {
     super({ ...props, type: 'MoveResourcesAtArrivalLocationLocalEvent' });
   }
@@ -167,7 +167,7 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
       readonly taskId: TaskId;
-    },
+    }
   ) {
     super({ ...props, type: 'AssignResourcesToTaskLocalEvent' });
   }
@@ -184,7 +184,7 @@ export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly resourcesId: ResourceId[];
-    },
+    }
   ) {
     super({ ...props, type: 'AssignResourcesToWaitingTaskLocalEvent' });
   }
@@ -201,7 +201,7 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly taskId: TaskId;
-    },
+    }
   ) {
     super({ ...props, type: 'ReleaseResourcesFromTaskLocalEvent' });
   }
@@ -209,14 +209,14 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     const involvedResources: Resource[] = ResourceState.getFreeResourcesByTask(
       state,
-      this.props.taskId,
+      this.props.taskId
     );
     const involvedResourcesId: ResourceId[] = involvedResources.map(
-      (resource: Resource) => resource.Uid,
+      (resource: Resource) => resource.Uid
     );
     const location: LOCATION_ENUM = TaskState.getTaskResponsibleActorSymbolicLocation(
       state,
-      this.props.taskId,
+      this.props.taskId
     );
 
     ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));

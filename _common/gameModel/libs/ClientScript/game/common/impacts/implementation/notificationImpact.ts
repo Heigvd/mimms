@@ -1,8 +1,5 @@
 import { Actor, InterventionRole } from '../../actors/actor';
-import {
-  LocalEventBase,
-  SourceType,
-} from '../../localEvents/localEventBase';
+import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ImpactBase } from '../impact';
 import { AddNotificationLocalEvent } from '../../localEvents/localEventBaseRadio';
