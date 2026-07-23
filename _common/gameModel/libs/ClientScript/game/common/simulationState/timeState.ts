@@ -40,13 +40,28 @@ function getInitialTimeForwardStatus(
   return 0;
 }
 
+function canActorPlanActionInState(
+  state: Readonly<MainSimulationState>,
+  actorId: ActorId
+): boolean {
+  const currentTime = state.getSimTime();
+  const actorActions = state.getActionsByActorIds()[actorId];
+
+  if (actorActions === undefined) return true;
+
+  for (const action of actorActions) {
+    if (action.startTime === currentTime) return false;
+    if (action.startTime + action.duration() > currentTime) return false;
+  }
+
+  return true;
+}
+
 /**
  * Returns true if all involved actors on site are ready to time forward on the state's current time frame
  */
 export function isTimeForwardReady(state: Readonly<MainSimulationState>): boolean {
-  const actors = state.getOnSiteActors();
-  const timeFrame = state.getCurrentTimeFrame();
-  return actors.every(a => timeFrame.waitingTimeForward[a.Uid] || 0 > 0);
+  return state.getOnSiteActors().every(a => !canActorPlanActionInState(state, a.Uid))
 }
 
 /**
@@ -88,7 +103,7 @@ export function updateCurrentTimeFrame(
   const timeFrame = state.getCurrentTimeFrame();
   if (timeFrame.currentTime !== expectedTimeStamp) {
     timeLogger.warn(`Current simulation time doesn't match the expected time. time frame update cancelled.
-      (current time ${timeFrame.currentTime})(event ts ${expectedTimeStamp}). 
+      (current time ${timeFrame.currentTime})(event ts ${expectedTimeStamp}).
       This warning can safely be ignored if the trainer has furthered the time while a situation update was occurring`);
   } else {
     actors.forEach(actorId => {
