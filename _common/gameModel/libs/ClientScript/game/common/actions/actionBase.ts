@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 10
+
 import { entries } from '../../../tools/helper';
 import { actionLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';

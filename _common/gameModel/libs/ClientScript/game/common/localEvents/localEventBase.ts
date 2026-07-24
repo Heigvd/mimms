@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 10
+
 import { mainSimLogger } from '../../../tools/logger';
 import { ActionBase } from '../actions/actionBase';
 import { GlobalEventId, SimTime, TaskId } from '../baseTypes';

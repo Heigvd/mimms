@@ -1,3 +1,5 @@
+// EVALUATION_PRIORITY 10
+
 import { getTranslation } from '../../../../tools/translation';
 import { ActionType } from '../../actionType';
 import { Actor, InterventionRole } from '../../actors/actor';

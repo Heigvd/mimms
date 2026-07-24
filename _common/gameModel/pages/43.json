@@ -1059,7 +1059,7 @@
                                 } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "import { OnTheRoadAction } from './game/common/actions/actionMap';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
+                                  "content" : "import { OnTheRoadAction } from './game/common/actions/actionActors';\nimport { areAllActorsDoing } from \"./UIfacade/actionFacade\";\nimport { getCurrentPlayerPlayableActorsCount } from './UIfacade/actorFacade';\ngetCurrentPlayerPlayableActorsCount() == 0 || !areAllActorsDoing(OnTheRoadAction);",
                                   "language" : "typescript"
                                 },
                                 "layout" : {
