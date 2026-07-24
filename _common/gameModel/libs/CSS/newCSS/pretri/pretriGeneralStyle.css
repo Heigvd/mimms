@@ -1,0 +1,204 @@
+/* ============================================================
+Drill pré-tri — General Style
+Variables de couleur + styles de paragraphe
+============================================================ */
+
+:root {
+  /* ---------- Brand / Teal ---------- */
+  --color-teal:        #1f8aa3;   /* Brand/Teal        — actions, accents, liens */
+  --color-teal-soft:   #e6f3f6;   /* Brand/Teal soft   — fonds de chip, halos */
+  --color-teal-ink:    #0b5160;   /* Brand/Teal ink    — texte sur teal soft */
+
+  /* ---------- Text ---------- */
+  --color-fg:          #0f1b2d;   /* Text/Primary  — titres, valeurs */
+  --color-muted:       #6b7a8f;   /* Text/Muted    — corps de texte, libellés secondaires */
+  --color-faint:       #9aa6b6;   /* Text/Faint    — désactivé, fractions */
+
+  /* ---------- Surface ---------- */
+  --color-bg:          #f3f5f8;   /* Surface/Background  — fond d'écran */
+  --color-card:        #ffffff;   /* Surface/Card        — cartes, panneaux */
+  --color-subtle:      #fbfcfd;   /* Surface/Subtle      — encarts internes, zébrures */
+  --color-subtle-2:    #fafbfc;   /* Surface/Subtle 2    — en-tête de tableau, lignes alternées */
+  --color-border:      #e3e7ec;   /* Surface/Border      — bordures, séparateurs */
+  --color-border-2:    #eef1f4;   /* Surface/Border 2    — séparateurs de lignes internes */
+
+  /* ---------- Triage ---------- */
+  --color-dead:        #797979;   /* Triage/Dead     — décédé */
+  --color-dead-soft:   #dfe3e9;   /* Triage/Dead soft */
+  --color-p1:          #B73D3C;   /* Triage/P1       — urgence immédiate (clay red) */
+  --color-p1-soft:     #f6e1de;   /* Triage/P1 soft */
+  --color-p2:          #E9B406;   /* Triage/P2       — urgence relative (ochre) */
+  --color-p2-soft:     #fbeed3;   /* Triage/P2 soft */
+  --color-p3:          #86b700;   /* Triage/P3       — mineur (sage green) */
+  --color-p3-soft:     #e0efe1;   /* Triage/P3 soft */
+
+  /* ---------- Skin / coloration cutanée ---------- */
+  --color-skin-fit:        #d77e8e;  /* Skin/En forme */
+  --color-skin-cyan:       #7a8cd6;  /* Skin/Cyanose */
+  --color-skin-pale:       #e9ebee;  /* Skin/Pâle */
+
+  /* ---------- Anatomy / silhouette ---------- */
+  --color-anatomy:         #d3d8df;  /* Anatomy/Silhouette */
+  --color-anatomy-line:    #a1adbd;  /* Anatomy/Silhouette line */
+  --color-anatomy-zone:    #f1c98a;  /* Anatomy/Zone — surbrillance zone affectée */
+
+  /* ---------- Typographie : familles ---------- */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---------- Rayons & ombres ---------- */
+  --radius-card:   16px;   /* cartes principales */
+  --radius-md:     12px;   /* encarts, boutons triage */
+  --radius-sm:      8px;   /* chips, badges */
+  --radius-pill:  999px;   /* pilules, boutons d'action */
+  --shadow-card: 0 1px 0 rgba(15,27,45,0.04), 0 10px 30px -20px rgba(15,27,45,0.15);
+  --shadow-teal: 0 6px 16px -6px rgba(31,138,163,0.55);
+  --half-opacity: 50%;
+}
+
+/* ============================================================
+STYLES DE PARAGRAPHE
+============================================================ */
+
+/* Display/Summary — grand titre d'écran (ex. « Summary ») */
+.text-display {
+  font-family: var(--font-sans);
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--color-fg);
+}
+
+/* Heading/H2 — titre de section (ex. « Explications », « Gameplay ») */
+.text-h2 {
+  font-family: var(--font-sans);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-teal);
+}
+
+/* Title/Patient — nom de patient */
+/*.text-title {
+  font-family: var(--font-sans);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--color-fg);
+}*/
+
+/* Heading/H3 — sous-titre de panneau (ex. « Résultat ») */
+.text-h3 {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--color-fg);
+}
+
+/* Heading/Section — en-tête de bloc (ex. « Temporalité dans le jeu ») */
+.text-section {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  color: var(--color-fg);
+}
+
+/* Label/Brand — nom du produit dans la barre haute */
+.text-brand {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-card);
+}
+
+/* Label/Triage — libellé de bouton de catégorie / action principale */
+.text-label {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-fg);
+}
+
+/* Body/Large — corps de texte introductif */
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* Body/Default — corps de texte courant */
+.text-body {
+  font-family: var(--font-sans);
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* Body/Cell — valeur de cellule de tableau / journal */
+.text-cell {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-fg);
+}
+
+/* Mono/Stat — grand chiffre (ex. « 3/4 », « 00:05:04 ») */
+.text-stat {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg);
+}
+
+/* Mono/Clock — horloge dans la barre haute */
+.text-clock {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg);
+}
+
+/* Mono/Pill — étiquette de pilule de catégorie (DEAD/P1/P2/P3) */
+.text-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Mono/Column — en-tête de colonne de tableau */
+.text-column {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Mono/Meta — méta-information (ex. « Module · v1.0 », score) */
+.text-meta {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}

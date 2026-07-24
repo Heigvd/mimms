@@ -1,5 +1,52 @@
 /* CSS pour la page d'accueil du pretri */
+.welcome-page__column {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: auto;
+}
 
-.welcomeColumns{
-	padding: 15px;
+.welcome-images__container {
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.coloration__container img {
+  width: 4rem;
+  height: auto;
+  border-radius: 2rem;
+}
+
+.pain-scale__container img {
+  width: 3rem;
+  height: auto;
+  border-radius: 1.5rem;
+}
+
+.pain-scale__container .text-column {
+  text-align: center;
+}
+
+.pain-scale__container > div {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border-2);
+}
+
+.pain-scale__container > div:nth-child(-n+6) {
+  padding-top: 0;
+}
+
+.pain-scale__container > div:nth-last-child(-n+6) {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.pain-scale__container > div:nth-child(6n+1) {
+  justify-content: flex-end;
 }

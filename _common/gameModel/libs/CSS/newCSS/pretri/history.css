@@ -1,61 +1,85 @@
-
-
-/* Result of action or measure in the history console*/
-.lastResult div .log_container{
-	color: var(--grey_100);
-	background-color:transparent;
-	padding: 0px 10px;
-	margin-bottom: .8rem;
-	align-items: baseline;
-	font-size: var(--M_text);
-	border-radius: var(--XS_borderRadius) ;
-	
-	}
+/* display */
+.pretri-results__container {
+  flex: 1 1 0;
+  min-height: 0;
+}
 
 .lastResult {
-	max-height: 40vh;
 	overflow: auto;	
 }
 
-.resultConsole{
-	margin-left: 1rem;
+/* Result of action or measure in the history console */
+.log_container {
+  display: flex;
+  gap: 1rem;
+  padding: .5rem .75rem;
+}
+
+.lastResult div .log_container {
+  align-items: baseline;
+  margin-bottom: .8rem;
+	background-color: transparent;
+	border-radius: var(--radius-sm);
+}
+
+.lastResult div .log_container:nth-child(odd) {
+  background-color: var(--color-subtle-2);
+}
+
+.lastResult div .log_container:last-of-type {
+  margin-bottom: 0;
+}
+
+/* texts */
+.ongoing-page .text-clock {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 
-
-
-.consoleTime{
-	font-weight: var(--boldWeight);
+/* ------------------------------------------------------------
+CHIP / TAG
+------------------------------------------------------------ */
+.pretri-chip { /* to be paired with text-pill */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 2px 8px;
+  color: var(--color-muted);
+  background-color: var(--color-subtle-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
+.pretri-chip.action-chip {
+  color: var(--color-teal-ink);
+  background-color: var(--color-teal-soft);
+  border-color: transparent;
+}
+
+.pretri-chip.mesure-chip {
+  color: #8a5e16;
+  background-color: var(--color-p2-soft);
+  border-color: transparent;
+}
 
 /* Animation for latest result */
+.lastResult div .log_container:first-child {
+  animation-name: highlight;
+  animation-duration: 3s;
+}
 
 @keyframes highlight {
  	0% {
-	background-color: rgba(var(--primary_30), .01 );
+	  background-color: rgba(var(--primary_30), .01 );
 	}
-  	50% {
-	background-color: var(--primary_20);
+
+  50% {
+	  background-color: var(--primary_20);
 	}
 
 	100% {
-	background-color: rgba(var(--primary_30), .2 );
-	}
-}
-
-
-.lastResult div .log_container:first-child{
-animation-name: highlight;
-animation-duration: 3s;
-}
-
-
-/*** Responsive ***/
-@media screen and (max-width: 1199px){
-	.lastResult div .log_container{
-		font-size: var(--SM_text);
-		padding:  0px;
-		margin:  5px  0px 0px 5px;
+	  background-color: rgba(var(--primary_30), .2 );
 	}
 }

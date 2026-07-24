@@ -11,7 +11,7 @@ export function getFormattedPretriTime(): string {
   const t = Variable.find(gameModel, 'latest_pretri_time').getValue(self);
   const time = toHoursMinutesSecondsIso(t);
   const timeLabel = getTranslation('pretriage-interface', 'time');
-  return `<span>${time}</span><br>${timeLabel}`;
+  return `<span class="text-stat">${time}</span><br>${timeLabel}`;
 }
 
 export function actionsBlocked(): boolean {
@@ -23,6 +23,7 @@ export function actionsBlocked(): boolean {
  */
 export function getPatientPretriTotal(): string {
   const textPatientCorrect = getTranslation('pretriage-interface', 'nb-patients-correct');
+  const textSuccessPourcentage = getTranslation('pretriage-interface', 'success');
   const sortedId = getSortedPatientIds();
   const allHumans = getCategorizedHumans();
   let nbCorrect = 0;
@@ -36,5 +37,6 @@ export function getPatientPretriTotal(): string {
       nbCorrect++;
     }
   });
-  return `<span>${nbCorrect}/${r.length}</span><br>${textPatientCorrect}`;
+  const percentage = r.length > 0 ? Math.round((nbCorrect / r.length) * 100) : 0;
+  return `<span class="text-stat">${percentage}% ${textSuccessPourcentage}</span><br>${nbCorrect}/${r.length} ${textPatientCorrect}`;
 }

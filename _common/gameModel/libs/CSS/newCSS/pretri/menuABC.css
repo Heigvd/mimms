@@ -1,88 +1,43 @@
-/* This stylsheet should only contain CSS linked to the ABCmenu */
-
-
-/*************** ABCDE MENU ****************/
-/* Container de tout le menu*/
-.ABCDETT_Menu-container{
-  margin-left: .9rem;
-  margin-right: .9rem;
-  margin-top: 10px;
+/* ------------------------------------------------------------
+TAB
+------------------------------------------------------------ */
+.pretri-tabs {
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* fallback color */
-.menuABC{
-  color: var(--grey_70);
+.pretri-tab {
+  padding: .5rem 1rem 6px 1rem;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-muted);
+  background-color: transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out, color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
-.menuABC-button{
-  margin-bottom: 0px;
-  padding-bottom: 0px;
+.pretri-tab:hover,
+.pretri-tab.selected:hover {
+  background-color: var(--color-teal-soft);
 }
 
-/* Selected button */
-.menuABC .menuABC-button > button.selected {
-	font-weight: var(--boldWeight);
-  color: var(--grey-white); 
-	background-color: var(--primary_base);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
+.pretri-tab.selected {
+  color: var(--color-teal);
+  background-color: var(--color-card);
+  border-bottom: 2px solid var(--color-teal);
 }
 
-.menuABC .menuABC-button > button.selected:hover {
-  color: var(--grey_100);
-  background-color:var(--primary_20);
+.pretri-tab.disabled,
+.pretri-tab.no-selection {
+  opacity: .5;
+  pointer-events: none;
 }
 
-
-/* Unselected buttons */
-.menuABC .menuABC-button > button {
-  margin-bottom: 0px;
-  padding:  8px 15px 8px 15px;
-	font-weight: var(--boldWeight);
-  color: var(--grey_70);
-	background-color:var(--grey_20);
-	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px;
-  transition: color .3s ease-in-out, background-color .3s ease-in-out;
-}
-
-.menuABC .menuABC-button > button:hover{
-  color: var(--grey_70);
-  background-color: var(--grey_30);
-}
-
-
-/*Disabled buttons*/
-.menuABC .menuABC-button > button.no-selection{
-	color: var(--grey_30);
-	background-color: var(--grey_10);
-}
-
-.menuABC .menuABC-button > button.no-selection:hover{
-	color: var(--grey_30);
-	background-color: var(--grey_20);
-}
-
-.theLine{
-  border-bottom: solid 3px var(--primary_base);
-}
-
-@media screen and (min-width: 1200px){}
-
-@media screen and (max-width: 1199px){
-
-	.ABCDETT_Menu-container{
-		flex-wrap: nowrap;
-	}
-
-	.ABCDETT_Menu-container .menuABC-button > button{
-		padding:  6px 15px 6px 15px;
-		flex-wrap: nowrap;
-	}
-
-	.menuABC-button{
-		padding:   0px 2px  0px 0px; 
-	}
-
-	.menuABC{
-    flex-wrap: nowrap;
-	}
+/* - - - -  A B C D E   M E N U  - - - */
+/* Container de tout le menu */
+.ABCDETT_Menu-container {
+  margin: 0 0 1rem 0;
 }

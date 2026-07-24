@@ -711,7 +711,10 @@ function formatBlockTitle(titleArg: string, translationVar?: keyof VariableClass
 }
 
 function formatBlockSubTitle(title: string, translationVar: keyof VariableClasses): string {
-  return `<div class='block-subtitle'>${getTranslation(translationVar, title)}</div>`;
+  return `<div class='text-meta' style="font-family: var(--font-sans);">${getTranslation(
+    translationVar,
+    title
+  )}</div>`;
 }
 
 function formatBlockEntry(
@@ -724,8 +727,8 @@ function formatBlockEntry(
     title = getTranslation(translationVar, title);
   }
   return `<div class='block-entry'>
-		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
-		<span class='block-entry-value'>${value || ''}</span>
+		 <span class='text-cell'>${title}${value ? ' — ' : ''}</span> 
+		<span class='text-cell'>${value || ''}</span>
 	</div>`;
 }
 
@@ -1070,7 +1073,7 @@ export function formatMetric(metric: BodyStateKeys, value: unknown): [string, st
     case 'vitals.respiration.rr':
       return [metricName, intFormatter(value) + '/min'];
     case 'vitals.capillaryRefillTime_s':
-      return [metricName, twoDecimalFormatter(value)];
+      return [metricName, oneDecimalFormatter(value) + ' sec'];
     case 'vitals.respiration.PaO2':
       return [metricName, oneDecimalFormatter(value) + ' mmHg'];
     case 'vitals.respiration.PaCO2':
@@ -1235,17 +1238,18 @@ export function getMainIndication(): string {
 
 function formatLog(log: ConsoleLog): string {
   const formattedTime = toHoursMinutesSecondsIso(log.time);
-  const time = `<span class='consoleTime'>${formattedTime}</span>`;
+  const time = `<span class='text-clock'>${formattedTime}</span>`;
   if (log.type === 'MessageLog') {
-    return `<div class='log_container'>${time} <div class='message'>${log.message}</div></div>`;
+    return `<div class='log_container'>${time}<div class='message'>${log.message}</div></div>`;
   } else if (log.type === 'MeasureLog') {
     const lines = log.metrics.map(metric => {
       const r = formatMetric(metric.metric, metric.value);
-      return `<div><span class='msr_label'>${r[0]}:</span><span class='msr_value'>${r[1]}</span></div>`;
+      return `<div class='msr_label'><span class='pretri-chip mesure-chip text-label' style="width: 4rem; margin-right: 1rem; font-size: 11px;">MESURE</span><span class='text-cell'>${r[0]} — ${r[1]}</span></div>`;
     });
-    return `<div class='log_container'>${time} <div class='msr_list'>${lines.join('')}</div></div>`;
+    return `<div class='log_container'>${time}<div class='text-cell'>${lines.join('')}</div></div>`;
   } else if (log.type === 'TreatmentLog') {
-    return `<div class='log_container'>${time} <div class='msr_list'>${log.message}</div></div>`;
+    const treatment = getTranslation('pretriage-interface', 'treatment');
+    return `<div class='log_container'>${time}<span class='pretri-chip action-chip text-label' style="width: 4rem; font-size: 11px; text-transform: uppercase;">${treatment}</span><div class='text-cell'>${log.message}</div></div>`;
   }
   return `<div class='log_container'>${time}: UNKWOWN LOG TYPE: ${(log as any).type}</div>`;
 }
@@ -1336,8 +1340,7 @@ export function getCurrentPatientTitle(exact: boolean = false): string {
     const age = exact ? human.meta.age : `${getRoundedAge(human.meta.age)}`;
     const sex = getTranslation('human-general', human!.meta.sex);
     const years = getTranslation('human-general', 'years', false);
-    return `<span class='human-sex'>${sex}</span>,
-		  <span class='human-age'>${age} ${years}</span>`;
+    return `<p class='text-h3'>${sex}, ${age} ${years}</p>`;
   }
   return '';
 }
@@ -1523,6 +1526,7 @@ export function getCurrentPatientAutoTriage() {
   return {
     autoTriage: resultToHtmlObject(human.category.autoTriage),
     givenAnswer: categoryToHtml(human.category.category),
+    givenAnswerId: human.category.category,
   };
 }
 

@@ -232,20 +232,53 @@
               "type" : "For each"
             }, {
               "props" : {
-                "className" : "patient-modal__text",
+                "children" : [ {
+                  "props" : {
+                    "className" : "patient-modal__text",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "margin-top" : "4px"
+                    },
+                    "name" : "patients to be generated",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s).\";",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "patient-modal__text",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "import { getMaxPatients, totalExistingPatients, totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\ntotalExistingPatients() + totalPendingPatients() <= getMaxPatients();",
+                      "language" : "typescript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "margin-top" : "4px"
+                    },
+                    "name" : "patients max number",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getMaxPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Maximum patient capacity: \" + getMaxPatients();",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "margin-top" : "4px"
-                },
-                "name" : "patients to be generated",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "import { getMaxPatients, totalPendingPatients } from \"./edition/UIfacade/patientGenFacade\";\n\"Generate \" + totalPendingPatients() + \" new patient(s). Maximum patient capacity: \" + getMaxPatients();",
-                  "language" : "TypeScript"
+                "layoutStyle" : { },
+                "name" : "texts",
+                "style" : {
+                  "gap" : ".25rem"
                 }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             } ],
             "layout" : {
               "flexDirection" : "column"
