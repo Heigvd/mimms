@@ -196,7 +196,7 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
       hazards: casuMessage.hazards,
       access: casuMessage.access,
       victims: casuMessage.victims,
-      resourceRequest: resources.requestedResources
+      resourceRequest: resources.requestedResources,
     };
 
     // Reset interfaceState
@@ -248,12 +248,12 @@ function fetchMoveActorLocation() {
 }
 
 function fetchCustomDurationValues(at: CustomDurationActionTemplate<readonly number[]>) {
-  const customDurations = getTypedInterfaceState().customDurations
+  const customDurations = getTypedInterfaceState().customDurations;
   const params = { duration: customDurations[at.uid] };
 
   // Reset interfaceState
-  const updatedState = { ...customDurations }
-  updatedState[at.uid] = at.getdefaultOption()
+  const updatedState = { ...customDurations };
+  updatedState[at.uid] = at.getdefaultOption();
   setInterfaceState({ customDurations: updatedState });
 
   return params;

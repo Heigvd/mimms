@@ -1218,27 +1218,33 @@ export class CustomDurationActionTemplate<O extends readonly number[]> extends S
   StandardActionEvent,
   CustomDurationPayload
 > {
-  private readonly durationOptions: O
-  private readonly defaultOption: O[number]
+  private readonly durationOptions: O;
+  private readonly defaultOption: O[number];
 
   /**
    *
    * @param durationOptions The duration options we want to show to the player
    * @param defaultOption The value for the default selected option, must be in durationOptions
    */
-  constructor(uid: ActionTemplateUid, title: TranslationKey, description: TranslationKey, durationOptions: O, defaultOption: O[number]) {
+  constructor(
+    uid: ActionTemplateUid,
+    title: TranslationKey,
+    description: TranslationKey,
+    durationOptions: O,
+    defaultOption: O[number]
+  ) {
     super(uid, title, description, 0, 0, ActionType.ACTION);
 
-    this.durationOptions = durationOptions
-    this.defaultOption = defaultOption
+    this.durationOptions = durationOptions;
+    this.defaultOption = defaultOption;
   }
 
   public getOptions() {
-    return this.durationOptions
+    return this.durationOptions;
   }
 
   public getdefaultOption() {
-    return this.defaultOption
+    return this.defaultOption;
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): CustomDurationAction {

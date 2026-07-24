@@ -82,12 +82,7 @@ export interface LocalEvent {
 
 export type SourceType =
   | {
-      type:
-        | 'initialisation'
-        | 'trainer'
-        | 'time-forward'
-        | 'plan-action'
-        | 'unplan-action';
+      type: 'initialisation' | 'trainer' | 'time-forward' | 'plan-action' | 'unplan-action';
     }
   | {
       type: 'action';
@@ -191,7 +186,7 @@ export class PlanActionLocalEvent extends LocalEventBase {
  * If all actors have planned and action, time forwards.
  */
 export class TimeForwardRequestLocalEvent extends LocalEventBase {
-  private readonly ignoreConditions: boolean
+  private readonly ignoreConditions: boolean;
 
   constructor(
     readonly props: {
@@ -199,11 +194,11 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly timeJump: number;
-      readonly ignoreConditions?: boolean
+      readonly ignoreConditions?: boolean;
     }
   ) {
     super({ ...props, type: 'TimeForwardLocalEvent', priority: 1 });
-    this.ignoreConditions = props.ignoreConditions || false
+    this.ignoreConditions = props.ignoreConditions || false;
   }
 
   applyStateUpdate(state: MainSimulationState): void {

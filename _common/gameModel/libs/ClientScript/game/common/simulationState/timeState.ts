@@ -60,7 +60,7 @@ function canActorPlanActionInState(
  * Returns true if all involved actors on site are ready to time forward on the state's current time frame
  */
 export function isTimeForwardReady(state: Readonly<MainSimulationState>): boolean {
-  return state.getOnSiteActors().every(a => !canActorPlanActionInState(state, a.Uid))
+  return state.getOnSiteActors().every(a => !canActorPlanActionInState(state, a.Uid));
 }
 
 /**

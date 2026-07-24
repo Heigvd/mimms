@@ -99,9 +99,11 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
-export function getDurationChoicesForCustomDurationAction(action: ActionTemplateBase): { label: string; value: string }[] {
+export function getDurationChoicesForCustomDurationAction(
+  action: ActionTemplateBase
+): { label: string; value: string }[] {
   if (!(action instanceof CustomDurationActionTemplate)) {
-    actionLogger.error(`The action must be of type ${CustomDurationActionTemplate.name}!`)
+    actionLogger.error(`The action must be of type ${CustomDurationActionTemplate.name}!`);
     return [];
   }
 

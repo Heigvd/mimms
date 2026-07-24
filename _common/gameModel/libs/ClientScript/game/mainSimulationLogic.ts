@@ -132,16 +132,16 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           +event.payload.emitterCharacterId
         )
       ) {
-        localEvents.push(actionTemplate.buildLocalEvent(
-          event as FullEvent<ActionCreationEvent>
-        ));
+        localEvents.push(actionTemplate.buildLocalEvent(event as FullEvent<ActionCreationEvent>));
 
-        localEvents.push(new TimeForwardRequestLocalEvent({
-          parentEventId: event.id,
-          source: { type: 'time-forward' },
-          simTimeStamp: event.payload.triggerTime,
-          timeJump: TimeSliceDuration,
-        }));
+        localEvents.push(
+          new TimeForwardRequestLocalEvent({
+            parentEventId: event.id,
+            source: { type: 'time-forward' },
+            simTimeStamp: event.payload.triggerTime,
+            timeJump: TimeSliceDuration,
+          })
+        );
       } else {
         localEvents.push(
           new AddNotificationLocalEvent({
@@ -168,13 +168,15 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
         );
       } else {
         for (let i = 0; i < timeJump; i += TimeSliceDuration) {
-          localEvents.push(new TimeForwardRequestLocalEvent({
-            parentEventId: event.id,
-            source: { type: 'time-forward' },
-            simTimeStamp: event.payload.triggerTime + i,
-            timeJump: TimeSliceDuration,
-            ignoreConditions: event.payload.dashboardForced
-          }));
+          localEvents.push(
+            new TimeForwardRequestLocalEvent({
+              parentEventId: event.id,
+              source: { type: 'time-forward' },
+              simTimeStamp: event.payload.triggerTime + i,
+              timeJump: TimeSliceDuration,
+              ignoreConditions: event.payload.dashboardForced,
+            })
+          );
         }
       }
 
@@ -182,15 +184,17 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
     }
     case 'DashboardRadioMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
-      localEvents.push(new AddRadioMessageLocalEvent({
-        parentEventId: event.id,
-        source: { type: 'trainer' },
-        simTimeStamp: event.payload.triggerTime,
-        senderName: trainerName,
-        message: event.payload.message,
-        channel: event.payload.canal,
-        omitTranslation: true,
-      }));
+      localEvents.push(
+        new AddRadioMessageLocalEvent({
+          parentEventId: event.id,
+          source: { type: 'trainer' },
+          simTimeStamp: event.payload.triggerTime,
+          senderName: trainerName,
+          message: event.payload.message,
+          channel: event.payload.canal,
+          omitTranslation: true,
+        })
+      );
 
       break;
     }
@@ -204,27 +208,31 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
           .find(a => a.Role === role)?.Uid;
 
         if (actorId) {
-          localEvents.push(new AddNotificationLocalEvent({
-            parentEventId: event.id,
-            source: { type: 'trainer' },
-            simTimeStamp: payload.triggerTime,
-            senderName: trainerName,
-            recipientId: actorId,
-            message: payload.message,
-            omitTranslation: true,
-          }));
+          localEvents.push(
+            new AddNotificationLocalEvent({
+              parentEventId: event.id,
+              source: { type: 'trainer' },
+              simTimeStamp: payload.triggerTime,
+              senderName: trainerName,
+              recipientId: actorId,
+              message: payload.message,
+              omitTranslation: true,
+            })
+          );
         }
       });
 
       break;
     }
     case 'GameOptionsEvent': {
-      localEvents.push(new GameOptionsUpdateLocalEvent({
-        parentEventId: event.id,
-        source: { type: event.payload.source },
-        simTimeStamp: event.payload.triggerTime,
-        options: event.payload.options,
-      }));
+      localEvents.push(
+        new GameOptionsUpdateLocalEvent({
+          parentEventId: event.id,
+          source: { type: event.payload.source },
+          simTimeStamp: event.payload.triggerTime,
+          options: event.payload.options,
+        })
+      );
 
       break;
     }
