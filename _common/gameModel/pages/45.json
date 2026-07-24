@@ -167,7 +167,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\n`<p>${actionTpl.getDescription().replace(/\\n/g, '<br/>')}</p>`;",
+                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\n`${actionTpl.getDescription().replace(/\\n/g, '<br/>')}`;",
                           "language" : "TypeScript"
                         }
                       },
