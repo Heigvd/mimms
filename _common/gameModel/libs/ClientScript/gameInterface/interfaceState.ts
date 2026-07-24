@@ -38,7 +38,6 @@ export interface InterfaceState {
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: PatientId | undefined;
-  timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -117,7 +116,6 @@ export function getInitialInterfaceState(): InterfaceState {
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: undefined,
-    timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     showNotificationsPanel: false,
     selectedActionChoiceUid: '',

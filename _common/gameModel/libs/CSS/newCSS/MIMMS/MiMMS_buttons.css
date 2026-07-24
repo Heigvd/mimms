@@ -48,7 +48,7 @@
 	border-color: var(--primary_60);
 	box-shadow: var(--buttonInsetShadow);
 }
- 
+
 .button-primaryColor.current {
   font-weight: var(--boldWeight);
   color: var(--grey_0);
@@ -175,7 +175,7 @@
   overflow: visible;
 }
 
-/* The status about this button is unknown. It may be used in tools/abstractmatrix. Page 10 
+/* The status about this button is unknown. It may be used in tools/abstractmatrix. Page 10
 .confirmBtn{
   position: relative;
   bottom: 2.5rem;
@@ -187,65 +187,3 @@
   border-color: var(--primary_base);
 }
 */
-
-.nextActionBtn::before{
-  border:none;
-}
-
-.nextActionBtn { 
-  margin: 0.5em;
-  padding: 1.8em;
-  height: 3.5em;
-  max-width: 12.5em;
-  border-radius: 25px;
-  font-weight: var(--boldWeight);
-  color: var(--grey-white);
-  background-color: var(--primary_base); 
-  box-shadow: var(--buttonShadow);
-  transition: background-color .3s ease-in-out;
-}
-
-.nextActionBtn:hover { /* à ajouter si on renlève le texte   > *    */
-  background: var(--primary_60);
-	cursor: pointer;
-}
-
-.nextActionBtn > * > svg {
-	font-size: 1.6em;
-	margin: auto;
-}
-
-.soft-warning {
-  width: fit-content;
-  height: fit-content;
-  padding: 20px;
-  font-size: var(--S_text);
-  color: var(--grey_100);
-  background-color: var(--notification_base);
-  border-radius: var(--S_borderRadius);
-  opacity: 0;
-  visibility: hidden;
-}
-
-.next-container:hover:has(.nextActionBtn:hover) .soft-warning {
-  animation: soft-warning-animation 2.6s forwards;
-}
-
-@keyframes soft-warning-animation {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-  }
-  11.5% {
-    opacity: 1;
-    visibility: visible;
-  }
-  88.5% {
-    opacity: 1;
-    visibility: visible;
-  }
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
-}

@@ -62,35 +62,6 @@ export function getPlayerIdleActors(): Readonly<Actor[]> {
 }
 
 /**
- * When the player clicks on continue a soft warning is shown if an actor is idle
- * This boolean forces deactivation of this warning
- */
-let hideSoftWarning = false;
-
-export function hideSoftWarningTemporarily(): void {
-  hideSoftWarning = true;
-  setTimeout(() => (hideSoftWarning = false), 2000);
-}
-
-/**
- * @returns true if there are actors available to the current player that can plan a new action
- */
-export function isSoftWarningActive(): boolean {
-  return getPlayerIdleActors().length > 0 && hideSoftWarning == false;
-}
-
-/**
- * @returns a message if the player hasn't assigned an action to one/several actors
- */
-export function getIdleActorsWarningMessage(): string {
-  return (
-    getPlayerIdleActors()
-      .map(actor => actor.ShortName)
-      .join(', ') + getTranslation('mainSim-interface', 'soft-warning')
-  );
-}
-
-/**
  * @returns All actors visible to the current player (in the timeline)
  */
 export function getVisibleActorsInTimelineForCurrentPlayer() {

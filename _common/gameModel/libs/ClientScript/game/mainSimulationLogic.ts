@@ -288,25 +288,6 @@ export async function buildAndLaunchActionFromTemplate(
 }
 
 /**
- * Triggers time forward in the simulation
- * @returns managed response
- */
-export async function triggerTimeForward(): Promise<IManagedResponse> {
-  const currentSimulationState = getCurrentState();
-  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
-
-  const tf: TimeForwardEvent = {
-    ...initBaseEvent(0),
-    triggerTime: currentSimulationState.getSimTime(),
-    timeJump: TimeSliceDuration,
-    involvedActors: actorIds,
-    type: 'TimeForwardEvent',
-  };
-
-  return await sendEvent(tf);
-}
-
-/**
  *  Set the games options (triggered when players start the simulation)
  */
 export async function initGameOptions(): Promise<IManagedResponse> {

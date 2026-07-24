@@ -1,10 +1,4 @@
-import { getCurrentState, triggerTimeForward } from '../game/mainSimulationLogic';
-import { setInterfaceState } from '../gameInterface/interfaceState';
-
-export async function timeForward(): Promise<IManagedResponse> {
-  setInterfaceState({ timeForwardAwaitingConfirmation: false });
-  return await triggerTimeForward();
-}
+import { getCurrentState } from '../game/mainSimulationLogic';
 
 /**
  * Get the current sim time

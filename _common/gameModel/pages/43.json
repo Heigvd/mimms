@@ -442,69 +442,6 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { isSoftWarningActive } from \"./UIfacade/actorFacade\";\n!isSoftWarningActive();",
-                                          "language" : "typescript"
-                                        },
-                                        "layoutClassName" : "soft-warning",
-                                        "layoutStyle" : { },
-                                        "name" : "soft warning",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getIdleActorsWarningMessage } from \"./UIfacade/actorFacade\";\ngetIdleActorsWarningMessage();",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "className" : "nextActionBtn",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getInterfaceConfiguration } from \"./gameInterface/interfaceConfiguration\";\nimport { getCurrentPlayerOnsiteActorCount } from \"./UIfacade/actorFacade\";\ngetInterfaceConfiguration().timeForward.hidden || getCurrentPlayerOnsiteActorCount() == 0;",
-                                          "language" : "typescript"
-                                        },
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'time-forward')}`",
-                                          "language" : "TypeScript"
-                                        },
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { hideSoftWarningTemporarily } from \"./UIfacade/actorFacade\";\nimport { timeForward } from \"./UIfacade/timeFacade\";\nhideSoftWarningTemporarily();\ntimeForward();",
-                                            "language" : "TypeScript",
-                                            "returnType" : "Promise<unknown> | undefined"
-                                          }
-                                        },
-                                        "name" : "Next",
-                                        "style" : {
-                                          "margin" : "auto"
-                                        }
-                                      },
-                                      "type" : "Button"
-                                    } ],
-                                    "className" : "",
-                                    "layout" : {
-                                      "alignItems" : "center",
-                                      "flexDirection" : "row"
-                                    },
-                                    "layoutClassName" : "noPadding next-container",
-                                    "layoutStyle" : { },
-                                    "name" : "next button",
-                                    "style" : {
-                                      "gap" : "5px"
-                                    }
-                                  },
-                                  "type" : "FlexList"
-                                }, {
-                                  "props" : {
-                                    "children" : [ {
-                                      "props" : {
                                         "children" : [ {
                                           "props" : {
                                             "children" : [ {
