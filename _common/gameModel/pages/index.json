@@ -126,7 +126,7 @@
             "trainerPage" : null
           }, {
             "@class" : "Page",
-            "id" : "actionSituationUpdateParam",
+            "id" : "customDurationActionParam",
             "name" : "custom duration param",
             "scenaristPage" : false,
             "trainerPage" : null

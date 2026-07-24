@@ -1,4 +1,3 @@
-import { getCurrentPlayerActorIds } from '../../../UIfacade/actorFacade';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 import { isOngoingAndStartedAction } from './actionStateAccess';
@@ -61,28 +60,4 @@ function canActorPlanActionInState(
  */
 export function isTimeForwardReady(state: Readonly<MainSimulationState>): boolean {
   return state.getOnSiteActors().every(a => !canActorPlanActionInState(state, a.Uid));
-}
-
-/**
- * Returns true if the player's controlled actors are all ready to time forward
- */
-export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>): boolean {
-  const actorIds = getCurrentPlayerActorIds(state.getOnSiteActors());
-
-  if (actorIds?.length < 1) {
-    // the player has no active actor to play, thus not waiting
-    return false;
-  }
-
-  if (
-    actorIds.every((actorUid: ActorId) =>
-      isOngoingAndStartedAction(state, actorUid, CustomDurationAction)
-    )
-  ) {
-    // all player's actors are in a situation update, thus not waiting
-    return false;
-  }
-
-  const timeFrame = state.getCurrentTimeFrame();
-  return actorIds.every(a => (timeFrame.waitingTimeForward[a] || 0) > 0);
 }

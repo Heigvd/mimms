@@ -25,7 +25,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "if (Context.interfaceState.state.situationUpdateDuration[Context.action.uid] === undefined) {\n  Context.interfaceState.state.situationUpdateDuration[Context.action.uid] = Context.action.getdefaultOption();\n}\n\nContext.interfaceState.state.situationUpdateDuration[Context.action.uid] || '';",
+          "content" : "if (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n  Context.interfaceState.state.customDurations[Context.action.uid] = Context.action.getdefaultOption();\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
           "language" : "TypeScript"
         },
         "style" : { }

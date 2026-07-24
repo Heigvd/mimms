@@ -186,7 +186,7 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
   if (isMoveActorActionTemplate(actionTemplate)) {
     return '66';
   } else if (isCustomDurationActionTemplate(actionTemplate)) {
-    return 'actionSituationUpdateParam';
+    return 'customDurationActionParam';
   } else if (isChoiceTemplate(actionTemplate)) {
     return '31';
   }

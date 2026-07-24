@@ -34,7 +34,6 @@ export interface IUniqueActionTemplates {
 }
 
 export function initActionTemplates(): ActionTemplateData {
-
   const moveActor = new MoveActorActionTemplate(
     'move-actor-uid-wer',
     'move-actor-title',
