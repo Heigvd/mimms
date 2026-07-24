@@ -213,7 +213,7 @@ export function moveDown(itemId: Uid): void {
 
 export function canBeDeleted(item: FlatTypes): boolean {
   if (item.superType === 'mapEntity') {
-    return item.binding !== LOCATION_ENUM.chantier;
+    return item.binding !== LOCATION_ENUM.chantier && item.binding !== LOCATION_ENUM.entreeChantier;
   }
 
   if (item.superType === 'action' || item.superType === 'trigger') {

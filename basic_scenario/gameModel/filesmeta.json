@@ -233,6 +233,12 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/mapIcons/entreeChantier.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",

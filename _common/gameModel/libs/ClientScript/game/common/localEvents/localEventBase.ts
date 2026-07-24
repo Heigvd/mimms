@@ -904,10 +904,10 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
     const involvedResourcesId: ResourceId[] = involvedResources.map(
       (resource: Resource) => resource.Uid
     );
-    const location: LOCATION_ENUM = TaskState.getTaskResponsibleActorSymbolicLocation(
-      state,
-      this.props.taskId
-    );
+    let location: LOCATION_ENUM = LOCATION_ENUM.entreeChantier;
+    if ((involvedResources[0].currentLocation = LOCATION_ENUM.PMA)) {
+      location = LOCATION_ENUM.PMA;
+    }
 
     ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));
     ResourceState.sendResourcesToLocation(involvedResources, location);

@@ -31,6 +31,7 @@ export function mapEntityValidator(
   if (
     mapEntity.binding !== LOCATION_ENUM.custom &&
     mapEntity.binding !== LOCATION_ENUM.chantier &&
+    mapEntity.binding !== LOCATION_ENUM.entreeChantier &&
     mapEntity.activeAtStart
   ) {
     result.push({

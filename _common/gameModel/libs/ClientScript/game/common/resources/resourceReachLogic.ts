@@ -25,10 +25,12 @@ type Availability = `${AvailabilityCommMedia}` | undefined;
  */
 const communicationMatrix: Record<LOCATION_ENUM, Partial<Record<TaskType, Availability>>> = {
   chantier: {
-    Waiting: AvailabilityCommMedia.Direct,
     Pretriage: AvailabilityCommMedia.Radio,
     Porter: AvailabilityCommMedia.Radio,
     Healing: AvailabilityCommMedia.Radio,
+  },
+  entreeChantier: {
+    Waiting: AvailabilityCommMedia.Both,
   },
   nidDeBlesses: {
     // no waiting resources on "nid de blessés"
