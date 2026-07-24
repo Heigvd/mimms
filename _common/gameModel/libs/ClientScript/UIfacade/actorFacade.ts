@@ -14,7 +14,6 @@ import {
   setInterfaceState,
 } from '../gameInterface/interfaceState';
 import { canActorPlanAction } from '../gameInterface/main';
-import { getTranslation } from '../tools/translation';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
 
 /**

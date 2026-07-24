@@ -1,7 +1,6 @@
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
-import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
@@ -13,7 +12,6 @@ import {
   GameOptionsEvent,
   isLegacyGlobalEvent,
   TimedEventPayload,
-  TimeForwardEvent,
 } from './common/events/eventTypes';
 import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import { getCurrentGameOptions } from './common/gameOptions';

@@ -9,6 +9,7 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
+import { TimeSliceDuration } from '../constants';
 import { initBaseEvent } from '../events/baseEvent';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../events/casuMessageEvent';
 import { MapChoiceEvent } from '../events/defineMapObjectEvent';
@@ -1220,6 +1221,7 @@ export class CustomDurationActionTemplate<O extends readonly number[]> extends S
 > {
   private readonly durationOptions: O;
   private readonly defaultOption: O[number];
+  private readonly selectOptions: { label: string; value: string }[];
 
   /**
    *
@@ -1237,6 +1239,13 @@ export class CustomDurationActionTemplate<O extends readonly number[]> extends S
 
     this.durationOptions = durationOptions;
     this.defaultOption = defaultOption;
+
+    this.selectOptions = this.durationOptions.map((nbMinutes: number) => {
+      return {
+        label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
+        value: `${TimeSliceDuration * nbMinutes}`,
+      };
+    });
   }
 
   public getOptions() {
@@ -1245,6 +1254,10 @@ export class CustomDurationActionTemplate<O extends readonly number[]> extends S
 
   public getdefaultOption() {
     return this.defaultOption;
+  }
+
+  public getSelectOptions() {
+    return { all: this.selectOptions, default: TimeSliceDuration * this.defaultOption };
   }
 
   protected createActionFromEvent(event: FullEvent<StandardActionEvent>): CustomDurationAction {

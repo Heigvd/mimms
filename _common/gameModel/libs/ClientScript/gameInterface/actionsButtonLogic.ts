@@ -253,7 +253,7 @@ function fetchCustomDurationValues(at: CustomDurationActionTemplate<readonly num
 
   // Reset interfaceState
   const updatedState = { ...customDurations };
-  updatedState[at.uid] = at.getdefaultOption();
+  updatedState[at.uid] = at.getSelectOptions().default;
   setInterfaceState({ customDurations: updatedState });
 
   return params;

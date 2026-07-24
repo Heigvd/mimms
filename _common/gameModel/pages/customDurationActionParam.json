@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getDurationChoicesForCustomDurationAction } from \"./UIfacade/actionFacade\";\ngetDurationChoicesForCustomDurationAction(Context.action);",
+          "content" : "Context.action.getSelectOptions().all;",
           "language" : "typescript"
         },
         "layoutClassName" : "",
@@ -25,7 +25,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "if (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n  Context.interfaceState.state.customDurations[Context.action.uid] = Context.action.getdefaultOption();\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
+          "content" : "import { setInterfaceState } from \"./gameInterface/interfaceState\";\nif (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n    const updatedCustomDurations = { ...Context.interfaceState.state.customDurations }\n    updatedCustomDurations[Context.action.uid] = Context.action.getSelectOptions().default;\n\n    setInterfaceState({ customDurations: updatedCustomDurations });\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
           "language" : "TypeScript"
         },
         "style" : { }
