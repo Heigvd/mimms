@@ -26,7 +26,6 @@ import {
   fetchAndUpdateTeamsGameState,
   UpdateStateFunc,
 } from './dashboardState';
-import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
 import { getGameModelType, getSelectedTeamName, getTeam, getTestTeamId } from './utils';
@@ -60,6 +59,7 @@ import { dashboardLogger } from '../tools/logger';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getActionTemplates } from '../game/mainSimulationLogic';
 import { MapChoiceActionTemplate } from '../game/common/actions/actionTemplate/actionTemplateMap';
+import { CasuMessageAction } from '../game/common/actions/actionRadio';
 
 // -------------------------------------------------------------------------------------------------
 // state part

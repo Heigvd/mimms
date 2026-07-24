@@ -5,10 +5,6 @@ import { Actor, InterventionRole } from '../../actors/actor';
 import { FullEvent } from '../../events/eventUtils';
 import { RadioMessageActionEvent, RadioMessagePayload } from '../../events/radioMessageEvent';
 import {
-  ActivateRadioSchemaAction,
-  CasuMessageAction,
-  DisplayMessageAction,
-  RadioDrivenAction,
   RequestPretriageReportAction,
   SendRadioMessageAction,
 } from '../actionBase';
@@ -18,6 +14,7 @@ import { SimFlag, StartEndTemplate } from './actionTemplateBase';
 import { RequestPretriageReportEvent, StandardActionEvent } from '../../events/eventTypes';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../../events/casuMessageEvent';
+import { ActivateRadioSchemaAction, CasuMessageAction, DisplayMessageAction, RadioDrivenAction } from '../actionRadio';
 
 /**
  * The goal of the action is to broadcast a written message from a player on a radio channel
