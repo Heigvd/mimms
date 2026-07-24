@@ -27,7 +27,7 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "  I18n.translate(Context.choice.description);",
+                  "content" : "const translation = I18n.translate(Context.choice.description);\n`${translation.replace(/\\n/g, '<br/>')}`;",
                   "language" : "TypeScript"
                 }
               },

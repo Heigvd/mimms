@@ -31,7 +31,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "Context.item.message;",
+                          "content" : "`${Context.item.message.replace(/\\n/g, '<br/>')}`;",
                           "language" : "TypeScript"
                         }
                       },
