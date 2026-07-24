@@ -1,5 +1,4 @@
 import {
-  getDefaultSituationUpdateDuration,
   hasMapChoices,
   isAvailable,
   isCasuMessageActionTemplate,
@@ -9,7 +8,6 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
   isRadioActionTemplate,
-  isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
@@ -17,6 +15,7 @@ import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
+  CustomDurationActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
@@ -81,8 +80,8 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
     params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(actTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (isSituationUpdateActionTemplate(actTemplate)) {
-    params = fetchSituationUpdateValues();
+  } else if (actTemplate instanceof CustomDurationActionTemplate) {
+    params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
     params = fetchEvacuationActionValues();
   } else if (isPretriageReportTemplate(actTemplate)) {
@@ -248,10 +247,15 @@ function fetchMoveActorLocation() {
   return location;
 }
 
-function fetchSituationUpdateValues() {
-  const params = { duration: +getTypedInterfaceState().situationUpdateDuration };
+function fetchCustomDurationValues(at: CustomDurationActionTemplate<readonly number[]>) {
+  const customDurations = getTypedInterfaceState().customDurations
+  const params = { duration: customDurations[at.uid] };
+
   // Reset interfaceState
-  setInterfaceState({ situationUpdateDuration: getDefaultSituationUpdateDuration() });
+  const updatedState = { ...customDurations }
+  updatedState[at.uid] = at.getdefaultOption()
+  setInterfaceState({ customDurations: updatedState });
+
   return params;
 }
 

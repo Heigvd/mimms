@@ -20,12 +20,6 @@ export function createInstance(tplDescriptor: TemplateDescriptor): ActionTemplat
       return createMapChoiceActionTemplate(tplDescriptor);
     default:
       // this makes sure a missing case induces a compilation error
-      missingCase(ctorType);
+      throw new Error(`This constructor type (${ctorType}) is not handled`);
   }
-  // TODO Log error
-  return undefined as any;
-}
-
-function missingCase(type: never) {
-  throw new Error(`This constructor type (${type}) is not handled`);
 }

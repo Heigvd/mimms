@@ -17,13 +17,13 @@ import {
   PretriageReportTemplate,
   SendRadioMessageTemplate,
   SimFlag,
-  SituationUpdateActionTemplate,
+  CustomDurationActionTemplate,
 } from '../game/common/actions/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
-import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
+import { TimeSliceDuration } from '../game/common/constants';
 import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -35,6 +35,7 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
+import { actionLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
@@ -98,18 +99,20 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
-export function getDefaultSituationUpdateDuration(): number {
-  return TimeSliceDuration * situationUpdateDurations[0]!;
-}
+export function getDurationChoicesForCustomDurationAction(action: ActionTemplateBase): { label: string; value: string }[] {
+  if (!(action instanceof CustomDurationActionTemplate)) {
+    actionLogger.error(`The action must be of type ${CustomDurationActionTemplate.name}!`)
+    return [];
+  }
 
-export function getDurationChoicesForSituationUpdateAction(): { label: string; value: string }[] {
-  return situationUpdateDurations.map((nbMinutes: number) => {
+  return action.getOptions().map((nbMinutes: number) => {
     return {
       label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
       value: `${TimeSliceDuration * nbMinutes}`,
     };
   });
 }
+
 export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
   new (...args: any[]): T;
 }): boolean {
@@ -180,8 +183,8 @@ export function isMoveActorActionTemplate(template: ActionTemplateBase | undefin
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isSituationUpdateActionTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof SituationUpdateActionTemplate;
+export function isCustomDurationActionTemplate(template: ActionTemplateBase | undefined): boolean {
+  return template instanceof CustomDurationActionTemplate;
 }
 
 export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {

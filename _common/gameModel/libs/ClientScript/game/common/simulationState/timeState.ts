@@ -2,7 +2,7 @@ import { getCurrentPlayerActorIds } from '../../../UIfacade/actorFacade';
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 import { isOngoingAndStartedAction } from './actionStateAccess';
-import { SituationUpdateAction } from '../actions/actionBase';
+import { CustomDurationAction } from '../actions/actionBase';
 
 /**
  * Data structure used to handle time forward for multiplayer.
@@ -33,7 +33,7 @@ function getInitialTimeForwardStatus(
   state: Readonly<MainSimulationState>,
   actorUid: ActorId
 ): number {
-  if (isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)) {
+  if (isOngoingAndStartedAction(state, actorUid, CustomDurationAction)) {
     return 1;
   }
   return 0;
@@ -76,7 +76,7 @@ export function isPlayerAwaitingTimeForward(state: Readonly<MainSimulationState>
 
   if (
     actorIds.every((actorUid: ActorId) =>
-      isOngoingAndStartedAction(state, actorUid, SituationUpdateAction)
+      isOngoingAndStartedAction(state, actorUid, CustomDurationAction)
     )
   ) {
     // all player's actors are in a situation update, thus not waiting
