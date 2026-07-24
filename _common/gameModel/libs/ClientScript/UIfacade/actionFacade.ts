@@ -36,11 +36,11 @@ import {
   CasuMessageTemplate,
   PretriageReportTemplate,
   SendRadioMessageTemplate,
-} from '../game/common/actions/actionTemplate/actionTemplateRadio';
+} from '../game/common/actions/actionTemplate/radioTemplates';
 import {
   MoveActorActionTemplate,
   SituationUpdateActionTemplate,
-} from '../game/common/actions/actionTemplate/actionTemplateActors';
+} from '../game/common/actions/actionTemplate/actorTemplates';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(

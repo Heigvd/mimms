@@ -42,7 +42,7 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
-import { PretriageReportActionPayload } from '../game/common/actions/actionTemplate/actionTemplateRadio';
+import { PretriageReportActionPayload } from '../game/common/actions/actionTemplate/radioTemplates';
 
 /**
  * Plans an action with a given template and the current interface state

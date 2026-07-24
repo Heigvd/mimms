@@ -58,7 +58,7 @@ import {
 import { dashboardLogger } from '../tools/logger';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getActionTemplates } from '../game/mainSimulationLogic';
-import { MapChoiceActionTemplate } from '../game/common/actions/actionTemplate/actionTemplateMap';
+import { MapChoiceActionTemplate } from '../game/common/actions/actionTemplate/mapTemplates';
 import { CasuMessageAction } from '../game/common/actions/radioActions';
 
 // -------------------------------------------------------------------------------------------------

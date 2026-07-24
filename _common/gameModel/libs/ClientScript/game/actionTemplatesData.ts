@@ -15,12 +15,12 @@ import {
   DisplayMessageActionTemplate,
   PretriageReportTemplate,
   SendRadioMessageTemplate,
-} from './common/actions/actionTemplate/actionTemplateRadio';
+} from './common/actions/actionTemplate/radioTemplates';
 import {
   AppointActorActionTemplate,
   MoveActorActionTemplate,
   SituationUpdateActionTemplate,
-} from './common/actions/actionTemplate/actionTemplateActors';
+} from './common/actions/actionTemplate/actorTemplates';
 
 export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;

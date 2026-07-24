@@ -11,7 +11,7 @@ import {
   ParkChoiceTemplate,
   PCChoiceTemplate,
   PCFrontChoiceTemplate,
-} from '../../actionTemplate/actionTemplateMap';
+} from '../../actionTemplate/mapTemplates';
 
 export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
   type: 'MapChoiceActionTemplateDescriptor';
