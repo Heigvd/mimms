@@ -1,5 +1,12 @@
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
-import { ActionTemplateUid, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import {
+  ActionTemplateUid,
+  ActorId,
+  GlobalEventId,
+  SimDuration,
+  SimTime,
+  TranslationKey,
+} from '../baseTypes';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getLocalEventManager } from '../localEvents/localEventManager';
@@ -24,7 +31,7 @@ export class MoveActorAction extends StartEndAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
-    location: LOCATION_ENUM,
+    location: LOCATION_ENUM
   ) {
     super(
       startTimeSec,
@@ -33,13 +40,12 @@ export class MoveActorAction extends StartEndAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
     this.location = location;
   }
 
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-  }
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {}
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     if (!canMoveToLocation(state, 'Actors', this.location)) {
@@ -50,7 +56,7 @@ export class MoveActorAction extends StartEndAction {
           simTimeStamp: state.getSimTime(),
           recipientId: this.ownerId,
           message: 'move-actor-no-location',
-        }),
+        })
       );
     } else {
       getLocalEventManager().queueLocalEvent(
@@ -60,7 +66,7 @@ export class MoveActorAction extends StartEndAction {
           simTimeStamp: state.getSimTime(),
           actorUid: this.ownerId,
           location: this.location,
-        }),
+        })
       );
     }
   }
@@ -79,7 +85,7 @@ export class AppointActorAction extends StartEndAction {
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[] = [],
     readonly actorRole: InterventionRole,
-    readonly hierarchyNotRespectedMessageKey: TranslationKey,
+    readonly hierarchyNotRespectedMessageKey: TranslationKey
   ) {
     super(
       startTimeSec,
@@ -88,7 +94,7 @@ export class AppointActorAction extends StartEndAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
 
     this.location = undefined;
@@ -108,7 +114,7 @@ export class AppointActorAction extends StartEndAction {
         simTimeStamp: state.getSimTime(),
         role: this.actorRole,
         location: this.location,
-      }),
+      })
     );
 
     if (!this.compliantWithHierarchy) {
@@ -121,7 +127,7 @@ export class AppointActorAction extends StartEndAction {
           senderName: RadioLogic.getResourceAsSenderName(),
           recipientId: this.ownerId,
           message: this.hierarchyNotRespectedMessageKey,
-        }),
+        })
       );
     }
   }
@@ -138,7 +144,7 @@ export class SituationUpdateAction extends StartEndAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[] = [],
+    provideFlagsToState: SimFlag[] = []
   ) {
     super(
       startTimeSec,
@@ -147,7 +153,7 @@ export class SituationUpdateAction extends StartEndAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
   }
 
@@ -167,7 +173,7 @@ export class OnTheRoadAction extends StartEndAction {
     actionNameKey: TranslationKey,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    templateUid: ActionTemplateUid,
+    templateUid: ActionTemplateUid
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }

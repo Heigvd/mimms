@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784818401186,
+  "createdTime" : 1784897646199,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -5376,15 +5376,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actorActions",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115984:FU4wC4",
-    "version" : null,
-    "visibility" : "INHERITED"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/actions/actionBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5403,19 +5394,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/mapActions",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115983:oVXb7o",
-    "version" : null,
-    "visibility" : "INHERITED"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/common/actions/radioActions",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115010:m9HYiE",
+    "refId" : "GameModelContent:3115977:pcliya",
     "version" : null,
     "visibility" : "INHERITED"
   }, {
@@ -5430,19 +5412,19 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
+    "contentKey" : "game/common/actions/actionTemplate/mapTemplates",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115977:pcliya",
+    "refId" : "GameModelContent:3115006:h0b4xb",
     "version" : null,
     "visibility" : "INHERITED"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplate/mapTemplates",
+    "contentKey" : "game/common/actions/actionTemplate/patientResourceTemplates",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:3115006:h0b4xb",
+    "refId" : "GameModelContent:3116011:B4weSv",
     "version" : null,
     "visibility" : "INHERITED"
   }, {
@@ -5493,12 +5475,39 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/actions/actorActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115984:FU4wC4",
+    "version" : null,
+    "visibility" : "INHERITED"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/choiceDescriptor/choiceDescriptor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990706:Uw29Np",
     "version" : null,
     "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/mapActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115983:oVXb7o",
+    "version" : null,
+    "visibility" : "INHERITED"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/radioActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3115010:m9HYiE",
+    "version" : null,
+    "visibility" : "INHERITED"
   }, {
     "@class" : "GameModelContent",
     "content" : "",

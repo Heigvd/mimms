@@ -1,4 +1,3 @@
-
 import { ActionTemplateUid, ActorId, SimDuration, TranslationKey } from '../../baseTypes';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { Actor, InterventionRole } from '../../actors/actor';
@@ -10,7 +9,12 @@ import { ActionType } from '../../actionType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { ChoiceTemplate, SimFlag } from './actionTemplateBase';
-import { MapChoiceAction, ParkChoiceAction, PCChoiceAction, PCFrontChoiceAction } from '../mapActions';
+import {
+  MapChoiceAction,
+  ParkChoiceAction,
+  PCChoiceAction,
+  PCFrontChoiceAction,
+} from '../mapActions';
 
 export class MapChoiceActionTemplate<
   ActionT extends MapChoiceAction = MapChoiceAction

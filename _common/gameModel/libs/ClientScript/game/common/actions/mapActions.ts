@@ -1,4 +1,11 @@
-import { ActionTemplateUid, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import {
+  ActionTemplateUid,
+  ActorId,
+  GlobalEventId,
+  SimDuration,
+  SimTime,
+  TranslationKey,
+} from '../baseTypes';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState/locationState';
@@ -27,7 +34,7 @@ export class MapChoiceAction extends ChoiceAction {
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor,
-    binding?: LOCATION_ENUM,
+    binding?: LOCATION_ENUM
   ) {
     super(
       startTimeSec,
@@ -37,7 +44,7 @@ export class MapChoiceAction extends ChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice,
+      choice
     );
     this.binding = binding;
   }
@@ -57,8 +64,8 @@ export class MapChoiceAction extends ChoiceAction {
           target: this.choice.displayedMapEntity,
           option: 'activate',
         },
-        'pending',
-      ),
+        'pending'
+      )
     );
   }
 
@@ -79,8 +86,8 @@ export class MapChoiceAction extends ChoiceAction {
           target: this.choice.displayedMapEntity,
           option: 'activate',
         },
-        'built',
-      ),
+        'built'
+      )
     );
   }
 }
@@ -98,7 +105,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor,
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -109,7 +116,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
       templateUid,
       provideFlagsToState,
       choice,
-      LOCATION_ENUM.pcFront,
+      LOCATION_ENUM.pcFront
     );
   }
 
@@ -123,7 +130,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         simTimeStamp: state.getSimTime(),
         actorUid: this.ownerId,
         location: this.binding!,
-      }),
+      })
     );
 
     // First and only resource on scene comes with
@@ -136,7 +143,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         ownerUid: this.ownerId,
         resourcesId: [resourceUid],
         targetLocation: this.binding!,
-      }),
+      })
     );
     getLocalEventManager().queueLocalEvent(
       new AssignResourcesToWaitingTaskLocalEvent({
@@ -144,7 +151,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: [resourceUid],
-      }),
+      })
     );
   }
 }
@@ -162,7 +169,7 @@ export class PCChoiceAction extends MapChoiceAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
-    choice: ChoiceDescriptor,
+    choice: ChoiceDescriptor
   ) {
     super(
       startTimeSec,
@@ -173,7 +180,7 @@ export class PCChoiceAction extends MapChoiceAction {
       templateUid,
       provideFlagsToState,
       choice,
-      LOCATION_ENUM.PC,
+      LOCATION_ENUM.PC
     );
   }
 
@@ -192,7 +199,7 @@ export class PCChoiceAction extends MapChoiceAction {
           simTimeStamp: state.getSimTime(),
           actorUid: actor.Uid,
           location: this.binding!,
-        }),
+        })
       );
     }
     // Move human resources to PC
@@ -204,7 +211,7 @@ export class PCChoiceAction extends MapChoiceAction {
         ownerUid: this.ownerId,
         sourceLocation: LOCATION_ENUM.pcFront,
         targetLocation: this.binding!,
-      }),
+      })
     );
     // Remove PC Front once all actors and resources have been moved
     const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
@@ -217,8 +224,8 @@ export class PCChoiceAction extends MapChoiceAction {
           target: pcFrontActivable!.uid,
           option: 'deactivate',
         },
-        'pending',
-      ),
+        'pending'
+      )
     );
   }
 }
@@ -242,7 +249,7 @@ export class ParkChoiceAction extends MapChoiceAction {
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor,
     binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark,
-    vehicleType: VehicleType,
+    vehicleType: VehicleType
   ) {
     super(
       startTimeSec,
@@ -252,7 +259,7 @@ export class ParkChoiceAction extends MapChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice,
+      choice
     );
     this.binding = binding;
     this.vehicleType = vehicleType;
@@ -269,7 +276,7 @@ export class ParkChoiceAction extends MapChoiceAction {
         ownerUid: this.ownerId,
         resourceType: this.vehicleType,
         targetLocation: this.binding,
-      }),
+      })
     );
   }
 }

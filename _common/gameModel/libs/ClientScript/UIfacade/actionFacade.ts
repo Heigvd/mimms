@@ -10,8 +10,6 @@ import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
   ChoiceTemplate,
-  EvacuationActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
   SimFlag,
 } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
@@ -41,6 +39,10 @@ import {
   MoveActorActionTemplate,
   SituationUpdateActionTemplate,
 } from '../game/common/actions/actionTemplate/actorTemplates';
+import {
+  EvacuationActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+} from '../game/common/actions/actionTemplate/patientResourceTemplates';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(

@@ -1,7 +1,5 @@
 import {
   ActionTemplateBase,
-  EvacuationActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
   SimFlag,
 } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
@@ -21,6 +19,10 @@ import {
   MoveActorActionTemplate,
   SituationUpdateActionTemplate,
 } from './common/actions/actionTemplate/actorTemplates';
+import {
+  EvacuationActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+} from './common/actions/actionTemplate/patientResourceTemplates';
 
 export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;

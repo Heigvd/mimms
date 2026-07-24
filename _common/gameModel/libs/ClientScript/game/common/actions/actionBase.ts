@@ -19,12 +19,10 @@ import {
   TaskId,
   TranslationKey,
 } from '../baseTypes';
-import { PretriageReportResponseDelay } from '../constants';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
 import { computeTravelTime } from '../evacuation/evacuationLogic';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
-import { RadioMessagePayload } from '../events/radioMessageEvent';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
@@ -42,7 +40,6 @@ import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 import { AddNotificationLocalEvent, AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
-import { PretriageReportResponseLocalEvent } from '../localEvents/localEventHospital';
 import {
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,
@@ -500,146 +497,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
   public getSenderId(): ActorId | undefined {
     return this.ownerId;
-  }
-
-  public getRecipientId(): ActorId | undefined {
-    return undefined;
-  }
-}
-
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-//  radio
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-
-/**
- * The result of the action is to request state of pretriage in a specific location
- */
-export class RequestPretriageReportAction extends RadioDrivenAction {
-  private channel: RadioType = RadioType.RESOURCES;
-
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    private feedbackWhenStarted: TranslationKey,
-    private feedbackWhenReport: TranslationKey,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    private pretriageLocation: LOCATION_ENUM
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    //likely nothing to do
-    this.logger.info('start event RequestPretriageReportAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        senderId: this.getSenderId(),
-        recipientId: this.getRecipientId(),
-        message: this.getMessage(),
-        channel: this.getChannel(),
-        omitTranslation: true,
-      })
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new PretriageReportResponseLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime() + PretriageReportResponseDelay,
-        senderName: RadioLogic.getResourceAsSenderName(),
-        recipient: this.ownerId,
-        pretriageLocation: this.pretriageLocation,
-        feedbackWhenReport: this.feedbackWhenReport,
-      })
-    );
-  }
-
-  private formatStartMessage(): string {
-    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
-      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
-    ]);
-  }
-
-  public getChannel(): RadioType {
-    return this.channel;
-  }
-
-  public getMessage(): string {
-    return this.formatStartMessage();
-  }
-
-  public getSenderId(): ActorId | undefined {
-    return this.ownerId;
-  }
-
-  public getRecipientId(): ActorId | undefined {
-    return undefined;
-  }
-}
-
-/**
- * The result of the action is to spread a handwritten message from a player through a radio channel
- */
-export class SendRadioMessageAction extends RadioDrivenAction {
-  constructor(
-    startTimeSec: SimTime,
-    durationSeconds: SimDuration,
-    actionNameKey: TranslationKey | ITranslatableContent,
-    eventId: GlobalEventId,
-    ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    private radioChannel: RadioType,
-    private radioMessagePayload: RadioMessagePayload
-  ) {
-    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
-  }
-
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    //likely nothing to do
-    this.logger.info('start event SendRadioMessageAction');
-  }
-
-  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
-    this.logger.info('end event SendRadioMessageAction');
-    getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        senderId: this.getSenderId(),
-        recipientId: this.getRecipientId(),
-        message: this.getMessage(),
-        channel: this.getChannel(),
-        omitTranslation: true,
-      })
-    );
-  }
-
-  public getRadioMessagePayload(): RadioMessagePayload {
-    return this.radioMessagePayload;
-  }
-
-  public getChannel(): RadioType {
-    return this.radioChannel;
-  }
-
-  public getMessage(): string {
-    return this.radioMessagePayload.message;
-  }
-
-  public getSenderId(): ActorId | undefined {
-    return this.radioMessagePayload.actorId;
   }
 
   public getRecipientId(): ActorId | undefined {

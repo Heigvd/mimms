@@ -9,15 +9,18 @@ import { CasuMessagePayload, HospitalRequestPayload, MethaneMessagePayload } fro
 import { entries } from '../../../tools/helper';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import { getTranslation } from '../../../tools/translation';
+import * as RadioLogic from '../radio/radioLogic';
 import { getProximityTranslation } from '../radio/radioLogic';
-import { HospitalRequestUpdateLocalEvent } from '../localEvents/localEventHospital';
+import { HospitalRequestUpdateLocalEvent, PretriageReportResponseLocalEvent } from '../localEvents/localEventHospital';
 import {
   AutoSendACSMCSLocalEvent,
   ResourceRequestResolutionLocalEvent,
 } from '../localEvents/localEventResourceArrival';
-import { ACSMCSAutoRequestDelay } from '../constants';
+import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { RadioMessagePayload } from '../events/radioMessageEvent';
 
 export abstract class RadioDrivenAction extends StartEndAction {
   protected constructor(
@@ -27,7 +30,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
-    provideFlagsToState: SimFlag[] = [],
+    provideFlagsToState: SimFlag[] = []
   ) {
     super(
       startTimeSec,
@@ -36,7 +39,7 @@ export abstract class RadioDrivenAction extends StartEndAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
   }
 
@@ -66,7 +69,7 @@ export class DisplayMessageAction extends StartEndAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     provideFlagsToState?: SimFlag[],
-    readonly channel?: RadioType,
+    readonly channel?: RadioType
   ) {
     super(
       startTimeSec,
@@ -75,7 +78,7 @@ export class DisplayMessageAction extends StartEndAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
   }
 
@@ -95,7 +98,7 @@ export class DisplayMessageAction extends StartEndAction {
         recipientId: this.ownerId,
         message: this.messageKey,
         channel: this.channel,
-      }),
+      })
     );
   }
 }
@@ -110,7 +113,7 @@ export class CasuMessageAction extends RadioDrivenAction {
     eventId: GlobalEventId,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
-    private casuMessagePayload: CasuMessagePayload,
+    private casuMessagePayload: CasuMessagePayload
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
     if (this.casuMessagePayload.messageType === 'R') {
@@ -179,7 +182,7 @@ export class CasuMessageAction extends RadioDrivenAction {
         message: this.getMessage(),
         channel: this.getChannel(),
         omitTranslation: true,
-      }),
+      })
     );
     if (this.casuMessagePayload.messageType === 'R') {
       getLocalEventManager().queueLocalEvent(
@@ -189,7 +192,7 @@ export class CasuMessageAction extends RadioDrivenAction {
           simTimeStamp: now,
           senderId: this.ownerId,
           hospitalRequestPayload: this.casuMessagePayload,
-        }),
+        })
       );
     } else if (this.casuMessagePayload.resourceRequest) {
       // Handle METHANE resource request
@@ -207,14 +210,14 @@ export class CasuMessageAction extends RadioDrivenAction {
       if (!state.getAllActors().some(actor => actor.Role === 'ACS' || actor.Role === 'MCS')) {
         // Scheduling automatic sending of ACS/MCS
         this.logger.info(
-          'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs',
+          'Auto scheduling request for ACS-MCS, executed in ' + ACSMCSAutoRequestDelay + ' secs'
         );
         getLocalEventManager().queueLocalEvent(
           new AutoSendACSMCSLocalEvent({
             parentEventId: this.eventId,
             source: { type: 'action', id: this.Uid },
             simTimeStamp: now + ACSMCSAutoRequestDelay,
-          }),
+          })
         );
       }
     }
@@ -223,7 +226,7 @@ export class CasuMessageAction extends RadioDrivenAction {
   public override getTitle(): string {
     return getTranslation(
       'mainSim-actions-tasks',
-      this.actionNameKey + '-' + this.casuMessagePayload.messageType,
+      this.actionNameKey + '-' + this.casuMessagePayload.messageType
     );
   }
 
@@ -260,7 +263,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     readonly channel: RadioType,
-    provideFlagsToState?: SimFlag[],
+    provideFlagsToState?: SimFlag[]
   ) {
     super(
       startTimeSec,
@@ -269,7 +272,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
       actionNameKey,
       ownerId,
       templateUid,
-      provideFlagsToState,
+      provideFlagsToState
     );
   }
 
@@ -291,7 +294,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
         message: this.getMessage(),
         channel: this.getChannel(),
         omitTranslation: true,
-      }),
+      })
     );
 
     const suitableActors = ActorLogic.getHighestAuthorityActorOnSite(state);
@@ -307,7 +310,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
           recipientId: this.ownerId,
           message: this.authorizedReplyMessage,
           channel: this.channel,
-        }),
+        })
       );
     } else {
       getLocalEventManager().queueLocalEvent(
@@ -319,7 +322,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
           recipientId: this.ownerId,
           message: this.unauthorizedReplyMessage,
           channel: this.channel,
-        }),
+        })
       );
     }
   }
@@ -338,5 +341,139 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 
   public getRecipientId(): ActorId | undefined {
     return getCasuActorId();
+  }
+}
+
+/**
+ * The result of the action is to request state of pretriage in a specific location
+ */
+export class RequestPretriageReportAction extends RadioDrivenAction {
+  private channel: RadioType = RadioType.RESOURCES;
+
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    private feedbackWhenStarted: TranslationKey,
+    private feedbackWhenReport: TranslationKey,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    private pretriageLocation: LOCATION_ENUM,
+  ) {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event RequestPretriageReportAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    getLocalEventManager().queueLocalEvent(
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      }),
+    );
+
+    getLocalEventManager().queueLocalEvent(
+      new PretriageReportResponseLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime() + PretriageReportResponseDelay,
+        senderName: RadioLogic.getResourceAsSenderName(),
+        recipient: this.ownerId,
+        pretriageLocation: this.pretriageLocation,
+        feedbackWhenReport: this.feedbackWhenReport,
+      }),
+    );
+  }
+
+  private formatStartMessage(): string {
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
+      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
+    ]);
+  }
+
+  public getChannel(): RadioType {
+    return this.channel;
+  }
+
+  public getMessage(): string {
+    return this.formatStartMessage();
+  }
+
+  public getSenderId(): ActorId | undefined {
+    return this.ownerId;
+  }
+
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
+  }
+}
+
+/**
+ * The result of the action is to spread a handwritten message from a player through a radio channel
+ */
+export class SendRadioMessageAction extends RadioDrivenAction {
+  constructor(
+    startTimeSec: SimTime,
+    durationSeconds: SimDuration,
+    actionNameKey: TranslationKey | ITranslatableContent,
+    eventId: GlobalEventId,
+    ownerId: ActorId,
+    templateUid: ActionTemplateUid,
+    private radioChannel: RadioType,
+    private radioMessagePayload: RadioMessagePayload,
+  ) {
+    super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
+  }
+
+  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
+    //likely nothing to do
+    this.logger.info('start event SendRadioMessageAction');
+  }
+
+  protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
+    this.logger.info('end event SendRadioMessageAction');
+    getLocalEventManager().queueLocalEvent(
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime(),
+        senderId: this.getSenderId(),
+        recipientId: this.getRecipientId(),
+        message: this.getMessage(),
+        channel: this.getChannel(),
+        omitTranslation: true,
+      }),
+    );
+  }
+
+  public getRadioMessagePayload(): RadioMessagePayload {
+    return this.radioMessagePayload;
+  }
+
+  public getChannel(): RadioType {
+    return this.radioChannel;
+  }
+
+  public getMessage(): string {
+    return this.radioMessagePayload.message;
+  }
+
+  public getSenderId(): ActorId | undefined {
+    return this.radioMessagePayload.actorId;
+  }
+
+  public getRecipientId(): ActorId | undefined {
+    return undefined;
   }
 }
