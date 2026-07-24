@@ -10,7 +10,7 @@ import { ActionType } from '../../actionType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { ChoiceTemplate, SimFlag } from './actionTemplateBase';
-import { MapChoiceAction, ParkChoiceAction, PCChoiceAction, PCFrontChoiceAction } from '../actionMap';
+import { MapChoiceAction, ParkChoiceAction, PCChoiceAction, PCFrontChoiceAction } from '../mapActions';
 
 export class MapChoiceActionTemplate<
   ActionT extends MapChoiceAction = MapChoiceAction

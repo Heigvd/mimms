@@ -7,7 +7,7 @@ import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
-import { AppointActorAction, MoveActorAction, SituationUpdateAction } from '../actionActors';
+import { AppointActorAction, MoveActorAction, SituationUpdateAction } from '../actorActions';
 
 export class MoveActorActionTemplate extends StartEndTemplate {
   constructor(

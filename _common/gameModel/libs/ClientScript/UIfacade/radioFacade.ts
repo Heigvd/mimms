@@ -21,7 +21,7 @@ import { getTranslation } from '../tools/translation';
 import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
-import { RadioDrivenAction } from '../game/common/actions/actionRadio';
+import { RadioDrivenAction } from '../game/common/actions/radioActions';
 
 // -------------------------------------------------------------------------------------------------
 // radio channels choice

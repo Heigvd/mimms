@@ -4,7 +4,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { mainSimLogger } from '../../../tools/logger';
 import { Actor, InterventionRole } from '../actors/actor';
 import { LocalEventBase, SourceType } from './localEventBase';
-import { OnTheRoadAction } from '../actions/actionActors';
+import { OnTheRoadAction } from '../actions/actorActions';
 
 export class AddActorLocalEvent extends LocalEventBase {
   /**

@@ -50,7 +50,7 @@ import {
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
-import { RadioDrivenAction } from './actionRadio';
+import { RadioDrivenAction } from './radioActions';
 
 export type ActionStatus = 'Uninitialized' | 'Cancelled' | 'OnGoing' | 'Completed' | undefined;
 

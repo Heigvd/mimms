@@ -4,7 +4,7 @@ import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 import { isOngoingAndStartedAction } from './actionStateAccess';
 
-import { SituationUpdateAction } from '../actions/actionActors';
+import { SituationUpdateAction } from '../actions/actorActions';
 
 /**
  * Data structure used to handle time forward for multiplayer.

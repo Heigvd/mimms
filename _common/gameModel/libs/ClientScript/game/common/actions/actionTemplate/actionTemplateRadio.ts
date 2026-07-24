@@ -14,7 +14,7 @@ import { SimFlag, StartEndTemplate } from './actionTemplateBase';
 import { RequestPretriageReportEvent, StandardActionEvent } from '../../events/eventTypes';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../../events/casuMessageEvent';
-import { ActivateRadioSchemaAction, CasuMessageAction, DisplayMessageAction, RadioDrivenAction } from '../actionRadio';
+import { ActivateRadioSchemaAction, CasuMessageAction, DisplayMessageAction, RadioDrivenAction } from '../radioActions';
 
 /**
  * The goal of the action is to broadcast a written message from a player on a radio channel

@@ -15,7 +15,7 @@ import {
 import { canActorPlanAction } from '../gameInterface/main';
 import { getTranslation } from '../tools/translation';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
-import { OnTheRoadAction } from '../game/common/actions/actionActors';
+import { OnTheRoadAction } from '../game/common/actions/actorActions';
 
 /**
  * @returns All currently present actors

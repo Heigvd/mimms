@@ -5376,7 +5376,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionActors",
+    "contentKey" : "game/common/actions/actorActions",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115984:FU4wC4",
@@ -5403,7 +5403,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionMap",
+    "contentKey" : "game/common/actions/mapActions",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115983:oVXb7o",
@@ -5412,7 +5412,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionRadio",
+    "contentKey" : "game/common/actions/radioActions",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3115010:m9HYiE",
