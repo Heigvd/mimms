@@ -8,6 +8,7 @@ import {
 } from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
+import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
@@ -17,7 +18,6 @@ import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
-import { getDefaultSituationUpdateDuration } from '../UIfacade/actionFacade';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from './afterUpdateCallbacks';
@@ -34,11 +34,10 @@ export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
   moveActorChosenLocation: LOCATION_ENUM | undefined;
-  situationUpdateDuration: number;
+  customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   selectedPatient: PatientId | undefined;
-  timeForwardAwaitingConfirmation: boolean;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -112,11 +111,10 @@ export function getInitialInterfaceState(): InterfaceState {
     },
     evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
-    situationUpdateDuration: getDefaultSituationUpdateDuration(),
+    customDurations: {},
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     selectedPatient: undefined,
-    timeForwardAwaitingConfirmation: false,
     showLeftPanel: true,
     showNotificationsPanel: false,
     selectedActionChoiceUid: '',

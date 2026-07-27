@@ -17,13 +17,13 @@ import {
   PretriageReportTemplate,
   SendRadioMessageTemplate,
   SimFlag,
-  SituationUpdateActionTemplate,
+  CustomDurationActionTemplate,
+  CustomDurationActionTemplateType,
 } from '../game/common/actions/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
-import { situationUpdateDurations, TimeSliceDuration } from '../game/common/constants';
 import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -35,7 +35,6 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
-import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
 // used in page 45 (actionStandardList)
@@ -98,18 +97,6 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
-export function getDefaultSituationUpdateDuration(): number {
-  return TimeSliceDuration * situationUpdateDurations[0]!;
-}
-
-export function getDurationChoicesForSituationUpdateAction(): { label: string; value: string }[] {
-  return situationUpdateDurations.map((nbMinutes: number) => {
-    return {
-      label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
-      value: `${TimeSliceDuration * nbMinutes}`,
-    };
-  });
-}
 export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
   new (...args: any[]): T;
 }): boolean {
@@ -180,8 +167,10 @@ export function isMoveActorActionTemplate(template: ActionTemplateBase | undefin
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isSituationUpdateActionTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof SituationUpdateActionTemplate;
+export function isCustomDurationActionTemplate(
+  template: ActionTemplateBase | undefined
+): template is CustomDurationActionTemplateType {
+  return template instanceof CustomDurationActionTemplate;
 }
 
 export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {
@@ -207,4 +196,11 @@ export function isMethaneSendDisabled(): boolean {
 export function updateChoice(choiceUid: Uid): void {
   setInterfaceState({ selectedActionChoiceUid: choiceUid });
   refreshSelectionLayer();
+}
+
+export function updateCustomDurationsState(uid: number, newValue: number) {
+  const updatedCustomDurations = { ...getTypedInterfaceState().customDurations };
+
+  updatedCustomDurations[uid] = newValue;
+  setInterfaceState({ customDurations: updatedCustomDurations });
 }

@@ -1,7 +1,6 @@
 import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks';
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
-import { getCurrentPlayerActorIds } from '../UIfacade/actorFacade';
 import { IUniqueActionTemplates } from './actionTemplatesData';
 import { ActionTemplateBase } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
@@ -13,7 +12,6 @@ import {
   GameOptionsEvent,
   isLegacyGlobalEvent,
   TimedEventPayload,
-  TimeForwardEvent,
 } from './common/events/eventTypes';
 import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import { getCurrentGameOptions } from './common/gameOptions';
@@ -22,9 +20,8 @@ import {
   AddRadioMessageLocalEvent,
   GameOptionsUpdateLocalEvent,
   LocalEventBase,
-  TimeForwardLocalEvent,
+  TimeForwardRequestLocalEvent,
 } from './common/localEvents/localEventBase';
-import { getLocalEventManager } from './common/localEvents/localEventManager';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
@@ -111,123 +108,130 @@ function resetActionTemplates(): void {
 }
 
 /**
- * converts a global event to local events and enqueue them for later evaluation
+ * converts a global event to local events
  * @param event a received global event
  */
 export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalEventBase[] {
   tryLoadTemplates();
 
   const localEvents: LocalEventBase[] = [];
-  switch (event.payload.type) {
-    case 'ActionCreationEvent':
-      {
-        // find corresponding creation template
-        const actionTemplate = getActionTemplates()[event.payload.templateUid];
-        if (!actionTemplate) {
-          mainSimLogger.error('no template was found for UID ', event.payload.templateUid);
-        } else {
-          if (
-            actionTemplate.canConcurrencyWiseBePlayed(
-              getCurrentState(),
-              +event.payload.emitterCharacterId
-            )
-          ) {
-            const localEvent = actionTemplate.buildLocalEvent(
-              event as FullEvent<ActionCreationEvent>
-            );
-            getLocalEventManager().queueLocalEvent(localEvent);
-          } else {
-            // notify!
-            const ownerId = event.payload.emitterCharacterId as ActorId;
-            getLocalEventManager().queueLocalEvent(
-              new AddNotificationLocalEvent({
-                parentEventId: event.id,
-                source: { type: 'plan-action' },
-                simTimeStamp: getCurrentState().getSimTime(),
-                recipientId: ownerId,
-                message: getTranslation('mainSim-interface', 'notification-concurrent-stop'),
-                omitTranslation: true,
-              })
-            );
-          }
-        }
-      }
-      break;
-    case 'TimeForwardEvent':
-      {
-        const timeJump = event.payload.timeJump;
 
-        if (timeJump % TimeSliceDuration !== 0) {
-          mainSimLogger.error(
-            'time jump is not divisible by time slice duration',
-            timeJump,
-            TimeSliceDuration
-          );
-        } else {
-          // if event is forced, take all actors regardless
-          const involved = event.payload.dashboardForced
-            ? getCurrentState()
-                .getAllActors()
-                .map(a => a.Uid)
-            : event.payload.involvedActors;
-          for (let i = 0; i < timeJump; i += TimeSliceDuration) {
-            const timefwdEvent = new TimeForwardLocalEvent({
+  switch (event.payload.type) {
+    case 'ActionCreationEvent': {
+      // find corresponding creation template
+      const actionTemplate = getActionTemplates()[event.payload.templateUid];
+      const ownerId = event.payload.emitterCharacterId as ActorId;
+
+      if (!actionTemplate) {
+        mainSimLogger.error('no template was found for UID ', event.payload.templateUid);
+      } else if (
+        actionTemplate.canConcurrencyWiseBePlayed(
+          getCurrentState(),
+          +event.payload.emitterCharacterId
+        )
+      ) {
+        localEvents.push(actionTemplate.buildLocalEvent(event as FullEvent<ActionCreationEvent>));
+
+        localEvents.push(
+          new TimeForwardRequestLocalEvent({
+            parentEventId: event.id,
+            source: { type: 'time-forward' },
+            simTimeStamp: event.payload.triggerTime,
+            timeJump: TimeSliceDuration,
+          })
+        );
+      } else {
+        localEvents.push(
+          new AddNotificationLocalEvent({
+            parentEventId: event.id,
+            source: { type: 'plan-action' },
+            simTimeStamp: getCurrentState().getSimTime(),
+            recipientId: ownerId,
+            message: getTranslation('mainSim-interface', 'notification-concurrent-stop'),
+            omitTranslation: true,
+          })
+        );
+      }
+
+      break;
+    }
+    case 'TimeForwardEvent': {
+      const timeJump = event.payload.timeJump;
+
+      if (timeJump % TimeSliceDuration !== 0) {
+        mainSimLogger.error(
+          'time jump is not divisible by time slice duration',
+          timeJump,
+          TimeSliceDuration
+        );
+      } else {
+        for (let i = 0; i < timeJump; i += TimeSliceDuration) {
+          localEvents.push(
+            new TimeForwardRequestLocalEvent({
               parentEventId: event.id,
               source: { type: 'time-forward' },
               simTimeStamp: event.payload.triggerTime + i,
-              actors: involved,
               timeJump: TimeSliceDuration,
-            });
-            getLocalEventManager().queueLocalEvent(timefwdEvent);
-          }
+              ignoreConditions: event.payload.dashboardForced,
+            })
+          );
         }
       }
-      break;
-    case 'DashboardRadioMessageEvent': {
-      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
-      const radioMessageEvent = new AddRadioMessageLocalEvent({
-        parentEventId: event.id,
-        source: { type: 'trainer' },
-        simTimeStamp: event.payload.triggerTime,
-        senderName: trainerName,
-        message: event.payload.message,
-        channel: event.payload.canal,
-        omitTranslation: true,
-      });
-      getLocalEventManager().queueLocalEvent(radioMessageEvent);
+
       break;
     }
+    case 'DashboardRadioMessageEvent': {
+      const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
+      localEvents.push(
+        new AddRadioMessageLocalEvent({
+          parentEventId: event.id,
+          source: { type: 'trainer' },
+          simTimeStamp: event.payload.triggerTime,
+          senderName: trainerName,
+          message: event.payload.message,
+          channel: event.payload.canal,
+          omitTranslation: true,
+        })
+      );
 
+      break;
+    }
     case 'DashboardNotificationMessageEvent': {
       const trainerName = '' + (event.payload.emitterCharacterId || TRAINER_NAME);
       const payload = event.payload;
+
       payload.roles.forEach(role => {
         const actorId = getCurrentState()
           .getAllActors()
           .find(a => a.Role === role)?.Uid;
+
         if (actorId) {
-          const notificationMessageEvent = new AddNotificationLocalEvent({
-            parentEventId: event.id,
-            source: { type: 'trainer' },
-            simTimeStamp: payload.triggerTime,
-            senderName: trainerName,
-            recipientId: actorId,
-            message: payload.message,
-            omitTranslation: true,
-          });
-          getLocalEventManager().queueLocalEvent(notificationMessageEvent);
+          localEvents.push(
+            new AddNotificationLocalEvent({
+              parentEventId: event.id,
+              source: { type: 'trainer' },
+              simTimeStamp: payload.triggerTime,
+              senderName: trainerName,
+              recipientId: actorId,
+              message: payload.message,
+              omitTranslation: true,
+            })
+          );
         }
       });
+
       break;
     }
     case 'GameOptionsEvent': {
-      const optionChange = new GameOptionsUpdateLocalEvent({
-        parentEventId: event.id,
-        source: { type: event.payload.source },
-        simTimeStamp: event.payload.triggerTime,
-        options: event.payload.options,
-      });
-      getLocalEventManager().queueLocalEvent(optionChange);
+      localEvents.push(
+        new GameOptionsUpdateLocalEvent({
+          parentEventId: event.id,
+          source: { type: event.payload.source },
+          simTimeStamp: event.payload.triggerTime,
+          options: event.payload.options,
+        })
+      );
+
       break;
     }
     default:
@@ -236,8 +240,10 @@ export function convertToLocalEvent(event: FullEvent<TimedEventPayload>): LocalE
       } else {
         mainSimLogger.error('unsupported global event type : ', event.payload.type, event);
       }
+
       break;
   }
+
   return localEvents;
 }
 
@@ -277,25 +283,6 @@ export async function buildAndLaunchActionFromTemplate(
   } else {
     mainSimLogger.error('Undefined template or actor', actTemplate, selectedActor);
   }
-}
-
-/**
- * Triggers time forward in the simulation
- * @returns managed response
- */
-export async function triggerTimeForward(): Promise<IManagedResponse> {
-  const currentSimulationState = getCurrentState();
-  const actorIds = getCurrentPlayerActorIds(currentSimulationState.getOnSiteActors());
-
-  const tf: TimeForwardEvent = {
-    ...initBaseEvent(0),
-    triggerTime: currentSimulationState.getSimTime(),
-    timeJump: TimeSliceDuration,
-    involvedActors: actorIds,
-    type: 'TimeForwardEvent',
-  };
-
-  return await sendEvent(tf);
 }
 
 /**
