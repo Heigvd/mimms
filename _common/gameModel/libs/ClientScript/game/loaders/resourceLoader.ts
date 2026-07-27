@@ -124,10 +124,6 @@ function initContainerDefinitions(): void {
   );
 
   definitionsMapping['PMA'] = addContainerDefinition('PMA', 'pma', {
-    secouriste: 4,
-  });
-
-  definitionsMapping['DPMA'] = addContainerDefinition('DPMA', 'dpma', {
     secouriste: 10,
   });
 

@@ -454,7 +454,6 @@ export class AutoSendACSMCSLocalEvent extends ResourceRequestResolutionLocalEven
         Ambulance: 0,
         SMUR: 0,
         PMA: 0,
-        DPMA: 0,
         'PC-San': 0,
         Helicopter: 0,
       },
