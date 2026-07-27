@@ -3,6 +3,7 @@ import {
   isAvailable,
   isCasuMessageActionTemplate,
   isChoiceTemplate,
+  isCustomDurationActionTemplate,
   isEvacuationActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
@@ -80,7 +81,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
     params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(actTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (actTemplate instanceof CustomDurationActionTemplate) {
+  } else if (isCustomDurationActionTemplate(actTemplate)) {
     params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
     params = fetchEvacuationActionValues();

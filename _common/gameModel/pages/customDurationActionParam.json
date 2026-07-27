@@ -14,7 +14,7 @@
         "onVariableChange" : {
           "client" : {
             "@class" : "Script",
-            "content" : "import { setInterfaceState } from \"./gameInterface/interfaceState\";\n\nconst updatedCustomDurations = { ...Context.interfaceState.state.customDurations }\nupdatedCustomDurations[Context.action.uid] = +(Context.duration)\n\nsetInterfaceState({ customDurations: updatedCustomDurations });",
+            "content" : "import { updateCustomDurationsState } from \"./UIfacade/actionFacade\";\n\nupdateCustomDurationsState(Context.action.uid, +(Context.duration))",
             "language" : "TypeScript"
           },
           "exposeVariableAs" : {
@@ -25,7 +25,7 @@
         },
         "script" : {
           "@class" : "Script",
-          "content" : "import { setInterfaceState } from \"./gameInterface/interfaceState\";\nif (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n    const updatedCustomDurations = { ...Context.interfaceState.state.customDurations }\n    updatedCustomDurations[Context.action.uid] = Context.action.getSelectOptions().default;\n\n    setInterfaceState({ customDurations: updatedCustomDurations });\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
+          "content" : "import { updateCustomDurationsState } from \"./UIfacade/actionFacade\";\nif (Context.interfaceState.state.customDurations[Context.action.uid] === undefined) {\n  updateCustomDurationsState(Context.action.uid, Context.action.getSelectOptions().default)\n}\n\nContext.interfaceState.state.customDurations[Context.action.uid] || '';",
           "language" : "TypeScript"
         },
         "style" : { }

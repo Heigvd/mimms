@@ -23,7 +23,6 @@ import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choice
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
 import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
-import { TimeSliceDuration } from '../game/common/constants';
 import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -35,8 +34,6 @@ import {
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
-import { actionLogger } from '../tools/logger';
-import { getTranslation } from '../tools/translation';
 import { getCurrentPlayerActors } from './actorFacade';
 
 // used in page 45 (actionStandardList)
@@ -97,22 +94,6 @@ export async function planAction(
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
-}
-
-export function getDurationChoicesForCustomDurationAction(
-  action: ActionTemplateBase
-): { label: string; value: string }[] {
-  if (!(action instanceof CustomDurationActionTemplate)) {
-    actionLogger.error(`The action must be of type ${CustomDurationActionTemplate.name}!`);
-    return [];
-  }
-
-  return action.getOptions().map((nbMinutes: number) => {
-    return {
-      label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
-      value: `${TimeSliceDuration * nbMinutes}`,
-    };
-  });
 }
 
 export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
@@ -185,7 +166,9 @@ export function isMoveActorActionTemplate(template: ActionTemplateBase | undefin
   return template instanceof MoveActorActionTemplate;
 }
 
-export function isCustomDurationActionTemplate(template: ActionTemplateBase | undefined): boolean {
+export function isCustomDurationActionTemplate(
+  template: ActionTemplateBase | undefined
+): template is CustomDurationActionTemplate<readonly number[]> {
   return template instanceof CustomDurationActionTemplate;
 }
 
@@ -212,4 +195,11 @@ export function isMethaneSendDisabled(): boolean {
 export function updateChoice(choiceUid: Uid): void {
   setInterfaceState({ selectedActionChoiceUid: choiceUid });
   refreshSelectionLayer();
+}
+
+export function updateCustomDurationsState(uid: number, newValue: number) {
+  const updatedCustomDurations = { ...getTypedInterfaceState().customDurations };
+
+  updatedCustomDurations[uid] = newValue;
+  setInterfaceState({ customDurations: updatedCustomDurations });
 }
