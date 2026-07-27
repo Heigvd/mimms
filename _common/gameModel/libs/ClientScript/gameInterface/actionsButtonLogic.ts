@@ -16,7 +16,7 @@ import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import {
   ActionTemplateBase,
   PretriageReportActionPayload,
-  CustomDurationActionTemplate,
+  CustomDurationActionTemplateType,
 } from '../game/common/actions/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
@@ -248,7 +248,7 @@ function fetchMoveActorLocation() {
   return location;
 }
 
-function fetchCustomDurationValues(at: CustomDurationActionTemplate<readonly number[]>) {
+function fetchCustomDurationValues(at: CustomDurationActionTemplateType) {
   const customDurations = getTypedInterfaceState().customDurations;
   const params = { duration: customDurations[at.uid] };
 

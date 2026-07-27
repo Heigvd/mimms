@@ -1210,6 +1210,8 @@ export interface CustomDurationPayload {
   duration: SimDuration;
 }
 
+export type CustomDurationActionTemplateType = CustomDurationActionTemplate<readonly number[]>
+
 /**
  * Custom duration actions.
  * The generic typing guarantees the defaultOption is contained in the durationOptions.

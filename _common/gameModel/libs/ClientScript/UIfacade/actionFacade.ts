@@ -18,6 +18,7 @@ import {
   SendRadioMessageTemplate,
   SimFlag,
   CustomDurationActionTemplate,
+  CustomDurationActionTemplateType,
 } from '../game/common/actions/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
@@ -168,7 +169,7 @@ export function isMoveActorActionTemplate(template: ActionTemplateBase | undefin
 
 export function isCustomDurationActionTemplate(
   template: ActionTemplateBase | undefined
-): template is CustomDurationActionTemplate<readonly number[]> {
+): template is CustomDurationActionTemplateType {
   return template instanceof CustomDurationActionTemplate;
 }
 
