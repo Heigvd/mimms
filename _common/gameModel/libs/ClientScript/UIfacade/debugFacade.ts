@@ -1,7 +1,7 @@
 import { getLocalEventManager } from '../game/common/localEvents/localEventManager';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { resetState, getCurrentState, runUpdateLoop } from '../game/mainSimulationLogic';
-import { getStateHistory, setCurrentStateDebug } from '../game/testing/stateDebug';
+import { setCurrentStateDebug } from '../game/testing/stateDebug';
 import { debugLogger } from '../tools/logger';
 
 export async function debugStoreCurrentState() {
@@ -62,14 +62,6 @@ export function getAllResources() {
     });
   });
   return response;
-}
-
-export function getTimeFrameHistory() {
-  const h = getStateHistory();
-  let i = 0;
-  return h.map(s => {
-    return { id: i++, tf: s.getCurrentTimeFrame() };
-  });
 }
 
 export function getAllLocalEvents() {

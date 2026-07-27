@@ -217,8 +217,6 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
 
       registerOpenSelectedActorPanelAfterMove();
 
-      state.updateForwardTimeFrame();
-
       // Creates new request to check again
       const tfw = new TimeForwardRequestLocalEvent({
         parentEventId: this.props.parentEventId,
