@@ -1,7 +1,7 @@
 import { HumanBody } from '../../../HUMAn/human';
 import { getEnv } from '../../../tools/WegasHelper';
 //TODO: refactor HumanHealth logic out of the_world
-import { HumanHealth } from '../../legacy/the_world';
+import { HumanHealth } from '../../pretri/patientProcessing';
 import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from '../../pretri/triage';
 
 export function doPatientAutomaticTriage(

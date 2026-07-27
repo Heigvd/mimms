@@ -11,13 +11,6 @@ var MimmsHelper = (function () {
     return self.getGame().getPlayers();
   }
 
-  function charactersInfo() {
-    var allCharactersByTeamId = Variable.getInstancesByKeyId(
-      Variable.find(gameModel, 'characters')
-    );
-    return allCharactersByTeamId;
-  }
-
   function latestPretriTimes() {
     return Variable.getInstancesByKeyId(Variable.find(gameModel, 'latest_pretri_time'));
   }
@@ -32,7 +25,6 @@ var MimmsHelper = (function () {
     isDrillMode: isDrillMode,
     getDrillType: getDrillType,
     getPlayers: getPlayers,
-    charactersInfo: charactersInfo,
     getEndTimes: latestPretriTimes,
     updateNumberDescriptor: updateNumberDescriptor,
   };

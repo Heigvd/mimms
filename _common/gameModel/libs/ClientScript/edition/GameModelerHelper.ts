@@ -1,14 +1,9 @@
 import { createHumanBody, defaultMeta } from '../HUMAn/human';
 import { DataDef, MatrixConfig } from './MatrixEditor';
 import { getActs, getItems } from '../HUMAn/registries';
-import { BagDefinition } from '../game/legacy/the_world';
-import { getBagDefinition, getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
+import { getEnv, parse, parseObjectDescriptor } from '../tools/WegasHelper';
 import { compare } from '../tools/helper';
-import {
-  getActTranslation,
-  getItemActionTranslation,
-  getItemTranslation,
-} from '../tools/translation';
+import { getActTranslation, getItemActionTranslation } from '../tools/translation';
 
 function extractAllKeys(obj: object, currentKey: string, list: string[]) {
   Object.entries(obj).forEach(([k, v]) => {
@@ -83,102 +78,6 @@ export function getBlocksSelector() {
         choices: blockChoices,
       },
     },
-  };
-}
-
-/**
- * Bags Definitions Edition
- */
-
-type BagId = string;
-type ItemId = string;
-
-type BagMatrixCell = undefined | number | 'infinity';
-
-type BagOnChangeFn = (x: DataDef<BagId>, y: DataDef<ItemId>, value: BagMatrixCell) => void;
-
-const BagOnChangeRefName = 'bagDefOnChange';
-
-const onChangeRef = Helpers.useRef<BagOnChangeFn>(BagOnChangeRefName, () => {});
-
-onChangeRef.current = (x, y, newData) => {
-  const bagId = x.id;
-  const itemId = y.id;
-
-  const def = getBagDefinition(bagId) || { name: '', items: {} };
-
-  if (newData != null) {
-    def.items[itemId] = newData;
-  } else {
-    delete def.items[itemId];
-  }
-
-  const script = `Variable.find(gameModel, "bagsDefinitions").setProperty('${bagId}', ${JSON.stringify(
-    JSON.stringify(def)
-  )})`;
-
-  APIMethods.runScript(script, {});
-};
-
-function getBagsDefinitions() {
-  return parseObjectDescriptor<BagDefinition>(Variable.find(gameModel, 'bagsDefinitions'));
-}
-
-export function getBagsDefinitionsAsChoices() {
-  const bags = getBagsDefinitions();
-  return Object.entries(bags).map(([bagId, bagDef]) => ({
-    label: bagDef.name,
-    value: bagId,
-  }));
-}
-
-export function getBagsDefsMatrix(): MatrixConfig<BagId, ItemId, BagMatrixCell> {
-  const items = getItems()
-    .map(item => ({
-      label: getItemTranslation(item.item),
-      id: item.id,
-    }))
-    .sort((a, b) => {
-      return a.label.localeCompare(b.label);
-    });
-  const bags = getBagsDefinitions();
-
-  const matrix: Record<ItemId, Record<BagId, BagMatrixCell>> = {};
-
-  Object.entries(bags).forEach(([bagId, bagDef]) => {
-    matrix[bagId] = {};
-    Object.entries(bagDef.items).forEach(([itemId, data]) => {
-      matrix[bagId]![itemId] = data;
-    });
-  });
-
-  return {
-    y: items,
-    x: Object.entries(bags)
-      .sort(([, a], [, b]) => compare(a.name, b.name))
-      .map(([bagId, bag]) => ({
-        id: bagId,
-        label: bag?.name || 'no name',
-      })),
-    data: matrix,
-    cellDef: [
-      {
-        type: 'enum',
-        label: 'none',
-        values: [undefined],
-      },
-      {
-        type: 'number',
-        label: 'limited',
-        min: 1,
-      },
-      {
-        type: 'enum',
-        label: 'unlimited',
-        values: ['infinity'],
-      },
-    ],
-    onChangeRefName: BagOnChangeRefName,
   };
 }
 

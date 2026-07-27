@@ -6,7 +6,7 @@ import { ActionCreationEvent } from './eventTypes';
 export type CasuMessagePayload = MethaneMessagePayload | HospitalRequestPayload;
 
 export interface MethaneMessagePayload {
-  messageType: 'METHANE' | 'MET' | 'HANE' | 'E';
+  messageType: 'METHANE' | 'E';
   major?: string;
   exact?: string;
   incidentType?: string;

@@ -10,7 +10,7 @@ import {
   PretriageReportTemplate,
   SendRadioMessageTemplate,
   SimFlag,
-  SituationUpdateActionTemplate,
+  CustomDurationActionTemplate,
 } from './common/actions/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid } from './common/baseTypes';
@@ -30,13 +30,9 @@ export interface IUniqueActionTemplates {
   readonly EvacuationActionTemplate: EvacuationActionTemplate;
   readonly ActorSendRadioMessageTemplate: SendRadioMessageTemplate;
   readonly CasuSendRadioMessageTemplate: SendRadioMessageTemplate;
-  readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
 export function initActionTemplates(): ActionTemplateData {
-  // TODO the message might depend on the state, it might a function(state) rather than translation key
-  // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
-
   const moveActor = new MoveActorActionTemplate(
     'move-actor-uid-wer',
     'move-actor-title',
@@ -162,10 +158,20 @@ export function initActionTemplates(): ActionTemplateData {
     'pretriage-report-task-feedback-report'
   );
 
-  const situationUpdate = new SituationUpdateActionTemplate(
+  const situationUpdate = new CustomDurationActionTemplate(
     'situation-update-uid-zhn',
     'situation-update-title',
-    'situation-update-desc'
+    'situation-update-desc',
+    [3, 5, 10] as const,
+    3
+  );
+
+  const waitTime = new CustomDurationActionTemplate(
+    'wait-time-uid-xht',
+    'wait-time-title',
+    'wait-time-desc',
+    [1, 2, 3, 4, 5] as const,
+    1
   );
 
   const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
@@ -182,6 +188,7 @@ export function initActionTemplates(): ActionTemplateData {
   templates[evacuate.uid] = evacuate;
   templates[pretriageReport.uid] = pretriageReport;
   templates[situationUpdate.uid] = situationUpdate;
+  templates[waitTime.uid] = waitTime;
 
   // Beware that the order of the actions of the standard list depends on the creation order
 
@@ -199,7 +206,6 @@ export function initActionTemplates(): ActionTemplateData {
       EvacuationActionTemplate: evacuate,
       ActorSendRadioMessageTemplate: actorFreeRadioMessage,
       CasuSendRadioMessageTemplate: casuFreeRadioMessage,
-      SituationUpdateActionTemplate: situationUpdate,
     },
   };
 }

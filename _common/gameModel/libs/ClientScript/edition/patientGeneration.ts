@@ -21,7 +21,7 @@ import {
   getPathologies,
   getPathologiesMap,
 } from '../HUMAn/registries';
-import { ActionSource, resolveAction } from '../game/legacy/the_world';
+import { ActionSource, resolveAction } from '../game/pretri/patientProcessing';
 import {
   getCurrentPatientId,
   getPatientsBodyFactoryParams,
@@ -194,7 +194,6 @@ export function buildScriptedTreatmentPayload(treatment: Treatment, time: number
       emitterCharacterId: '',
       source: treatment.source,
       blocks: block ? [block] : [],
-      timeJump: false,
     },
   };
   return p;

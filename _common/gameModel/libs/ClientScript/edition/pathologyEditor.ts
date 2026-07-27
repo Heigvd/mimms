@@ -141,8 +141,6 @@ export function prettyPrintScript(script: ScriptedEvent[] = []): string {
         } else if (event.payload.type === 'HumanTreatment') {
           const source = event.payload.source;
           return `${source.type === 'act' ? source.actId : source.itemId}`;
-        } else if (event.payload.type === 'Teleport') {
-          return '';
         } else {
           checkUnreachable(event.payload);
         }

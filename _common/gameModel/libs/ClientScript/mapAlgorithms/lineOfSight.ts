@@ -1,5 +1,5 @@
 import { buildingLayer } from './layersData';
-import { Point, Polygons, Segment } from './point2D';
+import { Point, Polygons, Segment } from '../tools/point2D';
 
 /// TYPES
 interface ObjectSegment {
