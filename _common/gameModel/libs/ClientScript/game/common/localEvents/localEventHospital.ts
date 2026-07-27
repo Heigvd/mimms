@@ -1,13 +1,8 @@
 import { RadioType } from '../radio/communicationType';
-import { ActorId, GlobalEventId, PatientUnitId, SimTime, TranslationKey } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { ActorId, GlobalEventId, PatientUnitId, SimTime } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskStatus, TaskType } from '../tasks/taskBase';
-import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
 import { getLocalEventManager } from './localEventManager';
 import { AddRadioMessageLocalEvent } from './localEventRadio';
-import { getTranslation } from '../../../tools/translation';
-import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 import { HospitalRequestPayload } from '../events/casuMessageEvent';
 import {
   getCachedHospitalsByProximity,
@@ -68,54 +63,3 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
   }
 }
 
-/*
-Pretriage Report calculations and radio response
-*/
-export class PretriageReportResponseLocalEvent extends LocalEventBase {
-  private channel: RadioType = RadioType.RESOURCES;
-
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly senderName: string;
-      readonly recipient: number;
-      readonly pretriageLocation: LOCATION_ENUM;
-      readonly feedbackWhenReport: TranslationKey;
-    }
-  ) {
-    super({ ...props, type: 'PretriageReportResponseLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    const taskStatus: TaskStatus = getTaskCurrentStatus(
-      state,
-      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.props.pretriageLocation).Uid
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent({
-        parentEventId: this.props.parentEventId,
-        source: this.props.source,
-        simTimeStamp: this.props.simTimeStamp,
-        senderName: this.props.senderName,
-        recipientId: this.props.recipient,
-        message:
-          taskStatus === 'Uninitialized'
-            ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
-                getTranslation('mainSim-locations', 'location-' + this.props.pretriageLocation),
-              ])
-            : formatStandardPretriageReport(
-                state,
-                this.props.pretriageLocation,
-                this.props.feedbackWhenReport,
-                false,
-                true
-              ),
-        channel: this.channel,
-        omitTranslation: true,
-      })
-    );
-  }
-}

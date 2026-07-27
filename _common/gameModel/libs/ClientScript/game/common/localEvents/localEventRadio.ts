@@ -3,6 +3,11 @@ import { RadioType } from '../radio/communicationType';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getTranslation } from '../../../tools/translation';
 import { LocalEventBase, SourceType } from './localEventBase';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { TaskStatus, TaskType } from '../tasks/taskBase';
+import { getTaskByTypeAndLocation, getTaskCurrentStatus } from '../simulationState/taskStateAccess';
+import { getLocalEventManager } from './localEventManager';
+import { formatStandardPretriageReport } from '../patients/pretriageUtils';
 
 export class AddMessageLocalEvent extends LocalEventBase {
   private static RadioIdProvider = 1;
@@ -82,5 +87,57 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
     }
   ) {
     super({ ...extensionProps });
+  }
+}
+
+/*
+Pretriage Report calculations and radio response
+*/
+export class PretriageReportResponseLocalEvent extends LocalEventBase {
+  private channel: RadioType = RadioType.RESOURCES;
+
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
+      readonly simTimeStamp: SimTime;
+      readonly senderName: string;
+      readonly recipient: number;
+      readonly pretriageLocation: LOCATION_ENUM;
+      readonly feedbackWhenReport: TranslationKey;
+    },
+  ) {
+    super({ ...props, type: 'PretriageReportResponseLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const taskStatus: TaskStatus = getTaskCurrentStatus(
+      state,
+      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.props.pretriageLocation).Uid,
+    );
+
+    getLocalEventManager().queueLocalEvent(
+      new AddRadioMessageLocalEvent({
+        parentEventId: this.props.parentEventId,
+        source: this.props.source,
+        simTimeStamp: this.props.simTimeStamp,
+        senderName: this.props.senderName,
+        recipientId: this.props.recipient,
+        message:
+          taskStatus === 'Uninitialized'
+            ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
+              getTranslation('mainSim-locations', 'location-' + this.props.pretriageLocation),
+            ])
+            : formatStandardPretriageReport(
+              state,
+              this.props.pretriageLocation,
+              this.props.feedbackWhenReport,
+              false,
+              true,
+            ),
+        channel: this.channel,
+        omitTranslation: true,
+      }),
+    );
   }
 }

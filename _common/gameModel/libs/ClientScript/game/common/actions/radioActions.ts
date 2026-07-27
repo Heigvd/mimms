@@ -4,14 +4,18 @@ import { RadioType } from '../radio/communicationType';
 import { StartEndAction } from './actionBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getLocalEventManager } from '../localEvents/localEventManager';
-import { AddMessageLocalEvent, AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import {
+  AddMessageLocalEvent,
+  AddRadioMessageLocalEvent,
+  PretriageReportResponseLocalEvent,
+} from '../localEvents/localEventRadio';
 import { CasuMessagePayload, HospitalRequestPayload, MethaneMessagePayload } from '../events/casuMessageEvent';
 import { entries } from '../../../tools/helper';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import { getTranslation } from '../../../tools/translation';
 import * as RadioLogic from '../radio/radioLogic';
 import { getProximityTranslation } from '../radio/radioLogic';
-import { HospitalRequestUpdateLocalEvent, PretriageReportResponseLocalEvent } from '../localEvents/localEventHospital';
+import { HospitalRequestUpdateLocalEvent } from '../localEvents/localEventHospital';
 import {
   AutoSendACSMCSLocalEvent,
   ResourceRequestResolutionLocalEvent,
