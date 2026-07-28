@@ -134,9 +134,9 @@ export class AppointActorAction extends StartEndAction {
 }
 
 /**
- * Action book a moment for situation update (point de situation)
+ * Action books time for things (situation, wait, ...)
  */
-export class SituationUpdateAction extends StartEndAction {
+export class CustomDurationAction extends StartEndAction {
   constructor(
     startTimeSec: SimTime,
     durationSeconds: SimDuration,

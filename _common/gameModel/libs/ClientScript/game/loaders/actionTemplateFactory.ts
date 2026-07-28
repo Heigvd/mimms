@@ -22,10 +22,8 @@ export function createInstance(tplDescriptor: TemplateDescriptor): ActionTemplat
       // this makes sure a missing case induces a compilation error
       missingCase(ctorType);
   }
-  // TODO Log error
-  return undefined as any;
 }
 
-function missingCase(type: never) {
+function missingCase(type: never): never {
   throw new Error(`This constructor type (${type}) is not handled`);
 }

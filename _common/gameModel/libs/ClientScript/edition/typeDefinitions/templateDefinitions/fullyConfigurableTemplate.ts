@@ -38,7 +38,6 @@ export function getFullyConfigurableTemplateDef(): Definition<
         AL: true,
         CASU: false,
         EVASAN: true,
-        LEADPMA: true,
       },
       showAllChoices: true,
       comment: '',

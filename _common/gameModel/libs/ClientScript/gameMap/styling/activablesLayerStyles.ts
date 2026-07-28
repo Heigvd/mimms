@@ -24,8 +24,6 @@ export function getInterfaceColor(id: ActorId | undefined): string {
         return '#539265';
       case 'EVASAN':
         return '#EF5777';
-      case 'LEADPMA':
-        return '#F78C60';
     }
   }
   return DEFAULT_SELECTED_COLOR;

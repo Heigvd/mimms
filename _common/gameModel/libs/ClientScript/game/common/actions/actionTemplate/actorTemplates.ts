@@ -7,7 +7,9 @@ import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
-import { AppointActorAction, MoveActorAction, SituationUpdateAction } from '../actorActions';
+import { AppointActorAction, CustomDurationAction, MoveActorAction } from '../actorActions';
+import { TimeSliceDuration } from '../../constants';
+import { getTranslation } from '../../../../tools/translation';
 
 export class MoveActorActionTemplate extends StartEndTemplate {
   constructor(
@@ -137,23 +139,67 @@ export class AppointActorActionTemplate extends StartEndTemplate<
 /**
  * Book a moment for a situation update (point de situation)
  */
-export interface SituationUpdatePayload {
+export interface CustomDurationPayload {
   duration: SimDuration;
 }
 
-export class SituationUpdateActionTemplate extends StartEndTemplate<
-  SituationUpdateAction,
+export type CustomDurationActionTemplateType = CustomDurationActionTemplate<readonly number[]>
+
+/**
+ * Custom duration actions.
+ * The generic typing guarantees the defaultOption is contained in the durationOptions.
+ */
+export class CustomDurationActionTemplate<O extends readonly number[]> extends StartEndTemplate<
+  CustomDurationAction,
   StandardActionEvent,
-  SituationUpdatePayload
+  CustomDurationPayload
 > {
-  constructor(uid: ActionTemplateUid, title: TranslationKey, description: TranslationKey) {
+  private readonly durationOptions: O;
+  private readonly defaultOption: O[number];
+  private readonly selectOptions: { label: string; value: string }[];
+
+  /**
+   *
+   * @param durationOptions The duration options we want to show to the player
+   * @param defaultOption The value for the default selected option, must be in durationOptions
+   */
+  constructor(
+    uid: ActionTemplateUid,
+    title: TranslationKey,
+    description: TranslationKey,
+    durationOptions: O,
+    defaultOption: O[number]
+  ) {
     super(uid, title, description, 0, 0, ActionType.ACTION);
+
+    this.durationOptions = durationOptions;
+    this.defaultOption = defaultOption;
+
+    this.selectOptions = this.durationOptions.map((nbMinutes: number) => {
+      return {
+        label: `${nbMinutes} ${getTranslation('mainSim-resources', 'minutes', false)}`,
+        value: `${TimeSliceDuration * nbMinutes}`,
+      };
+    });
   }
 
-  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): SituationUpdateAction {
+  public getOptions() {
+    return this.durationOptions;
+  }
+
+  public getdefaultOption() {
+    return this.defaultOption;
+  }
+
+  public getSelectOptions() {
+    return { all: this.selectOptions, default: TimeSliceDuration * this.defaultOption };
+  }
+
+  protected createActionFromEvent(event: FullEvent<StandardActionEvent>): CustomDurationAction {
     const payload = event.payload;
     const ownerId = payload.emitterCharacterId as ActorId;
-    return new SituationUpdateAction(
+
+    return new CustomDurationAction(
       payload.triggerTime,
       payload.durationSec,
       event.id,
@@ -166,7 +212,7 @@ export class SituationUpdateActionTemplate extends StartEndTemplate<
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: SituationUpdatePayload
+    params: CustomDurationPayload
   ): StandardActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),

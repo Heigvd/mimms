@@ -166,7 +166,6 @@ export function getNotificationImpactDef(
         AL: false,
         CASU: false,
         EVASAN: false,
-        LEADPMA: false,
         Initiator: parentType === 'effect' ? true : false,
       },
     }),

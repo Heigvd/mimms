@@ -56,7 +56,7 @@ export function createMapChoiceActionTemplate(
         desc.description,
         desc.durationSec,
         undefined, // required flags
-        [SimFlag.PMA_BUILT],
+        [SimFlag.PMA_BUILT, SimFlag.PMA_OPEN],
         getFilteredAsArray(desc.availableToRoles),
         desc.choices,
         LOCATION_ENUM.PMA

@@ -13,8 +13,8 @@ import {
 } from './common/actions/actionTemplate/radioTemplates';
 import {
   AppointActorActionTemplate,
+  CustomDurationActionTemplate,
   MoveActorActionTemplate,
-  SituationUpdateActionTemplate,
 } from './common/actions/actionTemplate/actorTemplates';
 import {
   EvacuationActionTemplate,
@@ -25,8 +25,7 @@ export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;
   readonly AcsMcsArrivalAnnouncement: DisplayMessageActionTemplate;
   readonly EvasanArrivalAnnouncement: DisplayMessageActionTemplate;
-  readonly LeadpmaArrivalAnnouncement: DisplayMessageActionTemplate;
-  readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
+  //readonly OpenPmaActionTemplate: DisplayMessageActionTemplate;
   readonly CasuMessageTemplate: CasuMessageTemplate;
   readonly ActivateRadioSchemaActionTemplate: ActivateRadioSchemaActionTemplate;
   readonly MoveResourcesAssignTaskActionTemplate: MoveResourcesAssignTaskActionTemplate;
@@ -34,13 +33,9 @@ export interface IUniqueActionTemplates {
   readonly EvacuationActionTemplate: EvacuationActionTemplate;
   readonly ActorSendRadioMessageTemplate: SendRadioMessageTemplate;
   readonly CasuSendRadioMessageTemplate: SendRadioMessageTemplate;
-  readonly SituationUpdateActionTemplate: SituationUpdateActionTemplate;
 }
 
 export function initActionTemplates(): ActionTemplateData {
-  // TODO the message might depend on the state, it might a function(state) rather than translation key
-  // TODO those instances will be created from the templates descriptor data through the actionTemplateFactory
-
   const moveActor = new MoveActorActionTemplate(
     'move-actor-uid-wer',
     'move-actor-title',
@@ -75,7 +70,7 @@ export function initActionTemplates(): ActionTemplateData {
     ActionType.CASU_RADIO
   );
 
-  const openPMA = new DisplayMessageActionTemplate(
+  /*const openPMA = new DisplayMessageActionTemplate(
     'open-PMA-uid-yxc',
     'open-PMA-title',
     'open-PMA-desc',
@@ -84,9 +79,9 @@ export function initActionTemplates(): ActionTemplateData {
     1,
     [SimFlag.PMA_BUILT],
     [SimFlag.PMA_OPEN],
-    ['LEADPMA'],
+    undefined,
     RadioType.RESOURCES
-  );
+  );*/
 
   const acsMcsArrivalAnnouncement = new DisplayMessageActionTemplate(
     'define-acsMcsArrival-uid-xcv',
@@ -114,19 +109,6 @@ export function initActionTemplates(): ActionTemplateData {
     RadioType.EVASAN
   );
 
-  const leadpmaArrivalAnnouncement = new DisplayMessageActionTemplate(
-    'define-leadpmaArrival-uid-vbn',
-    'define-leadpmaArrival-title',
-    'define-leadpmaArrival-desc',
-    TimeSliceDuration,
-    'define-leadpmaArrival-feedback',
-    1,
-    [SimFlag.LEADPMA_ARRIVED],
-    [SimFlag.LEADPMA_ANNOUNCED],
-    ['LEADPMA'],
-    RadioType.ACTORS
-  );
-
   const activateRadioSchema = new ActivateRadioSchemaActionTemplate(
     'activate-radio-schema-uid-bnm',
     'activate-radio-schema-title',
@@ -135,7 +117,10 @@ export function initActionTemplates(): ActionTemplateData {
     'activate-radio-schema-request',
     'activate-radio-schema-reply-ok',
     'activate-radio-schema-reply-unauthorized',
-    RadioType.CASU
+    RadioType.CASU,
+    undefined,
+    undefined,
+    ['ACS', 'MCS']
   );
 
   const appointEVASAN = new AppointActorActionTemplate(
@@ -147,17 +132,6 @@ export function initActionTemplates(): ActionTemplateData {
     'EVASAN',
     [SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
     [SimFlag.EVASAN_ARRIVED]
-  );
-
-  const appointLeadPMA = new AppointActorActionTemplate(
-    'appoint-LeadPMA-uid-wsx',
-    'appoint-LeadPMA-title',
-    'appoint-LeadPMA-desc',
-    TimeSliceDuration,
-    'appoint-hierarchy-not-respected',
-    'LEADPMA',
-    [SimFlag.PMA_BUILT, SimFlag.ACS_ARRIVED, SimFlag.MCS_ARRIVED],
-    [SimFlag.LEADPMA_ARRIVED]
   );
 
   const allocateResources = new MoveResourcesAssignTaskActionTemplate(
@@ -187,28 +161,37 @@ export function initActionTemplates(): ActionTemplateData {
     'pretriage-report-task-feedback-report'
   );
 
-  const situationUpdate = new SituationUpdateActionTemplate(
+  const situationUpdate = new CustomDurationActionTemplate(
     'situation-update-uid-zhn',
     'situation-update-title',
-    'situation-update-desc'
+    'situation-update-desc',
+    [3, 5, 10] as const,
+    3
+  );
+
+  const waitTime = new CustomDurationActionTemplate(
+    'wait-time-uid-xht',
+    'wait-time-title',
+    'wait-time-desc',
+    [1, 2, 3, 4, 5] as const,
+    1
   );
 
   const templates: Record<ActionTemplateUid, ActionTemplateBase> = {};
   templates[moveActor.uid] = moveActor;
-  templates[openPMA.uid] = openPMA;
+  //templates[openPMA.uid] = openPMA;
   templates[acsMcsArrivalAnnouncement.uid] = acsMcsArrivalAnnouncement;
   templates[evasanArrivalAnnouncement.uid] = evasanArrivalAnnouncement;
-  templates[leadpmaArrivalAnnouncement.uid] = leadpmaArrivalAnnouncement;
   templates[activateRadioSchema.uid] = activateRadioSchema;
   templates[casuMessage.uid] = casuMessage;
   templates[actorFreeRadioMessage.uid] = actorFreeRadioMessage;
   templates[casuFreeRadioMessage.uid] = casuFreeRadioMessage;
   templates[appointEVASAN.uid] = appointEVASAN;
-  templates[appointLeadPMA.uid] = appointLeadPMA;
   templates[allocateResources.uid] = allocateResources;
   templates[evacuate.uid] = evacuate;
   templates[pretriageReport.uid] = pretriageReport;
   templates[situationUpdate.uid] = situationUpdate;
+  templates[waitTime.uid] = waitTime;
 
   // Beware that the order of the actions of the standard list depends on the creation order
 
@@ -218,8 +201,7 @@ export function initActionTemplates(): ActionTemplateData {
       MoveActorActionTemplate: moveActor,
       AcsMcsArrivalAnnouncement: acsMcsArrivalAnnouncement,
       EvasanArrivalAnnouncement: evasanArrivalAnnouncement,
-      LeadpmaArrivalAnnouncement: leadpmaArrivalAnnouncement,
-      OpenPmaActionTemplate: openPMA,
+      //OpenPmaActionTemplate: openPMA,
       CasuMessageTemplate: casuMessage,
       ActivateRadioSchemaActionTemplate: activateRadioSchema,
       MoveResourcesAssignTaskActionTemplate: allocateResources,
@@ -227,7 +209,6 @@ export function initActionTemplates(): ActionTemplateData {
       EvacuationActionTemplate: evacuate,
       ActorSendRadioMessageTemplate: actorFreeRadioMessage,
       CasuSendRadioMessageTemplate: casuFreeRadioMessage,
-      SituationUpdateActionTemplate: situationUpdate,
     },
   };
 }

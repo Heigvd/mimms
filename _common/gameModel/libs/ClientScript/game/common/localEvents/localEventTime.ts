@@ -1,10 +1,9 @@
-import { ActorId, GlobalEventId, SimTime } from '../baseTypes';
+import { GlobalEventId, SimTime } from '../baseTypes';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { isTimeForwardReady, updateCurrentTimeFrame } from '../simulationState/timeState';
+import { isTimeForwardReady } from '../simulationState/timeState';
 import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
 import {
-  registerHideInactiveActorWarning,
   registerOpenSelectedActorPanelAfterMove,
 } from '../../../gameInterface/afterUpdateCallbacks';
 import { TimeSliceDuration } from '../constants';
@@ -12,50 +11,32 @@ import { computeNewPatientsState } from '../patients/handleState';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { LocalEventBase, SourceType } from './localEventBase';
 
-export abstract class TimeForwardLocalBaseEvent extends LocalEventBase {
+/**
+ * When applied to state, checks if on site actors can still plan or no.
+ * If all actors have planned and action, time forwards.
+ */
+export class TimeForwardRequestLocalEvent extends LocalEventBase {
+  private readonly ignoreConditions: boolean;
+
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
-      readonly priority?: number;
-      readonly type: string;
-      readonly actors: ActorId[];
-    }
-  ) {
-    const defaultProps = { priority: 1 };
-    super({ ...defaultProps, ...props });
-  }
-
-  protected updateCurrentTimeFrame(state: MainSimulationState, modifier: number) {
-    updateCurrentTimeFrame(state, this.props.actors, modifier, this.props.simTimeStamp);
-  }
-}
-
-/**
- * When applied to state, bumps the readiness of the provided actors.
- * If all actors are ready, time forwards
- */
-export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
-  constructor(
-    readonly extensionProps: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly actors: ActorId[];
       readonly timeJump: number;
+      readonly ignoreConditions?: boolean;
     }
   ) {
-    super({ ...extensionProps, type: 'TimeForwardLocalEvent' });
+    super({ ...props, type: 'TimeForwardLocalEvent', priority: 1 });
+    this.ignoreConditions = props.ignoreConditions || false;
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    this.updateCurrentTimeFrame(state, 1);
-    if (isTimeForwardReady(state)) {
-      state.incrementSimulationTime(this.extensionProps.timeJump);
+    if (isTimeForwardReady(state) || this.ignoreConditions) {
+      state.incrementSimulationTime(this.props.timeJump);
 
       // update patients
-      this.updatePatients(state, this.extensionProps.timeJump);
+      this.updatePatients(state, this.props.timeJump);
 
       // update all actions
       this.updateActions(state);
@@ -68,21 +49,16 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
       getLocalEventManager().queueLocalEvents(generatedLocalEvents);
 
       registerOpenSelectedActorPanelAfterMove();
-      registerHideInactiveActorWarning();
 
-      state.updateForwardTimeFrame();
+      // Creates new request to check again
+      const tfw = new TimeForwardRequestLocalEvent({
+        parentEventId: this.props.parentEventId,
+        source: this.props.source,
+        simTimeStamp: state.getSimTime(),
+        timeJump: TimeSliceDuration,
+      });
 
-      // auto-continue if all actors are still awaiting
-      if (isTimeForwardReady(state)) {
-        const tfw = new TimeForwardLocalEvent({
-          parentEventId: this.extensionProps.parentEventId,
-          source: this.extensionProps.source,
-          simTimeStamp: state.getSimTime(),
-          actors: [],
-          timeJump: TimeSliceDuration,
-        });
-        getLocalEventManager().queueLocalEvent(tfw);
-      }
+      getLocalEventManager().queueLocalEvent(tfw);
     }
   }
 
@@ -96,6 +72,6 @@ export class TimeForwardLocalEvent extends TimeForwardLocalBaseEvent {
   }
 
   private updateTasks(state: MainSimulationState) {
-    TaskState.getAllTasks(state).forEach(t => t.update(state, this.extensionProps.timeJump));
+    TaskState.getAllTasks(state).forEach(t => t.update(state, this.props.timeJump));
   }
 }
