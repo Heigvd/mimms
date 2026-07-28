@@ -905,7 +905,7 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
       (resource: Resource) => resource.Uid
     );
     let location: LOCATION_ENUM = LOCATION_ENUM.entreeChantier;
-    if ((involvedResources[0].currentLocation = LOCATION_ENUM.PMA)) {
+    if ((involvedResources[0]?.currentLocation === LOCATION_ENUM.PMA)) {
       location = LOCATION_ENUM.PMA;
     }
 
