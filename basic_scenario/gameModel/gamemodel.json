@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784554134949,
+  "createdTime" : 1785235083455,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4893,6 +4893,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/actionTemplateController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#285:RdnAkh",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/controllerInstances",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4911,10 +4920,28 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/dataControllerBase",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#283:li5UWb",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/hospitalController",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#155:7oCnGl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/mapEntityController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#282:kk94f9",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -4933,6 +4960,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2484592:ZeDc35",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/triggerController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#284:IQNbgA",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5433,10 +5469,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateBase",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#84:ASnhzm",
+    "refId" : "GameModelContent:#296:oR10zV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/actorTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#295:KjesWJ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/mapTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#298:MhYt4p",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/patientResourceTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#297:3edBsm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/radioTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#294:NfVTnu",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5478,10 +5550,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/actions/actorActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#293:4e0olM",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/choiceDescriptor/choiceDescriptor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990706:Uw29Np",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/mapActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#299:cwUhI3",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/radioActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#300:iN8AUz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/resourceActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3121114:EfUqiy",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5712,6 +5820,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventActivable",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#289:HhnupT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventActors",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#292:6NTroi",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5721,10 +5847,55 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventHospital",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#290:4DBWe0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#76:ISxqrN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventRadio",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#286:SqIR2r",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventResourceArrival",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#288:zmWDJ6",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventResources",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#291:vlQLpk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#287:8lYIxc",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7357,7 +7528,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Basic scenario",
+  "name" : "MIM-586 big split check XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

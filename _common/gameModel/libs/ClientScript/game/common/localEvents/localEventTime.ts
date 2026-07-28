@@ -3,9 +3,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { isTimeForwardReady } from '../simulationState/timeState';
 import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
-import {
-  registerOpenSelectedActorPanelAfterMove,
-} from '../../../gameInterface/afterUpdateCallbacks';
+import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { TimeSliceDuration } from '../constants';
 import { computeNewPatientsState } from '../patients/handleState';
 import * as TaskState from '../simulationState/taskStateAccess';

@@ -9,7 +9,7 @@ import {
   TaskId,
   TranslationKey,
 } from '../../baseTypes';
-import { EvacuationAction, MoveResourcesAssignTaskAction } from '../actionBase';
+import { EvacuationAction, MoveResourcesAssignTaskAction } from '../resourceActions';
 import { MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
 import { Actor, InterventionRole } from '../../actors/actor';
 import { ActionType } from '../../actionType';

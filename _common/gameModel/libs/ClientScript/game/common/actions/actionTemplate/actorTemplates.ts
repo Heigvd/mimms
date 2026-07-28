@@ -143,7 +143,7 @@ export interface CustomDurationPayload {
   duration: SimDuration;
 }
 
-export type CustomDurationActionTemplateType = CustomDurationActionTemplate<readonly number[]>
+export type CustomDurationActionTemplateType = CustomDurationActionTemplate<readonly number[]>;
 
 /**
  * Custom duration actions.

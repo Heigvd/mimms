@@ -1,7 +1,6 @@
 import { ActorId } from '../baseTypes';
 import { MainSimulationState } from './mainSimulationState';
 
-
 function canActorPlanActionInState(
   state: Readonly<MainSimulationState>,
   actorId: ActorId
