@@ -8,11 +8,9 @@ import { ActionTemplateConfigUIState } from '../UIfacade/actionConfigFacade';
 import { MapEntityUIState } from '../UIfacade/locationConfigFacade';
 import { Page } from '../UIfacade/mainMenuStateFacade';
 import { TriggerConfigUIState } from '../UIfacade/triggerConfigFacade';
-import {
-  ActionTemplateDataController,
-  MapEntityController,
-  TriggerDataController,
-} from './dataController';
+import { ActionTemplateDataController } from './actionTemplateController';
+import { TriggerDataController } from './triggerController';
+import { MapEntityController } from './mapEntityController';
 
 export type ControllerType =
   | TriggerDataController

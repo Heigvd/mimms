@@ -1,7 +1,7 @@
 import { Uid } from '../../game/common/interfaces';
 import { patchX } from '../../tools/helper';
 import { getTriggerController } from '../controllers/controllerInstances';
-import { TriggerFlatType } from '../controllers/dataController';
+import { TriggerFlatType } from '../controllers/dataControllerBase';
 import { FlatTrigger } from '../typeDefinitions/triggerDefinition';
 import { GenericScenaristInterfaceState, getItems, ModalState } from './genericConfigFacade';
 
