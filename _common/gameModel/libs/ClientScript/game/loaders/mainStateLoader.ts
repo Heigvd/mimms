@@ -28,18 +28,20 @@ export function eraseInitialState(): void {
 }
 
 function buildStartingMainState(): MainSimulationState {
-  const testAL = new Actor('AL', LOCATION_ENUM.chantier);
-  const testCASU = new Actor('CASU', LOCATION_ENUM.remote);
+  const AL = new Actor('AL', LOCATION_ENUM.entreeChantier);
+  const CASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const tasks = loadTasks();
   const waitingTaskId = getWaitingTaskId(tasks);
-  const initialResources = [new Resource('ambulancier', LOCATION_ENUM.chantier, waitingTaskId)];
+  const initialResources = [
+    new Resource('ambulancier', LOCATION_ENUM.entreeChantier, waitingTaskId),
+  ];
 
   return new MainSimulationState(
     {
       simulationTimeSec: 0,
       actions: [],
-      actors: [testAL, testCASU],
+      actors: [AL, CASU],
       patients: loadPatients(),
       tasks: tasks,
       radioMessages: [],

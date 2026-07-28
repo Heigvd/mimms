@@ -127,7 +127,7 @@ export function loadTasks(): TaskBase[] {
     10000,
     'AL',
     [
-      LOCATION_ENUM.chantier,
+      LOCATION_ENUM.entreeChantier,
       LOCATION_ENUM.PMA,
       LOCATION_ENUM.pcFront,
       LOCATION_ENUM.PC,

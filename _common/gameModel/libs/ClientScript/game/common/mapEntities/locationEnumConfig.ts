@@ -19,8 +19,15 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.chantier,
     name: 'location-chantier',
     leaderRoles: [],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: true },
     icon: 'mainAccident',
+  },
+  entreeChantier: {
+    id: LOCATION_ENUM.entreeChantier,
+    name: 'location-entreechantier',
+    leaderRoles: [],
+    accessibility: { Actors: true, Resources: true, Patients: false },
+    icon: 'entreeChantier',
   },
   nidDeBlesses: {
     id: LOCATION_ENUM.nidDeBlesses,

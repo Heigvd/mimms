@@ -52,7 +52,10 @@ export function updateItem<T extends MapEntityFlatType>(uid: Uid, newData: Parti
 
 export function canInsertMapEntity(): boolean {
   const state = getMapEntityController().getLatestIState();
-  return state.selectedFilter !== LOCATION_ENUM.chantier;
+  return (
+    state.selectedFilter !== LOCATION_ENUM.chantier &&
+    state.selectedFilter !== LOCATION_ENUM.entreeChantier
+  );
 }
 
 export function setLocationFilter(location: LOCATION_ENUM): void {

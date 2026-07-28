@@ -10,6 +10,7 @@ import { MainSimulationState } from './mainSimulationState';
  */
 export enum LOCATION_ENUM {
   chantier = 'chantier',
+  entreeChantier = 'entreeChantier',
   nidDeBlesses = 'nidDeBlesses',
   PMA = 'PMA',
   pcFront = 'pcFront', // Temporary initial "Poste de commandement"

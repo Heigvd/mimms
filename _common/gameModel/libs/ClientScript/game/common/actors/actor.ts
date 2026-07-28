@@ -14,7 +14,7 @@ export type InterventionRole = typeof InterventionRoleTypeArray[number];
 export const symbolicLocationMatrix: Record<InterventionRole, LOCATION_ENUM> = {
   ACS: LOCATION_ENUM.PC,
   MCS: LOCATION_ENUM.PC,
-  AL: LOCATION_ENUM.chantier,
+  AL: LOCATION_ENUM.entreeChantier,
   EVASAN: LOCATION_ENUM.PC,
   CASU: LOCATION_ENUM.remote,
 };
