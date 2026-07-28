@@ -150,7 +150,7 @@
             "className" : "button-M button-primaryColor current",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "import { getDrillType } from './game/legacy/gameMaster';\ngetDrillType() !== 'PRE-TRIAGE'",
+              "content" : "import { getDrillType } from './game/pretri/drillMode';\ngetDrillType() !== 'PRE-TRIAGE'",
               "language" : "typescript"
             },
             "icon" : "download",

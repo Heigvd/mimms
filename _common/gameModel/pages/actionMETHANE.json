@@ -420,7 +420,10 @@
                         }
                       },
                       "type" : "Text"
-                    } ]
+                    } ],
+                    "layout" : { },
+                    "layoutStyle" : { },
+                    "style" : { }
                   },
                   "type" : "FlexList"
                 } ],
@@ -529,7 +532,9 @@
               "content" : "import { getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\n!getSelectedCasuMessageType().endsWith('E');",
               "language" : "typescript"
             },
-            "layout" : { },
+            "layout" : {
+              "alignItems" : "flex-start"
+            },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "LetterE",

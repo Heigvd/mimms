@@ -6,7 +6,7 @@
  *  - Hôpitaux Universitaires Genève (HUG)
  */
 import { add, interpolate, normalize } from '../tools/helper';
-import { Point } from '../map/point2D';
+import { Point } from '../tools/point2D';
 
 import {
   BodyState,

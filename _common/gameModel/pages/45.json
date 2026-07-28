@@ -28,7 +28,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
+                      "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getTitle();",
                       "language" : "TypeScript"
                     }
                   },
@@ -167,7 +167,7 @@
                         "style" : { },
                         "text" : {
                           "@class" : "Script",
-                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
+                          "content" : "import { ActionTemplateBase } from \"./game/common/actions/actionTemplate/actionTemplateBase\";\nconst actionTpl = Context.action as ActionTemplateBase;\nactionTpl.getDescription();",
                           "language" : "TypeScript"
                         }
                       },

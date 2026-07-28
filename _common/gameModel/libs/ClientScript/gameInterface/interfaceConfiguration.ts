@@ -13,9 +13,6 @@ interface InterfaceConfiguration {
   fixedEntities: {
     hidden: boolean;
   };
-  timeForward: {
-    hidden: boolean;
-  };
 }
 
 /**
@@ -30,9 +27,6 @@ export function getInterfaceConfiguration(): InterfaceConfiguration {
       hidden: getCurrentPlayerActors().length === 0,
     },
     fixedEntities: {
-      hidden: getCurrentPlayerActors().length === 0,
-    },
-    timeForward: {
       hidden: getCurrentPlayerActors().length === 0,
     },
   };

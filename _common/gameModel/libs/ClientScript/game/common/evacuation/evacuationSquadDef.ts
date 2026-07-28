@@ -8,11 +8,7 @@ import { TranslationKey } from '../baseTypes';
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 
-export const EvacuationSquadTypeArray = [
-  'AmbulanceDriver',
-  'AmbulanceDriverHealer',
-  'Helicopter',
-] as const;
+export const EvacuationSquadTypeArray = ['AmbulanceDriverHealer', 'Helicopter'] as const;
 export type EvacuationSquadType = typeof EvacuationSquadTypeArray[number];
 
 /**
@@ -92,27 +88,6 @@ export interface EvacuationSquadDefinition {
 // -------------------------------------------------------------------------------------------------
 
 const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> = {
-  AmbulanceDriver: {
-    uid: 'AmbulanceDriver',
-    location: LOCATION_ENUM.ambulancePark,
-    // List of the resources.
-    // One line for one resource. The type of the resource is chosen among the list.
-    // The first is the favorite, the last is the last choice.
-    neededResources: [
-      { qualifiedTypes: ['ambulance'] },
-      { qualifiedTypes: ['secouriste', 'technicienAmbulancier', 'ambulancier'] },
-    ],
-    loadingTime: 2,
-    unloadingTime: 2,
-    speed: 80,
-    vehicleIcon: 'ambulance',
-    infoNbDrivers: 1,
-    infoNbHealers: 0,
-    mainVehicleTranslation: 'by-ambulance',
-    mainVehicleTranslationNoun: 'ambulance',
-    healerPresenceTranslation: 'without-healer',
-  },
-
   AmbulanceDriverHealer: {
     uid: 'AmbulanceDriverHealer',
     location: LOCATION_ENUM.ambulancePark,

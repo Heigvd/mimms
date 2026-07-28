@@ -36,7 +36,6 @@ export function getMoveTemplateDef(): Definition<
         AL: true,
         CASU: false,
         EVASAN: true,
-        LEADPMA: true,
       },
       showAllChoices: true,
       comment: '',

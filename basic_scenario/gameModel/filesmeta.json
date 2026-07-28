@@ -65,6 +65,90 @@
     "note" : "",
     "visibility" : "PRIVATE"
   },
+  "/maps/CERN-meyrin/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-meyrin/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/" : {
+    "description" : "",
+    "mimeType" : "application/wfs-directory",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/bbox.data" : {
+    "description" : "",
+    "mimeType" : "application/octet-stream",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/buildings.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/greenery.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/rails.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/roads.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
+  "/maps/CERN-point5/water.geojson" : {
+    "description" : "",
+    "mimeType" : "application/zip",
+    "note" : "",
+    "visibility" : "PRIVATE"
+  },
   "/maps/GVA-center/" : {
     "description" : "",
     "mimeType" : "application/wfs-directory",

@@ -1,10 +1,10 @@
 import { taskLogger } from '../../../tools/logger';
 import { getTranslation } from '../../../tools/translation';
 import { getPriorityByCategoryId } from '../../pretri/triage';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { Actor, InterventionRole } from '../actors/actor';
 import { ResourceId, TranslationKey } from '../baseTypes';
-import { AddRadioMessageLocalEvent, MovePatientLocalEvent } from '../localEvents/localEventBase';
+import { MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
@@ -20,6 +20,7 @@ import {
 import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 
 // -------------------------------------------------------------------------------------------------
 // Brancardage task

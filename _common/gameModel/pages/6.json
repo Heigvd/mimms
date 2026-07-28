@@ -987,7 +987,7 @@
                                         "className" : "pink s_button",
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\nisInterfaceDisabled();",
+                                          "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\nisInterfaceDisabled();",
                                           "language" : "typescript"
                                         },
                                         "flexShrink" : 1,
@@ -1143,7 +1143,7 @@
                                         "className" : "pink s_button",
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
+                                          "content" : "import { isInterfaceDisabled } from \"./game/pretri/drillMode\";\n(Context.patientConsole.state.availableBlocks.length > 1 && !Context.patientConsole.state.selectedBlock) \n\t|| isInterfaceDisabled()",
                                           "language" : "typescript"
                                         },
                                         "flexShrink" : 1,
@@ -1247,7 +1247,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/legacy/gameMaster\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
+                                        "content" : "import { selectAndValidateCategory } from \"./game/patientZoom/currentPatientZoom\";\nimport { isInterfaceDisabled } from \"./game/pretri/drillMode\";\n\tselectAndValidateCategory(Context.tagCategory.id, Context.patientConsole.setState, Context.patientConsole.state);",
                                         "language" : "TypeScript",
                                         "returnType" : "Promise<unknown> | undefined"
                                       }

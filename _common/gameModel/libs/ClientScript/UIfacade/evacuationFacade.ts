@@ -100,10 +100,6 @@ export function isSelectedSquad(transportSquad: EvacuationSquadType): boolean {
   return getTransportSquad() === transportSquad;
 }
 
-export function isResourcesComeBack(): boolean {
-  return getTypedInterfaceState().evacuation.data.doResourcesComeBack;
-}
-
 // update data
 
 export function selectPatientId(patientId: PatientId | undefined) {
@@ -128,12 +124,6 @@ export function selectPatientUnitId(patientUnitId: PatientUnitId | undefined) {
 export function selectTransportSquad(transportSquad: EvacuationSquadType | undefined) {
   const newState = Helpers.cloneDeep(getTypedInterfaceState());
   newState.evacuation.data.transportSquad = transportSquad;
-  Context.interfaceState.setState(newState);
-}
-
-export function selectDoResourcesComeBack(doResourcesComeBack: boolean) {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.data.doResourcesComeBack = doResourcesComeBack;
   Context.interfaceState.setState(newState);
 }
 

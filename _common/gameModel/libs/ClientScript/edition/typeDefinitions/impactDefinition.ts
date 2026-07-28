@@ -14,7 +14,7 @@ import { RadioType } from '../../game/common/radio/communicationType';
 import { generateId } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { createOrUpdateTranslation } from '../../tools/translation';
-import { SuperTypeNames } from '../controllers/dataController';
+import { SuperTypeNames } from '../controllers/dataControllerBase';
 import { ALL_EDITABLE, Definition, MapToDefinition, MapToFlatType } from './definition';
 import {
   activationImpactValidator,
@@ -166,7 +166,6 @@ export function getNotificationImpactDef(
         AL: false,
         CASU: false,
         EVASAN: false,
-        LEADPMA: false,
         Initiator: parentType === 'effect' ? true : false,
       },
     }),

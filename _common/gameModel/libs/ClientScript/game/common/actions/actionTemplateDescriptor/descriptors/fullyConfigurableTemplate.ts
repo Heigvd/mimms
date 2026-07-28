@@ -1,5 +1,5 @@
 import { getFilteredAsArray } from '../../../../../tools/helper';
-import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplateBase';
+import { FullyConfigurableChoiceActionTemplate } from '../../actionTemplate/actionTemplateBase';
 import { ITemplateDescriptor } from '../templateDescriptor';
 
 export interface FullyConfigurableTemplateDescriptor extends ITemplateDescriptor {

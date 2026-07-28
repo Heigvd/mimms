@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1779889713456,
+  "createdTime" : 1785242413660,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -613,79 +613,6 @@
       "visibility" : "PRIVATE"
     }, {
       "@class" : "ObjectDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:24054704:C4XK9T"
-      },
-      "description" : "",
-      "editorTag" : "characters",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24054705:E3YlX1",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24054705:E3YlX1::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "characters",
-      "properties" : {
-        "amb" : "{\"skillId\":\"ias3\",\"description\":\"Samaritain Niveau 3\"}",
-        "mcs" : "{\"skillId\":\"mcs\",\"description\":\"Médecin Chef des Secours\"}",
-        "smur" : "{\"skillId\":\"SMURDoctor\",\"description\":\"Médecin SMUR\"}"
-      },
-      "refId" : "ObjectDescriptor:24054703:rgeAG3",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ObjectDescriptor",
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ObjectInstance",
-        "properties" : { },
-        "refId" : "ObjectInstance:24056040:9k0ezr"
-      },
-      "description" : "",
-      "editorTag" : "bags",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24056041:ulH4Jj",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24056041:ulH4Jj::EN",
-            "status" : "",
-            "translation" : ""
-          }
-        }
-      },
-      "name" : "bagsDefinitions",
-      "properties" : {
-        "all" : "{\"items\":{\"oxymeter\":\"infinity\",\"sphygmomanometer\":\"infinity\",\"TranexamicAcid_500\":\"infinity\",\"thoracic_drain\":\"infinity\",\"balloon\":\"infinity\",\"cricotomie\":\"infinity\",\"exsufflation\":\"infinity\",\"guedel\":\"infinity\",\"SalineSolution_1l\":\"infinity\",\"igel\":\"infinity\",\"intubate\":\"infinity\",\"mask\":\"infinity\",\"SalineSolution_100ml\":\"infinity\",\"bandage\":\"infinity\",\"3side\":\"infinity\",\"israeliBandage\":\"infinity\",\"Blood_1l\":\"infinity\",\"cat\":\"infinity\",\"wendel\":\"infinity\",\"TranexamicAcid_1000\":\"infinity\",\"SalineSolution_500ml\":\"infinity\",\"Blood_500ml\":\"infinity\"},\"name\":\"all\"}",
-        "banane_pre" : "{\"items\":{\"guedel\":6,\"cat\":2,\"israeliBandage\":2},\"name\":\"Banane prétri\"}",
-        "blue_bag" : "{\"items\":{},\"name\":\"Blue Bag\"}",
-        "empty_bag" : "{\"items\":{},\"name\":\"No bag\"}",
-        "nox_bag" : "{\"items\":{},\"name\":\"NOX Bag\"}",
-        "red_bag" : "{\"items\":{\"israeliBandage\":2,\"cat\":3,\"3side\":2,\"exsufflation\":2,\"TranexamicAcid_1000\":2,\"mask\":1,\"SalineSolution_100ml\":4,\"SalineSolution_500ml\":2},\"name\":\"Red Bag\"}"
-      },
-      "refId" : "ObjectDescriptor:24056039:J6pALa",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
       "comments" : "{\"CHYPA\":{\"index\":1,\"name\":{\"fr\":\"Caisson hyperbare - assis\",\"en\":\"Hyperbaric chamber - seated\"}},\"CHYPC\":{\"index\":2,\"name\":{\"fr\":\"Caisson hyperbare - couchés\",\"en\":\"Hyperbaric chamber - lying down\"}},\"POLYT\":{\"index\":3,\"name\":{\"fr\":\"Polytraumatisés\",\"en\":\"Polytrauma\"}},\"SIMPT\":{\"index\":4,\"name\":{\"fr\":\"Traumas simples\",\"en\":\"Simple traumas\"}},\"BRUL\":{\"index\":5,\"name\":{\"fr\":\"Grands brûlés\",\"en\":\"Major burns\"}}}\n\n{\"CH-GE-HUG\":{\"index\":1,\"fullName\":\"Hôpitaux universitaires de Genève\",\"shortName\":\"HUG\",\"preposition\":{\"fr\":\"aux\",\"en\":\"to\"},\"distance\":5,\"proximity\":1,\"units\":{\"CHYPA\":8,\"CHYPC\":2,\"POLYT\":4,\"SIMPT\":20}},\"CH-VD-CHUV\":{\"index\":2,\"fullName\":\"Centre hospitalier universitaire vaudois\",\"shortName\":\"CHUV\",\"preposition\":{\"fr\":\"au\",\"en\":\"to\"},\"distance\":50,\"proximity\":2,\"units\":{\"BRUL\":5}},\"CH-GE-LA_TOUR\":{\"index\":3,\"fullName\":\"Hôpital de La Tour à Meyrin\",\"shortName\":\"La Tour\",\"preposition\":{\"fr\":\"à\",\"en\":\"to\"},\"distance\":7,\"proximity\":1,\"units\":{\"POLYT\":1,\"SIMPT\":5}},\"FR-76-SAINT-JULIEN\":{\"index\":4,\"fullName\":\"Centre Hospitalier Intercommunal Sud-Léman Valserine\",\"shortName\":\"St Julien\",\"preposition\":{\"fr\":\"à\",\"en\":\"to\"},\"distance\":9,\"proximity\":3,\"units\":{\"POLYT\":1,\"SIMPT\":6}}}",
       "defaultInstance" : {
@@ -713,7 +640,7 @@
     }, {
       "@class" : "ObjectDescriptor",
       "broadcastScope" : "GameModelScope",
-      "comments" : "",
+      "comments" : "Defines medical acts capacity profiles. to configure a skill level use the Scenarist/Skill Configuration page",
       "defaultInstance" : {
         "@class" : "ObjectInstance",
         "properties" : { },
@@ -846,8 +773,7 @@
         "r1jkQHYOoy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":5,\"name\":\"ACSMCS-001\",\"type\":\"ACS-MCS\"},\"index\":2}",
         "s2BP15YOKg" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":20,\"travelTime\":5,\"name\":\"GE-009\",\"type\":\"AMB-T\"},\"index\":7}",
         "tQivP0ViG1" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":30,\"travelTime\":5,\"name\":\"SMUR-003\",\"type\":\"SMUR\"},\"index\":33}",
-        "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}",
-        "wv6mtf6DAy" : "{\"mandatory\":true,\"payload\":{\"availabilityTime\":0,\"travelTime\":30,\"name\":\"DPMA-001\",\"type\":\"DPMA\"},\"index\":28}"
+        "uwva0dLgGp" : "{\"mandatory\":false,\"payload\":{\"availabilityTime\":25,\"travelTime\":5,\"name\":\"GE-012\",\"type\":\"AMB-I\"},\"index\":5}"
       },
       "refId" : "ObjectDescriptor:622601:IizusP",
       "scopeType" : "GameModelScope",
@@ -906,7 +832,7 @@
       },
       "name" : "triggers_data",
       "properties" : {
-        "DOvwhi1IWR" : "{\"type\":\"trigger\",\"uid\":\"DOvwhi1IWR\",\"index\":2,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Wind spreads the fire\",\"comment\":\"Triggered at 4:30 p.m. if no oe has spoken to the firefighters\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":true,\"operator\":\"AND\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"E14HoSSDxv\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"The wind spreads the fire  ! Be careful\"}},\"version\":10},\"roles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true}}],\"conditions\":[{\"uid\":\"3EI8ECUwZo\",\"index\":0,\"type\":\"time\",\"operator\":\">\",\"timeSeconds\":1740}]}",
+        "DOvwhi1IWR" : "{\"type\":\"trigger\",\"uid\":\"DOvwhi1IWR\",\"index\":2,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Wind spreads the fire\",\"comment\":\"Triggered at 4:30 p.m. if no oe has spoken to the firefighters\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":true,\"operator\":\"AND\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"E14HoSSDxv\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"The wind spreads the fire  ! Be careful\"}},\"version\":10},\"roles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true}}],\"conditions\":[{\"uid\":\"3EI8ECUwZo\",\"index\":0,\"type\":\"time\",\"operator\":\">\",\"timeSeconds\":1740}]}",
         "Dm09aikB5N" : "{\"type\":\"trigger\",\"uid\":\"Dm09aikB5N\",\"index\":1,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"Fire brigade truck is stuck by road construction\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":false,\"operator\":\"AND\",\"impacts\":[],\"conditions\":[]}",
         "HGVJBthOyE" : "{\"type\":\"trigger\",\"uid\":\"HGVJBthOyE\",\"index\":0,\"activableType\":\"trigger\",\"activeAtStart\":true,\"tag\":\"faim après 5 minutes\",\"comment\":\"\",\"accessLevel\":\"basic\",\"mandatory\":false,\"deactivateItself\":true,\"operator\":\"AND\",\"impacts\":[{\"type\":\"activation\",\"uid\":\"awJrPE3Uhh\",\"index\":0,\"delaySeconds\":0,\"activableType\":\"actionTemplate\",\"target\":\"X0zdMae7bk\",\"option\":\"activate\"}],\"conditions\":[{\"uid\":\"1ZxvESoX2L\",\"index\":0,\"type\":\"time\",\"operator\":\"=\",\"timeSeconds\":300}]}"
       },
@@ -941,15 +867,15 @@
       },
       "name" : "action_template_data",
       "properties" : {
-        "7CodM9fDqA" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PCFrontChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PC front\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir un emplacement pour votre ambulance. Ce lieu sera le poste de commandement au front.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for your ambulance. This location will be the forward command post.\"}},\"version\":3},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Positionner votre ambulance\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Position your ambulance\"}},\"version\":2},\"uid\":\"7CodM9fDqA\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":false,\"MCS\":false,\"AL\":true,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false},\"binding\":\"pcFront\",\"showAllChoices\":true,\"comment\":\"\",\"index\":2,\"choices\":[{\"type\":\"choice\",\"uid\":\"xrz748XBSB\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"1ewttrqWs2\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"2mzbCg7nT6\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"1ewttrqWs2\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"xrz748XBSB\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"kjoTbL5d0p\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"vz8MobHXQg\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"YRUwaKZghG\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"vz8MobHXQg\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"kjoTbL5d0p\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"zSHjTDwjr9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"oDkgVSPr7d\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"KUHp6kJARY\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"oDkgVSPr7d\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"zSHjTDwjr9\",\"impacts\":[]}]}]}",
-        "BSPov5wRaU" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PCChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PC sanitaire\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du poste de commandement sanitaire\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the medical command post\"}},\"version\":7},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le poste de commandement sanitaire (PC SAN)\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning the medical command post\"}},\"version\":4},\"uid\":\"BSPov5wRaU\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"PC\",\"showAllChoices\":true,\"comment\":\"\",\"index\":3,\"choices\":[{\"type\":\"choice\",\"uid\":\"88ghYgRxHj\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"s7l3VvKspC\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"6oKec7jgdJ\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"s7l3VvKspC\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"88ghYgRxHj\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"jiZkxWdRNj\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"wDFelAaCAo\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":2},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"k5Noi7MRyi\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"wDFelAaCAo\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"jiZkxWdRNj\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"sFh7xNUIY0\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"j9yiSz3MqI\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"OBZDZQzDHB\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"j9yiSz3MqI\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"sFh7xNUIY0\",\"impacts\":[]}]}]}",
-        "BnmhUOVCCm" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":false,\"repeats\":0,\"tag\":\"examen de la scène\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous effectuez un tour de la scène pour évaluer la situation.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You take some time to evaluate the situation.\"}},\"version\":6},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Examiner la scène\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Scene examination\"}},\"version\":8},\"uid\":\"BnmhUOVCCm\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"showAllChoices\":true,\"comment\":\"\",\"index\":0,\"choices\":[{\"type\":\"choice\",\"uid\":\"mrqfmb9LUz\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"HvRJ6KkRde\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Examiner\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Examination\"}},\"version\":10},\"parent\":\"BnmhUOVCCm\",\"displayedMapEntity\":\"\",\"tag\":\"examiner\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"HvRJ6KkRde\",\"index\":0,\"tag\":\"car renversé. 15-25 victimes\",\"parent\":\"mrqfmb9LUz\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"amc6q5pWsf\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Un rapide tour de la scène vous a permis de voir qu’un car de voyageurs s’est renversé, probablement après avoir heurté un obstacle. Une partie des victimes est encore dans le car. Les pompiers sont en train de préparer des désincarcérations. Vous évaluez le nombre de victimes à entre 15 et 25.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25.\"}},\"version\":3},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false,\"Initiator\":true}}]}]}]}",
-        "bHAS9fSOrb" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"AmbulanceParkChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Parc ambulance\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du parc ambulances\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the ambulance park\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le parc ambulance\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define ambulance park location\"}},\"version\":2},\"uid\":\"bHAS9fSOrb\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"ambulancePark\",\"showAllChoices\":true,\"comment\":\"\",\"index\":4,\"choices\":[{\"type\":\"choice\",\"uid\":\"sgY5Ojces5\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"6j2rxLLClD\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"KC4efS22it\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"6j2rxLLClD\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"sgY5Ojces5\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"lKILMeeqWm\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"2YMnIWFZNu\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"MfCmerBAP5\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"2YMnIWFZNu\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"lKILMeeqWm\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"pImNNksctE\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"ofLcBeQRKk\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"XoJsGyOSIj\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"ofLcBeQRKk\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"pImNNksctE\",\"impacts\":[]}]}]}",
-        "iBl5gH5KWT" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"HelicopterParkChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Parc hélicoptère\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du parc hélicoptères\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the helicopter park\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le parc hélicoptère\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define helicopter park location\"}},\"version\":2},\"uid\":\"iBl5gH5KWT\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"helicopterPark\",\"showAllChoices\":true,\"comment\":\"\",\"index\":5,\"choices\":[{\"type\":\"choice\",\"uid\":\"NX66kiTFYc\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"1CyvKKIIZg\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"bSuKvJja5V\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"1CyvKKIIZg\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"NX66kiTFYc\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"2ff9YwBVzV\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"T34vhj2YWx\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"uJZng7tfJe\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"T34vhj2YWx\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"2ff9YwBVzV\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"OHZLAIpzr9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"aHzKIrIdhl\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"vfkH3Zwf3g\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"aHzKIrIdhl\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"OHZLAIpzr9\",\"impacts\":[]}]}]}",
-        "m15xCa9up6" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"MapChoiceActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Nid de blessés\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du nid de blessés\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the survivor reception center\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le nid de blessés\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning survivor reception center location\"}},\"version\":2},\"uid\":\"m15xCa9up6\",\"durationSec\":180,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"nidDeBlesses\",\"showAllChoices\":true,\"comment\":\"\",\"index\":6,\"choices\":[{\"type\":\"choice\",\"uid\":\"QAF81TqdTa\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"P5dRvmLiHd\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"pxEGgQEvqA\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"P5dRvmLiHd\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"QAF81TqdTa\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"DQSStOcD6C\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"e93ujYKFTo\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"WqfkE8WC5i\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"e93ujYKFTo\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"DQSStOcD6C\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"n6SqTeNqXa\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"es6FyZQnjx\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"XnWd8FFq6D\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"es6FyZQnjx\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"n6SqTeNqXa\",\"impacts\":[]}]}]}",
-        "o00Ig4FjrM" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":false,\"repeats\":0,\"tag\":\"demande d'infos\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":10},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Se renseigner\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Request information\"}},\"version\":7},\"uid\":\"o00Ig4FjrM\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"showAllChoices\":true,\"comment\":\"\",\"index\":1,\"choices\":[{\"type\":\"choice\",\"uid\":\"nFU5iTSA7X\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"Dh0QPFaqFO\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous demandez à un passant proche du car renversé de vous raconter ce qu'il s'est passé.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You ask a passerby, who is visibly agitated, to tell you what happened.\"}},\"version\":3},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès d'un passant\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from a passerby\"}},\"version\":7},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"passant\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"Dh0QPFaqFO\",\"index\":0,\"tag\":\"rien appris\",\"parent\":\"nFU5iTSA7X\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"C6mtuAwBiw\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Le discours du passant était peu cohérent. Il a dit qu’il n’a pas vraiment vu ce qu’il s'est passé.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"The passer-by seems to be in a state of shock. He didn't see what happened.\"}},\"version\":4},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false,\"Initiator\":true}}]}]},{\"type\":\"choice\",\"uid\":\"TCh73krz5y\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"RFtkSja8fW\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous vous approchez d’une voiture de police et demandez des informations.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You approach a police car and ask for information.\"}},\"version\":4},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès de la police\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from the police\"}},\"version\":12},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"police\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"RFtkSja8fW\",\"index\":0,\"tag\":\"rue fermée\",\"parent\":\"TCh73krz5y\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"F3fTZdRjg2\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"La police vous informe que la rue de Lausanne est coupée à la circulation, dans les deux sens.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Police are informing you that rue de Lausanne is now closed to traffic in both directions.\"}},\"version\":3},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false,\"Initiator\":true}}]}]},{\"type\":\"choice\",\"uid\":\"vcEDLkxPSu\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"nBf8CKbnpE\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous vous approchez d'un camion pompier et demandez des informations.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You approach a firefighter truck and ask for information.\"}},\"version\":5},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès des pompiers\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from the fire brigade\"}},\"version\":7},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"pompiers\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"nBf8CKbnpE\",\"index\":0,\"tag\":\"5 sortis. 20 minutes pour les autres\",\"parent\":\"vcEDLkxPSu\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"CIbWDqAngh\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Un pompier vous a répondu “Actuellement, 5 personnes ont pu être évacuées du car. Mais des passagers sont encore dans le car. Nous allons devoir l’étayer et une désincarcération est à prévoir. Il faudra environ 20 minutes avant que d’autres personnes ne puissent être sorties du car.\\\"\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.\"}},\"version\":9},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"LEADPMA\":false,\"Initiator\":true}}]}]}]}",
-        "pc47I56Bm8" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PMAChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PMA\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du poste médical avancé\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the medical post location\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le poste médical avancé (PMA)\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning the advanced medical post location\"}},\"version\":2},\"uid\":\"pc47I56Bm8\",\"durationSec\":240,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"PMA\",\"showAllChoices\":true,\"comment\":\"\",\"index\":7,\"choices\":[{\"type\":\"choice\",\"uid\":\"ZmYQU0AQVV\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"gWlSl62sCd\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"8i6LsDfsYz\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"gWlSl62sCd\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"ZmYQU0AQVV\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"UQOiUcBTJ9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"S7SgtdFPZj\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"aBjjEzktnx\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"S7SgtdFPZj\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"UQOiUcBTJ9\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"0VaHCVIO8V\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"QY8iZXgEEX\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"qDMHx8x5V0\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"QY8iZXgEEX\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"0VaHCVIO8V\",\"impacts\":[]}]}]}",
-        "teH22LY8Fb" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"MapChoiceActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Accès et évacuation\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir les routes d'accès et d'évacuation par lesquelles les moyens engagés accèdent au site\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for access and egress routes along that your resources will use.\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Définir les routes d'accès et d'évacuation\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define access and egress routes\"}},\"version\":2},\"uid\":\"teH22LY8Fb\",\"durationSec\":180,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true,\"LEADPMA\":true},\"binding\":\"AccReg\",\"showAllChoices\":true,\"comment\":\"\",\"index\":8,\"choices\":[{\"type\":\"choice\",\"uid\":\"FeQ0Yu4nQo\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"wUEzi3uiQ7\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"gA5y69LEIs\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"wUEzi3uiQ7\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"FeQ0Yu4nQo\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"E4RXgycU7G\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"a7lXi3vAiE\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"LdfKY679gU\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"a7lXi3vAiE\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"E4RXgycU7G\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"t196hDeGQQ\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"DQ9FzIqxWc\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"RKW8zOJwm4\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"DQ9FzIqxWc\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"t196hDeGQQ\",\"impacts\":[]}]}]}"
+        "7CodM9fDqA" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PCFrontChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PC front\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir un emplacement pour votre ambulance. Ce lieu sera le poste de commandement au front.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for your ambulance. This location will be the forward command post.\"}},\"version\":3},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Positionner votre ambulance\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Position your ambulance\"}},\"version\":2},\"uid\":\"7CodM9fDqA\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":false,\"MCS\":false,\"AL\":true,\"CASU\":false,\"EVASAN\":false},\"binding\":\"pcFront\",\"showAllChoices\":true,\"comment\":\"\",\"index\":2,\"choices\":[{\"type\":\"choice\",\"uid\":\"xrz748XBSB\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"1ewttrqWs2\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"2mzbCg7nT6\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"1ewttrqWs2\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"xrz748XBSB\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"kjoTbL5d0p\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"vz8MobHXQg\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"YRUwaKZghG\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"vz8MobHXQg\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"kjoTbL5d0p\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"zSHjTDwjr9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"oDkgVSPr7d\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"7CodM9fDqA\",\"displayedMapEntity\":\"KUHp6kJARY\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"oDkgVSPr7d\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"zSHjTDwjr9\",\"impacts\":[]}]}]}",
+        "BSPov5wRaU" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PCChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PC sanitaire\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du poste de commandement sanitaire\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the medical command post\"}},\"version\":7},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le poste de commandement sanitaire (PC SAN)\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning the medical command post\"}},\"version\":4},\"uid\":\"BSPov5wRaU\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"PC\",\"showAllChoices\":true,\"comment\":\"\",\"index\":3,\"choices\":[{\"type\":\"choice\",\"uid\":\"88ghYgRxHj\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"s7l3VvKspC\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"6oKec7jgdJ\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"s7l3VvKspC\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"88ghYgRxHj\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"jiZkxWdRNj\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"wDFelAaCAo\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":2},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"k5Noi7MRyi\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"wDFelAaCAo\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"jiZkxWdRNj\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"sFh7xNUIY0\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"j9yiSz3MqI\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"BSPov5wRaU\",\"displayedMapEntity\":\"OBZDZQzDHB\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"j9yiSz3MqI\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"sFh7xNUIY0\",\"impacts\":[]}]}]}",
+        "BnmhUOVCCm" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":false,\"repeats\":0,\"tag\":\"examen de la scène\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous effectuez un tour de la scène pour évaluer la situation.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You take some time to evaluate the situation.\"}},\"version\":6},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Examiner la scène\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Scene examination\"}},\"version\":8},\"uid\":\"BnmhUOVCCm\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"showAllChoices\":true,\"comment\":\"\",\"index\":0,\"choices\":[{\"type\":\"choice\",\"uid\":\"mrqfmb9LUz\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"HvRJ6KkRde\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Examiner\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Examination\"}},\"version\":10},\"parent\":\"BnmhUOVCCm\",\"displayedMapEntity\":\"\",\"tag\":\"examiner\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"HvRJ6KkRde\",\"index\":0,\"tag\":\"car renversé. 15-25 victimes\",\"parent\":\"mrqfmb9LUz\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"amc6q5pWsf\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Un rapide tour de la scène vous a permis de voir qu’un car de voyageurs s’est renversé, probablement après avoir heurté un obstacle. Une partie des victimes est encore dans le car. Les pompiers sont en train de préparer des désincarcérations. Vous évaluez le nombre de victimes à entre 15 et 25.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You take a quick tour of the scene. A passenger bus has overturned after hitting an obstacle. You estimate the number of victims at between 15 and 25.\"}},\"version\":3},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"Initiator\":true}}]}]}]}",
+        "bHAS9fSOrb" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"AmbulanceParkChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Parc ambulance\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du parc ambulances\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the ambulance park\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le parc ambulance\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define ambulance park location\"}},\"version\":2},\"uid\":\"bHAS9fSOrb\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"ambulancePark\",\"showAllChoices\":true,\"comment\":\"\",\"index\":4,\"choices\":[{\"type\":\"choice\",\"uid\":\"sgY5Ojces5\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"6j2rxLLClD\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"KC4efS22it\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"6j2rxLLClD\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"sgY5Ojces5\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"lKILMeeqWm\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"2YMnIWFZNu\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"MfCmerBAP5\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"2YMnIWFZNu\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"lKILMeeqWm\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"pImNNksctE\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"ofLcBeQRKk\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"bHAS9fSOrb\",\"displayedMapEntity\":\"XoJsGyOSIj\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"ofLcBeQRKk\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"pImNNksctE\",\"impacts\":[]}]}]}",
+        "iBl5gH5KWT" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"HelicopterParkChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Parc hélicoptère\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du parc hélicoptères\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the helicopter park\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le parc hélicoptère\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define helicopter park location\"}},\"version\":2},\"uid\":\"iBl5gH5KWT\",\"durationSec\":120,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"helicopterPark\",\"showAllChoices\":true,\"comment\":\"\",\"index\":5,\"choices\":[{\"type\":\"choice\",\"uid\":\"NX66kiTFYc\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"1CyvKKIIZg\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"bSuKvJja5V\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"1CyvKKIIZg\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"NX66kiTFYc\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"2ff9YwBVzV\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"T34vhj2YWx\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"uJZng7tfJe\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"T34vhj2YWx\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"2ff9YwBVzV\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"OHZLAIpzr9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"aHzKIrIdhl\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"iBl5gH5KWT\",\"displayedMapEntity\":\"vfkH3Zwf3g\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"aHzKIrIdhl\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"OHZLAIpzr9\",\"impacts\":[]}]}]}",
+        "m15xCa9up6" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"MapChoiceActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Nid de blessés\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du nid de blessés\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the survivor reception center\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le nid de blessés\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning survivor reception center location\"}},\"version\":2},\"uid\":\"m15xCa9up6\",\"durationSec\":180,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"nidDeBlesses\",\"showAllChoices\":true,\"comment\":\"\",\"index\":6,\"choices\":[{\"type\":\"choice\",\"uid\":\"QAF81TqdTa\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"P5dRvmLiHd\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"pxEGgQEvqA\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"P5dRvmLiHd\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"QAF81TqdTa\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"DQSStOcD6C\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"e93ujYKFTo\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"WqfkE8WC5i\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"e93ujYKFTo\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"DQSStOcD6C\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"n6SqTeNqXa\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"es6FyZQnjx\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"m15xCa9up6\",\"displayedMapEntity\":\"XnWd8FFq6D\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"es6FyZQnjx\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"n6SqTeNqXa\",\"impacts\":[]}]}]}",
+        "o00Ig4FjrM" : "{\"type\":\"FullyConfigurableTemplateDescriptor\",\"constructorType\":\"FullyConfigurableActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":false,\"repeats\":0,\"tag\":\"demande d'infos\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":10},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Se renseigner\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Request information\"}},\"version\":7},\"uid\":\"o00Ig4FjrM\",\"durationSec\":60,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"showAllChoices\":true,\"comment\":\"\",\"index\":1,\"choices\":[{\"type\":\"choice\",\"uid\":\"nFU5iTSA7X\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"Dh0QPFaqFO\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous demandez à un passant proche du car renversé de vous raconter ce qu'il s'est passé.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You ask a passerby, who is visibly agitated, to tell you what happened.\"}},\"version\":3},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès d'un passant\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from a passerby\"}},\"version\":7},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"passant\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"Dh0QPFaqFO\",\"index\":0,\"tag\":\"rien appris\",\"parent\":\"nFU5iTSA7X\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"C6mtuAwBiw\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Le discours du passant était peu cohérent. Il a dit qu’il n’a pas vraiment vu ce qu’il s'est passé.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"The passer-by seems to be in a state of shock. He didn't see what happened.\"}},\"version\":4},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"Initiator\":true}}]}]},{\"type\":\"choice\",\"uid\":\"TCh73krz5y\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"RFtkSja8fW\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous vous approchez d’une voiture de police et demandez des informations.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You approach a police car and ask for information.\"}},\"version\":4},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès de la police\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from the police\"}},\"version\":12},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"police\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"RFtkSja8fW\",\"index\":0,\"tag\":\"rue fermée\",\"parent\":\"TCh73krz5y\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"F3fTZdRjg2\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"La police vous informe que la rue de Lausanne est coupée à la circulation, dans les deux sens.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Police are informing you that rue de Lausanne is now closed to traffic in both directions.\"}},\"version\":3},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"Initiator\":true}}]}]},{\"type\":\"choice\",\"uid\":\"vcEDLkxPSu\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"nBf8CKbnpE\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Vous vous approchez d'un camion pompier et demandez des informations.\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You approach a firefighter truck and ask for information.\"}},\"version\":5},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"auprès des pompiers\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"from the fire brigade\"}},\"version\":7},\"parent\":\"o00Ig4FjrM\",\"displayedMapEntity\":\"\",\"tag\":\"pompiers\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"nBf8CKbnpE\",\"index\":0,\"tag\":\"5 sortis. 20 minutes pour les autres\",\"parent\":\"vcEDLkxPSu\",\"impacts\":[{\"type\":\"notification\",\"uid\":\"CIbWDqAngh\",\"index\":0,\"delaySeconds\":0,\"message\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Un pompier vous a répondu “Actuellement, 5 personnes ont pu être évacuées du car. Mais des passagers sont encore dans le car. Nous allons devoir l’étayer et une désincarcération est à prévoir. Il faudra environ 20 minutes avant que d’autres personnes ne puissent être sorties du car.\\\"\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Firefighters were only able to evacuate 5 people from the coach. The bus now has to be shored up and extrication is planned. It will be 20 minutes before any more people can be removed from the bus.\"}},\"version\":9},\"roles\":{\"ACS\":false,\"MCS\":false,\"AL\":false,\"CASU\":false,\"EVASAN\":false,\"Initiator\":true}}]}]}]}",
+        "pc47I56Bm8" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"PMAChoiceTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"PMA\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir l'emplacement du poste médical avancé\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for the medical post location\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Placer le poste médical avancé (PMA)\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Positioning the advanced medical post location\"}},\"version\":2},\"uid\":\"pc47I56Bm8\",\"durationSec\":240,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"PMA\",\"showAllChoices\":true,\"comment\":\"\",\"index\":7,\"choices\":[{\"type\":\"choice\",\"uid\":\"ZmYQU0AQVV\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"gWlSl62sCd\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"8i6LsDfsYz\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"gWlSl62sCd\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"ZmYQU0AQVV\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"UQOiUcBTJ9\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"S7SgtdFPZj\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"aBjjEzktnx\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"S7SgtdFPZj\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"UQOiUcBTJ9\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"0VaHCVIO8V\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"QY8iZXgEEX\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"pc47I56Bm8\",\"displayedMapEntity\":\"qDMHx8x5V0\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"QY8iZXgEEX\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"0VaHCVIO8V\",\"impacts\":[]}]}]}",
+        "teH22LY8Fb" : "{\"type\":\"MapChoiceActionTemplateDescriptor\",\"constructorType\":\"MapChoiceActionTemplate\",\"activableType\":\"actionTemplate\",\"activeAtStart\":true,\"mandatory\":true,\"repeats\":1,\"tag\":\"Accès et évacuation\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Choisir les routes d'accès et d'évacuation par lesquelles les moyens engagés accèdent au site\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Choose a position for access and egress routes along that your resources will use.\"}},\"version\":2},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Définir les routes d'accès et d'évacuation\"},\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Define access and egress routes\"}},\"version\":2},\"uid\":\"teH22LY8Fb\",\"durationSec\":180,\"availableToRoles\":{\"ACS\":true,\"MCS\":true,\"AL\":true,\"CASU\":false,\"EVASAN\":true},\"binding\":\"AccReg\",\"showAllChoices\":true,\"comment\":\"\",\"index\":8,\"choices\":[{\"type\":\"choice\",\"uid\":\"FeQ0Yu4nQo\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"wUEzi3uiQ7\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"A\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"gA5y69LEIs\",\"tag\":\"A\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":0,\"effects\":[{\"type\":\"effect\",\"uid\":\"wUEzi3uiQ7\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"FeQ0Yu4nQo\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"E4RXgycU7G\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"a7lXi3vAiE\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"B\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"LdfKY679gU\",\"tag\":\"B\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":1,\"effects\":[{\"type\":\"effect\",\"uid\":\"a7lXi3vAiE\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"E4RXgycU7G\",\"impacts\":[]}]},{\"type\":\"choice\",\"uid\":\"t196hDeGQQ\",\"activableType\":\"choice\",\"activeAtStart\":true,\"defaultEffect\":\"DQ9FzIqxWc\",\"description\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"\"}},\"version\":0},\"title\":{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"C\"}},\"version\":1},\"parent\":\"teH22LY8Fb\",\"displayedMapEntity\":\"RKW8zOJwm4\",\"tag\":\"C\",\"repeats\":1,\"durationDeltaSec\":0,\"index\":2,\"effects\":[{\"type\":\"effect\",\"uid\":\"DQ9FzIqxWc\",\"index\":0,\"tag\":\"Default effect\",\"parent\":\"t196hDeGQQ\",\"impacts\":[]}]}]}"
       },
       "refId" : "ObjectDescriptor:2480670:7aDVWC",
       "scopeType" : "GameModelScope",
@@ -1110,43 +1036,6 @@
       "comments" : "",
       "defaultInstance" : {
         "@class" : "StringInstance",
-        "refId" : "StringInstance:22373418:bkY9DO",
-        "trValue" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:22373419:1yVbcO",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:22373419:1yVbcO::EN",
-              "status" : "",
-              "translation" : ""
-            }
-          }
-        }
-      },
-      "editorTag" : "whoAmI",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:22373420:aRD4o4",
-        "translations" : { }
-      },
-      "maxSelectable" : 1,
-      "name" : "whoAmI",
-      "refId" : "StringDescriptor:22373417:5wvBQV",
-      "scopeType" : "PlayerScope",
-      "sortable" : false,
-      "validationPattern" : null,
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "StringDescriptor",
-      "allowedValues" : [ ],
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "StringInstance",
         "refId" : "StringInstance:24035452:8bGnWo",
         "trValue" : {
           "@class" : "TranslatableContent",
@@ -1199,27 +1088,6 @@
       "name" : "drillStatus",
       "properties" : { },
       "refId" : "ObjectDescriptor:24060137:G5TcTN",
-      "scopeType" : "TeamScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "BooleanDescriptor",
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "BooleanInstance",
-        "refId" : "BooleanInstance:24098834:WslyOa",
-        "value" : false
-      },
-      "editorTag" : "scenario revived",
-      "isolation" : "OPEN",
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098835:PV2cOY",
-        "translations" : { }
-      },
-      "name" : "scenarioRevived",
-      "refId" : "BooleanDescriptor:24098833:0jJFD7",
       "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
@@ -1306,19 +1174,12 @@
           "@class" : "TranslatableContent",
           "refId" : "TranslatableContent:1298436:BVfOMu",
           "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:1298436:BVfOMu::EN",
-              "status" : "",
-              "translation" : "mainSimMode"
-            },
             "FR" : {
               "@class" : "Translation",
               "lang" : "FR",
               "refId" : "TranslatableContent:1298436:BVfOMu::FR",
               "status" : "",
-              "translation" : "mainSimMode"
+              "translation" : "pretriMode"
             }
           }
         }
@@ -1666,44 +1527,7 @@
         "@class" : "StringDescriptor",
         "allowedValues" : [ ],
         "broadcastScope" : "GameModelScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "StringInstance",
-          "refId" : "StringInstance:24056511:D4U0gS",
-          "trValue" : {
-            "@class" : "TranslatableContent",
-            "refId" : "TranslatableContent:24056512:YqArEC",
-            "translations" : {
-              "EN" : {
-                "@class" : "Translation",
-                "lang" : "EN",
-                "refId" : "TranslatableContent:24056512:YqArEC::EN",
-                "status" : "",
-                "translation" : "all"
-              }
-            }
-          }
-        },
-        "editorTag" : "bagType",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24056513:C98nbC",
-          "translations" : { }
-        },
-        "maxSelectable" : 1,
-        "name" : "bagType",
-        "refId" : "StringDescriptor:24056510:oWkNxk",
-        "scopeType" : "GameModelScope",
-        "sortable" : false,
-        "validationPattern" : null,
-        "version" : null,
-        "visibility" : "PRIVATE"
-      }, {
-        "@class" : "StringDescriptor",
-        "allowedValues" : [ ],
-        "broadcastScope" : "GameModelScope",
-        "comments" : "",
+        "comments" : "Defines the default level of capacity to perform medical acts. See skills variable to add configurations and Scenarist's Skills Configuration page",
         "defaultInstance" : {
           "@class" : "StringInstance",
           "refId" : "StringInstance:24057039:VrWlLb",
@@ -1716,19 +1540,19 @@
                 "lang" : "EN",
                 "refId" : "TranslatableContent:24057040:pq7EBd::EN",
                 "status" : "",
-                "translation" : "smur"
+                "translation" : "SMURDoctor"
               },
               "FR" : {
                 "@class" : "Translation",
                 "lang" : "FR",
                 "refId" : "TranslatableContent:24057040:pq7EBd::FR",
                 "status" : "",
-                "translation" : ""
+                "translation" : "SMURDoctor"
               }
             }
           }
         },
-        "editorTag" : "default profile",
+        "editorTag" : "default skill level",
         "isolation" : "OPEN",
         "label" : {
           "@class" : "TranslatableContent",
@@ -1736,7 +1560,7 @@
           "translations" : { }
         },
         "maxSelectable" : 1,
-        "name" : "defaultProfile",
+        "name" : "defaultSkill",
         "refId" : "StringDescriptor:24057038:wKfY0F",
         "scopeType" : "GameModelScope",
         "sortable" : false,
@@ -3330,24 +3154,19 @@
         "properties" : {
           "3side" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"3 sided dressing\"},\"FR\":{\"status\":\"\",\"translation\":\"pansement 3 côtés\",\"lang\":\"FR\"}},\"version\":0}",
           "balloon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"balloon\"},\"FR\":{\"status\":\"\",\"translation\":\"ballon de ventilation\",\"lang\":\"FR\"}},\"version\":0}",
-          "banane_pre" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"waist bag\"},\"FR\":{\"status\":\"\",\"translation\":\"banane pré-tri\",\"lang\":\"FR\"}},\"version\":0}",
           "bandage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"bandage\"},\"FR\":{\"status\":\"\",\"translation\":\"pansement\",\"lang\":\"FR\"}},\"version\":0}",
           "bandage::pack" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"packing\"},\"FR\":{\"status\":\"\",\"translation\":\"packing\",\"lang\":\"FR\"}},\"version\":0}",
           "bandage::pressurebandage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pressure bandage\"},\"FR\":{\"status\":\"\",\"translation\":\"pansement compressif (bandage)\",\"lang\":\"FR\"}},\"version\":0}",
           "blood_500ml" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"blood 500ml\"},\"FR\":{\"status\":\"\",\"translation\":\"sang 500mL\",\"lang\":\"FR\"}},\"version\":0}",
-          "blue_bag" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"blue bag\"},\"FR\":{\"status\":\"\",\"translation\":\"sac bleu\",\"lang\":\"FR\"}},\"version\":0}",
           "cat" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cAT\"},\"FR\":{\"status\":\"\",\"translation\":\"tourniquet\",\"lang\":\"FR\"}},\"version\":0}",
           "cricotomie" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cricotomie\"},\"FR\":{\"status\":\"\",\"translation\":\"cricotomie\",\"lang\":\"FR\"}},\"version\":0}",
-          "empty_bag" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"empty bag\"},\"FR\":{\"status\":\"\",\"translation\":\"sac vide\",\"lang\":\"FR\"}},\"version\":0}",
           "exsufflation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"exsufflation\"},\"FR\":{\"status\":\"\",\"translation\":\"exsufflation\",\"lang\":\"FR\"}},\"version\":0}",
           "guedel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"guedel\"},\"FR\":{\"status\":\"\",\"translation\":\"guedel\",\"lang\":\"FR\"}},\"version\":0}",
           "igel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"i-Gel\"},\"FR\":{\"status\":\"\",\"translation\":\"i-Gel\",\"lang\":\"FR\"}},\"version\":0}",
           "intubate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"intubate\"},\"FR\":{\"status\":\"\",\"translation\":\"intubé\",\"lang\":\"FR\"}},\"version\":0}",
           "israelibandage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"israeli Bandage\"},\"FR\":{\"status\":\"\",\"translation\":\"pansement compressif\",\"lang\":\"FR\"}},\"version\":0}",
           "mask" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mask\"},\"FR\":{\"status\":\"\",\"translation\":\"masque\",\"lang\":\"FR\"}},\"version\":0}",
-          "nox_bag" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"nox bag\"},\"FR\":{\"status\":\"\",\"translation\":\"sac nox\",\"lang\":\"FR\"}},\"version\":0}",
           "oxymeter" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pulse Oxymeter\"},\"FR\":{\"status\":\"\",\"translation\":\"saturomètre\",\"lang\":\"FR\"}},\"version\":0}",
-          "red_bag" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"red bag\"},\"FR\":{\"status\":\"\",\"translation\":\"sac rouge\",\"lang\":\"FR\"}},\"version\":0}",
           "salinesolution_100ml" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"naCl 0.9% 100mL\"},\"FR\":{\"status\":\"\",\"translation\":\"naCl 0.9% 100mL\",\"lang\":\"FR\"}},\"version\":0}",
           "salinesolution_500ml" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"naCl 0.9% 500mL\"},\"FR\":{\"status\":\"\",\"translation\":\"naCl 0.9% 500mL\",\"lang\":\"FR\"}},\"version\":0}",
           "sphygmomanometer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"blood Pressure gauge\"},\"FR\":{\"status\":\"\",\"translation\":\"sphygmomanomètre\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3459,7 +3278,6 @@
           "apply" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"apply\"},\"FR\":{\"status\":\"\",\"translation\":\"appliquer\",\"lang\":\"FR\"}},\"version\":0}",
           "assigntriage" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign triage category\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner catégorie de triage\",\"lang\":\"FR\"}},\"version\":0}",
           "backtosummary" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"back to summary\"},\"FR\":{\"status\":\"\",\"translation\":\"retourner au récapitulatif\",\"lang\":\"FR\"}},\"version\":0}",
-          "bag-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"bag type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de sac\",\"lang\":\"FR\"}},\"version\":0}",
           "bodypart" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"body part\"},\"FR\":{\"status\":\"\",\"translation\":\"partie du corps\",\"lang\":\"FR\"}},\"version\":0}",
           "cancel" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancel\"},\"FR\":{\"status\":\"\",\"translation\":\"annuler\",\"lang\":\"FR\"}},\"version\":0}",
           "cancellation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cancellation\"},\"FR\":{\"status\":\"\",\"translation\":\"annulation\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3643,80 +3461,6 @@
       "comments" : "",
       "defaultInstance" : {
         "@class" : "ListInstance",
-        "refId" : "ListInstance:24098777:esCQTe"
-      },
-      "editorTag" : "",
-      "isolation" : "OPEN",
-      "items" : [ {
-        "@class" : "ObjectDescriptor",
-        "broadcastScope" : "GameModelScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ObjectInstance",
-          "properties" : { },
-          "refId" : "ObjectInstance:24098782:Zj59Gv"
-        },
-        "description" : "",
-        "editorTag" : "localization",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:24098783:2eLPVQ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:24098783:2eLPVQ::EN",
-              "status" : "",
-              "translation" : "interface"
-            }
-          }
-        },
-        "name" : "qr-interface",
-        "properties" : {
-          "join-as-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as observer\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'observateur\",\"lang\":\"FR\"}},\"version\":0}",
-          "join-as-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as patient\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant que patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "join-as-squad-member" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"join as participant\"},\"FR\":{\"status\":\"\",\"translation\":\"rejoindre en tant qu'intervenant\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a patient QR code to examine him/her\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code d'un patient pour l'ausculter\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-observer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to be an observer\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour être observateur\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-patient" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play as this patient\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner ce patient\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-impersonate-player" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan this QR code to play a character with this level of skills\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez ce QR code pour incarner votre personnage avec ce niveau de compétences\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-join" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"first, scan the following QR code to join the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez le QR code suivant à l'aide de votre téléphone pour rejoindre la simulation\",\"lang\":\"FR\"}},\"version\":0}",
-          "scan-to-take-role" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scan a QR code to pick a role in the game\"},\"FR\":{\"status\":\"\",\"translation\":\"scannez un QR code pour définir votre rôle dans la partie\",\"lang\":\"FR\"}},\"version\":0}",
-          "touch-camera-icon" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"touch the camera icon below\"},\"FR\":{\"status\":\"\",\"translation\":\"touchez l'icône d'appareil photo ci-dessous\",\"lang\":\"FR\"}},\"version\":0}",
-          "you-are-participant" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are connected as a participant.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes connecté-e en tant qu'intervenant-e\",\"lang\":\"FR\"}},\"version\":0}"
-        },
-        "refId" : "ObjectDescriptor:24098781:HZZRDx",
-        "scopeType" : "GameModelScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      } ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:24098778:3wfBKz",
-        "translations" : {
-          "EN" : {
-            "@class" : "Translation",
-            "lang" : "EN",
-            "refId" : "TranslatableContent:24098778:3wfBKz::EN",
-            "status" : "",
-            "translation" : "QR"
-          }
-        }
-      },
-      "name" : "variable_6HaInb",
-      "refId" : "ListDescriptor:24098776:LeCiBl",
-      "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "GameModelScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ListInstance",
         "refId" : "ListInstance:24098807:Y9BkDs"
       },
       "editorTag" : "general",
@@ -3881,10 +3625,8 @@
           "situation-update-text" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the selected role is currently in a situation update. To continue the simulation, please choose another role from the available options below.\"},\"FR\":{\"status\":\"\",\"translation\":\"le rôle sélectionné est actuellement en point de situation. Pour continuer la simulation, veuillez choisir un autre rôle parmi ceux disponibles ci-dessous.\",\"lang\":\"FR\"}},\"version\":0}",
           "situation-update-text-singleactor" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you are currently in a situation update. The simulation will automatically resume once the update is complete.\"},\"FR\":{\"status\":\"\",\"translation\":\"vous êtes actuellement en point de situation. La simulation reprendra automatiquement une fois le point de situation terminé.\",\"lang\":\"FR\"}},\"version\":0}",
           "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
-          "soft-warning" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\": inactif(s) pour ce tour\"},\"EN\":{\"status\":\"\",\"translation\":\": inactive for this round\",\"lang\":\"EN\"}},\"version\":0}",
           "start" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"start\"},\"FR\":{\"status\":\"\",\"translation\":\"démarrer\",\"lang\":\"FR\"}},\"version\":0}",
           "start-time" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"scenario start time :\"},\"FR\":{\"status\":\"\",\"translation\":\"heure de début du scénario:\",\"lang\":\"FR\"}},\"version\":0}",
-          "time-forward" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"continue\"},\"FR\":{\"status\":\"\",\"translation\":\"continuer\",\"lang\":\"FR\"}},\"version\":0}",
           "time-rewind" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"rewind time\"},\"FR\":{\"status\":\"\",\"translation\":\"reculer le temps\",\"lang\":\"FR\"}},\"version\":0}",
           "type-your-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"type your message here\"},\"FR\":{\"status\":\"\",\"translation\":\"ecrivez votre message ici\",\"lang\":\"FR\"}},\"version\":0}",
           "variable-duration" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"variable duration\"},\"FR\":{\"status\":\"\",\"translation\":\"durée variable\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3934,9 +3676,6 @@
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-leadpma-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint a resource as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer une ressource comme Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-leadpma-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint Lead PMA\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
           "brancardage-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"brancardage\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3957,9 +3696,6 @@
           "define-evasanarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"announcing the assumption of EVASAN functions\"},\"FR\":{\"status\":\"\",\"translation\":\"annoncer la prise des fonctions EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "define-evasanarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assumption of EVASAN functions announced\"},\"FR\":{\"status\":\"\",\"translation\":\"la prise des fonctions EVASAN est annoncée\",\"lang\":\"FR\"}},\"version\":0}",
           "define-evasanarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume EVASAN duties\"},\"FR\":{\"status\":\"\",\"translation\":\"prise de fonction EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "define-leadpmaarrival-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"announcing the assumption of Lead PMA functions\"},\"FR\":{\"status\":\"\",\"translation\":\"annoncer la prise des fonctions Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "define-leadpmaarrival-feedback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assumption of Lead PMA functions announced\"},\"FR\":{\"status\":\"\",\"translation\":\"la prise des fonctions Chef PMA est annoncée\",\"lang\":\"FR\"}},\"version\":0}",
-          "define-leadpmaarrival-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assume Lead PMA duties\"},\"FR\":{\"status\":\"\",\"translation\":\"prise de fonction Chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuate a patient to a hospital\"},\"FR\":{\"status\":\"\",\"translation\":\"evacuer un patient vers un hôpital\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-feedback-return" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} {1}: estimated return in {2} minute(s)\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} {1} : retour dans environ {2} minute(s)\",\"lang\":\"FR\"}},\"version\":0}",
           "evacuate-task-abort" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the evacuation is aborted because there are not enough resources\"},\"FR\":{\"status\":\"\",\"translation\":\"l'évacuation est annulée parce qu'il n'y a pas assez de ressources\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3981,10 +3717,10 @@
           "move-actor-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move because the location does not exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de se déplacer car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-actor-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move to another location\"},\"FR\":{\"status\":\"\",\"translation\":\"se déplacer\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send resources\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer des ressources\",\"lang\":\"FR\"}},\"version\":0}",
+          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"impossible to move resources because the location doesn't exist\"},\"FR\":{\"status\":\"\",\"translation\":\"impossible de déplacer les ressources car l'emplacement n'existe pas\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-no-resource" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is no available resource\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a aucune resource\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-not-enough-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"there is not enough resources. The available ones are assigned\"},\"FR\":{\"status\":\"\",\"translation\":\"il n'y a pas assez de resources. Les personnes disponibles ont été assignées avec succès\",\"lang\":\"FR\"}},\"version\":0}",
-          "move-res-task-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-request" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"{0} at {1} doing {2} will go to {3} to do {4}\"},\"FR\":{\"status\":\"\",\"translation\":\"{0} au {1} faisant {2} vont aller à {3} faire {4}\",\"lang\":\"FR\"}},\"version\":0}",
           "move-res-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"assign resource\"},\"FR\":{\"status\":\"\",\"translation\":\"assigner ressource\",\"lang\":\"FR\"}},\"version\":0}",
           "no-patient-selected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"select a patient to know more about him\"},\"FR\":{\"status\":\"\",\"translation\":\"sélectionner un patient pour en connaître plus sur lui\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4020,6 +3756,8 @@
           "situation-update-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you go out to make a situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"vous vous rendez au point de situation pour une durée de :\",\"lang\":\"FR\"}},\"version\":0}",
           "situation-update-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"situation update\"},\"FR\":{\"status\":\"\",\"translation\":\"point de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "vector" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"vector\"},\"FR\":{\"status\":\"\",\"translation\":\"vecteur\",\"lang\":\"FR\"}},\"version\":0}",
+          "wait-time-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"You wait doing nothing\"},\"FR\":{\"status\":\"\",\"translation\":\"Vous attendez sans rien faire\",\"lang\":\"FR\"}},\"version\":0}",
+          "wait-time-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"Wait\"},\"FR\":{\"status\":\"\",\"translation\":\"Attendre\",\"lang\":\"FR\"}},\"version\":0}",
           "waiting-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"available\"},\"FR\":{\"status\":\"\",\"translation\":\"a disposition\",\"lang\":\"FR\"}},\"version\":0}",
           "with-healer" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"with healer\"},\"FR\":{\"status\":\"\",\"translation\":\"avec soignant\",\"lang\":\"FR\"}},\"version\":0}",
           "with-healers" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"with healers\"},\"FR\":{\"status\":\"\",\"translation\":\"avec soignants\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4064,8 +3802,6 @@
           "actor-casu-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU\"},\"FR\":{\"status\":\"\",\"translation\":\"cASU\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-evasan" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-evasan-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"eVASAN?\"},\"FR\":{\"status\":\"\",\"translation\":\"eVASAN\",\"lang\":\"FR\"}},\"version\":0}",
-          "actor-leadpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lAMP\"},\"FR\":{\"status\":\"\",\"translation\":\"cPMA\",\"lang\":\"FR\"}},\"version\":0}",
-          "actor-leadpma-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"lead  AMP\"},\"FR\":{\"status\":\"\",\"translation\":\"chef PMA\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-mcs" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"mCS\"},\"FR\":{\"status\":\"\",\"translation\":\"mCS\",\"lang\":\"FR\"}},\"version\":0}",
           "actor-mcs-long" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"chief emergency doctor?\"},\"FR\":{\"status\":\"\",\"translation\":\"médecin Chef des Secours\",\"lang\":\"FR\"}},\"version\":0}"
         },
@@ -4163,7 +3899,6 @@
           "ambulancier" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulancier\",\"lang\":\"FR\"}},\"version\":0}",
           "ambulancier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambul. man\"},\"FR\":{\"status\":\"\",\"translation\":\"ambul.\",\"lang\":\"FR\"}},\"version\":0}",
           "arrival-in" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"arrival in\"},\"FR\":{\"status\":\"\",\"translation\":\"arrivée dans\",\"lang\":\"FR\"}},\"version\":0}",
-          "comeback" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"come back to site after evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"revenir sur site après transport\",\"lang\":\"FR\"}},\"version\":0}",
           "dpma" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"dPMA\"},\"FR\":{\"status\":\"\",\"translation\":\"dPMA\",\"lang\":\"FR\"}},\"version\":0}",
           "driver" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"driver\"},\"FR\":{\"status\":\"\",\"translation\":\"conducteur\",\"lang\":\"FR\"}},\"version\":0}",
           "emergencyambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"emergency ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance urgence\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4384,62 +4119,6 @@
       "name" : "mainSim",
       "refId" : "ListDescriptor:49455:3wsqe7",
       "scopeType" : "GameModelScope",
-      "version" : null,
-      "visibility" : "PRIVATE"
-    }, {
-      "@class" : "ListDescriptor",
-      "addShortcut" : "",
-      "allowedTypes" : [ ],
-      "broadcastScope" : "TeamScope",
-      "comments" : "",
-      "defaultInstance" : {
-        "@class" : "ListInstance",
-        "refId" : "ListInstance:622971:2PCqx6"
-      },
-      "editorTag" : "trainer",
-      "isolation" : "OPEN",
-      "items" : [ {
-        "@class" : "ObjectDescriptor",
-        "broadcastScope" : "TeamScope",
-        "comments" : "",
-        "defaultInstance" : {
-          "@class" : "ObjectInstance",
-          "properties" : { },
-          "refId" : "ObjectInstance:622930:PnE9EA"
-        },
-        "description" : "",
-        "editorTag" : "localization",
-        "isolation" : "OPEN",
-        "label" : {
-          "@class" : "TranslatableContent",
-          "refId" : "TranslatableContent:622931:uK61HZ",
-          "translations" : {
-            "EN" : {
-              "@class" : "Translation",
-              "lang" : "EN",
-              "refId" : "TranslatableContent:622931:uK61HZ::EN",
-              "status" : "",
-              "translation" : "trainer-interface"
-            }
-          }
-        },
-        "name" : "trainer-interface",
-        "properties" : {
-          "patient-debug" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"button to display patient summary to user\"},\"FR\":{\"status\":\"\",\"translation\":\"bouton d'affichage du résumé des patient pour l'utilisateur\",\"lang\":\"FR\"}},\"version\":0}"
-        },
-        "refId" : "ObjectDescriptor:622929:2SsbX6",
-        "scopeType" : "TeamScope",
-        "version" : null,
-        "visibility" : "PRIVATE"
-      } ],
-      "label" : {
-        "@class" : "TranslatableContent",
-        "refId" : "TranslatableContent:622972:HOrnq9",
-        "translations" : { }
-      },
-      "name" : "trainer",
-      "refId" : "ListDescriptor:622970:cq64eO",
-      "scopeType" : "TeamScope",
       "version" : null,
       "visibility" : "PRIVATE"
     } ],
@@ -5080,7 +4759,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":0,\"extent\":[2499286.105929431,1117873.1533189379,2500468.462442313,1118797.7898341562],\"center\":[2499877.284185872,1118335.471576547],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"CERN-meyrin\",\"zoom\":0,\"extent\":[2491326.1512984848,1120152.3468324167,2494203.6907130037,1122126.4078933953],\"center\":[2492764.9210057445,1121139.377362906],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
         },
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",
@@ -5217,6 +4896,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/actionTemplateController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#285:RdnAkh",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/controllerInstances",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -5226,10 +4914,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/controllers/dataController",
+    "contentKey" : "edition/controllers/dataControllerBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2485520:0eqXHv",
+    "refId" : "GameModelContent:#283:li5UWb",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5239,6 +4927,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#155:7oCnGl",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/mapEntityController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#282:kk94f9",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5257,6 +4954,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:2484592:ZeDc35",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/triggerController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#284:IQNbgA",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5757,10 +5463,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/actions/actionTemplateBase",
+    "contentKey" : "game/common/actions/actionTemplate/actionTemplateBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#84:ASnhzm",
+    "refId" : "GameModelContent:#296:oR10zV",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/actorTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#295:KjesWJ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/mapTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#298:MhYt4p",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/patientResourceTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#297:3edBsm",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/actionTemplate/radioTemplates",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#294:NfVTnu",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -5802,10 +5544,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/actions/actorActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#293:4e0olM",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/actions/choiceDescriptor/choiceDescriptor",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:1990706:Uw29Np",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/mapActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#299:cwUhI3",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/radioActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#300:iN8AUz",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/actions/resourceActions",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3121114:EfUqiy",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6036,6 +5814,24 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventActivable",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#289:HhnupT",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventActors",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#292:6NTroi",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6045,10 +5841,55 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/localEvents/localEventHospital",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#290:4DBWe0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/localEvents/localEventManager",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#76:ISxqrN",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventRadio",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#286:SqIR2r",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventResourceArrival",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#288:zmWDJ6",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventResources",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#291:vlQLpk",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/localEvents/localEventTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#287:8lYIxc",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6414,51 +6255,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/legacy/gameMaster",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#73:Nu8q8h",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/likert",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#67:7aiTeC",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/scenario",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#69:OCwcyC",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/the_world",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#68:h6AnTo",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "game/legacy/TimeManager",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#72:gtpcJn",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/loaders/actionTemplateFactory",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6603,10 +6399,46 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/pretri/drillMode",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#73:Nu8q8h",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/likert",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#67:7aiTeC",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/pretri/liveOverview",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#93:PinW8a",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/patientProcessing",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#68:h6AnTo",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/pretri/pretriTime",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#72:gtpcJn",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6837,7 +6669,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/layersData",
+    "contentKey" : "mapAlgorithms/layersData",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:427114:jexCPN",
@@ -6846,7 +6678,7 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/lineOfSight",
+    "contentKey" : "mapAlgorithms/lineOfSight",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24073812:LHvCPq",
@@ -6855,28 +6687,10 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "map/locationTypes",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#97:Qr2j9E",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "map/pathFinding",
+    "contentKey" : "mapAlgorithms/pathFinding",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:441099:z0DmoU",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
-    "contentKey" : "map/point2D",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:57478:23476j",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6958,6 +6772,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:24033051:kkkRCq",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "tools/point2D",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:57478:23476j",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7699,7 +7522,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "Basic scenario",
+  "name" : "MIM-586 big split check XGO",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

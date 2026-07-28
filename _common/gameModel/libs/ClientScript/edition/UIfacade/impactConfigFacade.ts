@@ -10,13 +10,14 @@ import {
   getActionTemplateController,
   getTriggerController,
 } from '../controllers/controllerInstances';
-import { ActionTemplateDataController, TriggerDataController } from '../controllers/dataController';
 import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import { getParentType } from '../UIfacade/genericConfigFacade';
 import { updateItem as updateActionTemplatePageItem } from './actionConfigFacade';
 import { getChoicesOptions, getDefaultEffect, getMatchingActionTemplateUid } from './dataFetcher';
 import { getCurrentPage } from './mainMenuStateFacade';
 import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
+import { ActionTemplateDataController } from '../controllers/actionTemplateController';
+import { TriggerDataController } from '../controllers/triggerController';
 
 function getController(): TriggerDataController | ActionTemplateDataController {
   switch (getCurrentPage()) {

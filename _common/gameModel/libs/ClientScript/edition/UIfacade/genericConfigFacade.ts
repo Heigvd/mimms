@@ -11,7 +11,7 @@ import {
   FlatTypeBySuperType,
   FlatTypes,
   SuperTypeNames,
-} from '../controllers/dataController';
+} from '../controllers/dataControllerBase';
 import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
