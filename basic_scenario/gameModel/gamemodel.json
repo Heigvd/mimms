@@ -4911,15 +4911,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/controllers/dataController",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2485520:0eqXHv",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "edition/controllers/dataControllerBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
