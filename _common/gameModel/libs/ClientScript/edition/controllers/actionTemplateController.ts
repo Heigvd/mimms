@@ -162,6 +162,61 @@ export class ActionTemplateDataController extends DataControllerBase<
     }
   }
 
+  protected override duplicateInternal(original: ActionTemplateFlatType): ActionTemplateFlatType[] {
+    const cloned: ActionTemplateFlatType[] = [];
+    const mapping: Record<Uid, Uid> = {};
+    this.duplicateRecursively(original, mapping, cloned);
+
+    if (cloned.length > 0) {
+      const topLevelClone = cloned[0];
+      if (topLevelClone && topLevelClone.superType !== 'impact') {
+        this.assignNewTagName(topLevelClone);
+      }
+    }
+
+    cloned.forEach(clone => {
+      // patch cross references impacts targets
+      if (clone.type === 'activation' || clone.type === 'mapActivation') {
+        if (mapping[clone.target]) {
+          clone.target = mapping[clone.target]!;
+        }
+      } else if (clone.type === 'effectSelection') {
+        if (mapping[clone.target]) {
+          clone.target = mapping[clone.target]!;
+        }
+        if (mapping[clone.targetEffect]) {
+          clone.targetEffect = mapping[clone.targetEffect]!;
+        }
+      }
+
+      // patch default effect reference
+      if (clone.type === 'choice' && mapping[clone.defaultEffect]) {
+        clone.defaultEffect = mapping[clone.defaultEffect]!;
+      }
+    });
+
+    return cloned;
+  }
+
+  private duplicateRecursively(
+    original: ActionTemplateFlatType,
+    mapping: Record<Uid, Uid>,
+    cloned: ActionTemplateFlatType[]
+  ) {
+    const clone: ActionTemplateFlatType = super.basicDuplicate(original, mapping);
+    cloned.push(clone);
+
+    switch (clone.superType) {
+      case 'action':
+      case 'choice':
+      case 'effect':{
+        const children = Object.values(getChildren(original.uid, this.getFlatDataClone()));
+        children.forEach(child => this.duplicateRecursively(child, mapping, cloned));
+        break;
+      }
+    }
+  }
+
   private assignNewTagName(newObject: FlatActionTemplate | FlatChoice | FlatEffect): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());

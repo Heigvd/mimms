@@ -159,6 +159,15 @@ export function deleteItem(itemId: Uid): void {
   }
 }
 
+export function duplicateItem(itemId: Uid): void {
+  const controller = getCurrentController();
+  if (controller) {
+    controller.duplicate(itemId);
+  } else {
+    scenarioEditionLogger.warn(`No controller found, could not duplicate ${itemId}`);
+  }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // detail page
 

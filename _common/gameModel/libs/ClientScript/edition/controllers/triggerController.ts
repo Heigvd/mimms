@@ -107,6 +107,10 @@ export class TriggerDataController extends DataControllerBase<
     }
   }
 
+  protected duplicateInternal(original: TriggerFlatType): TriggerFlatType[] {
+    throw new Error('Method not implemented.');
+  }
+
   private assignNewTagName(newObject: FlatTrigger): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());

@@ -8,7 +8,7 @@ import {
   Typed,
   Uid,
 } from '../../game/common/interfaces';
-import { entries, ObjectVariableClasses } from '../../tools/helper';
+import { entries, generateId, ObjectVariableClasses } from '../../tools/helper';
 import {
   canMove,
   moveElement,
@@ -16,6 +16,7 @@ import {
   recomputeIndexes,
   recomputeIndexesFromArray,
 } from '../../tools/indexedSorting';
+import { scenarioEditionLogger } from '../../tools/logger';
 import { parseObjectDescriptor, saveToObjectDescriptor } from '../../tools/WegasHelper';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatCondition } from '../typeDefinitions/conditionDefinition';
@@ -112,6 +113,57 @@ export abstract class DataControllerBase<
     this.applyChanges(flatData, updatedIState, false);
   }
 
+  public duplicate(id: Uid): void {
+    const updatedData = this.getFlatDataClone();
+    const original = updatedData[id];
+    if(original){
+      const cloned = this.duplicateInternal(original);
+
+      // insert cloned data
+      cloned.forEach(c => {
+        updatedData[c.uid] = c;
+      });
+
+      const updatedIState = this.getLatestIState();
+
+      // select new
+      if (cloned.length > 0) {
+        updatedIState.selected[original.superType] = cloned[0]?.uid;
+      }
+
+      // TODO figure out where the clone is inserted
+      //moveElement(clone.uid, siblings, '');
+
+      this.applyChanges(updatedData, updatedIState, false);
+    } else {
+      scenarioEditionLogger.error('Could not clone object with id ' + id + '. not found in data');
+    }
+  }
+
+  /**
+   * The implementation duplicates this element and all of its children
+   * Convention : the first element of the array is the copy of the passed original
+   */
+  protected abstract duplicateInternal(original: FlatType): FlatType[];
+
+  /**
+   * Duplicates the given element (without children)
+   * The mapping is meant to contain the existing <originalId, cloneId>
+   * If the mapping contains a new id for the original's parent, the created clone object is reparented
+   * Returns the cloned element
+   */
+  protected basicDuplicate(original: FlatType, mapping: Record<Uid, Uid>): FlatType {
+    const clone = Helpers.cloneDeep(original);
+    clone.uid = generateId(10);
+    mapping[original.uid] = clone.uid;
+
+    // if the parent has been cloned too => reparent the cloned element
+    if (mapping[original.parent]) {
+      clone.parent = mapping[original.parent]!;
+    }
+    return clone;
+  }
+
   public canUndo(): boolean {
     return this.undoRedo.canUndo();
   }
@@ -145,7 +197,6 @@ export abstract class DataControllerBase<
     // select new
     const updatedIState = this.getLatestIState();
     updatedIState.selected[superType] = newObject.uid;
-    updatedIState;
     // put at top
     const siblings = this.filterSiblings(newObject.uid, updatedData);
     moveElement(newObject.uid, siblings, 'BOTTOM');

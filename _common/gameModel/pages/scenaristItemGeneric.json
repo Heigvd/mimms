@@ -168,6 +168,13 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { duplicateItem } from \"./edition/UIfacade/genericConfigFacade\";\n\nduplicateItem(Context.item.uid);",
+                "language" : "TypeScript"
+              }
+            },
             "name" : "duplicate",
             "style" : { }
           },

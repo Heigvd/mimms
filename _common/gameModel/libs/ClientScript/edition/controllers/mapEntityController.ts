@@ -141,6 +141,10 @@ export class MapEntityController extends DataControllerBase<
     }
   }
 
+  protected duplicateInternal(original: MapEntityFlatType): MapEntityFlatType[] {
+    throw new Error('Method not implemented.');
+  }
+
   private assignNewTagName(newObject: FlatMapEntity): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());
