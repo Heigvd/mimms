@@ -1,4 +1,4 @@
-import { ActionBase, RadioDrivenAction } from '../game/common/actions/actionBase';
+import { ActionBase } from '../game/common/actions/actionBase';
 import { ActorId } from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { CommType, NotifType, RadioType } from '../game/common/radio/communicationType';
@@ -21,6 +21,7 @@ import { getTranslation } from '../tools/translation';
 import { selectActorAndOpenMapLocation } from './actorFacade';
 import { isRadioSchemaActivated } from './flagsFacade';
 import { getSimTime } from './timeFacade';
+import { RadioDrivenAction } from '../game/common/actions/radioActions';
 
 // -------------------------------------------------------------------------------------------------
 // radio channels choice

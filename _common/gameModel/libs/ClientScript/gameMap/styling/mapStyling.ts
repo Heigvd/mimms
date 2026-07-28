@@ -33,6 +33,7 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
     case 'cycleway':
     case 'steps':
     case 'platform':
+    case 'corridor':
       noStyle = true;
       break;
     case 'proposed':
@@ -40,7 +41,7 @@ function getRoadParams(feature: any, resolution: number): RoadParams {
       size = 5;
       break;
     default:
-      color = '#D9DDE1';
+      color = '#fff';
       break;
   }
 

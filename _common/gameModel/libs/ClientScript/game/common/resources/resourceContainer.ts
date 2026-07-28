@@ -1,5 +1,5 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
 import { ResourceContainerDefinitionId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { ResourceType } from './resourceType';
@@ -15,7 +15,6 @@ export const ResourceContainerTypeArray = [
   'Ambulance',
   'SMUR',
   'PMA',
-  'DPMA',
   'PC-San',
   'Helicopter',
 ] as const;
@@ -33,7 +32,6 @@ export const ResourceContainerDefinitionNameArray = [
   'Helico',
   'ACS-MCS',
   'PMA',
-  'DPMA',
   'PC-San',
 ] as const;
 
@@ -45,7 +43,6 @@ export const optionalResourceDefinitions: Record<ResourceContainerDefinitionName
   Helico: true,
   'ACS-MCS': false,
   PMA: false,
-  DPMA: false,
   'PC-San': false,
 };
 
@@ -54,7 +51,6 @@ export type ResourceContainerDefinitionName = typeof ResourceContainerDefinition
 export const UniqueResourceTypeMap: Record<ResourceContainerType, boolean> = {
   'ACS-MCS': true,
   'PC-San': true,
-  DPMA: true,
   PMA: true,
   Ambulance: false,
   Helicopter: false,

@@ -40,11 +40,6 @@ export const PatientEvolutionEVACTimeModifier = 0;
 export const PretriageReportResponseDelay = 0;
 
 /**
- * in minutes
- */
-export const situationUpdateDurations: number[] = [3, 5, 10];
-
-/**
  * choice reference that means "all choices of a an action template"
  */
 export const ANY_CHOICE = 'ANY_CHOICE';

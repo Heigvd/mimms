@@ -1,4 +1,4 @@
-import { ActionTemplateBase } from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ActionTemplateUid } from '../game/common/baseTypes';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
@@ -8,7 +8,7 @@ import {
   hasMapChoices,
   isChoiceTemplate,
   isMoveActorActionTemplate,
-  isSituationUpdateActionTemplate,
+  isCustomDurationActionTemplate,
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
@@ -185,8 +185,8 @@ export function formatTime(dateTime: Date): string {
 export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
   if (isMoveActorActionTemplate(actionTemplate)) {
     return '66';
-  } else if (isSituationUpdateActionTemplate(actionTemplate)) {
-    return 'actionSituationUpdateParam';
+  } else if (isCustomDurationActionTemplate(actionTemplate)) {
+    return 'customDurationActionParam';
   } else if (isChoiceTemplate(actionTemplate)) {
     return '31';
   }

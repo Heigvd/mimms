@@ -166,5 +166,15 @@ if [ $? -gt 0 ]; then
 fi
 
 echo
+echo "Checking library descriptors"
+yarn check-libraries
+
+if [ $? -gt 0 ]; then
+    echo
+    echo "Descriptor mismatch(es), run 'yarn check-libraries --fix'";
+    echo
+fi
+
+echo
 echo "Done"
 echo "Please review changes"

@@ -1,13 +1,12 @@
 import { group } from '../../../tools/groupBy';
 import { ActionBase } from '../actions/actionBase';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { Actor } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { RadioMessage } from '../radio/radioMessage';
 import { Resource } from '../resources/resource';
 import { ResourceContainerConfig, ResourceContainerType } from '../resources/resourceContainer';
-import { buildNewTimeFrame, TimeFrame } from '../simulationState/timeState';
 import { TaskBase } from '../tasks/taskBase';
 import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
@@ -18,12 +17,6 @@ import { Uid } from '../interfaces';
 
 export class MainSimulationState {
   private readonly internalState: MainStateObject;
-
-  /**
-   * Handles time forward for multiplayer
-   */
-  private forwardTimeFrame: TimeFrame;
-
   public readonly stateCount;
 
   /**
@@ -35,15 +28,9 @@ export class MainSimulationState {
     return this.lastEventId;
   }
 
-  public constructor(
-    state: MainStateObject,
-    lastEventId: number,
-    timeFrame: TimeFrame | undefined = undefined,
-    previousCount: number = -1
-  ) {
+  public constructor(state: MainStateObject, lastEventId: number, previousCount: number = -1) {
     this.internalState = state;
     this.lastEventId = lastEventId;
-    this.forwardTimeFrame = timeFrame || buildNewTimeFrame(this);
     this.stateCount = previousCount + 1;
   }
 
@@ -51,7 +38,6 @@ export class MainSimulationState {
     return new MainSimulationState(
       Helpers.cloneDeep(this.internalState),
       lastEventId,
-      Helpers.cloneDeep(this.forwardTimeFrame),
       this.stateCount
     ) as this;
   }
@@ -92,18 +78,6 @@ export class MainSimulationState {
    */
   public incrementSimulationTime(jump: SimDuration): void {
     this.internalState.simulationTimeSec += jump;
-  }
-
-  /**
-   * Only use when applying events
-   */
-  public updateForwardTimeFrame(): void {
-    // init a new time frame forward
-    this.forwardTimeFrame = buildNewTimeFrame(this);
-  }
-
-  public getCurrentTimeFrame(): TimeFrame {
-    return this.forwardTimeFrame;
   }
 
   /************ IMMUTABLE GETTERS ***************/

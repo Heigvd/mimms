@@ -1,5 +1,5 @@
 import { getEnv, getSortedPatientIds } from '../../tools/WegasHelper';
-import { getAllHuman_omniscient, getHealth, getHumanMeta } from '../legacy/the_world';
+import { getAllHuman_omniscient, getHealth, getHumanMeta } from './patientProcessing';
 import { doAutomaticTriage_internal, PreTriageData } from './triage';
 
 interface PatientOverview {

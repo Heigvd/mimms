@@ -19,19 +19,17 @@ import {
   ModuleDefinition,
   PathologyDefinition,
 } from '../../HUMAn/pathology';
-import { getAct, getItem, getPathology } from '../../HUMAn/registries';
+import { getAct, getItem, getItems, getPathology } from '../../HUMAn/registries';
 import {
   getCurrentPatientBody,
   getCurrentPatientId,
   getHealth,
   getHuman,
   getHumanConsole,
-  getHumanSkillLevelForAction,
-  getMyInventory,
+  getSkillLevelForAction,
   HumanHealth,
-  Inventory,
-} from '../legacy/the_world';
-import { fastForward, getCurrentSimulationTime } from '../legacy/TimeManager';
+} from '../pretri/patientProcessing';
+import { fastForward, getCurrentSimulationTime } from '../pretri/pretriTime';
 import {
   Categorization,
   categoryToHtml,
@@ -47,10 +45,9 @@ import {
   getTranslation,
 } from '../../tools/translation';
 import {
-  getHumanSkillLevelForAct,
-  getHumanSkillLevelForItemAction,
-  getMySkillDefinition,
-  whoAmI,
+  getDefaultSkillDefinition,
+  getSkillLevelForAct,
+  getSkillLevelForItemAction,
 } from '../../tools/WegasHelper';
 import { toHoursMinutesSecondsIso } from '../../tools/helper';
 import { getBloodRatio } from '../../HUMAn/physiologicalModel';
@@ -83,8 +80,6 @@ type WheelItemAction = BaseItem &
       itemId: string;
       actionId: string;
     };
-    disposable: boolean;
-    counter: number | 'infinity';
   };
 
 type WheelAct = BaseItem &
@@ -224,11 +219,12 @@ function getActionIcon(action: HumanAction): string {
   return '';
 }
 
-function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
-  return Object.entries(inventory).flatMap(([itemId, count]) => {
-    const item = getItem(itemId);
-    if (item != null) {
-      return Object.entries(item.actions).map(([key, action], i, entries) => {
+// Objects are always at hand (no bag/inventory), but item actions are still gated by the player's skill
+function getWheelActionFromItems(): WheelAction[] {
+  return getItems().flatMap(({ item }) => {
+    return Object.entries(item.actions)
+      .filter(([key]) => getSkillLevelForItemAction(item.id, key) != null)
+      .map(([key, action]) => {
         const iaKey = `${item.id}::${key}`;
         return {
           id: iaKey,
@@ -242,13 +238,8 @@ function getWheelActionFromInventory(inventory: Inventory): WheelAction[] {
             actionId: key,
           },
           icon: getActionIcon(action),
-          disposable: item.disposable,
-          counter: count,
         };
       });
-    }
-
-    return [];
   });
 }
 
@@ -302,7 +293,7 @@ function getWheelMenuItems(bag: ByType): WheelMenuItem[] {
 
 function getABCDEWheel(): Wheel {
   // Fetch all item and act action
-  const itemActions = getWheelActionFromInventory(getMyInventory());
+  const itemActions = getWheelActionFromItems();
   const actActions = getWheelActionFromActs(getMyMedicalActs());
 
   const bag: Record<ABCDECategory, ByType> = {
@@ -388,7 +379,7 @@ export function getWheel(): Wheel {
  * According to its skills, get all medical act available to current character and gameplay mode
  */
 export function getMyMedicalActs(): ActDefinition[] {
-  const skill = getMySkillDefinition();
+  const skill = getDefaultSkillDefinition();
 
   return Object.entries(skill.actions || {}).flatMap(([actionId]) => {
     if (actionId.startsWith('act::')) {
@@ -413,12 +404,7 @@ export function getMyMedicalActs(): ActDefinition[] {
 export function getButtonLabel(item: WheelItem | WheelMenu | WheelAction): string {
   switch (item.type) {
     case 'WheelItemAction':
-      if (item.disposable && item.counter != 'infinity') {
-        return `${item.label} (${item.counter})`;
-      } else {
-        return item.label;
-      }
-
+    // falls through
     case 'WheelMenuItem':
     // falls through
     case 'WheelAct':
@@ -649,8 +635,7 @@ export function doWheelMeasure(
           };
 
     // fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-    const { emitterCharacterId } = initEmitterIds();
-    const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+    const skillLevel = getSkillLevelForAction(source);
     if (skillLevel) {
       const duration = action.duration[skillLevel!];
       fastForward(duration);
@@ -662,7 +647,6 @@ export function doWheelMeasure(
       targetType: 'Human',
       targetId: Context.patientConsole.state.currentPatient,
       source: source,
-      timeJump: true,
     });
   }
 }
@@ -683,8 +667,7 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
           };
 
     // fastForward is handled on action selection to avoid erroneous state rebuild and multiplayer conflicts
-    const { emitterCharacterId } = initEmitterIds();
-    const skillLevel = getHumanSkillLevelForAction(emitterCharacterId.toString(), source);
+    const skillLevel = getSkillLevelForAction(source);
     if (skillLevel) {
       const duration = action.duration[skillLevel!];
       fastForward(duration);
@@ -697,7 +680,6 @@ export function doWheelTreatment(treatment: WheelAction, block: BlockName, setSt
       targetId: Context.patientConsole.state.currentPatient,
       source: source,
       blocks: block ? [block] : [],
-      timeJump: true,
     });
   }
 }
@@ -724,7 +706,7 @@ function formatBlockEntry(
     title = getTranslation(translationVar, title);
   }
   return `<div class='block-entry'>
-		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span> 
+		 <span class='block-entry-title'>${title}${value ? ':' : ''}</span>
 		<span class='block-entry-value'>${value || ''}</span>
 	</div>`;
 }
@@ -1537,10 +1519,9 @@ export function getSelectedActionDuration(
   let skillLevel: SkillLevel | undefined;
   if (action) {
     if (selectedAction.type === 'WheelAct') {
-      skillLevel = getHumanSkillLevelForAct(whoAmI(), selectedAction.id);
+      skillLevel = getSkillLevelForAct(selectedAction.id);
     } else {
-      skillLevel = getHumanSkillLevelForItemAction(
-        whoAmI(),
+      skillLevel = getSkillLevelForItemAction(
         selectedAction.itemActionId.itemId,
         selectedAction.itemActionId.actionId
       );

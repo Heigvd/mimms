@@ -32,7 +32,7 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
   PMA: {
     id: LOCATION_ENUM.PMA,
     name: 'location-pma',
-    leaderRoles: ['LEADPMA'],
+    leaderRoles: [],
     accessibility: { Actors: true, Resources: true, Patients: true },
     icon: 'PMA',
   },

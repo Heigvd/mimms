@@ -9,7 +9,7 @@ import { ActionTemplateUid, ActorId } from '../baseTypes';
 import { RadioType } from '../radio/communicationType';
 import { getOngoingActions, isChoiceAvailable } from '../simulationState/actionStateAccess';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { ActionTemplateBase, ChoiceTemplate } from './actionTemplateBase';
+import { ActionTemplateBase, ChoiceTemplate } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
 
 // directly used by radioMessageInput page

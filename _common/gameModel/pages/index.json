@@ -105,12 +105,6 @@
           "scenaristPage" : false,
           "trainerPage" : false
         }, {
-          "@class" : "Page",
-          "id" : "54",
-          "name" : "time forward waiting",
-          "scenaristPage" : null,
-          "trainerPage" : false
-        }, {
           "@class" : "Folder",
           "items" : [ {
             "@class" : "Page",
@@ -132,8 +126,8 @@
             "trainerPage" : null
           }, {
             "@class" : "Page",
-            "id" : "actionSituationUpdateParam",
-            "name" : "situation update action",
+            "id" : "customDurationActionParam",
+            "name" : "custom duration param",
             "scenaristPage" : false,
             "trainerPage" : null
           } ],
@@ -441,22 +435,6 @@
         "scenaristPage" : true,
         "trainerPage" : null
       }, {
-        "@class" : "Folder",
-        "items" : [ {
-          "@class" : "Page",
-          "id" : "13",
-          "name" : "bagsConfig",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
-          "id" : "16",
-          "name" : "skills config",
-          "scenaristPage" : false,
-          "trainerPage" : null
-        } ],
-        "name" : "Legacy"
-      }, {
         "@class" : "Page",
         "id" : "2",
         "name" : "Data Edition",
@@ -489,6 +467,12 @@
         "id" : "scenaristValidation",
         "name" : "Validation",
         "scenaristPage" : null,
+        "trainerPage" : null
+      }, {
+        "@class" : "Page",
+        "id" : "16",
+        "name" : "Skills Configuration",
+        "scenaristPage" : false,
         "trainerPage" : null
       } ],
       "name" : "Scenarist"

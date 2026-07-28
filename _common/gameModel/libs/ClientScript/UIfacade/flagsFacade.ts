@@ -1,4 +1,4 @@
-import { SimFlag } from '../game/common/actions/actionTemplateBase';
+import { SimFlag } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { getCurrentState } from '../game/mainSimulationLogic';
 
 /**

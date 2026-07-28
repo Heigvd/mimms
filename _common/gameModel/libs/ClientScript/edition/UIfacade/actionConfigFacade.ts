@@ -2,7 +2,7 @@ import { Uid } from '../../game/common/interfaces';
 import { patchX } from '../../tools/helper';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { getActionTemplateController } from '../controllers/controllerInstances';
-import { ActionTemplateFlatType } from '../controllers/dataController';
+import { ActionTemplateFlatType } from '../controllers/dataControllerBase';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import {

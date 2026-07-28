@@ -59,7 +59,6 @@ export async function registerSelf(): Promise<void> {
         ACS: preSelectAll,
         MCS: preSelectAll,
         EVASAN: preSelectAll,
-        LEADPMA: preSelectAll,
       },
     };
 
@@ -171,6 +170,7 @@ export function getPlayerRolesSelf(): PlayerRoles {
   }
   return playerRoles.roles;
 }
+
 /**
  * Check if all playable roles are currently filled by a player
  */
@@ -428,7 +428,6 @@ export function getEmptyPlayerMatrix(player: SPlayer): PlayerMatrix {
       ACS: false,
       MCS: false,
       EVASAN: false,
-      LEADPMA: false,
     },
   };
 }

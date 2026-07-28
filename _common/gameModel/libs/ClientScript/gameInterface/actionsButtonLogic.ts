@@ -1,23 +1,19 @@
 import {
-  getDefaultSituationUpdateDuration,
   hasMapChoices,
   isAvailable,
   isCasuMessageActionTemplate,
   isChoiceTemplate,
+  isCustomDurationActionTemplate,
   isEvacuationActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
   isPretriageReportTemplate,
   isRadioActionTemplate,
-  isSituationUpdateActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import {
-  ActionTemplateBase,
-  PretriageReportActionPayload,
-} from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
@@ -45,6 +41,8 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
+import { PretriageReportActionPayload } from '../game/common/actions/actionTemplate/radioTemplates';
+import { CustomDurationActionTemplateType } from '../game/common/actions/actionTemplate/actorTemplates';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -81,8 +79,8 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
     params = fetchRadioMessageRequestValues(RadioType.ACTORS);
   } else if (isMoveActorActionTemplate(actTemplate)) {
     params = fetchMoveActorLocation();
-  } else if (isSituationUpdateActionTemplate(actTemplate)) {
-    params = fetchSituationUpdateValues();
+  } else if (isCustomDurationActionTemplate(actTemplate)) {
+    params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
     params = fetchEvacuationActionValues();
   } else if (isPretriageReportTemplate(actTemplate)) {
@@ -188,22 +186,17 @@ function fetchCasuMessageRequestValues(): CasuMessagePayload {
 
     return payload;
   } else {
-    const msgType = casuMessage.messageType as 'METHANE' | 'MET' | 'HANE' | 'E';
-    const payload: MethaneMessagePayload = { messageType: msgType };
-
-    if (casuMessage.messageType.startsWith('MET')) {
-      payload.major = casuMessage.major;
-      payload.exact = casuMessage.exact;
-      payload.incidentType = casuMessage.incidentType;
-    }
-    if (casuMessage.messageType.endsWith('HANE')) {
-      payload.hazards = casuMessage.hazards;
-      payload.access = casuMessage.access;
-      payload.victims = casuMessage.victims;
-    }
-    if (casuMessage.messageType.endsWith('E')) {
-      payload.resourceRequest = resources.requestedResources;
-    }
+    const msgType = casuMessage.messageType as 'METHANE' | 'E';
+    const payload: MethaneMessagePayload = {
+      messageType: msgType,
+      major: casuMessage.major,
+      exact: casuMessage.exact,
+      incidentType: casuMessage.incidentType,
+      hazards: casuMessage.hazards,
+      access: casuMessage.access,
+      victims: casuMessage.victims,
+      resourceRequest: resources.requestedResources,
+    };
 
     // Reset interfaceState
     const newState = Helpers.cloneDeep(Context.interfaceState.state);
@@ -253,10 +246,15 @@ function fetchMoveActorLocation() {
   return location;
 }
 
-function fetchSituationUpdateValues() {
-  const params = { duration: +getTypedInterfaceState().situationUpdateDuration };
+function fetchCustomDurationValues(at: CustomDurationActionTemplateType) {
+  const customDurations = getTypedInterfaceState().customDurations;
+  const params = { duration: customDurations[at.uid] };
+
   // Reset interfaceState
-  setInterfaceState({ situationUpdateDuration: getDefaultSituationUpdateDuration() });
+  const updatedState = { ...customDurations };
+  updatedState[at.uid] = at.getSelectOptions().default;
+  setInterfaceState({ customDurations: updatedState });
+
   return params;
 }
 

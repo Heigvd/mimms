@@ -82,7 +82,7 @@ export function loadTasks(): TaskBase[] {
     'healing-pma-red-desc',
     1,
     100,
-    'LEADPMA',
+    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     1
@@ -93,7 +93,7 @@ export function loadTasks(): TaskBase[] {
     'healing-pma-yellow-desc',
     1,
     100,
-    'LEADPMA',
+    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     2
@@ -104,7 +104,7 @@ export function loadTasks(): TaskBase[] {
     'healing-pma-green-desc',
     1,
     100,
-    'LEADPMA',
+    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     3

@@ -88,68 +88,6 @@
                       "className" : "selected",
                       "condition" : {
                         "@class" : "Script",
-                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'MET';",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>MET</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'MET');",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "met",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "rectangleButton",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "selected",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'HANE';",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "id" : "",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"<p>HANE</p>\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleSelectedCasuActionAndType } from \"./UIfacade/radioFacade\";\n\ntoggleSelectedCasuActionAndType('CasuMessage', 'HANE');",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "hane",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                }, {
-                  "props" : {
-                    "className" : "rectangleButton",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "selected",
-                      "condition" : {
-                        "@class" : "Script",
                         "content" : "import { getSelectedCasuAction, getSelectedCasuMessageType } from \"./UIfacade/radioFacade\";\ngetSelectedCasuAction() === 'CasuMessage' && getSelectedCasuMessageType() === 'E';",
                         "language" : "typescript"
                       }

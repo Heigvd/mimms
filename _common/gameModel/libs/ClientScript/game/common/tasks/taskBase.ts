@@ -4,11 +4,7 @@ import { getContextUidGenerator } from '../../executionContext/gameExecutionCont
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
-import {
-  AddRadioMessageLocalEvent,
-  ReleaseResourcesFromTaskLocalEvent,
-  TaskStatusChangeLocalEvent,
-} from '../localEvents/localEventBase';
+import { TaskStatusChangeLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
@@ -20,6 +16,8 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
+import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventResources';
 
 export enum TaskType {
   Waiting = 'Waiting',
