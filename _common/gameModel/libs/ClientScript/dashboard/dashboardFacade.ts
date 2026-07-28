@@ -4,7 +4,7 @@
  * Put minimal logic in here.
  */
 
-import { MapChoiceActionTemplate, SimFlag } from '../game/common/actions/actionTemplateBase';
+import { SimFlag } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { InterventionRole } from '../game/common/actors/actor';
 import { getRoleLongTranslation, getRoleShortTranslation } from '../game/common/actors/actorLogic';
 import {
@@ -26,7 +26,6 @@ import {
   fetchAndUpdateTeamsGameState,
   UpdateStateFunc,
 } from './dashboardState';
-import { CasuMessageAction } from '../game/common/actions/actionBase';
 import { getRadioTranslation, getRadioChannels } from '../game/common/radio/radioLogic';
 import { getTranslation } from '../tools/translation';
 import { getGameModelType, getSelectedTeamName, getTeam, getTestTeamId } from './utils';
@@ -59,6 +58,8 @@ import {
 import { dashboardLogger } from '../tools/logger';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getActionTemplates } from '../game/mainSimulationLogic';
+import { MapChoiceActionTemplate } from '../game/common/actions/actionTemplate/mapTemplates';
+import { CasuMessageAction } from '../game/common/actions/radioActions';
 
 // -------------------------------------------------------------------------------------------------
 // state part

@@ -30,7 +30,7 @@ import { getFullyConfigurableTemplateDef } from '../typeDefinitions/templateDefi
 import { getMapChoiceActionTemplateDef } from '../typeDefinitions/templateDefinitions/mapChoiceTemplate';
 import { getMoveTemplateDef } from '../typeDefinitions/templateDefinitions/moveTemplate';
 import { getTriggerDefinition } from '../typeDefinitions/triggerDefinition';
-import { FlatTypes, SuperTypeNames } from './dataController';
+import { FlatTypes, SuperTypeNames } from './dataControllerBase';
 
 /**
  * Removes the superType and parent fields

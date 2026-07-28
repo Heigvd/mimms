@@ -9,17 +9,9 @@ import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
 import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
-  CasuMessageTemplate,
   ChoiceTemplate,
-  EvacuationActionTemplate,
-  MoveActorActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
-  PretriageReportTemplate,
-  SendRadioMessageTemplate,
   SimFlag,
-  CustomDurationActionTemplate,
-  CustomDurationActionTemplateType,
-} from '../game/common/actions/actionTemplateBase';
+} from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
@@ -36,6 +28,20 @@ import {
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getCurrentPlayerActors } from './actorFacade';
+import {
+  CasuMessageTemplate,
+  PretriageReportTemplate,
+  SendRadioMessageTemplate,
+} from '../game/common/actions/actionTemplate/radioTemplates';
+import {
+  CustomDurationActionTemplate,
+  CustomDurationActionTemplateType,
+  MoveActorActionTemplate,
+} from '../game/common/actions/actionTemplate/actorTemplates';
+import {
+  EvacuationActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+} from '../game/common/actions/actionTemplate/patientResourceTemplates';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(

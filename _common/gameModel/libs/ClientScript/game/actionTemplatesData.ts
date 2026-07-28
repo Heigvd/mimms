@@ -1,22 +1,25 @@
-import {
-  ActionTemplateBase,
-  ActivateRadioSchemaActionTemplate,
-  AppointActorActionTemplate,
-  CasuMessageTemplate,
-  DisplayMessageActionTemplate,
-  EvacuationActionTemplate,
-  MoveActorActionTemplate,
-  MoveResourcesAssignTaskActionTemplate,
-  PretriageReportTemplate,
-  SendRadioMessageTemplate,
-  SimFlag,
-  CustomDurationActionTemplate,
-} from './common/actions/actionTemplateBase';
+import { ActionTemplateBase, SimFlag } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';
 import { RadioType } from './common/radio/communicationType';
 import { ActionTemplateData } from './loaders/actionTemplateLoader';
+import {
+  ActivateRadioSchemaActionTemplate,
+  CasuMessageTemplate,
+  DisplayMessageActionTemplate,
+  PretriageReportTemplate,
+  SendRadioMessageTemplate,
+} from './common/actions/actionTemplate/radioTemplates';
+import {
+  AppointActorActionTemplate,
+  CustomDurationActionTemplate,
+  MoveActorActionTemplate,
+} from './common/actions/actionTemplate/actorTemplates';
+import {
+  EvacuationActionTemplate,
+  MoveResourcesAssignTaskActionTemplate,
+} from './common/actions/actionTemplate/patientResourceTemplates';
 
 export interface IUniqueActionTemplates {
   readonly MoveActorActionTemplate: MoveActorActionTemplate;

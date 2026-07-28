@@ -1,13 +1,11 @@
 import { Uid } from '../../../game/common/interfaces';
 import { scenarioEditionLogger } from '../../../tools/logger';
-import {
-  ActionTemplateDataController,
-  TriggerDataController,
-} from '../../controllers/dataController';
 import { FlatChoice } from '../../typeDefinitions/choiceDefinition';
 import { FlatCondition } from '../../typeDefinitions/conditionDefinition';
 import { FlatImpact } from '../../typeDefinitions/impactDefinition';
 import { getCurrentController, ModalState } from '../../UIfacade/genericConfigFacade';
+import { ActionTemplateDataController } from '../../controllers/actionTemplateController';
+import { TriggerDataController } from '../../controllers/triggerController';
 
 export function isModalClosed(): boolean {
   return getCurrentController()?.getLatestIState()?.modal !== 'opened';

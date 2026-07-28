@@ -7,7 +7,6 @@ import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
-import { OnTheRoadAction } from '../game/common/actions/actionBase';
 import {
   getTypedInterfaceState,
   InterfaceState,
@@ -15,6 +14,7 @@ import {
 } from '../gameInterface/interfaceState';
 import { canActorPlanAction } from '../gameInterface/main';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
+import { OnTheRoadAction } from '../game/common/actions/actorActions';
 
 /**
  * @returns All currently present actors

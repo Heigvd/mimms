@@ -13,11 +13,7 @@ import {
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
 import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
-import {
-  ActionTemplateBase,
-  PretriageReportActionPayload,
-  CustomDurationActionTemplateType,
-} from '../game/common/actions/actionTemplateBase';
+import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { Actor } from '../game/common/actors/actor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
@@ -45,6 +41,8 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
+import { PretriageReportActionPayload } from '../game/common/actions/actionTemplate/radioTemplates';
+import { CustomDurationActionTemplateType } from '../game/common/actions/actionTemplate/actorTemplates';
 
 /**
  * Plans an action with a given template and the current interface state

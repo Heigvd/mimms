@@ -1,6 +1,6 @@
 import { group } from '../../../tools/groupBy';
 import { ActionBase } from '../actions/actionBase';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { Actor } from '../actors/actor';
 import { ActorId, SimDuration, SimTime } from '../baseTypes';
 import { LocalEventBase } from '../localEvents/localEventBase';

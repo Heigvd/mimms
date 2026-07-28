@@ -1,5 +1,5 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
-import { SimFlag } from '../actions/actionTemplateBase';
+import { SimFlag } from '../actions/actionTemplate/actionTemplateBase';
 import { InterventionRole } from '../actors/actor';
 import { ResourceContainerDefinitionId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
 import { ResourceType } from './resourceType';

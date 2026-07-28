@@ -2,7 +2,7 @@ import { setPreviousReferenceState } from '../gameInterface/afterUpdateCallbacks
 import { mainSimLogger } from '../tools/logger';
 import { getTranslation } from '../tools/translation';
 import { IUniqueActionTemplates } from './actionTemplatesData';
-import { ActionTemplateBase } from './common/actions/actionTemplateBase';
+import { ActionTemplateBase } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid, ActorId } from './common/baseTypes';
 import { TimeSliceDuration, TRAINER_NAME } from './common/constants';
@@ -15,13 +15,7 @@ import {
 } from './common/events/eventTypes';
 import { FullEvent, getAllEvents, sendEvent } from './common/events/eventUtils';
 import { getCurrentGameOptions } from './common/gameOptions';
-import {
-  AddNotificationLocalEvent,
-  AddRadioMessageLocalEvent,
-  GameOptionsUpdateLocalEvent,
-  LocalEventBase,
-  TimeForwardRequestLocalEvent,
-} from './common/localEvents/localEventBase';
+import { GameOptionsUpdateLocalEvent, LocalEventBase } from './common/localEvents/localEventBase';
 import { MainSimulationState } from './common/simulationState/mainSimulationState';
 import { GameExecutionContext } from './executionContext/gameExecutionContext';
 import {
@@ -32,6 +26,11 @@ import {
 import { loadActionTemplates } from './loaders/actionTemplateLoader';
 import { eraseInitialState, getStartingLocalEvents, shallowState } from './loaders/mainStateLoader';
 import { getOmittedGlobalEvents } from './testing/stateDebug';
+import {
+  AddNotificationLocalEvent,
+  AddRadioMessageLocalEvent,
+} from './common/localEvents/localEventRadio';
+import { TimeForwardRequestLocalEvent } from './common/localEvents/localEventTime';
 
 /* all defined action templates */
 let actionTemplates: Record<ActionTemplateUid, ActionTemplateBase> | undefined;
