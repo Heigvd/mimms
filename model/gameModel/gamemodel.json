@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1784897646199,
+  "createdTime" : 1785229548148,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -4854,6 +4854,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "edition/controllers/actionTemplateController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#299:aDSUSM",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "edition/controllers/controllerInstances",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -4863,12 +4872,12 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "edition/controllers/dataController",
+    "contentKey" : "edition/controllers/dataControllerBase",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:2485520:0eqXHv",
+    "refId" : "GameModelContent:#297:KPE3jU",
     "version" : null,
-    "visibility" : "INTERNAL"
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -4878,6 +4887,15 @@
     "refId" : "GameModelContent:#155:7oCnGl",
     "version" : null,
     "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/mapEntityController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#296:fbtNzS",
+    "version" : null,
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -4896,6 +4914,15 @@
     "refId" : "GameModelContent:2484592:ZeDc35",
     "version" : null,
     "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "edition/controllers/triggerController",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#298:wuvnjw",
+    "version" : null,
+    "visibility" : "PRIVATE"
   }, {
     "@class" : "GameModelContent",
     "content" : "",

@@ -8,8 +8,14 @@ import { initBaseEvent } from '../../events/baseEvent';
 import { ActionCreationEvent, ChoiceEvent } from '../../events/eventTypes';
 import { FullEvent } from '../../events/eventUtils';
 import { PlanActionLocalEvent } from '../../localEvents/localEventBase';
-import { getOngoingActions, getStartedActionsOfTemplate } from '../../simulationState/actionStateAccess';
-import { ActionTemplateActivable, getActionTemplateActivable } from '../../simulationState/activableState';
+import {
+  getOngoingActions,
+  getStartedActionsOfTemplate,
+} from '../../simulationState/actionStateAccess';
+import {
+  ActionTemplateActivable,
+  getActionTemplateActivable,
+} from '../../simulationState/activableState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { ActionBase, FullyConfigurableChoiceAction } from '../actionBase';
 import * as ActionLogic from '../actionLogic';

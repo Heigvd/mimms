@@ -1,6 +1,13 @@
 // EVALUATION_PRIORITY 10
 
-import { IDescriptor, Indexed, Parented, SuperTyped, Typed, Uid } from '../../game/common/interfaces';
+import {
+  IDescriptor,
+  Indexed,
+  Parented,
+  SuperTyped,
+  Typed,
+  Uid,
+} from '../../game/common/interfaces';
 import { entries, ObjectVariableClasses } from '../../tools/helper';
 import {
   canMove,
@@ -316,4 +323,3 @@ export abstract class DataControllerBase<
     this.save();
   }
 }
-

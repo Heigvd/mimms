@@ -1,7 +1,4 @@
-import {
-  ActionTemplateBase,
-  SimFlag,
-} from './common/actions/actionTemplate/actionTemplateBase';
+import { ActionTemplateBase, SimFlag } from './common/actions/actionTemplate/actionTemplateBase';
 import { ActionType } from './common/actionType';
 import { ActionTemplateUid } from './common/baseTypes';
 import { TimeSliceDuration } from './common/constants';

@@ -105,7 +105,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
       readonly recipient: number;
       readonly pretriageLocation: LOCATION_ENUM;
       readonly feedbackWhenReport: TranslationKey;
-    },
+    }
   ) {
     super({ ...props, type: 'PretriageReportResponseLocalEvent' });
   }
@@ -113,7 +113,7 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
   applyStateUpdate(state: MainSimulationState): void {
     const taskStatus: TaskStatus = getTaskCurrentStatus(
       state,
-      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.props.pretriageLocation).Uid,
+      getTaskByTypeAndLocation(state, TaskType.Pretriage, this.props.pretriageLocation).Uid
     );
 
     getLocalEventManager().queueLocalEvent(
@@ -126,18 +126,18 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
         message:
           taskStatus === 'Uninitialized'
             ? getTranslation('mainSim-actions-tasks', 'pretriage-task-notStarted', true, [
-              getTranslation('mainSim-locations', 'location-' + this.props.pretriageLocation),
-            ])
+                getTranslation('mainSim-locations', 'location-' + this.props.pretriageLocation),
+              ])
             : formatStandardPretriageReport(
-              state,
-              this.props.pretriageLocation,
-              this.props.feedbackWhenReport,
-              false,
-              true,
-            ),
+                state,
+                this.props.pretriageLocation,
+                this.props.feedbackWhenReport,
+                false,
+                true
+              ),
         channel: this.channel,
         omitTranslation: true,
-      }),
+      })
     );
   }
 }

@@ -1,13 +1,23 @@
 import { CommMedia } from '../../resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { ResourceTypeAndNumber } from '../../resources/resourceType';
-import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId, TranslationKey } from '../../baseTypes';
+import {
+  ActionTemplateUid,
+  ActorId,
+  SimDuration,
+  SimTime,
+  TaskId,
+  TranslationKey,
+} from '../../baseTypes';
 import { EvacuationAction, MoveResourcesAssignTaskAction } from '../actionBase';
 import { MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
 import { Actor, InterventionRole } from '../../actors/actor';
 import { ActionType } from '../../actionType';
 import { FullEvent } from '../../events/eventUtils';
-import { EvacuationActionEvent, EvacuationActionPayload } from '../../events/evacuationMessageEvent';
+import {
+  EvacuationActionEvent,
+  EvacuationActionPayload,
+} from '../../events/evacuationMessageEvent';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
 
 export type MoveResourcesAssignTaskActionInput = {
@@ -35,7 +45,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -46,14 +56,14 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       ActionType.RESOURCES_RADIO,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: MoveResourcesAssignTaskActionInput,
+    params: MoveResourcesAssignTaskActionInput
   ): MoveResourcesAssignTaskEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
@@ -68,7 +78,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   }
 
   protected createActionFromEvent(
-    event: FullEvent<MoveResourcesAssignTaskEvent>,
+    event: FullEvent<MoveResourcesAssignTaskEvent>
   ): MoveResourcesAssignTaskAction {
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
@@ -85,7 +95,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       payload.targetLocation,
       payload.sentResources,
       payload.sourceTaskId,
-      payload.targetTaskId,
+      payload.targetTaskId
     );
   }
 }
@@ -110,7 +120,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
     repeats: number = 0,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
-    availableToRoles?: InterventionRole[],
+    availableToRoles?: InterventionRole[]
   ) {
     super(
       uid,
@@ -121,7 +131,7 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       ActionType.EVASAN_RADIO,
       requiredFlags,
       raisedFlags,
-      availableToRoles,
+      availableToRoles
     );
   }
 
@@ -140,14 +150,14 @@ export class EvacuationActionTemplate extends StartEndTemplate<
       ownerId,
       this.uid,
       payload.evacuationActionPayload,
-      this.raisedFlags,
+      this.raisedFlags
     );
   }
 
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: EvacuationActionPayload,
+    params: EvacuationActionPayload
   ): EvacuationActionEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),

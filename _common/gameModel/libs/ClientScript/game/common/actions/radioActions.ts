@@ -1,4 +1,11 @@
-import { ActionTemplateUid, ActorId, GlobalEventId, SimDuration, SimTime, TranslationKey } from '../baseTypes';
+import {
+  ActionTemplateUid,
+  ActorId,
+  GlobalEventId,
+  SimDuration,
+  SimTime,
+  TranslationKey,
+} from '../baseTypes';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { RadioType } from '../radio/communicationType';
 import { StartEndAction } from './actionBase';
@@ -9,7 +16,11 @@ import {
   AddRadioMessageLocalEvent,
   PretriageReportResponseLocalEvent,
 } from '../localEvents/localEventRadio';
-import { CasuMessagePayload, HospitalRequestPayload, MethaneMessagePayload } from '../events/casuMessageEvent';
+import {
+  CasuMessagePayload,
+  HospitalRequestPayload,
+  MethaneMessagePayload,
+} from '../events/casuMessageEvent';
 import { entries } from '../../../tools/helper';
 import { HospitalProximity } from '../evacuation/hospitalType';
 import { getTranslation } from '../../../tools/translation';
@@ -363,7 +374,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     eventId: GlobalEventId,
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
-    private pretriageLocation: LOCATION_ENUM,
+    private pretriageLocation: LOCATION_ENUM
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
@@ -384,7 +395,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
         message: this.getMessage(),
         channel: this.getChannel(),
         omitTranslation: true,
-      }),
+      })
     );
 
     getLocalEventManager().queueLocalEvent(
@@ -396,7 +407,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
         recipient: this.ownerId,
         pretriageLocation: this.pretriageLocation,
         feedbackWhenReport: this.feedbackWhenReport,
-      }),
+      })
     );
   }
 
@@ -435,7 +446,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     private radioChannel: RadioType,
-    private radioMessagePayload: RadioMessagePayload,
+    private radioMessagePayload: RadioMessagePayload
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
@@ -457,7 +468,7 @@ export class SendRadioMessageAction extends RadioDrivenAction {
         message: this.getMessage(),
         channel: this.getChannel(),
         omitTranslation: true,
-      }),
+      })
     );
   }
 

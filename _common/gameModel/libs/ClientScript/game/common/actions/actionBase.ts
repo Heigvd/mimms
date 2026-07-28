@@ -39,7 +39,10 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from './choiceDescriptor/choiceDescriptor';
-import { AddNotificationLocalEvent, AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
+import {
+  AddNotificationLocalEvent,
+  AddRadioMessageLocalEvent,
+} from '../localEvents/localEventRadio';
 import {
   AssignResourcesToTaskLocalEvent,
   AssignResourcesToWaitingTaskLocalEvent,

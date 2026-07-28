@@ -10,18 +10,38 @@ import {
   toFlatActionTemplate,
 } from '../typeDefinitions/templateDefinition';
 import { ChoiceDescriptor } from '../../game/common/actions/choiceDescriptor/choiceDescriptor';
-import { FlatChoice, fromFlatChoice, getChoiceDefinition, toFlatChoice } from '../typeDefinitions/choiceDefinition';
+import {
+  FlatChoice,
+  fromFlatChoice,
+  getChoiceDefinition,
+  toFlatChoice,
+} from '../typeDefinitions/choiceDefinition';
 import { Effect } from '../../game/common/impacts/effect';
-import { FlatEffect, fromFlatEffect, getEffectDefinition, toFlatEffect } from '../typeDefinitions/effectDefinition';
+import {
+  FlatEffect,
+  fromFlatEffect,
+  getEffectDefinition,
+  toFlatEffect,
+} from '../typeDefinitions/effectDefinition';
 import { Impact } from '../../game/common/impacts/impact';
-import { FlatImpact, fromFlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
+import {
+  FlatImpact,
+  fromFlatImpact,
+  getImpactDefinition,
+  toFlatImpact,
+} from '../typeDefinitions/impactDefinition';
 import { group } from '../../tools/groupBy';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { getChildren } from './parentedUtils';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { getInitialActionTemplateUIState } from './controllerInstances';
 import { getItemTyped } from '../UIfacade/genericConfigFacade';
-import { ActionTemplateFlatType, CreationOptionsBase, DataControllerBase, SuperTypeNames } from './dataControllerBase';
+import {
+  ActionTemplateFlatType,
+  CreationOptionsBase,
+  DataControllerBase,
+  SuperTypeNames,
+} from './dataControllerBase';
 
 export class ActionTemplateDataController extends DataControllerBase<
   TemplateDescriptor,
@@ -33,7 +53,7 @@ export class ActionTemplateDataController extends DataControllerBase<
   // TODO filter by mandatory
   protected override isSibling(
     _target: ActionTemplateFlatType,
-    _candidate: ActionTemplateFlatType,
+    _candidate: ActionTemplateFlatType
   ): boolean {
     return true;
   }
@@ -41,7 +61,7 @@ export class ActionTemplateDataController extends DataControllerBase<
   private static readonly ACTION_ROOT: string = 'ACTION_ROOT';
 
   protected override flatten(
-    tree: Record<Uid, TemplateDescriptor>,
+    tree: Record<Uid, TemplateDescriptor>
   ): Record<Uid, ActionTemplateFlatType> {
     const flattened: Record<Uid, ActionTemplateFlatType> = {};
     Object.entries(tree).forEach(([uid, tpld]) => {
@@ -63,7 +83,7 @@ export class ActionTemplateDataController extends DataControllerBase<
   }
 
   protected override recompose(
-    flattened: Record<Uid, ActionTemplateFlatType>,
+    flattened: Record<Uid, ActionTemplateFlatType>
   ): Record<Uid, TemplateDescriptor> {
     const tree: Record<Uid, TemplateDescriptor> = {};
 
@@ -112,13 +132,13 @@ export class ActionTemplateDataController extends DataControllerBase<
   protected override createNewInternal(
     parentId: Uid,
     superType: ActionTemplateFlatType['superType'],
-    options: CreationOptionsBase,
+    options: CreationOptionsBase
   ): ActionTemplateFlatType {
     switch (superType) {
       case 'action': {
         const action = toFlatActionTemplate(
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
-          ActionTemplateDataController.ACTION_ROOT,
+          ActionTemplateDataController.ACTION_ROOT
         );
         this.assignNewTagName(action);
         return action;
@@ -136,7 +156,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       case 'impact': {
         return toFlatImpact(
           getImpactDefinition('empty', options.parentType).getDefault(),
-          parentId,
+          parentId
         );
       }
     }
@@ -149,7 +169,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     let i = 2;
     while (
       Object.values(siblings).some(obj => obj.superType !== 'impact' && obj.tag === candidate)
-      ) {
+    ) {
       candidate = newObject.tag + ' ' + i;
       i++;
     }
@@ -157,7 +177,7 @@ export class ActionTemplateDataController extends DataControllerBase<
   }
 
   protected validateInternal(
-    value: TemplateDescriptor,
+    value: TemplateDescriptor
   ): ValidationMessage<ActionValidationContext>[] {
     return getTemplateValidator(value.type)(value, {
       page: 'actions',
@@ -173,7 +193,7 @@ export class ActionTemplateDataController extends DataControllerBase<
         const istate = this.getLatestIState();
         // if one effect only, hide the effect section by default
         const effectCount = Object.values(this.getFlatData()).filter(
-          item => item.parent === choice.uid,
+          item => item.parent === choice.uid
         ).length;
         istate.effectOpen = effectCount !== 1;
         this.updateIState(istate);

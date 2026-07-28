@@ -68,7 +68,7 @@ export class MapEntityController extends DataControllerBase<
   }
 
   protected recompose(
-    flattened: Record<string, MapEntityFlatType>,
+    flattened: Record<string, MapEntityFlatType>
   ): Record<string, MapEntityDescriptor> {
     const tree: Record<Uid, MapEntityDescriptor> = {};
     // create map entities descriptors with empty map objects array
@@ -90,7 +90,7 @@ export class MapEntityController extends DataControllerBase<
         } else {
           scenarioEditionLogger.error(
             'Found some orphan map object in map entity data, it will be lost when saving',
-            mapObj,
+            mapObj
           );
         }
       });
@@ -101,7 +101,7 @@ export class MapEntityController extends DataControllerBase<
   protected override createNewInternal(
     parentId: string,
     type: MapEntityFlatType['superType'],
-    options: MapEntityCreationOptions,
+    options: MapEntityCreationOptions
   ): MapEntityFlatType {
     switch (type) {
       case 'mapEntity': {
@@ -111,7 +111,7 @@ export class MapEntityController extends DataControllerBase<
         } else {
           scenarioEditionLogger.error(
             'Missing location in creation options, using default',
-            newMapEntity.binding,
+            newMapEntity.binding
           );
         }
         const fme = toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
@@ -133,7 +133,7 @@ export class MapEntityController extends DataControllerBase<
           scenarioEditionLogger.error(
             'Incomplete options to create a new geometry, creating default point',
             parentId,
-            options,
+            options
           );
           return toFlatMapObject(getMapObjectDefinition('Point').getDefault(), parentId);
         }
@@ -149,7 +149,7 @@ export class MapEntityController extends DataControllerBase<
     let i = 2;
     while (
       Object.values(siblings).some(obj => obj.superType === 'mapEntity' && obj.tag === candidate)
-      ) {
+    ) {
       candidate = dfltName + ' ' + i;
       i++;
     }
@@ -157,7 +157,7 @@ export class MapEntityController extends DataControllerBase<
   }
 
   protected validateInternal(
-    value: MapEntityDescriptor,
+    value: MapEntityDescriptor
   ): ValidationMessage<LocationValidationContext>[] {
     return getMapEntityDefinition().validator(value, {
       page: 'locations',

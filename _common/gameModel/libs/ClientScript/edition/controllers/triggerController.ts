@@ -8,13 +8,26 @@ import {
   getTriggerDefinition,
   toFlatTrigger,
 } from '../typeDefinitions/triggerDefinition';
-import { fromFlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
-import { fromFlatCondition, getConditionDefinition, toFlatCondition } from '../typeDefinitions/conditionDefinition';
+import {
+  fromFlatImpact,
+  getImpactDefinition,
+  toFlatImpact,
+} from '../typeDefinitions/impactDefinition';
+import {
+  fromFlatCondition,
+  getConditionDefinition,
+  toFlatCondition,
+} from '../typeDefinitions/conditionDefinition';
 import { scenarioEditionLogger } from '../../tools/logger';
 import { getChildren } from './parentedUtils';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { getInitialTriggerUIState } from './controllerInstances';
-import { CreationOptionsBase, DataControllerBase, SuperTypeNames, TriggerFlatType } from './dataControllerBase';
+import {
+  CreationOptionsBase,
+  DataControllerBase,
+  SuperTypeNames,
+  TriggerFlatType,
+} from './dataControllerBase';
 
 export class TriggerDataController extends DataControllerBase<
   Trigger,
@@ -63,7 +76,7 @@ export class TriggerDataController extends DataControllerBase<
         } else {
           scenarioEditionLogger.error(
             'Found some orphan impact/condition in trigger data',
-            element,
+            element
           );
         }
       });
@@ -73,13 +86,13 @@ export class TriggerDataController extends DataControllerBase<
   protected override createNewInternal(
     parentId: Uid,
     superType: TriggerFlatType['superType'],
-    options: CreationOptionsBase,
+    options: CreationOptionsBase
   ): TriggerFlatType {
     switch (superType) {
       case 'trigger': {
         const trigger = toFlatTrigger(
           getTriggerDefinition().getDefault(),
-          TriggerDataController.TRIGGER_ROOT,
+          TriggerDataController.TRIGGER_ROOT
         );
         this.assignNewTagName(trigger);
         return trigger;
@@ -89,7 +102,7 @@ export class TriggerDataController extends DataControllerBase<
       case 'impact':
         return toFlatImpact(
           getImpactDefinition('empty', options.parentType).getDefault(),
-          parentId,
+          parentId
         );
     }
   }
@@ -101,7 +114,7 @@ export class TriggerDataController extends DataControllerBase<
     let i = 2;
     while (
       Object.values(siblings).some(obj => obj.superType === 'trigger' && obj.tag === candidate)
-      ) {
+    ) {
       candidate = newObject.tag + ' ' + i;
       i++;
     }

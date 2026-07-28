@@ -62,4 +62,3 @@ export class HospitalRequestUpdateLocalEvent extends LocalEventBase {
     getLocalEventManager().queueLocalEvent(evt);
   }
 }
-
