@@ -48,7 +48,7 @@ yarn check-libraries --verbose    # list every entry instead of the first 10
 yarn check-libraries --fix        # update the descriptors to match the disk
 ```
 
-## Fix mode
+## Fix mode (EXPERIMENTAL)
 
 `--fix` treats the files on disk as the source of truth and rewrites the `libraries` array:
 
@@ -80,6 +80,6 @@ Game models: basic_scenario, model
      ClientScript/game/common/actions/resourceActions
 
 📊 Summary:
-   Game models checked: 3
+   Game models checked: 2
    Game models with problems: 1
 ```
