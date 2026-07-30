@@ -153,7 +153,7 @@ export function getActorsLocation(
 /**
  * Ordered list of locations to be displayed
  */
-export function getLocationsArray(): LOCATION_ENUM[] {
+function getLocationsArray(): LOCATION_ENUM[] {
   return [
     LOCATION_ENUM.pcFront,
     LOCATION_ENUM.PC,

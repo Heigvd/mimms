@@ -1,4 +1,5 @@
 import { entries } from '../../../tools/helper';
+import { resourceLogger } from '../../../tools/logger';
 import { hierarchyLevels } from '../actors/actor';
 import { ActorId } from '../baseTypes';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
@@ -21,12 +22,13 @@ export function resourceArrivalLocationResolution(
   const so = state.getInternalStateObject();
 
   if (isHuman(resourceType)) {
-    const acsArrived = so.flags.ACS_ARRIVED;
-    const mcsArrived = so.flags.MCS_ARRIVED;
-    const pcBuilt = so.flags.PC_BUILT;
 
-    if (acsArrived && mcsArrived && pcBuilt) {
+    if (so.flags.PC_BUILT) {
       return LOCATION_ENUM.PC;
+    }else if(so.flags.PCFRONT_BUILT){
+      return LOCATION_ENUM.pcFront;
+    }else{
+      return LOCATION_ENUM.entreeChantier;
     }
   }
 
@@ -38,7 +40,12 @@ export function resourceArrivalLocationResolution(
     return LOCATION_ENUM.helicopterPark;
   }
 
-  return LOCATION_ENUM.pcFront;
+  if (resourceType === 'PMA'){
+    return LOCATION_ENUM.PMA;
+  }
+
+  resourceLogger.warn('Could not resolve on site location for ' + resourceType);
+  return LOCATION_ENUM.remote;
 }
 
 /**

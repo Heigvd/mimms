@@ -7,7 +7,6 @@ export interface EvacuationActionPayload {
   hospitalId: HospitalId;
   patientUnitId: PatientUnitId;
   transportSquad: EvacuationSquadType;
-  doResourcesComeBack?: boolean;
 }
 
 export interface EvacuationActionEvent extends ActionCreationEvent {

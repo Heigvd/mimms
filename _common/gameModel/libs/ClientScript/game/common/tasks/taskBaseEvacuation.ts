@@ -1,6 +1,4 @@
-import { toMinutes } from '../../../tools/helper';
 import { taskLogger } from '../../../tools/logger';
-import { getTranslation } from '../../../tools/translation';
 import { InterventionRole } from '../actors/actor';
 import {
   ActorId,
@@ -14,16 +12,11 @@ import {
 import { EvacuationSquadDefinition } from '../evacuation/evacuationSquadDef';
 import { MovePatientLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
-import { RadioType } from '../radio/communicationType';
-import * as RadioLogic from '../radio/radioLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 import {
-  AssignResourcesToWaitingTaskLocalEvent,
-  MoveResourcesAtArrivalLocationLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 
@@ -61,7 +54,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     patientId: PatientId,
     hospitalId: HospitalId,
     patientUnitId: PatientUnitId,
-    doResourcesComeBack: boolean,
     travelTime: number,
     feedbackWhenReturning: TranslationKey,
     squadDef: EvacuationSquadDefinition
@@ -71,7 +63,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       patientId,
       hospitalId,
       patientUnitId,
-      doResourcesComeBack,
       parentEventId,
       ownerId,
       travelTime,
@@ -105,18 +96,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         subTask.cumulatedTime -= subTask.travelTime;
 
         this.launchEventsWhenArriveAtHospital(state, subTask);
-
-        if (subTask.doResourcesComeBack) {
-          subTask.status = 'way_back';
-        } else {
-          subTask.status = 'completed';
-        }
-      }
-
-      if (subTask.status === 'way_back' && subTask.cumulatedTime > subTask.travelTime) {
-        subTask.cumulatedTime -= subTask.travelTime;
-
-        this.launchEventsWhenResourcesComeBack(state, subTask);
 
         subTask.status = 'completed';
       }
@@ -177,54 +156,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         },
       })
     );
-    if (subTask.doResourcesComeBack) {
-      // Send radio message on CASU about time needed to come back to incident when arriving at hospital
-      getLocalEventManager().queueLocalEvent(
-        new AddRadioMessageLocalEvent({
-          parentEventId: subTask.parentEventId,
-          source: { type: 'task', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          senderName: RadioLogic.getResourceAsSenderName(),
-          message: subTask.feedbackWhenReturning,
-          channel: RadioType.CASU,
-          messageValues: [
-            getTranslation(
-              'mainSim-actions-tasks',
-              subTask.squadDef.mainVehicleTranslationNoun,
-              false
-            ),
-            getTranslation(
-              'mainSim-actions-tasks',
-              subTask.squadDef.healerPresenceTranslation,
-              false
-            ),
-            toMinutes(subTask.travelTime),
-          ],
-        })
-      );
-    }
   }
 
-  private launchEventsWhenResourcesComeBack(
-    state: Readonly<MainSimulationState>,
-    subTask: EvacuationSubTask
-  ) {
-    getLocalEventManager().queueLocalEvent(
-      new MoveResourcesAtArrivalLocationLocalEvent({
-        parentEventId: subTask.parentEventId,
-        source: { type: 'task', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesIds: subTask.resources,
-      })
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent({
-        parentEventId: subTask.parentEventId,
-        source: { type: 'task', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: subTask.resources,
-      })
-    );
-  }
 }

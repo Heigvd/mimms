@@ -288,7 +288,6 @@ export class EvacuationAction extends RadioDrivenAction {
   private readonly hospitalId: HospitalId;
   private readonly patientUnitId: PatientUnitId;
   private readonly transportSquad: EvacuationSquadType;
-  private readonly doResourcesComeBack: boolean;
 
   private compliantWithHierarchy: boolean;
   private isEnoughResources: boolean;
@@ -321,7 +320,6 @@ export class EvacuationAction extends RadioDrivenAction {
     this.hospitalId = evacuationActionPayload.hospitalId;
     this.patientUnitId = evacuationActionPayload.patientUnitId;
     this.transportSquad = evacuationActionPayload.transportSquad;
-    this.doResourcesComeBack = !!evacuationActionPayload.doResourcesComeBack;
 
     this.compliantWithHierarchy = false;
     this.isEnoughResources = false;
@@ -430,7 +428,6 @@ export class EvacuationAction extends RadioDrivenAction {
         this.patientId,
         this.hospitalId,
         this.patientUnitId,
-        this.doResourcesComeBack,
         travelTime,
         this.feedbackWhenReturning,
         getSquadDef(this.evacuationActionPayload.transportSquad)
