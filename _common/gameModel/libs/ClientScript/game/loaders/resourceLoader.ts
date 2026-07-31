@@ -125,6 +125,7 @@ function initContainerDefinitions(): void {
 
   definitionsMapping['PMA'] = addContainerDefinition('PMA', 'pma', {
     secouriste: 10,
+    PMA: 1
   });
 
   definitionsMapping['PC-San'] = addContainerDefinition(
