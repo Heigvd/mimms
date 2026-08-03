@@ -71,6 +71,11 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
+  /** UI select choice representing this task */
+  public toChoice(): { label: string; value: string } {
+    return { label: this.getTitle(), value: '' + this.Uid };
+  }
+
   // TODO see if useful
   /** Its description to give more details */
   public getDescription(): string {

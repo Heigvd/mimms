@@ -32,9 +32,7 @@ export function getResourceManagementSourceTaskChoices(
     actorId,
     location,
     effectiveCommMedia
-  ).map(task => {
-    return { label: task.getTitle(), value: '' + task.Uid };
-  });
+  ).map(task => task.toChoice());
 }
 
 export function initResourceManagementCurrentTaskId(
@@ -58,9 +56,9 @@ export function getResourceManagementTargetTaskChoices(
     return [];
   }
 
-  return TaskState.fetchAvailableStandardTasks(getCurrentState(), actorId, location).map(task => {
-    return { label: task.getTitle(), value: '' + task.Uid };
-  });
+  return TaskState.fetchAvailableStandardTasks(getCurrentState(), actorId, location).map(task =>
+    task.toChoice()
+  );
 }
 
 export function initResourceManagementTargetTaskId(
