@@ -7,7 +7,6 @@ import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
 import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
-import * as ResourceState from './resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
@@ -87,9 +86,8 @@ export function isBrancardageTaskForTargetLocation(
   targetLocation: LOCATION_ENUM
 ): boolean {
   return Object.values(getAllTasks(state))
-    .filter(ta => ta.taskType === TaskType.Porter)
-    .flatMap(ta => Object.values((ta as PorterTask).subTasks))
-    .some(st => st.targetLocation === targetLocation);
+    .filter((ta): ta is PorterTask => ta.taskType === TaskType.Porter)
+    .some(ta => ta.hasSubTaskTargeting(targetLocation));
 }
 
 /**
@@ -97,19 +95,7 @@ export function isBrancardageTaskForTargetLocation(
  * The final status are 'Cancelled' and 'Completed'
  */
 export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId): boolean {
-  const task = internallyGetTask(state, taskId);
-
-  return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
-}
-
-/**
- * @returns Whether the allocated resources are enough to perform the task
- */
-export function isAtLeastOneResource(
-  state: Readonly<MainSimulationState>,
-  task: TaskBase
-): boolean {
-  return ResourceState.getFreeResourcesByTask(state, task.Uid).length > 0;
+  return internallyGetTask(state, taskId).isAlive();
 }
 
 /**

@@ -268,4 +268,9 @@ export class PorterTask extends TaskBase<PorterSubTask> {
       !TaskState.isBrancardageTaskForTargetLocation(state, this.locationSource)
     );
   }
+
+  /** Whether one of this task's sub-tasks is moving a patient to the given location */
+  public hasSubTaskTargeting(location: LOCATION_ENUM): boolean {
+    return Object.values(this.subTasks).some(subTask => subTask.targetLocation === location);
+  }
 }

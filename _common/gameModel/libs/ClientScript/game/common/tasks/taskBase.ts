@@ -14,7 +14,6 @@ import { CommMedia } from '../resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
 import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventResources';
@@ -149,6 +148,19 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     );
   }
 
+  /** Whether the allocated resources are enough to perform the task */
+  public isAtLeastOneResource(state: Readonly<MainSimulationState>): boolean {
+    return ResourceState.getFreeResourcesByTask(state, this.Uid).length > 0;
+  }
+
+  /**
+   * @returns True if the task has a status that is not final. It means that the task can still evolve.
+   * The final status are 'Cancelled' and 'Completed'
+   */
+  public isAlive(): boolean {
+    return this.status !== 'Cancelled' && this.status !== 'Completed';
+  }
+
   protected isRoleWiseAvailable(role: InterventionRole): boolean {
     return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
@@ -177,7 +189,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 
   /** Update the state */
   public update(state: Readonly<MainSimulationState>, timeJump: number): void {
-    const hasAnyResource = TaskState.isAtLeastOneResource(state, this);
+    const hasAnyResource = this.isAtLeastOneResource(state);
 
     switch (this.status) {
       case 'Cancelled':
