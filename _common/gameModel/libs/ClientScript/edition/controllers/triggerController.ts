@@ -108,7 +108,39 @@ export class TriggerDataController extends DataControllerBase<
   }
 
   protected duplicateInternal(original: TriggerFlatType): TriggerFlatType[] {
-    throw new Error('Method not implemented.');
+    const cloned: TriggerFlatType[] = [];
+    const mapping: Record<Uid, Uid> = {};
+
+    const topLevelClone = super.basicDuplicate(original, mapping);
+    cloned.push(topLevelClone);
+
+    const children = Object.values(getChildren(original.uid, this.getFlatDataClone()));
+
+    children.forEach(child => {
+      const clone = super.basicDuplicate(child, mapping);
+
+      if (clone.superType === 'impact') {
+        if (clone.type === 'activation' || clone.type === 'effectSelection' || clone.type === 'mapActivation') {
+          if (mapping[clone.target]) {
+            clone.target = mapping[clone.target]!;
+          }
+        }
+
+        if (clone.type === 'effectSelection') {
+          if (mapping[clone.targetEffect]) {
+            clone.targetEffect = mapping[clone.targetEffect]!;
+          }
+        }
+      }
+
+      cloned.push(clone);
+    })
+
+    if (cloned.length > 0 && topLevelClone && topLevelClone.superType !== 'condition' && topLevelClone.superType !== 'impact') {
+        this.assignNewTagName(topLevelClone);
+    }
+
+    return cloned;
   }
 
   private assignNewTagName(newObject: FlatTrigger): void {
