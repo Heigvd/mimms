@@ -120,7 +120,11 @@ export class TriggerDataController extends DataControllerBase<
       const clone = super.basicDuplicate(child, mapping);
 
       if (clone.superType === 'impact') {
-        if (clone.type === 'activation' || clone.type === 'effectSelection' || clone.type === 'mapActivation') {
+        if (
+          clone.type === 'activation' ||
+          clone.type === 'effectSelection' ||
+          clone.type === 'mapActivation'
+        ) {
           if (mapping[clone.target]) {
             clone.target = mapping[clone.target]!;
           }
@@ -134,10 +138,15 @@ export class TriggerDataController extends DataControllerBase<
       }
 
       cloned.push(clone);
-    })
+    });
 
-    if (cloned.length > 0 && topLevelClone && topLevelClone.superType !== 'condition' && topLevelClone.superType !== 'impact') {
-        this.assignNewTagName(topLevelClone);
+    if (
+      cloned.length > 0 &&
+      topLevelClone &&
+      topLevelClone.superType !== 'condition' &&
+      topLevelClone.superType !== 'impact'
+    ) {
+      this.assignNewTagName(topLevelClone);
     }
 
     return cloned;

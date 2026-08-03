@@ -22,7 +22,6 @@ import {
 import { scenarioEditionLogger } from '../../tools/logger';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { getChildren } from './parentedUtils';
-import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { getInitialMapEntityUIState } from './controllerInstances';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
@@ -152,10 +151,10 @@ export class MapEntityController extends DataControllerBase<
 
     children.forEach(child => {
       cloned.push(super.basicDuplicate(child, mapping));
-    })
+    });
 
     if (cloned.length > 0 && topLevelClone && topLevelClone.superType !== 'geometry') {
-        this.assignNewTagName(topLevelClone);
+      this.assignNewTagName(topLevelClone);
     }
 
     return cloned;

@@ -176,6 +176,7 @@
               }
             },
             "name" : "duplicate",
+            "stopPropagation" : true,
             "style" : { }
           },
           "type" : "Button"
