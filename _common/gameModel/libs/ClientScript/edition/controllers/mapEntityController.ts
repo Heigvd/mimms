@@ -22,7 +22,6 @@ import {
 import { scenarioEditionLogger } from '../../tools/logger';
 import { locationEnumConfig } from '../../game/common/mapEntities/locationEnumConfig';
 import { getChildren } from './parentedUtils';
-import { getLocationTranslation } from '../../UIfacade/locationFacade';
 import { ValidationMessage } from '../typeDefinitions/definition';
 import { getInitialMapEntityUIState } from './controllerInstances';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
@@ -141,16 +140,35 @@ export class MapEntityController extends DataControllerBase<
     }
   }
 
+  protected duplicateInternal(original: MapEntityFlatType): MapEntityFlatType[] {
+    const cloned: MapEntityFlatType[] = [];
+    const mapping: Record<Uid, Uid> = {};
+
+    const topLevelClone = super.basicDuplicate(original, mapping);
+    cloned.push(topLevelClone);
+
+    const children = Object.values(getChildren(original.uid, this.getFlatDataClone()));
+
+    children.forEach(child => {
+      cloned.push(super.basicDuplicate(child, mapping));
+    });
+
+    if (topLevelClone?.superType === 'mapEntity') {
+      this.assignNewTagName(topLevelClone);
+    }
+
+    return cloned;
+  }
+
   private assignNewTagName(newObject: FlatMapEntity): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());
-    const dfltName = getLocationTranslation(newObject.binding);
-    let candidate = dfltName;
+    let candidate = newObject.tag;
     let i = 2;
     while (
       Object.values(siblings).some(obj => obj.superType === 'mapEntity' && obj.tag === candidate)
     ) {
-      candidate = dfltName + ' ' + i;
+      candidate = newObject.tag + ' ' + i;
       i++;
     }
     newObject.tag = candidate;

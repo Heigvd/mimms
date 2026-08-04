@@ -160,6 +160,33 @@
               "content" : "import { canBeDeleted } from \"./edition/UIfacade/genericConfigFacade\";\n  !canBeDeleted(Context.item);",
               "language" : "typescript"
             },
+            "icon" : "clone",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { duplicateItem } from \"./edition/UIfacade/genericConfigFacade\";\n\nduplicateItem(Context.item.uid);",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "duplicate",
+            "stopPropagation" : true,
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { canBeDeleted } from \"./edition/UIfacade/genericConfigFacade\";\n  !canBeDeleted(Context.item);",
+              "language" : "typescript"
+            },
             "icon" : "trash",
             "label" : {
               "@class" : "Script",
