@@ -176,7 +176,7 @@ export function getPlayerRolesSelf(): PlayerRoles {
  */
 export function checkAllRolesPlayed(): boolean {
   const playersRoles = getPlayersAndRoles().map(p => Object.values(p.roles));
-  const playableRoles = new Array(5).fill(false);
+  const playableRoles = new Array(playersRoles[0]!.length).fill(false);
 
   for (const player of playersRoles) {
     for (const [i, role] of Object.entries(player)) {
