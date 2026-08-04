@@ -62,17 +62,3 @@ export function getSkillToDriveAmbulance(resource: Resource): SkillLevel {
       return 'no_skill';
   }
 }
-
-// export function getSkillXXX(resource: Resource): SkillLevel {
-//   switch (resource.type) {
-//     case "secouriste":
-//     case "technicienAmbulancier":
-//     case "ambulancier":
-//     case "infirmier":
-//     case "medecinJunior":
-//     case "medecinSenior":
-//     case "ambulance":
-//     case "helicopter":
-//       return 'no_skill';
-//   }
-// }

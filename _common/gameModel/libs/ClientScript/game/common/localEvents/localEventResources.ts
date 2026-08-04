@@ -6,7 +6,6 @@ import { resourceLogger } from '../../../tools/logger';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import { ResourceType } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
-import * as ResourceLogic from '../resources/resourceLogic';
 import { LocalEventBase, SourceType } from './localEventBase';
 
 export class ReserveResourcesLocalEvent extends LocalEventBase {
@@ -134,27 +133,6 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
     return ResourceState.getFreeWaitingResourcesByType(state, this.extensionProps.resourceType);
-  }
-}
-
-export class MoveResourcesAtArrivalLocationLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly resourcesIds: ResourceId[];
-    }
-  ) {
-    super({ ...props, type: 'MoveResourcesAtArrivalLocationLocalEvent' });
-  }
-
-  override applyStateUpdate(state: MainSimulationState) {
-    this.props.resourcesIds.forEach(resourceId => {
-      const resource: Resource = ResourceState.getResourceById(state, resourceId);
-      const location = ResourceLogic.resourceArrivalLocationResolution(state, resource.type);
-      ResourceState.sendResourcesToLocation([resource], location);
-    });
   }
 }
 
