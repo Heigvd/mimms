@@ -140,7 +140,7 @@ export class TriggerDataController extends DataControllerBase<
       cloned.push(clone);
     });
 
-    if (topLevelClone.superType === 'trigger') {
+    if (topLevelClone?.superType === 'trigger') {
       this.assignNewTagName(topLevelClone);
     }
 

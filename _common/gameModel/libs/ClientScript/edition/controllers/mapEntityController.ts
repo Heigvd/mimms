@@ -153,7 +153,7 @@ export class MapEntityController extends DataControllerBase<
       cloned.push(super.basicDuplicate(child, mapping));
     });
 
-    if (topLevelClone.superType === 'mapEntity') {
+    if (topLevelClone?.superType === 'mapEntity') {
       this.assignNewTagName(topLevelClone);
     }
 
