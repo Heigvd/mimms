@@ -35,6 +35,8 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
+  protected feedback: string | undefined;
+
   protected constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
@@ -59,6 +61,18 @@ export abstract class ActionBase {
 
   public getTemplateId(): ActionTemplateUid {
     return this.templateId;
+  }
+
+  public getFeedback(): string | undefined {
+    return this.feedback;
+  }
+
+  public setFeedback(feedback: string): void {
+    if (this.feedback != undefined) {
+      this.logger.warn(`action ${this.Uid} already has a feedback, overwriting it`);
+    }
+
+    this.feedback = feedback;
   }
 }
 
