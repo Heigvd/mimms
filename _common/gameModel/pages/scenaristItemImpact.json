@@ -978,6 +978,76 @@
                 }
               },
               "type" : "Text"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "boolean-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "  (Context.item.delayFrom ?? 'end') === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-left",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions()[0].value === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-right",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getImpactDelayFromOptions();\nbuttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.option.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { delayFrom: Context.option.value });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "option",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions();",
+                  "language" : "TypeScript"
+                },
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() !== 'actions';",
+                  "language" : "typescript"
+                },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "delayFrom",
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "rowGap" : "5px"
+                }
+              },
+              "type" : "For each"
             } ],
             "className" : "impact",
             "hideIf" : {

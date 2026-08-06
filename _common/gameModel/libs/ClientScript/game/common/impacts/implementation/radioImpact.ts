@@ -1,3 +1,4 @@
+import { SimTime } from '../../baseTypes';
 import { LocalEventBase, SourceType } from '../../localEvents/localEventBase';
 import { RadioType } from '../../radio/communicationType';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
@@ -13,9 +14,10 @@ export interface RadioMessageImpact extends ImpactBase {
 export function convertRadioMessageImpact(
   state: Readonly<MainSimulationState>,
   impact: RadioMessageImpact,
-  source: SourceType
+  source: SourceType,
+  anchorTime: SimTime
 ): LocalEventBase[] {
-  const time = state.getSimTime() + impact.delaySeconds;
+  const time = anchorTime + impact.delaySeconds;
   return [
     new AddRadioMessageLocalEvent({
       parentEventId: state.getLastEventId(),
