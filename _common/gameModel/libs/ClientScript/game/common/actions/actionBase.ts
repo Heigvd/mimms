@@ -35,7 +35,7 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
-  protected feedback: string | undefined;
+  private feedbacks: string[] = [];
 
   protected constructor(
     readonly startTime: SimTime,
@@ -63,16 +63,12 @@ export abstract class ActionBase {
     return this.templateId;
   }
 
-  public getFeedback(): string | undefined {
-    return this.feedback;
+  public getFeedbacks(): string[] {
+    return this.feedbacks;
   }
 
-  public setFeedback(feedback: string): void {
-    if (this.feedback != undefined) {
-      this.logger.warn(`action ${this.Uid} already has a feedback, overwriting it`);
-    }
-
-    this.feedback = feedback;
+  public addFeedback(feedback: string): void {
+    this.feedbacks.push(feedback);
   }
 }
 

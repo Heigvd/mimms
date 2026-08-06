@@ -144,7 +144,7 @@ export class AddActionFeedbackLocalEvent extends LocalEventBase {
     const action = state.getAllActions().find(action => action.Uid === this.props.actionId);
 
     if (action) {
-      action.setFeedback(this.props.feedback);
+      action.addFeedback(this.props.feedback);
     } else {
       mainSimLogger.error('Could not find the action to give a feedback to', this.props);
     }
