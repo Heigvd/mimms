@@ -35,6 +35,8 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
+  private feedbacks: ITranslatableContent[] = [];
+
   protected constructor(
     readonly startTime: SimTime,
     protected readonly eventId: GlobalEventId,
@@ -59,6 +61,14 @@ export abstract class ActionBase {
 
   public getTemplateId(): ActionTemplateUid {
     return this.templateId;
+  }
+
+  public getFeedbacks(): ITranslatableContent[] {
+    return this.feedbacks;
+  }
+
+  public addFeedback(feedback: ITranslatableContent): void {
+    this.feedbacks.push(feedback);
   }
 }
 

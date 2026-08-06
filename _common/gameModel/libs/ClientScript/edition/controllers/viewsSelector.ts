@@ -16,6 +16,7 @@ import {
   getActivationImpactDef,
   getChoiceEffectSelectionImpactDef,
   getEmptyImpactDef,
+  getFeedbackImpactDef,
   getMapActivationImpactDef,
   getNotificationImpactDef,
   getRadioImpactDef,
@@ -73,6 +74,7 @@ const viewTree: Views = {
     notification: getNotificationImpactDef().view,
     radio: getRadioImpactDef().view,
     empty: getEmptyImpactDef().view,
+    feedback: getFeedbackImpactDef().view,
   },
   condition: {
     mapEntity: getMapEntityConditionDef().view,

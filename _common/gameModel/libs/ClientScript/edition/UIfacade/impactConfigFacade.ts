@@ -18,6 +18,7 @@ import { getCurrentPage } from './mainMenuStateFacade';
 import { updateItem as updateTriggerPageItem } from './triggerConfigFacade';
 import { ActionTemplateDataController } from '../controllers/actionTemplateController';
 import { TriggerDataController } from '../controllers/triggerController';
+import { SuperTypeNames } from '../controllers/dataControllerBase';
 
 function getController(): TriggerDataController | ActionTemplateDataController {
   switch (getCurrentPage()) {
@@ -56,32 +57,27 @@ export type DisplayType =
   | 'notification'
   | 'actionTemplate'
   | 'mapEntity'
-  | 'trigger';
+  | 'trigger'
+  | 'feedback';
 
 // Directly used in pages
-export function getImpactDisplayTypeOptions(): { label: string; value: DisplayType }[] {
-  return [
-    {
-      label: 'radio message',
-      value: 'radio',
-    },
-    {
-      label: 'notification',
-      value: 'notification',
-    },
-    {
-      label: 'location',
-      value: 'mapEntity',
-    },
-    {
-      label: 'action',
-      value: 'actionTemplate',
-    },
-    {
-      label: 'trigger',
-      value: 'trigger',
-    },
+export function getImpactDisplayTypeOptions(
+  parentType?: SuperTypeNames
+): { label: string; value: DisplayType }[] {
+  const options: { label: string; value: DisplayType }[] = [
+    { label: 'radio message', value: 'radio' },
+    { label: 'notification', value: 'notification' },
+    { label: 'location', value: 'mapEntity' },
+    { label: 'action', value: 'actionTemplate' },
+    { label: 'trigger', value: 'trigger' },
   ];
+
+  // feedback is only meaningful inside a choice effect
+  if (parentType === 'effect') {
+    options.push({ label: 'feedback', value: 'feedback' });
+  }
+
+  return options;
 }
 
 // Given an impact, compute which display type must be used
@@ -110,6 +106,8 @@ export function inferDisplayType(impact: FlatImpact): DisplayType {
       return 'mapEntity';
     case 'effectSelection':
       return 'actionTemplate';
+    case 'feedback':
+      return 'feedback';
     default:
       throw new Error('Not handled impact type ' + type);
   }
@@ -152,17 +150,15 @@ function createSubstitutionImpact(newType: FlatImpact['type'], baseImpact: FlatI
 function getNewImpactType(displayType: DisplayType): Impact['type'] {
   switch (displayType) {
     case 'empty':
-      return 'empty';
     case 'radio':
-      return 'radio';
     case 'notification':
-      return 'notification';
+    case 'feedback':
+      return displayType;
     case 'actionTemplate':
+    case 'trigger':
       return 'activation';
     case 'mapEntity':
       return 'mapActivation';
-    case 'trigger':
-      return 'activation';
     default:
       throw new Error('Not handled display type ' + displayType);
   }
@@ -180,6 +176,7 @@ function getNewActivableType(displayType: DisplayType): ActivationImpact['activa
     case 'empty':
     case 'radio':
     case 'notification':
+    case 'feedback':
     default:
       throw new Error('Not handled display type ' + displayType);
   }

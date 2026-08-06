@@ -20,7 +20,7 @@ export function getTriggers(): Trigger[] {
   triggerCache = Object.values(parseObjectDescriptor<Trigger>(triggersVariable));
 
   triggerCache.forEach(t => {
-    t.impacts = t.impacts.filter(i => i.type !== 'empty');
+    t.impacts = t.impacts.filter(i => i.type !== 'empty' && i.type !== 'feedback');
     t.conditions = t.conditions.filter(c => c.type !== 'empty');
   });
   return triggerCache;
