@@ -16,9 +16,7 @@ import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { EvacuationSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
-import {
-  MoveResourcesLocalEvent,
-} from '../localEvents/localEventResources';
+import { MoveResourcesLocalEvent } from '../localEvents/localEventResources';
 
 // -------------------------------------------------------------------------------------------------
 // Evacuation task
@@ -157,5 +155,4 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       })
     );
   }
-
 }

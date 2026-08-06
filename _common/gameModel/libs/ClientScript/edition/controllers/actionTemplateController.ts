@@ -209,7 +209,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     switch (clone.superType) {
       case 'action':
       case 'choice':
-      case 'effect':{
+      case 'effect': {
         const children = Object.values(getChildren(original.uid, this.getFlatDataClone()));
         children.forEach(child => this.duplicateRecursively(child, mapping, cloned));
         break;
