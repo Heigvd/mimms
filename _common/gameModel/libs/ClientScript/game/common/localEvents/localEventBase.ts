@@ -134,7 +134,7 @@ export class AddActionFeedbackLocalEvent extends LocalEventBase {
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
       readonly actionId: ActionBase['Uid'];
-      readonly feedback: string;
+      readonly feedback: ITranslatableContent;
     }
   ) {
     super({ ...props, type: 'AddActionFeedbackLocalEvent' });

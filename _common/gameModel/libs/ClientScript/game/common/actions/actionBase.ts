@@ -35,7 +35,7 @@ export abstract class ActionBase {
 
   protected status: ActionStatus;
 
-  private feedbacks: string[] = [];
+  private feedbacks: ITranslatableContent[] = [];
 
   protected constructor(
     readonly startTime: SimTime,
@@ -63,11 +63,11 @@ export abstract class ActionBase {
     return this.templateId;
   }
 
-  public getFeedbacks(): string[] {
+  public getFeedbacks(): ITranslatableContent[] {
     return this.feedbacks;
   }
 
-  public addFeedback(feedback: string): void {
+  public addFeedback(feedback: ITranslatableContent): void {
     this.feedbacks.push(feedback);
   }
 }

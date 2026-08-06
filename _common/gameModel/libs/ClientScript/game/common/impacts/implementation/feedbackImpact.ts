@@ -29,7 +29,7 @@ export function convertFeedbackImpact(
       source,
       simTimeStamp: state.getSimTime(),
       actionId: source.id,
-      feedback: I18n.translate(impact.message),
+      feedback: impact.message,
     }),
   ];
 }
