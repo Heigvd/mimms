@@ -30,6 +30,6 @@ export function evaluateEffectImpacts(
   anchorTime: SimTime
 ): LocalEventBase[] {
   return effect.impacts
-    .filter(impact => impact.type !== 'empty' && impact.delayFrom === delayFrom)
+    .filter(impact => impact.type !== 'empty' && (impact.delayFrom ?? 'end') === delayFrom)
     .flatMap(impact => convertToLocalEvents(state, impact, { type: 'action', id: actionId }, anchorTime));
 }
