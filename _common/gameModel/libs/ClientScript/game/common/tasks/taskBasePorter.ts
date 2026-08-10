@@ -39,10 +39,9 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     readonly feedbackWhenDone: TranslationKey,
     readonly feedbackIfNoTargetLocation: TranslationKey,
     readonly locationSource: LOCATION_ENUM,
-    ownerRole: InterventionRole,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Porter, title, description, ownerRole, [locationSource], availableToRoles);
+    super(TaskType.Porter, title, description, [locationSource], availableToRoles);
   }
 
   /** Its short name */

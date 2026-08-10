@@ -26,19 +26,10 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[]
   ) {
-    super(
-      TaskType.Evacuation,
-      title,
-      description,
-      ownerRole,
-      availableToLocations,
-      availableToRoles,
-      false
-    );
+    super(TaskType.Evacuation, title, description, availableToLocations, availableToRoles, false);
   }
 
   public createSubTask(

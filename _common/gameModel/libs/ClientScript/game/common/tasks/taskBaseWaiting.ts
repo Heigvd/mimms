@@ -11,11 +11,10 @@ export class WaitingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Waiting, title, description, ownerRole, availableToLocations, availableToRoles);
+    super(TaskType.Waiting, title, description, availableToLocations, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

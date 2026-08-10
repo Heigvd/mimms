@@ -52,8 +52,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly taskType: TaskType,
     readonly title: TranslationKey,
     readonly description: TranslationKey, // currently not used
-    /** the actor role owner of the task */
-    readonly ownerRole: InterventionRole,
     /** the locations where the task can take place */
     readonly availableToLocations: LOCATION_ENUM[] = [],
     /** which roles can order the task */
@@ -320,12 +318,11 @@ export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[],
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(TaskType.Healing, title, description, ownerRole, availableToLocations, availableToRoles);
+    super(TaskType.Healing, title, description, availableToLocations, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

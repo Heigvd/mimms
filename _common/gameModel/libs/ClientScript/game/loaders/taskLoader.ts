@@ -14,7 +14,6 @@ export function loadTasks(): TaskBase[] {
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
-    'AL',
     LOCATION_ENUM.chantier,
     []
   );
@@ -23,7 +22,6 @@ export function loadTasks(): TaskBase[] {
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
-    'AL',
     LOCATION_ENUM.PMA,
     []
   );
@@ -32,7 +30,6 @@ export function loadTasks(): TaskBase[] {
     'pre-tri-title',
     'pre-tri-desc',
     'pretriage-task-completed',
-    'AL',
     LOCATION_ENUM.nidDeBlesses,
     []
   );
@@ -43,7 +40,6 @@ export function loadTasks(): TaskBase[] {
     'porters-task-chantier-completed',
     'porters-task-no-target-location',
     LOCATION_ENUM.chantier,
-    'AL',
     []
   );
 
@@ -53,14 +49,12 @@ export function loadTasks(): TaskBase[] {
     'porters-task-nid-completed',
     'porters-task-no-target-location',
     LOCATION_ENUM.nidDeBlesses,
-    'AL',
     []
   );
 
   const taskHealing = new HealingTask(
     'healing-title',
     'healing-desc',
-    'AL',
     [LOCATION_ENUM.nidDeBlesses, LOCATION_ENUM.chantier],
     []
   );
@@ -68,7 +62,6 @@ export function loadTasks(): TaskBase[] {
   const taskHealingRed = new HealingTask(
     'healing-pma-red-title',
     'healing-pma-red-desc',
-    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     1
@@ -77,7 +70,6 @@ export function loadTasks(): TaskBase[] {
   const taskHealingYellow = new HealingTask(
     'healing-pma-yellow-title',
     'healing-pma-yellow-desc',
-    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     2
@@ -86,7 +78,6 @@ export function loadTasks(): TaskBase[] {
   const taskHealingGreen = new HealingTask(
     'healing-pma-green-title',
     'healing-pma-green-desc',
-    'MCS',
     [LOCATION_ENUM.PMA],
     [],
     3
@@ -95,7 +86,6 @@ export function loadTasks(): TaskBase[] {
   const taskEvacuation = new EvacuationTask(
     'evacuate-title',
     'evacuate-desc',
-    'EVASAN',
     [LOCATION_ENUM.ambulancePark, LOCATION_ENUM.helicopterPark],
     []
   );
@@ -103,7 +93,6 @@ export function loadTasks(): TaskBase[] {
   const taskWaiting = new WaitingTask(
     'waiting-title',
     'waiting-task-desc',
-    'AL',
     [
       LOCATION_ENUM.entreeChantier,
       LOCATION_ENUM.PMA,

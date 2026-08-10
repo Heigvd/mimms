@@ -32,11 +32,10 @@ export class PreTriageTask extends TaskBase {
     title: TranslationKey,
     description: TranslationKey,
     readonly feedbackAtEnd: TranslationKey,
-    ownerRole: InterventionRole,
     readonly locationSource: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Pretriage, title, description, ownerRole, [locationSource], availableToRoles);
+    super(TaskType.Pretriage, title, description, [locationSource], availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

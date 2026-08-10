@@ -1,6 +1,5 @@
 import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
 import { Actor } from '../actors/actor';
-import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { ActorId, TaskId } from '../baseTypes';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
@@ -148,14 +147,6 @@ export function changeTaskStatus(
   const task = internallyGetTask(state, taskId);
 
   task.setStatus(status);
-}
-
-export function getTaskResponsibleActorSymbolicLocation(
-  state: Readonly<MainSimulationState>,
-  taskId: TaskId
-): LOCATION_ENUM {
-  const task = internallyGetTask(state, taskId);
-  return getStateActorSymbolicLocation(state, task.ownerRole);
 }
 
 export function getTaskCurrentStatus(
