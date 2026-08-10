@@ -141,5 +141,7 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         },
       })
     );
+
+    // TODO Should resources not be released from task / assigned returning task when completed ?
   }
 }
