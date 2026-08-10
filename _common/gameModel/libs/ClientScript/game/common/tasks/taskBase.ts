@@ -86,25 +86,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     this.status = status;
   }
 
-  /**
-   * TODO could be a pure function that returns a cloned instance
-   * @returns True if cancellation could be applied
-   */
-  // TODO see where it can go and if it is needed
-  // Note : based on cancel method on actionBase
-  public cancel(): boolean {
-    if (this.status === 'Cancelled') {
-      taskLogger.warn('This action was cancelled already');
-    } else if (this.status === 'Completed') {
-      taskLogger.error('This action is completed, it cannot be cancelled');
-      return false;
-    }
-
-    // TODO some way ResourceState.releaseAllResources(state, this);
-    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
-    return true;
-  }
-
   /** Is the task at some location ready for some actor to allocate resources on it. */
   public isAvailable(
     state: Readonly<MainSimulationState>,
