@@ -58,15 +58,14 @@ export class PreTriageTask extends TaskBase {
       'Patients not pretriaged before action: ' +
         getNonPreTriagedPatientsSize(state, this.locationSource)
     );
-    const RESOURCE_EFFICACITY = 1;
     const TIME_REQUIRED_FOR_PATIENT_PRETRI = 60;
     ResourceState.getFreeResourcesByTask(state, this.Uid).map(resource => {
       if (
-        (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY >=
+        (resource.cumulatedUnusedTime + timeJump) >=
         TIME_REQUIRED_FOR_PATIENT_PRETRI
       ) {
         (resource as Resource).cumulatedUnusedTime =
-          (resource.cumulatedUnusedTime + timeJump) * RESOURCE_EFFICACITY -
+          (resource.cumulatedUnusedTime + timeJump) -
           TIME_REQUIRED_FOR_PATIENT_PRETRI;
         const nextPatient = getNextNonPreTriagedPatient(state, this.locationSource);
         if (nextPatient)
