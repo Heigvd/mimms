@@ -116,7 +116,7 @@ export abstract class DataControllerBase<
   public duplicate(id: Uid): void {
     const updatedData = this.getFlatDataClone();
     const original = updatedData[id];
-    if(original){
+    if (original) {
       const cloned = this.duplicateInternal(original);
 
       // insert cloned data

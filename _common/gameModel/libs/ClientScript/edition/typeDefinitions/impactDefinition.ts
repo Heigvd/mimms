@@ -7,6 +7,7 @@ import {
 } from '../../game/common/impacts/implementation/activationImpact';
 import { ChoiceEffectSelectionImpact } from '../../game/common/impacts/implementation/choiceEffectSelectionImpact';
 import { EmptyImpact } from '../../game/common/impacts/implementation/emptyImpact';
+import { FeedbackImpact } from '../../game/common/impacts/implementation/feedbackImpact';
 import { NotificationMessageImpact } from '../../game/common/impacts/implementation/notificationImpact';
 import { RadioMessageImpact } from '../../game/common/impacts/implementation/radioImpact';
 import { Uid } from '../../game/common/interfaces';
@@ -20,6 +21,7 @@ import {
   activationImpactValidator,
   choiceEffectValidator,
   emptyImpactValidator,
+  feedbackImpactValidator,
   mapActivationImpactValidator,
   notificationMessageImpactValidator,
   radioMessageImpactValidator,
@@ -67,6 +69,9 @@ export function getImpactDefinition(
       break;
     case 'empty':
       definition = getEmptyImpactDef();
+      break;
+    case 'feedback':
+      definition = getFeedbackImpactDef();
       break;
   }
 
@@ -239,6 +244,27 @@ export function getMapActivationImpactDef(): Definition<
       option: ALL_EDITABLE,
       target: ALL_EDITABLE,
       buildStatus: ALL_EDITABLE,
+    },
+  };
+}
+
+export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidationContext> {
+  return {
+    type: 'feedback',
+    getDefault: () => ({
+      type: 'feedback',
+      uid: generateId(10),
+      index: 0,
+      delaySeconds: 0,
+      message: createOrUpdateTranslation('', undefined),
+    }),
+    validator: feedbackImpactValidator,
+    view: {
+      type: ALL_EDITABLE,
+      uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
+      index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      delaySeconds: ALL_EDITABLE,
+      message: ALL_EDITABLE,
     },
   };
 }

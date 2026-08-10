@@ -5,7 +5,8 @@ DESTINATION_FOLDER=".."
 DEFAULT_SCENARIO=basic_scenario
 COMMON_FOLDER=_common
 
-CURRENT_BRANCH=$(git branch --show-current)
+# the branch name ends up in a file name, slashes would turn it into a path
+CURRENT_BRANCH=$(git branch --show-current | tr '/' '-')
 
 function show_help {
     echo Usage "$0" [-hv] SCENARIO_NAME
@@ -66,7 +67,7 @@ if [ ! -d "$SCENARIO_NAME" ]; then
     exit 1;
 fi
 
-if [ $SCENARIO_NAME = $DEFAULT_SCENARIO ]; then
+if [ "$SCENARIO_NAME" = "$DEFAULT_SCENARIO" ]; then
     NAME=gameModel_${CURRENT_BRANCH}_$(date +%Y-%m-%d_%Hh%M)
 else
     NAME=${SCENARIO_NAME}_gameModel_${CURRENT_BRANCH}_$(date +%Y-%m-%d_%Hh%M)

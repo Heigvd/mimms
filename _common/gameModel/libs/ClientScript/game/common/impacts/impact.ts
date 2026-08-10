@@ -18,6 +18,7 @@ import {
   NotificationMessageImpact,
 } from './implementation/notificationImpact';
 import { convertRadioMessageImpact, RadioMessageImpact } from './implementation/radioImpact';
+import { convertFeedbackImpact, FeedbackImpact } from './implementation/feedbackImpact';
 
 /**
  * Impacts are meant to produce local events that will in turn modify the state of the game
@@ -35,7 +36,8 @@ export type Impact =
   | ChoiceEffectSelectionImpact
   | NotificationMessageImpact
   | RadioMessageImpact
-  | EmptyImpact;
+  | EmptyImpact
+  | FeedbackImpact;
 
 /***
  * @param state the game current state

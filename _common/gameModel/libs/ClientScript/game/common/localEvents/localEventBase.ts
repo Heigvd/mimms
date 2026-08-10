@@ -127,6 +127,30 @@ export class PlanActionLocalEvent extends LocalEventBase {
   }
 }
 
+export class AddActionFeedbackLocalEvent extends LocalEventBase {
+  constructor(
+    readonly props: {
+      readonly parentEventId: GlobalEventId;
+      readonly source: SourceType;
+      readonly simTimeStamp: SimTime;
+      readonly actionId: ActionBase['Uid'];
+      readonly feedback: ITranslatableContent;
+    }
+  ) {
+    super({ ...props, type: 'AddActionFeedbackLocalEvent' });
+  }
+
+  applyStateUpdate(state: MainSimulationState): void {
+    const action = state.getAllActions().find(action => action.Uid === this.props.actionId);
+
+    if (action) {
+      action.addFeedback(this.props.feedback);
+    } else {
+      mainSimLogger.error('Could not find the action to give a feedback to', this.props);
+    }
+  }
+}
+
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // TASKS

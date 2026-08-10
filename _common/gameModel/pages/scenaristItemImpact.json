@@ -4,7 +4,7 @@
       "props" : {
         "choices" : {
           "@class" : "Script",
-          "content" : "import { getImpactDisplayTypeOptions } from \"./edition/UIfacade/impactConfigFacade\";\n  getImpactDisplayTypeOptions();",
+          "content" : "import { getParentType } from \"./edition/UIfacade/genericConfigFacade\";\nimport { getImpactDisplayTypeOptions } from \"./edition/UIfacade/impactConfigFacade\";\ngetImpactDisplayTypeOptions(getParentType(Context.item?.uid));",
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
@@ -153,6 +153,75 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "radio",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "",
+                    "layoutClassName" : "noPadding fullWidth",
+                    "layoutStyle" : { },
+                    "name" : "message",
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"value\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "rows" : 3,
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "  I18n.translate(Context.item.message);",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "generic-item__label",
+                    "layoutStyle" : { },
+                    "name" : "label",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Message\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "message",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "trigger",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'feedback';",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "feedback",
             "style" : { }
           },
           "type" : "FlexList"
@@ -1052,7 +1121,7 @@
             "className" : "impact",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type === 'empty';",
+              "content" : "Context.item.type === 'empty' || Context.item.type === 'feedback';",
               "language" : "typescript"
             },
             "layout" : {

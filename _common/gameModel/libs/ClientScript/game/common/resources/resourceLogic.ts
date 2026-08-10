@@ -22,12 +22,11 @@ export function resourceArrivalLocationResolution(
   const so = state.getInternalStateObject();
 
   if (isHuman(resourceType)) {
-
     if (so.flags.PC_BUILT) {
       return LOCATION_ENUM.PC;
-    }else if(so.flags.PCFRONT_BUILT){
+    } else if (so.flags.PCFRONT_BUILT) {
       return LOCATION_ENUM.pcFront;
-    }else{
+    } else {
       return LOCATION_ENUM.entreeChantier;
     }
   }
@@ -40,7 +39,7 @@ export function resourceArrivalLocationResolution(
     return LOCATION_ENUM.helicopterPark;
   }
 
-  if (resourceType === 'PMA'){
+  if (resourceType === 'PMA') {
     return LOCATION_ENUM.PMA;
   }
 
