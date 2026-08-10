@@ -28,7 +28,7 @@ export enum TaskType {
 }
 
 /** The statuses represent the steps of a task evolution */
-export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
+export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed';
 
 const TASK_SEED_ID: TaskId = 4000;
 
@@ -144,9 +144,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     const hasAnyResource = TaskState.isAtLeastOneResource(state, this);
 
     switch (this.status) {
-      case 'Cancelled':
       case 'Completed': {
-        taskLogger.debug('no more evolution when the task is cancelled or completed');
+        taskLogger.debug('no more evolution when the task is completed');
 
         // no more evolution
         break;

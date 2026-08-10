@@ -93,12 +93,12 @@ export function isBrancardageTaskForTargetLocation(
 
 /**
  * @returns True if the task has a status that is not final. It means that the task can still evolve.
- * The final status are 'Cancelled' and 'Completed'
+ * The final status is 'Completed'
  */
 export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId): boolean {
   const task = internallyGetTask(state, taskId);
 
-  return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
+  return task.getStatus() != 'Completed';
 }
 
 /**
