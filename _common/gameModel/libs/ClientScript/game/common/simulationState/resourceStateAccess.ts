@@ -134,7 +134,7 @@ export function getFreeWaitingResourcesByTypeAndLocation(
       !resource.isReserved() &&
       resourceType.includes(resource.type) &&
       resource.currentLocation === location &&
-      resource.currentActivity == getIdleTaskUid(state)
+      resource.currentActivity == getIdleTaskUid(state, location)
   );
   // Sorted if more than one type, order indicates priority
   if (resourceType.length > 1) {
@@ -153,7 +153,7 @@ export function getFreeWaitingResourcesByType(
     (resource: Resource) =>
       !resource.isReserved() &&
       resource.type === resourceType &&
-      resource.currentActivity == getIdleTaskUid(state)
+      resource.currentActivity == getIdleTaskUid(state, resource.currentLocation)
   );
 }
 
@@ -166,7 +166,7 @@ export function getFreeWaitingResourcesByLocation(
     (resource: Resource) =>
       !resource.isReserved() &&
       resource.currentLocation === location &&
-      resource.currentActivity == getIdleTaskUid(state)
+      resource.currentActivity == getIdleTaskUid(state, location)
   );
 }
 
@@ -215,7 +215,7 @@ export function addIncomingResources(
   const internalState = state.getInternalStateObject();
 
   for (let i = 0; i < amount; i++) {
-    const resource: Resource = new Resource(resourceType, location, getIdleTaskUid(state));
+    const resource: Resource = new Resource(resourceType, location, getIdleTaskUid(state, location));
     internalState.resources.push(resource);
   }
 }

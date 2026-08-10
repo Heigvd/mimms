@@ -163,9 +163,7 @@ export function getTaskByTypeAndLocation(
 ): TaskBase {
   return state
     .getInternalStateObject()
-    .tasks.find(
-      task => task.taskType === taskType && task.availableToLocations.includes(location)
-    )!;
+    .tasks.find(task => task.taskType === taskType && task.location === location)!;
 }
 
 export function getLocationsByTaskType(
@@ -174,5 +172,5 @@ export function getLocationsByTaskType(
 ): LOCATION_ENUM[] {
   return getAllTasks(state)
     .filter(task => task.taskType === taskType)
-    .flatMap(task => task.availableToLocations);
+    .map(task => task.location);
 }

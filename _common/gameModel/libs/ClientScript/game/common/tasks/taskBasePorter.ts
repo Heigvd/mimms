@@ -41,7 +41,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     readonly locationSource: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Porter, title, description, [locationSource], availableToRoles);
+    super(TaskType.Porter, title, description, locationSource, availableToRoles);
   }
 
   /** Its short name */

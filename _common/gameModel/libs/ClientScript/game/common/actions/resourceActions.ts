@@ -14,7 +14,6 @@ import {
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import {
   AssignResourcesToTaskLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
   MoveResourcesLocalEvent,
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
@@ -176,11 +175,12 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
 
         // during the travel set the resources as waiting
         getLocalEventManager().queueLocalEvent(
-          new AssignResourcesToWaitingTaskLocalEvent({
+          new AssignResourcesToTaskLocalEvent({
             parentEventId: this.eventId,
             source: { type: 'action', id: this.Uid },
             simTimeStamp: state.getSimTime(),
             resourcesId: this.involvedResourcesId,
+            taskId: TaskLogic.getIdleTaskUid(state, this.targetLocation),
           })
         );
       }
@@ -409,7 +409,7 @@ export class EvacuationAction extends RadioDrivenAction {
     } else {
       const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad);
 
-      const evacuationTask = TaskLogic.getEvacuationTask(state);
+      const evacuationTask = TaskLogic.getEvacuationTask(state, getSquadDef(this.transportSquad).location);
 
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({

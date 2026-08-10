@@ -52,8 +52,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly taskType: TaskType,
     readonly title: TranslationKey,
     readonly description: TranslationKey, // currently not used
-    /** the locations where the task can take place */
-    readonly availableToLocations: LOCATION_ENUM[] = [],
+    /** the location where the task can take place */
+    readonly location: LOCATION_ENUM,
     /** which roles can order the task */
     readonly availableToRoles: InterventionRole[] = [],
     readonly isStandardAssignation: boolean = true
@@ -116,8 +116,9 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
 
+  // TODO Do we need an explicit method for this ?
   protected isLocationWiseAvailable(location: LOCATION_ENUM): boolean {
-    return this.availableToLocations.includes(location) || this.availableToLocations.length === 0;
+    return this.location === location;
   }
 
   /**
@@ -318,11 +319,11 @@ export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    availableToLocations: LOCATION_ENUM[],
+    location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[],
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(TaskType.Healing, title, description, availableToLocations, availableToRoles);
+    super(TaskType.Healing, title, description, location, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

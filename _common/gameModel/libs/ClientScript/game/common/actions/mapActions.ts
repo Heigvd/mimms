@@ -13,7 +13,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { MoveActorLocalEvent } from '../localEvents/localEventActors';
 import {
-  AssignResourcesToWaitingTaskLocalEvent,
+  AssignResourcesToTaskLocalEvent,
   MoveFreeHumanResourcesByLocationLocalEvent,
   MoveFreeWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
@@ -21,6 +21,7 @@ import {
 import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventActivable';
 import { VehicleType } from '../resources/resourceType';
 import { ChoiceAction } from './actionBase';
+import { getIdleTaskUid } from '../tasks/taskLogic';
 
 export class MapChoiceAction extends ChoiceAction {
   public readonly binding?: LOCATION_ENUM;
@@ -146,11 +147,12 @@ export class PCFrontChoiceAction extends MapChoiceAction {
       })
     );
     getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToWaitingTaskLocalEvent({
+      new AssignResourcesToTaskLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: [resourceUid],
+        taskId: getIdleTaskUid(state, this.binding!),
       })
     );
   }

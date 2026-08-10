@@ -154,23 +154,6 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   }
 }
 
-export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly resourcesId: ResourceId[];
-    }
-  ) {
-    super({ ...props, type: 'AssignResourcesToWaitingTaskLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.assignResourcesToTask(state, this.props.resourcesId, getIdleTaskUid(state));
-  }
-}
-
 export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
@@ -196,7 +179,7 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
       location = LOCATION_ENUM.PMA;
     }
 
-    ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));
+    ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state, location));
     ResourceState.sendResourcesToLocation(involvedResources, location);
   }
 }
