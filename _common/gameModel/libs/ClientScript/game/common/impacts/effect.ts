@@ -1,4 +1,3 @@
-import { SimTime } from '../baseTypes';
 import { IDescriptor, Indexed, Tag, Typed, Uid } from '../interfaces';
 import { LocalEventBase } from '../localEvents/localEventBase';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -20,16 +19,18 @@ export interface Effect extends IDescriptor, Indexed, Typed {
 
 /**
  * Evaluates only the impacts of the effect whose delayFrom matches the given phase,
- * anchoring their delaySeconds on anchorTime (the action's start or end time).
+ * anchoring their delaySeconds on the action's start or end time accordingly.
  */
 export function evaluateEffectImpacts(
   state: Readonly<MainSimulationState>,
   effect: Effect,
-  actionId: ActionBase['Uid'],
-  delayFrom: DelayImpactFrom,
-  anchorTime: SimTime
+  action: ActionBase,
+  delayFrom: DelayImpactFrom
 ): LocalEventBase[] {
+  const anchorTime = delayFrom === 'start' ? action.startTime : action.startTime + action.duration();
   return effect.impacts
     .filter(impact => impact.type !== 'empty' && (impact.delayFrom ?? 'end') === delayFrom)
-    .flatMap(impact => convertToLocalEvents(state, impact, { type: 'action', id: actionId }, anchorTime));
+    .flatMap(impact =>
+      convertToLocalEvents(state, impact, { type: 'action', id: action.Uid }, anchorTime)
+    );
 }

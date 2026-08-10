@@ -184,14 +184,7 @@ export abstract class ChoiceAction extends StartEndAction {
       );
 
       if (selectedEffect) {
-        const anchorTime = delayFrom === 'start' ? this.startTime : this.startTime + this.duration();
-        const eventsToQueue = evaluateEffectImpacts(
-          state,
-          selectedEffect,
-          this.Uid,
-          delayFrom,
-          anchorTime
-        );
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this, delayFrom);
         eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
       } else {
         actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
