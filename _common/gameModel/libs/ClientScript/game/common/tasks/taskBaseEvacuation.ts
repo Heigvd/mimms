@@ -26,8 +26,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
     ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[]
@@ -36,8 +34,6 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
       TaskType.Evacuation,
       title,
       description,
-      nbMinResources,
-      nbMaxResources,
       ownerRole,
       availableToLocations,
       availableToRoles,

@@ -52,8 +52,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly taskType: TaskType,
     readonly title: TranslationKey,
     readonly description: TranslationKey, // currently not used
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number, // currently not used
     /** the actor role owner of the task */
     readonly ownerRole: InterventionRole,
     /** the locations where the task can take place */
@@ -76,20 +74,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   /** Its description to give more details */
   public getDescription(): string {
     return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  // TODO see if useful
-  // TODO to be refined with types
-  /** The minimum resources needed for the task to be performed */
-  public getNbMinResources(): number {
-    return this.nbMinResources;
-  }
-
-  // TODO see if useful
-  // TODO to be refined with types
-  /** The maximum useful resources. More would be useless */
-  public getNbMaxResources(): number {
-    return this.nbMaxResources;
   }
 
   /** The status represents its step of evolution */
@@ -355,23 +339,12 @@ export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
     description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
     ownerRole: InterventionRole,
     availableToLocations: LOCATION_ENUM[],
     availableToRoles?: InterventionRole[],
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(
-      TaskType.Healing,
-      title,
-      description,
-      nbMinResources,
-      nbMaxResources,
-      ownerRole,
-      availableToLocations,
-      availableToRoles
-    );
+    super(TaskType.Healing, title, description, ownerRole, availableToLocations, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(
