@@ -3596,6 +3596,7 @@
           "cardiacrate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cardiac rate\"},\"FR\":{\"status\":\"\",\"translation\":\"fréquence cardiaque\",\"lang\":\"FR\"}},\"version\":0}",
           "casu-transmission" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU transmission\"},\"FR\":{\"status\":\"\",\"translation\":\"transmission CASU\",\"lang\":\"FR\"}},\"version\":0}",
           "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
+          "feedbacks" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"résultats\"},\"EN\":{\"status\":\"\",\"translation\":\"feedbacks\",\"lang\":\"EN\"}},\"version\":0}",
           "game-will-proceed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the game will proceed once all players are ready/have pressed \\\"Continue\\\"\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “continuer”\",\"lang\":\"FR\"}},\"version\":0}",
           "incoming-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"communication in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"communication en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent successfully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
@@ -4759,7 +4760,7 @@
         },
         "name" : "mapConfiguration",
         "properties" : {
-          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"CERN-meyrin\",\"zoom\":0,\"extent\":[2491326.1512984848,1120152.3468324167,2494203.6907130037,1122126.4078933953],\"center\":[2492764.9210057445,1121139.377362906],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
+          "mapConfiguration" : "{\"maxZoom\":21,\"mapId\":\"GVA-center\",\"zoom\":0,\"extent\":[2499286.105929431,1117873.153318941,2500468.462442313,1118797.7898341562],\"center\":[2499877.284185872,1118335.4715765486],\"projection\":\"EPSG:2056\",\"viewConfigured\":false}"
         },
         "refId" : "ObjectDescriptor:1658765:zpHZKW",
         "scopeType" : "GameModelScope",

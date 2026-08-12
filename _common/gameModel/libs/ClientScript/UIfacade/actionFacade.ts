@@ -15,13 +15,14 @@ import {
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
 import { Actor } from '../game/common/actors/actor';
-import { ActionTemplateUid, ActorId } from '../game/common/baseTypes';
+import { ActionId, ActionTemplateUid, ActorId } from '../game/common/baseTypes';
 import { Uid } from '../game/common/interfaces';
 import { RadioType } from '../game/common/radio/communicationType';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
   buildAndLaunchActionFromTemplate,
   fetchAvailableActionTemplates,
+  getActionTemplates,
   getCurrentState,
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
@@ -101,6 +102,94 @@ export async function planAction(
  */
 export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
+}
+
+export interface ActionFeedbackEntry {
+  uid: number;
+  actionId: ActionId;
+  message: string;
+}
+
+// used in page 64 (notificationPageloader), to display feedbacks given by the actor's actions
+export function getActionFeedbacks(actorId: ActorId): ActionFeedbackEntry[] {
+  const actions = getAllActions()[actorId] ?? [];
+
+  return actions
+    .flatMap(action =>
+      action.getFeedbacks().map(feedback => ({
+        actionId: action.Uid,
+        message: I18n.translate(feedback),
+      }))
+    )
+    .map((entry, index) => ({ ...entry, uid: index }));
+}
+
+export interface CompletedActionEntry {
+  uid: ActionId;
+  title: string;
+  duration: number;
+  description: string;
+  choiceTitle: string | undefined;
+  choiceDescription: string | undefined;
+  feedbacks: string[];
+}
+
+// used in page 45 (actionStandardList), to display actions already completed by the current actor
+export function getCompletedActions(): CompletedActionEntry[] {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (!currentActorUid) {
+    return [];
+  }
+
+  const templates = getActionTemplates();
+
+  return (getAllActions()[currentActorUid] ?? [])
+    .filter(action => action.getStatus() === 'Completed')
+    .map(action => {
+      const template = templates[action.getTemplateId()];
+      const choice = action instanceof ChoiceAction ? action.choice : undefined;
+
+      return {
+        uid: action.Uid,
+        title: template?.getTitle() ?? '',
+        duration: action.duration() / 60,
+        description: template?.getDescription() ?? '',
+        choiceTitle: choice ? I18n.translate(choice.title) : undefined,
+        choiceDescription: choice ? I18n.translate(choice.description) : undefined,
+        feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
+      };
+    });
+}
+
+/**
+ * Whether the given completed action's card should be displayed expanded.
+ * Defaults to the most recently completed action as long as none has been explicitly clicked.
+ */
+export function isActiveCompletedAction(actionUid: ActionId): boolean {
+  const current = getTypedInterfaceState().currentCompletedActionUid;
+  if (current !== undefined) {
+    return current === actionUid;
+  }
+
+  const completedActions = getCompletedActions();
+  return completedActions[completedActions.length - 1]?.uid === actionUid;
+}
+
+// used in page 45, expands the clicked completed action card, collapsing any other
+export function toggleCompletedAction(actionUid: ActionId): void {
+  setInterfaceState({ currentCompletedActionUid: actionUid });
+}
+
+// used in page 45, to know whether the feedback list of the expanded completed action is shown
+export function isCompletedActionFeedbackVisible(): boolean {
+  return getTypedInterfaceState().showCompletedActionFeedback;
+}
+
+// used in page 45, on the arrow next to the completed action's title
+export function toggleCompletedActionFeedback(): void {
+  setInterfaceState({
+    showCompletedActionFeedback: !getTypedInterfaceState().showCompletedActionFeedback,
+  });
 }
 
 export function isCurrentActorDoing<T extends ActionBase>(actionClass: {

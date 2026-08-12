@@ -259,7 +259,7 @@
             },
             "layoutClassName" : "action-container",
             "layoutStyle" : { },
-            "name" : "Actions",
+            "name" : "Action",
             "style" : { }
           },
           "type" : "FlexList"
@@ -281,6 +281,278 @@
           "marginTop" : "0px",
           "paddingTop" : "0px"
         },
+        "name" : "Action",
+        "style" : { }
+      },
+      "type" : "For each"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "className" : "noMargin feedback__undertitle",
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "Feedback title",
+            "style" : { },
+            "text" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'feedbacks')",
+              "language" : "TypeScript"
+            }
+          },
+          "type" : "Text"
+        }, {
+          "props" : {
+            "className" : "noPadding",
+            "icon" : "caret-up",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "Collapse",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "interactive",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "actions-list__header--closed",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isCompletedActionFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isCompletedActionFeedbackVisible();",
+            "language" : "typescript"
+          }
+        } ],
+        "layout" : {
+          "alignItems" : "center",
+          "justifyContent" : "space-between"
+        },
+        "layoutClassName" : "noPadding feedback-list__header actions-list__header",
+        "layoutStyle" : { },
+        "localScriptEval" : {
+          "script" : {
+            "@class" : "ClientScript",
+            "content" : "import { toggleCompletedActionFeedback } from \"./UIfacade/actionFacade\";\n\ntoggleCompletedActionFeedback()",
+            "language" : "TypeScript"
+          }
+        },
+        "name" : "Feedback header",
+        "style" : { }
+      },
+      "type" : "FlexList"
+    }, {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "actionName",
+                    "layoutClassName" : "",
+                    "layoutStyle" : { },
+                    "name" : "Action title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  Context.action.title;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Action duration",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\n  `${Context.action.duration} ${getTranslation('mainSim-resources', 'minutes', false)}`;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "className" : "actionHeader",
+                "conditionnalClassNames" : [ {
+                  "applyOn" : "Inside",
+                  "className" : "actionHeaderActive",
+                  "condition" : {
+                    "@class" : "Script",
+                    "content" : "import { isActiveCompletedAction } from \"./UIfacade/actionFacade\";\nisActiveCompletedAction(Context.action.uid);",
+                    "language" : "typescript"
+                  }
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "localScriptEval" : {
+                  "script" : {
+                    "@class" : "ClientScript",
+                    "content" : "import { toggleCompletedAction } from \"./UIfacade/actionFacade\";\n\ntoggleCompletedAction(Context.action.uid);",
+                    "language" : "TypeScript"
+                  }
+                },
+                "name" : "Title",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "Context.action.description.length <= 0;",
+                      "language" : "typescript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Action description",
+                    "style" : {
+                      "marginBottom" : "10px"
+                    },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  Context.action.description;",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "choice-title",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.action.choiceTitle.length <= 0;",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Choice title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  Context.action.choiceTitle;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.action.choiceDescription.length <= 0;",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Choice description",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  Context.action.choiceDescription;",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "feedback",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.action.feedbacks.length <= 0;",
+                          "language" : "typescript"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "Feedback",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "  Context.action.feedbacks.join('\\n');",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    } ],
+                    "className" : "feedback__container",
+                    "hideIf" : {
+                      "@class" : "Script",
+                      "content" : "!Context.action.choiceTitle &&\n!Context.action.choiceDescription &&\nContext.action.feedbacks.length === 0;",
+                      "language" : "typescript"
+                    },
+                    "layout" : {
+                      "flexDirection" : "column"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "Choice & Feedback",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "actionInfo aDescriptionAction",
+                "hideIf" : {
+                  "@class" : "Script",
+                  "content" : "import { isActiveCompletedAction } from \"./UIfacade/actionFacade\";\n!isActiveCompletedAction(Context.action.uid);",
+                  "language" : "typescript"
+                },
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "Description, Choice & Feedback",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "action-container",
+            "layoutStyle" : { },
+            "name" : "Feedback",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        } ],
+        "className" : "noPadding",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "actions-list--closed",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { isCompletedActionFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isCompletedActionFeedbackVisible();",
+            "language" : "typescript"
+          }
+        } ],
+        "exposeAs" : "action",
+        "getItemsFn" : {
+          "@class" : "Script",
+          "content" : "import { getCompletedActions } from \"./UIfacade/actionFacade\";\n  getCompletedActions();",
+          "language" : "TypeScript"
+        },
+        "itemKey" : "uid",
+        "layout" : {
+          "flexDirection" : "column-reverse"
+        },
+        "layoutClassName" : "",
+        "layoutStyle" : {
+          "padding" : "0 0 15px 0"
+        },
+        "name" : "Feedback",
         "style" : { }
       },
       "type" : "For each"
