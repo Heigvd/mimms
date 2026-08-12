@@ -30,12 +30,11 @@ import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventRes
 export class PreTriageTask extends TaskBase {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
     readonly feedbackAtEnd: TranslationKey,
     readonly locationSource: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Pretriage, title, description, locationSource, availableToRoles);
+    super(TaskType.Pretriage, title, locationSource, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

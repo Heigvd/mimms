@@ -25,11 +25,10 @@ import { MoveResourcesLocalEvent } from '../localEvents/localEventResources';
 export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Evacuation, title, description, location, availableToRoles, false);
+    super(TaskType.Evacuation, title, location, availableToRoles, false);
   }
 
   public createSubTask(

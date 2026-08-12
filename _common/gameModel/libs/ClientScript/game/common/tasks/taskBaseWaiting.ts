@@ -10,11 +10,10 @@ import { TaskBase, TaskType } from './taskBase';
 export class WaitingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Waiting, title, description, location, availableToRoles);
+    super(TaskType.Waiting, title, location, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

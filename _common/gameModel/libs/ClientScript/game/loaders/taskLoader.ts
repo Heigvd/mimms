@@ -12,7 +12,6 @@ export function getWaitingTaskId(loadedTasks: TaskBase[], location: LOCATION_ENU
 export function loadTasks(): TaskBase[] {
   const taskPretriChantier = new PreTriageTask(
     'pre-tri-title',
-    'pre-tri-desc',
     'pretriage-task-completed',
     LOCATION_ENUM.chantier,
     []
@@ -20,7 +19,6 @@ export function loadTasks(): TaskBase[] {
 
   const taskPretriPMA = new PreTriageTask(
     'pre-tri-title',
-    'pre-tri-desc',
     'pretriage-task-completed',
     LOCATION_ENUM.PMA,
     []
@@ -28,7 +26,6 @@ export function loadTasks(): TaskBase[] {
 
   const taskPretriNidDeBlesses = new PreTriageTask(
     'pre-tri-title',
-    'pre-tri-desc',
     'pretriage-task-completed',
     LOCATION_ENUM.nidDeBlesses,
     []
@@ -36,7 +33,6 @@ export function loadTasks(): TaskBase[] {
 
   const taskBrancardageChantier = new PorterTask(
     'brancardage-title',
-    'porter-desc',
     'porters-task-chantier-completed',
     'porters-task-no-target-location',
     LOCATION_ENUM.chantier,
@@ -45,61 +41,30 @@ export function loadTasks(): TaskBase[] {
 
   const taskBrancardageNidDeBlesses = new PorterTask(
     'brancardage-title',
-    'porter-desc',
     'porters-task-nid-completed',
     'porters-task-no-target-location',
     LOCATION_ENUM.nidDeBlesses,
     []
   );
 
-  const taskHealingNidDeBlesses = new HealingTask(
-    'healing-title',
-    'healing-desc',
-    LOCATION_ENUM.nidDeBlesses,
-    []
-  );
+  const taskHealingNidDeBlesses = new HealingTask('healing-title', LOCATION_ENUM.nidDeBlesses, []);
 
-  const taskHealingChantier = new HealingTask(
-    'healing-title',
-    'healing-desc',
-    LOCATION_ENUM.chantier,
-    []
-  );
+  const taskHealingChantier = new HealingTask('healing-title', LOCATION_ENUM.chantier, []);
 
-  const taskHealingRed = new HealingTask(
-    'healing-pma-red-title',
-    'healing-pma-red-desc',
-    LOCATION_ENUM.PMA,
-    [],
-    1
-  );
+  const taskHealingRed = new HealingTask('healing-pma-red-title', LOCATION_ENUM.PMA, [], 1);
 
-  const taskHealingYellow = new HealingTask(
-    'healing-pma-yellow-title',
-    'healing-pma-yellow-desc',
-    LOCATION_ENUM.PMA,
-    [],
-    2
-  );
+  const taskHealingYellow = new HealingTask('healing-pma-yellow-title', LOCATION_ENUM.PMA, [], 2);
 
-  const taskHealingGreen = new HealingTask(
-    'healing-pma-green-title',
-    'healing-pma-green-desc',
-    LOCATION_ENUM.PMA,
-    [],
-    3
-  );
+  const taskHealingGreen = new HealingTask('healing-pma-green-title', LOCATION_ENUM.PMA, [], 3);
 
   const taskEvacuationAmbulancePark = new EvacuationTask(
     'evacuate-title',
-    'evacuate-desc',
     LOCATION_ENUM.ambulancePark,
     []
   );
 
   const taskEvacuationHelicopterPark = new EvacuationTask(
     'evacuate-title',
-    'evacuate-desc',
     LOCATION_ENUM.helicopterPark,
     []
   );
@@ -111,7 +76,7 @@ export function loadTasks(): TaskBase[] {
     LOCATION_ENUM.PC,
     LOCATION_ENUM.ambulancePark,
     LOCATION_ENUM.helicopterPark,
-  ].map(location => new WaitingTask('waiting-title', 'waiting-task-desc', location, []));
+  ].map(location => new WaitingTask('waiting-title', location, []));
 
   return [
     ...waitingTasks,

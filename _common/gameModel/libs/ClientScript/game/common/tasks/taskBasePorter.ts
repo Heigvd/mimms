@@ -35,13 +35,12 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
     readonly feedbackWhenDone: TranslationKey,
     readonly feedbackIfNoTargetLocation: TranslationKey,
     readonly locationSource: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Porter, title, description, locationSource, availableToRoles);
+    super(TaskType.Porter, title, locationSource, availableToRoles);
   }
 
   /** Its short name */

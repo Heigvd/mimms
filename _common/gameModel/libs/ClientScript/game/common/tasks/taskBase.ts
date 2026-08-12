@@ -51,7 +51,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected constructor(
     readonly taskType: TaskType,
     readonly title: TranslationKey,
-    readonly description: TranslationKey, // currently not used
     /** the location where the task can take place */
     readonly location: LOCATION_ENUM,
     /** which roles can order the task */
@@ -66,12 +65,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   /** Its short name */
   public getTitle(): string {
     return getTranslation('mainSim-actions-tasks', this.title);
-  }
-
-  // TODO see if useful
-  /** Its description to give more details */
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
   }
 
   /** The status represents its step of evolution */
@@ -315,12 +308,11 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[],
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(TaskType.Healing, title, description, location, availableToRoles);
+    super(TaskType.Healing, title, location, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(
