@@ -43,6 +43,7 @@ import {
   EvacuationActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
+import { CustomDurationAction } from '../game/common/actions/actorActions';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -134,7 +135,7 @@ export interface CompletedActionEntry {
   feedbacks: string[];
 }
 
-// used in page 45 (actions list), to display ongoing or completed actions by the current actor
+// used in page 45 (actions list), to display actions already completed by the current actor
 export function getCompletedActions(): CompletedActionEntry[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (!currentActorUid) {
@@ -143,22 +144,30 @@ export function getCompletedActions(): CompletedActionEntry[] {
 
   const templates = getActionTemplates();
 
-  return (getAllActions()[currentActorUid] ?? [])
-    .filter(action => action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed')
-    .map(action => {
-      const template = templates[action.getTemplateId()];
-      const choice = action instanceof ChoiceAction ? action.choice : undefined;
+  return (
+    (getAllActions()[currentActorUid] ?? [])
+      .filter(action => action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed')
+      // only actions that can actually carry a feedback (choice-driven, eg. "Examiner", or "Attendre");
+      // this excludes automatic actions such as the ACS/MCS arrival announcements, radio messages or resources assignments
+      .filter(
+        (action): action is ChoiceAction | CustomDurationAction =>
+          action instanceof ChoiceAction || action instanceof CustomDurationAction
+      )
+      .map(action => {
+        const template = templates[action.getTemplateId()];
+        const choice = action instanceof ChoiceAction ? action.choice : undefined;
 
-      return {
-        uid: action.Uid,
-        title: template?.getTitle() ?? '',
-        duration: action.duration() / 60,
-        description: template?.getDescription() ?? '',
-        choiceTitle: choice ? I18n.translate(choice.title) : undefined,
-        choiceDescription: choice ? I18n.translate(choice.description) : undefined,
-        feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
-      };
-    });
+        return {
+          uid: action.Uid,
+          title: template?.getTitle() ?? '',
+          duration: action.duration() / 60,
+          description: template?.getDescription() ?? '',
+          choiceTitle: choice ? I18n.translate(choice.title) : undefined,
+          choiceDescription: choice ? I18n.translate(choice.description) : undefined,
+          feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
+        };
+      })
+  );
 }
 
 /**
