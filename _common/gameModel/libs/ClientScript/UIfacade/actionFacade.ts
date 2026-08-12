@@ -110,7 +110,7 @@ export interface ActionFeedbackEntry {
   message: string;
 }
 
-// used in page 64 (notificationPageloader), to display feedbacks given by the actor's actions
+// used in page 45 (actions list), to display feedbacks given by the actor's actions
 export function getActionFeedbacks(actorId: ActorId): ActionFeedbackEntry[] {
   const actions = getAllActions()[actorId] ?? [];
 
@@ -134,7 +134,7 @@ export interface CompletedActionEntry {
   feedbacks: string[];
 }
 
-// used in page 45 (actionStandardList), to display actions already completed by the current actor
+// used in page 45 (actions list), to display ongoing or completed actions by the current actor
 export function getCompletedActions(): CompletedActionEntry[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (!currentActorUid) {
@@ -144,7 +144,7 @@ export function getCompletedActions(): CompletedActionEntry[] {
   const templates = getActionTemplates();
 
   return (getAllActions()[currentActorUid] ?? [])
-    .filter(action => action.getStatus() === 'Completed')
+    .filter(action => action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed')
     .map(action => {
       const template = templates[action.getTemplateId()];
       const choice = action instanceof ChoiceAction ? action.choice : undefined;
@@ -180,15 +180,15 @@ export function toggleCompletedAction(actionUid: ActionId): void {
   setInterfaceState({ currentCompletedActionUid: actionUid });
 }
 
-// used in page 45, to know whether the feedback list of the expanded completed action is shown
-export function isCompletedActionFeedbackVisible(): boolean {
-  return getTypedInterfaceState().showCompletedActionFeedback;
+// used in page 45, to know whether the feedback list is shown
+export function isFeedbackVisible(): boolean {
+  return getTypedInterfaceState().showFeedback;
 }
 
-// used in page 45, on the arrow next to the completed action's title
-export function toggleCompletedActionFeedback(): void {
+// used in page 45, on the arrow next to the feedbacks' title
+export function toggleFeedbackVisibility(): void {
   setInterfaceState({
-    showCompletedActionFeedback: !getTypedInterfaceState().showCompletedActionFeedback,
+    showFeedback: !getTypedInterfaceState().showFeedback,
   });
 }
 

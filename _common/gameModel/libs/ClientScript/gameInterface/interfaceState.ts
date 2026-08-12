@@ -35,7 +35,7 @@ export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
   currentCompletedActionUid: ActionId | undefined;
-  showCompletedActionFeedback: boolean;
+  showFeedback: boolean;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -99,7 +99,7 @@ export function getInitialInterfaceState(): InterfaceState {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: undefined,
     currentCompletedActionUid: undefined,
-    showCompletedActionFeedback: true,
+    showFeedback: true,
     casuMessage: {
       messageType: '',
       major: '',

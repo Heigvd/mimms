@@ -323,7 +323,7 @@
           "className" : "actions-list__header--closed",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { isCompletedActionFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isCompletedActionFeedbackVisible();",
+            "content" : "import { isFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isFeedbackVisible();",
             "language" : "typescript"
           }
         } ],
@@ -336,7 +336,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { toggleCompletedActionFeedback } from \"./UIfacade/actionFacade\";\n\ntoggleCompletedActionFeedback()",
+            "content" : "import { toggleFeedbackVisibility } from \"./UIfacade/actionFacade\";\n\ntoggleFeedbackVisibility()",
             "language" : "TypeScript"
           }
         },
@@ -534,7 +534,7 @@
           "className" : "actions-list--closed",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { isCompletedActionFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isCompletedActionFeedbackVisible();",
+            "content" : "import { isFeedbackVisible } from \"./UIfacade/actionFacade\";\n!isFeedbackVisible();",
             "language" : "typescript"
           }
         } ],
