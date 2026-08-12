@@ -27,6 +27,7 @@ import {
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
+import { canPlanAction } from '../gameInterface/main';
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getCurrentPlayerActors } from './actorFacade';
 import {
@@ -171,11 +172,26 @@ export function getCompletedActions(): CompletedActionEntry[] {
 }
 
 /**
+ * Whether the "not yet done" action panel is currently expanded (being configured) for the
+ * current actor. While it is, no feedback card should show as active, so only one of the two
+ * (an action being planned, or a completed action's feedback) is ever open at a time.
+ */
+function isNotYetDoneActionPanelOpen(): boolean {
+  return canPlanAction() && getTypedInterfaceState().currentActionUid !== undefined;
+}
+
+/**
  * Whether the given completed action's card should be displayed expanded.
- * Defaults to the most recently completed action as long as none has been explicitly clicked.
+ * Defaults to the most recently completed action as long as none has been explicitly clicked
+ * for the actor owning that action, and as long as the "not yet done" panel isn't open.
  */
 export function isActiveCompletedAction(actionUid: ActionId): boolean {
-  const current = getTypedInterfaceState().currentCompletedActionUid;
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (!currentActorUid || isNotYetDoneActionPanelOpen()) {
+    return false;
+  }
+
+  const current = getTypedInterfaceState().currentCompletedActionUid[currentActorUid];
   if (current !== undefined) {
     return current === actionUid;
   }
@@ -184,9 +200,36 @@ export function isActiveCompletedAction(actionUid: ActionId): boolean {
   return completedActions[completedActions.length - 1]?.uid === actionUid;
 }
 
-// used in page 45, expands the clicked completed action card, collapsing any other
+// used in page 45, expands the clicked completed action card for the current actor, collapsing
+// any other completed action card as well as the "not yet done" action panel
 export function toggleCompletedAction(actionUid: ActionId): void {
-  setInterfaceState({ currentCompletedActionUid: actionUid });
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (!currentActorUid) {
+    return;
+  }
+
+  setInterfaceState({
+    currentActionUid: undefined,
+    currentCompletedActionUid: { [currentActorUid]: actionUid },
+  });
+}
+
+/**
+ * Whether the ongoing action for the given template is now shown as a feedback card below
+ * (ie. it has its own entry in getCompletedActions()) so its "not yet done" row should collapse
+ * instead of staying expanded, to keep only one thing open at a time.
+ */
+export function isOngoingActionShownAsFeedback(templateUid: ActionTemplateUid): boolean {
+  const currentActorUid = getTypedInterfaceState().currentActorUid;
+  if (!currentActorUid) {
+    return false;
+  }
+
+  const ongoing = (getAllActions()[currentActorUid] ?? []).find(
+    action => action.getStatus() === 'OnGoing' && action.getTemplateId() === templateUid
+  );
+
+  return ongoing instanceof ChoiceAction || ongoing instanceof CustomDurationAction;
 }
 
 // used in page 45, to know whether the feedback list is shown

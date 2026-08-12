@@ -10,6 +10,7 @@ import {
   isMoveActorActionTemplate,
   isCustomDurationActionTemplate,
   planAction,
+  isOngoingActionShownAsFeedback,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
 import { setInterfaceState } from './interfaceState';
@@ -199,6 +200,11 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
 export function isActiveAction(templateUid: ActionTemplateUid): boolean {
   if (canPlanAction()) {
     return Context.interfaceState.state.currentActionUid == templateUid;
+  }
+  // once the ongoing action has its own feedback card below, collapse this row instead of
+  // keeping both open at the same time
+  if (isOngoingActionShownAsFeedback(templateUid)) {
+    return false;
   }
   return isPlannedAction(templateUid);
 }
