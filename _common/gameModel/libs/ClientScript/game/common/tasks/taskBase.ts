@@ -155,7 +155,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.setStatus('OnGoing'); // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
 
@@ -171,7 +171,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.setStatus('Paused') // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
         }
 
         break;
@@ -181,7 +181,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.setStatus('OnGoing') // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
           this.dispatchInProgressEvents(state, timeJump);
         }
         break;
