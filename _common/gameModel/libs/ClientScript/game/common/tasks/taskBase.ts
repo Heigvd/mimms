@@ -213,8 +213,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       this.Uid
     );
 
-    // FIXME see if no problem removing element from the list we browse
-
     for (const subTask of Object.values(this.subTasks)) {
       for (const subTaskResourceId of subTask.resources) {
         if (
