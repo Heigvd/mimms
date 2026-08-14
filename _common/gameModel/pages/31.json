@@ -73,7 +73,7 @@
         },
         "hideIf" : {
           "@class" : "Script",
-          "content" : "import { getAvailableChoices } from \"./UIfacade/actionFacade\";\ngetAvailableChoices(Context.action).length === 1;",
+          "content" : "import { choiceHasContent, getAvailableChoices } from \"./UIfacade/actionFacade\";\n  const choices = getAvailableChoices(Context.action);\nchoices.length === 1 && !choiceHasContent(choices[0]);",
           "language" : "typescript"
         },
         "itemKey" : "uid",
