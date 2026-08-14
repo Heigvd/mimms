@@ -726,7 +726,8 @@
                                             "layoutStyle" : { },
                                             "style" : {
                                               "gap" : "5px",
-                                              "width" : "9.5rem"
+                                              "paddingRight" : "10px",
+                                              "width" : "10rem"
                                             }
                                           },
                                           "type" : "FlexList"
