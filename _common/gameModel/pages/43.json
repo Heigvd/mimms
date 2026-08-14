@@ -639,6 +639,46 @@
                                               "type" : "Button"
                                             }, {
                                               "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "className" : "",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "halo",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  const idleActors = getVisibleActorsInTimelineForCurrentPlayer().filter(a => canActorPlanAction(a.Uid));\nidleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding halo__container",
+                                                    "layoutStyle" : { },
+                                                    "name" : "Halo",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "last-to-play",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "current",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\ncanActorPlanAction(Context.actor.Uid);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : { },
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "Last to play",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
                                                 "className" : "button-S button-primaryColor",
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
@@ -660,7 +700,10 @@
                                                   "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
                                                   "language" : "TypeScript"
                                                 },
-                                                "layoutStyle" : { },
+                                                "layoutClassName" : "",
+                                                "layoutStyle" : {
+                                                  "padding" : "5px 0 5px 0"
+                                                },
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
@@ -679,7 +722,10 @@
                                             },
                                             "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
-                                            "style" : { }
+                                            "style" : {
+                                              "gap" : "5px",
+                                              "width" : "9.5rem"
+                                            }
                                           },
                                           "type" : "FlexList"
                                         } ],

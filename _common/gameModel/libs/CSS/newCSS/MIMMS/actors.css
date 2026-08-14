@@ -39,3 +39,41 @@
 .actor_button{
 	padding-top: 2em;
 }
+
+/* last to play */
+.last-to-play {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid var(--grey_80);
+  border-radius: var(--L_borderRadius);
+  opacity: 50%;
+}
+
+.last-to-play.current {
+  background-color: var(--grey_80);
+  opacity: 100%;
+}
+
+.halo__container {
+  position: relative;
+  width: 1.25rem;
+  /*height: 1.25rem;*/
+  overflow: visible;
+}
+
+.halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 3px solid var(--grey_80);
+  border-radius: var(--L_borderRadius);
+  transform: translate(-50%, -50%);
+  animation: halo 4s linear infinite;
+  z-index: 10;
+}
+
+@keyframes halo {
+  0% {width: 1.25rem; height: 1.25rem; opacity: 100%;}
+  25% {width: 2.5rem; height: 2.5rem; opacity: 0%;}
+  100% {width: 1.25rem; height: 1.25rem; opacity: 0%;}
+}
