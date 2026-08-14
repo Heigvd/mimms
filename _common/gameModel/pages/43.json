@@ -559,6 +559,86 @@
                                               "type" : "FlexList"
                                             }, {
                                               "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "className" : "",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "halo",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  const idleActors = getVisibleActorsInTimelineForCurrentPlayer().filter(a => canActorPlanAction(a.Uid));\nidleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding halo__container",
+                                                    "layoutStyle" : { },
+                                                    "name" : "Halo",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "last-to-play",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "current",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\ncanActorPlanAction(Context.actor.Uid);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : { },
+                                                "layoutClassName" : "noPadding last-to-play__container",
+                                                "layoutStyle" : { },
+                                                "name" : "Last to play",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "className" : "fullWidth button-S button-primaryColor",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "current",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "confirm" : false,
+                                                "disableIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
+                                                  "language" : "typescript"
+                                                },
+                                                "label" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "layoutClassName" : "fullWidth",
+                                                "layoutStyle" : {
+                                                  "padding" : "5px 0 5px 0"
+                                                },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "name" : "Actor",
+                                                "style" : {
+                                                  "justifyContent" : "center"
+                                                }
+                                              },
+                                              "type" : "Button"
+                                            }, {
+                                              "props" : {
                                                 "className" : "counterCircle",
                                                 "hideIf" : {
                                                   "@class" : "Script",
@@ -634,84 +714,6 @@
                                                   }
                                                 },
                                                 "name" : "Notification",
-                                                "style" : { }
-                                              },
-                                              "type" : "Button"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "children" : [ ],
-                                                    "className" : "",
-                                                    "conditionnalClassNames" : [ {
-                                                      "applyOn" : "Inside",
-                                                      "className" : "halo",
-                                                      "condition" : {
-                                                        "@class" : "Script",
-                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  const idleActors = getVisibleActorsInTimelineForCurrentPlayer().filter(a => canActorPlanAction(a.Uid));\nidleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
-                                                        "language" : "typescript"
-                                                      }
-                                                    } ],
-                                                    "layout" : { },
-                                                    "layoutClassName" : "noPadding halo__container",
-                                                    "layoutStyle" : { },
-                                                    "name" : "Halo",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                } ],
-                                                "className" : "last-to-play",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "current",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\ncanActorPlanAction(Context.actor.Uid);",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "layout" : { },
-                                                "layoutClassName" : "noPadding",
-                                                "layoutStyle" : { },
-                                                "name" : "Last to play",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "className" : "button-S button-primaryColor",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "current",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "confirm" : false,
-                                                "disableIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
-                                                  "language" : "typescript"
-                                                },
-                                                "label" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
-                                                  "language" : "TypeScript"
-                                                },
-                                                "layoutClassName" : "",
-                                                "layoutStyle" : {
-                                                  "padding" : "5px 0 5px 0"
-                                                },
-                                                "localScriptEval" : {
-                                                  "script" : {
-                                                    "@class" : "ClientScript",
-                                                    "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                },
-                                                "name" : "Actor",
                                                 "style" : { }
                                               },
                                               "type" : "Button"
