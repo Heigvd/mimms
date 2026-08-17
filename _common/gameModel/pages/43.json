@@ -580,7 +580,7 @@
                                                   },
                                                   "type" : "FlexList"
                                                 } ],
-                                                "className" : "last-to-play",
+                                                "className" : "playing-state-indicator",
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "current",
@@ -591,9 +591,9 @@
                                                   }
                                                 } ],
                                                 "layout" : { },
-                                                "layoutClassName" : "noPadding last-to-play__container",
+                                                "layoutClassName" : "noPadding",
                                                 "layoutStyle" : { },
-                                                "name" : "Last to play",
+                                                "name" : "Playing state indicator",
                                                 "style" : { }
                                               },
                                               "type" : "FlexList"
