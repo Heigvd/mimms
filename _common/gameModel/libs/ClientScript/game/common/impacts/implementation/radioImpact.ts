@@ -22,9 +22,8 @@ export function convertRadioMessageImpact(
       source,
       simTimeStamp: time,
       // no sender nor recipient, "xxx de yyy" must be written directly in the message text
-      message: I18n.translate(impact.message),
+      message: impact.message,
       channel: impact.channel,
-      omitTranslation: true,
     }),
   ];
 }

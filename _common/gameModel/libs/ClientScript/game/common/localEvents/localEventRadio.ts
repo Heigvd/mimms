@@ -20,7 +20,7 @@ export class AddMessageLocalEvent extends LocalEventBase {
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
-      readonly message: TranslationKey;
+      readonly message: TranslationKey | ITranslatableContent;
       readonly channel?: RadioType | undefined;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
@@ -30,21 +30,24 @@ export class AddMessageLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const msg = this.props.omitTranslation
-      ? this.props.message
-      : getTranslation(
-          'mainSim-actions-tasks',
-          this.props.message,
-          undefined,
-          this.props.messageValues
-        );
+    const raw = this.props.message;
+    let message: ITranslatableContent;
+    if (typeof raw === 'string') {
+      const text = this.props.omitTranslation
+        ? raw
+        : getTranslation('mainSim-actions-tasks', raw, undefined, this.props.messageValues);
+
+      message = I18n.createTranslatableContent(text);
+    } else {
+      message = raw;
+    }
 
     state.getInternalStateObject().radioMessages.push({
       senderId: this.props.senderId,
       senderName: this.props.senderName,
       recipientId: this.props.recipientId,
       timeStamp: this.props.simTimeStamp,
-      message: msg,
+      message,
       uid: AddMessageLocalEvent.RadioIdProvider++,
       isRadioMessage: this.props.channel != undefined,
       channel: this.props.channel,
@@ -62,7 +65,7 @@ export class AddRadioMessageLocalEvent extends AddMessageLocalEvent {
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId?: ActorId | undefined;
-      readonly message: TranslationKey;
+      readonly message: TranslationKey | ITranslatableContent;
       readonly channel: RadioType;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
@@ -81,7 +84,7 @@ export class AddNotificationLocalEvent extends AddMessageLocalEvent {
       readonly senderId?: ActorId | undefined;
       readonly senderName?: string | undefined; // in case there is no sending actor, free text sender name
       readonly recipientId: ActorId;
-      readonly message: TranslationKey;
+      readonly message: TranslationKey | ITranslatableContent;
       readonly omitTranslation?: boolean;
       readonly messageValues?: (string | number)[];
     }

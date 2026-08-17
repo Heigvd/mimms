@@ -49,8 +49,7 @@ export function convertNotificationImpact(
         simTimeStamp: time,
         // no sender, the sender can be written directly in the message text
         recipientId: actor.Uid,
-        message: I18n.translate(impact.message),
-        omitTranslation: true,
+        message: impact.message,
       })
   );
 }
