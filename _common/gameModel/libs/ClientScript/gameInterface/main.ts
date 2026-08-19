@@ -13,7 +13,7 @@ import {
   isOngoingActionShownAsFeedback,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { setInterfaceState } from './interfaceState';
+import { getTypedInterfaceState, setInterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -102,6 +102,10 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 export function actionChangeHandler(): void {
   // TODO Could we set Context.action.Uid as param ?
   const actTemplate = Context.action as ActionTemplateBase;
+
+  setInterfaceState({
+    showAction: true,
+  });
 
   if (!canPlanAction()) return;
 
@@ -198,6 +202,9 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
  * Returns true if the action is planned for the current actor or selected
  */
 export function isActiveAction(templateUid: ActionTemplateUid): boolean {
+  if (!getTypedInterfaceState().showAction) {
+    return false;
+  }
   if (canPlanAction()) {
     return Context.interfaceState.state.currentActionUid == templateUid;
   }

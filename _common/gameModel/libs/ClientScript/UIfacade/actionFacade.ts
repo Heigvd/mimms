@@ -27,7 +27,6 @@ import {
   getUniqueActionTemplates,
 } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
-import { canPlanAction } from '../gameInterface/main';
 import { refreshSelectionLayer } from '../gameMap/main';
 import { getCurrentPlayerActors } from './actorFacade';
 import {
@@ -107,13 +106,13 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
 }
 
 export interface ActionFeedbackEntry {
-  uid: number;
+  index: number;
   actionId: ActionId;
   message: string;
 }
 
 // used in page 45 (actions list), to display feedbacks given by the actor's actions
-export function getActionFeedbacks(actorId: ActorId): ActionFeedbackEntry[] {
+/*export function getActionFeedbacks(actorId: ActorId): ActionFeedbackEntry[] {
   const actions = getAllActions()[actorId] ?? [];
 
   return actions
@@ -123,8 +122,8 @@ export function getActionFeedbacks(actorId: ActorId): ActionFeedbackEntry[] {
         message: I18n.translate(feedback),
       }))
     )
-    .map((entry, index) => ({ ...entry, uid: index }));
-}
+    .map((entry, index) => ({ ...entry, index }));
+}*/
 
 export interface CompletedActionEntry {
   uid: ActionId;
@@ -144,56 +143,46 @@ export function getCompletedActions(): CompletedActionEntry[] {
   }
 
   const templates = getActionTemplates();
+  const currentActorActions = getAllActions()[currentActorUid] ?? [];
 
-  return (
-    (getAllActions()[currentActorUid] ?? [])
-      .filter(action => action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed')
+  return currentActorActions
+    .filter((action): action is ChoiceAction | CustomDurationAction => {
       // only actions that can actually carry a feedback (choice-driven, eg. "Examiner", or "Attendre");
       // this excludes automatic actions such as the ACS/MCS arrival announcements, radio messages or resources assignments
-      .filter(
-        (action): action is ChoiceAction | CustomDurationAction =>
-          action instanceof ChoiceAction || action instanceof CustomDurationAction
-      )
-      .map(action => {
-        const template = templates[action.getTemplateId()];
-        const choice = action instanceof ChoiceAction ? action.choice : undefined;
+      return (
+        (action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed') &&
+        (action instanceof ChoiceAction || action instanceof CustomDurationAction)
+      );
+    })
+    .map(action => {
+      const template = templates[action.getTemplateId()];
+      const choice = action instanceof ChoiceAction ? action.choice : undefined;
 
-        return {
-          uid: action.Uid,
-          title: template?.getTitle() ?? '',
-          duration: action.duration() / 60,
-          description: template?.getDescription() ?? '',
-          choiceTitle: choice ? I18n.translate(choice.title) : undefined,
-          choiceDescription: choice ? I18n.translate(choice.description) : undefined,
-          feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
-        };
-      })
-  );
+      return {
+        uid: action.Uid,
+        title: template?.getTitle() ?? '',
+        duration: action.duration() / 60,
+        description: template?.getDescription() ?? '',
+        choiceTitle: choice ? I18n.translate(choice.title) : undefined,
+        choiceDescription: choice ? I18n.translate(choice.description) : undefined,
+        feedbacks: action.getFeedbacks().map(feedback => I18n.translate(feedback)),
+      };
+    });
 }
 
-/**
- * Whether the "not yet done" action panel is currently expanded (being configured) for the
- * current actor. While it is, no feedback card should show as active, so only one of the two
- * (an action being planned, or a completed action's feedback) is ever open at a time.
- */
-function isNotYetDoneActionPanelOpen(): boolean {
-  return canPlanAction() && getTypedInterfaceState().currentActionUid !== undefined;
-}
-
-/**
- * Whether the given completed action's card should be displayed expanded.
- * Defaults to the most recently completed action as long as none has been explicitly clicked
- * for the actor owning that action, and as long as the "not yet done" panel isn't open.
- */
-export function isActiveCompletedAction(actionUid: ActionId): boolean {
+export function showFeedback(actionUid: ActionId): boolean {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
-  if (!currentActorUid || isNotYetDoneActionPanelOpen()) {
+  const showAction = getTypedInterfaceState().currentActorUid;
+
+  if (!currentActorUid || showAction) {
+    // o-oh
     return false;
   }
 
-  const current = getTypedInterfaceState().currentCompletedActionUid[currentActorUid];
-  if (current !== undefined) {
-    return current === actionUid;
+  /* Show if it's the current completed action or the last completed action */
+  const currentFeedback = getTypedInterfaceState().currentFeedbackUid[currentActorUid];
+  if (currentFeedback !== undefined) {
+    return currentFeedback === actionUid;
   }
 
   const completedActions = getCompletedActions();
@@ -202,15 +191,15 @@ export function isActiveCompletedAction(actionUid: ActionId): boolean {
 
 // used in page 45, expands the clicked completed action card for the current actor, collapsing
 // any other completed action card as well as the "not yet done" action panel
-export function toggleCompletedAction(actionUid: ActionId): void {
+export function toggleFeedback(actionUid: ActionId): void {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
   if (!currentActorUid) {
     return;
   }
 
   setInterfaceState({
-    currentActionUid: undefined,
-    currentCompletedActionUid: { [currentActorUid]: actionUid },
+    currentFeedbackUid: { [currentActorUid]: actionUid },
+    showAction: false,
   });
 }
 
@@ -233,14 +222,20 @@ export function isOngoingActionShownAsFeedback(templateUid: ActionTemplateUid): 
 }
 
 // used in page 45, to know whether the feedback list is shown
-export function isFeedbackVisible(): boolean {
-  return getTypedInterfaceState().showFeedback;
+export function showFeedbackSection(): boolean {
+  return getTypedInterfaceState().showFeedbackSection;
 }
 
 // used in page 45, on the arrow next to the feedbacks' title
 export function toggleFeedbackVisibility(): void {
   setInterfaceState({
-    showFeedback: !getTypedInterfaceState().showFeedback,
+    showFeedbackSection: !getTypedInterfaceState().showFeedbackSection,
+  });
+}
+
+export function setShowAction(value: boolean): void {
+  setInterfaceState({
+    showAction: value,
   });
 }
 
