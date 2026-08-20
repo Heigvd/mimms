@@ -27,7 +27,7 @@
                 "layoutStyle" : { },
                 "name" : "existing patients",
                 "style" : {
-                  "margin-bottom" : ".75rem"
+                  "marginBottom" : ".75rem"
                 },
                 "text" : {
                   "@class" : "Script",
@@ -235,7 +235,7 @@
                 "className" : "patient-modal__text",
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
-                  "margin-top" : "4px"
+                  "marginTop" : "4px"
                 },
                 "name" : "patients to be generated",
                 "style" : { },
@@ -306,7 +306,7 @@
             },
             "name" : "back",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"
@@ -330,7 +330,7 @@
             },
             "name" : "generate",
             "style" : {
-              "margin-top" : "1.5rem"
+              "marginTop" : "1.5rem"
             }
           },
           "type" : "Button"

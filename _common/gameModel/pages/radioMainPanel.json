@@ -103,7 +103,7 @@
         },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-grow" : "1",
+          "flexGrow" : "1",
           "height" : "90%"
         },
         "name" : "Channel page loader",
