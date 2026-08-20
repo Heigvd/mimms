@@ -5,7 +5,7 @@
         "className" : "patient-modal__title",
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-shrink" : "0"
+          "flexShrink" : "0"
         },
         "name" : "title",
         "style" : { },
@@ -341,7 +341,7 @@
         },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-shrink" : "0"
+          "flexShrink" : "0"
         },
         "name" : "button",
         "style" : {

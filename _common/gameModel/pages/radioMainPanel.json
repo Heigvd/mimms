@@ -5,7 +5,7 @@
         "className" : "mimms_h2title",
         "layoutClassName" : "",
         "layoutStyle" : {
-          "flex-shrink" : "0",
+          "flexShrink" : "0",
           "height" : "auto",
           "padding" : "0 0 5px 0"
         },
@@ -82,7 +82,7 @@
         "layout" : { },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-shrink" : "0",
+          "flexShrink" : "0",
           "height" : "auto"
         },
         "name" : "Channel choice",
