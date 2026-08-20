@@ -10,10 +10,9 @@ import {
   isMoveActorActionTemplate,
   isCustomDurationActionTemplate,
   planAction,
-  isOngoingActionShownAsFeedback,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { getTypedInterfaceState, setInterfaceState } from './interfaceState';
+import { getTypedInterfaceState, setInterfaceState, InterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -99,38 +98,30 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 /**
  * Update state whenever user changes action
  */
-export function actionChangeHandler(): void {
-  // TODO Could we set Context.action.Uid as param ?
-  const actTemplate = Context.action as ActionTemplateBase;
+export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
+  const updatedState: Partial<InterfaceState> = { showAction: true };
 
-  setInterfaceState({
-    showAction: true,
-  });
+  if (canPlanAction() && actionTemplate) {
+    updatedState.currentActionUid = actionTemplate.uid;
 
-  if (!canPlanAction()) return;
+    endMapAction();
 
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActionUid: actTemplate.uid,
-  });
+    if (isChoiceTemplate(actionTemplate)) {
+      const choiceUid = getAvailableChoices(actionTemplate)[0]?.uid;
 
-  endMapAction();
+      if (choiceUid) {
+        updatedState.selectedActionChoiceUid = choiceUid;
 
-  if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
-
-    if (choiceUid) {
-      setInterfaceState({
-        currentActionUid: actTemplate.uid,
-        selectedActionChoiceUid: choiceUid,
-      });
-      if (hasMapChoices(actTemplate)) {
-        startMapChoice();
+        if (hasMapChoices(actionTemplate)) {
+          startMapChoice();
+        }
+      } else {
+        actionLogger.error(`The choice template ${actionTemplate.uid} has no available choice`);
       }
-    } else {
-      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
     }
   }
+
+  setInterfaceState(updatedState);
 }
 
 function getDayZero(): Date {
@@ -205,13 +196,10 @@ export function isActiveAction(templateUid: ActionTemplateUid): boolean {
   if (!getTypedInterfaceState().showAction) {
     return false;
   }
+
   if (canPlanAction()) {
     return Context.interfaceState.state.currentActionUid == templateUid;
   }
-  // once the ongoing action has its own feedback card below, collapse this row instead of
-  // keeping both open at the same time
-  if (isOngoingActionShownAsFeedback(templateUid)) {
-    return false;
-  }
+
   return isPlannedAction(templateUid);
 }

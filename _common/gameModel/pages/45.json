@@ -148,7 +148,7 @@
                   "priority" : 0,
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler();",
+                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler(Context.action);",
                     "language" : "TypeScript"
                   }
                 },
@@ -229,7 +229,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { setShowAction } from \"./UIfacade/actionFacade\";\nrunActionButton(Context.action);\nsetShowAction(false);",
+                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/actionFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
                         "language" : "TypeScript"
                       }
                     },
@@ -336,7 +336,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { toggleFeedbackVisibility } from \"./UIfacade/actionFacade\";\n\ntoggleFeedbackVisibility()",
+            "content" : "import { toggleFeedbackSectionVisibility } from \"./UIfacade/actionFacade\";\n\ntoggleFeedbackSectionVisibility()",
             "language" : "TypeScript"
           }
         },
@@ -359,7 +359,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "  Context.action.title + \" \" + Context.action.uid;",
+                      "content" : "Context.action.title;",
                       "language" : "TypeScript"
                     }
                   },
@@ -541,7 +541,7 @@
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCompletedActions, toggleFeedback } from \"./UIfacade/actionFacade\";\n  const feedbacks = getCompletedActions();\n  toggleFeedback(feedbacks[feedbacks.length - 1].uid);\n  feedbacks;",
+          "content" : "import { getCompletedActions } from \"./UIfacade/actionFacade\";\ngetCompletedActions();",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
