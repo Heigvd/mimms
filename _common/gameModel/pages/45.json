@@ -128,14 +128,6 @@
                     "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.uid);",
                     "language" : "typescript"
                   }
-                }, {
-                  "applyOn" : "Inside",
-                  "className" : "actionHeaderDisabled",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.uid);",
-                    "language" : "typescript"
-                  }
                 } ],
                 "layout" : {
                   "alignItems" : "flex-start",
@@ -207,12 +199,7 @@
                     "className" : " button-S button-secondaryColor ",
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid)",
-                      "language" : "typescript"
-                    },
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.uid);",
+                      "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
                       "language" : "typescript"
                     },
                     "icon" : "",

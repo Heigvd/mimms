@@ -46,7 +46,7 @@ import {
 import { CustomDurationAction } from '../game/common/actions/actorActions';
 import { addAfterUpdateCallback } from '../gameInterface/afterUpdateCallbacks';
 import { AppointActorAction, MoveActorAction } from '../game/common/actions/actorActions';
-import { DisplayMessageAction } from '../game/common/actions/radioActions'
+import { DisplayMessageAction } from '../game/common/actions/radioActions';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -124,7 +124,12 @@ export interface CompletedActionEntry {
   feedbacks: string[];
 }
 
-type ActionWithFeedbacks = ChoiceAction | CustomDurationAction | AppointActorAction | DisplayMessageAction | MoveActorAction
+type ActionWithFeedbacks =
+  | ChoiceAction
+  | CustomDurationAction
+  | AppointActorAction
+  | DisplayMessageAction
+  | MoveActorAction;
 
 // used in page 45 (actions list), to display actions already completed by the current actor
 export function getCompletedActions(): CompletedActionEntry[] {

@@ -24,11 +24,6 @@
 	cursor: pointer;
 }
 
-.actionHeaderDisabled{
-  opacity: 50%;
-  cursor: default;
-}
-
 .actionHeaderActive{
 	font-weight: var(--boldWeight);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;

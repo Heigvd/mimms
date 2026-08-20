@@ -99,11 +99,12 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
  * Update state whenever user changes action
  */
 export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
-  const updatedState: Partial<InterfaceState> = { showAction: true };
+  const updatedState: Partial<InterfaceState> = {
+    showAction: true,
+    currentActionUid: actionTemplate?.uid,
+  };
 
   if (canPlanAction() && actionTemplate) {
-    updatedState.currentActionUid = actionTemplate.uid;
-
     endMapAction();
 
     if (isChoiceTemplate(actionTemplate)) {
@@ -197,9 +198,5 @@ export function isActiveAction(templateUid: ActionTemplateUid): boolean {
     return false;
   }
 
-  if (canPlanAction()) {
-    return Context.interfaceState.state.currentActionUid == templateUid;
-  }
-
-  return isPlannedAction(templateUid);
+  return Context.interfaceState.state.currentActionUid == templateUid;
 }
