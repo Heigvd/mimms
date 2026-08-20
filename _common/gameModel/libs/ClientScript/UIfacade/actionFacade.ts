@@ -45,6 +45,8 @@ import {
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
 import { CustomDurationAction } from '../game/common/actions/actorActions';
 import { addAfterUpdateCallback } from '../gameInterface/afterUpdateCallbacks';
+import { AppointActorAction, MoveActorAction } from '../game/common/actions/actorActions';
+import { DisplayMessageAction } from '../game/common/actions/radioActions'
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -122,6 +124,8 @@ export interface CompletedActionEntry {
   feedbacks: string[];
 }
 
+type ActionWithFeedbacks = ChoiceAction | CustomDurationAction | AppointActorAction | DisplayMessageAction | MoveActorAction
+
 // used in page 45 (actions list), to display actions already completed by the current actor
 export function getCompletedActions(): CompletedActionEntry[] {
   const currentActorUid = getTypedInterfaceState().currentActorUid;
@@ -133,10 +137,15 @@ export function getCompletedActions(): CompletedActionEntry[] {
   const currentActorActions = getAllActions()[currentActorUid] ?? [];
 
   return currentActorActions
-    .filter((action): action is ChoiceAction | CustomDurationAction => {
+    .filter((action): action is ActionWithFeedbacks => {
       // only actions that can actually carry a feedback (choice-driven, eg. "Examiner", or "Attendre");
-      // this excludes automatic actions such as the ACS/MCS arrival announcements, radio messages or resources assignments
-      const wantedType = action instanceof ChoiceAction || action instanceof CustomDurationAction;
+      // this excludes automatic actions such as the radio messages
+      const wantedType =
+        action instanceof ChoiceAction ||
+        action instanceof CustomDurationAction ||
+        action instanceof AppointActorAction ||
+        action instanceof DisplayMessageAction ||
+        action instanceof MoveActorAction;
       const hasFeedback = action.getStatus() === 'OnGoing' || action.getStatus() === 'Completed';
 
       return hasFeedback && wantedType;
