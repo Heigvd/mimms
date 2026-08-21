@@ -195,37 +195,37 @@
     "description" : "",
     "mimeType" : "application/wfs-directory",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/bbox.data" : {
     "description" : "",
     "mimeType" : "application/octet-stream",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/buildings.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/greenery.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/rails.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/roads.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INHERITED"
   },
   "/maps/GVA-lignon/water.geojson" : {
     "description" : "",
