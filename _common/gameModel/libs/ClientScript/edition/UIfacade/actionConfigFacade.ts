@@ -4,6 +4,7 @@ import { scenarioEditionLogger } from '../../tools/logger';
 import { getActionTemplateController } from '../controllers/controllerInstances';
 import { ActionTemplateFlatType } from '../controllers/dataControllerBase';
 import { FlatChoice } from '../typeDefinitions/choiceDefinition';
+import { FlatImpact, getImpactDefinition, toFlatImpact } from '../typeDefinitions/impactDefinition';
 import { FlatActionTemplate } from '../typeDefinitions/templateDefinition';
 import {
   addNew,
@@ -186,6 +187,22 @@ export function addChoice(): void {
     });
     updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
     updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
+
+    // a choice always comes with an empty feedback impact ready to be filled in
+    const impact = getActionTemplateController().createNew(effect.uid, 'impact', {
+      parentType: 'effect',
+      squashLastState: true,
+    });
+    const feedbackDefault = toFlatImpact(
+      getImpactDefinition('feedback', 'effect').getDefault(),
+      effect.uid
+    );
+    updateItem<FlatImpact>(
+      impact.uid,
+      { ...feedbackDefault, uid: impact.uid, index: impact.index },
+      undefined,
+      true
+    );
   }
 }
 
