@@ -1,5 +1,6 @@
 import { Uid } from '../../game/common/interfaces';
 import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
+import { compareByIndex } from '../../tools/indexedSorting';
 import { scenarioEditionLogger } from '../../tools/logger';
 import {
   ControllerType,
@@ -12,6 +13,7 @@ import {
   FlatTypes,
   SuperTypeNames,
 } from '../controllers/dataControllerBase';
+import { getSiblings } from '../controllers/parentedUtils';
 import { getCurrentPage } from './mainMenuStateFacade';
 
 /**
@@ -201,12 +203,40 @@ export function isAlone(itemId: Uid): boolean {
   return !canMoveUp(itemId) && !canMoveDown(itemId);
 }
 
+// an effect's first feedback impact is the one always guaranteed to exist, it must stay in place
+// (further feedback impacts a scenarist adds manually behave like regular impacts)
+function isLockedInPlace(item: FlatTypes | undefined): boolean {
+  if (item?.superType !== 'impact' || item.type !== 'feedback') {
+    return false;
+  }
+  const feedbackSiblings = Object.values(getSiblings(item.uid, getData()))
+    .filter(sibling => sibling.superType === 'impact' && sibling.type === 'feedback')
+    .sort(compareByIndex);
+  return feedbackSiblings[0]?.uid === item.uid;
+}
+
+function isMovable(itemId: Uid): boolean {
+  return !isLockedInPlace(getData()[itemId]);
+}
+
+// the sibling right above, sorted by index (undefined if itemId is already first)
+function getPreviousSibling(itemId: Uid): FlatTypes | undefined {
+  const data = getData();
+  const siblings = Object.values(getSiblings(itemId, data)).sort(compareByIndex);
+  const itemIndex = siblings.findIndex(sibling => sibling.uid === itemId);
+  return itemIndex > 0 ? siblings[itemIndex - 1] : undefined;
+}
+
 export function canMoveUp(itemId: Uid): boolean {
-  return getCurrentController()?.canMove(itemId, 'UP') || false;
+  return (
+    isMovable(itemId) &&
+    !isLockedInPlace(getPreviousSibling(itemId)) &&
+    (getCurrentController()?.canMove(itemId, 'UP') || false)
+  );
 }
 
 export function canMoveDown(itemId: Uid): boolean {
-  return getCurrentController()?.canMove(itemId, 'DOWN') || false;
+  return isMovable(itemId) && (getCurrentController()?.canMove(itemId, 'DOWN') || false);
 }
 
 export function moveUp(itemId: Uid): void {
@@ -227,6 +257,10 @@ export function canBeDeleted(item: FlatTypes): boolean {
 
   if (item.superType === 'action' || item.superType === 'trigger') {
     return !item.mandatory;
+  }
+
+  if (isLockedInPlace(item)) {
+    return false;
   }
 
   return true;

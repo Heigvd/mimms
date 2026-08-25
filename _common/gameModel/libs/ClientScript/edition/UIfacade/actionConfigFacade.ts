@@ -179,6 +179,25 @@ export function canEnterShowOnMapChoice(choice: FlatChoice): boolean {
 //////////////////////////////////////////////////////////////////////////////////////
 // effects specificities
 
+// an effect always comes with an empty feedback impact ready
+// on crée un impact vide qu'on "patch" immédiatement avec un impact de type feedback vide en conservant son uid et son index
+function addDefaultFeedback(effectUid: Uid): void {
+  const impact = getActionTemplateController().createNew(effectUid, 'impact', {
+    parentType: 'effect',
+    squashLastState: true,
+  });
+  const feedbackDefault = toFlatImpact(
+    getImpactDefinition('feedback', 'effect').getDefault(),
+    effectUid
+  );
+  updateItem<FlatImpact>(
+    impact.uid,
+    { ...feedbackDefault, uid: impact.uid, index: impact.index },
+    undefined,
+    true
+  );
+}
+
 export function addChoice(): void {
   const choice = addNew('choice', 'action');
   if (choice) {
@@ -187,22 +206,14 @@ export function addChoice(): void {
     });
     updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
     updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
+    addDefaultFeedback(effect.uid);
+  }
+}
 
-    // a choice always comes with an empty feedback impact ready to be filled in
-    const impact = getActionTemplateController().createNew(effect.uid, 'impact', {
-      parentType: 'effect',
-      squashLastState: true,
-    });
-    const feedbackDefault = toFlatImpact(
-      getImpactDefinition('feedback', 'effect').getDefault(),
-      effect.uid
-    );
-    updateItem<FlatImpact>(
-      impact.uid,
-      { ...feedbackDefault, uid: impact.uid, index: impact.index },
-      undefined,
-      true
-    );
+export function addEffect(): void {
+  const effect = addNew('effect', 'choice');
+  if (effect) {
+    addDefaultFeedback(effect.uid);
   }
 }
 
