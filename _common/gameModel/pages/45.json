@@ -216,7 +216,7 @@
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/actionFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
+                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/feedbackFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
                         "language" : "TypeScript"
                       }
                     },
@@ -310,7 +310,7 @@
           "className" : "actions-list__header--closed",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { showFeedbackSection } from \"./UIfacade/actionFacade\";\n!showFeedbackSection();",
+            "content" : "import { showFeedbackSection } from \"./UIfacade/feedbackFacade\";\n!showFeedbackSection();",
             "language" : "typescript"
           }
         } ],
@@ -323,7 +323,7 @@
         "localScriptEval" : {
           "script" : {
             "@class" : "ClientScript",
-            "content" : "import { toggleFeedbackSectionVisibility } from \"./UIfacade/actionFacade\";\n\ntoggleFeedbackSectionVisibility()",
+            "content" : "import { toggleFeedbackSectionVisibility } from \"./UIfacade/feedbackFacade\";\n\ntoggleFeedbackSectionVisibility()",
             "language" : "TypeScript"
           }
         },
@@ -371,7 +371,7 @@
                   "className" : "actionHeaderActive",
                   "condition" : {
                     "@class" : "Script",
-                    "content" : "import { showFeedback } from \"./UIfacade/actionFacade\";\nshowFeedback(Context.action.uid);",
+                    "content" : "import { showFeedback } from \"./UIfacade/feedbackFacade\";\nshowFeedback(Context.action.uid);",
                     "language" : "typescript"
                   }
                 } ],
@@ -383,7 +383,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { toggleFeedback } from \"./UIfacade/actionFacade\";\n\ntoggleFeedback(Context.action.uid);",
+                    "content" : "import { toggleFeedback } from \"./UIfacade/feedbackFacade\";\n\ntoggleFeedback(Context.action.uid);",
                     "language" : "TypeScript"
                   }
                 },
@@ -492,7 +492,7 @@
                 "className" : "actionInfo aDescriptionAction",
                 "hideIf" : {
                   "@class" : "Script",
-                  "content" : "import { showFeedback } from \"./UIfacade/actionFacade\";\n!showFeedback(Context.action.uid);",
+                  "content" : "import { showFeedback } from \"./UIfacade/feedbackFacade\";\n!showFeedback(Context.action.uid);",
                   "language" : "typescript"
                 },
                 "layout" : {
@@ -521,14 +521,14 @@
           "className" : "actions-list--closed",
           "condition" : {
             "@class" : "Script",
-            "content" : "import { showFeedbackSection } from \"./UIfacade/actionFacade\";\n!showFeedbackSection();",
+            "content" : "import { showFeedbackSection } from \"./UIfacade/feedbackFacade\";\n!showFeedbackSection();",
             "language" : "typescript"
           }
         } ],
         "exposeAs" : "action",
         "getItemsFn" : {
           "@class" : "Script",
-          "content" : "import { getCompletedActions } from \"./UIfacade/actionFacade\";\ngetCompletedActions();",
+          "content" : "import { getCompletedActions } from \"./UIfacade/feedbackFacade\";\ngetCompletedActions();",
           "language" : "TypeScript"
         },
         "itemKey" : "uid",
