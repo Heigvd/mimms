@@ -568,7 +568,7 @@
                                                       "className" : "halo",
                                                       "condition" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n  const idleActors = getVisibleActorsInTimelineForCurrentPlayer().filter(a => canActorPlanAction(a.Uid));\nidleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
+                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n    const allActors = getVisibleActorsInTimelineForCurrentPlayer();\n    const idleActors = allActors.filter(a => canActorPlanAction(a.Uid));\nallActors.length > 1 && idleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
                                                         "language" : "typescript"
                                                       }
                                                     } ],
