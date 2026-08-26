@@ -1137,11 +1137,6 @@
                       "type" : "For each"
                     } ],
                     "className" : "impact",
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "Context.item.type === 'empty'||\nContext.item.type === 'feedback';",
-                      "language" : "typescript"
-                    },
                     "layout" : {
                       "alignItems" : "center"
                     },
@@ -1231,6 +1226,11 @@
               },
               "type" : "PlayerElse"
             } ],
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "Context.item.type === 'empty'||\nContext.item.type === 'feedback';",
+              "language" : "typescript"
+            },
             "ifCondition" : {
               "@class" : "Script",
               "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n    getCurrentPage() === 'actions';",
