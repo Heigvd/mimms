@@ -257,6 +257,7 @@ export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidat
       index: 0,
       delaySeconds: 0,
       message: createOrUpdateTranslation('', undefined),
+      delayFrom: 'start'
     }),
     validator: feedbackImpactValidator,
     view: {
@@ -265,6 +266,7 @@ export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidat
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
+      delayFrom: { basic: 'hidden', advanced: 'visible', expert: 'editable' }
     },
   };
 }
