@@ -19,6 +19,7 @@ import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventRes
 
 export enum TaskType {
   Waiting = 'Waiting',
+  MoveTo = 'MoveTo',
   Pretriage = 'Pretriage',
   Porter = 'Porter',
   Healing = 'Healing',

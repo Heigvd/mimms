@@ -2,6 +2,7 @@ import { NoIdleTimeAllowed, StandardMaximumIdleTime } from '../common/constants'
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { HealingTask, TaskBase, TaskType } from '../common/tasks/taskBase';
 import { EvacuationTask } from '../common/tasks/taskBaseEvacuation';
+import { MoveToTask } from '../common/tasks/taskBaseMoveTo';
 import { PorterTask } from '../common/tasks/taskBasePorter';
 import { PreTriageTask } from '../common/tasks/taskBasePretriage';
 import { WaitingTask } from '../common/tasks/taskBaseWaiting';
@@ -100,17 +101,28 @@ export function loadTasks(): TaskBase[] {
     StandardMaximumIdleTime
   );
 
-  const waitingTasks = [
+  // Where a resource can be between two tasks : it waits there for new orders,
+  // and travels there to take up its next task
+  const betweenTasksLocations = [
     LOCATION_ENUM.entreeChantier,
     LOCATION_ENUM.PMA,
     LOCATION_ENUM.pcFront,
     LOCATION_ENUM.PC,
     LOCATION_ENUM.ambulancePark,
     LOCATION_ENUM.helicopterPark,
-  ].map(location => new WaitingTask('waiting-title', location, []));
+  ];
+
+  const waitingTasks = betweenTasksLocations.map(
+    location => new WaitingTask('waiting-title', location, [])
+  );
+
+  const moveToTasks = betweenTasksLocations.map(
+    location => new MoveToTask('on-the-road', location, [])
+  );
 
   return [
     ...waitingTasks,
+    ...moveToTasks,
     taskPretriChantier,
     taskPretriPMA,
     taskPretriNidDeBlesses,

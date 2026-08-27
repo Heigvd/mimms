@@ -173,20 +173,20 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
           })
         );
 
-        // during the travel set the resources as waiting
-        const targetIdleTaskUid: TaskId | undefined = TaskLogic.getIdleTaskUid(
+        // during the travel the resources moving
+        const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
           state,
           this.targetLocation
         );
 
-        if (targetIdleTaskUid != undefined) {
+        if (moveToTaskUid != undefined) {
           getLocalEventManager().queueLocalEvent(
             new AssignResourcesToTaskLocalEvent({
               parentEventId: this.eventId,
               source: { type: 'action', id: this.Uid },
               simTimeStamp: state.getSimTime(),
               resourcesId: this.involvedResourcesId,
-              taskId: targetIdleTaskUid,
+              taskId: moveToTaskUid,
             })
           );
         }

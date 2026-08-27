@@ -6109,6 +6109,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/tasks/taskBaseMoveTo",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#301:CkG7ki",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/tasks/taskBasePorter",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
