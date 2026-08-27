@@ -49,22 +49,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`${Context.action.duration / 60}`;",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "padding" : "0 0 0 5px"
-                                },
-                                "name" : "minutes",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'minutes', false);",
+                                  "content" : "`${Context.action.duration / 60}'`;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -346,7 +331,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "Context.action.title;",
+                      "content" : "Context.action.title + ' | ' + Context.action.choiceTitle;",
                       "language" : "TypeScript"
                     }
                   },
@@ -359,7 +344,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n  `${Context.action.duration} ${getTranslation('mainSim-resources', 'minutes', false)}`;",
+                      "content" : "  `${Context.action.duration}'`;",
                       "language" : "TypeScript"
                     }
                   },
@@ -376,9 +361,10 @@
                   }
                 } ],
                 "layout" : {
+                  "alignItems" : "flex-start",
                   "justifyContent" : "space-between"
                 },
-                "layoutClassName" : "noPadding",
+                "layoutClassName" : "noPadding fullWidth",
                 "layoutStyle" : { },
                 "localScriptEval" : {
                   "script" : {
@@ -417,25 +403,6 @@
                 }, {
                   "props" : {
                     "children" : [ {
-                      "props" : {
-                        "className" : "choice-title",
-                        "hideIf" : {
-                          "@class" : "Script",
-                          "content" : "Context.action.choiceTitle.length <= 0;",
-                          "language" : "typescript"
-                        },
-                        "layoutClassName" : "noPadding",
-                        "layoutStyle" : { },
-                        "name" : "Choice title",
-                        "style" : { },
-                        "text" : {
-                          "@class" : "Script",
-                          "content" : "  Context.action.choiceTitle;",
-                          "language" : "TypeScript"
-                        }
-                      },
-                      "type" : "Text"
-                    }, {
                       "props" : {
                         "hideIf" : {
                           "@class" : "Script",
@@ -476,7 +443,7 @@
                     "className" : "feedback__container",
                     "hideIf" : {
                       "@class" : "Script",
-                      "content" : "!Context.action.choiceTitle &&\n!Context.action.choiceDescription &&\nContext.action.feedbacks.length === 0;",
+                      "content" : "!Context.action.choiceDescription&&\nContext.action.feedbacks.length === 0;",
                       "language" : "typescript"
                     },
                     "layout" : {
@@ -505,17 +472,18 @@
               },
               "type" : "FlexList"
             } ],
+            "className" : "fullWidth",
             "layout" : {
               "flexDirection" : "column"
             },
-            "layoutClassName" : "action-container",
+            "layoutClassName" : "fullWidth action-container",
             "layoutStyle" : { },
             "name" : "Feedback",
             "style" : { }
           },
           "type" : "FlexList"
         } ],
-        "className" : "noPadding",
+        "className" : "noPadding fullWidth",
         "conditionnalClassNames" : [ {
           "applyOn" : "Inside",
           "className" : "actions-list--closed",
@@ -535,7 +503,7 @@
         "layout" : {
           "flexDirection" : "column-reverse"
         },
-        "layoutClassName" : "",
+        "layoutClassName" : "fullWidth feedback-list",
         "layoutStyle" : {
           "padding" : "0 0 15px 0"
         },
@@ -544,6 +512,7 @@
       },
       "type" : "For each"
     } ],
+    "className" : "fullWidth",
     "layout" : {
       "flexDirection" : "column",
       "justifyContent" : "flex-start"
