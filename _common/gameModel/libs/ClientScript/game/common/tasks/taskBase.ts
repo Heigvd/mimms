@@ -9,8 +9,6 @@ import { getLocalEventManager } from '../localEvents/localEventManager';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
-import * as ResourceReachLogic from '../resources/resourceReachLogic';
-import { CommMedia } from '../resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -59,8 +57,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     /** the locations where the task can take place */
     readonly availableToLocations: LOCATION_ENUM[] = [],
     /** which roles can order the task */
-    readonly availableToRoles: InterventionRole[] = [],
-    readonly isStandardAssignation: boolean = true
+    readonly availableToRoles: InterventionRole[] = []
   ) {
     this.Uid = getContextUidGenerator().getNext('TaskBase', TASK_SEED_ID);
     this.status = 'Uninitialized';
@@ -125,27 +122,12 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   public isAvailable(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>,
-    mustCheckStandardAssignation: boolean
+    location: Readonly<LOCATION_ENUM>
   ): boolean {
     return (
       this.isRoleWiseAvailable(actor.Role) &&
       this.isLocationWiseAvailable(location) &&
-      this.isAvailableCustom(state, actor, location) &&
-      (this.isStandardAssignation || !mustCheckStandardAssignation)
-    );
-  }
-
-  /** Define if a resource at some location doing this task can be reached by a communication media. */
-  public isReachable(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>,
-    commMedia: CommMedia
-  ): boolean {
-    return (
-      this.isAvailable(state, actor, location, false) &&
-      ResourceReachLogic.isReachable(location, this.taskType, commMedia)
+      this.isAvailableCustom(state, actor, location)
     );
   }
 
