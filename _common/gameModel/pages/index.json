@@ -130,6 +130,12 @@
             "name" : "custom duration param",
             "scenaristPage" : false,
             "trainerPage" : null
+          }, {
+            "@class" : "Page",
+            "id" : "13",
+            "name" : "feedbacks list",
+            "scenaristPage" : null,
+            "trainerPage" : null
           } ],
           "name" : "action"
         }, {
