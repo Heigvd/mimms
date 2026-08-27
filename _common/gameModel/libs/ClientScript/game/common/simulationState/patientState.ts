@@ -107,24 +107,6 @@ export function getNonPreTriagedPatientsSize(
   return patients.filter(patient => preTriagedPatientPredicate(patient, location)).length;
 }
 
-export function getPreTriagedAmountByCategory(
-  state: Readonly<MainSimulationState>,
-  location?: LOCATION_ENUM
-): Record<string, number> {
-  const internalState = state.getInternalStateObject();
-  const amountsByCategory: Record<string, number> = {};
-
-  internalState.patients
-    .filter(p => location === undefined || p.location.locationId === location)
-    .map(patient => patient.preTriageResult?.categoryId)
-    .filter(categoryId => categoryId != undefined)
-    .forEach(category => {
-      amountsByCategory[category!] = (amountsByCategory[category!] || 0) + 1;
-    });
-
-  return amountsByCategory;
-}
-
 export function getPreTriagedAmountByTagName(
   state: Readonly<MainSimulationState>,
   location?: LOCATION_ENUM

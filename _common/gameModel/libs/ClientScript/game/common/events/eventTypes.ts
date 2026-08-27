@@ -143,7 +143,6 @@ export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
 
 export interface RequestPretriageReportEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  pretriageLocation: LOCATION_ENUM;
 }
 
 interface TimeForwardEventBase extends BaseEvent, TimedPayload {

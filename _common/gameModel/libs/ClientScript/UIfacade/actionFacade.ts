@@ -30,7 +30,6 @@ import { refreshSelectionLayer } from '../gameMap/main';
 import { getCurrentPlayerActors } from './actorFacade';
 import {
   CasuMessageTemplate,
-  PretriageReportTemplate,
   SendRadioMessageTemplate,
 } from '../game/common/actions/actionTemplate/radioTemplates';
 import {
@@ -186,10 +185,6 @@ export function isCustomDurationActionTemplate(
 
 export function isEvacuationActionTemplate(template: ActionTemplateBase | undefined): boolean {
   return template instanceof EvacuationActionTemplate;
-}
-
-export function isPretriageReportTemplate(template: ActionTemplateBase | undefined): boolean {
-  return template instanceof PretriageReportTemplate;
 }
 
 /**

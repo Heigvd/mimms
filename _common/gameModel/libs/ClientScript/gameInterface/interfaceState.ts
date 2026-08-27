@@ -63,7 +63,6 @@ export interface InterfaceState {
   };
   resourcesManagement: {
     activityType: ResourcesManagementActivityType | undefined;
-    pretriageReportRequestLocation: LOCATION_ENUM | undefined;
   };
   evacuation: {
     data: {
@@ -125,7 +124,6 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedCasuAction: undefined,
     resourcesManagement: {
       activityType: undefined,
-      pretriageReportRequestLocation: undefined,
     },
   };
 }

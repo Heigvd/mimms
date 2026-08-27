@@ -8,7 +8,7 @@ import { TranslationKey } from '../baseTypes';
 import { TaskStatusChangeLocalEvent } from '../localEvents/localEventBase';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { doPatientAutomaticTriage } from '../patients/pretriage';
-import { formatStandardPretriageReport } from '../patients/pretriageUtils';
+import { formatStandardPretriageReport, generateSnapShot } from '../patients/pretriageUtils';
 import { RadioType } from '../radio/communicationType';
 import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
@@ -123,7 +123,7 @@ export class PreTriageTask extends TaskBase {
           simTimeStamp: state.getSimTime(),
           senderName: RadioLogic.getResourceAsSenderName(),
           message: formatStandardPretriageReport(
-            state,
+            generateSnapShot(state),
             this.locationSource,
             'pretriage-report-task-feedback-report',
             true,

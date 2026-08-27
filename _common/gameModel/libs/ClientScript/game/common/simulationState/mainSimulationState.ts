@@ -14,7 +14,7 @@ import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
 import { Activable } from '../simulationState/activableState';
 import { Uid } from '../interfaces';
-import { PretriageSnapShot } from '../patients/pretriage';
+import { PretriageSnapShot } from '../patients/pretriageUtils';
 
 export class MainSimulationState {
   private readonly internalState: MainStateObject;
