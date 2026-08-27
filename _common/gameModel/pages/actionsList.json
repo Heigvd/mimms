@@ -263,7 +263,7 @@
         "exposePageSizeAs" : "",
         "initialSelectedPageId" : {
           "@class" : "Script",
-          "content" : "\"13\"",
+          "content" : "\"feedbacksList\"",
           "language" : "typescript"
         },
         "layoutClassName" : "noPadding fullWidth",
