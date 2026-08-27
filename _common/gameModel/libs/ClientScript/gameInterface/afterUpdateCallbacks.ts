@@ -21,7 +21,7 @@ function clearAfterEventsProcessingCallbacks(): void {
  * Added callback will be called the next time the game's state changes.
  * It is called once and removed
  */
-function addAfterUpdateCallback(callback: AfterUpdateCallback): void {
+export function addAfterUpdateCallback(callback: AfterUpdateCallback): void {
   if (!callback) return;
   afterUpdateCallbacks.push(callback);
 }

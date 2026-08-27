@@ -80,7 +80,6 @@
                       "type" : "Text"
                     }, {
                       "props" : {
-                        "conditionnalClassNames" : [ ],
                         "icon" : "caret-up",
                         "label" : {
                           "@class" : "Script",

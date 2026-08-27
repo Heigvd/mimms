@@ -1,6 +1,8 @@
 import { Actor } from '../game/common/actors/actor';
 import {
+  ActionId,
   ActionTemplateUid,
+  ActorId,
   HospitalId,
   PatientId,
   PatientUnitId,
@@ -33,6 +35,9 @@ export type CasuAction = 'CasuMessage' | 'channelsActivation' | undefined;
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
+  currentFeedbackUid: Partial<Record<ActorId, ActionId>>;
+  showAction: boolean;
+  showFeedbackSection: boolean;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -95,6 +100,9 @@ export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: undefined,
+    currentFeedbackUid: {},
+    showAction: true,
+    showFeedbackSection: true,
     casuMessage: {
       messageType: '',
       major: '',

@@ -3596,6 +3596,7 @@
           "cardiacrate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cardiac rate\"},\"FR\":{\"status\":\"\",\"translation\":\"fréquence cardiaque\",\"lang\":\"FR\"}},\"version\":0}",
           "casu-transmission" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU transmission\"},\"FR\":{\"status\":\"\",\"translation\":\"transmission CASU\",\"lang\":\"FR\"}},\"version\":0}",
           "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
+          "feedbacks" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"résultats\"},\"EN\":{\"status\":\"\",\"translation\":\"feedbacks\",\"lang\":\"EN\"}},\"version\":0}",
           "game-will-proceed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the game will proceed once all players are ready/have pressed \\\"Continue\\\"\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “continuer”\",\"lang\":\"FR\"}},\"version\":0}",
           "incoming-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"communication in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"communication en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent successfully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6844,6 +6845,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:XWcYDZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/feedbackFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#301:Fx7bKq",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
