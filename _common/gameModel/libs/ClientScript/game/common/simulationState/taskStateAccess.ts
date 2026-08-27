@@ -3,7 +3,6 @@ import { Actor } from '../actors/actor';
 import { ActorId, TaskId } from '../baseTypes';
 import { CommMedia } from '../resources/resourceReachLogic';
 import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
-import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
@@ -79,26 +78,6 @@ export function fetchAvailableStandardTasks(
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];
   }
-}
-
-export function isBrancardageTaskForTargetLocation(
-  state: Readonly<MainSimulationState>,
-  targetLocation: LOCATION_ENUM
-): boolean {
-  return Object.values(getAllTasks(state))
-    .filter(ta => ta.taskType === TaskType.Porter)
-    .flatMap(ta => Object.values((ta as PorterTask).subTasks))
-    .some(st => st.targetLocation === targetLocation);
-}
-
-/**
- * @returns True if the task has a status that is not final. It means that the task can still evolve.
- * The final status is 'Completed'
- */
-export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId): boolean {
-  const task = internallyGetTask(state, taskId);
-
-  return task.getStatus() != 'Completed';
 }
 
 /**

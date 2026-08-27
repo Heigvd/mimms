@@ -6,14 +6,20 @@ import { TaskBase } from './taskBase';
 import { EvacuationTask } from './taskBaseEvacuation';
 import { WaitingTask } from './taskBaseWaiting';
 
-export function getIdleTaskUid(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): TaskId {
-  return getIdleTask(state, location).Uid;
+export function getIdleTaskUid(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): TaskId | undefined {
+  return getIdleTask(state, location)?.Uid;
 }
 
-export function getIdleTask(state: Readonly<MainSimulationState>, location: LOCATION_ENUM): TaskBase {
+export function getIdleTask(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): TaskBase | undefined {
   return state
     .getInternalStateObject()
-    .tasks.find((task: TaskBase) => task instanceof WaitingTask && task.location === location)!;
+    .tasks.find((task: TaskBase) => task instanceof WaitingTask && task.location === location);
 }
 
 export function getEvacuationTask(

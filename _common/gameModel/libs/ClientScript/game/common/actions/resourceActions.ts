@@ -174,18 +174,25 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         );
 
         // during the travel set the resources as waiting
-        getLocalEventManager().queueLocalEvent(
-          new AssignResourcesToTaskLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourcesId: this.involvedResourcesId,
-            taskId: TaskLogic.getIdleTaskUid(state, this.targetLocation),
-          })
+        const targetIdleTaskUid: TaskId | undefined = TaskLogic.getIdleTaskUid(
+          state,
+          this.targetLocation
         );
+
+        if (targetIdleTaskUid != undefined) {
+          getLocalEventManager().queueLocalEvent(
+            new AssignResourcesToTaskLocalEvent({
+              parentEventId: this.eventId,
+              source: { type: 'action', id: this.Uid },
+              simTimeStamp: state.getSimTime(),
+              resourcesId: this.involvedResourcesId,
+              taskId: targetIdleTaskUid,
+            })
+          );
+        }
       }
 
-      // during the travel set the resources as waiting
+      // once the travel is over, the resources start their new task
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,

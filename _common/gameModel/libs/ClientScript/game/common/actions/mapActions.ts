@@ -4,6 +4,7 @@ import {
   GlobalEventId,
   SimDuration,
   SimTime,
+  TaskId,
   TranslationKey,
 } from '../baseTypes';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
@@ -146,15 +147,19 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         targetLocation: this.binding!,
       })
     );
-    getLocalEventManager().queueLocalEvent(
-      new AssignResourcesToTaskLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: [resourceUid],
-        taskId: getIdleTaskUid(state, this.binding!),
-      })
-    );
+    const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding!);
+
+    if (idleTaskUid != undefined) {
+      getLocalEventManager().queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent({
+          parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
+          simTimeStamp: state.getSimTime(),
+          resourcesId: [resourceUid],
+          taskId: idleTaskUid,
+        })
+      );
+    }
   }
 }
 

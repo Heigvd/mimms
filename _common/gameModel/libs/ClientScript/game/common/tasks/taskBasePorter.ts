@@ -17,7 +17,6 @@ import {
   getPatient,
   PatientState,
 } from '../simulationState/patientState';
-import * as TaskState from '../simulationState/taskStateAccess';
 import { PorterSubTask } from './subTask';
 import { TaskBase, TaskType } from './taskBase';
 import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
@@ -35,17 +34,12 @@ export class PorterTask extends TaskBase<PorterSubTask> {
 
   public constructor(
     title: TranslationKey,
-    readonly feedbackWhenDone: TranslationKey,
     readonly feedbackIfNoTargetLocation: TranslationKey,
     readonly locationSource: LOCATION_ENUM,
-    availableToRoles?: InterventionRole[]
+    availableToRoles?: InterventionRole[],
+    maximumIdleTime?: number
   ) {
-    super(TaskType.Porter, title, locationSource, availableToRoles);
-  }
-
-  /** Its short name */
-  public getFeedbackWhenDone(): string {
-    return getTranslation('mainSim-actions-tasks', this.feedbackWhenDone);
+    super(TaskType.Porter, title, locationSource, availableToRoles, true, maximumIdleTime);
   }
 
   public getFeedbackIfNoTargetLocation(): string {
@@ -67,7 +61,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
   protected override dispatchInProgressEvents(
     state: Readonly<MainSimulationState>,
     timeJump: number
-  ): void {
+  ): ResourceId[] {
     taskLogger.info('brancardage from ', this.locationSource);
 
     taskLogger.debug(
@@ -82,6 +76,11 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     //2. Group resources not grouped yet
     this.createNewSubTasks(state);
 
+    // the resources involved in a sub-task are the ones that are able to work during the time slice
+    const workingResourcesId: ResourceId[] = Object.values(this.subTasks).flatMap(
+      (subTask: PorterSubTask) => subTask.resources
+    );
+
     //3. move patients
 
     const completedSubTasks: PorterSubTask[] = [];
@@ -89,10 +88,6 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     Object.values(this.subTasks).forEach((subTask: PorterSubTask) => {
       const patient = getPatient(state, subTask.patientId)!;
 
-      this.subTasks[subTask.subTaskId] = {
-        ...subTask,
-        cumulatedTime: subTask.cumulatedTime + timeJump,
-      };
       subTask.cumulatedTime += timeJump;
 
       if (subTask.patientCanWalk) {
@@ -100,9 +95,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         // instruct to move
         if (subTask.cumulatedTime >= this.TIME_REQUIRED_FOR_INSTRUCTION) {
           // after instruction, the resources are available for another sub-task
-          if (subTask.resources.length > 0) {
-            subTask.resources = subTask.resources.splice(0, subTask.resources.length);
-          }
+          subTask.resources = [];
         }
 
         // patient reached the target location
@@ -162,10 +155,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
         getNonTransportedPatientsSize(state, this.locationSource)
     );
 
-    //4. completed
-    if (this.isCompleted(state)) {
-      this.finaliseTask(state, this.getFeedbackWhenDone());
-    }
+    return workingResourcesId;
   }
 
   private createNewSubTasks(state: Readonly<MainSimulationState>) {
@@ -186,7 +176,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     if (targetLocation == undefined) {
       taskLogger.warn('nowhere to send patients');
 
-      // We broadcast a message when the task is completed
+      // We broadcast a message to tell that the patients cannot be transported anywhere
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: 0, // TODO check
@@ -247,12 +237,5 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     }
 
     return undefined;
-  }
-
-  private isCompleted(state: Readonly<MainSimulationState>): boolean {
-    return (
-      getNonTransportedPatientsSize(state, this.locationSource) === 0 &&
-      !TaskState.isBrancardageTaskForTargetLocation(state, this.locationSource)
-    );
   }
 }

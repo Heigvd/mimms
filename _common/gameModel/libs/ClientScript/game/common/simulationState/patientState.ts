@@ -145,6 +145,27 @@ export function getPreTriagedAmountByTagName(
 }
 
 // -------------------------------------------------------------------------------------------------
+// healing
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * @returns The number of patients at a location that a healing task can take care of.
+ * When a priority is given, only the patients pre-triaged with that priority are counted.
+ */
+export function getPatientsToHealSize(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM,
+  patientPriority?: number
+): number {
+  return getPatientsByLocation(state, 'FixedMapEntity', location).filter(
+    patient =>
+      patientPriority === undefined ||
+      (patient.preTriageResult != undefined &&
+        getPriorityByCategoryId(patient.preTriageResult.categoryId!) === patientPriority)
+  ).length;
+}
+
+// -------------------------------------------------------------------------------------------------
 // transport
 // -------------------------------------------------------------------------------------------------
 

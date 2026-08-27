@@ -1,5 +1,6 @@
 import { InterventionRole } from '../actors/actor';
-import { TranslationKey } from '../baseTypes';
+import { ResourceId, TranslationKey } from '../baseTypes';
+import { UnlimitedMaximumIdleTime } from '../constants';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { TaskBase, TaskType } from './taskBase';
@@ -13,13 +14,14 @@ export class WaitingTask extends TaskBase {
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Waiting, title, location, availableToRoles);
+    super(TaskType.Waiting, title, location, availableToRoles, true, UnlimitedMaximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(
     _state: Readonly<MainSimulationState>,
     _timeJump: number
-  ): void {
+  ): ResourceId[] {
     //nothing to do while waiting
+    return [];
   }
 }
