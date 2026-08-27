@@ -2,7 +2,17 @@ import { HumanBody } from '../../../HUMAn/human';
 import { getEnv } from '../../../tools/WegasHelper';
 //TODO: refactor HumanHealth logic out of the_world
 import { HumanHealth } from '../../pretri/patientProcessing';
-import { doAutomaticTriage_internal, PreTriageData, PreTriageResult } from '../../pretri/triage';
+import {
+  doAutomaticTriage_internal,
+  PreTriageData,
+  PreTriageResult,
+  STANDARD_CATEGORY,
+  STANDARD_CATEGORY_ARRAY,
+} from '../../pretri/triage';
+import { SimTime } from '../baseTypes';
+import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { PatientState } from '../simulationState/patientState';
 
 export function doPatientAutomaticTriage(
   patient: HumanBody,
