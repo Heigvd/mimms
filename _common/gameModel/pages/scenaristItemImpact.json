@@ -162,75 +162,6 @@
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "",
-                    "layoutClassName" : "noPadding fullWidth",
-                    "layoutStyle" : { },
-                    "name" : "message",
-                    "onCancel" : { },
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"value\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "rows" : 3,
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "  I18n.translate(Context.item.message);",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "String input"
-                }, {
-                  "props" : {
-                    "layoutClassName" : "generic-item__label",
-                    "layoutStyle" : { },
-                    "name" : "label",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "\"Message\"",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                } ],
-                "layout" : { },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "message",
-                "style" : { }
-              },
-              "type" : "FlexList"
-            } ],
-            "className" : "trigger",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'feedback';",
-              "language" : "typescript"
-            },
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "feedback",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
-                "children" : [ {
-                  "props" : {
                     "className" : "notif-receiver small-bold-primary-text",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Inside",
@@ -346,6 +277,169 @@
             "layoutClassName" : "noPadding",
             "layoutStyle" : { },
             "name" : "notification",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "choices" : {
+                      "@class" : "Script",
+                      "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getMapEntitiesOptions(LOCATION_ENUM.custom);",
+                      "language" : "typescript"
+                    },
+                    "className" : "scenarist-dropdown",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "mapEntity",
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { target: Context.value });",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"value\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "placeholder" : {
+                      "@class" : "Script",
+                      "content" : "\"Select location\"",
+                      "language" : "TypeScript"
+                    },
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "  Context.item.target || '';",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Select input"
+                }, {
+                  "props" : {
+                    "className" : "open-map-button",
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterShowOnMap(Context.item);",
+                      "language" : "typescript"
+                    },
+                    "icon" : "external-link-alt",
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "\"\"",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { toggleShowOnMapFromImpact } from \"./edition/UIfacade/map/modalState\";\n\ntoggleShowOnMapFromImpact(Context.item);",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "name" : "open map",
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "className" : "action-gap",
+                "layout" : {
+                  "alignItems" : "center"
+                },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "boolean-button",
+                    "conditionnalClassNames" : [ {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button--selected",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "Context.item.option === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-left",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    }, {
+                      "applyOn" : "Inside",
+                      "className" : "boolean-button-right",
+                      "condition" : {
+                        "@class" : "Script",
+                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateOptions();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
+                        "language" : "typescript"
+                      }
+                    } ],
+                    "disableIf" : {
+                      "@class" : "Script",
+                      "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterShowOnMap(Context.item);",
+                      "language" : "typescript"
+                    },
+                    "label" : {
+                      "@class" : "Script",
+                      "content" : "Context.option.label;",
+                      "language" : "TypeScript"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "localScriptEval" : {
+                      "script" : {
+                        "@class" : "ClientScript",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { option: Context.option.value });",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "style" : { }
+                  },
+                  "type" : "Button"
+                } ],
+                "exposeAs" : "option",
+                "getItemsFn" : {
+                  "@class" : "Script",
+                  "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
+                  "language" : "TypeScript"
+                },
+                "itemKey" : "value",
+                "layout" : { },
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "option",
+                "style" : {
+                  "flexWrap" : "wrap",
+                  "rowGap" : "5px"
+                }
+              },
+              "type" : "For each"
+            } ],
+            "className" : "impact",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'mapEntity';",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "mapEntity",
             "style" : { }
           },
           "type" : "FlexList"
@@ -708,169 +802,6 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "children" : [ {
-                  "props" : {
-                    "choices" : {
-                      "@class" : "Script",
-                      "content" : "import { getMapEntitiesOptions } from \"./edition/UIfacade/dataFetcher\";\nimport { LOCATION_ENUM } from \"./game/common/simulationState/locationState\";\n  getMapEntitiesOptions(LOCATION_ENUM.custom);",
-                      "language" : "typescript"
-                    },
-                    "className" : "scenarist-dropdown",
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "name" : "mapEntity",
-                    "onVariableChange" : {
-                      "client" : {
-                        "@class" : "Script",
-                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { target: Context.value });",
-                        "language" : "TypeScript"
-                      },
-                      "exposeVariableAs" : {
-                        "@class" : "Script",
-                        "content" : "\"value\"",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "placeholder" : {
-                      "@class" : "Script",
-                      "content" : "\"Select location\"",
-                      "language" : "TypeScript"
-                    },
-                    "script" : {
-                      "@class" : "Script",
-                      "content" : "  Context.item.target || '';",
-                      "language" : "TypeScript"
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Select input"
-                }, {
-                  "props" : {
-                    "className" : "open-map-button",
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterShowOnMap(Context.item);",
-                      "language" : "typescript"
-                    },
-                    "icon" : "external-link-alt",
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "\"\"",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { toggleShowOnMapFromImpact } from \"./edition/UIfacade/map/modalState\";\n\ntoggleShowOnMapFromImpact(Context.item);",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "name" : "open map",
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "className" : "action-gap",
-                "layout" : {
-                  "alignItems" : "center"
-                },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "style" : { }
-              },
-              "type" : "FlexList"
-            }, {
-              "props" : {
-                "children" : [ {
-                  "props" : {
-                    "className" : "boolean-button",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button--selected",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "Context.item.option === Context.option.value;",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button-left",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions()[0].value === Context.option.value;",
-                        "language" : "typescript"
-                      }
-                    }, {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button-right",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getActivateInactivateOptions();\n  buttonArray[buttonArray.length - 1].value === Context.option.value;",
-                        "language" : "typescript"
-                      }
-                    } ],
-                    "disableIf" : {
-                      "@class" : "Script",
-                      "content" : "import { canEnterShowOnMap } from \"./edition/UIfacade/impactConfigFacade\";\n!canEnterShowOnMap(Context.item);",
-                      "language" : "typescript"
-                    },
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "Context.option.label;",
-                      "language" : "TypeScript"
-                    },
-                    "layoutClassName" : "noPadding",
-                    "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { option: Context.option.value });",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "style" : { }
-                  },
-                  "type" : "Button"
-                } ],
-                "exposeAs" : "option",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getActivateInactivateOptions } from \"./edition/UIfacade/selectableOptions\";\ngetActivateInactivateOptions();",
-                  "language" : "TypeScript"
-                },
-                "itemKey" : "value",
-                "layout" : { },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "option",
-                "style" : {
-                  "flexWrap" : "wrap",
-                  "rowGap" : "5px"
-                }
-              },
-              "type" : "For each"
-            } ],
-            "className" : "impact",
-            "hideIf" : {
-              "@class" : "Script",
-              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'mapEntity';",
-              "language" : "typescript"
-            },
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "mapEntity",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
                 "choices" : {
                   "@class" : "Script",
                   "content" : "import { getTriggersOptions } from \"./edition/UIfacade/dataFetcher\";\n  getTriggersOptions();",
@@ -995,146 +926,321 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "noMargin small-bold-primary-text",
+                "children" : [ {
+                  "props" : {
+                    "className" : "",
+                    "layoutClassName" : "noPadding fullWidth",
+                    "layoutStyle" : { },
+                    "name" : "message",
+                    "onCancel" : { },
+                    "onVariableChange" : {
+                      "client" : {
+                        "@class" : "Script",
+                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { createOrUpdateTranslation } from \"./tools/translation\";\n\nupdateItem(Context.item.uid, { message: createOrUpdateTranslation(Context.value, Context.item.message) });",
+                        "language" : "TypeScript"
+                      },
+                      "exposeVariableAs" : {
+                        "@class" : "Script",
+                        "content" : "\"value\"",
+                        "language" : "TypeScript"
+                      }
+                    },
+                    "rows" : 3,
+                    "script" : {
+                      "@class" : "Script",
+                      "content" : "  I18n.translate(Context.item.message);",
+                      "language" : "TypeScript"
+                    },
+                    "style" : { }
+                  },
+                  "type" : "String input"
+                }, {
+                  "props" : {
+                    "layoutClassName" : "generic-item__label",
+                    "layoutStyle" : { },
+                    "name" : "label",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"Message\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>Delay</p>\"",
-                  "language" : "TypeScript"
-                }
-              },
-              "type" : "Text"
-            }, {
-              "props" : {
-                "className" : "",
-                "layoutClassName" : "noPadding number-input",
-                "layoutStyle" : { },
-                "name" : "delay",
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { normalize } from \"./tools/helper\";\nconst value = normalize(Context.value, {min: 0});\nupdateItem(Context.item.uid, { delaySeconds: value * 60 });",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"value\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "  Math.round(Context.item.delaySeconds / 60);",
-                  "language" : "TypeScript"
-                },
+                "name" : "message",
                 "style" : { }
               },
-              "type" : "Number input"
-            }, {
+              "type" : "FlexList"
+            } ],
+            "className" : "trigger",
+            "hideIf" : {
+              "@class" : "Script",
+              "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) !== 'feedback';",
+              "language" : "typescript"
+            },
+            "layout" : {
+              "flexDirection" : "column"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "feedback",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
               "props" : {
-                "className" : "noMargin small-regular-primary-text",
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "min",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "\"<p>min</p>\"",
-                  "language" : "TypeScript"
-                }
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "className" : "",
+                        "layoutClassName" : "noPadding number-input",
+                        "layoutStyle" : { },
+                        "name" : "delay",
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { normalize } from \"./tools/helper\";\nconst value = normalize(Context.value, {min: 0});\nupdateItem(Context.item.uid, { delaySeconds: value * 60 });",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"value\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "  Math.round(Context.item.delaySeconds / 60);",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Number input"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin small-regular-primary-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "min",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>min</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin small-bold-primary-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Delay</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "className" : "noMargin small-regular-primary-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "from",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>from</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
+                    }, {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "className" : "boolean-button",
+                            "conditionnalClassNames" : [ {
+                              "applyOn" : "Inside",
+                              "className" : "boolean-button--selected",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "  (Context.item.delayFrom ?? 'end') === Context.option.value;",
+                                "language" : "typescript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "boolean-button-left",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions()[0].value === Context.option.value;",
+                                "language" : "typescript"
+                              }
+                            }, {
+                              "applyOn" : "Inside",
+                              "className" : "boolean-button-right",
+                              "condition" : {
+                                "@class" : "Script",
+                                "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getImpactDelayFromOptions();\nbuttonArray[buttonArray.length - 1].value === Context.option.value;",
+                                "language" : "typescript"
+                              }
+                            } ],
+                            "label" : {
+                              "@class" : "Script",
+                              "content" : "Context.option.label;",
+                              "language" : "TypeScript"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "localScriptEval" : {
+                              "script" : {
+                                "@class" : "ClientScript",
+                                "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { delayFrom: Context.option.value });",
+                                "language" : "TypeScript"
+                              }
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Button"
+                        } ],
+                        "exposeAs" : "option",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions();",
+                          "language" : "TypeScript"
+                        },
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() !== 'actions';",
+                          "language" : "typescript"
+                        },
+                        "itemKey" : "value",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "delayFrom",
+                        "style" : {
+                          "flexWrap" : "wrap",
+                          "rowGap" : "5px"
+                        }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "className" : "impact",
+                    "layout" : {
+                      "alignItems" : "center"
+                    },
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "delay for all except triggers",
+                    "style" : {
+                      "paddingTop" : "0"
+                    }
+                  },
+                  "type" : "FlexList"
+                } ]
               },
-              "type" : "Text"
+              "type" : "PlayerIf"
             }, {
               "props" : {
                 "children" : [ {
                   "props" : {
-                    "className" : "boolean-button",
-                    "conditionnalClassNames" : [ {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button--selected",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "  (Context.item.delayFrom ?? 'end') === Context.option.value;",
-                        "language" : "typescript"
-                      }
+                    "children" : [ {
+                      "props" : {
+                        "className" : "noMargin small-bold-primary-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "title",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>Delay</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     }, {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button-left",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions()[0].value === Context.option.value;",
-                        "language" : "typescript"
-                      }
+                      "props" : {
+                        "className" : "",
+                        "layoutClassName" : "noPadding number-input",
+                        "layoutStyle" : { },
+                        "name" : "delay",
+                        "onVariableChange" : {
+                          "client" : {
+                            "@class" : "Script",
+                            "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\nimport { normalize } from \"./tools/helper\";\nconst value = normalize(Context.value, {min: 0});\nupdateItem(Context.item.uid, { delaySeconds: value * 60 });",
+                            "language" : "TypeScript"
+                          },
+                          "exposeVariableAs" : {
+                            "@class" : "Script",
+                            "content" : "\"value\"",
+                            "language" : "TypeScript"
+                          }
+                        },
+                        "script" : {
+                          "@class" : "Script",
+                          "content" : "  Math.round(Context.item.delaySeconds / 60);",
+                          "language" : "TypeScript"
+                        },
+                        "style" : { }
+                      },
+                      "type" : "Number input"
                     }, {
-                      "applyOn" : "Inside",
-                      "className" : "boolean-button-right",
-                      "condition" : {
-                        "@class" : "Script",
-                        "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\n  const buttonArray = getImpactDelayFromOptions();\nbuttonArray[buttonArray.length - 1].value === Context.option.value;",
-                        "language" : "typescript"
-                      }
+                      "props" : {
+                        "className" : "noMargin small-regular-primary-text",
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "min",
+                        "style" : { },
+                        "text" : {
+                          "@class" : "Script",
+                          "content" : "\"<p>min</p>\"",
+                          "language" : "TypeScript"
+                        }
+                      },
+                      "type" : "Text"
                     } ],
-                    "label" : {
-                      "@class" : "Script",
-                      "content" : "Context.option.label;",
-                      "language" : "TypeScript"
+                    "className" : "impact",
+                    "layout" : {
+                      "alignItems" : "center"
                     },
                     "layoutClassName" : "noPadding",
                     "layoutStyle" : { },
-                    "localScriptEval" : {
-                      "script" : {
-                        "@class" : "ClientScript",
-                        "content" : "import { updateItem } from \"./edition/UIfacade/impactConfigFacade\";\n\nupdateItem(Context.item.uid, { delayFrom: Context.option.value });",
-                        "language" : "TypeScript"
-                      }
-                    },
-                    "style" : { }
+                    "name" : "delay for triggers",
+                    "style" : {
+                      "paddingTop" : "0"
+                    }
                   },
-                  "type" : "Button"
-                } ],
-                "exposeAs" : "option",
-                "getItemsFn" : {
-                  "@class" : "Script",
-                  "content" : "import { getImpactDelayFromOptions } from \"./edition/UIfacade/selectableOptions\";\ngetImpactDelayFromOptions();",
-                  "language" : "TypeScript"
-                },
-                "hideIf" : {
-                  "@class" : "Script",
-                  "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n  getCurrentPage() !== 'actions';",
-                  "language" : "typescript"
-                },
-                "itemKey" : "value",
-                "layout" : { },
-                "layoutClassName" : "noPadding",
-                "layoutStyle" : { },
-                "name" : "delayFrom",
-                "style" : {
-                  "flexWrap" : "wrap",
-                  "rowGap" : "5px"
-                }
+                  "type" : "FlexList"
+                } ]
               },
-              "type" : "For each"
+              "type" : "PlayerElse"
             } ],
-            "className" : "impact",
             "hideIf" : {
               "@class" : "Script",
-              "content" : "Context.item.type === 'empty' || Context.item.type === 'feedback';",
+              "content" : "Context.item.type === 'empty'||\nContext.item.type === 'feedback';",
               "language" : "typescript"
             },
-            "layout" : {
-              "alignItems" : "center"
+            "ifCondition" : {
+              "@class" : "Script",
+              "content" : "import { getCurrentPage } from \"./edition/UIfacade/mainMenuStateFacade\";\n    getCurrentPage() === 'actions';",
+              "language" : "typescript"
             },
-            "layoutClassName" : "noPadding",
             "layoutStyle" : { },
-            "name" : "delay for all",
-            "style" : {
-              "paddingTop" : "0"
-            }
+            "name" : "delay",
+            "style" : { }
           },
-          "type" : "FlexList"
+          "type" : "If Else"
         }, {
           "props" : {
             "className" : "impact",

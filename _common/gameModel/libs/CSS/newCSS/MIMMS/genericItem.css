@@ -91,6 +91,7 @@
 .generic-item textarea,
 .generic-item textarea:hover,
 .generic-item textarea:focus {
+  field-sizing: content;
   font-size: var(--S_text);
   color: var(--primary_base);
   border: 1px solid var(--primary_30);
