@@ -112,6 +112,20 @@
           "props" : {
             "children" : [ {
               "props" : {
+                "className" : "mimms_h3title",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "description",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('mainSim-actions-tasks', 'request-reports-description')",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
                 "className" : "button-S button-secondaryColor",
                 "disableIf" : {
                   "@class" : "Script",
@@ -132,20 +146,23 @@
                     "language" : "TypeScript"
                   }
                 },
+                "name" : "validate",
                 "style" : { }
               },
               "type" : "Button"
             } ],
             "className" : "",
             "layout" : {
-              "justifyContent" : "flex-end"
+              "justifyContent" : "space-between"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "20px 0 5px 0"
             },
-            "name" : "button",
-            "style" : { }
+            "name" : "",
+            "style" : {
+              "gap" : "10px"
+            }
           },
           "type" : "FlexList"
         } ],
@@ -162,7 +179,7 @@
         "layoutStyle" : {
           "width" : "100%"
         },
-        "name" : "requestReportInputs",
+        "name" : "requestReport",
         "style" : { }
       },
       "type" : "FlexList"
