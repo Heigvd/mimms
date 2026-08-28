@@ -93,7 +93,7 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
  */
 export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
   const index = Context.mapState.state.overlayState.indexOf(itemId);
-
+  wlog(index, Context.mapState.state.overlayState);
   if (index > -1) {
     const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
     newState.overlayState.splice(index, 1);

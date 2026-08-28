@@ -97,7 +97,7 @@ function getGenericFeature(
       id: descriptor?.uid,
       tag: descriptor?.tag,
       buildStatus: buildStatus,
-      label: I18n.translate(mapObject.label),
+      //label: I18n.translate(mapObject.label),
       labelOffset: mapObject.labelOffset || [0, 0],
       index: index,
       binding: descriptor?.binding,

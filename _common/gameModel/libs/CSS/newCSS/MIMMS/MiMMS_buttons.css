@@ -166,24 +166,24 @@
 	box-shadow: var(--buttonInsetShadow);
 }
 
+
 /*********************** NEXT BUTTON ***********************/
-.next-container {
-	z-index: 4;
-	position: absolute;
-	top: -85px;
-	right: 10px;
-  overflow: visible;
+
+.role-button,
+.role-button:hover {
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--SM_text);
+  font-weight: var(--boldWeight);
+  color: var(--primary_base);
+  background-color: var(--grey_0);
+  border: 2px solid var(--primary_base);
+  border-radius: var(--L_borderRadius);
 }
 
-/* The status about this button is unknown. It may be used in tools/abstractmatrix. Page 10
-.confirmBtn{
-  position: relative;
-  bottom: 2.5rem;
-  right: 8.5rem;
-}
-
-.confirmBtn > *{
+.role-button.current {
+  color: var(--grey-white);
   background-color: var(--primary_base);
-  border-color: var(--primary_base);
 }
-*/

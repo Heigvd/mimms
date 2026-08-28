@@ -24,20 +24,20 @@
   align-items: center;
 }
 
-.resourceCounter-container {
+/*.resourceCounter-container {
 	width: 1.5em;
 	height: 1.5em;
 	background-color: var(--grey-white);
 	color: var(--grey_70);
 	border: 1px solid var(--grey_70);
 	border-radius: 100%;
-}
+}*/
 
-.resourceCounter {
+/*.resourceCounter {
 	margin: auto;
 	font-size: var(--S_text);
 	font-weight: var(--boldWeight);
-}
+}*/
 
 /* used to make one row of two blue*/
 .evenOddList-container:nth-of-type(even){

@@ -3,7 +3,6 @@ import { ActorId } from '../game/common/baseTypes';
 import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -15,6 +14,7 @@ import {
 import { canActorPlanAction } from '../gameInterface/main';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
 import { OnTheRoadAction } from '../game/common/actions/actorActions';
+import { openOverlayItem } from '../gameMap/mapEntities';
 
 /**
  * @returns All currently present actors

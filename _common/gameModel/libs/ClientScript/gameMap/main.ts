@@ -118,6 +118,7 @@ export function handleMapClick(
     }
   } else {
     const mapActivable = features.find(f => f.layerId === 'activables');
+    wlog('overlay clicked!', mapActivable, features);
     if (mapActivable) {
       const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
       toggleOverlayItem(mapEntityId);
