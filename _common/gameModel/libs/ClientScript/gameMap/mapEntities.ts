@@ -91,7 +91,7 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
 /**
  * Bring the given overlayItem to the front
  */
-function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
+export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
   const index = Context.mapState.state.overlayState.indexOf(itemId);
 
   if (index > -1) {
@@ -102,9 +102,10 @@ function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
   }
 }
 
+// 28.08.2026 XGO : Kept temporarily in case we decide to have an open close state again
 /**
  * Toggle open close for given overlayItem
- */
+
 function toggleOverlayItem(itemId: LOCATION_ENUM) {
   const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
   const index = newState.overlayState.indexOf(itemId);
@@ -117,7 +118,9 @@ function toggleOverlayItem(itemId: LOCATION_ENUM) {
 
   Context.mapState.setState(newState);
 }
+*/
 
+/*
 export function openOverlayItem(itemId: LOCATION_ENUM) {
   const isAlreadyOpen = isOverlayItemOpen(itemId);
 
@@ -133,3 +136,4 @@ export function openOverlayItem(itemId: LOCATION_ENUM) {
 export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
   return Context.mapState?.state.overlayState.includes(itemId);
 }
+*/

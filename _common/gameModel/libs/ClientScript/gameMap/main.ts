@@ -1,12 +1,14 @@
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { openOverlayItem } from '../gameMap/mapEntities';
+import { entries } from '../tools/helper';
 import { Point } from '../tools/point2D';
 import {
   getAvailableActionTemplateById,
   isChoiceTemplate,
   updateChoice,
 } from '../UIfacade/actionFacade';
+import { bringOverlayItemToFront } from './mapEntities';
 
 const logger = Helpers.getLogger('mainSim.map');
 
@@ -49,13 +51,16 @@ export function getTypedMapState(): MapState {
 
 /**
  * Get initial empty MapState object
+ * By default, all locations that can have ressources are open
  *
  * @returns initialMapState
  */
 export function getInitialMapState(): MapState {
+  const locations = entries(locationEnumConfig).filter(([_k, config]) => config.accessibility.Resources)
+    .map(([k,_v]) => k);
   return {
     mapSelect: false,
-    overlayState: [LOCATION_ENUM.chantier],
+    overlayState: locations
   };
 }
 
@@ -120,7 +125,7 @@ export function handleMapClick(
     const mapActivable = features.find(f => f.layerId === 'activables');
     if (mapActivable) {
       const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
-      openOverlayItem(mapEntityId);
+      bringOverlayItemToFront(mapEntityId);
     }
   }
 }

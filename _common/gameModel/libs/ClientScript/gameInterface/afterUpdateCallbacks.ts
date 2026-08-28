@@ -1,7 +1,7 @@
 import { MainSimulationState } from '../game/common/simulationState/mainSimulationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { InterfaceState } from '../gameInterface/interfaceState';
-import { openOverlayItem } from '../gameMap/mapEntities';
+import { bringOverlayItemToFront } from '../gameMap/mapEntities';
 import { mainSimInterfaceLogger } from '../tools/logger';
 
 export type AfterUpdateCallback = (
@@ -58,21 +58,20 @@ export function applyPendingCallbacks(current: Readonly<InterfaceState>): Partia
 /************** CALLBACKS IMPLEMENTATIONS ************** */
 
 /**
- * opens the position of the selected actor if it has moved since the previous reference state
+ * bring to front the position of the selected actor if it has moved since the previous reference state
  */
 export function registerOpenSelectedActorPanelAfterMove(): void {
   const f: AfterUpdateCallback = function (
-    oldState: Readonly<MainSimulationState>,
+    _oldState: Readonly<MainSimulationState>,
     current: Readonly<MainSimulationState>,
     intState: Partial<InterfaceState>
   ) {
     const id = intState.currentActorUid;
 
     if (id) {
-      const oldLoc = oldState.getActorById(id)?.Location;
       const newLoc = current.getActorById(id)?.Location;
-      if (newLoc && oldLoc !== newLoc) {
-        openOverlayItem(newLoc);
+      if (newLoc) {
+        bringOverlayItemToFront(newLoc);
       }
     }
   };

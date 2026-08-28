@@ -14,7 +14,7 @@ import {
 import { canActorPlanAction } from '../gameInterface/main';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
 import { OnTheRoadAction } from '../game/common/actions/actorActions';
-import { openOverlayItem } from '../gameMap/mapEntities';
+import { bringOverlayItemToFront } from '../gameMap/mapEntities';
 
 /**
  * @returns All currently present actors
@@ -39,7 +39,7 @@ export function selectActor(id: ActorId): InterfaceState {
 // used in page 43
 export function selectActorAndOpenMapLocation(id: ActorId): InterfaceState {
   const newState = selectActor(id);
-  openOverlayItem(getActorLocation(id)!);
+  bringOverlayItemToFront(getActorLocation(id)!);
   return newState;
 }
 
