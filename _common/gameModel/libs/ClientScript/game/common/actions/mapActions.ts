@@ -25,7 +25,7 @@ import { ChoiceAction } from './actionBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 
 export class MapChoiceAction extends ChoiceAction {
-  public readonly binding?: LOCATION_ENUM;
+  public readonly binding: LOCATION_ENUM;
 
   constructor(
     startTimeSec: SimTime,
@@ -36,7 +36,7 @@ export class MapChoiceAction extends ChoiceAction {
     templateUid: ActionTemplateUid,
     provideFlagsToState: SimFlag[],
     choice: ChoiceDescriptor,
-    binding?: LOCATION_ENUM
+    binding: LOCATION_ENUM
   ) {
     super(
       startTimeSec,
@@ -46,7 +46,7 @@ export class MapChoiceAction extends ChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice
+      choice,
     );
     this.binding = binding;
   }
@@ -131,7 +131,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         actorUid: this.ownerId,
-        location: this.binding!,
+        location: this.binding,
       })
     );
 
@@ -144,10 +144,10 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         resourcesId: [resourceUid],
-        targetLocation: this.binding!,
+        targetLocation: this.binding,
       })
     );
-    const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding!);
+    const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding);
 
     if (idleTaskUid != undefined) {
       getLocalEventManager().queueLocalEvent(
@@ -205,7 +205,7 @@ export class PCChoiceAction extends MapChoiceAction {
           source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           actorUid: actor.Uid,
-          location: this.binding!,
+          location: this.binding,
         })
       );
     }
@@ -217,7 +217,7 @@ export class PCChoiceAction extends MapChoiceAction {
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
         sourceLocation: LOCATION_ENUM.pcFront,
-        targetLocation: this.binding!,
+        targetLocation: this.binding,
       })
     );
     // Remove PC Front once all actors and resources have been moved
@@ -242,8 +242,6 @@ export class PCChoiceAction extends MapChoiceAction {
 // -------------------------------------------------------------------------------------------------
 
 export class ParkChoiceAction extends MapChoiceAction {
-  // The binding is always ambulancePark or helicopterPark
-  public declare readonly binding: LOCATION_ENUM.ambulancePark | LOCATION_ENUM.helicopterPark;
   public readonly vehicleType: VehicleType;
 
   constructor(
@@ -266,9 +264,9 @@ export class ParkChoiceAction extends MapChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice
+      choice,
+      binding
     );
-    this.binding = binding;
     this.vehicleType = vehicleType;
   }
 
