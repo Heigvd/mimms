@@ -39,7 +39,7 @@ export class PorterTask extends TaskBase<PorterSubTask> {
     availableToRoles?: InterventionRole[],
     maximumIdleTime?: number
   ) {
-    super(TaskType.Porter, title, locationSource, availableToRoles, true, maximumIdleTime);
+    super(TaskType.Porter, title, locationSource, availableToRoles, maximumIdleTime);
   }
 
   public getFeedbackIfNoTargetLocation(): string {

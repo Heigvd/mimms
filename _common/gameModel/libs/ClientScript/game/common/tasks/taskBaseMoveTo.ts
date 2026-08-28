@@ -14,7 +14,7 @@ export class MoveToTask extends TaskBase {
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.MoveTo, title, location, availableToRoles, false);
+    super(TaskType.MoveTo, title, location, availableToRoles);
   }
 
   protected override dispatchInProgressEvents(

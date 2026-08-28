@@ -14,7 +14,7 @@ export class WaitingTask extends TaskBase {
     location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[]
   ) {
-    super(TaskType.Waiting, title, location, availableToRoles, true, UnlimitedMaximumIdleTime);
+    super(TaskType.Waiting, title, location, availableToRoles, UnlimitedMaximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(

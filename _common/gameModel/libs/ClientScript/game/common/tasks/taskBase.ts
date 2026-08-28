@@ -318,7 +318,7 @@ export class HealingTask extends TaskBase {
     maximumIdleTime?: number,
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(TaskType.Healing, title, location, availableToRoles, true, maximumIdleTime);
+    super(TaskType.Healing, title, location, availableToRoles, maximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(
