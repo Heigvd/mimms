@@ -91,9 +91,9 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
 /**
  * Bring the given overlayItem to the front
  */
-export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
+function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
   const index = Context.mapState.state.overlayState.indexOf(itemId);
-  wlog(index, Context.mapState.state.overlayState);
+
   if (index > -1) {
     const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
     newState.overlayState.splice(index, 1);
@@ -105,7 +105,7 @@ export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
 /**
  * Toggle open close for given overlayItem
  */
-export function toggleOverlayItem(itemId: LOCATION_ENUM) {
+function toggleOverlayItem(itemId: LOCATION_ENUM) {
   const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
   const index = newState.overlayState.indexOf(itemId);
 

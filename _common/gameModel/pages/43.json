@@ -1297,7 +1297,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { bringOverlayItemToFront, isOverlayItemOpen } from \"./gameMap/mapEntities\";\n\nif(isOverlayItemOpen(Context.overlayItem.id)) {\n  bringOverlayItemToFront(Context.overlayItem.id);\n}",
+                                            "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);\n",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -1389,13 +1389,6 @@
                                         "layout" : { },
                                         "layoutClassName" : "fixedEntities-arrow",
                                         "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { toggleOverlayItem } from \"./gameMap/mapEntities\";\n\ntoggleOverlayItem(Context.overlayItem.id);",
-                                            "language" : "TypeScript"
-                                          }
-                                        },
                                         "name" : "genericFixedEntity-arrow",
                                         "style" : { }
                                       },

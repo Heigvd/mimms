@@ -257,12 +257,14 @@ export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidat
       index: 0,
       delaySeconds: 0,
       message: createOrUpdateTranslation('', undefined),
+      delayFrom: 'start'
     }),
     validator: feedbackImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
+      delayFrom: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
     },

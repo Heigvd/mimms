@@ -1,6 +1,6 @@
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
+import { openOverlayItem } from '../gameMap/mapEntities';
 import { Point } from '../tools/point2D';
 import {
   getAvailableActionTemplateById,
@@ -118,11 +118,9 @@ export function handleMapClick(
     }
   } else {
     const mapActivable = features.find(f => f.layerId === 'activables');
-    wlog('overlay clicked!', mapActivable, features);
     if (mapActivable) {
       const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
-      toggleOverlayItem(mapEntityId);
-      bringOverlayItemToFront(mapEntityId);
+      openOverlayItem(mapEntityId);
     }
   }
 }

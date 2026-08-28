@@ -62,6 +62,8 @@ export function convertToLocalEvents(
       return convertNotificationImpact(state, impact, source, anchorTime);
     case 'radio':
       return convertRadioMessageImpact(state, impact, source, anchorTime);
+    case 'feedback':
+      return convertFeedbackImpact(state, impact, source);
     default:
       return [];
   }
