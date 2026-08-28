@@ -1091,7 +1091,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);",
+                                                "content" : "import { bringOverlayItemToFront } from \"./gameMap/mapEntities\";\n\nbringOverlayItemToFront(Context.overlayItem.id);",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -1297,7 +1297,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { openOverlayItem } from \"./gameMap/mapEntities\";\n\nopenOverlayItem(Context.overlayItem.id);\n",
+                                            "content" : "import { bringOverlayItemToFront } from \"./gameMap/mapEntities\";\n\nbringOverlayItemToFront(Context.overlayItem.id);\n",
                                             "language" : "TypeScript"
                                           }
                                         },
