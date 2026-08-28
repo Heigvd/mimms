@@ -1,4 +1,4 @@
-import { CommMedia } from '../../resources/resourceReachLogic';
+import { CommMedia } from '../../radio/communicationType';
 import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { ResourceTypeAndNumber } from '../../resources/resourceType';
 import {

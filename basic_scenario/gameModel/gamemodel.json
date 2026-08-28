@@ -6022,15 +6022,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourceReachLogic",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#180:N3dJ9Z",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/resources/resourceType",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",

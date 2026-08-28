@@ -16,7 +16,6 @@ import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
@@ -160,8 +159,7 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   return {
     currentTaskId: initResourceManagementCurrentTaskId(
       getCurrentPlayerDefaultActor()?.Uid,
-      getCurrentPlayerDefaultActor()?.Location,
-      CommMedia.Direct
+      getCurrentPlayerDefaultActor()?.Location
     ),
     targetLocation: undefined,
     targetTaskId: undefined,

@@ -5,11 +5,7 @@ import { ActorId } from '../baseTypes';
 import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
-import { Resource } from './resource';
 import { ResourceContainerType } from './resourceContainer';
-import { CommMedia } from './resourceReachLogic';
 import { isHuman, ResourceType } from './resourceType';
 
 /**
@@ -102,21 +98,4 @@ export function formatResourceTypesAndNumber(
     });
 
   return resourcesAsText;
-}
-
-export function getFreeDirectReachableHumanResourcesByLocation(
-  state: Readonly<MainSimulationState>,
-  actorId: ActorId | undefined,
-  location: LOCATION_ENUM
-): Resource[] {
-  return ResourceState.getFreeHumanResourcesByLocation(state, location).filter(
-    (resource: Resource) =>
-      TaskState.isReachable(
-        state,
-        actorId,
-        resource.currentLocation,
-        resource.currentActivity!,
-        CommMedia.Direct
-      )
-  );
 }

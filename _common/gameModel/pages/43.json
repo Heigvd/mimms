@@ -1464,7 +1464,7 @@
                                     },
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState()?.currentActorUid);",
+                                      "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
                                     },
                                     "hideIf" : {

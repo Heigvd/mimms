@@ -24,8 +24,7 @@ import {
 } from '../game/common/events/casuMessageEvent';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
-import { RadioType } from '../game/common/radio/communicationType';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
+import { CommMedia, RadioType } from '../game/common/radio/communicationType';
 import { ResourcesArray, ResourceTypeAndNumber } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
