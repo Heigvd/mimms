@@ -76,6 +76,11 @@ export function getAvailableChoices(template: ChoiceTemplate): ChoiceDescriptor[
   return ActionLogic.getAvailableChoices(getCurrentState(), template);
 }
 
+// used in page 31 to know whether a single choice is worth displaying on its own
+export function choiceHasContent(choice: ChoiceDescriptor): boolean {
+  return !!I18n.translate(choice.title)?.trim() || !!I18n.translate(choice.description)?.trim();
+}
+
 export function uniqueActionTemplates(): IUniqueActionTemplates | undefined {
   return getUniqueActionTemplates();
 }

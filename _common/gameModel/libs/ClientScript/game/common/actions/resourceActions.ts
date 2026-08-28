@@ -19,7 +19,6 @@ import {
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { CommMedia } from '../resources/resourceReachLogic';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -34,7 +33,7 @@ import {
 } from '../localEvents/localEventRadio';
 import { entries } from '../../../tools/helper';
 import { getResourceAsSenderName } from '../radio/radioLogic';
-import { RadioType } from '../radio/communicationType';
+import { CommMedia, RadioType } from '../radio/communicationType';
 import { getTranslation } from '../../../tools/translation';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';

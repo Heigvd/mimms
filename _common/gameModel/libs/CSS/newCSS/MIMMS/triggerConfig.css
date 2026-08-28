@@ -16,9 +16,17 @@
   cursor: pointer;
 }
 
-.generic-item:has(.condition),
-.generic-item:has(.impact) {
-  min-height: 5.5rem;
+.generic-item:has(.condition:empty),
+.generic-item:has(.impact:empty) {
+  max-height: 38px;
+}
+
+.generic-item:has(.impact:empty) .condition-impact__dropdown .wegas-select__control {
+  border-radius: var(--XXS_borderRadius);
+}
+
+.generic-item:has(.impact:empty) .condition-impact__dropdown .wegas-select__control--menu-is-open {
+  border-radius: var(--XXS_borderRadius) var(--XXS_borderRadius) 0 0;
 }
 
 /* and or dropdown */

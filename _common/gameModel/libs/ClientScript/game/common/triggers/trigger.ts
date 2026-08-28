@@ -87,7 +87,7 @@ function evaluateTriggerImpacts(
   trigger: Trigger
 ): LocalEventBase[] {
   return trigger.impacts.flatMap((impact: Impact) =>
-    convertToLocalEvents(state, impact, { type: 'trigger', id: trigger.uid })
+    convertToLocalEvents(state, impact, { type: 'trigger', id: trigger.uid }, state.getSimTime())
   );
 }
 

@@ -1,6 +1,5 @@
 import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { openOverlayItem } from '../gameMap/mapEntities';
@@ -29,7 +28,7 @@ export function selectActor(id: ActorId): InterfaceState {
 
   newState.currentActorUid = id;
   newState.resources.allocateResources.currentTaskId =
-    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location, CommMedia.Direct);
+    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location);
   setInterfaceState(newState);
   refreshSelectionLayer();
   refreshActivableLayer();
