@@ -180,7 +180,6 @@ export function getFreeWaitingResourcesByLocation(
   return internalState.resources.filter(
     (resource: Resource) =>
       !resource.isReserved() &&
-      resource.currentLocation === location &&
       resource.currentActivity === idleTaskUid
   );
 }

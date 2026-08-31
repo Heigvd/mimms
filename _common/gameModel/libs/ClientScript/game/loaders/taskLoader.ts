@@ -1,4 +1,4 @@
-import { NoIdleTimeAllowed, StandardMaximumIdleTime } from '../common/constants';
+import { NoIdleTimeAllowed, StandardMaximumIdleTime, UnlimitedMaximumIdleTime } from '../common/constants';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { HealingTask, TaskBase, TaskType } from '../common/tasks/taskBase';
 import { EvacuationTask } from '../common/tasks/taskBaseEvacuation';
@@ -91,14 +91,14 @@ export function loadTasks(): TaskBase[] {
     'evacuate-title',
     LOCATION_ENUM.ambulancePark,
     [],
-    StandardMaximumIdleTime
+    UnlimitedMaximumIdleTime
   );
 
   const taskEvacuationHelicopterPark = new EvacuationTask(
     'evacuate-title',
     LOCATION_ENUM.helicopterPark,
     [],
-    StandardMaximumIdleTime
+    UnlimitedMaximumIdleTime
   );
 
   // Where a resource can be between two tasks : it waits there for new orders,

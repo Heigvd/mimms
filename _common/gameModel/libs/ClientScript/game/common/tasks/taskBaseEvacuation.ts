@@ -146,9 +146,5 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         },
       })
     );
-
-    // The resources stay allocated to the evacuation task. As they have nothing to do anymore,
-    // they cumulate idle time and eventually go back to get new orders.
-    // @see TaskBase.update
   }
 }

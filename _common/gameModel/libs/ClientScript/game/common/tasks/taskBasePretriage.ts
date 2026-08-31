@@ -50,10 +50,10 @@ export class PreTriageTask extends TaskBase {
 
       workingResourcesId.push(resource.Uid);
 
-      resource.cumulatedWorkTime += timeJump;
+      resource.carryoverWorkTime += timeJump;
 
-      if (resource.cumulatedWorkTime >= TIME_REQUIRED_FOR_PATIENT_PRETRI) {
-        resource.cumulatedWorkTime -= TIME_REQUIRED_FOR_PATIENT_PRETRI;
+      if (resource.carryoverWorkTime >= TIME_REQUIRED_FOR_PATIENT_PRETRI) {
+        resource.carryoverWorkTime -= TIME_REQUIRED_FOR_PATIENT_PRETRI;
 
         const nextPatient = getNextNonPreTriagedPatient(state, this.locationSource);
         if (nextPatient)

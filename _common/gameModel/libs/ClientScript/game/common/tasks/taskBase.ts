@@ -211,6 +211,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         continue;
       }
 
+      // the resource had spare time and did nothing with it, its ongoing work is lost
+      resource.carryoverWorkTime = 0;
       resource.cumulatedIdleTime += timeJump;
 
       if (resource.cumulatedIdleTime >= this.maximumIdleTime) {
