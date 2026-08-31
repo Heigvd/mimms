@@ -7,8 +7,6 @@ import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../bas
 import { StandardMaximumIdleTime } from '../constants';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { Resource } from '../resources/resource';
-import * as ResourceReachLogic from '../resources/resourceReachLogic';
-import { CommMedia } from '../resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { getPatientsToHealSize } from '../simulationState/patientState';
@@ -58,7 +56,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     readonly location: LOCATION_ENUM,
     /** which roles can order the task */
     readonly availableToRoles: InterventionRole[] = [],
-    readonly isStandardAssignation: boolean = true,
     /** how long a resource allocated to the task waits for work before going back to get new orders */
     readonly maximumIdleTime: number = StandardMaximumIdleTime
   ) {
@@ -86,27 +83,12 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   public isAvailable(
     state: Readonly<MainSimulationState>,
     actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>,
-    mustCheckStandardAssignation: boolean
+    location: Readonly<LOCATION_ENUM>
   ): boolean {
     return (
       this.isRoleWiseAvailable(actor.Role) &&
       this.isLocationWiseAvailable(location) &&
-      this.isAvailableCustom(state, actor, location) &&
-      (this.isStandardAssignation || !mustCheckStandardAssignation)
-    );
-  }
-
-  /** Define if a resource at some location doing this task can be reached by a communication media. */
-  public isReachable(
-    state: Readonly<MainSimulationState>,
-    actor: Readonly<Actor>,
-    location: Readonly<LOCATION_ENUM>,
-    commMedia: CommMedia
-  ): boolean {
-    return (
-      this.isAvailable(state, actor, location, false) &&
-      ResourceReachLogic.isReachable(location, this.taskType, commMedia)
+      this.isAvailableCustom(state, actor, location)
     );
   }
 
@@ -338,7 +320,7 @@ export class HealingTask extends TaskBase {
     maximumIdleTime?: number,
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(TaskType.Healing, title, location, availableToRoles, true, maximumIdleTime);
+    super(TaskType.Healing, title, location, availableToRoles, maximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(

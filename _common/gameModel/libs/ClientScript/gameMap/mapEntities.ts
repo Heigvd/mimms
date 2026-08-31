@@ -1,6 +1,4 @@
 import { getActorsByLocation } from '../UIfacade/actorFacade';
-import { ActorId } from '../game/common/baseTypes';
-import * as ResourceLogic from '../game/common/resources/resourceLogic';
 import {
   getAvailableMapActivables,
   LOCATION_ENUM,
@@ -16,7 +14,7 @@ import { MapEntityActivable } from '../game/common/simulationState/activableStat
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 
 // Replacement based on activables/descriptors
-export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
+export function getOverlayItems(): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
     (a: MapEntityActivable) => {
@@ -47,9 +45,8 @@ export function getOverlayItems(actorId: ActorId | undefined): OverlayItem[] {
           name: getLocationLongTranslation(mapActivable.binding) || 'XXX',
           icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
           actors: getActorsByLocation(mapActivable.binding),
-          resources: ResourceLogic.getFreeDirectReachableHumanResourcesByLocation(
+          resources: ResourceState.getFreeHumanResourcesByLocation(
             currentState,
-            actorId,
             mapActivable.binding
           ),
           ambulances: ResourceState.getFreeResourcesByTypeAndLocation(

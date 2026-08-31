@@ -28,7 +28,7 @@ export class PreTriageTask extends TaskBase {
     availableToRoles?: InterventionRole[],
     maximumIdleTime?: number
   ) {
-    super(TaskType.Pretriage, title, locationSource, availableToRoles, true, maximumIdleTime);
+    super(TaskType.Pretriage, title, locationSource, availableToRoles, maximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(

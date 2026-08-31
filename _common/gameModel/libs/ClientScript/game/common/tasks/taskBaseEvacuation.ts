@@ -1,5 +1,5 @@
 import { taskLogger } from '../../../tools/logger';
-import { InterventionRole } from '../actors/actor';
+import { Actor, InterventionRole } from '../actors/actor';
 import {
   ActorId,
   GlobalEventId,
@@ -29,7 +29,20 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
     availableToRoles?: InterventionRole[],
     maximumIdleTime?: number
   ) {
-    super(TaskType.Evacuation, title, location, availableToRoles, false, maximumIdleTime);
+    super(TaskType.Evacuation, title, location, availableToRoles, maximumIdleTime);
+  }
+
+  /**
+   * Resources engaged in an evacuation cannot be taken off it.
+   *
+   * @see dispatchInProgressEvents
+   */
+  protected override isAvailableCustom(
+    _state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>,
+    _location: Readonly<LOCATION_ENUM>
+  ): boolean {
+    return false;
   }
 
   public createSubTask(

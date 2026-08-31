@@ -381,7 +381,7 @@
                                         "exposePageSizeAs" : "",
                                         "initialSelectedPageId" : {
                                           "@class" : "Script",
-                                          "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = 'radioMainPanel'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = '45';\n}\npage;",
+                                          "content" : "let page = 'actionsList';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = 'actionsList'; break;\n\tcase 'radios': page = 'radioMainPanel'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = 'actionsList';\n}\npage;",
                                           "language" : "typescript"
                                         },
                                         "layoutClassName" : "interfaceMenuLoader-container",
@@ -559,6 +559,86 @@
                                               "type" : "FlexList"
                                             }, {
                                               "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "children" : [ ],
+                                                    "className" : "",
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "halo",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\nimport { getVisibleActorsInTimelineForCurrentPlayer } from \"./UIfacade/actorFacade\";\n    const allActors = getVisibleActorsInTimelineForCurrentPlayer();\n    const idleActors = allActors.filter(a => canActorPlanAction(a.Uid));\nallActors.length > 1 && idleActors.length === 1 && idleActors[0]?.Uid === Context.actor.Uid;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding halo__container",
+                                                    "layoutStyle" : { },
+                                                    "name" : "Halo",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "playing-state-indicator",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "current",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { canActorPlanAction } from \"./gameInterface/main\";\ncanActorPlanAction(Context.actor.Uid);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : { },
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "Playing state indicator",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "className" : "fullWidth button-S button-primaryColor",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "current",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "confirm" : false,
+                                                "disableIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
+                                                  "language" : "typescript"
+                                                },
+                                                "label" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
+                                                  "language" : "TypeScript"
+                                                },
+                                                "layoutClassName" : "fullWidth",
+                                                "layoutStyle" : {
+                                                  "padding" : "5px 0 5px 0"
+                                                },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "name" : "Actor",
+                                                "style" : {
+                                                  "justifyContent" : "center"
+                                                }
+                                              },
+                                              "type" : "Button"
+                                            }, {
+                                              "props" : {
                                                 "className" : "counterCircle",
                                                 "hideIf" : {
                                                   "@class" : "Script",
@@ -637,41 +717,6 @@
                                                 "style" : { }
                                               },
                                               "type" : "Button"
-                                            }, {
-                                              "props" : {
-                                                "className" : "button-S button-primaryColor",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "current",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "confirm" : false,
-                                                "disableIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
-                                                  "language" : "typescript"
-                                                },
-                                                "label" : {
-                                                  "@class" : "Script",
-                                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role);",
-                                                  "language" : "TypeScript"
-                                                },
-                                                "layoutStyle" : { },
-                                                "localScriptEval" : {
-                                                  "script" : {
-                                                    "@class" : "ClientScript",
-                                                    "content" : "import { selectActorAndOpenMapLocation } from \"./UIfacade/actorFacade\";\n\nselectActorAndOpenMapLocation(Context.actor.Uid);\n",
-                                                    "language" : "TypeScript"
-                                                  }
-                                                },
-                                                "name" : "Actor",
-                                                "style" : { }
-                                              },
-                                              "type" : "Button"
                                             } ],
                                             "layout" : {
                                               "alignItems" : "center",
@@ -679,7 +724,11 @@
                                             },
                                             "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
-                                            "style" : { }
+                                            "style" : {
+                                              "gap" : "5px",
+                                              "paddingRight" : "10px",
+                                              "width" : "10rem"
+                                            }
                                           },
                                           "type" : "FlexList"
                                         } ],
@@ -1415,7 +1464,7 @@
                                     },
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState()?.currentActorUid);",
+                                      "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
                                     },
                                     "hideIf" : {

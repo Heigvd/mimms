@@ -13,6 +13,7 @@ import {
   TranslationKey,
 } from '../baseTypes';
 import { Effect, evaluateEffectImpacts } from '../impacts/effect';
+import { DelayImpactFrom } from '../impacts/impact';
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import { ChoiceActivable, getChoiceActivable } from '../simulationState/activableState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -182,7 +183,7 @@ export abstract class ChoiceAction extends StartEndAction {
     this.choice = choice;
   }
 
-  protected applyChoice(state: Readonly<MainSimulationState>): void {
+  protected applyChoice(state: Readonly<MainSimulationState>, delayFrom: DelayImpactFrom): void {
     if (this.choice != undefined) {
       const choiceActivable: ChoiceActivable | undefined = getChoiceActivable(
         state,
@@ -193,7 +194,7 @@ export abstract class ChoiceAction extends StartEndAction {
       );
 
       if (selectedEffect) {
-        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this.Uid);
+        const eventsToQueue = evaluateEffectImpacts(state, selectedEffect, this, delayFrom);
         eventsToQueue.forEach(localEvent => getLocalEventManager().queueLocalEvent(localEvent));
       } else {
         actionLogger.warn(`choice '${this.choice.uid}' has no selected effect`);
@@ -203,8 +204,12 @@ export abstract class ChoiceAction extends StartEndAction {
     }
   }
 
+  protected dispatchInitEvents(state: Readonly<MainSimulationState>) {
+    this.applyChoice(state, 'start');
+  }
+
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>) {
-    this.applyChoice(state);
+    this.applyChoice(state, 'end');
   }
 }
 
@@ -237,8 +242,9 @@ export class FullyConfigurableChoiceAction extends ChoiceAction {
     );
   }
 
-  protected dispatchInitEvents(_state: Readonly<MainSimulationState>): void {
-    // nothing to do
+  protected override dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchInitEvents(state);
+    // nothing more to do
   }
 
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
