@@ -21,8 +21,8 @@
   transition: width .3s ease-in-out, max-width .3s ease-in-out;
 }
 
-.timeline{
-	background: var(--grey_0);
+.timeline {
+	background: var(--grey-white);
 	height: auto;
 	pointer-events: auto;
 	width: 100%;
@@ -46,7 +46,7 @@
 .timeline-item {
 	z-index: 1;
 	border-radius: var(--XS_borderRadius);
-	background: var(--grey_10);
+	background: var(--grey05);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -92,7 +92,7 @@
 	font-size: var(--M_text);
 	font-weight: var(--boldWeight);
 	color: var(--grey_70);
-	background-color: var(--grey_0);
+	background-color: var(--grey-white);
 }
 
 .time.current {

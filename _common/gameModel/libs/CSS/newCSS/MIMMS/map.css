@@ -20,7 +20,7 @@
 	height: 0; 
 	border-left: 20px solid transparent;
 	border-right: 20px solid transparent;
-	border-top: 20px solid var(--grey_60);
+	border-top: 20px solid var(--grey_80);
 	margin: auto;
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
 }
@@ -67,7 +67,7 @@
   padding: 10px;
 	background-color: var(--grey-white);
 	border-radius: var(--XS_borderRadius);
-	border: solid 3px var(--grey_60);
+	border: solid 3px var(--grey_80);
 	margin: auto;
 	box-shadow: var(--overlaysShadows);
 }
@@ -139,14 +139,16 @@
 }
 
 /*  for resources at current actor's location while unselected */
-.squareCounter-container.resourcesNearCurrentActor {
+.squareCounter-container.resourcesNearCurrentActor,
+.squareCounter-container.resourcesNearCurrentActor:hover,
+.squareCounter-container__unclickable.resourcesNearCurrentActor {
   color: var(--primary_base);
   border-color: var(--primary_base);
 }
 
 .squareCounter-container,
 .squareCounter-container:hover {
-  padding: 0 5px;
+  padding: 0 0 0 3px;
   font-size: var(--S_text);
   font-weight: var(--blackWeight);
   color: var(--grey_60);
@@ -189,3 +191,15 @@
 /*.squareCounter.counterText-resourcesNearCurrentActor{
   color: var(--primary_base);
 }*/
+
+/* red patients counter */
+.red-patients-counter {
+  padding: 0 3px;
+  color: #FD5050;
+  background-color: rgba(253, 80, 80, .2);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.squareCounter-container:has(.red-patients-counter) {
+  padding: 0;
+}

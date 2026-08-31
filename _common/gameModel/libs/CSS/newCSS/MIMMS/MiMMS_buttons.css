@@ -30,7 +30,7 @@
 /** primary **/
 .button-primaryColor {
   color: var(--primary_base);
-	background-color: var(--grey_0);
+	background-color: var(--grey-white);
 	border: solid 3px var(--primary_base);
   transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
@@ -167,7 +167,7 @@
 }
 
 
-/*********************** NEXT BUTTON ***********************/
+/*********************** ROLE BUTTON ***********************/
 
 .role-button,
 .role-button:hover {
@@ -178,7 +178,7 @@
   font-size: var(--SM_text);
   font-weight: var(--boldWeight);
   color: var(--primary_base);
-  background-color: var(--grey_0);
+  background-color: var(--grey-white);
   border: 2px solid var(--primary_base);
   border-radius: var(--L_borderRadius);
 }
@@ -186,4 +186,22 @@
 .role-button.current {
   color: var(--grey-white);
   background-color: var(--primary_base);
+}
+
+/* patients flow button */
+.patients-flow-button-container {
+  position: absolute;
+  top: 2.5rem;
+  right: 2.5rem;
+  z-index: 20;
+}
+
+.patients-flow-button.iconOnly {
+  background-color: var(--grey-white);
+  border: 3px solid var(--grey_80);
+  box-shadow: var(--overlaysShadows);
+}
+
+.patients-flow-button.notificationButton svg {
+  color: var(--grey_80);
 }

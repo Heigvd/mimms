@@ -156,6 +156,21 @@
                           "props" : {
                             "children" : [ {
                               "props" : {
+                                "className" : "notificationButton patients-flow-button",
+                                "icon" : "user",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding patients-flow-button-container",
+                                "layoutStyle" : { },
+                                "name" : "PatientFlow",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
                                 "children" : [ {
                                   "props" : {
                                     "children" : [ {
@@ -600,6 +615,14 @@
                                             }, {
                                               "props" : {
                                                 "className" : "fullWidth button-S button-primaryColor",
+                                                "computedClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.actor.Uid);",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "current",
@@ -659,6 +682,14 @@
                                             }, {
                                               "props" : {
                                                 "className" : "button-primaryColor notificationButton",
+                                                "computedClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.actor.Uid);",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "closedNotif-button",
@@ -1054,7 +1085,9 @@
                               "width" : "100%"
                             },
                             "name" : "globalInterface",
-                            "style" : { }
+                            "style" : {
+                              "position" : "relative"
+                            }
                           },
                           "type" : "FlexList"
                         }, {
@@ -1068,7 +1101,7 @@
                                       "props" : {
                                         "children" : [ {
                                           "props" : {
-                                            "className" : "mimms_h3title",
+                                            "className" : "fixed-entity-name",
                                             "conditionnalClassNames" : [ {
                                               "applyOn" : "Inside",
                                               "className" : "selectedFixedEntityHeader",
@@ -1086,7 +1119,7 @@
                                                 "language" : "typescript"
                                               }
                                             } ],
-                                            "layoutClassName" : "",
+                                            "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
                                             "localScriptEval" : {
                                               "script" : {
@@ -1122,7 +1155,7 @@
                                                   "className" : "resourcesNearCurrentActor",
                                                   "condition" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                    "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
                                                     "language" : "typescript"
                                                   }
                                                 } ],
@@ -1162,14 +1195,14 @@
                                                   "className" : "resourcesNearCurrentActor",
                                                   "condition" : {
                                                     "@class" : "Script",
-                                                    "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id) && !(Context.interfaceState.state.selectedPanel === SelectedPanel.resources);",
+                                                    "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
                                                     "language" : "typescript"
                                                   }
                                                 } ],
                                                 "icon" : "user-injured",
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "'2/5';",
+                                                  "content" : "\"<span class=\\\"red-patients-counter\\\">2</span>/5\"",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutClassName" : "noPadding",
@@ -1189,6 +1222,20 @@
                                             }, {
                                               "props" : {
                                                 "className" : "squareCounter-container__unclickable",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "resourcesNearCurrentActor",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "if (Context.overlayItem.ambulances.length < 1) return true;\n  false;",
+                                                  "language" : "typescript"
+                                                },
                                                 "icon" : "truck",
                                                 "label" : {
                                                   "@class" : "Script",
@@ -1205,6 +1252,20 @@
                                             }, {
                                               "props" : {
                                                 "className" : "squareCounter-container__unclickable",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : "resourcesNearCurrentActor",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "if (Context.overlayItem.helicopters.length < 1) return true;\n  false;",
+                                                  "language" : "typescript"
+                                                },
                                                 "icon" : "helicopter",
                                                 "label" : {
                                                   "@class" : "Script",
@@ -1218,34 +1279,6 @@
                                                 "style" : { }
                                               },
                                               "type" : "Button"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ ],
-                                                "hideIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "if (Context.overlayItem.ambulances.length < 1) return true;\n  false;",
-                                                  "language" : "typescript"
-                                                },
-                                                "layout" : { },
-                                                "layoutStyle" : { },
-                                                "name" : "ambulancesBtn",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ ],
-                                                "hideIf" : {
-                                                  "@class" : "Script",
-                                                  "content" : "if (Context.overlayItem.helicopters.length < 1) return true;\n  false;",
-                                                  "language" : "typescript"
-                                                },
-                                                "layout" : { },
-                                                "layoutStyle" : { },
-                                                "name" : "helicoptersBtn",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
                                             } ],
                                             "conditionnalClassNames" : [ {
                                               "applyOn" : "Inside",
@@ -1312,6 +1345,14 @@
                                             "children" : [ {
                                               "props" : {
                                                 "className" : "role-button",
+                                                "computedClassNames" : [ {
+                                                  "applyOn" : "Inside",
+                                                  "className" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.actor.Uid);",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                } ],
                                                 "conditionnalClassNames" : [ {
                                                   "applyOn" : "Inside",
                                                   "className" : "current",

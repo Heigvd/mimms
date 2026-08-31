@@ -68,7 +68,7 @@ export function getRoadStyle(feature: any, resolution: number): LayerStyleObject
     style.push({
       text: {
         type: 'TextStyle',
-        fill: { type: 'FillStyle', color: 'black' },
+        fill: { type: 'FillStyle', color: '#656e72' },
         stroke: {
           type: 'StrokeStyle',
           lineCap: 'round',
@@ -96,7 +96,7 @@ export function getRailwayStyle(resolution: number): LayerStyleObject[] {
       lineJoin: 'round',
       miterLimit: 10,
       width: 2.3 / resolution,
-      color: 'black',
+      color: '#656e72',
     },
   };
   const styleLight: LayerStyleObject = {

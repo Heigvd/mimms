@@ -39,7 +39,7 @@
 .contentLeftPanel {
 	height: 100%;
 	width: auto;
-  background-color: var(--grey_0);
+  background-color: var(--grey-white);
   overflow: hidden;
   pointer-events: auto;
 }

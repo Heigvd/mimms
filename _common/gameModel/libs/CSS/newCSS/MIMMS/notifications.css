@@ -52,8 +52,8 @@
 
 /****** NOTIFICATION BUTTONS ******/
 
-.notificationButton > * {
-	color: var(--grey_0);
+.notificationButton svg {
+  color: var(--grey_0);
 }
 
 .notificationButton {
