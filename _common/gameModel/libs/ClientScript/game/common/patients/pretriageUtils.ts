@@ -54,14 +54,13 @@ export interface PretriageSnapShot {
  * @returns a stats record with all categories set to zero
  */
 function getEmptyPatientsStats(): Record<PATIENT_CATEGORY, number> {
-  const stats: Record<PATIENT_CATEGORY, number> = { uncategorized: 0 } as Record<
-    PATIENT_CATEGORY,
-    number
-  >;
-
-  STANDARD_CATEGORY_ARRAY.forEach(category => (stats[category] = 0));
-
-  return stats;
+  return {
+    dead: 0,
+    immediate: 0,
+    urgent: 0,
+    non_urgent: 0,
+    uncategorized: 0,
+  };
 }
 
 /**
