@@ -7,8 +7,7 @@ import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
 import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId } from '../baseTypes';
 import { GameOptions } from '../gameOptions';
-import { RadioType } from '../radio/communicationType';
-import { CommMedia } from '../resources/resourceReachLogic';
+import { CommMedia, RadioType } from '../radio/communicationType';
 import { ResourceTypeAndNumber } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { BaseEvent, TargetedEvent } from './baseEvent';
@@ -143,7 +142,6 @@ export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
 
 export interface RequestPretriageReportEvent extends ActionCreationEvent {
   durationSec: SimDuration;
-  pretriageLocation: LOCATION_ENUM;
 }
 
 interface TimeForwardEventBase extends BaseEvent, TimedPayload {

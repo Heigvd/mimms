@@ -176,7 +176,7 @@ export function getNotificationImpactDef(
         AL: false,
         CASU: false,
         EVASAN: false,
-        Initiator: parentType === 'effect' ? true : false,
+        Initiator: parentType === 'effect',
       },
     }),
     validator: notificationMessageImpactValidator,
@@ -257,16 +257,16 @@ export function getFeedbackImpactDef(): Definition<FeedbackImpact, ImpactValidat
       index: 0,
       delaySeconds: 0,
       message: createOrUpdateTranslation('', undefined),
-      delayFrom: 'start'
+      delayFrom: 'start',
     }),
     validator: feedbackImpactValidator,
     view: {
       type: ALL_EDITABLE,
       uid: { basic: 'hidden', advanced: 'hidden', expert: 'visible' },
       index: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
-      delayFrom: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
       delaySeconds: ALL_EDITABLE,
       message: ALL_EDITABLE,
+      delayFrom: { basic: 'hidden', advanced: 'visible', expert: 'editable' },
     },
   };
 }

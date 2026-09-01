@@ -381,7 +381,7 @@
                       "language" : "TypeScript"
                     },
                     "style" : {
-                      "max-width" : "50%"
+                      "maxWidth" : "50%"
                     }
                   },
                   "type" : "Image"
@@ -407,7 +407,7 @@
                       "language" : "TypeScript"
                     },
                     "style" : {
-                      "max-width" : "100%"
+                      "maxWidth" : "100%"
                     }
                   },
                   "type" : "Image"

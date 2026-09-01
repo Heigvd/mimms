@@ -1,4 +1,3 @@
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
@@ -157,26 +156,6 @@ export function isOrderValidationDisabled(): boolean {
   return nbResourcesRequested === 0;
 }
 
-// used in page 68
-export function setReportLocationRequest(location: LOCATION_ENUM | undefined): void {
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.resourcesManagement.pretriageReportRequestLocation = location;
-  Context.interfaceState.setState(newState);
-}
-
-// used in page 68
-export function getReportLocationRequest(): LOCATION_ENUM | undefined {
-  return getTypedInterfaceState().resourcesManagement.pretriageReportRequestLocation;
-}
-
-// used in page 68
-export function isPretriageReportRequestDisabled(): boolean {
-  if (!canPlanAction()) {
-    return false;
-  }
-  return getReportLocationRequest() === undefined;
-}
-
 // used in page 43
 /** Open the panel to talk to resources directly (without radio) */
 export function openDirectResourceManagement(location: LOCATION_ENUM): void {
@@ -187,8 +166,7 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
     newState.resources.allocateResources.currentTaskId =
       TaskFacade.initResourceManagementCurrentTaskId(
         Context.interfaceState.state.currentActorUid,
-        location,
-        CommMedia.Direct
+        location
       );
     Context.interfaceState.setState(newState);
   }

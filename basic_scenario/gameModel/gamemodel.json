@@ -3596,6 +3596,7 @@
           "cardiacrate" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cardiac rate\"},\"FR\":{\"status\":\"\",\"translation\":\"fréquence cardiaque\",\"lang\":\"FR\"}},\"version\":0}",
           "casu-transmission" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"cASU transmission\"},\"FR\":{\"status\":\"\",\"translation\":\"transmission CASU\",\"lang\":\"FR\"}},\"version\":0}",
           "error" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you can't do that yet\"},\"FR\":{\"status\":\"\",\"translation\":\"vous ne pouvez pas faire ça actuellement\",\"lang\":\"FR\"}},\"version\":0}",
+          "feedbacks" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"résultats\"},\"EN\":{\"status\":\"\",\"translation\":\"feedbacks\",\"lang\":\"EN\"}},\"version\":0}",
           "game-will-proceed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the game will proceed once all players are ready/have pressed \\\"Continue\\\"\"},\"FR\":{\"status\":\"\",\"translation\":\"vous pourrez continuer la partie lorsque tous les joueurs auront cliqué sur “continuer”\",\"lang\":\"FR\"}},\"version\":0}",
           "incoming-message" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"communication in progress\"},\"FR\":{\"status\":\"\",\"translation\":\"communication en cours\",\"lang\":\"FR\"}},\"version\":0}",
           "methane-ok" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"your METHANE was sent successfully\"},\"FR\":{\"status\":\"\",\"translation\":\"votre message a bien été transmis\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3743,12 +3744,13 @@
           "pretriage-report-task-feedback-reportintro" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"current pretriage status for location {0}:\"},\"FR\":{\"status\":\"\",\"translation\":\"etat courant du prétriage pour {0}:\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-report-task-feedback-reportnonpretriaged" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"some patients have not been pretriaged yet.\"},\"FR\":{\"status\":\"\",\"translation\":\"des patients n'ont pas été prétriés.\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-report-task-feedback-reportreport" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriaged by category:\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriés par catégorie:\",\"lang\":\"FR\"}},\"version\":0}",
-          "pretriage-report-task-feedback-started" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"requested pretriage status for location {0}\"},\"FR\":{\"status\":\"\",\"translation\":\"demande status prétriage pour {0}\",\"lang\":\"FR\"}},\"version\":0}",
+          "pretriage-report-task-feedback-started" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"requested a global situation report\"},\"FR\":{\"status\":\"\",\"translation\":\"demande d'un rapport global de situation\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-report-task-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage status\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage status\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-task-completed" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage done\"},\"FR\":{\"status\":\"\",\"translation\":\"prétriage terminé\",\"lang\":\"FR\"}},\"version\":0}",
           "pretriage-task-notstarted" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"pretriage for location {0} not started.\"},\"FR\":{\"status\":\"\",\"translation\":\"le prétriage pour {0} n'est pas en cours.\",\"lang\":\"FR\"}},\"version\":0}",
           "request-hospital-info" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request hospital information\"},\"FR\":{\"status\":\"\",\"translation\":\"demander informations sur hôpitaux\",\"lang\":\"FR\"}},\"version\":0}",
           "request-reports" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"global situation report\"},\"FR\":{\"status\":\"\",\"translation\":\"rapport de situation global\",\"lang\":\"FR\"}},\"version\":0}",
+          "request-reports-description" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"obtenir un rapport de situation global portant sur l'état du prétri sur tous les sites\"},\"EN\":{\"status\":\"\",\"translation\":\"request a global situation report on triage progress at all sites\",\"lang\":\"EN\"}},\"version\":0}",
           "request-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"request for resources\"},\"FR\":{\"status\":\"\",\"translation\":\"demande de ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "select-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"select resources\"},\"FR\":{\"status\":\"\",\"translation\":\"sélectionner des ressources\",\"lang\":\"FR\"}},\"version\":0}",
           "send-radio-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"send a radio message\"},\"FR\":{\"status\":\"\",\"translation\":\"envoyer un message radio\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6021,15 +6023,6 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
-    "contentKey" : "game/common/resources/resourceReachLogic",
-    "contentType" : "application/typescript",
-    "libraryType" : "ClientScript",
-    "refId" : "GameModelContent:#180:N3dJ9Z",
-    "version" : null,
-    "visibility" : "PRIVATE"
-  }, {
-    "@class" : "GameModelContent",
-    "content" : "",
     "contentKey" : "game/common/resources/resourceType",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6151,6 +6144,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:YzfbRb",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "game/common/tasks/taskBaseMoveTo",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#301:CkG7ki",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -6844,6 +6846,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#158:XWcYDZ",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/feedbackFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#301:Fx7bKq",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {

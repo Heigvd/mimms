@@ -8,7 +8,6 @@ import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import { getOngoingActions } from '../../simulationState/actionStateAccess';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
 import { RequestPretriageReportEvent, StandardActionEvent } from '../../events/eventTypes';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
 import { CasuMessageActionEvent, CasuMessagePayload } from '../../events/casuMessageEvent';
 import {
   ActivateRadioSchemaAction,
@@ -223,14 +222,9 @@ export class CasuMessageTemplate extends StartEndTemplate<
   }
 }
 
-export type PretriageReportActionPayload = {
-  pretriageLocation: LOCATION_ENUM;
-};
-
 export class PretriageReportTemplate extends StartEndTemplate<
   RequestPretriageReportAction,
-  RequestPretriageReportEvent,
-  PretriageReportActionPayload
+  RequestPretriageReportEvent
 > {
   constructor(
     uid: ActionTemplateUid,
@@ -270,20 +264,17 @@ export class PretriageReportTemplate extends StartEndTemplate<
       this.title,
       event.id,
       ownerId,
-      this.uid,
-      payload.pretriageLocation
+      this.uid
     );
   }
 
   public buildGlobalEvent(
     timeStamp: number,
-    initiator: Readonly<Actor>,
-    params: PretriageReportActionPayload
+    initiator: Readonly<Actor>
   ): RequestPretriageReportEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
-      pretriageLocation: params.pretriageLocation,
     };
   }
 

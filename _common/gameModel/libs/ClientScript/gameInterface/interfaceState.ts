@@ -1,6 +1,8 @@
 import { Actor } from '../game/common/actors/actor';
 import {
+  ActionId,
   ActionTemplateUid,
+  ActorId,
   HospitalId,
   PatientId,
   PatientUnitId,
@@ -14,7 +16,6 @@ import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
@@ -33,6 +34,9 @@ export type CasuAction = 'CasuMessage' | 'channelsActivation' | undefined;
 export interface InterfaceState {
   currentActorUid: number | undefined;
   currentActionUid: ActionTemplateUid | undefined; // TODO SAM rename to ActTemplate
+  currentFeedbackUid: Partial<Record<ActorId, ActionId>>;
+  showAction: boolean;
+  showFeedbackSection: boolean;
   moveActorChosenLocation: LOCATION_ENUM | undefined;
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
@@ -63,7 +67,6 @@ export interface InterfaceState {
   };
   resourcesManagement: {
     activityType: ResourcesManagementActivityType | undefined;
-    pretriageReportRequestLocation: LOCATION_ENUM | undefined;
   };
   evacuation: {
     data: {
@@ -95,6 +98,9 @@ export function getInitialInterfaceState(): InterfaceState {
   return {
     currentActorUid: getCurrentPlayerDefaultActor()?.Uid,
     currentActionUid: undefined,
+    currentFeedbackUid: {},
+    showAction: true,
+    showFeedbackSection: true,
     casuMessage: {
       messageType: '',
       major: '',
@@ -125,7 +131,6 @@ export function getInitialInterfaceState(): InterfaceState {
     selectedCasuAction: undefined,
     resourcesManagement: {
       activityType: undefined,
-      pretriageReportRequestLocation: undefined,
     },
   };
 }
@@ -152,8 +157,7 @@ export function getEmptyAllocateResources(): InterfaceState['resources']['alloca
   return {
     currentTaskId: initResourceManagementCurrentTaskId(
       getCurrentPlayerDefaultActor()?.Uid,
-      getCurrentPlayerDefaultActor()?.Location,
-      CommMedia.Direct
+      getCurrentPlayerDefaultActor()?.Location
     ),
     targetLocation: undefined,
     targetTaskId: undefined,

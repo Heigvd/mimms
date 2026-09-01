@@ -17,7 +17,7 @@
 }
 
 .new-generic-item {
-  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
   animation-name: new-generic-item;
   animation-duration: 3s;
 }
@@ -46,7 +46,7 @@
 }
 
 .generic-item__actions svg {
-  height: 10px;
+  height: 10;
   color: var(--grey_base);
   transition: color .3s ease-in-out;
 }
@@ -91,6 +91,7 @@
 .generic-item textarea,
 .generic-item textarea:hover,
 .generic-item textarea:focus {
+  field-sizing: content;
   font-size: var(--S_text);
   color: var(--primary_base);
   border: 1px solid var(--primary_30);
@@ -112,11 +113,11 @@
 /* input labels */
 .generic-item__label {
   position: absolute;
-  top: -10px;
+  top: -10;
   left: 5px;
   padding: 2px 7px;
   font-size: .5rem;
-  line-height: 10px;
+  line-height: 10;
   background-color: var(--grey-white);
   border-radius: var(--XS_borderRadius);
 }
@@ -125,7 +126,7 @@
 /* - - - - A N I M A T I O N S - - - - */
 
 @keyframes new-generic-item {
-  0% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
-  50% {box-shadow: 0px 0px 25px 0px rgba(21, 145, 194, 0.25);}
-  100% {box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);}
+  0% {box-shadow: 0 0 25px 0 rgba(21, 145, 194, 0.25);}
+  50% {box-shadow: 0 0 25px 0 rgba(21, 145, 194, 0.25);}
+  100% {box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);}
 }

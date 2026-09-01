@@ -770,7 +770,7 @@
                 "localScriptEval" : {
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { addNew } from \"./edition/UIfacade/genericConfigFacade\";\n\naddNew('effect', 'choice');",
+                    "content" : "import { addEffect } from \"./edition/UIfacade/actionConfigFacade\";\n\naddEffect();",
                     "language" : "TypeScript"
                   }
                 },

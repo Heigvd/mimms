@@ -1,48 +1,40 @@
 import { ActorId, TaskId } from '../game/common/baseTypes';
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { TaskType } from '../game/common/tasks/taskBase';
 import { getActiveMapEntityDescriptors } from '../game/loaders/mapEntitiesLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { SelectedPanel } from '../gameInterface/selectedPanel';
-import { getLocationTranslation } from '../UIfacade/locationFacade';
+import { getLocationTranslation } from './locationFacade';
 
-export function getCommMedia() {
-  return getTypedInterfaceState().selectedPanel === SelectedPanel.radios
-    ? CommMedia.Radio
-    : CommMedia.Direct;
+/**
+ * @returns The tasks an actor can act on at a location, as drop down choices
+ */
+function getTaskChoices(
+  actorId: ActorId,
+  location: LOCATION_ENUM
+): { label: string; value: string }[] {
+  return TaskState.fetchAvailableTasks(getCurrentState(), actorId, location).map(task => {
+    return { label: task.getTitle(), value: '' + task.Uid };
+  });
 }
 
 // used in page 67
 export function getResourceManagementSourceTaskChoices(
   actorId: ActorId | undefined,
-  location: LOCATION_ENUM | undefined,
-  commMedia?: CommMedia
+  location: LOCATION_ENUM | undefined
 ): { label: string; value: string }[] {
   if (actorId === undefined || location === undefined) {
     return [];
   }
 
-  const effectiveCommMedia = commMedia ?? getCommMedia();
-
-  return TaskState.fetchReachableTasks(
-    getCurrentState(),
-    actorId,
-    location,
-    effectiveCommMedia
-  ).map(task => {
-    return { label: task.getTitle(), value: '' + task.Uid };
-  });
+  return getTaskChoices(actorId, location);
 }
 
 export function initResourceManagementCurrentTaskId(
   actorId: ActorId | undefined,
-  location: LOCATION_ENUM | undefined,
-  commMedia?: CommMedia
+  location: LOCATION_ENUM | undefined
 ): TaskId | undefined {
-  const choices = getResourceManagementSourceTaskChoices(actorId, location, commMedia);
+  const choices = getResourceManagementSourceTaskChoices(actorId, location);
   if (choices.length === 1) {
     return +choices[0]!.value;
   }
@@ -58,9 +50,7 @@ export function getResourceManagementTargetTaskChoices(
     return [];
   }
 
-  return TaskState.fetchAvailableStandardTasks(getCurrentState(), actorId, location).map(task => {
-    return { label: task.getTitle(), value: '' + task.Uid };
-  });
+  return getTaskChoices(actorId, location);
 }
 
 export function initResourceManagementTargetTaskId(

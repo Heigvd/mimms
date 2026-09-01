@@ -49,22 +49,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`${Context.action.duration / 60}`;",
-                                  "language" : "TypeScript"
-                                }
-                              },
-                              "type" : "Text"
-                            }, {
-                              "props" : {
-                                "layoutClassName" : "",
-                                "layoutStyle" : {
-                                  "padding" : "0 0 0 5px"
-                                },
-                                "name" : "minutes",
-                                "style" : { },
-                                "text" : {
-                                  "@class" : "Script",
-                                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'minutes', false);",
+                                  "content" : "`${Context.action.duration / 60}'`;",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -128,14 +113,6 @@
                     "content" : "import { isActiveAction } from \"./gameInterface/main\";\nisActiveAction(Context.action.uid);",
                     "language" : "typescript"
                   }
-                }, {
-                  "applyOn" : "Inside",
-                  "className" : "actionHeaderDisabled",
-                  "condition" : {
-                    "@class" : "Script",
-                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.uid);",
-                    "language" : "typescript"
-                  }
                 } ],
                 "layout" : {
                   "alignItems" : "flex-start",
@@ -148,7 +125,7 @@
                   "priority" : 0,
                   "script" : {
                     "@class" : "ClientScript",
-                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler();",
+                    "content" : "import { actionChangeHandler } from \"./gameInterface/main\";\n\nactionChangeHandler(Context.action);",
                     "language" : "TypeScript"
                   }
                 },
@@ -207,12 +184,7 @@
                     "className" : " button-S button-neutralColor ",
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid)",
-                      "language" : "typescript"
-                    },
-                    "hideIf" : {
-                      "@class" : "Script",
-                      "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\nif (canPlanAction()) return false;\n!isPlannedAction(Context.action.uid);",
+                      "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
                       "language" : "typescript"
                     },
                     "icon" : "",
@@ -223,13 +195,13 @@
                       "language" : "TypeScript"
                     },
                     "layoutStyle" : {
-                      "align-self" : "flex-end",
+                      "alignSelf" : "flex-end",
                       "padding" : "0px 10px 10px 0px"
                     },
                     "localScriptEval" : {
                       "script" : {
                         "@class" : "ClientScript",
-                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nrunActionButton(Context.action);",
+                        "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/feedbackFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
                         "language" : "TypeScript"
                       }
                     },
@@ -259,7 +231,7 @@
             },
             "layoutClassName" : "action-container",
             "layoutStyle" : { },
-            "name" : "Actions",
+            "name" : "Action",
             "style" : { }
           },
           "type" : "FlexList"
@@ -281,10 +253,27 @@
           "marginTop" : "0px",
           "paddingTop" : "0px"
         },
+        "name" : "Action",
         "style" : { }
       },
       "type" : "For each"
+    }, {
+      "props" : {
+        "className" : "fullWidth",
+        "exposePageSizeAs" : "",
+        "initialSelectedPageId" : {
+          "@class" : "Script",
+          "content" : "\"feedbacksList\"",
+          "language" : "typescript"
+        },
+        "layoutClassName" : "noPadding fullWidth",
+        "layoutStyle" : { },
+        "name" : "Feedbacks list",
+        "style" : { }
+      },
+      "type" : "PageLoader"
     } ],
+    "className" : "fullWidth",
     "layout" : {
       "flexDirection" : "column",
       "justifyContent" : "flex-start"

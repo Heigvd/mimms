@@ -29,10 +29,7 @@ export interface MapChoiceActionTemplateDescriptor extends ITemplateDescriptor {
 export function createMapChoiceActionTemplate(
   desc: MapChoiceActionTemplateDescriptor
 ): MapChoiceActionTemplate {
-  // TODO multilang refactoring (figure out the question of hardcoded translation keys)
-  // TODO see how feedback should be configured (the scenarists might like to customize depending on the choice) or no feedback ?
   // TODO raised flags issue (all the "BUILT" flags are redundant in state => this can be detected in the state)
-  // need to figure out where this information is stored (Conditions and Impacts on flags are an option)
 
   validateDescriptorBinding(desc);
 
@@ -43,11 +40,11 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
+        desc.binding || LOCATION_ENUM.custom,
         undefined, // required flags
         [], // raised flags
         getFilteredAsArray(desc.availableToRoles),
         desc.choices,
-        desc.binding || LOCATION_ENUM.custom // TODO is that ok ?
       );
     case 'PMAChoiceTemplate':
       return new MapChoiceActionTemplate(
@@ -55,11 +52,11 @@ export function createMapChoiceActionTemplate(
         desc.title,
         desc.description,
         desc.durationSec,
+        LOCATION_ENUM.PMA,
         undefined, // required flags
         [SimFlag.PMA_BUILT, SimFlag.PMA_OPEN],
         getFilteredAsArray(desc.availableToRoles),
         desc.choices,
-        LOCATION_ENUM.PMA
       );
     case 'PCChoiceTemplate':
       return new PCChoiceTemplate(

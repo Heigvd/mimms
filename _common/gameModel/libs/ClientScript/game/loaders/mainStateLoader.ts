@@ -32,7 +32,7 @@ function buildStartingMainState(): MainSimulationState {
   const CASU = new Actor('CASU', LOCATION_ENUM.remote);
 
   const tasks = loadTasks();
-  const waitingTaskId = getWaitingTaskId(tasks);
+  const waitingTaskId = getWaitingTaskId(tasks, LOCATION_ENUM.entreeChantier);
   const initialResources = [
     new Resource('ambulancier', LOCATION_ENUM.entreeChantier, waitingTaskId),
   ];
@@ -43,6 +43,7 @@ function buildStartingMainState(): MainSimulationState {
       actions: [],
       actors: [AL, CASU],
       patients: loadPatients(),
+      pretriageSnapShot: { timeStamp: 0, patientsStats: {} },
       tasks: tasks,
       radioMessages: [],
       resources: initialResources,
@@ -67,6 +68,7 @@ export function shallowState(): MainSimulationState {
       actions: [],
       actors: [],
       patients: [],
+      pretriageSnapShot: { timeStamp: 0, patientsStats: {} },
       tasks: [],
       radioMessages: [],
       resources: [],

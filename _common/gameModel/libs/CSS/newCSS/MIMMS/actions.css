@@ -1,45 +1,53 @@
 
 /******* ACTIONS ELEMENTS *******/
 
-/*
-// Is not used
-.actions-container {
-	margin:0px;
-	padding: 0px;
-	//ANIMATION TO BE DEFINED
-	animation-duration: 2s ease-out;
-}*/
-
 .action-container {
+  box-sizing: border-box;
+  width: 100%;
   height: auto;
   padding: 5px 0 5px 0;
-  animation-duration: 2s ease-out;
+  animation-duration: 2s;
 }
 
-.actionHeader{
+.actionHeader {
 	background-color: var(--grey05);
 	padding: 10px 10px ;
 	border-radius: var(--XS_borderRadius);
 	font-size: var(--SM_text);
+    overflow: hidden;
 	cursor: pointer;
 }
 
 .actionHeaderDisabled{
-  opacity: 50%;
-  cursor: default;
+    opacity: 50%;
+    cursor: default;
 }
 
-.actionHeaderActive{
+.actionHeaderActive {
 	font-weight: var(--boldWeight);
-	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0px 0px ;
-  cursor: default;
+	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0 0 ;
+    cursor: default;
 }
 
 .actionHeader > div {
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	align-items: center;
 	color: var(--grey_100);
+}
+
+.feedback-list .actionHeader > div:first-of-type {
+  max-width: 95%;
+}
+
+.feedback-list .actionName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.feedback-list .actionHeaderActive .actionName {
+  white-space: normal;
 }
 
 .actionName:first-letter {
@@ -51,13 +59,13 @@
 }
 
 .actionInfo {
-	border-radius: 0px 0px var(--S_borderRadius) var(--S_borderRadius) ;
+	border-radius: 0 0 var(--S_borderRadius) var(--S_borderRadius) ;
 	background-color: var(--grey05);
 	font-size: var(--S_text);
 }
 
 .actionInfo p {
-	margin: 5px 0px 0px 0px;
+	margin: 5px 0 0 0;
 	padding-bottom: 15px;
 	color: var(--grey_100);
 }
@@ -65,7 +73,7 @@
 /** Choice **/
 .choice-list {
   gap: 10px;
-  margin: 0px 10px 15px 10px;
+  margin: 0 10px 15px 10px;
 }
 
 .choice-container {
@@ -113,4 +121,41 @@
 .playActionBtn:hover > *{
 	background: var(--secondary_40);
 	cursor: pointer;
+}
+
+/** Feedback **/
+.feedback__container {
+  gap: 10px;
+  padding: 10px;
+  color: var(--grey_base);
+  background-color: var(--grey_0);
+  border-radius: var(--S_borderRadius);
+}
+
+.feedback {
+  padding-top: 10px;
+  color: var(--grey_100);
+  border-top: 1px solid var(--grey_100);
+  animation: feedbackColor 2.5s;
+}
+
+.feedback-list__header.actions-list__header {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.feedback-list__header.actions-list__header svg {
+  color: var(--grey_100);
+}
+
+.feedback__undertitle {
+  font-size: var(--M_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
+@keyframes feedbackColor {
+  0% {color: var(--primary_base);}
+  60% {color: var(--primary_base);}
+  100% {color: var(--grey_100);}
 }

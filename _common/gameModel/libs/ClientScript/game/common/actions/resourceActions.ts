@@ -14,13 +14,11 @@ import {
 import { getLocalEventManager } from '../localEvents/localEventManager';
 import {
   AssignResourcesToTaskLocalEvent,
-  AssignResourcesToWaitingTaskLocalEvent,
   MoveResourcesLocalEvent,
   ReserveResourcesLocalEvent,
   UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { CommMedia } from '../resources/resourceReachLogic';
 import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
@@ -35,7 +33,7 @@ import {
 } from '../localEvents/localEventRadio';
 import { entries } from '../../../tools/helper';
 import { getResourceAsSenderName } from '../radio/radioLogic';
-import { RadioType } from '../radio/communicationType';
+import { CommMedia, RadioType } from '../radio/communicationType';
 import { getTranslation } from '../../../tools/translation';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
 import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
@@ -174,18 +172,26 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
           })
         );
 
-        // during the travel set the resources as waiting
-        getLocalEventManager().queueLocalEvent(
-          new AssignResourcesToWaitingTaskLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            resourcesId: this.involvedResourcesId,
-          })
+        // during the travel the resources moving
+        const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
+          state,
+          this.targetLocation
         );
+
+        if (moveToTaskUid != undefined) {
+          getLocalEventManager().queueLocalEvent(
+            new AssignResourcesToTaskLocalEvent({
+              parentEventId: this.eventId,
+              source: { type: 'action', id: this.Uid },
+              simTimeStamp: state.getSimTime(),
+              resourcesId: this.involvedResourcesId,
+              taskId: moveToTaskUid,
+            })
+          );
+        }
       }
 
-      // during the travel set the resources as waiting
+      // once the travel is over, the resources start their new task
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,
@@ -409,7 +415,7 @@ export class EvacuationAction extends RadioDrivenAction {
     } else {
       const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad);
 
-      const evacuationTask = TaskLogic.getEvacuationTask(state);
+      const evacuationTask = TaskLogic.getEvacuationTask(state, getSquadDef(this.transportSquad).location);
 
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
