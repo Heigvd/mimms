@@ -769,7 +769,7 @@
             },
             "layoutClassName" : "noPadding noMargin",
             "layoutStyle" : {
-              "min-width" : "33%"
+              "minWidth" : "33%"
             },
             "name" : "left(constants)",
             "style" : { }
@@ -995,7 +995,7 @@
             },
             "layoutClassName" : "noPadding noMargin",
             "layoutStyle" : {
-              "min-width" : "33%"
+              "minWidth" : "33%"
             },
             "name" : "right (details)",
             "style" : { }

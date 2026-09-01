@@ -1,4 +1,3 @@
-import { CommMedia } from '../game/common/resources/resourceReachLogic';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
@@ -167,8 +166,7 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
     newState.resources.allocateResources.currentTaskId =
       TaskFacade.initResourceManagementCurrentTaskId(
         Context.interfaceState.state.currentActorUid,
-        location,
-        CommMedia.Direct
+        location
       );
     Context.interfaceState.setState(newState);
   }

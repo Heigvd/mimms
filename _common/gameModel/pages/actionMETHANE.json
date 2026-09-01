@@ -602,7 +602,7 @@
                 "layout" : { },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : {
-                  "margin-left" : "-5px"
+                  "marginLeft" : "-5px"
                 },
                 "style" : { }
               },

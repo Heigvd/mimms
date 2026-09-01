@@ -86,7 +86,7 @@
                                 "className" : "noPadding noMargin",
                                 "layoutClassName" : "noPadding noMargin",
                                 "layoutStyle" : {
-                                  "padding-left" : "1em",
+                                  "paddingLeft" : "1em",
                                   "stroke" : "black"
                                 },
                                 "name" : "category",
@@ -654,7 +654,7 @@
                                     },
                                     "layoutStyle" : { },
                                     "style" : {
-                                      "padding-left" : "5px"
+                                      "paddingLeft" : "5px"
                                     },
                                     "text" : {
                                       "@class" : "Script",
@@ -706,7 +706,7 @@
                                         "name" : "thumbnails",
                                         "prefixedLabel" : false,
                                         "style" : {
-                                          "justify-content" : "center"
+                                          "justifyContent" : "center"
                                         }
                                       },
                                       "type" : "Button"
@@ -759,7 +759,7 @@
                                     },
                                     "layoutStyle" : { },
                                     "style" : {
-                                      "padding-left" : "5px"
+                                      "paddingLeft" : "5px"
                                     },
                                     "text" : {
                                       "@class" : "Script",
@@ -811,7 +811,7 @@
                                         "name" : "thumbnails",
                                         "prefixedLabel" : false,
                                         "style" : {
-                                          "justify-content" : "center"
+                                          "justifyContent" : "center"
                                         }
                                       },
                                       "type" : "Button"
@@ -1024,7 +1024,7 @@
                                     "style" : {
                                       "justifyContent" : "center",
                                       "maxHeight" : "255px",
-                                      "min-Height" : "200px"
+                                      "minHeight" : "200px"
                                     }
                                   },
                                   "type" : "FlexList"
@@ -1154,7 +1154,7 @@
                                           "language" : "JavaScript"
                                         },
                                         "layoutStyle" : {
-                                          "align-content" : "flex-end"
+                                          "alignContent" : "flex-end"
                                         },
                                         "localScriptEval" : {
                                           "script" : {

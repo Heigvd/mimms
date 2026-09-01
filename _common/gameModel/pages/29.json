@@ -57,7 +57,7 @@
             "layoutStyle" : { },
             "name" : "cancel",
             "style" : {
-              "margin-top" : "24px"
+              "marginTop" : "24px"
             }
           },
           "type" : "Button"

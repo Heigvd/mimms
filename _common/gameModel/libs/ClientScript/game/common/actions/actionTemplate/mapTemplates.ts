@@ -19,18 +19,18 @@ import {
 export class MapChoiceActionTemplate<
   ActionT extends MapChoiceAction = MapChoiceAction
 > extends ChoiceTemplate<MapChoiceAction, MapChoiceEvent, ChoiceDescriptor> {
-  public readonly binding?: LOCATION_ENUM;
+  public readonly binding: LOCATION_ENUM;
 
   constructor(
     uid: ActionTemplateUid,
     title: TranslationKey | ITranslatableContent,
     description: TranslationKey | ITranslatableContent,
     duration: SimDuration,
+    binding: LOCATION_ENUM,
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
     choices?: ChoiceDescriptor[],
-    binding?: LOCATION_ENUM
   ) {
     super(
       uid,
@@ -108,11 +108,11 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       title,
       description,
       duration,
+      binding,
       requiredFlags,
       raisedFlags,
       availableToRoles,
       choices,
-      binding
     );
   }
 
@@ -150,11 +150,11 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       title,
       description,
       duration,
+      binding,
       requiredFlags,
       raisedFlags,
       availableToRoles,
       choices,
-      binding
     );
   }
 
@@ -196,11 +196,11 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       title,
       description,
       duration,
+      binding,
       requiredFlags,
       raisedFlags,
       availableToRoles,
       choices,
-      binding
     );
     this.vehicleType = vehicleType;
   }

@@ -92,7 +92,7 @@
                         "className" : "modal-icon-title",
                         "layout" : { },
                         "layoutStyle" : {
-                          "margin-bottom" : "25px"
+                          "marginBottom" : "25px"
                         },
                         "name" : "Title",
                         "style" : {
@@ -312,7 +312,7 @@
                         "className" : "modal-content",
                         "layout" : { },
                         "layoutStyle" : {
-                          "margin-bottom" : "15px"
+                          "marginBottom" : "15px"
                         },
                         "name" : "Content",
                         "style" : {
@@ -349,7 +349,7 @@
                         "layoutStyle" : { },
                         "name" : "invalid time",
                         "style" : {
-                          "font-weight" : "bold"
+                          "fontWeight" : "bold"
                         },
                         "text" : {
                           "@class" : "Script",
@@ -413,7 +413,7 @@
                         "layout" : { },
                         "layoutClassName" : "",
                         "layoutStyle" : {
-                          "margin-top" : "25px"
+                          "marginTop" : "25px"
                         },
                         "name" : "Buttons",
                         "style" : { }
@@ -905,7 +905,7 @@
                         "name" : "Notif",
                         "style" : {
                           "gap" : "25px",
-                          "margin-top" : "10px"
+                          "marginTop" : "10px"
                         }
                       },
                       "type" : "FlexList"
@@ -2547,7 +2547,7 @@
                                     "layoutStyle" : { },
                                     "name" : "Team Member",
                                     "style" : {
-                                      "flex-direction" : "column"
+                                      "flexDirection" : "column"
                                     }
                                   },
                                   "type" : "For each"

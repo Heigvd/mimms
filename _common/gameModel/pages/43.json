@@ -381,7 +381,7 @@
                                         "exposePageSizeAs" : "",
                                         "initialSelectedPageId" : {
                                           "@class" : "Script",
-                                          "content" : "let page = '45';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = '45'; break;\n\tcase 'radios': page = 'radioMainPanel'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = '45';\n}\npage;",
+                                          "content" : "let page = 'actionsList';\nswitch (Context.interfaceState.state.selectedPanel) {\n\tcase 'actions': page = 'actionsList'; break;\n\tcase 'radios': page = 'radioMainPanel'; break;\n\tcase 'notification': page = '64'; break;\n\tcase 'resources': page = 'locationBase'; break;\n\tdefault: page = 'actionsList';\n}\npage;",
                                           "language" : "typescript"
                                         },
                                         "layoutClassName" : "interfaceMenuLoader-container",
@@ -1464,7 +1464,7 @@
                                     },
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { getTypedInterfaceState } from \"./gameInterface/interfaceState\";\nimport { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems(getTypedInterfaceState()?.currentActorUid);",
+                                      "content" : "import { getOverlayItems } from \"./gameMap/mapEntities\";\ngetOverlayItems();",
                                       "language" : "TypeScript"
                                     },
                                     "hideIf" : {

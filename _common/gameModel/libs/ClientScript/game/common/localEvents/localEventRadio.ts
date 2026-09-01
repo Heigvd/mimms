@@ -129,7 +129,6 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
             pretriageSnapShot,
             location,
             this.props.feedbackWhenReport,
-            false,
             false
           ),
           channel: this.channel,
