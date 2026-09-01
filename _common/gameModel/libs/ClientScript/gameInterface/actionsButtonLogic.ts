@@ -7,11 +7,9 @@ import {
   isEvacuationActionTemplate,
   isMoveActorActionTemplate,
   isMoveResourcesAssignTaskActionTemplate,
-  isPretriageReportTemplate,
   isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
 import { getActor, getSelectedActorLocation } from '../UIfacade/actorFacade';
-import { getReportLocationRequest, setReportLocationRequest } from '../UIfacade/resourceFacade';
 import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
@@ -40,7 +38,6 @@ import {
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { SelectedPanel } from './selectedPanel';
-import { PretriageReportActionPayload } from '../game/common/actions/actionTemplate/radioTemplates';
 import { CustomDurationActionTemplateType } from '../game/common/actions/actionTemplate/actorTemplates';
 
 /**
@@ -82,8 +79,6 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
     params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
     params = fetchEvacuationActionValues();
-  } else if (isPretriageReportTemplate(actTemplate)) {
-    params = fetchPretriageReportActionValues();
   }
 
   actionClickHandler(actTemplate, params);
@@ -264,17 +259,6 @@ function fetchEvacuationActionValues() {
   const newState = Helpers.cloneDeep(Context.interfaceState.state);
   newState.evacuation = getEmptyEvacuationInterfaceState();
   Context.interfaceState.setState(newState);
-
-  return res;
-}
-
-function fetchPretriageReportActionValues() {
-  const res: PretriageReportActionPayload = {
-    pretriageLocation: getReportLocationRequest()!,
-  };
-
-  // Reset interface state
-  setReportLocationRequest(undefined);
 
   return res;
 }

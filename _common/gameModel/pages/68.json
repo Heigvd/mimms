@@ -114,76 +114,22 @@
               "props" : {
                 "className" : "mimms_h3title",
                 "layoutClassName" : "noPadding",
-                "layoutStyle" : {
-                  "margin" : "15px 0 10px 0"
-                },
+                "layoutStyle" : { },
+                "name" : "description",
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', 'sourceLocation')",
+                  "content" : "import { getTranslation } from \"./tools/translation\";\n  getTranslation('mainSim-actions-tasks', 'request-reports-description')",
                   "language" : "TypeScript"
                 }
               },
               "type" : "Text"
             }, {
               "props" : {
-                "choices" : {
-                  "@class" : "Script",
-                  "content" : "import { TaskType } from \"./game/common/tasks/taskBase\";\nimport { getLocationChoicesForTaskType } from \"./UIfacade/taskFacade\";\ngetLocationChoicesForTaskType(TaskType.Pretriage);",
-                  "language" : "typescript"
-                },
-                "disableIf" : {
-                  "@class" : "Script",
-                  "content" : "import { canPlanAction } from './gameInterface/main';\n!canPlanAction();",
-                  "language" : "typescript"
-                },
-                "layoutClassName" : "noPadding resourcesDropdowns",
-                "layoutStyle" : { },
-                "name" : "source location",
-                "onVariableChange" : {
-                  "client" : {
-                    "@class" : "Script",
-                    "content" : "import { setReportLocationRequest } from \"./UIfacade/resourceFacade\";\n\nsetReportLocationRequest(Context.pretriageReportRequestLocation);",
-                    "language" : "TypeScript"
-                  },
-                  "exposeVariableAs" : {
-                    "@class" : "Script",
-                    "content" : "\"pretriageReportRequestLocation\"",
-                    "language" : "TypeScript"
-                  }
-                },
-                "placeholder" : {
-                  "@class" : "Script",
-                  "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', 'select-location')",
-                  "language" : "TypeScript"
-                },
-                "script" : {
-                  "@class" : "Script",
-                  "content" : "import { getReportLocationRequest } from \"./UIfacade/resourceFacade\";\ngetReportLocationRequest() || '';",
-                  "language" : "TypeScript"
-                },
-                "style" : { }
-              },
-              "type" : "Select input"
-            } ],
-            "className" : "",
-            "layout" : {
-              "flexDirection" : "column"
-            },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "pretriage report",
-            "style" : { }
-          },
-          "type" : "FlexList"
-        }, {
-          "props" : {
-            "children" : [ {
-              "props" : {
                 "className" : "button-S button-secondaryColor",
                 "disableIf" : {
                   "@class" : "Script",
-                  "content" : "import { isPretriageReportRequestDisabled } from \"./UIfacade/resourceFacade\";\nimport { canPlanAction } from \"./gameInterface/main\";\n  isPretriageReportRequestDisabled() || !canPlanAction();",
+                  "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
                   "language" : "typescript"
                 },
                 "label" : {
@@ -200,20 +146,23 @@
                     "language" : "TypeScript"
                   }
                 },
+                "name" : "validate",
                 "style" : { }
               },
               "type" : "Button"
             } ],
             "className" : "",
             "layout" : {
-              "justifyContent" : "flex-end"
+              "justifyContent" : "space-between"
             },
             "layoutClassName" : "",
             "layoutStyle" : {
               "padding" : "20px 0 5px 0"
             },
-            "name" : "button",
-            "style" : { }
+            "name" : "",
+            "style" : {
+              "gap" : "10px"
+            }
           },
           "type" : "FlexList"
         } ],
@@ -230,7 +179,7 @@
         "layoutStyle" : {
           "width" : "100%"
         },
-        "name" : "requestReportInputs",
+        "name" : "requestReport",
         "style" : { }
       },
       "type" : "FlexList"

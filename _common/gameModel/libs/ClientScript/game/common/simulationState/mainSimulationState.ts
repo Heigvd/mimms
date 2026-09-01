@@ -14,6 +14,7 @@ import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
 import { Activable } from '../simulationState/activableState';
 import { Uid } from '../interfaces';
+import { PretriageSnapShot } from '../patients/pretriageUtils';
 
 export class MainSimulationState {
   private readonly internalState: MainStateObject;
@@ -152,13 +153,14 @@ export class MainSimulationState {
 }
 
 export interface MainStateObject {
-  simulationTimeSec: number;
+  simulationTimeSec: SimTime;
   /**
    * All actions that have been created
    */
   actions: ActionBase[];
   tasks: TaskBase[];
   patients: PatientState[];
+  pretriageSnapShot: PretriageSnapShot;
   actors: Actor[];
   radioMessages: RadioMessage[];
   resources: Resource[];

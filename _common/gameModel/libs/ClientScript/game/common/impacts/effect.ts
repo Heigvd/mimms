@@ -27,7 +27,8 @@ export function evaluateEffectImpacts(
   action: ActionBase,
   delayFrom: DelayImpactFrom
 ): LocalEventBase[] {
-  const anchorTime = delayFrom === 'start' ? action.startTime : action.startTime + action.duration();
+  const anchorTime =
+    delayFrom === 'start' ? action.startTime : action.startTime + action.duration();
   return effect.impacts
     .filter(impact => impact.type !== 'empty' && (impact.delayFrom ?? 'end') === delayFrom)
     .flatMap(impact =>

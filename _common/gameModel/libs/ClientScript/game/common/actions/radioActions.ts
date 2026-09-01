@@ -36,7 +36,6 @@ import {
 import { ACSMCSAutoRequestDelay, PretriageReportResponseDelay } from '../constants';
 import * as ActorLogic from '../actors/actorLogic';
 import { getCasuActorId } from '../actors/actorLogic';
-import { LOCATION_ENUM } from '../simulationState/locationState';
 import { RadioMessagePayload } from '../events/radioMessageEvent';
 
 export abstract class RadioDrivenAction extends StartEndAction {
@@ -362,7 +361,7 @@ export class ActivateRadioSchemaAction extends RadioDrivenAction {
 }
 
 /**
- * The result of the action is to request state of pretriage in a specific location
+ * Request state of pretriage in every location that has some pretriaged patients
  */
 export class RequestPretriageReportAction extends RadioDrivenAction {
   private channel: RadioType = RadioType.RESOURCES;
@@ -375,8 +374,7 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
     actionNameKey: TranslationKey | ITranslatableContent,
     eventId: GlobalEventId,
     ownerId: ActorId,
-    templateUid: ActionTemplateUid,
-    private pretriageLocation: LOCATION_ENUM
+    templateUid: ActionTemplateUid
   ) {
     super(startTimeSec, durationSeconds, eventId, actionNameKey, ownerId, templateUid);
   }
@@ -407,16 +405,13 @@ export class RequestPretriageReportAction extends RadioDrivenAction {
         simTimeStamp: state.getSimTime() + PretriageReportResponseDelay,
         senderName: RadioLogic.getResourceAsSenderName(),
         recipient: this.ownerId,
-        pretriageLocation: this.pretriageLocation,
         feedbackWhenReport: this.feedbackWhenReport,
       })
     );
   }
 
   private formatStartMessage(): string {
-    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted, true, [
-      getTranslation('mainSim-locations', 'location-' + this.pretriageLocation),
-    ]);
+    return getTranslation('mainSim-actions-tasks', this.feedbackWhenStarted);
   }
 
   public getChannel(): RadioType {
