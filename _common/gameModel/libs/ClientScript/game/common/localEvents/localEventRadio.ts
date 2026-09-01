@@ -117,7 +117,6 @@ export class PretriageReportResponseLocalEvent extends LocalEventBase {
     const pretriageSnapShot = generateSnapShot(state);
     state.getInternalStateObjectUnsafe().pretriageSnapShot = pretriageSnapShot;
 
-    // one report per location where pretriage some pretriaged patients are present
     getLocationsWithPretriagedPatients(pretriageSnapShot).forEach(location => {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
