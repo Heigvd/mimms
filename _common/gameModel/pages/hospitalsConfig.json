@@ -416,7 +416,7 @@
                               "props" : {
                                 "className" : "line-left-cell",
                                 "layoutStyle" : {
-                                  "align-items" : "center"
+                                  "alignItems" : "center"
                                 },
                                 "name" : "name",
                                 "style" : { },
@@ -646,7 +646,7 @@
                                 "layoutStyle" : { },
                                 "name" : "distance",
                                 "style" : {
-                                  "align-items" : "center",
+                                  "alignItems" : "center",
                                   "gap" : "4px"
                                 }
                               },

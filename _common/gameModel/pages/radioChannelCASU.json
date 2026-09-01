@@ -13,9 +13,9 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
-              "flex-grow" : "1",
+              "flexGrow" : "1",
               "minHeight" : "10rem",
-              "overflow-y" : "auto"
+              "overflowY" : "auto"
             },
             "name" : "output messages",
             "style" : { }
@@ -30,7 +30,7 @@
               "language" : "typescript"
             },
             "layoutStyle" : {
-              "flex-shrink" : "0",
+              "flexShrink" : "0",
               "height" : "auto",
               "padding" : "5px 0"
             },
@@ -195,7 +195,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
-              "flex-shrink" : "0",
+              "flexShrink" : "0",
               "height" : "auto",
               "margin" : "0 -5px",
               "maxWidth" : "25vw"
@@ -220,7 +220,7 @@
             },
             "layoutClassName" : "noPadding",
             "layoutStyle" : {
-              "flex-shrink" : "0",
+              "flexShrink" : "0",
               "height" : "auto"
             },
             "name" : "action page loader",
@@ -237,7 +237,7 @@
         },
         "layoutClassName" : "noPadding",
         "layoutStyle" : {
-          "flex-direction" : "column",
+          "flexDirection" : "column",
           "height" : "100%",
           "width" : "100%"
         },

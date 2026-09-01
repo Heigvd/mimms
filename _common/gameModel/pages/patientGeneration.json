@@ -386,7 +386,7 @@
                 "className" : "stepper-container",
                 "layout" : { },
                 "layoutStyle" : {
-                  "flex-shrink" : "0"
+                  "flexShrink" : "0"
                 },
                 "name" : "stepper",
                 "style" : { }
@@ -403,7 +403,7 @@
                 },
                 "layoutClassName" : "",
                 "layoutStyle" : {
-                  "flex-shrink" : "1",
+                  "flexShrink" : "1",
                   "height" : "100%",
                   "overflow" : "auto"
                 },
@@ -980,7 +980,7 @@
                   "justifyContent" : "space-between"
                 },
                 "layoutStyle" : {
-                  "flex-shrink" : "0",
+                  "flexShrink" : "0",
                   "margin" : "1.5rem 0 .625rem 0"
                 },
                 "name" : "header",
@@ -1258,9 +1258,9 @@
                 },
                 "layoutClassName" : "",
                 "layoutStyle" : {
-                  "flex-shrink" : "1",
+                  "flexShrink" : "1",
                   "height" : "100%",
-                  "overflow-y" : "auto",
+                  "overflowY" : "auto",
                   "width" : "fit-content"
                 },
                 "name" : "patient",

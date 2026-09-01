@@ -57,9 +57,9 @@
               "language" : "TypeScript"
             },
             "layoutStyle" : {
-              "align-self" : "flex-end",
+              "alignSelf" : "flex-end",
               "bottom" : "5px",
-              "justify-content" : "flex-end",
+              "justifyContent" : "flex-end",
               "right" : "5px"
             },
             "localScriptEval" : {
