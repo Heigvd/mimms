@@ -18,15 +18,15 @@
 .fixedEntities-arrow {
  	width: 0; 
 	height: 0; 
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top: 20px solid var(--grey_80);
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid var(--grey_80);
 	margin: auto;
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
 }
 
 .fixedEntities-arrow.selectedFixedMapEntityArrow {
-  border-top: 20px solid var(--primary_base);
+  border-top: 10px solid var(--primary_base);
 }
 
 .fixedEntities-mapSelect {
@@ -64,7 +64,7 @@
 }
 
 .fixedEntities-container {
-  padding: 10px;
+  padding: 5px;
 	background-color: var(--grey-white);
 	border-radius: var(--XS_borderRadius);
 	border: solid 3px var(--grey_80);
@@ -84,8 +84,20 @@
 	background-color: var(--grey-10);
   border: 2px solid var(--grey_60);
   border-radius: var(--XS_borderRadius);
-  }
+}
 
+/* generic fixed entity close button */
+.close-generic-fixed-entity {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  width: 16px;
+}
+
+.close-generic-fixed-entity svg {
+  color: var(--grey_20);
+}
 
 /* no hover or active for unclickable buttons but we have to bypass wegas theme */
   .mimms_s_squareButton > button:hover {
@@ -166,6 +178,11 @@
   color: var(--grey_60);
 	background-color: var(--grey-white);
   z-index: 2;
+}
+
+.squareCounter-container--clicked,
+.squareCounter-container--clicked:hover {
+  border: solid 1.5px var(--grey-white);
 }
 
 .squareCounter-container svg {

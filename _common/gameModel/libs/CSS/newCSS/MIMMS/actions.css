@@ -70,8 +70,8 @@
 
 .choice-container {
   padding: 10px;
-  background-color: var(--grey05);
-  border: 3px solid var(--grey05);
+  background-color: var(--grey_0);
+  border: 3px solid var(--grey_0);
   border-radius: var(--S_borderRadius);
   transition: border .3s ease-in-out, .3s ease-in-out;
 }
@@ -82,7 +82,7 @@
 }
 
 .choice-container--selected {
-  border: 3px solid var(--primary_base);
+  border: 3px solid var(--grey_base);
   transition: border .3s ease-in-out;
 }
 

@@ -204,7 +204,7 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : " button-S button-secondaryColor ",
+                    "className" : " button-S button-neutralColor ",
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { isPlannedAction } from \"./gameInterface/main\";\nisPlannedAction(Context.action.uid)",

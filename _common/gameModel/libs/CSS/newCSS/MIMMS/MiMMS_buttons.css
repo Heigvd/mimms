@@ -89,6 +89,31 @@
 	cursor: default;
 }
 
+/* neutral */
+.button-neutralColor {
+  color: var(--grey-white);
+  background-color: var(--grey_80);
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.button-neutralColor:hover {
+  background-color: var(--grey_90);
+	box-shadow: var(--buttonShadow);
+	cursor: pointer;
+}
+
+.button-neutralColor:active {
+	background-color: var(--grey_90);
+	box-shadow: var(--buttonInsetShadow);
+}
+
+.disabled.button-neutralColor {
+  color: var(--grey_10);
+	background-color: var(--grey_20);
+  box-shadow: none;
+	cursor: default;
+}
+
 /** quaternary **/
 .quaternary-button {
   margin: 0;

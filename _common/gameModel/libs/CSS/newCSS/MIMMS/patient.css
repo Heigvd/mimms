@@ -22,3 +22,36 @@
 	  border: 1px solid var(--colors-disabledcolor);
 	  border-radius: var(--S_borderRadius);
 	}
+
+/* patients in generic fixed entities */
+.patient-assignment__container {
+  display: flex;
+  gap: 5px;
+}
+
+.patient-color {
+  padding: 2.5px 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.patient-color--red {
+  color: #FD5050;
+  background-color: rgba(185, 85, 85, .075);
+}
+
+.patient-color--yellow {
+  color: #FFC048;
+  background-color: rgba(255, 192, 72, .075);
+}
+
+.patient-color--green {
+  color: #86B700;
+  background-color: rgba(134, 183, 0, .075);
+}
+
+.patient-color--black {
+  color: #797979;
+  background-color: rgba(121, 121, 121, .075);
+}

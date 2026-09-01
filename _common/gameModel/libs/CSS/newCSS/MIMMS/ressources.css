@@ -83,3 +83,47 @@
 .resourcesSelectionAssignment-container {
   padding: 0 10px 10px 10px;
 }
+
+/* resources in generic fixed entities */
+.resource-assignment__container {
+  display: flex;
+  gap: 5px;
+  padding-top: 15px;
+}
+
+.resources__label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  padding: 0 5px;
+  font-size: var(--S_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+  background-color: var(--grey-white);
+  border: 1px solid var(--grey_20);
+  border-radius: var(--XXS_borderRadius);
+  z-index: 2;
+}
+
+.resource__task {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--grey_20);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.resource__task svg {
+  color: var(--grey_30);
+}
+
+.resource-type {
+  display: flex;
+  gap: 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+}
+
+.resource-type svg {
+  color: var(--grey_80);
+}
