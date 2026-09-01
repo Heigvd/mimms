@@ -3,12 +3,12 @@ import { ActDefinition, ItemDefinition } from '../HUMAn/pathology';
 import { upperCaseFirst } from './helper';
 import { translationLogger } from './logger';
 
-let cache: Record<string, SObjectDescriptor> = {};
+const cache: Record<string, SObjectDescriptor> = {};
 
 /**
  * @param category must be an object type
  * @param key is case insensitive
- * @param uppercase first letter, defaults to true
+ * @param upperCaseFirstLetter first letter, defaults to true
  * @param values interpolation values corresponding to {0}, {1},... placeholders in the translation string
  */
 export function getTranslation(
@@ -17,7 +17,10 @@ export function getTranslation(
   upperCaseFirstLetter = true,
   values: (string | number)[] = []
 ): string {
-  cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
+  if (!cache[category]) {
+    cache[category] = Variable.find(gameModel, category) as SObjectDescriptor;
+  }
+
   if (cache[category]) {
     const tr = cache[category]!.getProperties()[key.toLowerCase()];
     if (tr) {
@@ -29,6 +32,7 @@ export function getTranslation(
       }
     }
   }
+
   const fallback = '::' + category + '/' + key;
   translationLogger.info('Translation not found', fallback);
   return fallback;

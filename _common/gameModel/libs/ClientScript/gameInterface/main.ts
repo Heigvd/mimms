@@ -12,7 +12,7 @@ import {
   planAction,
 } from '../UIfacade/actionFacade';
 import { getSimTime } from '../UIfacade/timeFacade';
-import { setInterfaceState } from './interfaceState';
+import { getTypedInterfaceState, setInterfaceState, InterfaceState } from './interfaceState';
 
 export enum GameState {
   NOT_INITIATED = 'NOT_INITIATED',
@@ -98,34 +98,31 @@ export function actionClickHandler(template: ActionTemplateBase, params: any): v
 /**
  * Update state whenever user changes action
  */
-export function actionChangeHandler(): void {
-  // TODO Could we set Context.action.Uid as param ?
-  const actTemplate = Context.action as ActionTemplateBase;
+export function actionChangeHandler(actionTemplate: ActionTemplateBase): void {
+  const updatedState: Partial<InterfaceState> = {
+    showAction: true,
+    currentActionUid: actionTemplate?.uid,
+  };
 
-  if (!canPlanAction()) return;
+  if (canPlanAction() && actionTemplate) {
+    endMapAction();
 
-  Context.interfaceState.setState({
-    ...Context.interfaceState.state,
-    currentActionUid: actTemplate.uid,
-  });
+    if (isChoiceTemplate(actionTemplate)) {
+      const choiceUid = getAvailableChoices(actionTemplate)[0]?.uid;
 
-  endMapAction();
+      if (choiceUid) {
+        updatedState.selectedActionChoiceUid = choiceUid;
 
-  if (isChoiceTemplate(actTemplate) && canPlanAction()) {
-    const choiceUid = getAvailableChoices(actTemplate)[0]?.uid;
-
-    if (choiceUid) {
-      setInterfaceState({
-        currentActionUid: actTemplate.uid,
-        selectedActionChoiceUid: choiceUid,
-      });
-      if (hasMapChoices(actTemplate)) {
-        startMapChoice();
+        if (hasMapChoices(actionTemplate)) {
+          startMapChoice();
+        }
+      } else {
+        actionLogger.error(`The choice template ${actionTemplate.uid} has no available choice`);
       }
-    } else {
-      actionLogger.error(`The choice template ${actTemplate.uid} as no available choice`);
     }
   }
+
+  setInterfaceState(updatedState);
 }
 
 function getDayZero(): Date {
@@ -197,8 +194,9 @@ export function showActionParamsPanel(actionTemplate: ActionTemplateBase) {
  * Returns true if the action is planned for the current actor or selected
  */
 export function isActiveAction(templateUid: ActionTemplateUid): boolean {
-  if (canPlanAction()) {
-    return Context.interfaceState.state.currentActionUid == templateUid;
+  if (!getTypedInterfaceState().showAction) {
+    return false;
   }
-  return isPlannedAction(templateUid);
+
+  return Context.interfaceState.state.currentActionUid == templateUid;
 }

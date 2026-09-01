@@ -49,7 +49,9 @@ export class MapChoiceAction extends ChoiceAction {
     this.binding = binding;
   }
 
-  protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+  protected override dispatchInitEvents(state: Readonly<MainSimulationState>): void {
+    super.dispatchInitEvents(state);
+
     if (!this.choice.displayedMapEntity) {
       this.logger.error('Choice has no map entity to display');
       return;

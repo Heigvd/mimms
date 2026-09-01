@@ -61,7 +61,7 @@
                           "props" : {
                             "choices" : {
                               "@class" : "Script",
-                              "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"CERN Meyrin\", value: \"CERN-meyrin\"}, {label: \"CERN Point 5\", value: \"CERN-point5\"}, {label: \"Avenches\", value: \"Avenches\"}, {label: \"Nice\", value: \"Nice\"}]",
+                              "content" : "[{label: \"Geneva station\", value: \"GVA-center\"}, {label: \"Geneva airport\", value: \"GVA\"}, {label: \"Geneva Le Lignon\", value: \"GVA-lignon\"}, {label: \"CERN Meyrin\", value: \"CERN-meyrin\"}, {label: \"CERN Point 5\", value: \"CERN-point5\"}, {label: \"Avenches\", value: \"Avenches\"}, {label: \"Nice\", value: \"Nice\"}]",
                               "language" : "typescript"
                             },
                             "className" : "scenarist-dropdown",

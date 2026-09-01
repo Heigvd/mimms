@@ -343,7 +343,7 @@ export function getOngoingRadioMessagesOnChannelAsRadioMessages(
     senderName: undefined,
     recipientId: rm.getRecipientId(),
     timeStamp: getCurrentState().getSimTime(),
-    message: rm.getMessage(),
+    message: I18n.createTranslatableContent(rm.getMessage()),
     uid: rm.getEventId(),
     channel: rm.getChannel(),
     isRadioMessage: true,
