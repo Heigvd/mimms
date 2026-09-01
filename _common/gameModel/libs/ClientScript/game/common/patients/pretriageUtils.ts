@@ -10,7 +10,6 @@ export function formatStandardPretriageReport(
   state: Readonly<MainSimulationState>,
   pretriageLocation: LOCATION_ENUM,
   feedbackReportTranslationPrefix: string,
-  completedTask: boolean,
   includeNonPretriagedInfo: boolean
 ): string {
   const pretriagedString = getTranslatedRecordAsString(
@@ -19,13 +18,9 @@ export function formatStandardPretriageReport(
     'pretriage-category-'
   );
   return (
-    (completedTask
-      ? getTranslation('mainSim-locations', 'location-' + pretriageLocation) +
-        ' - ' +
-        getTranslation('mainSim-actions-tasks', 'pretriage-task-completed')
-      : getTranslation('mainSim-actions-tasks', feedbackReportTranslationPrefix + 'Intro', true, [
-          getTranslation('mainSim-locations', 'location-' + pretriageLocation),
-        ])) +
+    getTranslation('mainSim-actions-tasks', feedbackReportTranslationPrefix + 'Intro', true, [
+      getTranslation('mainSim-locations', 'location-' + pretriageLocation),
+    ]) +
     '\n\n' +
     (includeNonPretriagedInfo && getNonPreTriagedPatientsSize(state, pretriageLocation) > 0
       ? getTranslation(

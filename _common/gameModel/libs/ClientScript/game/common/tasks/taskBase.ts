@@ -4,29 +4,32 @@ import { getContextUidGenerator } from '../../executionContext/gameExecutionCont
 import { Category } from '../../pretri/triage';
 import { Actor, InterventionRole } from '../actors/actor';
 import { PatientId, ResourceId, SubTaskId, TaskId, TranslationKey } from '../baseTypes';
-import { TaskStatusChangeLocalEvent } from '../localEvents/localEventBase';
+import { StandardMaximumIdleTime } from '../constants';
 import { getLocalEventManager } from '../localEvents/localEventManager';
-import { RadioType } from '../radio/communicationType';
-import * as RadioLogic from '../radio/radioLogic';
 import { Resource } from '../resources/resource';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { getPatientsToHealSize } from '../simulationState/patientState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { SubTask } from './subTask';
-import { AddRadioMessageLocalEvent } from '../localEvents/localEventRadio';
 import { ReleaseResourcesFromTaskLocalEvent } from '../localEvents/localEventResources';
 
 export enum TaskType {
   Waiting = 'Waiting',
+  MoveTo = 'MoveTo',
   Pretriage = 'Pretriage',
   Porter = 'Porter',
   Healing = 'Healing',
   Evacuation = 'Evacuation',
 }
 
-/** The statuses represent the steps of a task evolution */
-export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused' | 'Completed' | 'Cancelled';
+/**
+ * The statuses represent the steps of a task evolution.
+ * <p>
+ * A task never ends, it is 'Paused' as long as no resource is allocated to it and can restart at any time.
+ */
+export type TaskStatus = 'Uninitialized' | 'OnGoing' | 'Paused';
 
 const TASK_SEED_ID: TaskId = 4000;
 
@@ -49,15 +52,12 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected constructor(
     readonly taskType: TaskType,
     readonly title: TranslationKey,
-    readonly description: TranslationKey, // currently not used
-    readonly nbMinResources: number,
-    readonly nbMaxResources: number, // currently not used
-    /** the actor role owner of the task */
-    readonly ownerRole: InterventionRole,
-    /** the locations where the task can take place */
-    readonly availableToLocations: LOCATION_ENUM[] = [],
+    /** the location where the task can take place */
+    readonly location: LOCATION_ENUM,
     /** which roles can order the task */
-    readonly availableToRoles: InterventionRole[] = []
+    readonly availableToRoles: InterventionRole[] = [],
+    /** how long a resource allocated to the task waits for work before going back to get new orders */
+    readonly maximumIdleTime: number = StandardMaximumIdleTime
   ) {
     this.Uid = getContextUidGenerator().getNext('TaskBase', TASK_SEED_ID);
     this.status = 'Uninitialized';
@@ -69,26 +69,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return getTranslation('mainSim-actions-tasks', this.title);
   }
 
-  // TODO see if useful
-  /** Its description to give more details */
-  public getDescription(): string {
-    return getTranslation('mainSim-actions-tasks', this.description);
-  }
-
-  // TODO see if useful
-  // TODO to be refined with types
-  /** The minimum resources needed for the task to be performed */
-  public getNbMinResources(): number {
-    return this.nbMinResources;
-  }
-
-  // TODO see if useful
-  // TODO to be refined with types
-  /** The maximum useful resources. More would be useless */
-  public getNbMaxResources(): number {
-    return this.nbMaxResources;
-  }
-
   /** The status represents its step of evolution */
   public getStatus(): TaskStatus {
     return this.status;
@@ -97,25 +77,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
   public setStatus(status: TaskStatus): void {
     this.status = status;
-  }
-
-  /**
-   * TODO could be a pure function that returns a cloned instance
-   * @returns True if cancellation could be applied
-   */
-  // TODO see where it can go and if it is needed
-  // Note : based on cancel method on actionBase
-  public cancel(): boolean {
-    if (this.status === 'Cancelled') {
-      taskLogger.warn('This action was cancelled already');
-    } else if (this.status === 'Completed') {
-      taskLogger.error('This action is completed, it cannot be cancelled');
-      return false;
-    }
-
-    // TODO some way ResourceState.releaseAllResources(state, this);
-    this.setStatus('Cancelled'); // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
-    return true;
   }
 
   /** Is the task at some location ready for some actor to allocate resources on it. */
@@ -135,8 +96,9 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     return this.availableToRoles.includes(role) || this.availableToRoles.length === 0;
   }
 
+  // TODO Do we need an explicit method for this ?
   protected isLocationWiseAvailable(location: LOCATION_ENUM): boolean {
-    return this.availableToLocations.includes(location) || this.availableToLocations.length === 0;
+    return this.location === location;
   }
 
   /**
@@ -162,20 +124,12 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     const hasAnyResource = TaskState.isAtLeastOneResource(state, this);
 
     switch (this.status) {
-      case 'Cancelled':
-      case 'Completed': {
-        taskLogger.debug('no more evolution when the task is cancelled or completed');
-
-        // no more evolution
-        break;
-      }
-
       case 'Uninitialized': {
         if (hasAnyResource) {
           taskLogger.debug('task status : Uninitialized -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
-          this.dispatchInProgressEvents(state, timeJump);
+          this.setStatus('OnGoing'); // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.work(state, timeJump);
         }
 
         // no evolution if no resource
@@ -186,11 +140,11 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task : dispatch local events to update the state');
 
-          this.dispatchInProgressEvents(state, timeJump);
+          this.work(state, timeJump);
         } else {
           taskLogger.debug('task status : OnGoing -> Paused');
 
-          this.status = 'Paused'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.setStatus('Paused') // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
         }
 
         break;
@@ -200,8 +154,8 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
         if (hasAnyResource) {
           taskLogger.debug('task status : Paused -> OnGoing');
 
-          this.status = 'OnGoing'; // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
-          this.dispatchInProgressEvents(state, timeJump);
+          this.setStatus('OnGoing') // FIXME : can it really be done here ? Or should we getLocalEventManager().queueLocalEvent(..)
+          this.work(state, timeJump);
         }
         break;
       }
@@ -214,10 +168,71 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
     }
   }
 
+  /**
+   * Let the allocated resources work during the time slice, and keep track of those that could not
+   */
+  private work(state: Readonly<MainSimulationState>, timeJump: number): void {
+    const workingResourcesId: ResourceId[] = this.dispatchInProgressEvents(state, timeJump);
+
+    this.updateIdleResources(state, timeJump, workingResourcesId);
+  }
+
+  /**
+   * A resource that cannot work on the task cumulates idle time
+   */
+  private updateIdleResources(
+    state: Readonly<MainSimulationState>,
+    timeJump: number,
+    workingResourcesId: ResourceId[]
+  ): void {
+    const idleForTooLongResourcesId: ResourceId[] = [];
+
+    for (const resource of ResourceState.getFreeResourcesByTask(state, this.Uid)) {
+      if (workingResourcesId.includes(resource.Uid)) {
+        resource.cumulatedIdleTime = 0;
+        continue;
+      }
+
+      // the resource had spare time and did nothing with it, its ongoing work is lost
+      resource.carryoverWorkTime = 0;
+      resource.cumulatedIdleTime += timeJump;
+
+      if (resource.cumulatedIdleTime >= this.maximumIdleTime) {
+        idleForTooLongResourcesId.push(resource.Uid);
+      }
+    }
+
+    if (idleForTooLongResourcesId.length > 0) {
+      taskLogger.info(
+        'resources idle for too long, they go back to get new orders : ',
+        idleForTooLongResourcesId
+      );
+
+      getLocalEventManager().queueLocalEvent(
+        new ReleaseResourcesFromTaskLocalEvent({
+          parentEventId: 0, // TODO check
+          source: { type: 'task', id: this.Uid },
+          simTimeStamp: state.getSimTime(),
+          resourcesId: idleForTooLongResourcesId,
+        })
+      );
+    }
+  }
+
+  /**
+   * Resources allocated to the task work during the time slice
+   */
   protected abstract dispatchInProgressEvents(
     state: Readonly<MainSimulationState>,
     timeJump: number
-  ): void;
+  ): ResourceId[];
+
+  /*
+   * Get all the resources allocated to the task
+   */
+  protected getAllocatedResourcesId(state: Readonly<MainSimulationState>): ResourceId[] {
+    return ResourceState.getFreeResourcesByTask(state, this.Uid).map(resource => resource.Uid);
+  }
 
   /*
    * Cleanup sub-tasks according to new allocated resources information.
@@ -231,8 +246,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       state,
       this.Uid
     );
-
-    // FIXME see if no problem removing element from the list we browse
 
     for (const subTask of Object.values(this.subTasks)) {
       for (const subTaskResourceId of subTask.resources) {
@@ -287,40 +300,6 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
       .filter(subTask => subTask.patientId != null)
       .map(subTask => subTask.patientId!);
   }
-
-  protected finaliseTask(state: Readonly<MainSimulationState>, feedbackRadioMessage: string) {
-    getLocalEventManager().queueLocalEvent(
-      new TaskStatusChangeLocalEvent({
-        parentEventId: 0, // TODO check
-        source: { type: 'task', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        taskId: this.Uid,
-        status: 'Completed',
-      })
-    );
-
-    getLocalEventManager().queueLocalEvent(
-      new ReleaseResourcesFromTaskLocalEvent({
-        parentEventId: 0, // TODO check
-        source: { type: 'task', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        taskId: this.Uid,
-      })
-    );
-
-    // We broadcast a message when the task is completed
-    getLocalEventManager().queueLocalEvent(
-      new AddRadioMessageLocalEvent({
-        parentEventId: 0, // TODO check
-        source: { type: 'task', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        senderName: RadioLogic.getResourceAsSenderName(),
-        message: feedbackRadioMessage,
-        channel: RadioType.RESOURCES,
-        omitTranslation: true,
-      })
-    );
-  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -336,35 +315,37 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
 export class HealingTask extends TaskBase {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
-    ownerRole: InterventionRole,
-    availableToLocations: LOCATION_ENUM[],
+    location: LOCATION_ENUM,
     availableToRoles?: InterventionRole[],
+    maximumIdleTime?: number,
     readonly patientPriority?: Category<string>['priority']
   ) {
-    super(
-      TaskType.Healing,
-      title,
-      description,
-      nbMinResources,
-      nbMaxResources,
-      ownerRole,
-      availableToLocations,
-      availableToRoles
-    );
+    super(TaskType.Healing, title, location, availableToRoles, maximumIdleTime);
   }
 
   protected override dispatchInProgressEvents(
-    _state: Readonly<MainSimulationState>,
+    state: Readonly<MainSimulationState>,
     _timeJump: number
-  ): void {
-    // no effect
+  ): ResourceId[] {
+    const patientsToHealSize: number = getPatientsToHealSize(
+      state,
+      this.location,
+      this.patientPriority
+    );
+
     if (this.patientPriority != null) {
-      taskLogger.info('healing for priority ' + this.patientPriority);
+      taskLogger.info(
+        'healing for priority ' + this.patientPriority + ', patients : ' + patientsToHealSize
+      );
     } else {
-      taskLogger.info('healing');
+      taskLogger.info('healing, patients : ' + patientsToHealSize);
     }
+
+    // making progress means having someone to take care of
+    if (patientsToHealSize === 0) {
+      return [];
+    }
+
+    return this.getAllocatedResourcesId(state);
   }
 }

@@ -1,9 +1,7 @@
 import { mainSimStateLogger, taskLogger } from '../../../tools/logger';
 import { Actor } from '../actors/actor';
-import { getStateActorSymbolicLocation } from '../actors/actorLogic';
 import { ActorId, TaskId } from '../baseTypes';
 import { TaskBase, TaskStatus, TaskType } from '../tasks/taskBase';
-import { PorterTask } from '../tasks/taskBasePorter';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
 import * as ResourceState from './resourceStateAccess';
@@ -38,26 +36,6 @@ export function fetchAvailableTasks(
     taskLogger.warn('Actor not found. id = ' + actorId + '. And so no task is available');
     return [];
   }
-}
-
-export function isBrancardageTaskForTargetLocation(
-  state: Readonly<MainSimulationState>,
-  targetLocation: LOCATION_ENUM
-): boolean {
-  return Object.values(getAllTasks(state))
-    .filter(ta => ta.taskType === TaskType.Porter)
-    .flatMap(ta => Object.values((ta as PorterTask).subTasks))
-    .some(st => st.targetLocation === targetLocation);
-}
-
-/**
- * @returns True if the task has a status that is not final. It means that the task can still evolve.
- * The final status are 'Cancelled' and 'Completed'
- */
-export function isTaskAlive(state: Readonly<MainSimulationState>, taskId: TaskId): boolean {
-  const task = internallyGetTask(state, taskId);
-
-  return task.getStatus() != 'Cancelled' && task.getStatus() != 'Completed';
 }
 
 /**
@@ -108,14 +86,6 @@ export function changeTaskStatus(
   task.setStatus(status);
 }
 
-export function getTaskResponsibleActorSymbolicLocation(
-  state: Readonly<MainSimulationState>,
-  taskId: TaskId
-): LOCATION_ENUM {
-  const task = internallyGetTask(state, taskId);
-  return getStateActorSymbolicLocation(state, task.ownerRole);
-}
-
 export function getTaskCurrentStatus(
   state: Readonly<MainSimulationState>,
   taskId: TaskId
@@ -130,9 +100,7 @@ export function getTaskByTypeAndLocation(
 ): TaskBase {
   return state
     .getInternalStateObject()
-    .tasks.find(
-      task => task.taskType === taskType && task.availableToLocations.includes(location)
-    )!;
+    .tasks.find(task => task.taskType === taskType && task.location === location)!;
 }
 
 export function getLocationsByTaskType(
@@ -141,5 +109,5 @@ export function getLocationsByTaskType(
 ): LOCATION_ENUM[] {
   return getAllTasks(state)
     .filter(task => task.taskType === taskType)
-    .flatMap(task => task.availableToLocations);
+    .map(task => task.location);
 }

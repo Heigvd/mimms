@@ -103,7 +103,7 @@ export function getFreeResourcesByTypeAndLocation(
 export function getFreeResourcesByTask(
   state: Readonly<MainSimulationState>,
   taskId: TaskId
-): Readonly<Resource>[] {
+): Resource[] {
   return state
     .getInternalStateObject()
     .resources.filter(
@@ -129,12 +129,18 @@ export function getFreeWaitingResourcesByTypeAndLocation(
   location: LOCATION_ENUM
 ): Resource[] {
   const internalState = state.getInternalStateObject();
+  const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, location);
+
+  if (idleTaskUid == undefined) {
+    return [];
+  }
+
   const resources = internalState.resources.filter(
     (resource: Resource) =>
       !resource.isReserved() &&
       resourceType.includes(resource.type) &&
       resource.currentLocation === location &&
-      resource.currentActivity == getIdleTaskUid(state)
+      resource.currentActivity === idleTaskUid
   );
   // Sorted if more than one type, order indicates priority
   if (resourceType.length > 1) {
@@ -149,12 +155,15 @@ export function getFreeWaitingResourcesByType(
   resourceType: ResourceType
 ): Resource[] {
   const internalState = state.getInternalStateObject();
-  return internalState.resources.filter(
-    (resource: Resource) =>
-      !resource.isReserved() &&
-      resource.type === resourceType &&
-      resource.currentActivity == getIdleTaskUid(state)
-  );
+  return internalState.resources.filter((resource: Resource) => {
+    if (resource.isReserved() || resource.type !== resourceType) {
+      return false;
+    }
+
+    const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, resource.currentLocation);
+
+    return idleTaskUid != undefined && resource.currentActivity === idleTaskUid;
+  });
 }
 
 export function getFreeWaitingResourcesByLocation(
@@ -162,11 +171,16 @@ export function getFreeWaitingResourcesByLocation(
   location: LOCATION_ENUM
 ): Resource[] {
   const internalState = state.getInternalStateObject();
+  const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, location);
+
+  if (idleTaskUid == undefined) {
+    return [];
+  }
+
   return internalState.resources.filter(
     (resource: Resource) =>
       !resource.isReserved() &&
-      resource.currentLocation === location &&
-      resource.currentActivity == getIdleTaskUid(state)
+      resource.currentActivity === idleTaskUid
   );
 }
 
@@ -213,9 +227,17 @@ export function addIncomingResources(
   location: LOCATION_ENUM
 ): void {
   const internalState = state.getInternalStateObject();
+  const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, location);
+
+  if (idleTaskUid == undefined) {
+    resourceLogger.error(
+      `Resources cannot wait for orders at ${location}, so ${amount} ${resourceType} cannot arrive there`
+    );
+    return;
+  }
 
   for (let i = 0; i < amount; i++) {
-    const resource: Resource = new Resource(resourceType, location, getIdleTaskUid(state));
+    const resource: Resource = new Resource(resourceType, location, idleTaskUid);
     internalState.resources.push(resource);
   }
 }
@@ -251,7 +273,11 @@ export function assignResourcesToTask(
   taskId: TaskId
 ): void {
   resourcesId.forEach((resourceId: ResourceId) => {
-    getResourceById(state, resourceId).currentActivity = +taskId;
+    const resource: Resource = getResourceById(state, resourceId);
+
+    resource.currentActivity = +taskId;
+    // reset timer for new task
+    resource.resetTimeCounters();
   });
 }
 

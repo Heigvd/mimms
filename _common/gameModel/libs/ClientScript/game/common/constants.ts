@@ -20,6 +20,21 @@ export const FailedRessourceArrivalDelay = OneMinuteDuration * 5;
 export const ACSMCSAutoRequestDelay = OneMinuteDuration * 5;
 
 /**
+ * A resource that cannot work on its task goes back to get new orders as soon as the time slice ends
+ */
+export const NoIdleTimeAllowed = 0;
+
+/**
+ * Standard maximum idle before resource is unassigned
+ */
+export const StandardMaximumIdleTime = OneMinuteDuration * 5;
+
+/**
+ * Idle time for waiting task
+*/
+export const UnlimitedMaximumIdleTime = Number.MAX_SAFE_INTEGER;
+
+/**
  * Trainer identifier
  */
 export const TRAINER_NAME = 'Game Master';

@@ -25,23 +25,11 @@ import { MoveResourcesLocalEvent } from '../localEvents/localEventResources';
 export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   public constructor(
     title: TranslationKey,
-    description: TranslationKey,
-    nbMinResources: number,
-    nbMaxResources: number,
-    ownerRole: InterventionRole,
-    availableToLocations: LOCATION_ENUM[],
-    availableToRoles?: InterventionRole[]
+    location: LOCATION_ENUM,
+    availableToRoles?: InterventionRole[],
+    maximumIdleTime?: number
   ) {
-    super(
-      TaskType.Evacuation,
-      title,
-      description,
-      nbMinResources,
-      nbMaxResources,
-      ownerRole,
-      availableToLocations,
-      availableToRoles
-    );
+    super(TaskType.Evacuation, title, location, availableToRoles, maximumIdleTime);
   }
 
   /**
@@ -86,13 +74,18 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
   protected override dispatchInProgressEvents(
     state: Readonly<MainSimulationState>,
     timeJump: number
-  ): void {
+  ): ResourceId[] {
     taskLogger.debug('evacuation task');
 
     taskLogger.debug('Sub tasks before changes : ', JSON.stringify(Object.values(this.subTasks)));
 
     // no need to clean up sub-tasks from unallocated resources
     // we cannot unallocate an evacuation resource
+
+    // the resources involved in a sub-task are the ones that are able to work during the time slice
+    const workingResourcesId: ResourceId[] = Object.values(this.subTasks).flatMap(
+      (subTask: EvacuationSubTask) => subTask.resources
+    );
 
     Object.values(this.subTasks).forEach((subTask: EvacuationSubTask) => {
       subTask.cumulatedTime += timeJump;
@@ -110,14 +103,14 @@ export class EvacuationTask extends TaskBase<EvacuationSubTask> {
         subTask.status = 'completed';
       }
 
-      this.subTasks[subTask.subTaskId] = { ...subTask };
-
       if (subTask.status === 'completed') {
         delete this.subTasks[subTask.subTaskId];
       }
     });
 
     taskLogger.debug('Sub tasks after changes : ', JSON.stringify(Object.values(this.subTasks)));
+
+    return workingResourcesId;
   }
 
   private launchEventsAtStartTime(

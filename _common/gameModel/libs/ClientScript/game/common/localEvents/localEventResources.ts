@@ -154,7 +154,7 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   }
 }
 
-export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
+export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
   constructor(
     readonly props: {
       readonly parentEventId: GlobalEventId;
@@ -163,40 +163,29 @@ export class AssignResourcesToWaitingTaskLocalEvent extends LocalEventBase {
       readonly resourcesId: ResourceId[];
     }
   ) {
-    super({ ...props, type: 'AssignResourcesToWaitingTaskLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.assignResourcesToTask(state, this.props.resourcesId, getIdleTaskUid(state));
-  }
-}
-
-export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly taskId: TaskId;
-    }
-  ) {
     super({ ...props, type: 'ReleaseResourcesFromTaskLocalEvent' });
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    const involvedResources: Resource[] = ResourceState.getFreeResourcesByTask(
-      state,
-      this.props.taskId
-    );
-    const involvedResourcesId: ResourceId[] = involvedResources.map(
-      (resource: Resource) => resource.Uid
-    );
-    let location: LOCATION_ENUM = LOCATION_ENUM.entreeChantier;
-    if (involvedResources[0]?.currentLocation === LOCATION_ENUM.PMA) {
-      location = LOCATION_ENUM.PMA;
-    }
+    for (const resourceId of this.props.resourcesId) {
+      const resource: Resource = ResourceState.getResourceById(state, resourceId);
 
-    ResourceState.assignResourcesToTask(state, involvedResourcesId, getIdleTaskUid(state));
-    ResourceState.sendResourcesToLocation(involvedResources, location);
+      const location: LOCATION_ENUM =
+        resource.currentLocation === LOCATION_ENUM.PMA
+          ? LOCATION_ENUM.PMA
+          : LOCATION_ENUM.entreeChantier;
+
+      const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, location);
+
+      if (idleTaskUid == undefined) {
+        resourceLogger.error(
+          `Resources cannot wait for orders at ${location}, so resource ${resourceId} stays on its task`
+        );
+        continue;
+      }
+
+      ResourceState.sendResourcesToLocation([resource], location);
+      ResourceState.assignResourcesToTask(state, [resourceId], idleTaskUid);
+    }
   }
 }
