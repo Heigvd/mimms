@@ -40,9 +40,16 @@ function printView(): void {
   logger.debug('Zoom', map.getView().getZoom());
 }
 
+export interface OverlayItemState {
+  // used to order overlay items, higher index is brought to front. Updated with a timestamp by bringOverlayItemToFront
+  index: number;
+  showPatientDetails?: boolean;
+  showRessourceDetails?: boolean;
+}
+
 export interface MapState {
   mapSelect: boolean;
-  overlayState: LOCATION_ENUM[];
+  overlayState: Record<LOCATION_ENUM, OverlayItemState>;
 }
 
 export function getTypedMapState(): MapState {
@@ -56,11 +63,17 @@ export function getTypedMapState(): MapState {
  * @returns initialMapState
  */
 export function getInitialMapState(): MapState {
-  const locations = entries(locationEnumConfig).filter(([_k, config]) => config.accessibility.Resources)
+  const locations = entries(locationEnumConfig).filter(([_k, config]) => config.accessibility.Resources || config.accessibility.Patients )
     .map(([k,_v]) => k);
+
+  const overlayState = locations.reduce((acc, location, i) => {
+    acc[location] = { index: i };
+    return acc;
+  }, {} as Record<LOCATION_ENUM, OverlayItemState>);
+
   return {
     mapSelect: false,
-    overlayState: locations
+    overlayState,
   };
 }
 
@@ -69,7 +82,7 @@ export function getInitialMapState(): MapState {
  */
 function clearMapState() {
   const newState = getInitialMapState();
-  newState.overlayState = getTypedMapState()?.overlayState || [];
+  newState.overlayState = getTypedMapState()?.overlayState || newState.overlayState;
   Context.mapState.setState(newState);
   refreshActivableLayer();
 }

@@ -64,22 +64,23 @@ export function getOverlayItems(): OverlayItem[] {
     }
   }
 
-  const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
+  const overlayState = Context.mapState.state.overlayState;
 
-  // Sort overlayItem according to order and open/close
+  // Sort overlayItem according to overlayState index and open/close
   overlayItems.sort((a, b) => {
-    const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
+    const stateA = overlayState[a.payload.id as LOCATION_ENUM];
 
     // Closed fixedEntities cases => after opened ones
-    if (indexA === -1) {
+    if (!stateA) {
       return 1;
     }
-    const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
-    if (indexB === -1) {
+    const stateB = overlayState[b.payload.id as LOCATION_ENUM];
+    if (!stateB) {
       return -1;
     }
 
-    return indexA - indexB;
+    // higher index was brought to front more recently => comes first
+    return stateB.index - stateA.index;
   });
 
   return overlayItems;
@@ -87,50 +88,15 @@ export function getOverlayItems(): OverlayItem[] {
 
 /**
  * Bring the given overlayItem to the front
+ * Uses a timestamp so the item is guaranteed to have the highest index among open overlay items
  */
 export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
-  const index = Context.mapState.state.overlayState.indexOf(itemId);
+  const currentItemState = Context.mapState.state.overlayState[itemId];
 
-  if (index > -1) {
+  if (currentItemState) {
     const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState.splice(index, 1);
-    newState.overlayState.unshift(itemId);
+    newState.overlayState[itemId] = { ...currentItemState, index: Date.now() };
     Context.mapState.setState(newState);
-  }
-}
-
-export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
-  return Context.mapState?.state.overlayState.includes(itemId);
-}
-
-
-// 28.08.2026 XGO : Unused, kept temporarily in case we decide to have an open close state again
-/**
- * Toggle open close for given overlayItem
-*/
-export function toggleOverlayItem(itemId: LOCATION_ENUM) {
-  const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-  const index = newState.overlayState.indexOf(itemId);
-
-  if (index === -1) {
-    newState.overlayState.push(itemId);
-  } else {
-    newState.overlayState.splice(index, 1);
-  }
-
-  Context.mapState.setState(newState);
-}
-
-// 28.08.2026 XGO : Unused, kept temporarily in case we decide to have an open close state again
-export function openOverlayItem(itemId: LOCATION_ENUM) {
-  const isAlreadyOpen = isOverlayItemOpen(itemId);
-
-  if (!isAlreadyOpen) {
-    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState.unshift(itemId);
-    Context.mapState.setState(newState);
-  } else {
-    bringOverlayItemToFront(itemId);
   }
 }
 
