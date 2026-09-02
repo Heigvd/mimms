@@ -1,7 +1,7 @@
 import { MainSimulationState } from '../game/common/simulationState/mainSimulationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { InterfaceState } from '../gameInterface/interfaceState';
-import { bringOverlayItemToFront } from '../gameMap/mapEntities';
+import { bringOverlayItemToFront } from '../UIfacade/mapFacade';
 import { mainSimInterfaceLogger } from '../tools/logger';
 
 export type AfterUpdateCallback = (

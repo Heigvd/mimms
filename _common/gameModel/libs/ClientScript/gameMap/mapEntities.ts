@@ -5,7 +5,6 @@ import {
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { MapState } from './main';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from './utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
@@ -14,7 +13,7 @@ import { MapEntityActivable } from '../game/common/simulationState/activableStat
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 
 // Replacement based on activables/descriptors
-export function getOverlayItems(): OverlayItem[] {
+export function computeOverlayItems(): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
     (a: MapEntityActivable) => {
@@ -85,18 +84,3 @@ export function getOverlayItems(): OverlayItem[] {
 
   return overlayItems;
 }
-
-/**
- * Bring the given overlayItem to the front
- * Uses a timestamp so the item is guaranteed to have the highest index among open overlay items
- */
-export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
-  const currentItemState = Context.mapState.state.overlayState[itemId];
-
-  if (currentItemState) {
-    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState[itemId] = { ...currentItemState, index: Date.now() };
-    Context.mapState.setState(newState);
-  }
-}
-

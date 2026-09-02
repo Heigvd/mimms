@@ -8,7 +8,7 @@ import {
   isChoiceTemplate,
   updateChoice,
 } from '../UIfacade/actionFacade';
-import { bringOverlayItemToFront } from './mapEntities';
+import { bringOverlayItemToFront } from '../UIfacade/mapFacade';
 
 const logger = Helpers.getLogger('mainSim.map');
 
@@ -40,11 +40,12 @@ function printView(): void {
   logger.debug('Zoom', map.getView().getZoom());
 }
 
+export type FixedEntityContentType = 'resources' | 'patients' | 'none';
+
 export interface OverlayItemState {
-  // used to order overlay items, higher index is brought to front. Updated with a timestamp by bringOverlayItemToFront
+  // used to order overlay items, higher index is brought to front
   index: number;
-  showPatientDetails?: boolean;
-  showRessourceDetails?: boolean;
+  openContent: FixedEntityContentType;
 }
 
 export interface MapState {
@@ -63,11 +64,12 @@ export function getTypedMapState(): MapState {
  * @returns initialMapState
  */
 export function getInitialMapState(): MapState {
-  const locations = entries(locationEnumConfig).filter(([_k, config]) => config.accessibility.Resources || config.accessibility.Patients )
-    .map(([k,_v]) => k);
+  const locations = entries(locationEnumConfig)
+    .filter(([_k, config]) => config.accessibility.Resources || config.accessibility.Patients)
+    .map(([k, _v]) => k);
 
   const overlayState = locations.reduce((acc, location, i) => {
-    acc[location] = { index: i };
+    acc[location] = { index: i, openContent: 'none' };
     return acc;
   }, {} as Record<LOCATION_ENUM, OverlayItemState>);
 

@@ -13,7 +13,7 @@ import {
 import { canActorPlanAction } from '../gameInterface/main';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
 import { OnTheRoadAction } from '../game/common/actions/actorActions';
-import { bringOverlayItemToFront } from '../gameMap/mapEntities';
+import { bringOverlayItemToFront } from './mapFacade';
 
 /**
  * @returns All currently present actors
