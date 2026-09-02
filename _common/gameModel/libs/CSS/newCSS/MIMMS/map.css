@@ -33,6 +33,10 @@
   opacity: .1;
 }
 
+.closedFixedMapEntityArrow {
+  border-top: 10px solid transparent;
+}
+
 /*** SELECTED ***/
 
 /* selected fixed map entity - open */
@@ -202,10 +206,6 @@
 
 .squareCounter-container.counter-resourcesNearCurrentActor {
   border-color: var(--primary_base);
-  color: var(--primary_base);
-}*/
-
-/*.squareCounter.counterText-resourcesNearCurrentActor{
   color: var(--primary_base);
 }*/
 

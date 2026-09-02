@@ -40,9 +40,12 @@ function printView(): void {
   logger.debug('Zoom', map.getView().getZoom());
 }
 
+export type FixedEntityContentPanel = 'resources' | 'patients';
+
 export interface MapState {
   mapSelect: boolean;
   overlayState: LOCATION_ENUM[];
+  openFixedEntityPanel: Partial<Record<LOCATION_ENUM, FixedEntityContentPanel>>;
 }
 
 export function getTypedMapState(): MapState {
@@ -56,11 +59,13 @@ export function getTypedMapState(): MapState {
  * @returns initialMapState
  */
 export function getInitialMapState(): MapState {
-  const locations = entries(locationEnumConfig).filter(([_k, config]) => config.accessibility.Resources)
-    .map(([k,_v]) => k);
+  const locations = entries(locationEnumConfig)
+    .filter(([_k, config]) => config.accessibility.Resources)
+    .map(([k, _v]) => k);
   return {
     mapSelect: false,
-    overlayState: locations
+    overlayState: locations,
+    openFixedEntityPanel: {},
   };
 }
 
@@ -70,6 +75,7 @@ export function getInitialMapState(): MapState {
 function clearMapState() {
   const newState = getInitialMapState();
   newState.overlayState = getTypedMapState()?.overlayState || [];
+  newState.openFixedEntityPanel = getTypedMapState()?.openFixedEntityPanel || {};
   Context.mapState.setState(newState);
   refreshActivableLayer();
 }

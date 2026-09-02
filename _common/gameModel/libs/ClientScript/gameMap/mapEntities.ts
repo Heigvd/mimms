@@ -5,13 +5,14 @@ import {
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { MapState } from './main';
+import { FixedEntityContentPanel, getTypedMapState, MapState } from './main';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from './utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
+import { getTotalPatientsCountForLocation } from '../UIfacade/patientSnapshotFacade';
 
 // Replacement based on activables/descriptors
 export function getOverlayItems(): OverlayItem[] {
@@ -103,6 +104,52 @@ export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
   return Context.mapState?.state.overlayState.includes(itemId);
 }
 
+/**
+ * Open the given content panel in the fixed entity's genericFixedEntity component,
+ * closing any other panel opened for it
+ */
+export function openFixedEntityPanel(itemId: LOCATION_ENUM, panel: FixedEntityContentPanel): void {
+  const newState: MapState = Helpers.cloneDeep(getTypedMapState());
+  newState.openFixedEntityPanel[itemId] = panel;
+  Context.mapState.setState(newState);
+}
+
+/**
+ * Close whichever content panel is currently opened for the given fixed map entity
+ */
+export function closeFixedEntityPanel(itemId: LOCATION_ENUM): void {
+  const newState: MapState = Helpers.cloneDeep(getTypedMapState());
+  delete newState.openFixedEntityPanel[itemId];
+  Context.mapState.setState(newState);
+}
+
+/**
+ * @returns Whether the given content panel is currently opened for the given fixed map entity
+ */
+export function isFixedEntityPanelOpen(
+  itemId: LOCATION_ENUM,
+  panel: FixedEntityContentPanel
+): boolean {
+  return getTypedMapState()?.openFixedEntityPanel[itemId] === panel;
+}
+
+/**
+ * @returns Whether the given fixed map entity has nothing to show: no free resources, ambulances
+ * or helicopters, and no pretriaged patients
+ */
+export function isFixedEntityContentEmpty(overlayItem: {
+  id: LOCATION_ENUM;
+  resources: unknown[];
+  ambulances: unknown[];
+  helicopters: unknown[];
+}): boolean {
+  return (
+    overlayItem.resources.length < 1 &&
+    overlayItem.ambulances.length < 1 &&
+    overlayItem.helicopters.length < 1 &&
+    getTotalPatientsCountForLocation(overlayItem.id) === 0
+  );
+}
 
 // 28.08.2026 XGO : Unused, kept temporarily in case we decide to have an open close state again
 /**

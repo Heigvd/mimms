@@ -1115,6 +1115,13 @@
                                             },
                                             "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { closeFixedEntityPanel } from \"./gameMap/mapEntities\";\n\ncloseFixedEntityPanel(Context.overlayItem.id)",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
                                             "name" : "close",
                                             "style" : { }
                                           },
@@ -1316,6 +1323,11 @@
                                               "type" : "FlexList"
                                             } ],
                                             "className" : "fullWidth resource-assignment__container",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { isFixedEntityPanelOpen } from \"./gameMap/mapEntities\";\n!isFixedEntityPanelOpen(Context.overlayItem.id, 'resources');",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
@@ -1327,159 +1339,97 @@
                                           "type" : "FlexList"
                                         }, {
                                           "props" : {
-                                            "className" : "button-S button-neutralColor",
-                                            "label" : {
-                                              "@class" : "Script",
-                                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'send')",
-                                              "language" : "TypeScript"
-                                            },
-                                            "layoutClassName" : "noPadding",
-                                            "layoutStyle" : { },
-                                            "name" : "validate",
-                                            "style" : { }
-                                          },
-                                          "type" : "Button"
-                                        }, {
-                                          "props" : {
                                             "children" : [ {
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "className" : "noMargin",
-                                                    "layoutClassName" : "noPadding",
-                                                    "layoutStyle" : { },
-                                                    "name" : "label",
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "\"<p>Rouge</p>\"",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
-                                                }, {
-                                                  "props" : {
                                                     "children" : [ {
                                                       "props" : {
-                                                        "icon" : "user",
+                                                        "className" : "noMargin",
                                                         "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Icon"
-                                                    }, {
-                                                      "props" : {
-                                                        "icon" : "user",
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Icon"
-                                                    } ],
-                                                    "layout" : { },
-                                                    "layoutClassName" : "noPadding",
-                                                    "layoutStyle" : { },
-                                                    "name" : "patients",
-                                                    "style" : { }
-                                                  },
-                                                  "type" : "FlexList"
-                                                } ],
-                                                "className" : "patient-color patient-color--red",
-                                                "layout" : {
-                                                  "alignItems" : "center",
-                                                  "justifyContent" : "space-between"
-                                                },
-                                                "layoutClassName" : "noPadding",
-                                                "layoutStyle" : { },
-                                                "name" : "color",
-                                                "style" : { }
-                                              },
-                                              "type" : "FlexList"
-                                            }, {
-                                              "props" : {
-                                                "children" : [ {
-                                                  "props" : {
-                                                    "children" : [ {
-                                                      "props" : {
-                                                        "icon" : "comment",
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "on site",
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Icon"
-                                                    }, {
-                                                      "props" : {
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "radio",
-                                                        "script" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"/walkie-talkie-solid.svg\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Image"
-                                                    }, {
-                                                      "props" : {
-                                                        "className" : "noMargin actionName",
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "actionName",
+                                                        "name" : "label",
                                                         "style" : { },
                                                         "text" : {
                                                           "@class" : "Script",
-                                                          "content" : "\"<p>Evacuate</p>\"",
+                                                          "content" : "Context.item.label;",
                                                           "language" : "TypeScript"
                                                         }
                                                       },
                                                       "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "children" : [ {
+                                                              "props" : {
+                                                                "icon" : "user",
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "style" : { }
+                                                              },
+                                                              "type" : "Icon"
+                                                            } ],
+                                                            "layout" : { },
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "patients",
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "FlexList"
+                                                        } ],
+                                                        "exposeAs" : "patientIcon",
+                                                        "getItemsFn" : {
+                                                          "@class" : "Script",
+                                                          "content" : "  Array.from({ length: Context.item.count }, (_, i) => ({ id: i }));",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "itemKey" : "id",
+                                                        "layout" : { },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "patient",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "For each"
                                                     } ],
-                                                    "className" : "resourcesSelectionAssignment",
+                                                    "className" : "patient-color",
+                                                    "computedClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : {
+                                                        "@class" : "Script",
+                                                        "content" : "import { getPatientCategoryColorClassName } from \"./UIfacade/patientSnapshotFacade\";\n  getPatientCategoryColorClassName(Context.item.categoryId)",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    } ],
                                                     "layout" : {
-                                                      "alignItems" : "center"
+                                                      "alignItems" : "center",
+                                                      "justifyContent" : "space-between"
                                                     },
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
-                                                    "name" : "actionName",
+                                                    "name" : "color",
                                                     "style" : { }
                                                   },
                                                   "type" : "FlexList"
-                                                }, {
-                                                  "props" : {
-                                                    "className" : "noMargin",
-                                                    "layoutClassName" : "noPadding",
-                                                    "layoutStyle" : { },
-                                                    "name" : "taskDuration",
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "\"<p>1'</p>\"",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
                                                 } ],
-                                                "className" : "actionHeader resourcesSelectionAssignment interactive",
-                                                "conditionnalClassNames" : [ {
-                                                  "applyOn" : "Inside",
-                                                  "className" : "actionHeaderDisabled",
-                                                  "condition" : {
-                                                    "@class" : "Script",
-                                                    "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.uid);",
-                                                    "language" : "typescript"
-                                                  }
-                                                } ],
-                                                "layout" : {
-                                                  "justifyContent" : "space-between"
+                                                "exposeAs" : "item",
+                                                "getItemsFn" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getPatientCategoryColorLegend } from \"./UIfacade/patientSnapshotFacade\";\n  getPatientCategoryColorLegend(Context.overlayItem.id);",
+                                                  "language" : "TypeScript"
                                                 },
+                                                "itemKey" : "categoryId",
+                                                "layout" : { },
                                                 "layoutClassName" : "noPadding",
                                                 "layoutStyle" : { },
-                                                "name" : "evacuate action",
-                                                "style" : { }
+                                                "name" : "color",
+                                                "style" : {
+                                                  "flexDirection" : "column",
+                                                  "gap" : "5px"
+                                                }
                                               },
-                                              "type" : "FlexList"
+                                              "type" : "For each"
                                             } ],
                                             "className" : "patient-assignment__container",
                                             "layout" : {
@@ -1529,7 +1479,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "import * as ResourceFacade from \"./UIfacade/resourceFacade\";\n\nconst currentLocation = Context.overlayItem.id;\nResourceFacade.openDirectResourceManagement(currentLocation);\n",
+                                                    "content" : "import { openFixedEntityPanel } from \"./gameMap/mapEntities\";\nimport * as ResourceFacade from \"./UIfacade/resourceFacade\";\n\nconst currentLocation = Context.overlayItem.id;\nResourceFacade.openDirectResourceManagement(currentLocation);\nopenFixedEntityPanel(currentLocation, 'resources');\n",
                                                     "language" : "TypeScript"
                                                   }
                                                 },
@@ -1558,10 +1508,15 @@
                                                     "language" : "typescript"
                                                   }
                                                 } ],
+                                                "hideIf" : {
+                                                  "@class" : "Script",
+                                                  "content" : "import { getTotalPatientsCountForLocation } from \"./UIfacade/patientSnapshotFacade\";\ngetTotalPatientsCountForLocation(Context.overlayItem.id) === 0;",
+                                                  "language" : "typescript"
+                                                },
                                                 "icon" : "user-injured",
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "\"<span class=\\\"red-patients-counter\\\">2</span>/5\"",
+                                                  "content" : "import { shortPatientInfo } from \"./UIfacade/patientSnapshotFacade\";\nshortPatientInfo(Context.overlayItem.id);",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutClassName" : "noPadding",
@@ -1569,7 +1524,7 @@
                                                 "localScriptEval" : {
                                                   "script" : {
                                                     "@class" : "ClientScript",
-                                                    "content" : "import * as ResourceFacade from \"./UIfacade/resourceFacade\";\n\nconst currentLocation = Context.overlayItem.id;\nResourceFacade.openDirectResourceManagement(currentLocation);\n",
+                                                    "content" : "import { openFixedEntityPanel } from \"./gameMap/mapEntities\";\n\nopenFixedEntityPanel(Context.overlayItem.id, 'patients')",
                                                     "language" : "TypeScript"
                                                   }
                                                 },
@@ -1681,6 +1636,11 @@
                                             "language" : "typescript"
                                           }
                                         } ],
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "import { isFixedEntityContentEmpty } from \"./gameMap/mapEntities\";\nisFixedEntityContentEmpty(Context.overlayItem);",
+                                          "language" : "typescript"
+                                        },
                                         "layout" : {
                                           "flexDirection" : "column"
                                         },
@@ -1782,7 +1742,7 @@
                                           "className" : "closedFixedMapEntityArrow",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "import { isOverlayItemOpen } from \"./gameMap/mapEntities\";\n!isOverlayItemOpen(Context.overlayItem.id)",
+                                            "content" : "import { isFixedEntityContentEmpty } from \"./gameMap/mapEntities\";\nisFixedEntityContentEmpty(Context.overlayItem);",
                                             "language" : "typescript"
                                           }
                                         } ],
