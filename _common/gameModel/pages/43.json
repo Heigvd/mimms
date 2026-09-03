@@ -1107,6 +1107,11 @@
                                         "children" : [ {
                                           "props" : {
                                             "className" : "close-generic-fixed-entity",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { isAnyFixedEntityPanelOpen } from \"./UIfacade/mapFacade\";\n!isAnyFixedEntityPanelOpen(Context.overlayItem.id);",
+                                              "language" : "typescript"
+                                            },
                                             "icon" : "times",
                                             "label" : {
                                               "@class" : "Script",
@@ -1123,6 +1128,7 @@
                                               }
                                             },
                                             "name" : "close",
+                                            "stopPropagation" : true,
                                             "style" : { }
                                           },
                                           "type" : "Button"
@@ -1432,6 +1438,11 @@
                                               "type" : "For each"
                                             } ],
                                             "className" : "patient-assignment__container",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { isFixedEntityPanelOpen } from \"./UIfacade/mapFacade\";\n!isFixedEntityPanelOpen(Context.overlayItem.id, 'patients');",
+                                              "language" : "typescript"
+                                            },
                                             "layout" : {
                                               "flexDirection" : "column"
                                             },
@@ -1485,6 +1496,7 @@
                                                 },
                                                 "name" : "resources",
                                                 "prefixedLabel" : true,
+                                                "stopPropagation" : true,
                                                 "style" : { }
                                               },
                                               "type" : "Button"
@@ -1530,6 +1542,7 @@
                                                 },
                                                 "name" : "patients",
                                                 "prefixedLabel" : true,
+                                                "stopPropagation" : true,
                                                 "style" : { }
                                               },
                                               "type" : "Button"
@@ -1603,11 +1616,6 @@
                                                 "language" : "typescript"
                                               }
                                             } ],
-                                            "hideIf" : {
-                                              "@class" : "Script",
-                                              "content" : "import { isOverlayItemOpen } from \"./UIfacade/mapFacade\";\n  !isOverlayItemOpen(Context.overlayItem.id);",
-                                              "language" : "typescript"
-                                            },
                                             "layout" : { },
                                             "layoutClassName" : "noPadding",
                                             "layoutStyle" : { },

@@ -40,6 +40,7 @@ export function openFixedEntityPanel(itemId: LOCATION_ENUM, panel: FixedEntityCo
   const itemState = newState.overlayState[itemId];
   if (itemState) {
     itemState.openContent = panel;
+    itemState.index = Date.now();
     Context.mapState.setState(newState);
   }
 }
@@ -64,6 +65,13 @@ export function isFixedEntityPanelOpen(
   panel: FixedEntityContentType
 ): boolean {
   return getTypedMapState()?.overlayState[itemId]?.openContent === panel;
+}
+
+/**
+ * @returns Whether any content panel (resources or patients) is currently opened for the given fixed map entity
+ */
+export function isAnyFixedEntityPanelOpen(itemId: LOCATION_ENUM): boolean {
+  return getTypedMapState()?.overlayState[itemId]?.openContent !== 'none';
 }
 
 /**

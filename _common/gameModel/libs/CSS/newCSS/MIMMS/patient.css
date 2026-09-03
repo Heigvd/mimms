@@ -30,6 +30,7 @@
 }
 
 .patient-color {
+  gap: 5px;
   padding: 2.5px 5px;
   font-size: var(--XS_text);
   font-weight: var(--boldWeight);
