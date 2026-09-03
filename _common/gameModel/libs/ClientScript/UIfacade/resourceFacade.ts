@@ -1,10 +1,14 @@
+import { TaskId } from '../game/common/baseTypes';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
   ResourceType,
 } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
+import {
+  getFreeResourcesByTypeLocationAndTask,
+  getResourcesByTask,
+} from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   getTypedInterfaceState,
@@ -180,4 +184,8 @@ export function currentCountAvailableResources(): number {
   const taskId = +Context.interfaceState.state.resources[key].currentTaskId;
   const resourceType: ResourceType = Context.resourceType.enum;
   return countAvailableResourcesToAllocate(location, taskId, resourceType);
+}
+
+export function getResourceCountForTaskAndType(taskId: TaskId, resourceType: ResourceType): number {
+  return getResourcesByTask(getCurrentState(), taskId).filter(r => r.type === resourceType).length;
 }

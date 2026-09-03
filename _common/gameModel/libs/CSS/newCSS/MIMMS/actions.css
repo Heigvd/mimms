@@ -1,5 +1,4 @@
-
-/******* ACTIONS ELEMENTS *******/
+/* - - - - -  A C T I O N S  E L E M E N T S  - - - */
 
 .action-container {
   box-sizing: border-box;
@@ -18,14 +17,14 @@
 	cursor: pointer;
 }
 
-.actionHeaderDisabled{
-    opacity: 50%;
-    cursor: default;
-}
-
 .actionHeaderActive {
 	font-weight: var(--boldWeight);
 	border-radius: var(--S_borderRadius) var(--S_borderRadius) 0 0 ;
+    cursor: default;
+}
+
+.actionHeaderDisabled {
+    opacity: 50%;
     cursor: default;
 }
 
@@ -34,20 +33,6 @@
 	margin: 0;
 	align-items: center;
 	color: var(--grey_100);
-}
-
-.feedback-list .actionHeader > div:first-of-type {
-  max-width: 95%;
-}
-
-.feedback-list .actionName {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.feedback-list .actionHeaderActive .actionName {
-  white-space: normal;
 }
 
 .actionName:first-letter {
@@ -70,7 +55,21 @@
 	color: var(--grey_100);
 }
 
-/** Choice **/
+.feedback-list .actionHeader > div:first-of-type {
+  max-width: 95%;
+}
+
+.feedback-list .actionHeaderActive .actionName {
+  white-space: normal;
+}
+
+.feedback-list .actionName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* choice */
 .choice-list {
   gap: 10px;
   margin: 0 10px 15px 10px;
@@ -106,24 +105,7 @@
   display: none;
 }
 
-/** Play btn **/
-.playActionBtn > *{
-  margin: .5em;
-  padding: .5em;
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  font-weight: var(--boldWeight);
-  color: var(--grey-white);
-  background: var(--secondary_50);
-}
-
-.playActionBtn:hover > *{
-	background: var(--secondary_40);
-	cursor: pointer;
-}
-
-/** Feedback **/
+/* feedback */
 .feedback__container {
   gap: 10px;
   padding: 10px;
@@ -139,6 +121,12 @@
   animation: feedbackColor 2.5s;
 }
 
+.feedback__undertitle {
+  font-size: var(--M_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+}
+
 .feedback-list__header.actions-list__header {
   margin-top: 15px;
   margin-bottom: 5px;
@@ -148,11 +136,8 @@
   color: var(--grey_100);
 }
 
-.feedback__undertitle {
-  font-size: var(--M_text);
-  font-weight: var(--boldWeight);
-  color: var(--grey_100);
-}
+
+/* - - - - A N I M A T I O N S - - - - */
 
 @keyframes feedbackColor {
   0% {color: var(--primary_base);}

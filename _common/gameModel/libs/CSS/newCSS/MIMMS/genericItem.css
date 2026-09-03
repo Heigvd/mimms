@@ -46,7 +46,7 @@
 }
 
 .generic-item__actions svg {
-  height: 10;
+  height: 10px;
   color: var(--grey_base);
   transition: color .3s ease-in-out;
 }
@@ -113,11 +113,11 @@
 /* input labels */
 .generic-item__label {
   position: absolute;
-  top: -10;
+  top: -10px;
   left: 5px;
   padding: 2px 7px;
   font-size: .5rem;
-  line-height: 10;
+  line-height: 10px;
   background-color: var(--grey-white);
   border-radius: var(--XS_borderRadius);
 }

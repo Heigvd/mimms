@@ -103,7 +103,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       color: colors.color,
     };
 
-    const text = getTextStyle(feature, colors, 20);
+    const text = getTextStyle(feature, colors, 30);
 
     /*
   OLD CODE for phylactère / Speech scroll

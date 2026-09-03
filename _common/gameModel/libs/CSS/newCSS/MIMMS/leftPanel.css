@@ -1,4 +1,6 @@
-/*** Left Panel Header ***/
+/* - - - - -  L E F T  P A N E L  - - - */
+
+/* left panel header */
 .role-container {
 	width: 100%;
 	height: 3rem;
@@ -14,7 +16,7 @@
 	margin: auto;
 }
 
-/*** global LeftPanel ***/
+/* global left panel */
 .leftPanel-container {
   width: 30%;
   max-width: 30%;
@@ -23,27 +25,22 @@
   z-index: 4;
 }
 
-/*** show & hide left panel ***/
-/* make the bg of the left panel disapear independently from the header*/
-.closeLeftPanelBtn{
+.leftPanel-container--hidden {
+  pointer-events: none;
+}
+
+/* show & hide left panel */
+/* make the background of the left panel disappear independently from the header */
+.closeLeftPanelBtn {
   background-color: transparent;
   font-weight: var(--boldWeight);
 }
 
-.closeLeftPanelBtn:hover{
+.closeLeftPanelBtn:hover {
   background-color: var(--primary_60);
 }
 
-/*** Left panel content ***/
-
-.contentLeftPanel {
-	height: 100%;
-	width: auto;
-  background-color: var(--grey-white);
-  overflow: hidden;
-  pointer-events: auto;
-}
-
+/* left panel content */
 .contentLeftPanel-container {
 	height: calc(100% - 3rem);
 	width: 100%;
@@ -57,16 +54,25 @@
   transition: transform .3s ease-in-out;
 }
 
-/******** SUBPANEL (Actions, radio resources) ********/
+.contentLeftPanel {
+	height: 100%;
+	width: auto;
+  background-color: var(--grey-white);
+  overflow: hidden;
+  pointer-events: auto;
+}
 
-.leftSubPanel-container{
+
+/* - - - - -  S U B P A N E L  ( A C T I O N S | R A D I O | R E S O U R C E S )  - - - */
+
+.leftSubPanel-container {
 	width: 100%;
   height: 100%;
 	margin-top: 0px;
 	padding: 0px 15px 10px 15px;
 }
 
-.interfaceMenuLoader-container{
+.interfaceMenuLoader-container {
   width: 100%;
   height: 100%;
   margin: auto;

@@ -43,6 +43,8 @@ html{
 	--smallScreen: 1199px;
 	--middleScreen:1200px;
 	font-family: var(--mainFont); /*fix for typography bug*/
+
+  --button-transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 
 .noDisplay{

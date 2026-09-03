@@ -79,3 +79,9 @@ export function getLocationChoicesForTaskType(
       };
     });
 }
+
+export function getTasksForLocation(location: LOCATION_ENUM): { Uid: TaskId; title: string }[] {
+  return TaskState.getAllTasks(getCurrentState())
+    .filter(task => task.location === location)
+    .map(task => ({ Uid: task.Uid, title: task.getTitle() }));
+}
