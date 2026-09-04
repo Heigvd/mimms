@@ -72,6 +72,7 @@
 
 .resource__task {
   width: 100%;
+  min-height: 30.4px;
   padding: 5px;
   border: 1px solid var(--grey_20);
   border-radius: var(--XXS_borderRadius);

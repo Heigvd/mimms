@@ -9,6 +9,7 @@ import {
   getFreeResourcesByTypeLocationAndTask,
   getResourcesByTask,
 } from '../game/common/simulationState/resourceStateAccess';
+import * as TaskLogic from '../game/common/tasks/taskLogic';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   getTypedInterfaceState,
@@ -186,6 +187,22 @@ export function currentCountAvailableResources(): number {
   return countAvailableResourcesToAllocate(location, taskId, resourceType);
 }
 
-export function getResourceCountForTaskAndType(taskId: TaskId, resourceType: ResourceType): number {
-  return getResourcesByTask(getCurrentState(), taskId).filter(r => r.type === resourceType).length;
+/**
+ * Counts resources of the given type currently assigned to the given task, physically present
+ * at the given location (excludes resources still traveling there).
+ */
+export function getResourceCountForTaskAndType(
+  taskId: TaskId,
+  location: LOCATION_ENUM,
+  resourceType: ResourceType
+): number {
+  const state = getCurrentState();
+  const travelingTaskId = TaskLogic.getMoveToTaskUid(state, location);
+
+  return getResourcesByTask(state, taskId).filter(
+    resource =>
+      resource.type === resourceType &&
+      resource.currentLocation === location &&
+      resource.currentActivity !== travelingTaskId
+  ).length;
 }

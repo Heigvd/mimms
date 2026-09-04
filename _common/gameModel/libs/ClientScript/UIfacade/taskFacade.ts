@@ -2,6 +2,7 @@ import { ActorId, TaskId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import * as TaskState from '../game/common/simulationState/taskStateAccess';
 import { TaskType } from '../game/common/tasks/taskBase';
+import * as TaskLogic from '../game/common/tasks/taskLogic';
 import { getActiveMapEntityDescriptors } from '../game/loaders/mapEntitiesLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getLocationTranslation } from './locationFacade';
@@ -81,7 +82,10 @@ export function getLocationChoicesForTaskType(
 }
 
 export function getTasksForLocation(location: LOCATION_ENUM): { Uid: TaskId; title: string }[] {
-  return TaskState.getAllTasks(getCurrentState())
-    .filter(task => task.location === location)
+  const state = getCurrentState();
+  const travelingTaskId = TaskLogic.getMoveToTaskUid(state, location);
+
+  return TaskState.getAllTasks(state)
+    .filter(task => task.location === location && task.Uid !== travelingTaskId)
     .map(task => ({ Uid: task.Uid, title: task.getTitle() }));
 }
