@@ -30,7 +30,7 @@ export class MapChoiceActionTemplate<
     requiredFlags?: SimFlag[],
     raisedFlags?: SimFlag[],
     availableToRoles?: InterventionRole[],
-    choices?: ChoiceDescriptor[],
+    choices?: ChoiceDescriptor[]
   ) {
     super(
       uid,
@@ -112,7 +112,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices,
+      choices
     );
   }
 
@@ -154,7 +154,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices,
+      choices
     );
   }
 
@@ -200,7 +200,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
       requiredFlags,
       raisedFlags,
       availableToRoles,
-      choices,
+      choices
     );
     this.vehicleType = vehicleType;
   }

@@ -415,7 +415,10 @@ export class EvacuationAction extends RadioDrivenAction {
     } else {
       const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad);
 
-      const evacuationTask = TaskLogic.getEvacuationTask(state, getSquadDef(this.transportSquad).location);
+      const evacuationTask = TaskLogic.getEvacuationTask(
+        state,
+        getSquadDef(this.transportSquad).location
+      );
 
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({

@@ -44,7 +44,7 @@ export function createMapChoiceActionTemplate(
         undefined, // required flags
         [], // raised flags
         getFilteredAsArray(desc.availableToRoles),
-        desc.choices,
+        desc.choices
       );
     case 'PMAChoiceTemplate':
       return new MapChoiceActionTemplate(
@@ -56,7 +56,7 @@ export function createMapChoiceActionTemplate(
         undefined, // required flags
         [SimFlag.PMA_BUILT, SimFlag.PMA_OPEN],
         getFilteredAsArray(desc.availableToRoles),
-        desc.choices,
+        desc.choices
       );
     case 'PCChoiceTemplate':
       return new PCChoiceTemplate(

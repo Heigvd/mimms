@@ -1,4 +1,8 @@
-import { NoIdleTimeAllowed, StandardMaximumIdleTime, UnlimitedMaximumIdleTime } from '../common/constants';
+import {
+  NoIdleTimeAllowed,
+  StandardMaximumIdleTime,
+  UnlimitedMaximumIdleTime,
+} from '../common/constants';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { HealingTask, TaskBase, TaskType } from '../common/tasks/taskBase';
 import { EvacuationTask } from '../common/tasks/taskBaseEvacuation';

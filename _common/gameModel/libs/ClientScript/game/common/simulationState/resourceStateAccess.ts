@@ -178,9 +178,7 @@ export function getFreeWaitingResourcesByLocation(
   }
 
   return internalState.resources.filter(
-    (resource: Resource) =>
-      !resource.isReserved() &&
-      resource.currentActivity === idleTaskUid
+    (resource: Resource) => !resource.isReserved() && resource.currentActivity === idleTaskUid
   );
 }
 
