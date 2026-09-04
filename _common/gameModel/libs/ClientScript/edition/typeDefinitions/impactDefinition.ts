@@ -176,7 +176,7 @@ export function getNotificationImpactDef(
         AL: false,
         CASU: false,
         EVASAN: false,
-        Initiator: parentType === 'effect' ? true : false,
+        Initiator: parentType === 'effect',
       },
     }),
     validator: notificationMessageImpactValidator,

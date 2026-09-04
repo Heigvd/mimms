@@ -5,16 +5,15 @@ import {
 } from '../game/common/simulationState/locationState';
 import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { MapState } from './main';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
-import { getShapeCenter } from '../gameMap/utils/shapeUtils';
+import { getShapeCenter } from './utils/shapeUtils';
 import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { getLocationLongTranslation } from '../game/common/location/locationLogic';
 
 // Replacement based on activables/descriptors
-export function getOverlayItems(): OverlayItem[] {
+export function computeOverlayItems(): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
   const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
     (a: MapEntityActivable) => {
@@ -64,69 +63,24 @@ export function getOverlayItems(): OverlayItem[] {
     }
   }
 
-  const order: LOCATION_ENUM[] = Context.mapState.state.overlayState;
+  const overlayState = Context.mapState.state.overlayState;
 
-  // Sort overlayItem according to order and open/close
+  // Sort overlayItem according to overlayState index and open/close
   overlayItems.sort((a, b) => {
-    const indexA = order.indexOf(a.payload.id as LOCATION_ENUM);
+    const stateA = overlayState[a.payload.id as LOCATION_ENUM];
 
     // Closed fixedEntities cases => after opened ones
-    if (indexA === -1) {
+    if (!stateA) {
       return 1;
     }
-    const indexB = order.indexOf(b.payload.id as LOCATION_ENUM);
-    if (indexB === -1) {
+    const stateB = overlayState[b.payload.id as LOCATION_ENUM];
+    if (!stateB) {
       return -1;
     }
 
-    return indexA - indexB;
+    // higher index was brought to front more recently => comes first
+    return stateB.index - stateA.index;
   });
 
   return overlayItems;
-}
-
-/**
- * Bring the given overlayItem to the front
- */
-export function bringOverlayItemToFront(itemId: LOCATION_ENUM) {
-  const index = Context.mapState.state.overlayState.indexOf(itemId);
-
-  if (index > -1) {
-    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState.splice(index, 1);
-    newState.overlayState.unshift(itemId);
-    Context.mapState.setState(newState);
-  }
-}
-
-/**
- * Toggle open close for given overlayItem
- */
-export function toggleOverlayItem(itemId: LOCATION_ENUM) {
-  const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-  const index = newState.overlayState.indexOf(itemId);
-
-  if (index === -1) {
-    newState.overlayState.push(itemId);
-  } else {
-    newState.overlayState.splice(index, 1);
-  }
-
-  Context.mapState.setState(newState);
-}
-
-export function openOverlayItem(itemId: LOCATION_ENUM) {
-  const isAlreadyOpen = isOverlayItemOpen(itemId);
-
-  if (!isAlreadyOpen) {
-    const newState: MapState = Helpers.cloneDeep(Context.mapState.state);
-    newState.overlayState.unshift(itemId);
-    Context.mapState.setState(newState);
-  } else {
-    bringOverlayItemToFront(itemId);
-  }
-}
-
-export function isOverlayItemOpen(itemId: LOCATION_ENUM) {
-  return Context.mapState?.state.overlayState.includes(itemId);
 }

@@ -1,192 +1,107 @@
-.map-container{
-  height: 100%;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-}
+/* - - - - -  A R R O W S  - - - */
 
-.cursor-crosshair {
-	cursor: crosshair;
-}
-
-.overlay-container {
-	box-shadow: var(--overlaysShadows);
-}
-
-/*** ARROWS ***/
-
-.fixedEntities-arrow{
+.fixedEntities-arrow {
  	width: 0; 
 	height: 0; 
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top: 20px solid var(--grey_60);
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid var(--grey_80);
 	margin: auto;
 	filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.2)); /* special triangle shadow */
 }
 
-.fixedEntities-arrow.selectedFixedMapEntityArrow{
-  border-top: 20px solid var(--primary_base);
+.selectedFixedMapEntityArrow {
+  border-top: 10px solid var(--primary_base);
 }
 
-.fixedEntities-mapSelect {
-  opacity: .1;
+.closedFixedMapEntityArrow {
+  border-top: 10px solid transparent;
 }
 
-/*** SELECTED ***/
 
-/* selected fixed map entity - open */
+/* - - - - -  F I X E D  E N T I T Y  - - - */
 
+/* unselected fixed map entities */
+.fixedEntities-container {
+  padding: 5px;
+	background-color: var(--grey-white);
+	border-radius: var(--XS_borderRadius);
+	border: solid 2px var(--grey_80);
+	margin: auto;
+	box-shadow: var(--overlaysShadows);
+}
 
+/* selected fixed map entity */
 .fixedEntities-container.selectedFixedMapEntity{
   border-radius: var(--XS_borderRadius);
   border: solid 3px var(--primary_base);
 }
 
-.selectedFixedEntityHeader ~ mimms_h3title{
-  color: var(--primary_base);
-}
-
-.selectedFixedEntityHeader{
-  color: var(--primary_base);
-}
-
-/* selected fixed map entity - close */
-
-.closedFixedMapEntity.selectedFixedMapEntity{
-  border: solid 3px var(--primary_base);
-  background-color: var(--primary_base);
-}
-
-/*** UNSELECTED ***/
-
-/* unselected fixed map entities  - open */
-.fixedEntities-container{
-	background-color: var(--grey_0);
-	border-radius: var(--XS_borderRadius);
-	border: solid 3px var(--grey_60);
-	margin: auto;
-	box-shadow:var(--overlaysShadows);
-}
-
-
-.fixedEntities-container .close-button {
-	background-color: transparent;
-	color: var(--grey_30);
-  transition: color .3s ease-in-out;
-}
-
-.fixedEntities-container .close-button:hover {
-	background-color: transparent;
-	color: var(--grey_70);
-}
-
-/* unselected fixed map entity - closed */
-
-.closedFixedMapEntity{
-  border: solid 3px var(--grey_60);
-  background-color: var(--grey_60);
-  pointer-events: auto;
-}
-
-.closedFixedMapEntityTitle{
-  color: var(--grey-white);
-  font-weight: var(--boldWeight);
-}
-
-/***** BUTTONS RESOURCES *****/
-
-/*** Buttons for resources in fixed map entities ***/
-.mimms_s_squareButton > button {
-  height: 2.2em;
-  font-family: var(--mainFont);
-  font-size: var(--SM_text);
+.fixed-entity-name {
+  font-size: var(--XS_text);
+  font-weight: var(--blackWeight);
   color: var(--grey_60);
-	background-color: var(--grey-10);
-  border: 2px solid var(--grey_60);
-  border-radius: var(--XS_borderRadius);
-  }
-
-
-/* no hover or active for unclickable buttons but we have to bypass wegas theme */
-  .mimms_s_squareButton > button:hover {
-    color: var(--grey_60);
-    background-color: transparent;
-    border-color: var(--grey_60);
-    box-shadow: none;
-    transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
-  }
-
-  .mimms_s_squareButton > button:active {
-    color: var(--grey_60);
-    background-color:var(--grey_0);
-    border-color: var(--grey_60);
-    box-shadow: none;
-  }
-
-  .mimms_s_squareButton > button:active:hover {
-    background-color:var(--grey_0);
-    border-color: var(--grey_60);
-  }
-
-  .mimms_s_squareButton > button:disabled {
-    color: var(--grey_40);
-    background-color: var(--grey_10);
-    border-color:var(--grey_10);
-    cursor: not-allowed;
-  }
-
-
-/* current resources */
-
-.mimms_s_squareButton.currentResources > button {
-  color: var(--grey_0);
-  background-color: var(--primary_base);
-  border-color: var(--primary_base);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
+  line-height: 16px;
 }
 
-.mimms_s_squareButton.currentResources > button:hover {
-  color: var(--grey_0);
-  border-color: var(--primary_base);
+.selectedFixedMapEntity .fixed-entity-name {
+  color: var(--primary_base);
 }
 
 
-.mimms_s_squareButton.currentResources > button:active {
-  color: var(--grey_0);
-  background-color: var(--primary_base);
-  border-color: var(--primary_base);
-  box-shadow: var(--buttonInsetShadow);
+/* - - - - -  R E S O U R C E S  B U T T O N  - - - */
+
+/* generic fixed entity close button */
+.close-generic-fixed-entity {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  width: 16px;
+  z-index: 1;
+}
+
+.close-generic-fixed-entity svg {
+  color: var(--grey_20);
 }
 
 /*  for resources at current actor's location while unselected */
-.mimms_s_squareButton.resourcesNearCurrentActor> button {
+.squareCounter-container.resourcesNearCurrentActor,
+.squareCounter-container.resourcesNearCurrentActor:hover,
+.squareCounter-container__unclickable.resourcesNearCurrentActor,
+/*  for patients at current actor's location */
+.squareCounter-container.currentPatients,
+.squareCounter-container.currentPatients:hover,
+.squareCounter-container__unclickable.currentPatients {
   color: var(--primary_base);
-  border-color: var(--primary_base);
+  background-color: var(--primary_10);
 }
 
-.squareCounter-container {
-	position: absolute;
-	top: -0.1em;
-	right: -.2em;
-	background-color: var(--grey_0);
-	color: var(--grey_60);
-	border: solid 1.5px var(--grey_60);
+.squareCounter-container,
+.squareCounter-container:hover {
+  padding: 3px;
+  font-size: var(--S_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+  background-color: var(--grey05);
+  border-radius: var(--XXS_borderRadius);
 	z-index: 2;
 }
 
-/* counter for resources at current actor's location while selected */
-.squareCounter-container.currentResourcesCounter{
-  color: var(--primary_base);
-  background-color: var(--primary_10);
-  border: solid 1.5px var(--primary_base);
+.squareCounter-container__unclickable,
+.squareCounter-container__unclickable:hover {
+  padding: 0;
+  font-size: var(--S_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+	background-color: var(--grey-white);
+  z-index: 2;
 }
 
-.squareCounter-container.counter-resourcesNearCurrentActor{
-  border-color: var(--primary_base);
-  color: var(--primary_base);
-}
-
-.squareCounter.counterText-resourcesNearCurrentActor{
-  color: var(--primary_base);
+/* red patients counter */
+.red-patients-counter {
+  padding: 0 3px;
+  color: #FD5050;
+  background-color: rgba(253, 80, 80, .2);
+  border-radius: var(--XXS_borderRadius);
 }

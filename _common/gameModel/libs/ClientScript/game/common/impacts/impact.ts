@@ -18,7 +18,7 @@ import {
   NotificationMessageImpact,
 } from './implementation/notificationImpact';
 import { convertRadioMessageImpact, RadioMessageImpact } from './implementation/radioImpact';
-import { FeedbackImpact } from './implementation/feedbackImpact';
+import { convertFeedbackImpact, FeedbackImpact } from './implementation/feedbackImpact';
 
 /**
  * Impacts are meant to produce local events that will in turn modify the state of the game
@@ -62,6 +62,8 @@ export function convertToLocalEvents(
       return convertNotificationImpact(state, impact, source, anchorTime);
     case 'radio':
       return convertRadioMessageImpact(state, impact, source, anchorTime);
+    case 'feedback':
+      return convertFeedbackImpact(state, impact, source);
     default:
       return [];
   }

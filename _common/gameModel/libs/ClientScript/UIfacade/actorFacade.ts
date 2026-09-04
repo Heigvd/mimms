@@ -2,7 +2,6 @@ import { Actor } from '../game/common/actors/actor';
 import { ActorId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { openOverlayItem } from '../gameMap/mapEntities';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
 import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
@@ -14,6 +13,7 @@ import {
 import { canActorPlanAction } from '../gameInterface/main';
 import { refreshActivableLayer, refreshSelectionLayer } from '../gameMap/main';
 import { OnTheRoadAction } from '../game/common/actions/actorActions';
+import { bringOverlayItemToFront } from './mapFacade';
 
 /**
  * @returns All currently present actors
@@ -38,7 +38,7 @@ export function selectActor(id: ActorId): InterfaceState {
 // used in page 43
 export function selectActorAndOpenMapLocation(id: ActorId): InterfaceState {
   const newState = selectActor(id);
-  openOverlayItem(getActorLocation(id)!);
+  bringOverlayItemToFront(getActorLocation(id)!);
   return newState;
 }
 

@@ -31,7 +31,7 @@ export const StandardMaximumIdleTime = OneMinuteDuration * 5;
 
 /**
  * Idle time for waiting task
-*/
+ */
 export const UnlimitedMaximumIdleTime = Number.MAX_SAFE_INTEGER;
 
 /**

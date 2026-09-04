@@ -1,5 +1,4 @@
-/***** NEW NOTIFICAITON PANEL ******/
-
+/* - - - - -  N O T I F I C A T I O N  P A N E L  - - - */
 .notificationPanel-container {
   position: absolute;
   bottom: 0;
@@ -16,6 +15,7 @@
   box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
+/* reuses the arrow shape defined in map.css (.fixedEntities-arrow), rotated to serve as a pointer for the notifications panel */
 .timeline-actors .fixedEntities-arrow {
   position: absolute;
   top: .75rem;
@@ -29,17 +29,14 @@
   z-index: -1;
 }
 
-/*** HEADER ***/
+/* header */
 .notificationPanelHeader {
   margin: 0;
 	font-size: var(--ML_text);
 	font-weight: var(--boldWeight);
 }
 
-.notificationPanel .close-button {
-  color: var(--colors-darktextcolor);
-}
-
+.notificationPanel .close-button,
 .notificationPanel .close-button:hover {
   color: var(--colors-darktextcolor);
 }
@@ -50,11 +47,7 @@
 }
 
 
-/****** NOTIFICATION BUTTONS ******/
-
-.notificationButton > * {
-	color: var(--grey_0);
-}
+/* - - - - -  N O T I F I C A T I O N  B U T T O N S  - - - */
 
 .notificationButton {
   justify-content: center;
@@ -63,9 +56,8 @@
   border-radius: 100%;
 }
 
-.notificationButton-container .openNotif-button {
-	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
-  border: none;
+.notificationButton svg {
+  color: var(--grey_0);
 }
 
 .notificationButton-container .openNotif-button,
@@ -73,9 +65,14 @@
 	background-color: var(--primary_base);
 }
 
+.notificationButton-container .openNotif-button {
+	box-shadow: var(--buttonShadow), var(--buttonInsetShadow);
+  border: none;
+}
+
 .notificationButton-container .unselectedNotif-button {
   border: 3px solid var(--primary_base);
-  transition: color .3s ease-in-out, background-color .3s ease-in-out, border .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: var(--button-transition);
 }
 
 .notificationButton-container .unselectedNotif-button:hover {
@@ -119,9 +116,9 @@
 }
 
 
-/***** A NOTIFICATION *****/
+/* - - - - -  N O T I F I C A T I O N  - - - */
 
-.aNotification-container{
+.aNotification-container {
 	background-color: var(--grey_0);
 	border-radius: var(--XS_borderRadius);
 }
@@ -129,6 +126,22 @@
 .aNotification {
   padding: 5px;
 }
+
+.notificationText {
+  font-size: var(--SM_text);
+}
+
+.notificationTime {
+  font-weight: var(--boldWeight);
+}
+
+.aMessage-animation {
+  animation-name: notifHighlight;
+  animation-duration: 2s;
+}
+
+
+/* - - - - -  A N I M A T I O N  - - - */
 
 @keyframes notifHighlight {
  	0% {
@@ -140,17 +153,4 @@
   100% {
     background-color: var(--grey_0);
     }
-}
-
-.aMessage-animation{
-  animation-name: notifHighlight;
-  animation-duration: 2s;
-}
-
-.notificationTime{
-  font-weight: var(--boldWeight);
-}
-
-.notificationText{
-  font-size: var(--SM_text);
 }

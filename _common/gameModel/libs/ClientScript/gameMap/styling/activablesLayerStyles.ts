@@ -7,7 +7,7 @@ import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
 
 export const DEFAULT_SELECTED_COLOR = '#3CA3CC';
-export const DEFAULT_UNSELECTED_COLOR = '#7f868a';
+export const DEFAULT_UNSELECTED_COLOR = '#323739';
 
 export interface MapColorConfig {
   color: string;
@@ -199,13 +199,6 @@ function getTextStyle(
 ): TextStyleObject {
   const [offsetX, offsetY] = getLabelOffset(feature);
   const { label } = feature.getProperties();
-  const textBackgroundStroke: StrokeStyleObject = {
-    type: 'StrokeStyle',
-    color: colors.color + floatToHexByte(colors.opacity),
-    lineCap: 'round',
-    lineJoin: 'round',
-    width: 12,
-  };
   const text: TextStyleObject = {
     type: 'TextStyle',
     font: 'bold 10px sans-serif',
@@ -216,9 +209,15 @@ function getTextStyle(
     textAlign: 'center',
     fill: {
       type: 'FillStyle',
-      color: 'white',
+      color: colors.color + floatToHexByte(colors.opacity),
     },
-    backgroundStroke: textBackgroundStroke,
+    stroke: {
+      type: 'StrokeStyle',
+      color: 'white',
+      lineCap: 'round',
+      lineJoin: 'round',
+      width: 2,
+    },
     //scale: 1.6,
   };
   return text;

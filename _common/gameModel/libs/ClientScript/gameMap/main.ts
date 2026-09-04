@@ -1,12 +1,14 @@
+import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
-import { bringOverlayItemToFront, toggleOverlayItem } from '../gameMap/mapEntities';
+import { entries } from '../tools/helper';
 import { Point } from '../tools/point2D';
 import {
   getAvailableActionTemplateById,
   isChoiceTemplate,
   updateChoice,
 } from '../UIfacade/actionFacade';
+import { bringOverlayItemToFront } from '../UIfacade/mapFacade';
 
 const logger = Helpers.getLogger('mainSim.map');
 
@@ -38,9 +40,17 @@ function printView(): void {
   logger.debug('Zoom', map.getView().getZoom());
 }
 
+export type FixedEntityContentType = 'resources' | 'patients' | 'none';
+
+export interface OverlayItemState {
+  // used to order overlay items, higher index is brought to front
+  index: number;
+  openContent: FixedEntityContentType;
+}
+
 export interface MapState {
   mapSelect: boolean;
-  overlayState: LOCATION_ENUM[];
+  overlayState: Record<LOCATION_ENUM, OverlayItemState>;
 }
 
 export function getTypedMapState(): MapState {
@@ -49,13 +59,23 @@ export function getTypedMapState(): MapState {
 
 /**
  * Get initial empty MapState object
+ * By default, all locations that can have ressources are open
  *
  * @returns initialMapState
  */
 export function getInitialMapState(): MapState {
+  const locations = entries(locationEnumConfig)
+    .filter(([_k, config]) => config.accessibility.Resources || config.accessibility.Patients)
+    .map(([k, _v]) => k);
+
+  const overlayState = locations.reduce((acc, location, i) => {
+    acc[location] = { index: i, openContent: 'none' };
+    return acc;
+  }, {} as Record<LOCATION_ENUM, OverlayItemState>);
+
   return {
     mapSelect: false,
-    overlayState: [LOCATION_ENUM.chantier],
+    overlayState,
   };
 }
 
@@ -64,7 +84,7 @@ export function getInitialMapState(): MapState {
  */
 function clearMapState() {
   const newState = getInitialMapState();
-  newState.overlayState = getTypedMapState()?.overlayState || [];
+  newState.overlayState = getTypedMapState()?.overlayState || newState.overlayState;
   Context.mapState.setState(newState);
   refreshActivableLayer();
 }
@@ -120,7 +140,6 @@ export function handleMapClick(
     const mapActivable = features.find(f => f.layerId === 'activables');
     if (mapActivable) {
       const mapEntityId = mapActivable.feature['binding'] as LOCATION_ENUM;
-      toggleOverlayItem(mapEntityId);
       bringOverlayItemToFront(mapEntityId);
     }
   }

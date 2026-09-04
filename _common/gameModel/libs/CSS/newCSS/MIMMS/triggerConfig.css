@@ -66,7 +66,7 @@ Could be moved in genericItem.css file if reused elsewhere */
   padding: 6px 12px;
   border: 1px solid var(--primary_base);
   border-radius: var(--S_borderRadius);
-  transition: background-color .3s ease-in-ou, border .3s ease-in-out;
+  transition: background-color .3s ease-in-out, border .3s ease-in-out;
 }
 
 .notif-receiver:hover {

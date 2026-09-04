@@ -181,7 +181,7 @@
                   "type" : "FlexList"
                 }, {
                   "props" : {
-                    "className" : " button-S button-secondaryColor ",
+                    "className" : " button-S button-neutralColor ",
                     "disableIf" : {
                       "@class" : "Script",
                       "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",

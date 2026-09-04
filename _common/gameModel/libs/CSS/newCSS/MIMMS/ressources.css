@@ -1,48 +1,18 @@
-/********************** containers ***********************************************/
+/* - - - - -  C O N T A I N E R S  - - - */
 
-.resourcesPanel-container {
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-}
-
-.resourcesDropdowns{
+.resourcesDropdowns {
   padding-top: 0px;
   padding-bottom: 0px;
 }
-/********************** resources list ***********************************************/
 
-.actionResources {
-	gap: 10px;
-}
 
-/********************** one resource ***********************************************/
+/* - - - - -  O N E  R E S O U R C E  - - - */
 
-/* make the total number of a type of ressources aligned with the number inpupt box*/
-.selectableRessources{
+/* make the total number of a type of ressources aligned with the number input box */
+.selectableRessources {
   display: flex;
   align-items: center;
 }
-
-.resourceCounter-container {
-	width: 1.5em;
-	height: 1.5em;
-	background-color: var(--grey-white);
-	color: var(--grey_70);
-	border: 1px solid var(--grey_70);
-	border-radius: 100%;
-}
-
-.resourceCounter {
-	margin: auto;
-	font-size: var(--S_text);
-	font-weight: var(--boldWeight);
-}
-
-/* used to make one row of two blue*/
-.evenOddList-container:nth-of-type(even){
-  background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
- }
 
 .resourceTypeChosenNumber {
   width: 2.5rem;
@@ -52,34 +22,81 @@
   font-size: 12px;
 }
 
-/****** ressources ******/
-
-.resourcesPanel-container{
-	width:auto;
-	height: auto;
+/* used to make one row of two blue */
+.evenOddList-container:nth-of-type(even) {
+  background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
 }
 
-.greyRessources > *{
-	color: var(--grey_0);
-	border-color: var(--grey_0);
-}
-
-.presentResources{
+/* resource management panel */
+.presentResources {
   font-weight: var(--boldWeight);
-}
-
-.resourcesManagement {
-  gap: 10px;
 }
 
 .resourcesManagement-container {
   width: 100%;
 }
 
-.resourcesSelectionAssignment {
-  gap: 5px;
+.resourcesManagement {
+  gap: 10px;
 }
 
 .resourcesSelectionAssignment-container {
   padding: 0 10px 10px 10px;
+}
+
+.resourcesSelectionAssignment {
+  gap: 5px;
+}
+
+/* resources in generic fixed entities */
+.resource-assignment__container {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+  padding-top: 15px;
+}
+
+.resources__label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  padding: 0 5px;
+  font-size: var(--S_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+  background-color: var(--grey-white);
+  border: 1px solid var(--grey_20);
+  border-radius: var(--XXS_borderRadius);
+  z-index: 2;
+}
+
+.resource__task {
+  width: 100%;
+  min-height: 30.4px;
+  padding: 5px;
+  border: 1px solid var(--grey_20);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.resource__task svg {
+  color: var(--grey_30);
+}
+
+.resource-type {
+  display: flex;
+  gap: 10px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_base);
+}
+
+.resource-type__number {
+  font-size: 13px;
+  font-weight: var(--boldWeight);
+  color: var(--grey_80);
+  line-height: 10px;
+}
+
+.resource-type svg {
+  color: var(--grey_80);
 }

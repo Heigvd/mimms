@@ -259,11 +259,7 @@ export function canBeDeleted(item: FlatTypes): boolean {
     return !item.mandatory;
   }
 
-  if (isLockedInPlace(item)) {
-    return false;
-  }
-
-  return true;
+  return !isLockedInPlace(item);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

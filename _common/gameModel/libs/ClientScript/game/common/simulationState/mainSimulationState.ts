@@ -12,7 +12,7 @@ import { PatientState } from './patientState';
 import { HospitalState } from './hospitalState';
 import { getContainersDefinitions } from '../../loaders/resourceLoader';
 import { GameOptions } from '../gameOptions';
-import { Activable } from '../simulationState/activableState';
+import { Activable } from './activableState';
 import { Uid } from '../interfaces';
 import { PretriageSnapShot } from '../patients/pretriageUtils';
 

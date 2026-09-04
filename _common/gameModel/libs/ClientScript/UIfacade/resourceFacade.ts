@@ -1,10 +1,15 @@
+import { TaskId } from '../game/common/baseTypes';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
   ResourceType,
 } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
+import {
+  getFreeResourcesByTypeLocationAndTask,
+  getResourcesByTask,
+} from '../game/common/simulationState/resourceStateAccess';
+import * as TaskLogic from '../game/common/tasks/taskLogic';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   getTypedInterfaceState,
@@ -180,4 +185,24 @@ export function currentCountAvailableResources(): number {
   const taskId = +Context.interfaceState.state.resources[key].currentTaskId;
   const resourceType: ResourceType = Context.resourceType.enum;
   return countAvailableResourcesToAllocate(location, taskId, resourceType);
+}
+
+/**
+ * Counts resources of the given type currently assigned to the given task, physically present
+ * at the given location (excludes resources still traveling there).
+ */
+export function getResourceCountForTaskAndType(
+  taskId: TaskId,
+  location: LOCATION_ENUM,
+  resourceType: ResourceType
+): number {
+  const state = getCurrentState();
+  const travelingTaskId = TaskLogic.getMoveToTaskUid(state, location);
+
+  return getResourcesByTask(state, taskId).filter(
+    resource =>
+      resource.type === resourceType &&
+      resource.currentLocation === location &&
+      resource.currentActivity !== travelingTaskId
+  ).length;
 }

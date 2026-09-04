@@ -46,7 +46,7 @@ export class MapChoiceAction extends ChoiceAction {
       ownerId,
       templateUid,
       provideFlagsToState,
-      choice,
+      choice
     );
     this.binding = binding;
   }

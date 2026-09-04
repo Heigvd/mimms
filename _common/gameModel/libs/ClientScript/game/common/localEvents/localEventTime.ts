@@ -3,11 +3,11 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { isTimeForwardReady } from '../simulationState/timeState';
 import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
-import { registerOpenSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 import { TimeSliceDuration } from '../constants';
 import { computeNewPatientsState } from '../patients/handleState';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { LocalEventBase, SourceType } from './localEventBase';
+import { registerOpenSelectedActorPanelAfterMove as registerBringToFrontSelectedActorPanelAfterMove } from '../../../gameInterface/afterUpdateCallbacks';
 
 /**
  * When applied to state, checks if on site actors can still plan or no.
@@ -46,7 +46,7 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
       const generatedLocalEvents = evaluateAllTriggers(state);
       getLocalEventManager().queueLocalEvents(generatedLocalEvents);
 
-      registerOpenSelectedActorPanelAfterMove();
+      registerBringToFrontSelectedActorPanelAfterMove();
 
       // Creates new request to check again
       const tfw = new TimeForwardRequestLocalEvent({
