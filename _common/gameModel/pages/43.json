@@ -61,6 +61,52 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "header-button",
+                                "icon" : "fast-forward",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>1<br></p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { triggerDashboardTimeForwardGame } from \"./dashboard/impacts\";\n  triggerDashboardTimeForwardGame(60, (_) => {});",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "forward 1 min",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button",
+                                "icon" : "fast-forward",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>5</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { triggerDashboardTimeForwardGame } from \"./dashboard/impacts\";\n  triggerDashboardTimeForwardGame(5*60, (_) => {});",
+                                    "language" : "TypeScript",
+                                    "returnType" : "Promise<unknown> | undefined"
+                                  }
+                                },
+                                "name" : "forward 5 min",
+                                "style" : { }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Undo</p>\"",
