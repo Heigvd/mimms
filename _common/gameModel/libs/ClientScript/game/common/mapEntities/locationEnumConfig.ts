@@ -11,7 +11,7 @@ export interface LocationEnumConfig {
   name: TranslationKey;
   leaderRoles: InterventionRole[];
   accessibility: LocationAccessibility;
-  icon?: string; // TODO Do we need this or is it only for overlayed locations ?
+  icon?: string;
 }
 
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
@@ -91,4 +91,4 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
   },
-};
+}

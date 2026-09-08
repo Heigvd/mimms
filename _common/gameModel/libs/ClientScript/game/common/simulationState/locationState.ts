@@ -27,7 +27,7 @@ export enum LOCATION_ENUM {
  *
  * @returns MapEntityActivable[]
  */
-function getMapEntityActivables(state: Readonly<MainSimulationState>): MapEntityActivable[] {
+export function getMapEntityActivables(state: Readonly<MainSimulationState>): MapEntityActivable[] {
   const activables = state.getInternalStateObject().activables;
 
   return Object.values(activables).filter(

@@ -1721,7 +1721,7 @@
                                         "exposeAs" : "overlayItem",
                                         "getItemsFn" : {
                                           "@class" : "Script",
-                                          "content" : "import { getOverlayItems } from \"./UIfacade/mapFacade\";\n  getOverlayItems().map(item => item.payload);",
+                                          "content" : "import { getAccessibleLocationsInfo } from \"./UIfacade/locationFacade\";\n  getAccessibleLocationsInfo('Resources');",
                                           "language" : "TypeScript"
                                         },
                                         "itemKey" : "id",

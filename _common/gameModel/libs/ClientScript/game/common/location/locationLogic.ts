@@ -1,6 +1,12 @@
 import { getTranslation } from '../../../tools/translation';
+import { getActorsByLocation } from '../../../UIfacade/actorFacade';
+import { Actor } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
-import { LOCATION_ENUM } from '../simulationState/locationState';
+import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
+import { Resource } from '../resources/resource';
+import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import * as ResourceState from '../simulationState/resourceStateAccess';
 
 // -------------------------------------------------------------------------------------------------
 // translations
@@ -13,33 +19,46 @@ export function getLocationShortTranslation(location: LOCATION_ENUM): string {
   return getTranslation(translationCategory, key + '-short');
 }
 
-// XGO TODO 11.2025 : Recovered. Was deleted for some unknown reason by Mikkel
-// see if broken or not dashboard related (MIM-517)
 export function getLocationLongTranslation(location: LOCATION_ENUM): string {
   const key: TranslationKey = `location-${location.toLowerCase()}`;
   return getTranslation(translationCategory, key);
 }
 
-// -------------------------------------------------------------------------------------------------
-// selection
-// -------------------------------------------------------------------------------------------------
-// TODO implement replacement function
-// export function getIndexOfSelectedChoice(mapLocation: FixedMapEntity): number | undefined {
-//   const fixedMapEntity: FixedMapEntity = createFixedMapEntityInstanceFromAnyObject(mapLocation);
-//   const selectedPosition = fixedMapEntity.getGeometricalShape().selectedPosition;
-//   const availablePositions = fixedMapEntity.getGeometricalShape().availablePositions ?? [];
-//
-//   let result: number | undefined = undefined;
-//   availablePositions.forEach((position: SelectedPositionType, index: number) => {
-//     // FIXME is there a less dirty way to compare ?
-//     if (JSON.stringify(position) === JSON.stringify(selectedPosition)) {
-//       result = index;
-//     }
-//   });
-//
-//   return result;
-// }
+export interface LocationInfo {
+  id: LOCATION_ENUM,
+  name: string,
+  icon: typeof locationEnumConfig[LOCATION_ENUM]['icon'],
+  actors: Actor[],
+  resources: Resource[],
+  ambulances: Resource[],
+  helicopters: Resource[],
+}
 
-// -------------------------------------------------------------------------------------------------
-//
-// -------------------------------------------------------------------------------------------------
+export function fetchLocationInfo(currentState: Readonly<MainSimulationState>, binding: LOCATION_ENUM): LocationInfo | undefined {
+
+  const mapActivable = getActiveMapEntityFromBinding(currentState, binding);
+
+  if(mapActivable){
+    return {
+      id: mapActivable.binding,
+      name: getLocationLongTranslation(mapActivable.binding) || 'missing name for ' + mapActivable.binding,
+      icon: locationEnumConfig[binding].icon,
+      actors: getActorsByLocation(mapActivable.binding),
+      resources: ResourceState.getFreeHumanResourcesByLocation(
+        currentState,
+        mapActivable.binding
+      ),
+      ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
+        currentState,
+        'ambulance',
+        mapActivable.binding
+      ),
+      helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
+        currentState,
+        'helicopter',
+        mapActivable.binding
+      ),
+    }
+  }
+
+}
