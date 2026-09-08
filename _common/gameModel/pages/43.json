@@ -1098,6 +1098,72 @@
                                                                         "style" : { }
                                                                       },
                                                                       "type" : "FlexList"
+                                                                    }, {
+                                                                      "props" : {
+                                                                        "children" : [ {
+                                                                          "props" : {
+                                                                            "className" : "unactivables-overlay__button",
+                                                                            "icon" : "minus",
+                                                                            "label" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "\"\"",
+                                                                              "language" : "TypeScript"
+                                                                            },
+                                                                            "layoutClassName" : "noPadding",
+                                                                            "layoutStyle" : { },
+                                                                            "name" : "minus",
+                                                                            "style" : { }
+                                                                          },
+                                                                          "type" : "Button"
+                                                                        }, {
+                                                                          "props" : {
+                                                                            "className" : "unactivables-overlay__input",
+                                                                            "layoutClassName" : "noPadding",
+                                                                            "layoutStyle" : { },
+                                                                            "name" : "input",
+                                                                            "onVariableChange" : { },
+                                                                            "placeholder" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "\"0\"",
+                                                                              "language" : "TypeScript"
+                                                                            },
+                                                                            "script" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum)",
+                                                                              "language" : "TypeScript"
+                                                                            },
+                                                                            "style" : { }
+                                                                          },
+                                                                          "type" : "Number input"
+                                                                        }, {
+                                                                          "props" : {
+                                                                            "className" : "unactivables-overlay__button",
+                                                                            "icon" : "plus",
+                                                                            "label" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "\"\"",
+                                                                              "language" : "TypeScript"
+                                                                            },
+                                                                            "layoutClassName" : "noPadding",
+                                                                            "layoutStyle" : { },
+                                                                            "name" : "plus",
+                                                                            "style" : { }
+                                                                          },
+                                                                          "type" : "Button"
+                                                                        } ],
+                                                                        "className" : "resourcesSelectionAssignment",
+                                                                        "hideIf" : {
+                                                                          "@class" : "Script",
+                                                                          "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id)",
+                                                                          "language" : "typescript"
+                                                                        },
+                                                                        "layout" : { },
+                                                                        "layoutClassName" : "noPadding",
+                                                                        "layoutStyle" : { },
+                                                                        "name" : "input",
+                                                                        "style" : { }
+                                                                      },
+                                                                      "type" : "FlexList"
                                                                     } ],
                                                                     "className" : "resource-type",
                                                                     "hideIf" : {
@@ -1106,6 +1172,7 @@
                                                                       "language" : "typescript"
                                                                     },
                                                                     "layout" : {
+                                                                      "alignItems" : "center",
                                                                       "justifyContent" : "space-between"
                                                                     },
                                                                     "layoutClassName" : "noPadding ",
@@ -1133,6 +1200,7 @@
                                                               "type" : "For each"
                                                             }, {
                                                               "props" : {
+                                                                "className" : "noPadding",
                                                                 "hideIf" : {
                                                                   "@class" : "Script",
                                                                   "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
@@ -1147,20 +1215,49 @@
                                                                 "layoutClassName" : "noPadding",
                                                                 "layoutStyle" : { },
                                                                 "name" : "add",
-                                                                "style" : { }
+                                                                "style" : {
+                                                                  "height" : "18.4px"
+                                                                }
                                                               },
                                                               "type" : "Button"
                                                             } ],
                                                             "className" : "fullWidth resource__task",
+                                                            "conditionnalClassNames" : [ {
+                                                              "applyOn" : "Inside",
+                                                              "className" : "resource__task--edit",
+                                                              "condition" : {
+                                                                "@class" : "Script",
+                                                                "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id)",
+                                                                "language" : "typescript"
+                                                              }
+                                                            } ],
                                                             "layout" : {
                                                               "flexDirection" : "column"
                                                             },
                                                             "layoutClassName" : "noPadding",
                                                             "layoutStyle" : { },
                                                             "name" : "task",
-                                                            "style" : { }
+                                                            "style" : {
+                                                              "minWidth" : "180px"
+                                                            }
                                                           },
                                                           "type" : "FlexList"
+                                                        } ],
+                                                        "className" : "",
+                                                        "computedClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { getTasksForLocation } from \"./UIfacade/taskFacade\";\n  getTasksForLocation(Context.overlayItem.id).length > 1 ? 'resource__task-list--multi' : '';",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Outside",
+                                                          "className" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { getTasksForLocation } from \"./UIfacade/taskFacade\";\n  getTasksForLocation(Context.overlayItem.id).length > 1 ? 'resource__task-list--multi' : '';",
+                                                            "language" : "TypeScript"
+                                                          }
                                                         } ],
                                                         "exposeAs" : "task",
                                                         "getItemsFn" : {
@@ -1169,13 +1266,14 @@
                                                           "language" : "TypeScript"
                                                         },
                                                         "itemKey" : "Uid",
-                                                        "layout" : { },
-                                                        "layoutClassName" : "noPadding",
+                                                        "layout" : {
+                                                          "flexWrap" : "wrap"
+                                                        },
+                                                        "layoutClassName" : "noPadding resource__task-list",
                                                         "layoutStyle" : { },
                                                         "name" : "task",
                                                         "style" : {
-                                                          "flexDirection" : "column",
-                                                          "gap" : "20px"
+                                                          "gap" : "20px 10px"
                                                         }
                                                       },
                                                       "type" : "For each"
@@ -1595,8 +1693,8 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "className" : "",
-                                                    "layoutClassName" : "noPadding unactivables-overlay__icon",
+                                                    "className" : "unactivables-overlay__icon",
+                                                    "layoutClassName" : "noPadding unactivables-overlay__icon-container",
                                                     "layoutStyle" : { },
                                                     "name" : "Icon",
                                                     "script" : {

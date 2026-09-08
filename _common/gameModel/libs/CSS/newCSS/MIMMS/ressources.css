@@ -29,14 +29,31 @@ container element does not actually wrap the content */
   opacity: 75%;
 }
 
-.unactivables-overlay__icon,
 .unactivables-overlay__icon-container {
   width: 1.5rem;
   height: 1.5rem;
+  transform: translate(-50%, .5rem);
 }
 
 .unactivables-overlay__icon {
-  transform: translate(-50%, 0);
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+.unactivables-overlay__button.iconOnly {
+  padding: 2.5px;
+  color: var(--grey_80);
+  background-color: #F1F1F1;
+  border-radius: var(--XS_borderRadius);
+}
+
+.unactivables-overlay__input {
+  width: 1.5rem;
+  min-width: 1rem;
+  font-size: var(--XS_text);
+  color: #8A8A8A;
+  border: 1px solid var(--colors-disabledcolor);
 }
 
 /* display */
@@ -129,6 +146,21 @@ container element does not actually wrap the content */
   gap: 5px;
 }
 
+.resource__task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  justify-content: start;
+  gap: 0;
+  width: fit-content;
+  min-width: 180px;
+  box-sizing: border-box;
+}
+
+/* 2 or more tasks: widen to fit 2 columns of 180px (extra tasks wrap to new rows) */
+.resource__task-list--multi {
+  width: 370px;
+}
+
 /* resources in generic fixed entities */
 .resource-assignment__container {
   display: flex;
@@ -153,10 +185,20 @@ container element does not actually wrap the content */
 
 .resource__task {
   width: 100%;
+  box-sizing: border-box;
   min-height: 30.4px;
   padding: 5px;
   border: 1px solid var(--grey_20);
   border-radius: var(--XXS_borderRadius);
+}
+
+.resource__task--edit {
+  border: 1px dashed var(--grey_20);
+}
+
+.resource__task--edit-animation {
+  border: 1px dashed var(--primary_base);
+  animation: resource__task--edit-animation 2.5s ease-in-out infinite;
 }
 
 .resource__task svg {
@@ -180,4 +222,14 @@ container element does not actually wrap the content */
 
 .resource-type svg {
   color: var(--grey_80);
+}
+
+
+/* - - - - -  A N I M A T I O N  - - - */
+
+@keyframes resource__task--edit-animation {
+  0%   {box-shadow: none;}
+  40%  {box-shadow: 0 4px 8px 0 rgb(var(--primary_base) / 0.2), 0 6px 20px 0 rgb(var(--primary_base) / 0.2);}
+  60%  {box-shadow: none;}
+  100% {box-shadow: none;}
 }
