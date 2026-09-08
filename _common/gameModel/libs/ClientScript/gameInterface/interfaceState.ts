@@ -41,6 +41,7 @@ export interface InterfaceState {
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  showResourcesManagementModal: boolean;
   selectedPatient: PatientId | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
@@ -120,6 +121,7 @@ export function getInitialInterfaceState(): InterfaceState {
     customDurations: {},
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    showResourcesManagementModal: false,
     selectedPatient: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,

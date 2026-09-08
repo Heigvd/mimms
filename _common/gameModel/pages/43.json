@@ -911,6 +911,927 @@
                               "type" : "FlexList"
                             }, {
                               "props" : {
+                                "attachedToId" : "globalInterfaceId",
+                                "children" : [ {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "className" : "close-generic-fixed-entity",
+                                        "icon" : "times",
+                                        "label" : {
+                                          "@class" : "Script",
+                                          "content" : "\"\"",
+                                          "language" : "TypeScript"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { closeResourcesManagementModal } from \"./UIfacade/resourceFacade\";\n\ncloseResourcesManagementModal();",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "name" : "close",
+                                        "style" : { }
+                                      },
+                                      "type" : "Button"
+                                    }, {
+                                      "props" : {
+                                        "className" : "noMargin resources-management__title",
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "name" : "Resources flow",
+                                        "style" : { },
+                                        "text" : {
+                                          "@class" : "Script",
+                                          "content" : "\"<p>Flux des ressources</p>\"",
+                                          "language" : "TypeScript"
+                                        }
+                                      },
+                                      "type" : "Text"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "close-generic-fixed-entity",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "icon" : "times",
+                                                    "label" : {
+                                                      "@class" : "Script",
+                                                      "content" : "\"\"",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "localScriptEval" : {
+                                                      "script" : {
+                                                        "@class" : "ClientScript",
+                                                        "content" : "import { closeFixedEntityPanel } from \"./UIfacade/mapFacade\";\n\ncloseFixedEntityPanel(Context.overlayItem.id)",
+                                                        "language" : "TypeScript"
+                                                      }
+                                                    },
+                                                    "name" : "close",
+                                                    "stopPropagation" : true,
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Button"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "fixed-entity-name",
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "location",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "  Context.overlayItem.name;",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "children" : [ {
+                                                              "props" : {
+                                                                "className" : "noMargin resources__label",
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "label",
+                                                                "style" : { },
+                                                                "text" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "Context.task.title.replace(/^soins des patients\\s*/i, 'Soins ').trim();",
+                                                                  "language" : "TypeScript"
+                                                                }
+                                                              },
+                                                              "type" : "Text"
+                                                            }, {
+                                                              "props" : {
+                                                                "children" : [ {
+                                                                  "props" : {
+                                                                    "children" : [ {
+                                                                      "props" : {
+                                                                        "className" : "noMargin",
+                                                                        "layoutClassName" : "noPadding",
+                                                                        "layoutStyle" : { },
+                                                                        "name" : "resource type",
+                                                                        "style" : { },
+                                                                        "text" : {
+                                                                          "@class" : "Script",
+                                                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-resources', '' + Context.resourceType.enum);",
+                                                                          "language" : "TypeScript"
+                                                                        }
+                                                                      },
+                                                                      "type" : "Text"
+                                                                    }, {
+                                                                      "props" : {
+                                                                        "children" : [ {
+                                                                          "props" : {
+                                                                            "className" : "noMargin resource-type__number",
+                                                                            "layoutClassName" : "noPadding",
+                                                                            "layoutStyle" : { },
+                                                                            "name" : "number",
+                                                                            "style" : { },
+                                                                            "text" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n`${getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum)}`;",
+                                                                              "language" : "TypeScript"
+                                                                            }
+                                                                          },
+                                                                          "type" : "Text"
+                                                                        }, {
+                                                                          "props" : {
+                                                                            "children" : [ {
+                                                                              "props" : {
+                                                                                "children" : [ {
+                                                                                  "props" : {
+                                                                                    "icon" : "user",
+                                                                                    "layoutClassName" : "noPadding",
+                                                                                    "layoutStyle" : { },
+                                                                                    "style" : { }
+                                                                                  },
+                                                                                  "type" : "Icon"
+                                                                                } ],
+                                                                                "layout" : { },
+                                                                                "layoutClassName" : "noPadding",
+                                                                                "layoutStyle" : { },
+                                                                                "name" : "resource",
+                                                                                "style" : { }
+                                                                              },
+                                                                              "type" : "FlexList"
+                                                                            } ],
+                                                                            "exposeAs" : "resourceIcon",
+                                                                            "getItemsFn" : {
+                                                                              "@class" : "Script",
+                                                                              "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n  Array.from({ length: getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) }, (_, i) => ({ id: i }));",
+                                                                              "language" : "TypeScript"
+                                                                            },
+                                                                            "itemKey" : "id",
+                                                                            "layout" : { },
+                                                                            "layoutClassName" : "noPadding",
+                                                                            "layoutStyle" : { },
+                                                                            "name" : "resource",
+                                                                            "style" : { }
+                                                                          },
+                                                                          "type" : "For each"
+                                                                        } ],
+                                                                        "className" : "",
+                                                                        "layout" : {
+                                                                          "alignItems" : "center"
+                                                                        },
+                                                                        "layoutClassName" : "noPadding",
+                                                                        "layoutStyle" : { },
+                                                                        "name" : "number",
+                                                                        "style" : { }
+                                                                      },
+                                                                      "type" : "FlexList"
+                                                                    } ],
+                                                                    "className" : "resource-type",
+                                                                    "hideIf" : {
+                                                                      "@class" : "Script",
+                                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) === 0;",
+                                                                      "language" : "typescript"
+                                                                    },
+                                                                    "layout" : {
+                                                                      "justifyContent" : "space-between"
+                                                                    },
+                                                                    "layoutClassName" : "noPadding ",
+                                                                    "layoutStyle" : { },
+                                                                    "name" : "resource type",
+                                                                    "style" : { }
+                                                                  },
+                                                                  "type" : "FlexList"
+                                                                } ],
+                                                                "exposeAs" : "resourceType",
+                                                                "getItemsFn" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "import { getHumanResourceTypes } from \"./UIfacade/resourceFacade\";\n  getHumanResourceTypes().map(type => ({enum: type}));",
+                                                                  "language" : "TypeScript"
+                                                                },
+                                                                "itemKey" : "enum",
+                                                                "layout" : { },
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "resource type",
+                                                                "style" : {
+                                                                  "flexDirection" : "column"
+                                                                }
+                                                              },
+                                                              "type" : "For each"
+                                                            }, {
+                                                              "props" : {
+                                                                "hideIf" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
+                                                                  "language" : "typescript"
+                                                                },
+                                                                "icon" : "plus",
+                                                                "label" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "\"\"",
+                                                                  "language" : "TypeScript"
+                                                                },
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "add",
+                                                                "style" : { }
+                                                              },
+                                                              "type" : "Button"
+                                                            } ],
+                                                            "className" : "fullWidth resource__task",
+                                                            "layout" : {
+                                                              "flexDirection" : "column"
+                                                            },
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "task",
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "FlexList"
+                                                        } ],
+                                                        "exposeAs" : "task",
+                                                        "getItemsFn" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getTasksForLocation } from \"./UIfacade/taskFacade\";\n  getTasksForLocation(Context.overlayItem.id);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "itemKey" : "Uid",
+                                                        "layout" : { },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "task",
+                                                        "style" : {
+                                                          "flexDirection" : "column",
+                                                          "gap" : "20px"
+                                                        }
+                                                      },
+                                                      "type" : "For each"
+                                                    }, {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "children" : [ {
+                                                              "props" : {
+                                                                "icon" : "comment",
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "on site",
+                                                                "style" : { }
+                                                              },
+                                                              "type" : "Icon"
+                                                            }, {
+                                                              "props" : {
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "radio",
+                                                                "script" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "\"/walkie-talkie-solid.svg\"",
+                                                                  "language" : "TypeScript"
+                                                                },
+                                                                "style" : { }
+                                                              },
+                                                              "type" : "Image"
+                                                            }, {
+                                                              "props" : {
+                                                                "className" : "noMargin actionName",
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "actionName",
+                                                                "style" : { },
+                                                                "text" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "\"<p>Assign</p>\"",
+                                                                  "language" : "TypeScript"
+                                                                }
+                                                              },
+                                                              "type" : "Text"
+                                                            } ],
+                                                            "className" : "resourcesSelectionAssignment",
+                                                            "layout" : {
+                                                              "alignItems" : "center"
+                                                            },
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "actionName",
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "FlexList"
+                                                        }, {
+                                                          "props" : {
+                                                            "className" : "noMargin",
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "taskDuration",
+                                                            "style" : { },
+                                                            "text" : {
+                                                              "@class" : "Script",
+                                                              "content" : "\"<p>1'</p>\"",
+                                                              "language" : "TypeScript"
+                                                            }
+                                                          },
+                                                          "type" : "Text"
+                                                        } ],
+                                                        "className" : "actionHeader resourcesSelectionAssignment interactive",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "actionHeaderDisabled",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { canPlanAction, isPlannedAction } from \"./gameInterface/main\";\n !canPlanAction() && !isPlannedAction(Context.action.uid);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "true;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "layout" : {
+                                                          "justifyContent" : "space-between"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "assign action",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "FlexList"
+                                                    } ],
+                                                    "className" : "fullWidth resource-assignment__container",
+                                                    "layout" : {
+                                                      "flexDirection" : "column"
+                                                    },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "resources",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "children" : [ {
+                                                              "props" : {
+                                                                "className" : "noMargin",
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "label",
+                                                                "style" : { },
+                                                                "text" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "Context.item.label;",
+                                                                  "language" : "TypeScript"
+                                                                }
+                                                              },
+                                                              "type" : "Text"
+                                                            }, {
+                                                              "props" : {
+                                                                "children" : [ {
+                                                                  "props" : {
+                                                                    "children" : [ {
+                                                                      "props" : {
+                                                                        "icon" : "user",
+                                                                        "layoutClassName" : "noPadding",
+                                                                        "layoutStyle" : { },
+                                                                        "style" : { }
+                                                                      },
+                                                                      "type" : "Icon"
+                                                                    } ],
+                                                                    "layout" : { },
+                                                                    "layoutClassName" : "noPadding",
+                                                                    "layoutStyle" : { },
+                                                                    "name" : "patients",
+                                                                    "style" : { }
+                                                                  },
+                                                                  "type" : "FlexList"
+                                                                } ],
+                                                                "exposeAs" : "patientIcon",
+                                                                "getItemsFn" : {
+                                                                  "@class" : "Script",
+                                                                  "content" : "  Array.from({ length: Context.item.count }, (_, i) => ({ id: i }));",
+                                                                  "language" : "TypeScript"
+                                                                },
+                                                                "itemKey" : "id",
+                                                                "layout" : { },
+                                                                "layoutClassName" : "noPadding",
+                                                                "layoutStyle" : { },
+                                                                "name" : "patient",
+                                                                "style" : { }
+                                                              },
+                                                              "type" : "For each"
+                                                            } ],
+                                                            "className" : "patient-color",
+                                                            "computedClassNames" : [ {
+                                                              "applyOn" : "Inside",
+                                                              "className" : {
+                                                                "@class" : "Script",
+                                                                "content" : "import { getPatientCategoryColorClassName } from \"./UIfacade/patientSnapshotFacade\";\n  getPatientCategoryColorClassName(Context.item.categoryId)",
+                                                                "language" : "TypeScript"
+                                                              }
+                                                            } ],
+                                                            "layout" : {
+                                                              "alignItems" : "center",
+                                                              "justifyContent" : "space-between"
+                                                            },
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "name" : "color",
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "FlexList"
+                                                        } ],
+                                                        "exposeAs" : "item",
+                                                        "getItemsFn" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getPatientCategoryColorLegend } from \"./UIfacade/patientSnapshotFacade\";\n  getPatientCategoryColorLegend(Context.overlayItem.id);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "itemKey" : "categoryId",
+                                                        "layout" : { },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "color",
+                                                        "style" : {
+                                                          "flexDirection" : "column",
+                                                          "gap" : "5px"
+                                                        }
+                                                      },
+                                                      "type" : "For each"
+                                                    } ],
+                                                    "className" : "patient-assignment__container",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { isFixedEntityPanelOpen } from \"./UIfacade/mapFacade\";\n!isFixedEntityPanelOpen(Context.overlayItem.id, 'patients');",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layout" : {
+                                                      "flexDirection" : "column"
+                                                    },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "patients",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "FlexList"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "squareCounter-container",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "currentResources",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { SelectedPanel } from \"./gameInterface/selectedPanel\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id) && Context.interfaceState.state.selectedPanel === SelectedPanel.resources;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        }, {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "resourcesNearCurrentActor",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "if (Context.overlayItem.resources.length < 1) return true;\n  false;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "users",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.resources.length);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { openFixedEntityPanel } from \"./UIfacade/mapFacade\";\nimport * as ResourceFacade from \"./UIfacade/resourceFacade\";\n\nconst currentLocation = Context.overlayItem.id;\nResourceFacade.openDirectResourceManagement(currentLocation);\nopenFixedEntityPanel(currentLocation, 'resources');\n",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "name" : "resources",
+                                                        "prefixedLabel" : true,
+                                                        "stopPropagation" : true,
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "squareCounter-container",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "resourcesNearCurrentActor",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { getTotalPatientsCountForLocation } from \"./UIfacade/patientSnapshotFacade\";\ngetTotalPatientsCountForLocation(Context.overlayItem.id) === 0;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "user-injured",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { shortPatientInfo } from \"./UIfacade/patientSnapshotFacade\";\nshortPatientInfo(Context.overlayItem.id);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { openFixedEntityPanel } from \"./UIfacade/mapFacade\";\nwlog(Context.overlayItem.id)\nopenFixedEntityPanel(Context.overlayItem.id, 'patients')",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "name" : "patients",
+                                                        "prefixedLabel" : true,
+                                                        "stopPropagation" : true,
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "squareCounter-container__unclickable",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "resourcesNearCurrentActor",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "if (Context.overlayItem.ambulances.length < 1) return true;\n  false;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "truck",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.ambulances.length || 0);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "ambulances",
+                                                        "prefixedLabel" : true,
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "squareCounter-container__unclickable",
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "resourcesNearCurrentActor",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { isPCFrontBuilt } from \"./UIfacade/actionFacade\";\nimport { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisPCFrontBuilt() && isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "if (Context.overlayItem.helicopters.length < 1) return true;\n  false;",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : "helicopter",
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "String(Context.overlayItem.helicopters.length || 0);",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "helicopters",
+                                                        "prefixedLabel" : true,
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "conditionnalClassNames" : [ {
+                                                      "applyOn" : "Inside",
+                                                      "className" : "closedFixedEntity",
+                                                      "condition" : {
+                                                        "@class" : "Script",
+                                                        "content" : "false;",
+                                                        "language" : "typescript"
+                                                      }
+                                                    } ],
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "fixedEntityContent",
+                                                    "style" : {
+                                                      "gap" : "5px"
+                                                    }
+                                                  },
+                                                  "type" : "FlexList"
+                                                } ],
+                                                "className" : "",
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Outside",
+                                                  "className" : "selectedFixedMapEntity",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
+                                                    "language" : "typescript"
+                                                  }
+                                                }, {
+                                                  "applyOn" : "Outside",
+                                                  "className" : "closedFixedMapEntity",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isOverlayItemOpen } from \"./UIfacade/mapFacade\";\n    !isOverlayItemOpen(Context.overlayItem.id);",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : {
+                                                  "flexDirection" : "column"
+                                                },
+                                                "layoutClassName" : "fixedEntities-container",
+                                                "layoutStyle" : {
+                                                  "margin" : "0"
+                                                },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "import { bringOverlayItemToFront } from \"./UIfacade/mapFacade\";\n\nbringOverlayItemToFront(Context.overlayItem.id);\n",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
+                                                "name" : "genericFixedEntity",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            }, {
+                                              "props" : {
+                                                "children" : [ {
+                                                  "props" : {
+                                                    "className" : "",
+                                                    "layoutClassName" : "noPadding unactivables-overlay__icon",
+                                                    "layoutStyle" : { },
+                                                    "name" : "Icon",
+                                                    "script" : {
+                                                      "@class" : "Script",
+                                                      "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.svg`",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "Image"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "className" : "role-button",
+                                                        "computedClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : {
+                                                            "@class" : "Script",
+                                                            "content" : "import { getInterfaceColorClass } from \"./UIfacade/actorFacade\";\n  getInterfaceColorClass(Context.actor.Uid);",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        } ],
+                                                        "conditionnalClassNames" : [ {
+                                                          "applyOn" : "Inside",
+                                                          "className" : "current",
+                                                          "condition" : {
+                                                            "@class" : "Script",
+                                                            "content" : "Context.interfaceState.state.currentActorUid === Context.actor.Uid;",
+                                                            "language" : "typescript"
+                                                          }
+                                                        } ],
+                                                        "disableIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "icon" : {
+                                                          "@class" : "Script",
+                                                          "content" : "(undefined)",
+                                                          "language" : "typescript"
+                                                        },
+                                                        "label" : {
+                                                          "@class" : "Script",
+                                                          "content" : "Context.actor.Role;",
+                                                          "language" : "TypeScript"
+                                                        },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "localScriptEval" : {
+                                                          "script" : {
+                                                            "@class" : "ClientScript",
+                                                            "content" : "import { selectActor } from \"./UIfacade/actorFacade\";\n\nselectActor(Context.actor.Uid);",
+                                                            "language" : "TypeScript"
+                                                          }
+                                                        },
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "Button"
+                                                    } ],
+                                                    "exposeAs" : "actor",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "Context.overlayItem.actors;",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "Uid",
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : {
+                                                      "position" : "relative"
+                                                    },
+                                                    "style" : {
+                                                      "gap" : "5px",
+                                                      "left" : "1rem",
+                                                      "position" : "absolute"
+                                                    }
+                                                  },
+                                                  "type" : "For each"
+                                                } ],
+                                                "conditionnalClassNames" : [ {
+                                                  "applyOn" : "Outside",
+                                                  "className" : "selectedFixedMapEntityArrow",
+                                                  "condition" : {
+                                                    "@class" : "Script",
+                                                    "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id)",
+                                                    "language" : "typescript"
+                                                  }
+                                                } ],
+                                                "layout" : { },
+                                                "layoutClassName" : "noPadding fixedEntities-arrow",
+                                                "layoutStyle" : {
+                                                  "margin" : "0 auto"
+                                                },
+                                                "name" : "genericFixedEntity-arrow",
+                                                "style" : { }
+                                              },
+                                              "type" : "FlexList"
+                                            } ],
+                                            "className" : "",
+                                            "computedClassNames" : [ {
+                                              "applyOn" : "Outside",
+                                              "className" : {
+                                                "@class" : "Script",
+                                                "content" : "import { getUnactivableOverlayGridClassName } from \"./UIfacade/mapFacade\";\n  getUnactivableOverlayGridClassName(Context.overlayItem.id);",
+                                                "language" : "TypeScript"
+                                              }
+                                            } ],
+                                            "layout" : {
+                                              "alignItems" : "center",
+                                              "flexDirection" : "column",
+                                              "justifyContent" : "center"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Unactivables overlay",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "className" : "fullHeight unactivables-overlay__container",
+                                        "exposeAs" : "overlayItem",
+                                        "getItemsFn" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getOverlayItems } from \"./UIfacade/mapFacade\";\n  getOverlayItems().map(item => item.payload);",
+                                          "language" : "TypeScript"
+                                        },
+                                        "itemKey" : "id",
+                                        "itemsOnly" : false,
+                                        "layout" : { },
+                                        "layoutClassName" : "noPadding fullHeight",
+                                        "layoutStyle" : { },
+                                        "name" : "Unactivables overlay",
+                                        "style" : { }
+                                      },
+                                      "type" : "For each"
+                                    }, {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : " button-S button-neutralColor--outline",
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "",
+                                            "id" : " ",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-interface', 'cancel')",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/feedbackFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "name" : "Cancel",
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        }, {
+                                          "props" : {
+                                            "className" : " button-S button-neutralColor ",
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "",
+                                            "id" : " ",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')} (1')`;",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { runActionButton } from \"./gameInterface/actionsButtonLogic\";\nimport { registerOpenLastFeedbackAfterUpdate } from \"./UIfacade/feedbackFacade\";\nrunActionButton(Context.action);\nregisterOpenLastFeedbackAfterUpdate();",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "name" : "Validate",
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ],
+                                        "className" : "",
+                                        "layout" : {
+                                          "alignItems" : "flex-end",
+                                          "justifyContent" : "flex-end"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "name" : "Buttons",
+                                        "style" : {
+                                          "gap" : "10px"
+                                        }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "fullWidth fullHeight",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "noPadding fullWidth",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "FlexList"
+                                } ],
+                                "className" : "fullWidth fullHeight resources-flow-modal",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.interfaceState.state.showResourcesManagementModal;",
+                                  "language" : "typescript"
+                                },
+                                "layout" : { },
+                                "layoutClassName" : "noPadding fullWidth resources-flow-modal__container",
+                                "layoutStyle" : { },
+                                "name" : "Resources Management",
+                                "onExitActions" : { },
+                                "style" : { }
+                              },
+                              "type" : "Modal"
+                            }, {
+                              "props" : {
                                 "attachToMostDistant" : "",
                                 "attachedToId" : "globalInterfaceId",
                                 "children" : [ {
@@ -1339,25 +2260,6 @@
                                                         }
                                                       },
                                                       "type" : "For each"
-                                                    }, {
-                                                      "props" : {
-                                                        "hideIf" : {
-                                                          "@class" : "Script",
-                                                          "content" : "true;",
-                                                          "language" : "typescript"
-                                                        },
-                                                        "icon" : "plus",
-                                                        "label" : {
-                                                          "@class" : "Script",
-                                                          "content" : "\"\"",
-                                                          "language" : "TypeScript"
-                                                        },
-                                                        "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
-                                                        "name" : "add",
-                                                        "style" : { }
-                                                      },
-                                                      "type" : "Button"
                                                     } ],
                                                     "className" : "fullWidth resource__task",
                                                     "layout" : {
@@ -1393,6 +2295,11 @@
                                                   "props" : {
                                                     "children" : [ {
                                                       "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id);",
+                                                          "language" : "typescript"
+                                                        },
                                                         "icon" : "comment",
                                                         "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
@@ -1402,6 +2309,11 @@
                                                       "type" : "Icon"
                                                     }, {
                                                       "props" : {
+                                                        "hideIf" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\nisCurrentActorAtLocation(Context.overlayItem.id);",
+                                                          "language" : "typescript"
+                                                        },
                                                         "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
                                                         "name" : "radio",
@@ -1468,6 +2380,13 @@
                                                 },
                                                 "layoutClassName" : "noPadding",
                                                 "layoutStyle" : { },
+                                                "localScriptEval" : {
+                                                  "script" : {
+                                                    "@class" : "ClientScript",
+                                                    "content" : "import { openResourcesManagementModal } from \"./UIfacade/resourceFacade\";\n\nopenResourcesManagementModal();",
+                                                    "language" : "TypeScript"
+                                                  }
+                                                },
                                                 "name" : "assign action",
                                                 "style" : { }
                                               },

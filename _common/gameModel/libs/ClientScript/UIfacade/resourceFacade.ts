@@ -14,6 +14,7 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 import {
   getTypedInterfaceState,
   ResourcesManagementActivityType,
+  setInterfaceState,
 } from '../gameInterface/interfaceState';
 import { canPlanAction } from '../gameInterface/main';
 import { SelectedPanel } from '../gameInterface/selectedPanel';
@@ -175,6 +176,16 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
       );
     Context.interfaceState.setState(newState);
   }
+}
+
+/** Open the Resources Management modal (see page 43) */
+export function openResourcesManagementModal(): void {
+  setInterfaceState({ showResourcesManagementModal: true });
+}
+
+/** Close the Resources Management modal (see page 43) */
+export function closeResourcesManagementModal(): void {
+  setInterfaceState({ showResourcesManagementModal: false });
 }
 
 // used in page 67
