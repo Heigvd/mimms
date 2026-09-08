@@ -42,6 +42,7 @@ export interface InterfaceState {
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   showResourcesManagementModal: boolean;
+  resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   selectedPatient: PatientId | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
@@ -122,6 +123,7 @@ export function getInitialInterfaceState(): InterfaceState {
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     showResourcesManagementModal: false,
+    resourceManagementSourceLocation: undefined,
     selectedPatient: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,

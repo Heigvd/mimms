@@ -180,12 +180,18 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
 
 /** Open the Resources Management modal (see page 43) */
 export function openResourcesManagementModal(): void {
-  setInterfaceState({ showResourcesManagementModal: true });
+  setInterfaceState({
+    showResourcesManagementModal: true,
+    resourceManagementSourceLocation: Context.overlayItem.id,
+  });
 }
 
 /** Close the Resources Management modal (see page 43) */
 export function closeResourcesManagementModal(): void {
-  setInterfaceState({ showResourcesManagementModal: false });
+  setInterfaceState({
+    showResourcesManagementModal: false,
+    resourceManagementSourceLocation: undefined,
+  });
 }
 
 // used in page 67

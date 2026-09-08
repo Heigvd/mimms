@@ -38,7 +38,7 @@ export function computeOverlayItems(): OverlayItem[] {
           offset: [0, -20],
         },
         // TODO fix OverlayTypes.d.ts typing to remove cast
-        payload: locationInfo as unknown as {[index: string]: unknown}
+        payload: locationInfo as unknown as { [index: string]: unknown },
       });
     }
   }

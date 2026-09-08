@@ -6471,6 +6471,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "gameInterface/resourceOrdersState",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#303:B26vL4",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "gameInterface/selectedPanel",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6916,6 +6925,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:927245:4WzOpc",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/resourceOrdersFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#303:Cw7JOM",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {

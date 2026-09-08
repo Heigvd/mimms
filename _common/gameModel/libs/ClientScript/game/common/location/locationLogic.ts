@@ -25,29 +25,30 @@ export function getLocationLongTranslation(location: LOCATION_ENUM): string {
 }
 
 export interface LocationInfo {
-  id: LOCATION_ENUM,
-  name: string,
-  icon: typeof locationEnumConfig[LOCATION_ENUM]['icon'],
-  actors: Actor[],
-  resources: Resource[],
-  ambulances: Resource[],
-  helicopters: Resource[],
+  id: LOCATION_ENUM;
+  name: string;
+  icon: typeof locationEnumConfig[LOCATION_ENUM]['icon'];
+  actors: Actor[];
+  resources: Resource[];
+  ambulances: Resource[];
+  helicopters: Resource[];
 }
 
-export function fetchLocationInfo(currentState: Readonly<MainSimulationState>, binding: LOCATION_ENUM): LocationInfo | undefined {
-
+export function fetchLocationInfo(
+  currentState: Readonly<MainSimulationState>,
+  binding: LOCATION_ENUM
+): LocationInfo | undefined {
   const mapActivable = getActiveMapEntityFromBinding(currentState, binding);
 
-  if(mapActivable){
+  if (mapActivable) {
     return {
       id: mapActivable.binding,
-      name: getLocationLongTranslation(mapActivable.binding) || 'missing name for ' + mapActivable.binding,
+      name:
+        getLocationLongTranslation(mapActivable.binding) ||
+        'missing name for ' + mapActivable.binding,
       icon: locationEnumConfig[binding].icon,
       actors: getActorsByLocation(mapActivable.binding),
-      resources: ResourceState.getFreeHumanResourcesByLocation(
-        currentState,
-        mapActivable.binding
-      ),
+      resources: ResourceState.getFreeHumanResourcesByLocation(currentState, mapActivable.binding),
       ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
         currentState,
         'ambulance',
@@ -58,7 +59,6 @@ export function fetchLocationInfo(currentState: Readonly<MainSimulationState>, b
         'helicopter',
         mapActivable.binding
       ),
-    }
+    };
   }
-
 }

@@ -11,7 +11,9 @@ import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { fetchLocationInfo, LocationInfo } from '../game/common/location/locationLogic';
-import { LocationAccessibility, LocationAccessibilityKind } from '../game/common/events/defineMapObjectEvent';
+import {
+  LocationAccessibilityKind,
+} from '../game/common/events/defineMapObjectEvent';
 
 // used in page 66
 export function getActorTargetLocationChoices(): { label: string; value: string }[] {
@@ -71,7 +73,6 @@ export function getLocationTranslation(binding: LOCATION_ENUM): string {
   return getTranslation('mainSim-locations', locationEnumConfig[binding].name);
 }
 
-
 export function getLocationInfo(binding: LOCATION_ENUM): LocationInfo | undefined {
   return fetchLocationInfo(getCurrentState(), binding);
 }
@@ -81,8 +82,10 @@ export function getLocationInfo(binding: LOCATION_ENUM): LocationInfo | undefine
  * @param kind accessibility kind
  * @returns location informations for the selected locations
  */
-export function getAccessibleLocationsInfo(kind : LocationAccessibilityKind | 'anyKind'): LocationInfo[] {
+export function getAccessibleLocationsInfo(
+  kind: LocationAccessibilityKind | 'anyKind'
+): LocationInfo[] {
   return getAvailableMapActivables(getCurrentState(), kind)
-  .map(activable => getLocationInfo(activable.binding))
-  .filter(info => info !== undefined);
+    .map(activable => getLocationInfo(activable.binding))
+    .filter(info => info !== undefined) as LocationInfo[];
 }

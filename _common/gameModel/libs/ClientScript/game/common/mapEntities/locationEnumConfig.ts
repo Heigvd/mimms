@@ -91,4 +91,4 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     leaderRoles: [],
     accessibility: { Actors: false, Resources: false, Patients: false },
   },
-}
+};
