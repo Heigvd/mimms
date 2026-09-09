@@ -107,6 +107,7 @@
                             }, {
                               "props" : {
                                 "className" : "header-button",
+                                "icon" : "undo",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Undo</p>\"",
@@ -123,12 +124,39 @@
                                   }
                                 },
                                 "name" : "undo",
-                                "style" : { }
+                                "style" : {
+                                  "textTransform" : "capitalize"
+                                }
                               },
                               "type" : "Button"
                             }, {
                               "props" : {
                                 "className" : "header-button",
+                                "icon" : "sync",
+                                "label" : {
+                                  "@class" : "Script",
+                                  "content" : "\"<p>Refresh</p>\"",
+                                  "language" : "TypeScript"
+                                },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\nreloadState();",
+                                    "language" : "TypeScript"
+                                  }
+                                },
+                                "name" : "refresh",
+                                "style" : {
+                                  "textTransform" : "capitalize"
+                                }
+                              },
+                              "type" : "Button"
+                            }, {
+                              "props" : {
+                                "className" : "header-button current",
+                                "icon" : "redo",
                                 "label" : {
                                   "@class" : "Script",
                                   "content" : "\"<p>Restart</p>\"",
@@ -145,28 +173,10 @@
                                   }
                                 },
                                 "name" : "restart",
-                                "style" : { }
-                              },
-                              "type" : "Button"
-                            }, {
-                              "props" : {
-                                "className" : "header-button",
-                                "label" : {
-                                  "@class" : "Script",
-                                  "content" : "\"<p>Refresh</p>\"",
-                                  "language" : "TypeScript"
-                                },
-                                "layoutClassName" : "noPadding",
-                                "layoutStyle" : { },
-                                "localScriptEval" : {
-                                  "script" : {
-                                    "@class" : "ClientScript",
-                                    "content" : "import { reloadState } from \"./UIfacade/testerFacade\";\nreloadState();",
-                                    "language" : "TypeScript"
-                                  }
-                                },
-                                "name" : "refresh",
-                                "style" : { }
+                                "style" : {
+                                  "marginLeft" : "10px",
+                                  "textTransform" : "capitalize"
+                                }
                               },
                               "type" : "Button"
                             } ],

@@ -8,6 +8,20 @@
           "language" : "typescript"
         },
         "className" : "condition-impact__dropdown",
+        "conditionnalClassNames" : [ {
+          "applyOn" : "Inside",
+          "className" : "condition-impact__dropdown--disabled",
+          "condition" : {
+            "@class" : "Script",
+            "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) === 'feedback';",
+            "language" : "typescript"
+          }
+        } ],
+        "disableIf" : {
+          "@class" : "Script",
+          "content" : "import { inferDisplayType } from \"./edition/UIfacade/impactConfigFacade\";\ninferDisplayType(Context.item) === 'feedback';",
+          "language" : "typescript"
+        },
         "layoutClassName" : "noPadding",
         "layoutStyle" : { },
         "name" : "type",
