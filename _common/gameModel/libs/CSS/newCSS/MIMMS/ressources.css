@@ -1,10 +1,5 @@
 /* - - - - -  C O N T A I N E R S  - - - */
 
-.resourcesDropdowns {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
 /* resources flow modal */
 /* ugly selector because for some reason, the wegas 
 container element does not actually wrap the content */
@@ -89,40 +84,9 @@ container element does not actually wrap the content */
 
 /* - - - - -  O N E  R E S O U R C E  - - - */
 
-/* make the total number of a type of ressources aligned with the number input box */
-.selectableRessources {
-  display: flex;
-  align-items: center;
-}
-
-.resourceTypeChosenNumber {
-  width: 2.5rem;
-  min-width: 2.5rem;
-  height: 1.25rem;
-  min-height: 1.25rem;
-  font-size: 12px;
-}
-
-/* used to make one row of two blue */
-.evenOddList-container:nth-of-type(even) {
-  background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
-}
-
 /* resource management panel */
 .presentResources {
   font-weight: var(--boldWeight);
-}
-
-.resourcesManagement-container {
-  width: 100%;
-}
-
-.resourcesManagement {
-  gap: 10px;
-}
-
-.resourcesSelectionAssignment-container {
-  padding: 0 10px 10px 10px;
 }
 
 .resourcesSelectionAssignment {
