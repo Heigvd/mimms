@@ -26,7 +26,7 @@ export function getFullyConfigurableTemplateDef(): Definition<
       choices: [],
       mandatory: false,
       repeats: 1,
-      tag: 'New action',
+      tag: '',
       description: createOrUpdateTranslation('', undefined),
       title: createOrUpdateTranslation('', undefined),
       uid: generateId(10),

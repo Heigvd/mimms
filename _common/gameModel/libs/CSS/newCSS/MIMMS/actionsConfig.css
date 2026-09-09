@@ -3,6 +3,7 @@
 .action,
 .choice {
   gap: 1rem;
+  min-height: 50.4px;
   padding: 1rem;
 }
 
@@ -40,10 +41,6 @@
 .generic-item-container:has(.effect) {
   z-index: 0;
 }
-
-/*.generic-item-container > div > div:has(.effect) {
-  width: calc(100% - 1.5rem);
-}*/
 
 
 /* - - - - -  E F F E C T S  - - - */
@@ -126,21 +123,17 @@
 .initial-effect-button svg path {
   fill: var(--primary_10) !important;
   stroke: var(--primary_30) !important;
-  /*stroke-width: 1 !important;*/
   vector-effect: non-scaling-stroke !important;
   transition: all .3s ease-in-out;
 }
 
 .initial-effect-button:hover svg path {
   stroke: var(--primary_base) !important;
-  /*cursor: pointer;*/
 }
 
 .initial-effect-button--selected svg path {
   fill: var(--primary_base) !important;
   stroke: var(--primary_base) !important;
-  /*stroke-width: 1 !important;
-  vector-effect: non-scaling-stroke !important;*/
   transition: all .3s ease-in-out;
 }
 
@@ -152,7 +145,6 @@
 
 .delete-effect:hover svg {
   color: var(--primary_70);
-  /*cursor: pointer;*/
 }
 
 
@@ -168,4 +160,11 @@
 .effect-tag--selected input:hover {
   background-color: var(--grey-white);
   border: 1px solid var(--primary_30);
+}
+
+
+/* - - - - -  D R O P D O W N S  - - - */
+
+.condition-impact__dropdown--disabled .wegas-select__indicators {
+  display: none;
 }

@@ -204,7 +204,7 @@ export function addChoice(): void {
     const effect = getActionTemplateController().createNew(choice.uid, 'effect', {
       squashLastState: true,
     });
-    updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
+    //updateItem(effect.uid, { tag: 'Default effect' }, undefined, true);
     updateItem(choice.uid, { defaultEffect: effect.uid }, undefined, true);
     addDefaultFeedback(effect.uid);
   }

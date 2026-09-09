@@ -89,7 +89,7 @@ div .button-closed {
   text-transform: uppercase;
   color: var(--primary_base);
   white-space: nowrap;
-  transition: color .3s ease-in-out, border .3s ease-in-out;
+  transition: color .3s ease-in-out, background-color .3s ease-in-out, .3s ease-in-out;
 }
 
 .header-button svg {
@@ -118,6 +118,19 @@ div .button-closed {
 .disabled.header-button svg,
 .header-button--disabled svg {
   color: var(--grey_30);
+}
+
+.header-button.current {
+  color: var(--grey-white);
+  background-color: var(--primary_base);
+}
+
+.header-button.current:hover {
+  background-color: var(--primary_70);
+}
+
+.header-button.current svg {
+  color: var(--grey-white);
 }
 
 /* - - a n i m a t i o n s - - */

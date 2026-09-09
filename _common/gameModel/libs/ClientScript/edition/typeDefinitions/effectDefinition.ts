@@ -35,7 +35,7 @@ export function getEffectDefinition(): EffectDefinition {
       type: 'effect',
       uid: generateId(10),
       index: 0,
-      tag: 'New effect',
+      tag: '',
       parent: 'no parent',
       impacts: [],
     }),
