@@ -182,6 +182,13 @@ export function getFreeWaitingResourcesByLocation(
   );
 }
 
+/**
+ * Currently unused.
+ * <p>
+ * Callers that resolve several resource requests before any reservation is applied cannot use it,
+ * as it has no way to skip the resources a previous request already took.
+ * @see MoveResourcesAssignTaskAction
+ */
 export function getFreeResourcesByNumberTypeLocationAndTask(
   state: Readonly<MainSimulationState>,
   sentResources: ResourceTypeAndNumber,

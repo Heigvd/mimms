@@ -29,6 +29,7 @@ export const mainSimLoaderLogger = Helpers.getLogger('main.simulation.loader');
 export const actionLogger = Helpers.getLogger('action');
 export const taskLogger = Helpers.getLogger('task');
 export const resourceLogger = Helpers.getLogger('resource');
+export const resourceOrderLogger = Helpers.getLogger('resource.order');
 export const timeLogger = Helpers.getLogger('time');
 export const debugLogger = Helpers.getLogger('debug');
 export const dashboardLogger = Helpers.getLogger('dashboard');

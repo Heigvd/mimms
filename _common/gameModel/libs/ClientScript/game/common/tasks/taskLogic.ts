@@ -2,7 +2,7 @@ import { getCurrentState } from '../../mainSimulationLogic';
 import { TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskBase } from './taskBase';
+import { TaskBase, TaskType } from './taskBase';
 import { EvacuationTask } from './taskBaseEvacuation';
 import { MoveToTask } from './taskBaseMoveTo';
 import { WaitingTask } from './taskBaseWaiting';
@@ -58,5 +58,21 @@ export function getTaskTitle(taskId: TaskId): string {
       .getInternalStateObject()
       .tasks.find(t => t.Uid == taskId)
       ?.getTitle() || '' + taskId
+  );
+}
+
+/**
+ * Same as getTaskTitle but for a task identified by its type and its location,
+ * the way a resource order refers to it.
+ */
+export function getTaskTitleByTypeAndLocation(
+  taskType: TaskType | undefined,
+  location: LOCATION_ENUM
+): string {
+  return (
+    getCurrentState()
+      .getInternalStateObject()
+      .tasks.find(t => t.taskType === taskType && t.location === location)
+      ?.getTitle() || '' + taskType
   );
 }

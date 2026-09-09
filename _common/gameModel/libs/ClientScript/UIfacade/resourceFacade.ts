@@ -1,4 +1,5 @@
 import { TaskId } from '../game/common/baseTypes';
+import { CommMedia } from '../game/common/radio/communicationType';
 import {
   HumanResourceTypeArray,
   ResourcesArray,
@@ -180,9 +181,11 @@ export function openDirectResourceManagement(location: LOCATION_ENUM): void {
 
 /** Open the Resources Management modal (see page 43) */
 export function openResourcesManagementModal(): void {
+  const direct = isCurrentActorAtLocation(Context.overlayItem.id);
   setInterfaceState({
     showResourcesManagementModal: true,
     resourceManagementSourceLocation: Context.overlayItem.id,
+    resourceManagementCommMedia: direct ? CommMedia.Direct : CommMedia.Radio,
   });
 }
 
@@ -191,6 +194,7 @@ export function closeResourcesManagementModal(): void {
   setInterfaceState({
     showResourcesManagementModal: false,
     resourceManagementSourceLocation: undefined,
+    resourceManagementCommMedia: undefined,
   });
 }
 

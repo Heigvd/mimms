@@ -95,7 +95,7 @@ export function getTaskCurrentStatus(
 
 export function getTaskByTypeAndLocation(
   state: Readonly<MainSimulationState>,
-  taskType: TaskType,
+  taskType: TaskType | undefined,
   location: LOCATION_ENUM
 ): TaskBase {
   return state

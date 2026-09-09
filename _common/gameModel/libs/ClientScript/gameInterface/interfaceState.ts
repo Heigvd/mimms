@@ -11,7 +11,7 @@ import {
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { Uid } from '../game/common/interfaces';
-import { RadioType } from '../game/common/radio/communicationType';
+import { CommMedia, RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
@@ -43,6 +43,7 @@ export interface InterfaceState {
   showPatientModal: boolean;
   showResourcesManagementModal: boolean;
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
+  resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
@@ -124,6 +125,7 @@ export function getInitialInterfaceState(): InterfaceState {
     showPatientModal: false,
     showResourcesManagementModal: false,
     resourceManagementSourceLocation: undefined,
+    resourceManagementCommMedia: undefined,
     selectedPatient: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,
