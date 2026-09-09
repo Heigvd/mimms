@@ -2,12 +2,12 @@ import { CommMedia } from '../game/common/radio/communicationType';
 import { ResourceOrder, SubOrder } from '../game/common/resources/resourceOrdersType';
 import { HumanResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getFreeResourcesByTypeLocationAndTask } from '../game/common/simulationState/resourceStateAccess';
 import { getTaskByTypeAndLocation } from '../game/common/simulationState/taskStateAccess';
 import { TaskBase, TaskType } from '../game/common/tasks/taskBase';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { resourceOrderLogger } from '../tools/logger';
+import { getResourceCountForTaskAndType } from './resourceFacade';
 
 interface ResourceOrdersInterfaceState {
   payload: ResourceOrder;
@@ -88,7 +88,7 @@ export function canSetOrderDestination(): boolean {
 export function currentOrderSelectedRessources(): number {
   const ongoing = getOngoingSubOrder();
   if (ongoing) {
-    return countResources(ongoing);
+    return countSubOrderResources(ongoing);
   }
   return 0;
 }
@@ -159,7 +159,7 @@ function updateSelectedResourceAmount(
   const subOrder = getOrInitOpenSubOrder(newState.payload, task);
   if(subOrder.sourceTask === task){
     subOrder.resources[type] = computeAmount(subOrder.resources[type] || 0);
-    if(countResources(subOrder) === 0){
+    if(countSubOrderResources(subOrder) === 0){
       // if the number of selected ressources drop to 0 cancel the whole suborder
       newState.payload.orders.pop();
     }
@@ -221,7 +221,7 @@ export function isResourceNumberValid(
   );
 }
 
-function countResources(subOrder: SubOrder): number {
+function countSubOrderResources(subOrder: SubOrder): number {
   return Object.values(subOrder.resources).reduce<number>(
     (total, nbResources) => total + (nbResources || 0),
     0
@@ -249,13 +249,9 @@ function countAllocatableResources(task: TaskType, type: HumanResourceType): num
   const state = getCurrentState();
   // typed as a TaskBase but there might be no such task at that location
   const sourceTask: TaskBase | undefined = getTaskByTypeAndLocation(state, task, source);
-
   if (sourceTask === undefined) {
     return 0;
   }
-
-  return (
-    getFreeResourcesByTypeLocationAndTask(state, type, source, sourceTask.Uid).length -
-    countSelectedResources(task, type)
-  );
+  const count = getResourceCountForTaskAndType(sourceTask.Uid, source, type);
+  return count - countSelectedResources(task, type);
 }

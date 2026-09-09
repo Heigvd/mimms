@@ -50,7 +50,7 @@ export function toggleSelectedActivityType(activityType: ResourcesManagementActi
   setActivityType(newActivityType);
 }
 
-// used in page 67
+// used in page 67 and 43
 export function getHumanResourceTypes(): readonly ResourceType[] {
   return HumanResourceTypeArray;
 }
