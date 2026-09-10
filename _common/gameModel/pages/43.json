@@ -869,7 +869,7 @@
                                     "exposePageSizeAs" : "",
                                     "initialSelectedPageId" : {
                                       "@class" : "Script",
-                                      "content" : "\"13\"",
+                                      "content" : "\"resourcesManagement\"",
                                       "language" : "typescript"
                                     },
                                     "layoutClassName" : "noPadding fullWidth fullHeight",
