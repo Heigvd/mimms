@@ -10,44 +10,6 @@
               "className" : "selected",
               "condition" : {
                 "@class" : "Script",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.assignTask;",
-                "language" : "typescript"
-              }
-            } ],
-            "disableIf" : {
-              "@class" : "Script",
-              "content" : "import { canPlanAction } from \"./gameInterface/main\";\n!canPlanAction();",
-              "language" : "typescript"
-            },
-            "id" : "",
-            "label" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks','assign-task');",
-              "language" : "TypeScript"
-            },
-            "layoutClassName" : "",
-            "layoutStyle" : {
-              "padding" : "5px 5px 0 0"
-            },
-            "localScriptEval" : {
-              "script" : {
-                "@class" : "ClientScript",
-                "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { toggleSelectedActivityType } from \"./UIfacade/resourceFacade\";\n\ntoggleSelectedActivityType(ResourcesManagementActivityType.assignTask);",
-                "language" : "TypeScript"
-              }
-            },
-            "name" : "assignTask",
-            "style" : { }
-          },
-          "type" : "Button"
-        }, {
-          "props" : {
-            "className" : "rectangleButton",
-            "conditionnalClassNames" : [ {
-              "applyOn" : "Inside",
-              "className" : "selected",
-              "condition" : {
-                "@class" : "Script",
                 "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() === ResourcesManagementActivityType.requestReport;",
                 "language" : "typescript"
               }
@@ -87,25 +49,6 @@
         "style" : { }
       },
       "type" : "FlexList"
-    }, {
-      "props" : {
-        "exposePageSizeAs" : "",
-        "hideIf" : {
-          "@class" : "Script",
-          "content" : "import { ResourcesManagementActivityType } from \"./gameInterface/interfaceState\";\nimport { getSelectedActivityType } from \"./UIfacade/resourceFacade\";\ngetSelectedActivityType() !== ResourcesManagementActivityType.assignTask;",
-          "language" : "typescript"
-        },
-        "initialSelectedPageId" : {
-          "@class" : "Script",
-          "content" : "\"67\"",
-          "language" : "typescript"
-        },
-        "layoutClassName" : "noPadding",
-        "layoutStyle" : { },
-        "name" : "resources Management",
-        "style" : { }
-      },
-      "type" : "PageLoader"
     }, {
       "props" : {
         "children" : [ {

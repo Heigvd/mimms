@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git mv *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(yarn check-libraries *)",
+      "Bash(yarn checkFormat)",
+      "Bash(yarn build *)",
+      "Bash(npx prettier *)",
+      "Bash(yarn lint *)",
+      "Bash(git stash *)",
+      "Bash(echo \"tsc exit=$?\")",
+      "Bash(python3 -c ' *)",
+      "Bash(git restore *)"
+    ]
+  }
+}

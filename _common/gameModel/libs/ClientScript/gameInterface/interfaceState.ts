@@ -6,26 +6,22 @@ import {
   HospitalId,
   PatientId,
   PatientUnitId,
-  TaskId,
 } from '../game/common/baseTypes';
 import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { Uid } from '../game/common/interfaces';
-import { RadioType } from '../game/common/radio/communicationType';
+import { CommMedia, RadioType } from '../game/common/radio/communicationType';
 import {
   ResourceContainerType,
   ResourceContainerTypeArray,
 } from '../game/common/resources/resourceContainer';
-import { ResourcesArray, ResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { mainSimLogger } from '../tools/logger';
 import { getCurrentPlayerActors } from '../UIfacade/actorFacade';
-import { initResourceManagementCurrentTaskId } from '../UIfacade/taskFacade';
 import { applyPendingCallbacks } from './afterUpdateCallbacks';
 import { SelectedPanel } from './selectedPanel';
 
 export enum ResourcesManagementActivityType {
-  assignTask = 'assignTask',
   requestReport = 'requestReport',
 }
 
@@ -42,6 +38,8 @@ export interface InterfaceState {
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   showResourcesManagementModal: boolean;
+  resourceManagementSourceLocation: LOCATION_ENUM | undefined;
+  resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
@@ -53,17 +51,6 @@ export interface InterfaceState {
   selectedCasuAction: CasuAction;
   casuMessage: CasuMessage;
   resources: {
-    allocateResources: {
-      currentTaskId: TaskId | undefined;
-      targetLocation: LOCATION_ENUM | undefined;
-      targetTaskId: TaskId | undefined;
-    } & Partial<Record<ResourceType, number>>;
-    allocateResourcesRadio: {
-      currentLocation: LOCATION_ENUM | undefined;
-      currentTaskId: TaskId | undefined;
-      targetLocation: LOCATION_ENUM | undefined;
-      targetTaskId: TaskId | undefined;
-    } & Partial<Record<ResourceType, number>>;
     requestedResources: Partial<Record<ResourceContainerType, number>>;
   };
   resourcesManagement: {
@@ -112,8 +99,6 @@ export function getInitialInterfaceState(): InterfaceState {
       victims: '',
     },
     resources: {
-      allocateResources: getEmptyAllocateResources(),
-      allocateResourcesRadio: getEmptyAllocateResourcesRadio(),
       requestedResources: getEmptyResourceRequest(),
     },
     evacuation: getEmptyEvacuationInterfaceState(),
@@ -122,6 +107,8 @@ export function getInitialInterfaceState(): InterfaceState {
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     showResourcesManagementModal: false,
+    resourceManagementSourceLocation: undefined,
+    resourceManagementCommMedia: undefined,
     selectedPatient: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,
@@ -139,40 +126,6 @@ export function getInitialInterfaceState(): InterfaceState {
 
 function getCurrentPlayerDefaultActor(): Actor | undefined {
   return getCurrentPlayerActors()[0];
-}
-
-export function getEmptyAllocateResourcesRadio(): InterfaceState['resources']['allocateResourcesRadio'] {
-  const resources = getEmptyResources();
-
-  return {
-    currentLocation: undefined,
-    currentTaskId: undefined,
-    targetLocation: undefined,
-    targetTaskId: undefined,
-    ...resources,
-  };
-}
-
-export function getEmptyAllocateResources(): InterfaceState['resources']['allocateResources'] {
-  const resources = getEmptyResources();
-
-  return {
-    currentTaskId: initResourceManagementCurrentTaskId(
-      getCurrentPlayerDefaultActor()?.Uid,
-      getCurrentPlayerDefaultActor()?.Location
-    ),
-    targetLocation: undefined,
-    targetTaskId: undefined,
-    ...resources,
-  };
-}
-
-function getEmptyResources(): Partial<Record<ResourceType, number>> {
-  const resources: Partial<Record<ResourceType, number>> = {};
-  ResourcesArray.forEach(t => {
-    resources[t] = 0;
-  });
-  return resources;
 }
 
 export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType, number>> {

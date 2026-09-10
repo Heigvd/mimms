@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1787923904569,
+  "createdTime" : 1788878545264,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -6023,6 +6023,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/resourceOrdersType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#303:C3aVxY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resourceType",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6968,6 +6977,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/resourceOrdersFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3170703:Kb3fn0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/taskFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7560,7 +7578,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-708",
+  "name" : "MIM-706 XGO ressources orders data ",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
