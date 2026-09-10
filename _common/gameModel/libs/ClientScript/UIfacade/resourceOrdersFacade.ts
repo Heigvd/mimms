@@ -5,8 +5,10 @@ import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getTaskByTypeAndLocation } from '../game/common/simulationState/taskStateAccess';
 import { TaskBase, TaskType } from '../game/common/tasks/taskBase';
 import { getCurrentState } from '../game/mainSimulationLogic';
+import { runActionButton } from '../gameInterface/actionsButtonLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { resourceOrderLogger } from '../tools/logger';
+import { uniqueActionTemplates } from '../UIfacade/actionFacade';
 import { getResourceCountForTaskAndType } from './resourceFacade';
 
 interface ResourceOrdersInterfaceState {
@@ -35,12 +37,20 @@ export function resetOrders(): void {
   getTypedResourceOrderCtx().setState(getInitialResourceOrderState());
 }
 
+/**
+ * Expects the main interface state to be present in context
+ * gets the source location of the order
+ */
 function getSourceLocation(): LOCATION_ENUM {
   return getTypedInterfaceState().resourceManagementSourceLocation || LOCATION_ENUM.pcFront;
 }
 
+/**
+ * Expects the main interface state to be present in context
+ * Gets the type of communication used
+ */
 function getCommMedia(): CommMedia {
-  return getTypedInterfaceState().resourceManagementCommMedia || CommMedia.Radio;
+  return getTypedInterfaceState()?.resourceManagementCommMedia || CommMedia.Radio;
 }
 
 /**
@@ -117,12 +127,16 @@ export function isLastSubOrderComplete(): boolean {
   return isSubOrderComplete(orders[orders.length - 1]!);
 }
 
-/**
- * @returns true if the order is ready to be sent
- */
-export function canSendOrder(): boolean {
-  const orders = getTypedResourceOrderCtx().state.payload.orders;
-  return isLastSubOrderComplete() && orders.length > 0;
+export function anyOrderPresent(): boolean {
+  return getTypedResourceOrderCtx().state.payload.orders.length > 0;
+}
+
+export function isTaskValidSource(location: LOCATION_ENUM, task: TaskType): boolean {
+  const ongoing = getOngoingSubOrder();
+  if (ongoing) {
+    return ongoing.source === location && ongoing.sourceTask === task;
+  }
+  return location === getSourceLocation();
 }
 
 /**
@@ -130,11 +144,11 @@ export function canSendOrder(): boolean {
  * a suborder is created if no suborder is ongoing
  */
 export function addRemoveSelectedResourceAmount(
-  type: HumanResourceType,
   task: TaskType,
+  type: HumanResourceType,
   delta: number
 ): void {
-  updateSelectedResourceAmount(type, task, currentAmount => currentAmount + delta);
+  updateSelectedResourceAmount(task, type, currentAmount => currentAmount + delta);
 }
 
 /**
@@ -142,31 +156,45 @@ export function addRemoveSelectedResourceAmount(
  * a suborder is created if no suborder is ongoing
  */
 export function setSelectedResourceAmount(
-  type: HumanResourceType,
   task: TaskType,
+  type: HumanResourceType,
   amount: number
 ): void {
-  updateSelectedResourceAmount(type, task, () => amount);
+  updateSelectedResourceAmount(task, type, () => amount);
 }
 
 function updateSelectedResourceAmount(
-  type: HumanResourceType,
   task: TaskType,
+  type: HumanResourceType,
   computeAmount: (currentAmount: number) => number
 ): void {
   const ctx = getTypedResourceOrderCtx();
   const newState = Helpers.cloneDeep(ctx.state);
   const subOrder = getOrInitOpenSubOrder(newState.payload, task);
-  if(subOrder.sourceTask === task){
+  if (subOrder.sourceTask === task) {
     subOrder.resources[type] = computeAmount(subOrder.resources[type] || 0);
-    if(countSubOrderResources(subOrder) === 0){
+    if (countSubOrderResources(subOrder) === 0) {
       // if the number of selected ressources drop to 0 cancel the whole suborder
       newState.payload.orders.pop();
     }
     ctx.setState(newState);
-  }else {
-    resourceOrderLogger.error("Cannot add a ressource from task type" + task +", a suborder with resource type " + subOrder.sourceTask + " is already ongoing");
+  } else {
+    resourceOrderLogger.error(
+      'Cannot add a ressource from task type' +
+        task +
+        ', a suborder with resource type ' +
+        subOrder.sourceTask +
+        ' is already ongoing'
+    );
   }
+}
+
+export function getCurrentOrderResourceCount(task: TaskType, type: HumanResourceType): number {
+  const onGoing = getOngoingSubOrder();
+  if (onGoing?.sourceTask === task) {
+    return onGoing.resources[type] || 0;
+  }
+  return 0;
 }
 
 /**
@@ -254,4 +282,20 @@ function countAllocatableResources(task: TaskType, type: HumanResourceType): num
   }
   const count = getResourceCountForTaskAndType(sourceTask.Uid, source, type);
   return count - countSelectedResources(task, type);
+}
+
+/**
+ * @returns true if the order is ready to be sent
+ */
+export function canSendOrder(): boolean {
+  const orders = getTypedResourceOrderCtx().state.payload.orders;
+  return isLastSubOrderComplete() && orders.length > 0;
+}
+
+export function sendOrder(): void {
+  if (canSendOrder()) {
+    const template = uniqueActionTemplates()?.MoveResourcesAssignTaskActionTemplate;
+    runActionButton(template);
+    resetOrders();
+  }
 }

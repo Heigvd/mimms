@@ -45,7 +45,7 @@
         "layout" : { },
         "layoutClassName" : "noPadding noMargin",
         "layoutStyle" : { },
-        "name" : "tasksButtons",
+        "name" : "requestSelection",
         "style" : { }
       },
       "type" : "FlexList"
@@ -144,7 +144,7 @@
     "layoutStyle" : {
       "width" : "100%"
     },
-    "name" : "resources and reports",
+    "name" : "resources requests",
     "style" : {
       "overflow" : "auto"
     }

@@ -9,7 +9,7 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getTypedResourceOrderCtx, resetOrders } from '../UIfacade/resourceOrdersFacade';
+import { getTypedResourceOrderCtx } from '../UIfacade/resourceOrdersFacade';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
@@ -59,9 +59,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
       endMapAction();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(actTemplate)) {
-    // detached from the context so that the reset below cannot alter what we send
     params = Helpers.cloneDeep(getTypedResourceOrderCtx().state.payload);
-    resetOrders();
   } else if (isCasuMessageActionTemplate(actTemplate)) {
     params = fetchCasuMessageRequestValues();
   } else if (isRadioActionTemplate(actTemplate, RadioType.CASU)) {

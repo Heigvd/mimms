@@ -8,9 +8,7 @@ import { getSelectedActorLocation } from './actorFacade';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { fetchLocationInfo, LocationInfo } from '../game/common/location/locationLogic';
-import {
-  LocationAccessibilityKind,
-} from '../game/common/events/defineMapObjectEvent';
+import { LocationAccessibilityKind } from '../game/common/events/defineMapObjectEvent';
 
 // used in page 66
 export function getActorTargetLocationChoices(): { label: string; value: string }[] {

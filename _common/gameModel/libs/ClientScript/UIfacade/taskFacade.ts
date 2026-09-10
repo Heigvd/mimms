@@ -10,5 +10,5 @@ export function getTasksForLocation(location: LOCATION_ENUM): { Uid: TaskId; tit
 
   return TaskState.getAllTasks(state)
     .filter(task => task.location === location && task.Uid !== travelingTaskId)
-    .map(task => ({ Uid: task.Uid, title: task.getTitle() }));
+    .map(task => ({ Uid: task.Uid, title: task.getTitle(), type: task.taskType }));
 }

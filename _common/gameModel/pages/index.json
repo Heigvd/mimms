@@ -203,7 +203,7 @@
         }, {
           "@class" : "Page",
           "id" : "68",
-          "name" : "resources management and reports",
+          "name" : "resources requests",
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
@@ -232,6 +232,12 @@
           "@class" : "Page",
           "id" : "64",
           "name" : "notifications",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "resourcesManagement",
+          "name" : "resources management",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],
