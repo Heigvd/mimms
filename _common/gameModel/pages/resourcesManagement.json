@@ -103,17 +103,57 @@
                                                 "children" : [ {
                                                   "props" : {
                                                     "className" : "noMargin resource-type__number",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) === 0;",
+                                                      "language" : "typescript"
+                                                    },
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
                                                     "name" : "number",
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n`${getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum)}`;",
+                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\nString(getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     }
                                                   },
                                                   "type" : "Text"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "icon" : "user",
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "style" : { }
+                                                          },
+                                                          "type" : "Icon"
+                                                        } ],
+                                                        "layout" : { },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "resource",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "FlexList"
+                                                    } ],
+                                                    "exposeAs" : "resourceIcon",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { countAllocatableResources, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(countAllocatableResources(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "id",
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "unselected resource",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "For each"
                                                 }, {
                                                   "props" : {
                                                     "children" : [ {
@@ -142,14 +182,51 @@
                                                     "exposeAs" : "resourceIcon",
                                                     "getItemsFn" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n  Array.from({ length: getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) }, (_, i) => ({ id: i }));",
+                                                      "content" : "import { foreachHelper, getOnGoingSuborderResourceCountForLocation } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(getOnGoingSuborderResourceCountForLocation(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     },
                                                     "itemKey" : "id",
                                                     "layout" : { },
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
-                                                    "name" : "resource",
+                                                    "name" : "selected resource",
+                                                    "style" : { }
+                                                  },
+                                                  "type" : "For each"
+                                                }, {
+                                                  "props" : {
+                                                    "children" : [ {
+                                                      "props" : {
+                                                        "children" : [ {
+                                                          "props" : {
+                                                            "icon" : "user",
+                                                            "layoutClassName" : "noPadding",
+                                                            "layoutStyle" : { },
+                                                            "style" : {
+                                                              "color" : "orange"
+                                                            }
+                                                          },
+                                                          "type" : "Icon"
+                                                        } ],
+                                                        "layout" : { },
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
+                                                        "name" : "resource",
+                                                        "style" : { }
+                                                      },
+                                                      "type" : "FlexList"
+                                                    } ],
+                                                    "exposeAs" : "resourceIcon",
+                                                    "getItemsFn" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { assignedRessourcesCount, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(assignedRessourcesCount(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
+                                                      "language" : "TypeScript"
+                                                    },
+                                                    "itemKey" : "id",
+                                                    "layout" : { },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "added resource",
                                                     "style" : { }
                                                   },
                                                   "type" : "For each"
@@ -218,7 +295,7 @@
                                                     },
                                                     "script" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getCurrentOrderResourceCount } from \"./UIfacade/resourceOrdersFacade\";\ngetCurrentOrderResourceCount(Context.task.type, Context.resourceType.enum);",
+                                                      "content" : "import { getOngoingSuborderResourceCount } from \"./UIfacade/resourceOrdersFacade\";\ngetOngoingSuborderResourceCount(Context.task.type, Context.resourceType.enum);",
                                                       "language" : "TypeScript"
                                                     },
                                                     "style" : { }
@@ -269,7 +346,7 @@
                                             "className" : "resource-type",
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) === 0;",
+                                              "content" : "import { isResourceLineHidden } from \"./UIfacade/resourceOrdersFacade\";\nisResourceLineHidden(Context.overlayItem.id, Context.task, Context.resourceType.enum);",
                                               "language" : "typescript"
                                             },
                                             "layout" : {

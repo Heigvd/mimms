@@ -207,22 +207,6 @@
           "scenaristPage" : null,
           "trainerPage" : null
         }, {
-          "@class" : "Folder",
-          "items" : [ {
-            "@class" : "Page",
-            "id" : "locationBase",
-            "name" : "location panel",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
-            "id" : "pmaLocationPanel",
-            "name" : "PMA location",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          } ],
-          "name" : "location"
-        }, {
           "@class" : "Page",
           "id" : "patientsListModale",
           "name" : "patients list with detail",

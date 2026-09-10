@@ -189,10 +189,24 @@ function updateSelectedResourceAmount(
   }
 }
 
-export function getCurrentOrderResourceCount(task: TaskType, type: HumanResourceType): number {
+export function getOngoingSuborderResourceCount(task: TaskType, type: HumanResourceType): number {
   const onGoing = getOngoingSubOrder();
   if (onGoing?.sourceTask === task) {
     return onGoing.resources[type] || 0;
+  }
+  return 0;
+}
+
+/**
+ * Gets the selected resources count (selected in the current suborder)
+ */
+export function getOnGoingSuborderResourceCountForLocation(
+  location: LOCATION_ENUM,
+  task: TaskType,
+  type: HumanResourceType
+): number {
+  if (getSourceLocation() === location) {
+    return getOngoingSuborderResourceCount(task, type);
   }
   return 0;
 }
@@ -218,7 +232,7 @@ export function isDestinationValid(location: LOCATION_ENUM, task: TaskType): boo
  * @param type
  */
 export function canAddRessourceType(task: TaskType, type: HumanResourceType): boolean {
-  return countAllocatableResources(task, type) > 0;
+  return countAllocatableResources(getSourceLocation(), task, type) > 0;
 }
 
 export function canRemoveRessourceType(task: TaskType, type: HumanResourceType): boolean {
@@ -227,6 +241,16 @@ export function canRemoveRessourceType(task: TaskType, type: HumanResourceType):
     return false;
   }
   return (ongoing.resources[type] || 0) > 0;
+}
+
+export function isResourceLineHidden(
+  location: LOCATION_ENUM,
+  task: { Uid: number; type: TaskType },
+  type: HumanResourceType
+): boolean {
+  const present = getResourceCountForTaskAndType(task.Uid, location, type);
+  const assigned = assignedRessourcesCount(location, task.type, type);
+  return present + assigned <= 0;
 }
 
 /**
@@ -244,8 +268,10 @@ export function isResourceNumberValid(
   const replacedAmount =
     ongoing !== undefined && ongoing.sourceTask === task ? ongoing.resources[type] || 0 : 0;
 
+  const source = getSourceLocation();
   return (
-    resourceAmount >= 0 && resourceAmount <= countAllocatableResources(task, type) + replacedAmount
+    resourceAmount >= 0 &&
+    resourceAmount <= countAllocatableResources(source, task, type) + replacedAmount
   );
 }
 
@@ -257,11 +283,9 @@ function countSubOrderResources(subOrder: SubOrder): number {
 }
 
 /**
- * The whole order is sent at once, so the suborders already completed still hold their share.
- *
- * @returns how many resources of that type the pending suborders take from that source task
+ * @returns how many resources of that type all pending suborders have taken from that source task
  */
-function countSelectedResources(task: TaskType, type: HumanResourceType): number {
+function countCumultatedSelectedResources(task: TaskType, type: HumanResourceType): number {
   const source = getSourceLocation();
 
   return getTypedResourceOrderCtx()
@@ -270,18 +294,38 @@ function countSelectedResources(task: TaskType, type: HumanResourceType): number
 }
 
 /**
- * @returns how many resources of that type can still be taken from that source task
+ * @returns how many resources of that type can still be taken from that source task.
+ * that is, present ressources minus all the preallocated in order
  */
-function countAllocatableResources(task: TaskType, type: HumanResourceType): number {
-  const source = getSourceLocation();
+export function countAllocatableResources(
+  location: LOCATION_ENUM,
+  task: TaskType,
+  type: HumanResourceType
+): number {
   const state = getCurrentState();
   // typed as a TaskBase but there might be no such task at that location
-  const sourceTask: TaskBase | undefined = getTaskByTypeAndLocation(state, task, source);
+  const sourceTask: TaskBase | undefined = getTaskByTypeAndLocation(state, task, location);
   if (sourceTask === undefined) {
     return 0;
   }
-  const count = getResourceCountForTaskAndType(sourceTask.Uid, source, type);
-  return count - countSelectedResources(task, type);
+  const count = getResourceCountForTaskAndType(sourceTask.Uid, location, type);
+  return count - countCumultatedSelectedResources(task, type);
+}
+
+/**
+ * Counts the ressources of all complete suborders
+ */
+export function assignedRessourcesCount(
+  destination: LOCATION_ENUM,
+  task: TaskType,
+  type: HumanResourceType
+): number {
+  const orders = getTypedResourceOrderCtx().state.payload.orders;
+  let count = 0;
+  orders
+    .filter(o => o.destination === destination && o.destinationTask === task)
+    .forEach(o => (count += o.resources[type] || 0));
+  return count;
 }
 
 /**
@@ -298,4 +342,11 @@ export function sendOrder(): void {
     runActionButton(template);
     resetOrders();
   }
+}
+
+/**
+ * Generates a n times data structure for foreach components
+ */
+export function foreachHelper(n: number): { id: number }[] {
+  return Array.from({ length: n }, (_, i) => ({ id: i }));
 }
