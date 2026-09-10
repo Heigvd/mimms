@@ -8,7 +8,7 @@
 /* resources flow modal */
 /* ugly selector because for some reason, the wegas 
 container element does not actually wrap the content */
-.resources-flow-modal__container + div {
+#globalInterfaceId > div:has(.resources-flow-modal) {
   padding: 0;
   background-color: transparent;
   border-radius: 0;

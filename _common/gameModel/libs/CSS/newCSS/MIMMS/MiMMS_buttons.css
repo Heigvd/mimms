@@ -218,6 +218,11 @@
   background-color: var(--primary_base);
 }
 
+.role-button.disabled {
+  background-color: var(--grey-white);
+  opacity: 50%;
+}
+
 /* - - - - -  P A T I E N T S  F L O W  B U T T O N  - - - */
 .patients-flow-button-container {
   position: absolute;

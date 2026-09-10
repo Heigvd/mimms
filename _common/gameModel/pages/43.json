@@ -1729,7 +1729,7 @@
                                                         } ],
                                                         "disableIf" : {
                                                           "@class" : "Script",
-                                                          "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid);",
+                                                          "content" : "import { canBePlayedByCurrentPlayer } from \"./UIfacade/actorFacade\";\n  !canBePlayedByCurrentPlayer(Context.actor.Uid) || (Context.interfaceState.state.showResourcesManagementModal && Context.interfaceState.state.currentActorUid != Context.actor.Uid);",
                                                           "language" : "typescript"
                                                         },
                                                         "icon" : {
