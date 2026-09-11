@@ -20,6 +20,8 @@ export const translationLogger = Helpers.getLogger('translation');
 export const exportLogger = Helpers.getLogger('export');
 export const extraLogger = Helpers.getLogger('human.extra');
 export const preTriageLogger = Helpers.getLogger('pretriage');
+/** Drill (pretri) mode: traces how simulated time is applied to each patient */
+export const patientTimeLogger = Helpers.getLogger('pretriage.patient.time');
 export const localEventManagerLogger = Helpers.getLogger('local.event.manager');
 export const mainSimInterfaceLogger = Helpers.getLogger('mainSim.interface');
 export const mainSimMapLogger = Helpers.getLogger('mainSim.map');
@@ -41,3 +43,4 @@ gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
 mainSimLogger.setLevel('INFO');
 mainSimStateLogger.setLevel('DEBUG');
+patientTimeLogger.setLevel('INFO');

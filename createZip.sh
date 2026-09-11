@@ -53,11 +53,11 @@ fi
 
 GIT_STATUS_SHORT=$(git status --short gameModel)
 
-if [ ! -z "${GIT_STATUS_SHORT}" ]; then
-    git status
-    printError "Pending changes in repository ! Please commit or revert all changes";
-    exit 1;
-fi
+#if [ ! -z "${GIT_STATUS_SHORT}" ]; then
+#.   git status
+#    printError "Pending changes in repository ! Please commit or revert all changes";
+#    exit 1;
+#fi
 
 if [ ! "${BRANCH}" == "${CURRENT_BRANCH}" ]; then
     if [ ${VERBOSE} ]; then

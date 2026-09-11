@@ -41,7 +41,13 @@ import { convertMapUnitToMeter, convertMeterToMapUnit, obstacleGrids } from '../
 import { compareEvent, FullEvent, getAllEvents, sendEvent } from '../common/events/eventUtils';
 import { Categorization } from '../pretri/triage';
 import { getFogType, infiniteBags, isInterfaceDisabled } from './gameMaster';
-import { worldLogger, inventoryLogger, delayedLogger, extraLogger } from '../../tools/logger';
+import {
+  worldLogger,
+  inventoryLogger,
+  delayedLogger,
+  extraLogger,
+  patientTimeLogger,
+} from '../../tools/logger';
 import { SkillLevel } from '../../edition/GameModelerHelper';
 import {
   getActTranslation,
@@ -434,7 +440,25 @@ function rebuildState(time: number, env: Environnment) {
         state: newState,
       });
 
+      patientTimeLogger.info('[PT][SNAPSHOT] new snapshot', {
+        patientId: obj.objectId,
+        simTime: time,
+        fromSnapshotTime: humanS.mostRecent.time,
+        frozen: newState.frozen,
+        // one snapshot is appended per human per tick, frozen ones included
+        snapshotCount: humanSnapshots[oKey]!.length,
+        vitals: digestVitals(newState),
+      });
+
       worldLogger.debug('WorldState: ', humanSnapshots[oKey]);
+    } else if (humanS.mostRecent != null) {
+      patientTimeLogger.info('[PT][SNAPSHOT] up to date, nothing to compute', {
+        patientId: obj.objectId,
+        simTime: time,
+        snapshotTime: humanS.mostRecent.time,
+        frozen: humanS.mostRecent.state.frozen,
+        snapshotCount: humanSnapshots[oKey]!.length,
+      });
     }
   });
 
@@ -621,6 +645,24 @@ function getMostRecentSnapshot<T>(
   };
 }
 
+/**
+ * Compact vitals digest, used by the patient-time traces to make the physiological
+ * effect of each simulated time step visible.
+ */
+function digestVitals(state: HumanState) {
+  const vitals = state.bodyState.vitals;
+  return {
+    bodyTime: state.bodyState.time,
+    hr: vitals.cardio.hr,
+    map: vitals.cardio.MAP,
+    bloodVolume_mL: Math.round(vitals.cardio.totalVolume_mL),
+    spo2: vitals.respiration.SpO2,
+    rr: vitals.respiration.rr,
+    glasgow: vitals.glasgow.total,
+    cardiacArrest: vitals.cardiacArrest,
+  };
+}
+
 function computeHumanState(state: HumanState, endTime: number, env: Environnment): HumanState {
   const stepDuration = Variable.find(gameModel, 'stepDuration').getValue(self);
   const meta = humanMetas[state.id];
@@ -638,6 +680,14 @@ function computeHumanState(state: HumanState, endTime: number, env: Environnment
       time: endTime,
     };
     worldLogger.log('Skip Human ', state.id);
+    patientTimeLogger.info('[PT][SKIP]', {
+      patientId: state.id,
+      reason: state.frozen ? 'frozen' : 'no-pathology-no-effect',
+      // the state clock is bumped to endTime but the body clock stays put
+      stateTimeFrom: state.time,
+      stateTimeTo: endTime,
+      bodyTimeUnchanged: state.bodyState.time,
+    });
     return newState;
   } else {
     worldLogger.log('Update Human ', state.id);
@@ -645,14 +695,21 @@ function computeHumanState(state: HumanState, endTime: number, env: Environnment
 
     const from = state.bodyState.time;
 
+    const plannedFullSteps = Math.max(0, Math.floor((endTime - from) / stepDuration));
+    const beforeVitals = digestVitals(newState);
+    let performedFullSteps = 0;
+
     for (let i = from + stepDuration; i <= endTime; i += stepDuration) {
       worldLogger.log('Compute Human Step ', { currentTime: newState.time, stepDuration, health });
       computeState(newState.bodyState, meta, env, stepDuration, health.pathologies, health.effects);
+      performedFullSteps++;
       worldLogger.debug('Step Time: ', newState.bodyState.time);
     }
 
     // last tick
+    let lastTickDuration = 0;
     if (newState.time < endTime) {
+      lastTickDuration = endTime - newState.bodyState.time;
       worldLogger.log('Compute Human Step ', {
         currentTime: newState.time,
         stepDuration: endTime - newState.bodyState.time,
@@ -669,6 +726,21 @@ function computeHumanState(state: HumanState, endTime: number, env: Environnment
     }
     newState.time = newState.bodyState.time;
     worldLogger.debug('FinalStateTime: ', newState.time);
+    patientTimeLogger.info('[PT][EVOLVE]', {
+      patientId: state.id,
+      bodyTimeFrom: from,
+      requestedEndTime: endTime,
+      simulatedSeconds: endTime - from,
+      configuredStepDuration: stepDuration,
+      plannedFullSteps,
+      performedFullSteps,
+      // when this is > 0 the integration step is NOT stepDuration (typically a 1s tick)
+      lastTickDuration,
+      pathologies: health.pathologies.map(p => ({ id: p.pathologyId, startTime: p.time })),
+      effectCount: health.effects.length,
+      before: beforeVitals,
+      after: digestVitals(newState),
+    });
     return newState;
   }
 }
@@ -788,6 +860,12 @@ function updateHumanSnapshots(humanId: string, time: number) {
   const objId = { objectType: 'Human', objectId: humanId };
   const env = getEnv();
 
+  patientTimeLogger.info('[PT][CATCHUP] realigning snapshots', {
+    patientId: humanId,
+    targetTime: time,
+    existingSnapshotTimes: (humanSnapshots[getObjectKey(objId)] || []).map(sshot => sshot.time),
+  });
+
   const snapshots = getHumanSnapshotAtTime(objId, time);
   let snapshot = snapshots.snapshot;
 
@@ -821,6 +899,15 @@ function processPathologyEvent(event: FullEvent<PathologyEvent>) {
       health.pathologies.push(p);
       healths[event.payload.targetId] = health;
 
+      patientTimeLogger.info('[PT][PATHOLOGY] afflicted', {
+        patientId: event.payload.targetId,
+        pathologyId: event.payload.pathologyId,
+        // pathology rules are keyed on this time, so nothing happens before it
+        pathologyStartTime: p.time,
+        pathologyEventTime: event.time,
+        pathologyCountAfter: health.pathologies.length,
+      });
+
       updateHumanSnapshots(event.payload.targetId, event.time);
     } catch (error) {
       worldLogger.error(error);
@@ -846,12 +933,53 @@ function processAgingEvent(agingEvent: FullEvent<AgingEvent>) {
   const snapshots = getHumanSnapshotAtTime(objId, time);
   let snapshot = snapshots.snapshot;
 
+  patientTimeLogger.info('[PT][JUMP] begin initial time jump', {
+    patientId: agingEvent.payload.targetId,
+    agingEventTime: time,
+    deltaSeconds: agingEvent.payload.deltaSeconds,
+    simulateUpTo: newTime,
+    snapshotTime: snapshot.time,
+    futureSnapshotCount: snapshots.futures.length,
+    before: digestVitals(snapshot.state),
+  });
+
   const agedState = computeHumanState(snapshot.state, newTime, env);
+  // read before the rewind below: `snapshot.state` aliases `agedState`
+  const agedBodyTime = agedState.bodyState.time;
 
   snapshot.time = time;
   snapshot.state = agedState;
+  // the body physiology jumped forward, but the clock is rewound to the event time:
+  // the jump is invisible on the displayed time
   snapshot.state.time = time;
   snapshot.state.bodyState.time = time;
+
+  patientTimeLogger.info('[PT][JUMP] done, clock rewound', {
+    patientId: agingEvent.payload.targetId,
+    agedBodyTimeBeforeRewind: agedBodyTime,
+    clockRewoundTo: time,
+    after: digestVitals(snapshot.state),
+  });
+
+  // Rewinding the body clock makes the engine walk [time, agedBodyTime) a second time as
+  // the drill is played. `computeState` selects rules purely on `rule.time + pathology.time`
+  // falling in the traversed window, with no record of what already fired, and the patches
+  // are additive -- so every rule offset below is applied twice.
+  const replayableOffsets = (healths[agingEvent.payload.targetId]?.pathologies || []).flatMap(
+    revived =>
+      revived.modules.flatMap(mod =>
+        mod.rules
+          .filter(rule => rule.time < agingEvent.payload.deltaSeconds)
+          .map(rule => ({ pathologyId: revived.pathologyId, ruleId: rule.id, offset: rule.time }))
+      )
+  );
+  if (replayableOffsets.length > 0) {
+    patientTimeLogger.warn('[PT][REPLAY-RISK] rules inside the rewound window will fire again', {
+      patientId: agingEvent.payload.targetId,
+      rewoundWindow: [time, agedBodyTime],
+      replayableOffsets,
+    });
+  }
 
   // Update futures
   snapshots.futures.forEach(sshot => {
@@ -1580,6 +1708,18 @@ function processFreezeEvent(event: FullEvent<FreezeEvent>) {
 
   const { snapshot, futures } = getHumanSnapshotAtTime(owner, event.time, next);
   const frozen = event.payload.mode === 'freeze';
+
+  patientTimeLogger.info('[PT][FREEZE]', {
+    patientId: event.payload.targetId,
+    mode: event.payload.mode,
+    freezeEventTime: event.time,
+    wasFrozen: snapshot.state.frozen,
+    snapshotTime: snapshot.time,
+    futureSnapshotCount: futures.length,
+    nextFreezeEventTime: next?.time,
+    vitals: digestVitals(snapshot.state),
+  });
+
   snapshot.state.frozen = frozen;
 
   futures.forEach(sshot => {
@@ -1646,9 +1786,18 @@ function processEvent(
   processedEvent[event.id] = true;
 }
 
+/** Sim time of the previous syncWorld, to measure the actual tick cadence */
+let lastSyncedSimTime: number | undefined = undefined;
+
 export function syncWorld() {
   worldLogger.log('Sync World');
   const time = getCurrentSimulationTime();
+
+  patientTimeLogger.info('[PT][TICK]', {
+    simTime: time,
+    secondsSinceLastSync: lastSyncedSimTime == null ? undefined : time - lastSyncedSimTime,
+  });
+  lastSyncedSimTime = time;
 
   const allEvents = getAllEvents();
   const events = filterOutFutureEvents(allEvents, time);
