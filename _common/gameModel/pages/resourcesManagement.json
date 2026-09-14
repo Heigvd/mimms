@@ -114,7 +114,7 @@
                                                     "style" : { },
                                                     "text" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\nString(getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum));",
+                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\nimport {  countCompleteSubordersSelectedResources } from \"./UIfacade/resourceOrdersFacade\";\nString(getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) - countCompleteSubordersSelectedResources(Context.task.Uid, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     }
                                                   },
@@ -701,7 +701,7 @@
                                 } ],
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "if (Context.overlayItem.resources.length < 1) return true;\n  false;",
+                                  "content" : "true;",
                                   "language" : "typescript"
                                 },
                                 "icon" : "users",

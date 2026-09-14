@@ -40,7 +40,7 @@ export function resetOrders(): void {
  * gets the source location of the order
  */
 function getSourceLocation(): LOCATION_ENUM {
-  return getTypedInterfaceState().resourceManagementSourceLocation || LOCATION_ENUM.pcFront;
+  return getTypedInterfaceState()?.resourceManagementSourceLocation || LOCATION_ENUM.pcFront;
 }
 
 /**
@@ -158,7 +158,13 @@ export function setSelectedResourceAmount(
   type: HumanResourceType,
   amount: number
 ): void {
-  updateSelectedResourceAmount(task, type, () => amount);
+  const source = getSourceLocation();
+  const present = getResourceCountForTaskAndType(task, source, type);
+  const previousOrdersCount = countCompleteSubordersSelectedResources(task, type);
+  const available = present - previousOrdersCount;
+
+  const sanitized = Math.min(Math.max(0, amount), available);
+  updateSelectedResourceAmount(task, type, () => sanitized);
 }
 
 function updateSelectedResourceAmount(
@@ -252,7 +258,7 @@ export function isResourceLineHidden(
 }
 
 /**
- * computes if the entered amount is a valid quantity to place an order
+ * computes if the entered amount is valid (enough resources)
  * @param task
  * @param type
  */
@@ -261,16 +267,11 @@ export function isResourceNumberValid(
   task: TaskId,
   type: HumanResourceType
 ): boolean {
-  const ongoing = getOngoingSubOrder();
-  // the amount replaces what the ongoing suborder holds, that share goes back to the pool
-  const replacedAmount =
-    ongoing !== undefined && ongoing.sourceTask === task ? ongoing.resources[type] || 0 : 0;
-
   const source = getSourceLocation();
-  return (
-    resourceAmount >= 0 &&
-    resourceAmount <= countAllocatableResources(source, task, type) + replacedAmount
-  );
+
+  const present = getResourceCountForTaskAndType(task, source, type);
+  const previousOrdersCount = countCompleteSubordersSelectedResources(task, type);
+  return resourceAmount >= 0 && resourceAmount <= present - previousOrdersCount;
 }
 
 function countSubOrderResources(subOrder: SubOrder): number {
@@ -283,11 +284,28 @@ function countSubOrderResources(subOrder: SubOrder): number {
 /**
  * @returns how many resources of that type all pending suborders have taken from that source task
  */
-function countCumultatedSelectedResources(task: TaskId, type: HumanResourceType): number {
+function countCumulatedSelectedResources(task: TaskId, type: HumanResourceType): number {
   const source = getSourceLocation();
 
   return getTypedResourceOrderCtx()
     .state.payload.orders.filter(order => order.source === source && order.sourceTask === task)
+    .reduce((total, order) => total + (order.resources[type] || 0), 0);
+}
+
+/**
+ * @returns how many resources of that type all assigned suborders have taken from that source task
+ * excludes the ongoing suborder
+ */
+export function countCompleteSubordersSelectedResources(
+  task: TaskId,
+  type: HumanResourceType
+): number {
+  const source = getSourceLocation();
+
+  return getTypedResourceOrderCtx()
+    .state.payload.orders.filter(
+      order => isSubOrderComplete(order) && order.source === source && order.sourceTask === task
+    )
     .reduce((total, order) => total + (order.resources[type] || 0), 0);
 }
 
@@ -301,7 +319,7 @@ export function countAllocatableResources(
   type: HumanResourceType
 ): number {
   const count = getResourceCountForTaskAndType(task, location, type);
-  return count - countCumultatedSelectedResources(task, type);
+  return count - countCumulatedSelectedResources(task, type);
 }
 
 /**
