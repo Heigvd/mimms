@@ -1,6 +1,6 @@
+import { TaskId } from '../baseTypes';
 import { CommMedia } from '../radio/communicationType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
-import { TaskType } from '../tasks/taskBase';
 import { HumanResourceType } from './resourceType';
 
 export interface ResourceOrder {
@@ -11,10 +11,15 @@ export interface ResourceOrder {
   commMedia: CommMedia;
 }
 
+/**
+ * The tasks are referred to by their id, the ids being handed out in the order the tasks
+ * are built by loadTasks(). A sub-order is persisted in the event log, so reordering or
+ * inserting tasks in loadTasks() silently changes what an already sent order points to.
+ */
 export interface SubOrder {
   source: LOCATION_ENUM;
-  sourceTask?: TaskType;
+  sourceTask?: TaskId;
   destination?: LOCATION_ENUM;
-  destinationTask?: TaskType;
+  destinationTask?: TaskId;
   resources: Partial<Record<HumanResourceType, number>>;
 }

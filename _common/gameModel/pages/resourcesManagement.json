@@ -143,7 +143,7 @@
                                                     "exposeAs" : "resourceIcon",
                                                     "getItemsFn" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { countAllocatableResources, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(countAllocatableResources(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
+                                                      "content" : "import { countAllocatableResources, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(countAllocatableResources(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     },
                                                     "itemKey" : "id",
@@ -182,7 +182,7 @@
                                                     "exposeAs" : "resourceIcon",
                                                     "getItemsFn" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { foreachHelper, getOnGoingSuborderResourceCountForLocation } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(getOnGoingSuborderResourceCountForLocation(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
+                                                      "content" : "import { foreachHelper, getOnGoingSuborderResourceCountForLocation } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(getOnGoingSuborderResourceCountForLocation(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     },
                                                     "itemKey" : "id",
@@ -219,7 +219,7 @@
                                                     "exposeAs" : "resourceIcon",
                                                     "getItemsFn" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { assignedRessourcesCount, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(assignedRessourcesCount(Context.overlayItem.id, Context.task.type, Context.resourceType.enum));",
+                                                      "content" : "import { assignedRessourcesCount, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(assignedRessourcesCount(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum));",
                                                       "language" : "TypeScript"
                                                     },
                                                     "itemKey" : "id",
@@ -248,7 +248,7 @@
                                                     "className" : "unactivables-overlay__button",
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { canRemoveRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canRemoveRessourceType(Context.task.type, Context.resourceType.enum);",
+                                                      "content" : "import { canRemoveRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canRemoveRessourceType(Context.task.Uid, Context.resourceType.enum);",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : "minus",
@@ -262,7 +262,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { addRemoveSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\naddRemoveSelectedResourceAmount(Context.task.type, Context.resourceType.enum, -1);",
+                                                        "content" : "import { addRemoveSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\naddRemoveSelectedResourceAmount(Context.task.Uid, Context.resourceType.enum, -1);",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -279,7 +279,7 @@
                                                     "onVariableChange" : {
                                                       "client" : {
                                                         "@class" : "Script",
-                                                        "content" : "import { setSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\nsetSelectedResourceAmount(Context.task.type, Context.resourceType.enum, Context.value);",
+                                                        "content" : "import { setSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\nsetSelectedResourceAmount(Context.task.Uid, Context.resourceType.enum, Context.value);",
                                                         "language" : "TypeScript"
                                                       },
                                                       "exposeVariableAs" : {
@@ -295,7 +295,7 @@
                                                     },
                                                     "script" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { getOngoingSuborderResourceCount } from \"./UIfacade/resourceOrdersFacade\";\ngetOngoingSuborderResourceCount(Context.task.type, Context.resourceType.enum);",
+                                                      "content" : "import { getOngoingSuborderResourceCount } from \"./UIfacade/resourceOrdersFacade\";\ngetOngoingSuborderResourceCount(Context.task.Uid, Context.resourceType.enum);",
                                                       "language" : "TypeScript"
                                                     },
                                                     "style" : { }
@@ -306,7 +306,7 @@
                                                     "className" : "unactivables-overlay__button",
                                                     "disableIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { canAddRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canAddRessourceType(Context.task.type, Context.resourceType.enum);",
+                                                      "content" : "import { canAddRessourceType } from \"./UIfacade/resourceOrdersFacade\";\n!canAddRessourceType(Context.task.Uid, Context.resourceType.enum);",
                                                       "language" : "typescript"
                                                     },
                                                     "icon" : "plus",
@@ -320,7 +320,7 @@
                                                     "localScriptEval" : {
                                                       "script" : {
                                                         "@class" : "ClientScript",
-                                                        "content" : "import { addRemoveSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\naddRemoveSelectedResourceAmount(Context.task.type, Context.resourceType.enum, 1);",
+                                                        "content" : "import { addRemoveSelectedResourceAmount } from \"./UIfacade/resourceOrdersFacade\";\n\naddRemoveSelectedResourceAmount(Context.task.Uid, Context.resourceType.enum, 1);",
                                                         "language" : "TypeScript"
                                                       }
                                                     },
@@ -332,7 +332,7 @@
                                                 "className" : "resourcesSelectionAssignment",
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\n!isTaskValidSource(Context.overlayItem.id, Context.task.type)",
+                                                  "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\n!isTaskValidSource(Context.overlayItem.id, Context.task.Uid)",
                                                   "language" : "typescript"
                                                 },
                                                 "layout" : { },
@@ -346,7 +346,7 @@
                                             "className" : "resource-type",
                                             "hideIf" : {
                                               "@class" : "Script",
-                                              "content" : "import { isResourceLineHidden } from \"./UIfacade/resourceOrdersFacade\";\nisResourceLineHidden(Context.overlayItem.id, Context.task, Context.resourceType.enum);",
+                                              "content" : "import { isResourceLineHidden } from \"./UIfacade/resourceOrdersFacade\";\nisResourceLineHidden(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum);",
                                               "language" : "typescript"
                                             },
                                             "layout" : {
@@ -381,12 +381,12 @@
                                         "className" : "noPadding",
                                         "disableIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isDestinationValid } from \"./UIfacade/resourceOrdersFacade\";\n!isDestinationValid(Context.overlayItem.id, Context.task.type);",
+                                          "content" : "import { isDestinationValid } from \"./UIfacade/resourceOrdersFacade\";\n!isDestinationValid(Context.overlayItem.id, Context.task.Uid);",
                                           "language" : "typescript"
                                         },
                                         "hideIf" : {
                                           "@class" : "Script",
-                                          "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\nisTaskValidSource(Context.overlayItem.id, Context.task.type)",
+                                          "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\nisTaskValidSource(Context.overlayItem.id, Context.task.Uid)",
                                           "language" : "typescript"
                                         },
                                         "icon" : "plus",
@@ -400,7 +400,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { setOrderDestination } from \"./UIfacade/resourceOrdersFacade\";\n\nsetOrderDestination(Context.overlayItem.id, Context.task.type);",
+                                            "content" : "import { setOrderDestination } from \"./UIfacade/resourceOrdersFacade\";\n\nsetOrderDestination(Context.overlayItem.id, Context.task.Uid);",
                                             "language" : "TypeScript"
                                           }
                                         },

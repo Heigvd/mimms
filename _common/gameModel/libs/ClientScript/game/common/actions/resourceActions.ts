@@ -22,10 +22,8 @@ import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
 import { SubOrder } from '../resources/resourceOrdersType';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
-import { TaskBase } from '../tasks/taskBase';
 import { RadioDrivenAction } from './radioActions';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import * as TaskState from '../simulationState/taskStateAccess';
 import * as TaskLogic from '../tasks/taskLogic';
 import * as RadioLogic from '../radio/radioLogic';
 import * as EvacuationLogic from '../evacuation/evacuationLogic';
@@ -44,9 +42,9 @@ import { Resource } from '../resources/resource';
 import { getCachedHospitalById } from '../../loaders/hospitalLoader';
 
 /**
- * A sub-order once its tasks have been resolved against the state.
+ * A sub-order once the resources it gets have been picked from the state.
  * <p>
- * The orders travel as (task type, location) pairs, task ids only exist at execution time.
+ * The tasks themselves need no resolution, the order already refers to them by id.
  */
 interface ResolvedOrder {
   readonly order: SubOrder;
@@ -117,7 +115,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   }
 
   /**
-   * Resolve the tasks of one sub-order and pick the resources it gets.
+   * Pick the resources one sub-order gets.
    *
    * @param alreadyClaimed resources taken by the previous sub-orders, it is completed as we go
    * @returns undefined when the sub-order cannot be carried out at all
@@ -127,34 +125,13 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     order: SubOrder,
     alreadyClaimed: Set<ResourceId>
   ): ResolvedOrder | undefined {
-    if (order.destination == undefined || order.destinationTask == undefined) {
+    const sourceTaskId: TaskId | undefined = order.sourceTask;
+    if (
+      sourceTaskId == undefined ||
+      order.destination == undefined ||
+      order.destinationTask == undefined
+    ) {
       this.logger.warn('Ignoring an incomplete resource order');
-      return undefined;
-    }
-
-    const targetTask: TaskBase | undefined = TaskState.getTaskByTypeAndLocation(
-      state,
-      order.destinationTask,
-      order.destination
-    );
-
-    if (targetTask == undefined) {
-      this.logger.warn(
-        'Ignoring a resource order, no task ' + order.destinationTask + ' at ' + order.destination
-      );
-      return undefined;
-    }
-
-    const sourceTask: TaskBase | undefined = TaskState.getTaskByTypeAndLocation(
-      state,
-      order.sourceTask,
-      order.source
-    );
-
-    if (sourceTask == undefined) {
-      this.logger.warn(
-        'Ignoring a resource order, no task ' + order.sourceTask + ' at ' + order.source
-      );
       return undefined;
     }
 
@@ -172,7 +149,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         state,
         resourceType,
         order.source,
-        sourceTask.Uid
+        sourceTaskId
       )
         .filter(resource => !alreadyClaimed.has(resource.Uid))
         .slice(0, nbResources)
@@ -185,7 +162,7 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     return {
       order: order,
       targetLocation: order.destination,
-      targetTaskId: targetTask.Uid,
+      targetTaskId: order.destinationTask,
       isSameLocation: isSameLocation,
       timeDelay: isSameLocation
         ? 0
@@ -352,7 +329,12 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
    */
   public getMessage(): string {
     return this.orders
-      .filter(order => order.destination != undefined && order.destinationTask != undefined)
+      .filter(
+        order =>
+          order.sourceTask != undefined &&
+          order.destination != undefined &&
+          order.destinationTask != undefined
+      )
       .map(order => this.getOrderMessage(order))
       .join('\n');
   }
@@ -367,9 +349,9 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         )
         .join(', '),
       getTranslation('mainSim-locations', 'location-' + order.source),
-      TaskLogic.getTaskTitleByTypeAndLocation(order.sourceTask, order.source),
+      TaskLogic.getTaskTitle(order.sourceTask!),
       getTranslation('mainSim-locations', 'location-' + order.destination),
-      TaskLogic.getTaskTitleByTypeAndLocation(order.destinationTask!, order.destination!),
+      TaskLogic.getTaskTitle(order.destinationTask!),
     ]);
   }
 

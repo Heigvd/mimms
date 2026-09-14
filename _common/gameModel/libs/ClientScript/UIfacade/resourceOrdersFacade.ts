@@ -1,10 +1,8 @@
+import { TaskId } from '../game/common/baseTypes';
 import { CommMedia } from '../game/common/radio/communicationType';
 import { ResourceOrder, SubOrder } from '../game/common/resources/resourceOrdersType';
 import { HumanResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getTaskByTypeAndLocation } from '../game/common/simulationState/taskStateAccess';
-import { TaskBase, TaskType } from '../game/common/tasks/taskBase';
-import { getCurrentState } from '../game/mainSimulationLogic';
 import { runActionButton } from '../gameInterface/actionsButtonLogic';
 import { getTypedInterfaceState } from '../gameInterface/interfaceState';
 import { resourceOrderLogger } from '../tools/logger';
@@ -59,7 +57,7 @@ function getCommMedia(): CommMedia {
  *
  * @returns the suborder resources of that source task go into, created if needed
  */
-function getOrInitOpenSubOrder(newState: ResourceOrder, task: TaskType): SubOrder {
+function getOrInitOpenSubOrder(newState: ResourceOrder, task: TaskId): SubOrder {
   const lastSubOrder = newState.orders[newState.orders.length - 1];
 
   if (lastSubOrder && !isSubOrderComplete(lastSubOrder)) {
@@ -79,7 +77,7 @@ function getOrInitOpenSubOrder(newState: ResourceOrder, task: TaskType): SubOrde
 /**
  * Complete the batch being edited. All its suborders share the same destination.
  */
-export function setOrderDestination(location: LOCATION_ENUM, task: TaskType): void {
+export function setOrderDestination(location: LOCATION_ENUM, task: TaskId): void {
   const ctx = getTypedResourceOrderCtx();
   const newState = Helpers.cloneDeep(ctx.state);
   newState.payload.orders
@@ -131,7 +129,7 @@ export function anyOrderPresent(): boolean {
   return getTypedResourceOrderCtx().state.payload.orders.length > 0;
 }
 
-export function isTaskValidSource(location: LOCATION_ENUM, task: TaskType): boolean {
+export function isTaskValidSource(location: LOCATION_ENUM, task: TaskId): boolean {
   const ongoing = getOngoingSubOrder();
   if (ongoing) {
     return ongoing.source === location && ongoing.sourceTask === task;
@@ -144,7 +142,7 @@ export function isTaskValidSource(location: LOCATION_ENUM, task: TaskType): bool
  * a suborder is created if no suborder is ongoing
  */
 export function addRemoveSelectedResourceAmount(
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType,
   delta: number
 ): void {
@@ -156,7 +154,7 @@ export function addRemoveSelectedResourceAmount(
  * a suborder is created if no suborder is ongoing
  */
 export function setSelectedResourceAmount(
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType,
   amount: number
 ): void {
@@ -164,7 +162,7 @@ export function setSelectedResourceAmount(
 }
 
 function updateSelectedResourceAmount(
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType,
   computeAmount: (currentAmount: number) => number
 ): void {
@@ -180,16 +178,16 @@ function updateSelectedResourceAmount(
     ctx.setState(newState);
   } else {
     resourceOrderLogger.error(
-      'Cannot add a ressource from task type' +
+      'Cannot add a ressource from task ' +
         task +
-        ', a suborder with resource type ' +
+        ', a suborder from task ' +
         subOrder.sourceTask +
         ' is already ongoing'
     );
   }
 }
 
-export function getOngoingSuborderResourceCount(task: TaskType, type: HumanResourceType): number {
+export function getOngoingSuborderResourceCount(task: TaskId, type: HumanResourceType): number {
   const onGoing = getOngoingSubOrder();
   if (onGoing?.sourceTask === task) {
     return onGoing.resources[type] || 0;
@@ -202,7 +200,7 @@ export function getOngoingSuborderResourceCount(task: TaskType, type: HumanResou
  */
 export function getOnGoingSuborderResourceCountForLocation(
   location: LOCATION_ENUM,
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType
 ): number {
   if (getSourceLocation() === location) {
@@ -217,7 +215,7 @@ export function getOnGoingSuborderResourceCountForLocation(
  * @param task
  * @returns
  */
-export function isDestinationValid(location: LOCATION_ENUM, task: TaskType): boolean {
+export function isDestinationValid(location: LOCATION_ENUM, task: TaskId): boolean {
   const order = getOngoingSubOrder();
   if (order) {
     return task !== order.sourceTask || location !== order.source;
@@ -231,11 +229,11 @@ export function isDestinationValid(location: LOCATION_ENUM, task: TaskType): boo
  * @param task
  * @param type
  */
-export function canAddRessourceType(task: TaskType, type: HumanResourceType): boolean {
+export function canAddRessourceType(task: TaskId, type: HumanResourceType): boolean {
   return countAllocatableResources(getSourceLocation(), task, type) > 0;
 }
 
-export function canRemoveRessourceType(task: TaskType, type: HumanResourceType): boolean {
+export function canRemoveRessourceType(task: TaskId, type: HumanResourceType): boolean {
   const ongoing = getOngoingSubOrder();
   if (ongoing === undefined || ongoing.sourceTask !== task) {
     return false;
@@ -245,11 +243,11 @@ export function canRemoveRessourceType(task: TaskType, type: HumanResourceType):
 
 export function isResourceLineHidden(
   location: LOCATION_ENUM,
-  task: { Uid: number; type: TaskType },
+  task: TaskId,
   type: HumanResourceType
 ): boolean {
-  const present = getResourceCountForTaskAndType(task.Uid, location, type);
-  const assigned = assignedRessourcesCount(location, task.type, type);
+  const present = getResourceCountForTaskAndType(task, location, type);
+  const assigned = assignedRessourcesCount(location, task, type);
   return present + assigned <= 0;
 }
 
@@ -260,7 +258,7 @@ export function isResourceLineHidden(
  */
 export function isResourceNumberValid(
   resourceAmount: number,
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType
 ): boolean {
   const ongoing = getOngoingSubOrder();
@@ -285,7 +283,7 @@ function countSubOrderResources(subOrder: SubOrder): number {
 /**
  * @returns how many resources of that type all pending suborders have taken from that source task
  */
-function countCumultatedSelectedResources(task: TaskType, type: HumanResourceType): number {
+function countCumultatedSelectedResources(task: TaskId, type: HumanResourceType): number {
   const source = getSourceLocation();
 
   return getTypedResourceOrderCtx()
@@ -299,16 +297,10 @@ function countCumultatedSelectedResources(task: TaskType, type: HumanResourceTyp
  */
 export function countAllocatableResources(
   location: LOCATION_ENUM,
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType
 ): number {
-  const state = getCurrentState();
-  // typed as a TaskBase but there might be no such task at that location
-  const sourceTask: TaskBase | undefined = getTaskByTypeAndLocation(state, task, location);
-  if (sourceTask === undefined) {
-    return 0;
-  }
-  const count = getResourceCountForTaskAndType(sourceTask.Uid, location, type);
+  const count = getResourceCountForTaskAndType(task, location, type);
   return count - countCumultatedSelectedResources(task, type);
 }
 
@@ -317,7 +309,7 @@ export function countAllocatableResources(
  */
 export function assignedRessourcesCount(
   destination: LOCATION_ENUM,
-  task: TaskType,
+  task: TaskId,
   type: HumanResourceType
 ): number {
   const orders = getTypedResourceOrderCtx().state.payload.orders;
