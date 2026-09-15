@@ -1,0 +1,124 @@
+/* modal root */
+/* ugly selector because for some reason, the wegas 
+container element does not actually wrap the content */
+#globalInterfaceId > div:has(.evacuation-modal) {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.evacuation-modal {
+  padding: 0;
+  background-color: transparent;
+  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
+  backdrop-filter: blur(12px);
+  border-radius: 0;
+  pointer-events: auto;
+}
+
+.evacuation-modal > * {
+  box-sizing: border-box;
+}
+
+/* layout */
+.evacuation-column__container {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 3rem 0 3rem 3rem;
+  overflow: hidden;
+}
+
+.evacuation-list__container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.evacuation-column {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 20px;
+  margin: 0;
+  padding-right: 3rem;
+  border-right: 2px dashed #65696B;
+}
+
+.evacuation-column__container:last-of-type .evacuation-column {
+  border-right: none;
+}
+
+/* unactivables overlay */
+.evacuation-column .fixedEntities-container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.evacuation-list-outer {
+  min-height: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* text & icons */
+.evacuation__title {
+    margin-bottom: 3rem;
+    font-size: var(--L_text);
+    font-weight: var(--blackWeight);
+    color: var(--grey_80);
+    opacity: 75%;
+}
+
+.unactivables-overlay__title {
+  font-size: var(--SM_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+}
+
+.unactivables-overlay__icon-container {
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  transform: translate(-50%, .5rem);
+}
+
+.unactivables-overlay__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+/* service & vector rows inside unactivables overlay */
+.unactivables-overlay__service,
+.unactivables-overlay__vector {
+  gap: 5px;
+  padding: 2.5px 5px;
+  font-size: var(--XS_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_100);
+  background-color: var(--grey_0);
+  border-radius: var(--XXS_borderRadius);
+}
+
+.unactivables-overlay__service svg,
+.unactivables-overlay__vector svg {
+  color: var(--grey_80);
+}
+
+/* buttons */
+.evacuation-footer {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+.unactivables-overlay__button.iconOnly {
+  color: inherit;
+}
+
+.unactivables-overlay__button svg {
+  height: 14px;
+}
