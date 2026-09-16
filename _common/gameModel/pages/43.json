@@ -1378,7 +1378,9 @@
                                                           "language" : "typescript"
                                                         },
                                                         "layoutClassName" : "noPadding",
-                                                        "layoutStyle" : { },
+                                                        "layoutStyle" : {
+                                                          "height" : "1rem"
+                                                        },
                                                         "name" : "radio",
                                                         "script" : {
                                                           "@class" : "Script",

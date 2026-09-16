@@ -52,6 +52,14 @@ function getCommMedia(): CommMedia {
 }
 
 /**
+ * @returns whether the current actor is giving orders by radio at the given location
+ * (i.e. it is the order's source location, and the actor isn't physically there)
+ */
+export function isGivingRadioOrderAtLocation(location: LOCATION_ENUM): boolean {
+  return getSourceLocation() === location && getCommMedia() === CommMedia.Radio;
+}
+
+/**
  * A suborder holds one source task only, so the batch being edited
  * has as many suborders as the source tasks the resources are taken from.
  *
@@ -91,6 +99,13 @@ export function setOrderDestination(location: LOCATION_ENUM, task: TaskId): void
 
 export function canSetOrderDestination(): boolean {
   return !isLastSubOrderComplete() && currentOrderSelectedRessources() > 0;
+}
+
+/**
+ * @returns whether the given task is where the resources of the ongoing suborder were selected from
+ */
+export function isResourceSourceTask(task: TaskId): boolean {
+  return getOngoingSubOrder()?.sourceTask === task;
 }
 
 export function currentOrderSelectedRessources(): number {

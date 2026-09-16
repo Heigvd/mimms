@@ -48,7 +48,70 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "fixed-entity-name",
+                            "children" : [ {
+                              "props" : {
+                                "className" : "radio-order__icon",
+                                "layoutClassName" : "noPadding radio-order__icon-container",
+                                "layoutStyle" : { },
+                                "name" : "radio",
+                                "script" : {
+                                  "@class" : "Script",
+                                  "content" : "\"/walkie-talkie-solid.svg\"",
+                                  "language" : "TypeScript"
+                                },
+                                "style" : { }
+                              },
+                              "type" : "Image"
+                            }, {
+                              "props" : {
+                                "children" : [ ],
+                                "className" : "radio-order__wave",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "wave 1",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ ],
+                                "className" : "radio-order__wave radio-order__wave--2",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "wave 2",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ ],
+                                "className" : "radio-order__wave radio-order__wave--3",
+                                "layout" : { },
+                                "layoutClassName" : "noPadding",
+                                "layoutStyle" : { },
+                                "name" : "wave 3",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "className" : "radio-order__container",
+                            "hideIf" : {
+                              "@class" : "Script",
+                              "content" : "import { isGivingRadioOrderAtLocation } from \"./UIfacade/resourceOrdersFacade\";\n!isGivingRadioOrderAtLocation(Context.overlayItem.id);",
+                              "language" : "typescript"
+                            },
+                            "layout" : { },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "radio",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        }, {
+                          "props" : {
+                            "className" : "unactivables-overlay__title",
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
                             "name" : "location",
@@ -160,14 +223,11 @@
                                                       "props" : {
                                                         "children" : [ {
                                                           "props" : {
+                                                            "className" : "resource--selected",
                                                             "icon" : "user",
                                                             "layoutClassName" : "noPadding",
-                                                            "layoutStyle" : {
-                                                              "color" : "red"
-                                                            },
-                                                            "style" : {
-                                                              "color" : "red"
-                                                            }
+                                                            "layoutStyle" : { },
+                                                            "style" : { }
                                                           },
                                                           "type" : "Icon"
                                                         } ],
@@ -197,39 +257,41 @@
                                                   "props" : {
                                                     "children" : [ {
                                                       "props" : {
-                                                        "children" : [ {
-                                                          "props" : {
-                                                            "icon" : "user",
-                                                            "layoutClassName" : "noPadding",
-                                                            "layoutStyle" : { },
-                                                            "style" : {
-                                                              "color" : "orange"
-                                                            }
-                                                          },
-                                                          "type" : "Icon"
-                                                        } ],
-                                                        "layout" : { },
+                                                        "className" : "resource--added",
                                                         "layoutClassName" : "noPadding",
                                                         "layoutStyle" : { },
-                                                        "name" : "resource",
+                                                        "style" : { },
+                                                        "text" : {
+                                                          "@class" : "Script",
+                                                          "content" : "import { assignedRessourcesCount } from \"./UIfacade/resourceOrdersFacade\";\n  '+' + String(assignedRessourcesCount(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum));",
+                                                          "language" : "TypeScript"
+                                                        }
+                                                      },
+                                                      "type" : "Text"
+                                                    }, {
+                                                      "props" : {
+                                                        "className" : "resource--added",
+                                                        "icon" : "user",
+                                                        "layoutClassName" : "noPadding",
+                                                        "layoutStyle" : { },
                                                         "style" : { }
                                                       },
-                                                      "type" : "FlexList"
+                                                      "type" : "Icon"
                                                     } ],
-                                                    "exposeAs" : "resourceIcon",
-                                                    "getItemsFn" : {
+                                                    "hideIf" : {
                                                       "@class" : "Script",
-                                                      "content" : "import { assignedRessourcesCount, foreachHelper } from \"./UIfacade/resourceOrdersFacade\";\n  foreachHelper(assignedRessourcesCount(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum));",
-                                                      "language" : "TypeScript"
+                                                      "content" : "import { assignedRessourcesCount } from \"./UIfacade/resourceOrdersFacade\";\nassignedRessourcesCount(Context.overlayItem.id, Context.task.Uid, Context.resourceType.enum) === 0;",
+                                                      "language" : "typescript"
                                                     },
-                                                    "itemKey" : "id",
-                                                    "layout" : { },
+                                                    "layout" : {
+                                                      "alignItems" : "center"
+                                                    },
                                                     "layoutClassName" : "noPadding",
                                                     "layoutStyle" : { },
-                                                    "name" : "added resource",
+                                                    "name" : "resource",
                                                     "style" : { }
                                                   },
-                                                  "type" : "For each"
+                                                  "type" : "FlexList"
                                                 } ],
                                                 "className" : "",
                                                 "layout" : {
@@ -414,10 +476,18 @@
                                     "className" : "fullWidth resource__task",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Inside",
+                                      "className" : "resource__task--edit-animation",
+                                      "condition" : {
+                                        "@class" : "Script",
+                                        "content" : "import { isResourceSourceTask, canSetOrderDestination } from \"./UIfacade/resourceOrdersFacade\";\n!isResourceSourceTask(Context.task.Uid) && canSetOrderDestination();",
+                                        "language" : "typescript"
+                                      }
+                                    }, {
+                                      "applyOn" : "Inside",
                                       "className" : "resource__task--edit",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id)",
+                                        "content" : "import { isCurrentActorAtLocation } from \"./UIfacade/actorFacade\";\n!isCurrentActorAtLocation(Context.overlayItem.id);",
                                         "language" : "typescript"
                                       }
                                     } ],
