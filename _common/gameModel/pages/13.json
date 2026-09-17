@@ -161,12 +161,16 @@
                                     "children" : [ {
                                       "props" : {
                                         "className" : "unactivables-overlay__icon",
-                                        "icon" : "hospital",
                                         "layoutClassName" : "unactivables-overlay__icon-container",
                                         "layoutStyle" : { },
+                                        "script" : {
+                                          "@class" : "Script",
+                                          "content" : "import { getLocationIcon } from \"./UIfacade/locationFacade\";\nreturn`/maps/mapIcons/${getLocationIcon(Context.location.id)}.svg`;",
+                                          "language" : "TypeScript"
+                                        },
                                         "style" : { }
                                       },
-                                      "type" : "Icon"
+                                      "type" : "Image"
                                     } ],
                                     "layout" : { },
                                     "layoutClassName" : "noPadding fixedEntities-arrow",

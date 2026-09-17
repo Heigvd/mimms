@@ -131,8 +131,23 @@ container element does not actually wrap the content */
   transition: box-shadow .3s ease-in-out;
 }
 
-.evacuation-modal .patient-color--selected,
 .unactivables-overlay__service--selected,
 .unactivables-overlay__vector--selected {
   box-shadow: inset 0 0 0 2px var(--grey_80);
+}
+
+.evacuation-modal .patient-color--selected.patient-color--black {
+  box-shadow: inset 0 0 0 2px #797979;
+}
+
+.evacuation-modal .patient-color--selected.patient-color--red {
+  box-shadow: inset 0 0 0 2px #FD5050;
+}
+
+.evacuation-modal .patient-color--selected.patient-color--yellow {
+  box-shadow: inset 0 0 0 2px #FFC048;
+}
+
+.evacuation-modal .patient-color--selected.patient-color--green {
+  box-shadow: inset 0 0 0 2px #86B700;
 }

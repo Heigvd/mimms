@@ -68,3 +68,7 @@ function getLocationChoicesData(
 export function getLocationTranslation(binding: LOCATION_ENUM): string {
   return getTranslation('mainSim-locations', locationEnumConfig[binding].name);
 }
+
+export function getLocationIcon(binding: LOCATION_ENUM): string {
+  return locationEnumConfig[binding].icon ?? 'empty';
+}
