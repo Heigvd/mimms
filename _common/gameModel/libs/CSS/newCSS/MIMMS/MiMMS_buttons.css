@@ -126,6 +126,7 @@
 .disabled.button-neutralColor--outline {
   color: var(--grey_10);
 	background-color: var(--grey_20);
+  outline: none;
   box-shadow: none;
 	cursor: default;
 }

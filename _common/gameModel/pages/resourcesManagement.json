@@ -165,25 +165,6 @@
                                               "props" : {
                                                 "children" : [ {
                                                   "props" : {
-                                                    "className" : "noMargin resource-type__number",
-                                                    "hideIf" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) === 0;",
-                                                      "language" : "typescript"
-                                                    },
-                                                    "layoutClassName" : "noPadding",
-                                                    "layoutStyle" : { },
-                                                    "name" : "number",
-                                                    "style" : { },
-                                                    "text" : {
-                                                      "@class" : "Script",
-                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\nimport {  countCompleteSubordersSelectedResources } from \"./UIfacade/resourceOrdersFacade\";\nString(getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) - countCompleteSubordersSelectedResources(Context.task.Uid, Context.resourceType.enum));",
-                                                      "language" : "TypeScript"
-                                                    }
-                                                  },
-                                                  "type" : "Text"
-                                                }, {
-                                                  "props" : {
                                                     "children" : [ {
                                                       "props" : {
                                                         "children" : [ {
@@ -253,6 +234,25 @@
                                                     "style" : { }
                                                   },
                                                   "type" : "For each"
+                                                }, {
+                                                  "props" : {
+                                                    "className" : "noMargin resource-type__number",
+                                                    "hideIf" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\ngetResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) === 0;",
+                                                      "language" : "typescript"
+                                                    },
+                                                    "layoutClassName" : "noPadding",
+                                                    "layoutStyle" : { },
+                                                    "name" : "number",
+                                                    "style" : { },
+                                                    "text" : {
+                                                      "@class" : "Script",
+                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\nimport {  countCompleteSubordersSelectedResources } from \"./UIfacade/resourceOrdersFacade\";\nString(getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum) - countCompleteSubordersSelectedResources(Context.task.Uid, Context.resourceType.enum));",
+                                                      "language" : "TypeScript"
+                                                    }
+                                                  },
+                                                  "type" : "Text"
                                                 }, {
                                                   "props" : {
                                                     "children" : [ {
@@ -440,43 +440,26 @@
                                       "type" : "For each"
                                     }, {
                                       "props" : {
-                                        "className" : "noPadding",
-                                        "disableIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { isDestinationValid } from \"./UIfacade/resourceOrdersFacade\";\n!isDestinationValid(Context.overlayItem.id, Context.task.Uid);",
-                                          "language" : "typescript"
-                                        },
+                                        "className" : "",
                                         "hideIf" : {
                                           "@class" : "Script",
                                           "content" : "import { isTaskValidSource } from \"./UIfacade/resourceOrdersFacade\";\nisTaskValidSource(Context.overlayItem.id, Context.task.Uid)",
                                           "language" : "typescript"
                                         },
                                         "icon" : "plus",
-                                        "label" : {
-                                          "@class" : "Script",
-                                          "content" : "\"\"",
-                                          "language" : "TypeScript"
-                                        },
                                         "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "localScriptEval" : {
-                                          "script" : {
-                                            "@class" : "ClientScript",
-                                            "content" : "import { setOrderDestination } from \"./UIfacade/resourceOrdersFacade\";\n\nsetOrderDestination(Context.overlayItem.id, Context.task.Uid);",
-                                            "language" : "TypeScript"
-                                          }
+                                        "layoutStyle" : {
+                                          "justifyContent" : "center"
                                         },
                                         "name" : "assign",
-                                        "style" : {
-                                          "height" : "18.4px"
-                                        }
+                                        "style" : { }
                                       },
-                                      "type" : "Button"
+                                      "type" : "Icon"
                                     } ],
                                     "className" : "fullWidth resource__task",
                                     "conditionnalClassNames" : [ {
                                       "applyOn" : "Inside",
-                                      "className" : "resource__task--edit-animation",
+                                      "className" : "resource__task--edit-animation interactive",
                                       "condition" : {
                                         "@class" : "Script",
                                         "content" : "import { isResourceSourceTask, canSetOrderDestination } from \"./UIfacade/resourceOrdersFacade\";\n!isResourceSourceTask(Context.task.Uid) && canSetOrderDestination();",
@@ -496,6 +479,13 @@
                                     },
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
+                                    "localScriptEval" : {
+                                      "script" : {
+                                        "@class" : "ClientScript",
+                                        "content" : "import { setOrderDestinationIfNotSource } from \"./UIfacade/resourceOrdersFacade\";\n\nsetOrderDestinationIfNotSource(Context.overlayItem.id, Context.task.Uid);",
+                                        "language" : "TypeScript"
+                                      }
+                                    },
                                     "name" : "task",
                                     "style" : {
                                       "minWidth" : "180px"
@@ -999,7 +989,7 @@
                                 },
                                 "label" : {
                                   "@class" : "Script",
-                                  "content" : "Context.actor.Role;",
+                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role).slice(0, 3);",
                                   "language" : "TypeScript"
                                 },
                                 "layoutClassName" : "noPadding",
@@ -1027,6 +1017,7 @@
                             "layoutStyle" : {
                               "position" : "relative"
                             },
+                            "name" : "Actor",
                             "style" : {
                               "gap" : "5px",
                               "left" : "1rem",

@@ -24,6 +24,11 @@ container element does not actually wrap the content */
   opacity: 75%;
 }
 
+.resources-flow-modal .close-generic-fixed-entity svg {
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
 
 /* - - - - -  U N A C T I V A B L E   R E S O U R C E S   O V E R L A Y  - - - */
 
@@ -133,7 +138,7 @@ container element does not actually wrap the content */
 
 /* 2 or more tasks: widen to fit 2 columns of 180px (extra tasks wrap to new rows) */
 .resource__task-list--multi {
-  width: 370px;
+  width: 381px;
 }
 
 .resource__task {
@@ -158,6 +163,11 @@ container element does not actually wrap the content */
 
 .resource__task svg {
   color: var(--grey_30);
+}
+
+.resource__task--edit-animation svg {
+  color: var(--primary_base);
+  opacity: 75%;
 }
 
 /* resources in generic fixed entities */
@@ -283,7 +293,7 @@ container element does not actually wrap the content */
 
 @keyframes resource__task--edit-animation {
   0%   {box-shadow: none;}
-  40%  {box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--primary_base) 20%, transparent), 0 6px 20px 0 color-mix(in srgb, var(--primary_base) 20%, transparent);}
+  40%  {box-shadow: 0 0 8px 0 color-mix(in srgb, var(--primary_base) 20%, transparent), 0 0 20px 0 color-mix(in srgb, var(--primary_base) 20%, transparent);}
   60%  {box-shadow: none;}
   100% {box-shadow: none;}
 }

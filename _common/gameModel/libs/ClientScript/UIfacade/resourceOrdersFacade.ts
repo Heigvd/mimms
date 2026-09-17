@@ -152,6 +152,12 @@ export function isTaskValidSource(location: LOCATION_ENUM, task: TaskId): boolea
   return location === getSourceLocation();
 }
 
+export function setOrderDestinationIfNotSource(location: LOCATION_ENUM, task: TaskId): void {
+  if (!isTaskValidSource(location, task)) {
+    setOrderDestination(location, task);
+  }
+}
+
 /**
  * Add or remove resources in the current suborder of the given source task
  * a suborder is created if no suborder is ongoing

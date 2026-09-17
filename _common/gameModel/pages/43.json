@@ -1232,20 +1232,6 @@
                                                               "props" : {
                                                                 "children" : [ {
                                                                   "props" : {
-                                                                    "className" : "noMargin resource-type__number",
-                                                                    "layoutClassName" : "noPadding",
-                                                                    "layoutStyle" : { },
-                                                                    "name" : "number",
-                                                                    "style" : { },
-                                                                    "text" : {
-                                                                      "@class" : "Script",
-                                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n`${getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum)}`;",
-                                                                      "language" : "TypeScript"
-                                                                    }
-                                                                  },
-                                                                  "type" : "Text"
-                                                                }, {
-                                                                  "props" : {
                                                                     "children" : [ {
                                                                       "props" : {
                                                                         "children" : [ {
@@ -1279,6 +1265,20 @@
                                                                     "style" : { }
                                                                   },
                                                                   "type" : "For each"
+                                                                }, {
+                                                                  "props" : {
+                                                                    "className" : "noMargin resource-type__number",
+                                                                    "layoutClassName" : "noPadding",
+                                                                    "layoutStyle" : { },
+                                                                    "name" : "number",
+                                                                    "style" : { },
+                                                                    "text" : {
+                                                                      "@class" : "Script",
+                                                                      "content" : "import { getResourceCountForTaskAndType } from \"./UIfacade/resourceFacade\";\n`${getResourceCountForTaskAndType(Context.task.Uid, Context.overlayItem.id, Context.resourceType.enum)}`;",
+                                                                      "language" : "TypeScript"
+                                                                    }
+                                                                  },
+                                                                  "type" : "Text"
                                                                 } ],
                                                                 "className" : "",
                                                                 "layout" : {
@@ -1399,7 +1399,7 @@
                                                         "style" : { },
                                                         "text" : {
                                                           "@class" : "Script",
-                                                          "content" : "\"<p>Assign</p>\"",
+                                                          "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-actions-tasks', 'assign');",
                                                           "language" : "TypeScript"
                                                         }
                                                       },
@@ -1605,7 +1605,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "if (Context.overlayItem.resources.length < 1) return true;\n  false;",
+                                                  "content" : "import { isAnyFixedEntityPanelOpen, isFixedEntityPanelOpen } from \"./UIfacade/mapFacade\";\nif (Context.overlayItem.resources.length < 1) {\n    return true\n  }\n  else if (isAnyFixedEntityPanelOpen(Context.overlayItem.id)) {\n    return true\n  }\n  false;",
                                                   "language" : "typescript"
                                                 },
                                                 "icon" : "users",
@@ -1643,7 +1643,7 @@
                                                 } ],
                                                 "hideIf" : {
                                                   "@class" : "Script",
-                                                  "content" : "import { getTotalPatientsCountForLocation } from \"./UIfacade/patientSnapshotFacade\";\ngetTotalPatientsCountForLocation(Context.overlayItem.id) === 0;",
+                                                  "content" : "import { isAnyFixedEntityPanelOpen } from \"./UIfacade/mapFacade\";\nimport { getTotalPatientsCountForLocation } from \"./UIfacade/patientSnapshotFacade\";\ngetTotalPatientsCountForLocation(Context.overlayItem.id) === 0 || isAnyFixedEntityPanelOpen(Context.overlayItem.id);",
                                                   "language" : "typescript"
                                                 },
                                                 "icon" : "user-injured",
@@ -1822,7 +1822,7 @@
                                                 },
                                                 "label" : {
                                                   "@class" : "Script",
-                                                  "content" : "Context.actor.Role;",
+                                                  "content" : "import { getRoleShortTranslation } from \"./game/common/actors/actorLogic\";\ngetRoleShortTranslation(Context.actor.Role).slice(0, 3);",
                                                   "language" : "TypeScript"
                                                 },
                                                 "layoutClassName" : "noPadding",
@@ -1850,6 +1850,7 @@
                                             "layoutStyle" : {
                                               "position" : "relative"
                                             },
+                                            "name" : "Actor",
                                             "style" : {
                                               "gap" : "5px",
                                               "left" : "1rem",
