@@ -11,15 +11,27 @@ export interface ResourceOrder {
   commMedia: CommMedia;
 }
 
-/**
- * The tasks are referred to by their id, the ids being handed out in the order the tasks
- * are built by loadTasks(). A sub-order is persisted in the event log, so reordering or
- * inserting tasks in loadTasks() silently changes what an already sent order points to.
- */
 export interface SubOrder {
   source: LOCATION_ENUM;
   sourceTask?: TaskId;
   destination?: LOCATION_ENUM;
   destinationTask?: TaskId;
   resources: Partial<Record<HumanResourceType, number>>;
+}
+
+
+export function isSubOrderComplete(subOrder: SubOrder): boolean {
+  return subOrder.destination !== undefined && subOrder.destinationTask !== undefined;
+}
+
+/**
+ * Computes the duration of an action that places this order (in minutes)
+ * @param order
+ * @returns
+ */
+export function computeOrderDurationMinutes(order: ResourceOrder | undefined): number {
+
+  const n = (order?.orders || []).filter(sub => isSubOrderComplete(sub)).length;
+  return n > 2 ? 2 : 1;
+
 }

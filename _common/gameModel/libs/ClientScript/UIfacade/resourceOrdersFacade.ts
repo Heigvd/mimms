@@ -1,6 +1,6 @@
 import { TaskId } from '../game/common/baseTypes';
 import { CommMedia } from '../game/common/radio/communicationType';
-import { ResourceOrder, SubOrder } from '../game/common/resources/resourceOrdersType';
+import { computeOrderDurationMinutes, isSubOrderComplete, ResourceOrder, SubOrder } from '../game/common/resources/resourceOrdersType';
 import { HumanResourceType } from '../game/common/resources/resourceType';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { runActionButton } from '../gameInterface/actionsButtonLogic';
@@ -128,9 +128,6 @@ export function getOngoingSubOrder(): SubOrder | undefined {
   return orders.length === 0 ? undefined : orders[orders.length - 1];
 }
 
-function isSubOrderComplete(subOrder: SubOrder): boolean {
-  return subOrder.destination !== undefined && subOrder.destinationTask !== undefined;
-}
 
 export function isLastSubOrderComplete(): boolean {
   const orders = getTypedResourceOrderCtx().state.payload.orders;
@@ -357,6 +354,10 @@ export function assignedRessourcesCount(
     .filter(o => o.destination === destination && o.destinationTask === task)
     .forEach(o => (count += o.resources[type] || 0));
   return count;
+}
+
+export function currentOrderDuration() : number {
+  return computeOrderDurationMinutes(getTypedResourceOrderCtx().state.payload);
 }
 
 /**
