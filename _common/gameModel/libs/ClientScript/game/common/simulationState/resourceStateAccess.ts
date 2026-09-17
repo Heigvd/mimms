@@ -111,6 +111,12 @@ export function getFreeResourcesByTask(
     );
 }
 
+/**
+ * Gets unreserved resources by location
+ * @param state
+ * @param location
+ * @returns
+ */
 export function getFreeHumanResourcesByLocation(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM

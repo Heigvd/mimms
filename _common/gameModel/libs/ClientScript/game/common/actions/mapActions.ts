@@ -212,6 +212,7 @@ export class PCChoiceAction extends MapChoiceAction {
       );
     }
     // Move human resources to PC
+    // 9.9.2026 TODO update tasks assignements as well
     getLocalEventManager().queueLocalEvent(
       new MoveFreeHumanResourcesByLocationLocalEvent({
         parentEventId: this.eventId,
