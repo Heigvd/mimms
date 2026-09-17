@@ -105,8 +105,7 @@ export function loadTasks(): TaskBase[] {
     UnlimitedMaximumIdleTime
   );
 
-  // Where a resource can be between two tasks : it waits there for new orders,
-  // and travels there to take up its next task
+  // Where a resource can be between two tasks : it waits there for new orders
   const betweenTasksLocations = [
     LOCATION_ENUM.entreeChantier,
     LOCATION_ENUM.PMA,
@@ -116,11 +115,21 @@ export function loadTasks(): TaskBase[] {
     LOCATION_ENUM.helicopterPark,
   ];
 
+  // Where a resource can be sent to take up its next task.
+  // A resource travels there as soon as the order is given, which is what keeps it
+  // from being ordered somewhere else at the same time, so every location hosting a task
+  // needs its travelling task, even those where no one waits for orders.
+  const reachableLocations = [
+    ...betweenTasksLocations,
+    LOCATION_ENUM.chantier,
+    LOCATION_ENUM.nidDeBlesses,
+  ];
+
   const waitingTasks = betweenTasksLocations.map(
     location => new WaitingTask('waiting-title', location, [])
   );
 
-  const moveToTasks = betweenTasksLocations.map(
+  const moveToTasks = reachableLocations.map(
     location => new MoveToTask('on-the-road', location, [])
   );
 

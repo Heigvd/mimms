@@ -42,7 +42,7 @@ export class PreTriageTask extends TaskBase {
 
     const workingResourcesId: ResourceId[] = [];
 
-    ResourceState.getFreeResourcesByTask(state, this.Uid).forEach((resource: Resource) => {
+    ResourceState.getResourcesByTask(state, this.Uid).forEach((resource: Resource) => {
       if (getNonPreTriagedPatientsSize(state, this.locationSource) === 0) {
         // there is no one left to pretriage, the resource has nothing to do
         return;

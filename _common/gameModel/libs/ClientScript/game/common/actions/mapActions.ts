@@ -15,8 +15,8 @@ import { getLocalEventManager } from '../localEvents/localEventManager';
 import { MoveActorLocalEvent } from '../localEvents/localEventActors';
 import {
   AssignResourcesToTaskLocalEvent,
-  MoveFreeHumanResourcesByLocationLocalEvent,
-  MoveFreeWaitingResourcesByTypeLocalEvent,
+  MoveHumanResourcesByLocationLocalEvent,
+  MoveWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventActivable';
@@ -214,7 +214,7 @@ export class PCChoiceAction extends MapChoiceAction {
     // Move human resources to PC
     // 9.9.2026 TODO update tasks assignements as well
     getLocalEventManager().queueLocalEvent(
-      new MoveFreeHumanResourcesByLocationLocalEvent({
+      new MoveHumanResourcesByLocationLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
@@ -277,7 +277,7 @@ export class ParkChoiceAction extends MapChoiceAction {
     super.dispatchEndedEvents(state);
 
     getLocalEventManager().queueLocalEvent(
-      new MoveFreeWaitingResourcesByTypeLocalEvent({
+      new MoveWaitingResourcesByTypeLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),

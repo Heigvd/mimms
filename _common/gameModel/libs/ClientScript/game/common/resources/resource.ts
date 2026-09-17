@@ -1,5 +1,5 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
-import { ActionId, ResourceId, TaskId } from '../baseTypes';
+import { ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { ResourceType } from './resourceType';
 
@@ -26,9 +26,6 @@ export class Resource {
   /** Time the resource spent in a row assigned to a task without being able to work */
   public cumulatedIdleTime: number;
 
-  /** Action that has reserved this resource */
-  public reservationActionId: ActionId | undefined;
-
   constructor(
     type: Resource['type'],
     currentLocation: Resource['currentLocation'] = LOCATION_ENUM.remote,
@@ -46,17 +43,5 @@ export class Resource {
   public resetTimeCounters(): void {
     this.carryoverWorkTime = 0;
     this.cumulatedIdleTime = 0;
-  }
-
-  public reserve(actionId: ActionId) {
-    this.reservationActionId = actionId;
-  }
-
-  public isReserved(): boolean {
-    return this.reservationActionId != undefined;
-  }
-
-  public unReserve(): void {
-    this.reservationActionId = undefined;
   }
 }

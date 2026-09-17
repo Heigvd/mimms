@@ -1,4 +1,4 @@
-import { ActionId, ActorId, GlobalEventId, ResourceId, SimTime, TaskId } from '../baseTypes';
+import { ActorId, GlobalEventId, ResourceId, SimTime, TaskId } from '../baseTypes';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
@@ -7,41 +7,6 @@ import * as ResourceState from '../simulationState/resourceStateAccess';
 import { ResourceType } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LocalEventBase, SourceType } from './localEventBase';
-
-export class ReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly resourcesId: ResourceId[];
-      readonly actionId: ActionId;
-    }
-  ) {
-    super({ ...props, type: 'ReserveResourcesLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.reserveResources(state, this.props.resourcesId, this.props.actionId);
-  }
-}
-
-export class UnReserveResourcesLocalEvent extends LocalEventBase {
-  constructor(
-    readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly resourcesId: ResourceId[];
-    }
-  ) {
-    super({ ...props, type: 'UnReserveResourcesLocalEvent' });
-  }
-
-  applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.unReserveResources(state, this.props.resourcesId);
-  }
-}
 
 abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   constructor(
@@ -60,7 +25,6 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
@@ -93,7 +57,7 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
 }
 
 // TODO 9.9.2026 : requires to check update tasks assignements as well
-export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
+export class MoveHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
@@ -106,16 +70,16 @@ export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLoc
   ) {
     super({
       ...extensionProps,
-      type: 'MoveFreeHumanResourcesByLocationLocalEvent',
+      type: 'MoveHumanResourcesByLocationLocalEvent',
     });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeHumanResourcesByLocation(state, this.extensionProps.sourceLocation);
+    return ResourceState.getHumanResourcesByLocation(state, this.extensionProps.sourceLocation);
   }
 }
 
-export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
+export class MoveWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     readonly extensionProps: {
       readonly parentEventId: GlobalEventId;
@@ -128,12 +92,12 @@ export class MoveFreeWaitingResourcesByTypeLocalEvent extends MoveResourcesLocal
   ) {
     super({
       ...extensionProps,
-      type: 'MoveFreeWaitingResourcesByTypeLocalEvent',
+      type: 'MoveWaitingResourcesByTypeLocalEvent',
     });
   }
 
   override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getFreeWaitingResourcesByType(state, this.extensionProps.resourceType);
+    return ResourceState.getWaitingResourcesByType(state, this.extensionProps.resourceType);
   }
 }
 

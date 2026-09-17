@@ -187,7 +187,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   ): void {
     const idleForTooLongResourcesId: ResourceId[] = [];
 
-    for (const resource of ResourceState.getFreeResourcesByTask(state, this.Uid)) {
+    for (const resource of ResourceState.getResourcesByTask(state, this.Uid)) {
       if (workingResourcesId.includes(resource.Uid)) {
         resource.cumulatedIdleTime = 0;
         continue;
@@ -231,7 +231,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
    * Get all the resources allocated to the task
    */
   protected getAllocatedResourcesId(state: Readonly<MainSimulationState>): ResourceId[] {
-    return ResourceState.getFreeResourcesByTask(state, this.Uid).map(resource => resource.Uid);
+    return ResourceState.getResourcesByTask(state, this.Uid).map(resource => resource.Uid);
   }
 
   /*
@@ -242,10 +242,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
    * In that cas, the sub-task is stopped and everything goes as if nothing happened.
    */
   protected cleanupSubTasksFromUnallocatedResources(state: Readonly<MainSimulationState>) {
-    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
-      state,
-      this.Uid
-    );
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesByTask(state, this.Uid);
 
     for (const subTask of Object.values(this.subTasks)) {
       for (const subTaskResourceId of subTask.resources) {
@@ -268,10 +265,7 @@ export abstract class TaskBase<SubTaskType extends SubTask = SubTask> {
   protected getResourcesReadyForNewSubTask(state: Readonly<MainSimulationState>): Resource[] {
     const result: Resource[] = [];
 
-    const allocatedToTaskResources: Resource[] = ResourceState.getFreeResourcesByTask(
-      state,
-      this.Uid
-    );
+    const allocatedToTaskResources: Resource[] = ResourceState.getResourcesByTask(state, this.Uid);
     allocatedToTaskResources.map(resource => {
       if (!this.isResourceInvolvedInASubTask(resource.Uid)) {
         result.push(resource);

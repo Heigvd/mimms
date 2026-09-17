@@ -1,8 +1,7 @@
-import { entries } from '../../../tools/helper';
 import { mainSimStateLogger, resourceLogger } from '../../../tools/logger';
-import { ActionId, ResourceId, TaskId } from '../baseTypes';
+import { ResourceId, TaskId } from '../baseTypes';
 import { Resource } from '../resources/resource';
-import { ResourceType, ResourceTypeAndNumber, isHuman } from '../resources/resourceType';
+import { ResourceType, isHuman } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LOCATION_ENUM } from './locationState';
 import { MainSimulationState } from './mainSimulationState';
@@ -68,7 +67,7 @@ export function getHumanResourcesByLocation(
     .resources.filter(resource => isHuman(resource.type) && resource.currentLocation === location);
 }
 
-export function getFreeResourcesByTypeLocationAndTask(
+export function getResourcesByTypeLocationAndTask(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType,
   location: LOCATION_ENUM,
@@ -78,91 +77,22 @@ export function getFreeResourcesByTypeLocationAndTask(
     .getInternalStateObject()
     .resources.filter(
       (resource: Resource) =>
-        !resource.isReserved() &&
         resource.type === resourceType &&
         resource.currentLocation === location &&
         resource.currentActivity === taskId
     );
 }
 
-export function getFreeResourcesByTypeAndLocation(
-  state: Readonly<MainSimulationState>,
-  resourceType: ResourceType,
-  location: LOCATION_ENUM
-): Resource[] {
-  return state
-    .getInternalStateObject()
-    .resources.filter(
-      (resource: Resource) =>
-        !resource.isReserved() &&
-        resource.type === resourceType &&
-        resource.currentLocation === location
-    );
-}
-
-export function getFreeResourcesByTask(
-  state: Readonly<MainSimulationState>,
-  taskId: TaskId
-): Resource[] {
-  return state
-    .getInternalStateObject()
-    .resources.filter(
-      (resource: Resource) => !resource.isReserved() && resource.currentActivity === taskId
-    );
-}
-
 /**
- * Gets unreserved resources by location
- * @param state
- * @param location
- * @returns
+ * Gets the resources that wait for orders at the given location
  */
-export function getFreeHumanResourcesByLocation(
-  state: Readonly<MainSimulationState>,
-  location: LOCATION_ENUM
-): Resource[] {
-  return state
-    .getInternalStateObject()
-    .resources.filter(
-      (resource: Resource) =>
-        !resource.isReserved() && isHuman(resource.type) && resource.currentLocation === location
-    );
-}
-
-export function getFreeWaitingResourcesByTypeAndLocation(
-  state: Readonly<MainSimulationState>,
-  resourceType: ResourceType[],
-  location: LOCATION_ENUM
-): Resource[] {
-  const internalState = state.getInternalStateObject();
-  const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, location);
-
-  if (idleTaskUid == undefined) {
-    return [];
-  }
-
-  const resources = internalState.resources.filter(
-    (resource: Resource) =>
-      !resource.isReserved() &&
-      resourceType.includes(resource.type) &&
-      resource.currentLocation === location &&
-      resource.currentActivity === idleTaskUid
-  );
-  // Sorted if more than one type, order indicates priority
-  if (resourceType.length > 1) {
-    resources.sort((a, b) => resourceType.indexOf(a.type) - resourceType.indexOf(b.type));
-  }
-
-  return resources;
-}
-
-export function getFreeWaitingResourcesByType(
+export function getWaitingResourcesByType(
   state: Readonly<MainSimulationState>,
   resourceType: ResourceType
 ): Resource[] {
   const internalState = state.getInternalStateObject();
   return internalState.resources.filter((resource: Resource) => {
-    if (resource.isReserved() || resource.type !== resourceType) {
+    if (resource.type !== resourceType) {
       return false;
     }
 
@@ -172,7 +102,7 @@ export function getFreeWaitingResourcesByType(
   });
 }
 
-export function getFreeWaitingResourcesByLocation(
+export function getWaitingResourcesByLocation(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM
 ): Resource[] {
@@ -184,45 +114,8 @@ export function getFreeWaitingResourcesByLocation(
   }
 
   return internalState.resources.filter(
-    (resource: Resource) => !resource.isReserved() && resource.currentActivity === idleTaskUid
+    (resource: Resource) => resource.currentActivity === idleTaskUid
   );
-}
-
-/**
- * Currently unused.
- * <p>
- * Callers that resolve several resource requests before any reservation is applied cannot use it,
- * as it has no way to skip the resources a previous request already took.
- * @see MoveResourcesAssignTaskAction
- */
-export function getFreeResourcesByNumberTypeLocationAndTask(
-  state: Readonly<MainSimulationState>,
-  sentResources: ResourceTypeAndNumber,
-  sourceLocation: LOCATION_ENUM,
-  sourceTaskId: TaskId
-): Resource[] {
-  let resources: Resource[] = [];
-
-  entries(sentResources).forEach(([resourceType, nbResourcesNeeded]) => {
-    if (nbResourcesNeeded && nbResourcesNeeded > 0) {
-      const matchingResources: Resource[] = getFreeResourcesByTypeLocationAndTask(
-        state,
-        resourceType,
-        sourceLocation,
-        sourceTaskId
-      );
-
-      const nbResourcesInvolved: number = Math.min(nbResourcesNeeded, matchingResources.length);
-
-      if (nbResourcesInvolved > 0) {
-        const involvedResources: Resource[] = matchingResources.slice(0, nbResourcesInvolved);
-
-        resources = [...resources, ...involvedResources];
-      }
-    }
-  });
-
-  return [...resources];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -251,22 +144,6 @@ export function addIncomingResources(
     const resource: Resource = new Resource(resourceType, location, idleTaskUid);
     internalState.resources.push(resource);
   }
-}
-
-export function reserveResources(
-  state: MainSimulationState,
-  resourcesId: ResourceId[],
-  actionId: ActionId // The action that reserve the resources for its execution
-): void {
-  resourcesId.forEach((resourceId: ResourceId) => {
-    getResourceById(state, resourceId).reserve(actionId);
-  });
-}
-
-export function unReserveResources(state: MainSimulationState, resourcesId: ResourceId[]): void {
-  resourcesId.forEach((resourceId: ResourceId) => {
-    getResourceById(state, resourceId).unReserve();
-  });
 }
 
 export function sendResourcesToLocation(

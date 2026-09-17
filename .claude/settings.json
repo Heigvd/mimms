@@ -11,7 +11,8 @@
       "Bash(git stash *)",
       "Bash(echo \"tsc exit=$?\")",
       "Bash(python3 -c ' *)",
-      "Bash(git restore *)"
+      "Bash(git restore *)",
+      "Bash(npm run *)"
     ]
   }
 }
