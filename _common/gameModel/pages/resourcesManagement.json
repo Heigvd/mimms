@@ -1117,14 +1117,14 @@
                     "className" : " button-S button-neutralColor ",
                     "disableIf" : {
                       "@class" : "Script",
-                      "content" : "import { canSendOrder } from \"./UIfacade/resourceOrdersFacade\";\n!canSendOrder();",
+                      "content" : "import { canPlanAction } from \"./gameInterface/main\";\nimport { canSendOrder } from \"./UIfacade/resourceOrdersFacade\";\n!canSendOrder() || !canPlanAction();",
                       "language" : "typescript"
                     },
                     "icon" : "",
                     "id" : " ",
                     "label" : {
                       "@class" : "Script",
-                      "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')} (1')`;",
+                      "content" : "import { getTranslation } from \"./tools/translation\";\nimport { currentOrderDuration } from \"./UIfacade/resourceOrdersFacade\";\n`${getTranslation('mainSim-interface', 'send')} (${currentOrderDuration()}')`;",
                       "language" : "TypeScript"
                     },
                     "layoutClassName" : "noPadding",

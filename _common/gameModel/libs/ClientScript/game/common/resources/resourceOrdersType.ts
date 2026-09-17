@@ -19,7 +19,6 @@ export interface SubOrder {
   resources: Partial<Record<HumanResourceType, number>>;
 }
 
-
 export function isSubOrderComplete(subOrder: SubOrder): boolean {
   return subOrder.destination !== undefined && subOrder.destinationTask !== undefined;
 }
@@ -30,8 +29,6 @@ export function isSubOrderComplete(subOrder: SubOrder): boolean {
  * @returns
  */
 export function computeOrderDurationMinutes(order: ResourceOrder | undefined): number {
-
   const n = (order?.orders || []).filter(sub => isSubOrderComplete(sub)).length;
   return n > 2 ? 2 : 1;
-
 }
