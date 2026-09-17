@@ -230,16 +230,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       nbResourcesInvolved += resolved.involvedResourcesId.length;
 
       if (!resolved.isSameLocation) {
-        getLocalEventManager().queueLocalEvent(
-          new MoveResourcesLocalEvent({
-            parentEventId: this.eventId,
-            source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
-            ownerUid: this.ownerId,
-            resourcesId: resolved.involvedResourcesId,
-            targetLocation: resolved.targetLocation,
-          })
-        );
 
         // during the travel the resources moving
         const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
@@ -258,6 +248,18 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
             })
           );
         }
+
+        // move the resource to its new location at end of travel
+        getLocalEventManager().queueLocalEvent(
+          new MoveResourcesLocalEvent({
+            parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
+            simTimeStamp: state.getSimTime() + resolved.timeDelay,
+            ownerUid: this.ownerId,
+            resourcesId: resolved.involvedResourcesId,
+            targetLocation: resolved.targetLocation,
+          })
+        );
       }
 
       // once the travel is over, the resources start their new task

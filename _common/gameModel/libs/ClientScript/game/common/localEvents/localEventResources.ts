@@ -54,7 +54,7 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
       readonly targetLocation: LOCATION_ENUM;
     }
   ) {
-    super({ ...props });
+    super({ ...props});
   }
 
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
