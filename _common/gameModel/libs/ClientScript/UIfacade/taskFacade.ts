@@ -12,9 +12,12 @@ import { getCurrentState } from '../game/mainSimulationLogic';
 export function getTasksForLocation(location: LOCATION_ENUM): { Uid: TaskId; title: string }[] {
   const state = getCurrentState();
   const travelingTaskId = TaskLogic.getMoveToTaskUid(state, location);
-  const evacuationTaskId = TaskLogic.getEvacuationTask(state, location).Uid;
+  const evacuationTaskId = TaskLogic.getEvacuationTaskUid(state, location);
 
   return TaskState.getAllTasks(state)
-    .filter(task => task.location === location && task.Uid !== travelingTaskId && task.Uid !== evacuationTaskId)
+    .filter(
+      task =>
+        task.location === location && task.Uid !== travelingTaskId && task.Uid !== evacuationTaskId
+    )
     .map(task => ({ Uid: task.Uid, title: task.getTitle() }));
 }

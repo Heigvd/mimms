@@ -59,7 +59,6 @@ export const PretriageReportResponseDelay = 0;
  */
 export const ANY_CHOICE = 'ANY_CHOICE';
 
-
 /**
  * Lowest priority, to be processed after all other events on a given timestamp
  */

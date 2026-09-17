@@ -230,7 +230,6 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       nbResourcesInvolved += resolved.involvedResourcesId.length;
 
       if (!resolved.isSameLocation) {
-
         // during the travel the resources moving
         const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
           state,
