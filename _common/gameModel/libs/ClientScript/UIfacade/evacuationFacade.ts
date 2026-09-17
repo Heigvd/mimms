@@ -186,3 +186,40 @@ export function isDestinationChoiceFilled() {
 export function isVectorChoiceFilled() {
   return getTransportSquad() != undefined;
 }
+
+// -------------------------------------------------------------------------------------------------
+// evacuation selection state (used in page 13, evacuation)
+// -------------------------------------------------------------------------------------------------
+
+export interface EvacuationSelectionState {
+  selectedPatientId: PatientId | undefined;
+  selectedHospitalId: HospitalId | undefined;
+  selectedServiceId: PatientUnitId | undefined;
+  selectedVectorUid: EvacuationSquadType | undefined;
+}
+
+export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
+  return {
+    selectedPatientId: undefined,
+    selectedHospitalId: undefined,
+    selectedServiceId: undefined,
+    selectedVectorUid: undefined,
+  };
+}
+
+/**
+ * @param update, an object that only contains the change set to be applied to the evacuation selection state
+ */
+export function setEvacuationSelectionState(update: Partial<EvacuationSelectionState>): void {
+  const newState = Helpers.cloneDeep(Context.state.state);
+  Object.assign(newState, update);
+  Context.state.setState(newState);
+}
+
+/**
+ * For convenience
+ * Just casting the evacuation selection state properly
+ */
+export function getTypedEvacuationSelectionState(): EvacuationSelectionState {
+  return Context.state.state;
+}

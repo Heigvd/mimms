@@ -240,6 +240,12 @@
           "name" : "notifications",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "13",
+          "name" : "evacuation",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "MainSimulation"
       } ],

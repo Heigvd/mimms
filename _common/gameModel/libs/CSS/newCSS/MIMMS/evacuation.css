@@ -16,10 +16,11 @@ container element does not actually wrap the content */
   background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
   backdrop-filter: blur(12px);
   border-radius: 0;
+  box-sizing: border-box;
   pointer-events: auto;
 }
 
-.evacuation-modal > * {
+.evacuation-modal * {
   box-sizing: border-box;
 }
 
@@ -121,4 +122,17 @@ container element does not actually wrap the content */
 
 .unactivables-overlay__button svg {
   height: 14px;
+}
+
+.evacuation-modal .patient-color:hover,
+.unactivables-overlay__service:hover,
+.unactivables-overlay__vector:hover {
+  cursor: pointer;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.evacuation-modal .patient-color--selected,
+.unactivables-overlay__service--selected,
+.unactivables-overlay__vector--selected {
+  box-shadow: inset 0 0 0 2px var(--grey_80);
 }
