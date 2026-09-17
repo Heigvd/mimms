@@ -10,5 +10,6 @@ interface OverlayProps {
 
 interface OverlayItem {
   overlayProps: OverlayProps;
+  // TODO refactor to Record<string, any> (in WEGAS too)
   payload: { [id: string]: unknown };
 }

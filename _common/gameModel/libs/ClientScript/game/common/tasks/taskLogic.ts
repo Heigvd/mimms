@@ -52,6 +52,13 @@ export function getEvacuationTask(
     )! as EvacuationTask;
 }
 
+export function getEvacuationTaskUid(
+  state: Readonly<MainSimulationState>,
+  location: LOCATION_ENUM
+): TaskId | undefined {
+  return getEvacuationTask(state, location)?.Uid;
+}
+
 export function getTaskTitle(taskId: TaskId): string {
   return (
     getCurrentState() // it is accurate enough. no need to have the state as a parameter
