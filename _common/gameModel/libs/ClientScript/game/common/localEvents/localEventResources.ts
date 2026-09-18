@@ -3,41 +3,13 @@ import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationSta
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
 import { resourceLogger } from '../../../tools/logger';
-import * as ResourceState from '../simulationState/resourceStateAccess';
-import { ResourceType } from '../resources/resourceType';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LocalEventBase, SourceType } from './localEventBase';
+import { getResourceById, sendResourcesToLocation, assignResourcesToTask } from '../simulationState/resourceStateAccess';
 
-abstract class MoveResourcesLocalEventBase extends LocalEventBase {
+export class MoveResourcesLocalEvent extends LocalEventBase {
   constructor(
-    private readonly props: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly type: string;
-      readonly ownerUid: ActorId;
-      readonly targetLocation: LOCATION_ENUM;
-    }
-  ) {
-    super({ ...props });
-  }
-
-  abstract getInvolvedResources(state: MainSimulationState): Resource[];
-
-  applyStateUpdate(state: MainSimulationState): void {
-    if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
-      resourceLogger.warn('The resources could not be moved as the target location is invalid');
-      return;
-    }
-
-    const resources = this.getInvolvedResources(state);
-    ResourceState.sendResourcesToLocation(resources, this.props.targetLocation);
-  }
-}
-
-export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    readonly extensionProps: {
+    readonly props: {
       readonly parentEventId: GlobalEventId;
       readonly source: SourceType;
       readonly simTimeStamp: SimTime;
@@ -46,58 +18,17 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
       readonly targetLocation: LOCATION_ENUM;
     }
   ) {
-    super({ ...extensionProps, type: 'MoveResourcesLocalEvent' });
+    super({ ...props, type: 'MoveResourcesLocalEvent' });
   }
 
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return this.extensionProps.resourcesId.map(resourceId =>
-      ResourceState.getResourceById(state, resourceId)
-    );
-  }
-}
-
-// TODO 9.9.2026 : requires to check update tasks assignements as well
-export class MoveHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    readonly extensionProps: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly ownerUid: ActorId;
-      readonly sourceLocation: LOCATION_ENUM;
-      readonly targetLocation: LOCATION_ENUM;
+  applyStateUpdate(state: MainSimulationState): void {
+    if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
+      resourceLogger.warn('The resources could not be moved as the target location is invalid');
+      return;
     }
-  ) {
-    super({
-      ...extensionProps,
-      type: 'MoveHumanResourcesByLocationLocalEvent',
-    });
-  }
 
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getHumanResourcesByLocation(state, this.extensionProps.sourceLocation);
-  }
-}
-
-export class MoveWaitingResourcesByTypeLocalEvent extends MoveResourcesLocalEventBase {
-  constructor(
-    readonly extensionProps: {
-      readonly parentEventId: GlobalEventId;
-      readonly source: SourceType;
-      readonly simTimeStamp: SimTime;
-      readonly ownerUid: ActorId;
-      readonly resourceType: ResourceType;
-      readonly targetLocation: LOCATION_ENUM;
-    }
-  ) {
-    super({
-      ...extensionProps,
-      type: 'MoveWaitingResourcesByTypeLocalEvent',
-    });
-  }
-
-  override getInvolvedResources(state: MainSimulationState): Resource[] {
-    return ResourceState.getWaitingResourcesByType(state, this.extensionProps.resourceType);
+    const resources = this.props.resourcesId.map(rid => getResourceById(state, rid));
+    sendResourcesToLocation(resources, this.props.targetLocation);
   }
 }
 
@@ -115,7 +46,7 @@ export class AssignResourcesToTaskLocalEvent extends LocalEventBase {
   }
 
   applyStateUpdate(state: MainSimulationState): void {
-    ResourceState.assignResourcesToTask(state, this.props.resourcesId, this.props.taskId);
+    assignResourcesToTask(state, this.props.resourcesId, this.props.taskId);
   }
 }
 
@@ -133,7 +64,7 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
 
   applyStateUpdate(state: MainSimulationState): void {
     for (const resourceId of this.props.resourcesId) {
-      const resource: Resource = ResourceState.getResourceById(state, resourceId);
+      const resource: Resource = getResourceById(state, resourceId);
 
       const location: LOCATION_ENUM =
         resource.currentLocation === LOCATION_ENUM.PMA
@@ -149,8 +80,8 @@ export class ReleaseResourcesFromTaskLocalEvent extends LocalEventBase {
         continue;
       }
 
-      ResourceState.sendResourcesToLocation([resource], location);
-      ResourceState.assignResourcesToTask(state, [resourceId], idleTaskUid);
+      sendResourcesToLocation([resource], location);
+      assignResourcesToTask(state, [resourceId], idleTaskUid);
     }
   }
 }

@@ -15,14 +15,13 @@ import { getLocalEventManager } from '../localEvents/localEventManager';
 import { MoveActorLocalEvent } from '../localEvents/localEventActors';
 import {
   AssignResourcesToTaskLocalEvent,
-  MoveHumanResourcesByLocationLocalEvent,
-  MoveWaitingResourcesByTypeLocalEvent,
   MoveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventActivable';
 import { VehicleType } from '../resources/resourceType';
 import { ChoiceAction } from './actionBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
+import { getHumanResourcesByLocation, getWaitingResourcesByType } from '../simulationState/resourceStateAccess';
 
 export class MapChoiceAction extends ChoiceAction {
   public readonly binding: LOCATION_ENUM;
@@ -215,18 +214,32 @@ export class PCChoiceAction extends MapChoiceAction {
         })
       );
     }
-    // Move human resources to PC
-    // 9.9.2026 TODO update tasks assignements as well
+
+    // Move all waiting human resources to PC
+    const resourcesId = getHumanResourcesByLocation(state, LOCATION_ENUM.pcFront).map(r => r.Uid);
     getLocalEventManager().queueLocalEvent(
-      new MoveHumanResourcesByLocationLocalEvent({
+      new MoveResourcesLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
-        sourceLocation: LOCATION_ENUM.pcFront,
+        resourcesId: resourcesId,
         targetLocation: this.binding,
       })
     );
+    // Update their waiting task
+    const idleTask = getIdleTaskUid(state, this.binding);
+    if(idleTask){
+      getLocalEventManager().queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent({
+          parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
+          simTimeStamp: state.getSimTime(),
+          resourcesId: resourcesId,
+          taskId: idleTask
+        })
+      );
+    }
 
     // Remove PC Front once all actors and resources have been moved
     const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
@@ -281,13 +294,15 @@ export class ParkChoiceAction extends MapChoiceAction {
   protected override dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     super.dispatchEndedEvents(state);
 
+    // move ambulances or helicopters to their park
+    const ids = getWaitingResourcesByType(state, this.vehicleType).map(r => r.Uid);
     getLocalEventManager().queueLocalEvent(
-      new MoveWaitingResourcesByTypeLocalEvent({
+      new MoveResourcesLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         ownerUid: this.ownerId,
-        resourceType: this.vehicleType,
+        resourcesId: ids,
         targetLocation: this.binding,
       })
     );
