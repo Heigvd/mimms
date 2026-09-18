@@ -48,5 +48,5 @@ export function getAccessibleLocationsInfo(
 ): LocationInfo[] {
   return getAvailableMapActivables(getCurrentState(), kind)
     .map(activable => getLocationInfo(activable.binding))
-    .filter((info : LocationInfo | undefined) => info !== undefined) as LocationInfo[];
+    .filter((info): info is LocationInfo => info !== undefined);
 }
