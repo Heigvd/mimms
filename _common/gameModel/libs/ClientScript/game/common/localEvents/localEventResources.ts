@@ -5,7 +5,11 @@ import { Resource } from '../resources/resource';
 import { resourceLogger } from '../../../tools/logger';
 import { getIdleTaskUid } from '../tasks/taskLogic';
 import { LocalEventBase, SourceType } from './localEventBase';
-import { getResourceById, sendResourcesToLocation, assignResourcesToTask } from '../simulationState/resourceStateAccess';
+import {
+  getResourceById,
+  sendResourcesToLocation,
+  assignResourcesToTask,
+} from '../simulationState/resourceStateAccess';
 
 export class MoveResourcesLocalEvent extends LocalEventBase {
   constructor(

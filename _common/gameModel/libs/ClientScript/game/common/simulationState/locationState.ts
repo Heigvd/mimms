@@ -1,5 +1,9 @@
 // EVALUATION_PRIORITY 0
-import { LocationAccessibilityFilter, LocationAccessibilityKind, locationEnumConfig } from '../mapEntities/locationEnumConfig';
+import {
+  LocationAccessibilityFilter,
+  LocationAccessibilityKind,
+  locationEnumConfig,
+} from '../mapEntities/locationEnumConfig';
 import { MapEntityActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
 

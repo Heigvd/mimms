@@ -8,7 +8,6 @@ export type LocationAccessibilityFilter = LocationAccessibilityKind | 'AnyKind';
 /** Is it a place that can contain actors / resources / patients */
 export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
-
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
@@ -102,8 +101,10 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
  * @returns the filtered locations by accessiblity
  */
 export function locationsByAccessibility(kind: LocationAccessibilityFilter): LocationEnumConfig[] {
-  if(kind === 'AnyKind'){
-    return Object.values(locationEnumConfig).filter(l => Object.values(l.accessibility).some(a => a));
+  if (kind === 'AnyKind') {
+    return Object.values(locationEnumConfig).filter(l =>
+      Object.values(l.accessibility).some(a => a)
+    );
   }
-  return Object.values(locationEnumConfig).filter(l => l.accessibility[kind])
+  return Object.values(locationEnumConfig).filter(l => l.accessibility[kind]);
 }

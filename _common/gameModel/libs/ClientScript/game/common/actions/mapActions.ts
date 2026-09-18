@@ -21,7 +21,10 @@ import { ChangeMapActivableStatusLocalEvent } from '../localEvents/localEventAct
 import { VehicleType } from '../resources/resourceType';
 import { ChoiceAction } from './actionBase';
 import { getIdleTaskUid } from '../tasks/taskLogic';
-import { getHumanResourcesByLocation, getWaitingResourcesByType } from '../simulationState/resourceStateAccess';
+import {
+  getHumanResourcesByLocation,
+  getWaitingResourcesByType,
+} from '../simulationState/resourceStateAccess';
 
 export class MapChoiceAction extends ChoiceAction {
   public readonly binding: LOCATION_ENUM;
@@ -138,8 +141,7 @@ export class PCFrontChoiceAction extends MapChoiceAction {
 
     // First and only resource on scene comes with
     const resourceUid = state.getInternalStateObject().resources[0]?.Uid;
-    if(resourceUid){
-
+    if (resourceUid) {
       getLocalEventManager().queueLocalEvent(
         new MoveResourcesLocalEvent({
           parentEventId: this.eventId,
@@ -164,7 +166,6 @@ export class PCFrontChoiceAction extends MapChoiceAction {
         );
       }
     }
-
   }
 }
 
@@ -229,14 +230,14 @@ export class PCChoiceAction extends MapChoiceAction {
     );
     // Update their waiting task
     const idleTask = getIdleTaskUid(state, this.binding);
-    if(idleTask){
+    if (idleTask) {
       getLocalEventManager().queueLocalEvent(
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,
           source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
           resourcesId: resourcesId,
-          taskId: idleTask
+          taskId: idleTask,
         })
       );
     }

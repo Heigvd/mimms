@@ -66,7 +66,7 @@ export function fetchLocationInfo(
           mapActivable.binding
         )
       ),
-      comingTo: getResourcesMovingTo(currentState, binding)
+      comingTo: getResourcesMovingTo(currentState, binding),
     };
   }
 }
@@ -81,7 +81,7 @@ function getResourcesMovingTo(
   binding: LOCATION_ENUM
 ): Resource[] {
   const tid = getMoveToTaskUid(currentState, binding);
-  if(tid){
+  if (tid) {
     return ResourceState.getResourcesByTask(currentState, tid);
   }
   return [];
