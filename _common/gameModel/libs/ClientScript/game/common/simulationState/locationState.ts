@@ -1,6 +1,5 @@
 // EVALUATION_PRIORITY 0
-import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
-import { locationEnumConfig } from '../mapEntities/locationEnumConfig';
+import { LocationAccessibilityFilter, LocationAccessibilityKind, locationEnumConfig } from '../mapEntities/locationEnumConfig';
 import { MapEntityActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
 
@@ -66,11 +65,11 @@ export function getActiveMapEntityFromBinding(
 // The map entities must also be active and built
 export function getAvailableMapActivables(
   state: Readonly<MainSimulationState>,
-  kind: LocationAccessibilityKind | 'anyKind'
+  kind: LocationAccessibilityFilter
 ): MapEntityActivable[] {
   const mapActivables = getBuiltActiveMapEntities(state);
 
-  if (kind === 'anyKind') {
+  if (kind === 'AnyKind') {
     return mapActivables;
   }
 

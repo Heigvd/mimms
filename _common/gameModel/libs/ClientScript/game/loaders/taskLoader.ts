@@ -3,6 +3,7 @@ import {
   StandardMaximumIdleTime,
   UnlimitedMaximumIdleTime,
 } from '../common/constants';
+import { locationsByAccessibility } from '../common/mapEntities/locationEnumConfig';
 import { LOCATION_ENUM } from '../common/simulationState/locationState';
 import { HealingTask, TaskBase, TaskType } from '../common/tasks/taskBase';
 import { EvacuationTask } from '../common/tasks/taskBaseEvacuation';
@@ -105,8 +106,7 @@ export function loadTasks(): TaskBase[] {
     UnlimitedMaximumIdleTime
   );
 
-  // Where a resource can be between two tasks : it waits there for new orders
-  const betweenTasksLocations = [
+  const waitingTasksLocations = [
     LOCATION_ENUM.entreeChantier,
     LOCATION_ENUM.PMA,
     LOCATION_ENUM.pcFront,
@@ -115,19 +115,11 @@ export function loadTasks(): TaskBase[] {
     LOCATION_ENUM.helicopterPark,
   ];
 
-  // Where a resource can be sent to take up its next task.
-  // A resource travels there as soon as the order is given, which is what keeps it
-  // from being ordered somewhere else at the same time, so every location hosting a task
-  // needs its travelling task, even those where no one waits for orders.
-  const reachableLocations = [
-    ...betweenTasksLocations,
-    LOCATION_ENUM.chantier,
-    LOCATION_ENUM.nidDeBlesses,
-  ];
-
-  const waitingTasks = betweenTasksLocations.map(
+  const waitingTasks = waitingTasksLocations.map(
     location => new WaitingTask('waiting-title', location, [])
   );
+
+  const reachableLocations = locationsByAccessibility('AnyKind').map(l => l.id);
 
   const moveToTasks = reachableLocations.map(
     location => new MoveToTask('on-the-road', location, [])

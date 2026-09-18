@@ -7,7 +7,7 @@ import { Resource } from '../resources/resource';
 import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
-import { isMoveToTaskUid } from '../tasks/taskLogic';
+import { getMoveToTaskUid, isMoveToTaskUid } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
 // translations
@@ -33,6 +33,7 @@ export interface LocationInfo {
   resources: Resource[];
   ambulances: Resource[];
   helicopters: Resource[];
+  comingTo: Resource[];
 }
 
 export function fetchLocationInfo(
@@ -49,15 +50,15 @@ export function fetchLocationInfo(
         'missing name for ' + mapActivable.binding,
       icon: locationEnumConfig[binding].icon,
       actors: getActorsByLocation(mapActivable.binding),
-      resources: onSiteOnly(
+      resources: exludeMoving(
         currentState,
         ResourceState.getHumanResourcesByLocation(currentState, mapActivable.binding)
       ),
-      ambulances: onSiteOnly(
+      ambulances: exludeMoving(
         currentState,
         ResourceState.getResourcesByTypeAndLocation(currentState, 'ambulance', mapActivable.binding)
       ),
-      helicopters: onSiteOnly(
+      helicopters: exludeMoving(
         currentState,
         ResourceState.getResourcesByTypeAndLocation(
           currentState,
@@ -65,15 +66,32 @@ export function fetchLocationInfo(
           mapActivable.binding
         )
       ),
+      comingTo: getResourcesMovingTo(currentState, binding)
     };
   }
 }
 
 /**
- * Resources that have been given an order have taken the road, even though they physically
- * leave the place only once the order is fully given. They are not shown at the place anymore.
+ * Fetches the resources that currently moving to this location
+ * @param currentState
+ * @param binding
  */
-function onSiteOnly(
+function getResourcesMovingTo(
+  currentState: Readonly<MainSimulationState>,
+  binding: LOCATION_ENUM
+): Resource[] {
+  const tid = getMoveToTaskUid(currentState, binding);
+  if(tid){
+    return ResourceState.getResourcesByTask(currentState, tid);
+  }
+  return [];
+}
+
+/**
+ * Resources that have been given an order have taken the road, even though they physically
+ * leave the place only once the order is fully given, they are not shown at the place anymore.
+ */
+function exludeMoving(
   currentState: Readonly<MainSimulationState>,
   resources: Resource[]
 ): Resource[] {

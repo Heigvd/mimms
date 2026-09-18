@@ -138,30 +138,34 @@ export class PCFrontChoiceAction extends MapChoiceAction {
     );
 
     // First and only resource on scene comes with
-    const resourceUid = state.getInternalStateObject().resources[0]!.Uid;
-    getLocalEventManager().queueLocalEvent(
-      new MoveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        ownerUid: this.ownerId,
-        resourcesId: [resourceUid],
-        targetLocation: this.binding,
-      })
-    );
-    const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding);
+    const resourceUid = state.getInternalStateObject().resources[0]?.Uid;
+    if(resourceUid){
 
-    if (idleTaskUid != undefined) {
       getLocalEventManager().queueLocalEvent(
-        new AssignResourcesToTaskLocalEvent({
+        new MoveResourcesLocalEvent({
           parentEventId: this.eventId,
           source: { type: 'action', id: this.Uid },
           simTimeStamp: state.getSimTime(),
+          ownerUid: this.ownerId,
           resourcesId: [resourceUid],
-          taskId: idleTaskUid,
+          targetLocation: this.binding,
         })
       );
+      const idleTaskUid: TaskId | undefined = getIdleTaskUid(state, this.binding);
+
+      if (idleTaskUid != undefined) {
+        getLocalEventManager().queueLocalEvent(
+          new AssignResourcesToTaskLocalEvent({
+            parentEventId: this.eventId,
+            source: { type: 'action', id: this.Uid },
+            simTimeStamp: state.getSimTime(),
+            resourcesId: [resourceUid],
+            taskId: idleTaskUid,
+          })
+        );
+      }
     }
+
   }
 }
 
@@ -223,6 +227,7 @@ export class PCChoiceAction extends MapChoiceAction {
         targetLocation: this.binding,
       })
     );
+
     // Remove PC Front once all actors and resources have been moved
     const pcFrontActivable = getActiveMapEntityFromBinding(state, LOCATION_ENUM.pcFront);
     getLocalEventManager().queueLocalEvent(
