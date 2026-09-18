@@ -3,7 +3,7 @@ import { InterventionRole } from '../game/common/actors/actor';
 import { keys } from '../tools/helper';
 import { mainSimLogger } from '../tools/logger';
 
-export type MultiplayerMatrix = Array<PlayerMatrix>
+export type MultiplayerMatrix = Array<PlayerMatrix>;
 
 interface PlayerMatrix {
   id: number;
@@ -182,7 +182,6 @@ export function checkAllRolesPlayed(): boolean {
 
   return keys(first.roles).every(role => players.some(p => p.roles[role]));
 }
-
 
 /**
  * Check if all players are marked as ready
