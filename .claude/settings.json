@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "blockReadsOutsideWorkingDirectories": true,
     "allow": [
       "Bash(git mv *)",
       "Bash(echo \"exit=$?\")",
@@ -11,8 +12,16 @@
       "Bash(git stash *)",
       "Bash(echo \"tsc exit=$?\")",
       "Bash(python3 -c ' *)",
-      "Bash(git restore *)",
-      "Bash(npm run *)"
+      "Bash(git restore *)"
     ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "allowWrite": [
+        "/tmp"
+      ]
+    }
   }
 }
