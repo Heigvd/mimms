@@ -289,6 +289,54 @@ container element does not actually wrap the content */
 }
 
 
+/* - - - - -  I N C O M I N G  R E S O U R C E S  - - - */
+
+.incoming-resources {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 2.5rem;
+  margin-left: 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 2px dashed var(--grey_80);
+  transform: translateY(-50%);
+}
+
+.incoming-resources::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 6px solid var(--grey_80);
+}
+
+.incoming-resources svg {
+  height: 14px;
+  color: var(--grey_80);
+}
+
+.incoming-resources__counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -.25rem;
+  left: -.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: var(--S_text);
+  font-weight: var(--boldWeight);
+  color: var(--grey_80);
+  background-color: var(--grey-white);
+  border: 1.5px solid var(--grey_80);
+  border-radius: var(--S_borderRadius);
+}
+
+
 /* - - - - -  A N I M A T I O N  - - - */
 
 @keyframes resource__task--edit-animation {
