@@ -165,7 +165,7 @@
                                         "layoutStyle" : { },
                                         "script" : {
                                           "@class" : "Script",
-                                          "content" : "import { getLocationIcon } from \"./UIfacade/locationFacade\";\nreturn`/maps/mapIcons/${getLocationIcon(Context.location.id)}.svg`;",
+                                          "content" : "return`/maps/mapIcons/${Context.location.icon}.svg`;",
                                           "language" : "TypeScript"
                                         },
                                         "style" : { }
@@ -196,7 +196,7 @@
                             "exposeAs" : "location",
                             "getItemsFn" : {
                               "@class" : "Script",
-                              "content" : "  import { LOCATION_ENUM } from './game/common/simulationState/locationState';\n  [LOCATION_ENUM.chantier, LOCATION_ENUM.nidDeBlesses, LOCATION_ENUM.PMA].map(id => ({ id }));",
+                              "content" : "import { getAccessibleLocationsInfo } from './UIfacade/locationFacade';\n  getAccessibleLocationsInfo('Patients');",
                               "language" : "TypeScript"
                             },
                             "itemKey" : "id",
