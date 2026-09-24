@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1788878545264,
+  "createdTime" : 1790253903992,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -7578,7 +7578,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-706 XGO ressources orders data ",
+  "name" : "MIM-707 XGO getting even closer",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
