@@ -332,7 +332,7 @@
                                       "className" : "unactivables-overlay__vector--selected",
                                       "condition" : {
                                         "@class" : "Script",
-                                        "content" : "Context.state.state.selectedVectorUid === Context.evacSquadDef.uid;",
+                                        "content" : "Context.evacuationState.state.selectedVectorType === Context.evacSquadDef.uid;",
                                         "language" : "typescript"
                                       }
                                     } ],
@@ -345,7 +345,7 @@
                                     "localScriptEval" : {
                                       "script" : {
                                         "@class" : "ClientScript",
-                                        "content" : "import { setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nsetEvacuationSelectionState({ selectedVectorUid: Context.evacSquadDef.uid });",
+                                        "content" : "import { setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nsetEvacuationSelectionState({ selectedVectorType: Context.evacSquadDef.uid });",
                                         "language" : "TypeScript"
                                       }
                                     },
@@ -554,7 +554,7 @@
                                           "className" : "unactivables-overlay__service--selected",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.state.state.selectedHospitalId === Context.hospital.id&&\nContext.state.state.selectedServiceId === Context.service.id;",
+                                            "content" : "Context.evacuationState.state.selectedHospitalId === Context.hospital.id&&\nContext.evacuationState.state.selectedServiceId === Context.service.id;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -727,13 +727,13 @@
                 "language" : "TypeScript"
               }
             },
-            "name" : "close",
+            "name" : "Close",
             "style" : { }
           },
           "type" : "Button"
         } ],
         "className" : "fullWidth fullHeight",
-        "exposeAs" : "state",
+        "exposeAs" : "evacuationState",
         "initialState" : {
           "@class" : "Script",
           "content" : "import { getInitialEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\ngetInitialEvacuationSelectionState();",
@@ -742,7 +742,7 @@
         "layoutClassName" : "noPadding fullWidth",
         "layoutStyle" : { },
         "localState" : true,
-        "name" : "Current patient",
+        "name" : "Evacuation selection",
         "style" : {
           "flexDirection" : "column"
         }

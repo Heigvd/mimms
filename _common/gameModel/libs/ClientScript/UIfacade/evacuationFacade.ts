@@ -6,6 +6,8 @@ import {
   getAllSquadDefinitions,
 } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
+import { Resource } from '../game/common/resources/resource';
 import {
   getCachedHospitalById,
   getCachedHospitals,
@@ -194,14 +196,14 @@ export function isVectorChoiceFilled() {
 }
 
 // -------------------------------------------------------------------------------------------------
-// evacuation selection state (used in page 13, evacuation)
+// evacuation selection state (used in page evacuationView)
 // -------------------------------------------------------------------------------------------------
 
 export interface EvacuationSelectionState {
   selectedPatientId: PatientId | undefined;
   selectedHospitalId: HospitalId | undefined;
   selectedServiceId: PatientUnitId | undefined;
-  selectedVectorUid: EvacuationSquadType | undefined;
+  selectedVectorType: EvacuationSquadType | undefined;
 }
 
 export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
@@ -209,7 +211,7 @@ export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
     selectedPatientId: undefined,
     selectedHospitalId: undefined,
     selectedServiceId: undefined,
-    selectedVectorUid: undefined,
+    selectedVectorType: undefined,
   };
 }
 
@@ -217,9 +219,9 @@ export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
  * @param update, an object that only contains the change set to be applied to the evacuation selection state
  */
 export function setEvacuationSelectionState(update: Partial<EvacuationSelectionState>): void {
-  const newState = Helpers.cloneDeep(Context.state.state);
+  const newState = Helpers.cloneDeep(Context.evacuationState.state);
   Object.assign(newState, update);
-  Context.state.setState(newState);
+  Context.evacuationState.setState(newState);
 }
 
 /**
@@ -227,17 +229,11 @@ export function setEvacuationSelectionState(update: Partial<EvacuationSelectionS
  * Just casting the evacuation selection state properly
  */
 export function getTypedEvacuationSelectionState(): EvacuationSelectionState {
-  return Context.state?.state;
-}
-
-export function canSendEvacuationOrder(): boolean {
-  // TODO
-  return true;
+  return Context.evacuationState?.state;
 }
 
 export function resetEvacuationState(): void {
   setEvacuationSelectionState(getTypedEvacuationSelectionState());
-  // TODO
 }
 
 export function sendEvacuationOrder(): void {
@@ -247,4 +243,33 @@ export function sendEvacuationOrder(): void {
     resetEvacuationState();
     toggleEvacuationModal(false);
   }
+}
+
+export function canSendEvacuationOrder(): boolean {
+  const values = Object.values(getTypedEvacuationSelectionState());
+  return values?.length == 4 && values.every(v => v !== undefined);
+}
+
+export function getEvacuationOrderPayload(): EvacuationActionPayload | {} {
+  const selection = getTypedEvacuationSelectionState();
+  if (canSendEvacuationOrder()) {
+    return {
+      patientId: selection.selectedPatientId!,
+      transportSquad: selection.selectedVectorType!,
+      hospitalId: selection.selectedHospitalId!,
+      patientUnitId: selection.selectedPatientId!,
+    };
+  }
+  return {};
+}
+
+interface PartialSquad {
+  type: EvacuationSquadType;
+  vehicleId: Resource;
+  driver: number;
+  healer: number;
+}
+
+export function listAvailableSquads(squadType: EvacuationSquadType): PartialSquad[] {
+  return [];
 }

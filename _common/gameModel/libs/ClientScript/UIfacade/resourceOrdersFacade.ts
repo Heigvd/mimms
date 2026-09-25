@@ -376,6 +376,13 @@ export function sendOrder(): void {
 }
 
 /**
+ * Fetches the payload to place an order action
+ */
+export function getResourceOrdersPayload(): ResourceOrder {
+  return Helpers.cloneDeep(getTypedResourceOrderCtx().state.payload);
+}
+
+/**
  * Generates a n times data structure for foreach components
  */
 export function foreachHelper(n: number): { id: number }[] {

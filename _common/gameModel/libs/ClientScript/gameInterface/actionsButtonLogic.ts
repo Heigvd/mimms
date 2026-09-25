@@ -9,7 +9,9 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
-import { getTypedResourceOrderCtx } from '../UIfacade/resourceOrdersFacade';
+import {
+  getResourceOrdersPayload,
+} from '../UIfacade/resourceOrdersFacade';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
@@ -18,20 +20,19 @@ import {
   HospitalRequestPayload,
   MethaneMessagePayload,
 } from '../game/common/events/casuMessageEvent';
-import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { RadioMessagePayload } from '../game/common/events/radioMessageEvent';
 import { RadioType } from '../game/common/radio/communicationType';
 import { getChoiceDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { endMapAction, startMapChoice } from '../gameMap/main';
 import { actionLogger } from '../tools/logger';
 import {
-  getEmptyEvacuationInterfaceState,
   getEmptyResourceRequest,
   getTypedInterfaceState,
   setInterfaceState,
 } from './interfaceState';
 import { actionClickHandler, canPlanAction } from './main';
 import { CustomDurationActionTemplateType } from '../game/common/actions/actionTemplate/actorTemplates';
+import { getEvacuationOrderPayload } from '../UIfacade/evacuationFacade';
 
 /**
  * Plans an action with a given template and the current interface state
@@ -59,7 +60,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
       endMapAction();
     }
   } else if (isMoveResourcesAssignTaskActionTemplate(actTemplate)) {
-    params = Helpers.cloneDeep(getTypedResourceOrderCtx().state.payload);
+    params = getResourceOrdersPayload();
   } else if (isCasuMessageActionTemplate(actTemplate)) {
     params = fetchCasuMessageRequestValues();
   } else if (isRadioActionTemplate(actTemplate, RadioType.CASU)) {
@@ -71,7 +72,7 @@ export function runActionButton(actTemplate: ActionTemplateBase | undefined): vo
   } else if (isCustomDurationActionTemplate(actTemplate)) {
     params = fetchCustomDurationValues(actTemplate);
   } else if (isEvacuationActionTemplate(actTemplate)) {
-    params = fetchEvacuationActionValues();
+    params = getEvacuationOrderPayload() || {};
   }
 
   actionClickHandler(actTemplate, params);
@@ -180,15 +181,4 @@ function fetchCustomDurationValues(at: CustomDurationActionTemplateType) {
   setInterfaceState({ customDurations: updatedState });
 
   return params;
-}
-
-function fetchEvacuationActionValues() {
-  const res: EvacuationActionPayload = { ...Context.interfaceState.state.evacuation.data };
-
-  // Reset interface state
-  const newState = Helpers.cloneDeep(Context.interfaceState.state);
-  newState.evacuation = getEmptyEvacuationInterfaceState();
-  Context.interfaceState.setState(newState);
-
-  return res;
 }
