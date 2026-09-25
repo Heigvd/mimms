@@ -46,6 +46,86 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "children" : [ ],
+                        "className" : "",
+                        "layout" : { },
+                        "layoutClassName" : "noPadding patient-flow__arrow-head",
+                        "layoutStyle" : { },
+                        "name" : "arrow head",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    } ],
+                    "className" : "",
+                    "computedClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : {
+                        "@class" : "Script",
+                        "content" : "  Context.arrow.endSegment;",
+                        "language" : "TypeScript"
+                      }
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "noPadding patient-flow__arrow",
+                    "layoutStyle" : { },
+                    "name" : "chantier -> pma (entry)",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                }, {
+                  "props" : {
+                    "children" : [ ],
+                    "className" : "",
+                    "computedClassNames" : [ {
+                      "applyOn" : "Outside",
+                      "className" : {
+                        "@class" : "Script",
+                        "content" : "  Context.arrow.startSegment;",
+                        "language" : "TypeScript"
+                      }
+                    } ],
+                    "layout" : { },
+                    "layoutClassName" : "noPadding patient-flow__arrow",
+                    "layoutStyle" : { },
+                    "name" : "chantier -> pma (elbow)",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "patient-flow__arrows",
+                "layout" : { },
+                "layoutClassName" : "noPadding patient-flow__arrows-container",
+                "layoutStyle" : { },
+                "name" : "Arrow",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "fullWidth fullHeight ",
+            "exposeAs" : "arrow",
+            "getItemsFn" : {
+              "@class" : "Script",
+              "content" : "import { getActiveArrowStyleDefinitions } from \"./UIfacade/patientFlowFacade\";\n  getActiveArrowStyleDefinitions();",
+              "language" : "TypeScript"
+            },
+            "itemKey" : "id",
+            "layout" : { },
+            "layoutClassName" : "noPadding fullWidth fullHeight",
+            "layoutStyle" : {
+              "position" : "absolute"
+            },
+            "name" : "Arrow",
+            "style" : { }
+          },
+          "type" : "For each"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
                         "className" : "unactivables-overlay__title",
                         "layoutClassName" : "noPadding",
                         "layoutStyle" : { },
@@ -244,6 +324,7 @@
                       },
                       "type" : "FlexList"
                     } ],
+                    "className" : "fullWidth",
                     "conditionnalClassNames" : [ {
                       "applyOn" : "Outside",
                       "className" : "closedFixedMapEntity",
@@ -256,7 +337,7 @@
                     "layout" : {
                       "flexDirection" : "column"
                     },
-                    "layoutClassName" : "fixedEntities-container",
+                    "layoutClassName" : "fullWidth fixedEntities-container",
                     "layoutStyle" : {
                       "margin" : "0"
                     },
@@ -269,7 +350,6 @@
                     },
                     "name" : "genericFixedEntity",
                     "style" : {
-                      "minWidth" : "180px",
                       "position" : "relative"
                     }
                   },
@@ -337,23 +417,15 @@
             "style" : { }
           },
           "type" : "For each"
-        }, {
-          "props" : {
-            "children" : [ ],
-            "layout" : { },
-            "layoutClassName" : "noPadding",
-            "layoutStyle" : { },
-            "name" : "Arrows",
-            "style" : { }
-          },
-          "type" : "FlexList"
         } ],
         "className" : "fullWidth fullHeight",
         "layout" : { },
         "layoutClassName" : "noPadding fullWidth fullHeight",
         "layoutStyle" : { },
         "name" : "Locations",
-        "style" : { }
+        "style" : {
+          "position" : "relative"
+        }
       },
       "type" : "FlexList"
     } ],
