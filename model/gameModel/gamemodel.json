@@ -3931,6 +3931,7 @@
         },
         "name" : "mainSim-radio",
         "properties" : {
+          "plan-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Planifier une évacuation\"},\"EN\":{\"status\":\"\",\"translation\":\"Plan an evacuation\",\"lang\":\"EN\"}},\"version\":0}",
           "radio-channel-actors" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event\"},\"FR\":{\"status\":\"\",\"translation\":\"événement\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-casu" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"central\"},\"FR\":{\"status\":\"\",\"translation\":\"centrale\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"évacuation\",\"lang\":\"FR\"}},\"version\":0}",

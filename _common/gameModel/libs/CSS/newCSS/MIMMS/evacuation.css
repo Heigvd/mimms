@@ -110,6 +110,17 @@ container element does not actually wrap the content */
 }
 
 /* buttons */
+.close-evacuation {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+}
+
+.close-evacuation svg {
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
 .evacuation-footer {
   position: fixed;
   bottom: 3rem;

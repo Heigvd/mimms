@@ -12,9 +12,15 @@ import {
   getCachedPatientUnitById,
 } from '../game/loaders/hospitalLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { runActionButton } from '../gameInterface/actionsButtonLogic';
+import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
+import { uniqueActionTemplates } from '../UIfacade/actionFacade';
 
 // used in radioChannelEvacuation page
+
+export function toggleEvacuationModal(show: boolean): void {
+  setInterfaceState({ showEvacuationModal: show });
+}
 
 // Data choices
 
@@ -221,5 +227,24 @@ export function setEvacuationSelectionState(update: Partial<EvacuationSelectionS
  * Just casting the evacuation selection state properly
  */
 export function getTypedEvacuationSelectionState(): EvacuationSelectionState {
-  return Context.state.state;
+  return Context.state?.state;
+}
+
+export function canSendEvacuationOrder(): boolean {
+  // TODO
+  return true;
+}
+
+export function resetEvacuationState(): void {
+  setEvacuationSelectionState(getTypedEvacuationSelectionState());
+  // TODO
+}
+
+export function sendEvacuationOrder(): void {
+  if (canSendEvacuationOrder()) {
+    const template = uniqueActionTemplates()?.EvacuationActionTemplate;
+    runActionButton(template);
+    resetEvacuationState();
+    toggleEvacuationModal(false);
+  }
 }

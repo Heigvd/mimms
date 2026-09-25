@@ -60,7 +60,6 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;

@@ -37,6 +37,7 @@ export interface InterfaceState {
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  showEvacuationModal: boolean;
   showResourcesManagementModal: boolean;
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   resourceManagementCommMedia?: CommMedia;
@@ -106,6 +107,7 @@ export function getInitialInterfaceState(): InterfaceState {
     customDurations: {},
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    showEvacuationModal: false,
     showResourcesManagementModal: false,
     resourceManagementSourceLocation: undefined,
     resourceManagementCommMedia: undefined,
