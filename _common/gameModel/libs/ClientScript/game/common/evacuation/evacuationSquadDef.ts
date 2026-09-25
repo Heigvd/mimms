@@ -1,4 +1,4 @@
-import { ResourceType } from '../resources/resourceType';
+import { HumanResourceType, VehicleType } from '../resources/resourceType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { TranslationKey } from '../baseTypes';
 
@@ -26,14 +26,22 @@ export interface EvacuationSquadDefinition {
   location: LOCATION_ENUM;
 
   /**
-   * What are the types of resources needed to perform an evacuation.
+   * Resources needed to perform an evacuation.
    * <p>
-   * Each needed resource is mandatory. We choose the type of the resource among the qualified types.
-   * sorted from favorite type to last
+   * Each resource is mandatory. The type of the resource is picked among the qualified types.
+   * order from most to least favorite
    */
-  neededResources: {
-    qualifiedTypes: ResourceType[];
-  }[];
+  resourcesTypesRequirements: {
+    vehicleTypes: VehicleType[];
+    /**
+     * Each sub array describes the requirements for one driver
+     */
+    driverTypes: HumanResourceType[][];
+    /**
+     * Each sub array describes the requirements for one healer
+     */
+    healerTypes: HumanResourceType[][];
+  };
 
   /**
    * The time needed to load the patient into the vehicle. Must be given in minute.
@@ -54,16 +62,6 @@ export interface EvacuationSquadDefinition {
    * The vehicle icon to display
    */
   vehicleIcon: string;
-
-  /**
-   * The number of drivers needed
-   */
-  infoNbDrivers: number;
-
-  /**
-   * The number of healers needed
-   */
-  infoNbHealers: number;
 
   /**
    * Translation to designate the main vehicle
@@ -91,20 +89,15 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
   AmbulanceDriverHealer: {
     uid: 'AmbulanceDriverHealer',
     location: LOCATION_ENUM.ambulancePark,
-    // List of the resources.
-    // One line for one resource. The type of the resource is chosen among the list.
-    // The first is the favorite, the last is the last choice.
-    neededResources: [
-      { qualifiedTypes: ['ambulance'] },
-      { qualifiedTypes: ['secouriste', 'technicienAmbulancier', 'ambulancier'] },
-      { qualifiedTypes: ['ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior'] },
-    ],
+    resourcesTypesRequirements: {
+      vehicleTypes: ['ambulance'],
+      driverTypes: [['secouriste', 'technicienAmbulancier', 'ambulancier']],
+      healerTypes: [['ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior']]
+    },
     loadingTime: 2,
     unloadingTime: 2,
     speed: 80,
     vehicleIcon: 'ambulance',
-    infoNbDrivers: 1,
-    infoNbHealers: 1,
     mainVehicleTranslation: 'by-ambulance',
     mainVehicleTranslationNoun: 'ambulance',
     healerPresenceTranslation: 'with-healer',
@@ -113,20 +106,16 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
   Helicopter: {
     uid: 'Helicopter',
     location: LOCATION_ENUM.helicopterPark,
-    // List of the resources.
-    // One line for one resource. The type of the resource is chosen among the list.
-    // The first is the favorite, the last is the last choice.
-    neededResources: [
-      { qualifiedTypes: ['helicopter'] },
-      { qualifiedTypes: ['ambulancier'] },
-      { qualifiedTypes: ['medecinSenior'] },
-    ],
+    resourcesTypesRequirements: {
+      vehicleTypes: ['helicopter'],
+      // helicopter pilot is implicit
+      driverTypes: [],
+      healerTypes: [['ambulancier'], ['medecinSenior']]
+    },
     loadingTime: 2,
     unloadingTime: 2,
     speed: 225,
     vehicleIcon: 'helicopter',
-    infoNbDrivers: 1,
-    infoNbHealers: 2,
     mainVehicleTranslation: 'by-helicopter',
     mainVehicleTranslationNoun: 'helicopter',
     healerPresenceTranslation: 'with-healers',
@@ -139,6 +128,22 @@ export function getSquadDef(id: EvacuationSquadType): EvacuationSquadDefinition 
 
 export function getAllSquadDefinitions(): EvacuationSquadDefinition[] {
   return Object.values(squadDefinitions);
+}
+
+export function getNumberDriverNeeded(id: EvacuationSquadType): number {
+  return getSquadDef(id)?.resourcesTypesRequirements?.driverTypes?.length || 0;
+}
+
+export function getNumberHealersNeeded(id: EvacuationSquadType): number {
+  return getSquadDef(id)?.resourcesTypesRequirements?.healerTypes?.length || 0;
+}
+
+export function getTotalResourcesNeeded(id: EvacuationSquadType): number {
+  const squadDef = getSquadDef(id);
+  if(squadDef){
+    return Object.values(squadDef.resourcesTypesRequirements).flat(1).length;
+  }
+  return 0;
 }
 
 // -------------------------------------------------------------------------------------------------

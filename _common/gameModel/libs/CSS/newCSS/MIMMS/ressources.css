@@ -1,51 +1,173 @@
 /* - - - - -  C O N T A I N E R S  - - - */
 
-.resourcesDropdowns {
-  padding-top: 0px;
-  padding-bottom: 0px;
+/* resources flow modal */
+/* ugly selector because for some reason, the wegas 
+container element does not actually wrap the content */
+#globalInterfaceId > div:has(.resources-flow-modal) {
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.resources-flow-modal {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
+  backdrop-filter: blur(12px);
+  border-radius: 0;
+  pointer-events: auto;
+}
+
+.resources-management__title {
+  font-size: var(--L_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_80);
+  opacity: 75%;
+}
+
+.resources-flow-modal .close-generic-fixed-entity svg {
+  color: var(--grey_80);
+  opacity: 75%;
 }
 
 
-/* - - - - -  O N E  R E S O U R C E  - - - */
+/* - - - - -  U N A C T I V A B L E   R E S O U R C E S   O V E R L A Y  - - - */
 
-/* make the total number of a type of ressources aligned with the number input box */
-.selectableRessources {
-  display: flex;
+.unactivables-overlay__title {
+  font-size: var(--SM_text);
+  font-weight: var(--blackWeight);
+  color: var(--grey_60);
+}
+
+/* display */
+.unactivables-overlay__container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 8px;
+  height: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* fixed entities placement within the grid above */
+.entree-chantier {
+  grid-column: 1 / 3;
+  grid-row: 1 / 4;
+}
+
+.chantier {
+  grid-column: 1 / 3;
+  grid-row: 4 / 7;
+}
+
+.nid-blesses {
+  grid-column: 3 / 5;
+  grid-row: 1 / 4;
+}
+
+.pma {
+  grid-column: 3 / 5;
+  grid-row: 4 / 7;
+}
+
+.pc-front,
+.pc-san {
+  grid-column: 5 / 7;
+  grid-row: 1 / 3;
+}
+
+.parc-helico {
+  grid-column: 5 / 7;
+  grid-row: 3 / 5;
+}
+
+.parc-ambulance {
+  grid-column: 5 / 7;
+  grid-row: 5 / 7;
+}
+
+/* icon, buttons & input */
+.unactivables-overlay__icon-container {
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: translate(-50%, .5rem);
+}
+
+.unactivables-overlay__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
+.unactivables-overlay__button.iconOnly {
   align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  color: var(--grey_80);
+  background-color: #F1F1F1;
+  border-radius: var(--XS_borderRadius);
 }
 
-.resourceTypeChosenNumber {
-  width: 2.5rem;
-  min-width: 2.5rem;
-  height: 1.25rem;
-  min-height: 1.25rem;
-  font-size: 12px;
+.unactivables-overlay__button svg {
+  width: .75rem;
+  height: .75rem;
 }
 
-/* used to make one row of two blue */
-.evenOddList-container:nth-of-type(even) {
-  background-color: color-mix(in srgb, var(--grey_10) 50%, transparent);
+.unactivables-overlay__input {
+  width: 1.5rem;
+  min-width: 1rem;
+  font-size: var(--XS_text);
+  color: #8A8A8A;
+  border: 1px solid var(--colors-disabledcolor);
 }
 
-/* resource management panel */
-.presentResources {
-  font-weight: var(--boldWeight);
+
+/* - - - - -  R E S O U R C E   T A S K  - - - */
+
+.resource__task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  justify-content: start;
+  gap: 0;
+  width: fit-content;
+  min-width: 180px;
+  box-sizing: border-box;
 }
 
-.resourcesManagement-container {
+/* 2 or more tasks: widen to fit 2 columns of 180px (extra tasks wrap to new rows) */
+.resource__task-list--multi {
+  width: 381px;
+}
+
+.resource__task {
   width: 100%;
+  box-sizing: border-box;
+  min-height: 30.4px;
+  padding: 5px;
+  border: 1px solid var(--grey_20);
+  border-radius: var(--XXS_borderRadius);
 }
 
-.resourcesManagement {
-  gap: 10px;
+/* task the ongoing suborder's resources were selected from (where orders are given) */
+.resource__task--edit {
+  border: 1px dashed var(--grey_20);
 }
 
-.resourcesSelectionAssignment-container {
-  padding: 0 10px 10px 10px;
+/* other tasks: candidate destinations, pulsing while a selection awaits one */
+.resource__task--edit-animation {
+  border: 1px dashed var(--primary_base);
+  animation: resource__task--edit-animation 2.5s ease-in-out infinite;
 }
 
-.resourcesSelectionAssignment {
-  gap: 5px;
+.resource__task svg {
+  color: var(--grey_30);
+}
+
+.resource__task--edit-animation svg {
+  color: var(--primary_base);
+  opacity: 75%;
 }
 
 /* resources in generic fixed entities */
@@ -70,18 +192,19 @@
   z-index: 2;
 }
 
-.resource__task {
-  width: 100%;
-  min-height: 30.4px;
-  padding: 5px;
-  border: 1px solid var(--grey_20);
-  border-radius: var(--XXS_borderRadius);
+
+/* - - - - -  O N E  R E S O U R C E  - - - */
+
+/* resource management panel */
+.presentResources {
+  font-weight: var(--boldWeight);
 }
 
-.resource__task svg {
-  color: var(--grey_30);
+.resourcesSelectionAssignment {
+  gap: 5px;
 }
 
+/* per-resource-type row: name, count, and the unselected/selected/added icons */
 .resource-type {
   display: flex;
   gap: 10px;
@@ -99,4 +222,85 @@
 
 .resource-type svg {
   color: var(--grey_80);
+}
+
+/* resource icon currently selected in the ongoing suborder: outlined instead of filled */
+.resource-type .resource--selected path {
+  fill: transparent !important;
+  stroke: var(--grey_80) !important;
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke !important;
+}
+
+/* resource icon already assigned (order given) */
+.resource-type .resource--added {
+  color: var(--notification_base);
+}
+
+
+/* - - - - -  R A D I O   O R D E R   I C O N  - - - */
+
+/* walkie-talkie badge, shown on the location where the current actor is giving orders by radio */
+.radio-order__container {
+  position: absolute;
+  top: -.75rem;
+  right: -.75rem;
+}
+
+.radio-order__icon-container {
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--grey-white);
+  border-radius: var(--L_borderRadius);
+}
+
+.radio-order__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: var(--primary_filter);
+}
+
+/* incoming signal */
+.radio-order__wave {
+  position: absolute;
+  top: 15px;
+  left: -15px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary_base) 0deg 90deg, transparent 90deg 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  opacity: 0;
+  pointer-events: none;
+  animation: radio-order__wave 3.6s linear infinite;
+}
+
+.radio-order__wave--2 {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.radio-order__wave--3 {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+
+/* - - - - -  A N I M A T I O N  - - - */
+
+@keyframes resource__task--edit-animation {
+  0%   {box-shadow: none;}
+  40%  {box-shadow: 0 0 8px 0 color-mix(in srgb, var(--primary_base) 20%, transparent), 0 0 20px 0 color-mix(in srgb, var(--primary_base) 20%, transparent);}
+  60%  {box-shadow: none;}
+  100% {box-shadow: none;}
+}
+
+@keyframes radio-order__wave {
+  0% {transform: translate(-50%, -50%) scale(.4);   opacity: 0;}
+  10%  {opacity: .5;}
+  90%  {opacity: .5;}
+  100% {transform: translate(-50%, -50%) scale(1);   opacity: 0;}
 }

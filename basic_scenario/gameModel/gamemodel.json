@@ -4,7 +4,7 @@
   "comments" : null,
   "createdById" : null,
   "createdByName" : null,
-  "createdTime" : 1787923904569,
+  "createdTime" : 1790336670006,
   "description" : null,
   "items" : [ {
     "@class" : "ListDescriptor",
@@ -3677,6 +3677,7 @@
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "assign" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"assigner\"},\"EN\":{\"status\":\"\",\"translation\":\"assign\",\"lang\":\"EN\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
           "brancardage-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"brancardage\"},\"FR\":{\"status\":\"\",\"translation\":\"brancardage\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3977,6 +3978,7 @@
         },
         "name" : "mainSim-radio",
         "properties" : {
+          "plan-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"Planifier une évacuation\"},\"EN\":{\"status\":\"\",\"translation\":\"Plan an evacuation\",\"lang\":\"EN\"}},\"version\":0}",
           "radio-channel-actors" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"event\"},\"FR\":{\"status\":\"\",\"translation\":\"événement\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-casu" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"central\"},\"FR\":{\"status\":\"\",\"translation\":\"centrale\",\"lang\":\"FR\"}},\"version\":0}",
           "radio-channel-evacuation" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"evacuation\"},\"FR\":{\"status\":\"\",\"translation\":\"évacuation\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6023,6 +6025,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/resourceOrdersType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#303:C3aVxY",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resourceType",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6968,6 +6979,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/resourceOrdersFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:3170703:Kb3fn0",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/taskFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7071,6 +7091,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:1174013:wQfVhP",
+    "version" : null,
+    "visibility" : "PRIVATE"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/evacuation",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:3172685:vwSTyy",
     "version" : null,
     "visibility" : "PRIVATE"
   }, {
@@ -7560,7 +7589,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-708",
+  "name" : "MIM-709 XGO logic wiring",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

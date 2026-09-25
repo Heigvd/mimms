@@ -1,14 +1,5 @@
-import { CommMedia } from '../../radio/communicationType';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { ResourceTypeAndNumber } from '../../resources/resourceType';
-import {
-  ActionTemplateUid,
-  ActorId,
-  SimDuration,
-  SimTime,
-  TaskId,
-  TranslationKey,
-} from '../../baseTypes';
+import { ResourceOrder } from '../../resources/resourceOrdersType';
+import { ActionTemplateUid, ActorId, SimDuration, SimTime, TranslationKey } from '../../baseTypes';
 import { EvacuationAction, MoveResourcesAssignTaskAction } from '../resourceActions';
 import { MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
 import { Actor, InterventionRole } from '../../actors/actor';
@@ -20,22 +11,13 @@ import {
 } from '../../events/evacuationMessageEvent';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
 
-export type MoveResourcesAssignTaskActionInput = {
-  commMedia: CommMedia;
-  sourceLocation: LOCATION_ENUM;
-  targetLocation: LOCATION_ENUM;
-  sentResources: ResourceTypeAndNumber;
-  sourceTaskId: TaskId;
-  targetTaskId: TaskId;
-};
-
 /**
  * Action template to create an action to send resources to a location and assign a task
  */
 export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   MoveResourcesAssignTaskAction,
   MoveResourcesAssignTaskEvent,
-  MoveResourcesAssignTaskActionInput
+  ResourceOrder
 > {
   constructor(
     uid: ActionTemplateUid,
@@ -63,17 +45,16 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: MoveResourcesAssignTaskActionInput
+    params: ResourceOrder
   ): MoveResourcesAssignTaskEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       durationSec: this.duration,
       commMedia: params.commMedia,
-      sourceLocation: params.sourceLocation,
-      targetLocation: params.targetLocation,
-      sentResources: params.sentResources,
-      sourceTaskId: params.sourceTaskId,
-      targetTaskId: params.targetTaskId,
+      // an order still being edited has no destination yet, it must not reach the simulation
+      orders: params.orders.filter(
+        order => order.destination != undefined && order.destinationTask != undefined
+      ),
     };
   }
 
@@ -91,11 +72,7 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
       ownerId,
       this.uid,
       payload.commMedia,
-      payload.sourceLocation,
-      payload.targetLocation,
-      payload.sentResources,
-      payload.sourceTaskId,
-      payload.targetTaskId
+      payload.orders
     );
   }
 }

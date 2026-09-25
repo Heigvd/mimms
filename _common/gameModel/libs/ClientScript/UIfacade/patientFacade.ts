@@ -33,6 +33,12 @@ export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<Patien
   return getPatientsByLocation(getCurrentState(), 'FixedMapEntity', location);
 }
 
+export function getPretriagedPatientsForLocation(
+  location: LOCATION_ENUM
+): Readonly<PatientState[]> {
+  return getPatientsForLocation(location).filter(patient => patient.preTriageResult !== undefined);
+}
+
 export function getPatient(id: string): Readonly<PatientState | undefined> {
   return getAllPatients().find(patient => patient.patientId === id);
 }

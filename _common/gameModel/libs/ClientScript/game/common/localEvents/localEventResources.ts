@@ -60,7 +60,6 @@ abstract class MoveResourcesLocalEventBase extends LocalEventBase {
   abstract getInvolvedResources(state: MainSimulationState): Resource[];
 
   applyStateUpdate(state: MainSimulationState): void {
-    // TODO Replace with canMoveToLocation2
     if (!canMoveToLocation(state, 'Resources', this.props.targetLocation)) {
       resourceLogger.warn('The resources could not be moved as the target location is invalid');
       return;
@@ -92,6 +91,7 @@ export class MoveResourcesLocalEvent extends MoveResourcesLocalEventBase {
   }
 }
 
+// TODO 9.9.2026 : requires to check update tasks assignements as well
 export class MoveFreeHumanResourcesByLocationLocalEvent extends MoveResourcesLocalEventBase {
   constructor(
     readonly extensionProps: {

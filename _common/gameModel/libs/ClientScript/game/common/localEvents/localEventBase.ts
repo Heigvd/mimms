@@ -27,9 +27,9 @@ export interface LocalEvent {
    */
   simTimeStamp: SimTime;
   /**
-   *
+   * If the timestamp is equal, local events are processed by increasing priority
    */
-  priority?: number; // The smaller priority is the first to be processed
+  priority?: number;
 }
 
 export type SourceType =

@@ -3,7 +3,6 @@ import { ActorId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getPlayerRolesSelf } from '../multiplayer/multiplayerManager';
-import * as TaskFacade from './taskFacade';
 import { isOngoingAndStartedAction } from '../game/common/simulationState/actionStateAccess';
 import {
   getTypedInterfaceState,
@@ -27,8 +26,6 @@ export function selectActor(id: ActorId): InterfaceState {
   const newState = Helpers.cloneDeep(getTypedInterfaceState());
 
   newState.currentActorUid = id;
-  newState.resources.allocateResources.currentTaskId =
-    TaskFacade.initResourceManagementCurrentTaskId(id, getActor(id)?.Location);
   setInterfaceState(newState);
   refreshSelectionLayer();
   refreshActivableLayer();

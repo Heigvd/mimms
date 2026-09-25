@@ -15,3 +15,6 @@ yarn-error.log
 
 .vscode/
 .idea/
+
+.claude/settings.local.json
+

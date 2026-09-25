@@ -11,7 +11,7 @@ export interface LocationEnumConfig {
   name: TranslationKey;
   leaderRoles: InterventionRole[];
   accessibility: LocationAccessibility;
-  icon?: string; // TODO Do we need this or is it only for overlayed locations ?
+  icon?: string;
 }
 
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
@@ -47,28 +47,28 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.pcFront,
     name: 'location-pcFront',
     leaderRoles: ['AL'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'pcFront',
   },
   PC: {
     id: LOCATION_ENUM.PC,
     name: 'location-pc',
     leaderRoles: ['ACS', 'MCS'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'PC',
   },
   ambulancePark: {
     id: LOCATION_ENUM.ambulancePark,
     name: 'location-ambulancePark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: false, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: false },
     icon: 'ambulance-park',
   },
   helicopterPark: {
     id: LOCATION_ENUM.helicopterPark,
     name: 'location-helicopterPark',
     leaderRoles: ['EVASAN'],
-    accessibility: { Actors: false, Resources: true, Patients: true },
+    accessibility: { Actors: false, Resources: true, Patients: false },
     icon: 'helicopter-park',
   },
   remote: {

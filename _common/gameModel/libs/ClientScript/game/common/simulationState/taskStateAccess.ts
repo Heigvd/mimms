@@ -93,16 +93,6 @@ export function getTaskCurrentStatus(
   return internallyGetTask(state, taskId).getStatus();
 }
 
-export function getTaskByTypeAndLocation(
-  state: Readonly<MainSimulationState>,
-  taskType: TaskType,
-  location: LOCATION_ENUM
-): TaskBase {
-  return state
-    .getInternalStateObject()
-    .tasks.find(task => task.taskType === taskType && task.location === location)!;
-}
-
 export function getLocationsByTaskType(
   state: Readonly<MainSimulationState>,
   taskType: TaskType

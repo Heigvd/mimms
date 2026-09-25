@@ -4,17 +4,27 @@ import {
   EvacuationSquadDefinition,
   EvacuationSquadType,
   getAllSquadDefinitions,
+  getNumberDriverNeeded,
+  getNumberHealersNeeded,
 } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
+import { Resource } from '../game/common/resources/resource';
 import {
   getCachedHospitalById,
   getCachedHospitals,
   getCachedPatientUnitById,
 } from '../game/loaders/hospitalLoader';
 import { getCurrentState } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { runActionButton } from '../gameInterface/actionsButtonLogic';
+import { getTypedInterfaceState, setInterfaceState } from '../gameInterface/interfaceState';
+import { uniqueActionTemplates } from '../UIfacade/actionFacade';
 
 // used in radioChannelEvacuation page
+
+export function toggleEvacuationModal(show: boolean): void {
+  setInterfaceState({ showEvacuationModal: show });
+}
 
 // Data choices
 
@@ -50,11 +60,11 @@ export function getVehicleIcon(evacSquadDef: EvacuationSquadDefinition): string 
 }
 
 export function getNbDrivers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbDrivers;
+  return getNumberDriverNeeded(evacSquadDef.uid);
 }
 
 export function getNbHealers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbHealers;
+  return getNumberHealersNeeded(evacSquadDef.uid);
 }
 
 export function isEvacSquadEnabled(type: EvacuationSquadType): boolean {
@@ -185,4 +195,82 @@ export function isDestinationChoiceFilled() {
 
 export function isVectorChoiceFilled() {
   return getTransportSquad() != undefined;
+}
+
+// -------------------------------------------------------------------------------------------------
+// evacuation selection state (used in page evacuationView)
+// -------------------------------------------------------------------------------------------------
+
+export interface EvacuationSelectionState {
+  selectedPatientId: PatientId | undefined;
+  selectedHospitalId: HospitalId | undefined;
+  selectedServiceId: PatientUnitId | undefined;
+  selectedVectorType: EvacuationSquadType | undefined;
+}
+
+export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
+  return {
+    selectedPatientId: undefined,
+    selectedHospitalId: undefined,
+    selectedServiceId: undefined,
+    selectedVectorType: undefined,
+  };
+}
+
+/**
+ * @param update, an object that only contains the change set to be applied to the evacuation selection state
+ */
+export function setEvacuationSelectionState(update: Partial<EvacuationSelectionState>): void {
+  const newState = Helpers.cloneDeep(Context.evacuationState.state);
+  Object.assign(newState, update);
+  Context.evacuationState.setState(newState);
+}
+
+/**
+ * For convenience
+ * Just casting the evacuation selection state properly
+ */
+export function getTypedEvacuationSelectionState(): EvacuationSelectionState {
+  return Context.evacuationState?.state;
+}
+
+export function resetEvacuationState(): void {
+  setEvacuationSelectionState(getTypedEvacuationSelectionState());
+}
+
+export function sendEvacuationOrder(): void {
+  if (canSendEvacuationOrder()) {
+    const template = uniqueActionTemplates()?.EvacuationActionTemplate;
+    runActionButton(template);
+    resetEvacuationState();
+    toggleEvacuationModal(false);
+  }
+}
+
+export function canSendEvacuationOrder(): boolean {
+  const values = Object.values(getTypedEvacuationSelectionState());
+  return values?.length == 4 && values.every(v => v !== undefined);
+}
+
+export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined {
+  const selection = getTypedEvacuationSelectionState();
+  if (canSendEvacuationOrder()) {
+    return {
+      patientId: selection.selectedPatientId!,
+      transportSquad: selection.selectedVectorType!,
+      hospitalId: selection.selectedHospitalId!,
+      patientUnitId: selection.selectedPatientId!,
+    };
+  }
+}
+
+interface PartialSquad {
+  type: EvacuationSquadType;
+  vehicleId: Resource;
+  driver: number;
+  healer: number;
+}
+
+export function listAvailableSquads(squadType: EvacuationSquadType): PartialSquad[] {
+  return [];
 }
