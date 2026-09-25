@@ -3,13 +3,13 @@
 /* resources flow modal */
 /* ugly selector because for some reason, the wegas 
 container element does not actually wrap the content */
-#globalInterfaceId > div:has(.resources-flow-modal) {
+#globalInterfaceId > div:has(.flow-modal) {
   padding: 0;
   background-color: transparent;
   border-radius: 0;
 }
 
-.resources-flow-modal {
+.flow-modal {
   background-color: transparent;
   background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
   backdrop-filter: blur(12px);
@@ -24,7 +24,7 @@ container element does not actually wrap the content */
   opacity: 75%;
 }
 
-.resources-flow-modal .close-generic-fixed-entity svg {
+.flow-modal .close-generic-fixed-entity svg {
   color: var(--grey_80);
   opacity: 75%;
 }

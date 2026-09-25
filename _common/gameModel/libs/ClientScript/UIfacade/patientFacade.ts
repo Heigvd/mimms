@@ -1,6 +1,10 @@
 import { PatientId } from '../game/common/baseTypes';
 import { LOCATION_ENUM } from '../game/common/simulationState/locationState';
-import { getPatientsByLocation, PatientState } from '../game/common/simulationState/patientState';
+import {
+  getHospitalizedPatientsSize,
+  getPatientsByLocation,
+  PatientState,
+} from '../game/common/simulationState/patientState';
 import { HumanHealth } from '../game/pretri/patientProcessing';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import {
@@ -16,11 +20,20 @@ import {
   getBackgroundColorByCategoryId,
   getCategoryById,
   PreTriageResult,
+  STANDARD_CATEGORY_ARRAY,
+  STANDARD_CATEGORY_COLORS,
 } from '../game/pretri/triage';
 import { BodyState, HumanBody } from '../HUMAn/human';
 import { computeDiastolicPressure, computeSystolicPressure } from '../HUMAn/physiologicalModel';
 import { getBlockTranslation, getTranslation } from '../tools/translation';
 import { getCachedHospitalById, getCachedPatientUnitById } from '../game/loaders/hospitalLoader';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import {
+  getPretriageStatsForLocation,
+  PatientCategoryColorLegendEntry,
+} from '../UIfacade/patientSnapshotFacade';
+import { LocationInfo } from '../game/common/location/locationLogic';
+import { getAccessibleLocationsInfo, getLocationInfo } from '../UIfacade/locationFacade';
 
 /**
  * @returns All currently present patients
@@ -35,6 +48,71 @@ export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<Patien
 
 export function getPatient(id: string): Readonly<PatientState | undefined> {
   return getAllPatients().find(patient => patient.patientId === id);
+}
+
+/** Open the Patient Flow modal (see page 43) */
+export function openPatientFlowModal(): void {
+  setInterfaceState({ showPatientFlowModal: true });
+}
+
+/** Close the Patient Flow modal (see page 43) */
+export function closePatientFlowModal(): void {
+  setInterfaceState({ showPatientFlowModal: false });
+}
+
+/**
+ * @returns The locations to display in the Patient Flow modal (see page 13). The "remote" location
+ * (hospitals) is always included, even though it is never a built/active map entity.
+ */
+export function getPatientFlowLocationsInfo(): LocationInfo[] {
+  const locations = getAccessibleLocationsInfo('Patients');
+  const remote = getLocationInfo(LOCATION_ENUM.remote);
+  if (!remote) return locations;
+  return [...locations, { ...remote, name: 'Hôpitaux', icon: 'hospital' }];
+}
+
+/**
+ * @returns The number of patients that have already arrived at a hospital, across all hospitals
+ * and patient units combined (patients still being evacuated are not counted)
+ */
+export function getHospitalizedPatientsCount(): number {
+  return getHospitalizedPatientsSize(getCurrentState());
+}
+
+/**
+ * @returns The color legend for all standard pretriage categories for the given location, in the
+ * Patient Flow modal (see page 13), including categories with no patient at all (unlike
+ * patientSnapshotFacade's getPatientCategoryColorLegend, used by the other flow modals, which omits them)
+ */
+export function getPatientFlowCategoryColorLegend(
+  location: LOCATION_ENUM
+): PatientCategoryColorLegendEntry[] {
+  const stats = getPretriageStatsForLocation(location);
+
+  return STANDARD_CATEGORY_ARRAY.map(categoryId => ({
+    categoryId,
+    color: STANDARD_CATEGORY_COLORS[categoryId],
+    label: getTranslation('mainSim-actions-tasks', 'pretriage-category-' + categoryId),
+    count: stats?.[categoryId] ?? 0,
+  }));
+}
+
+const PATIENT_FLOW_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
+  chantier: 'patient-flow__chantier',
+  nidDeBlesses: 'patient-flow__nid-blesses',
+  PMA: 'patient-flow__pma',
+  helicopterPark: 'patient-flow__parc-helico',
+  ambulancePark: 'patient-flow__parc-ambulance',
+  remote: 'patient-flow__hospitals',
+};
+
+/**
+ * @returns The CSS class placing the given location in the Patient flow overlay grid
+ * (see .patient-flow__unactivables-overlay in patient.css), or an empty string for a
+ * location that has no dedicated slot in that grid
+ */
+export function getPatientFlowGridClassName(location: LOCATION_ENUM): string {
+  return PATIENT_FLOW_GRID_CLASS_NAMES[location] ?? '';
 }
 
 // -------------------------------------------------------------------------------------------------

@@ -224,6 +224,12 @@
           "name" : "resources management",
           "scenaristPage" : null,
           "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "patientFlow",
+          "name" : "patient flow",
+          "scenaristPage" : null,
+          "trainerPage" : null
         } ],
         "name" : "MainSimulation"
       } ],

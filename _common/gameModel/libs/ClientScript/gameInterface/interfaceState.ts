@@ -38,6 +38,7 @@ export interface InterfaceState {
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
   showResourcesManagementModal: boolean;
+  showPatientFlowModal: boolean;
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
@@ -107,6 +108,7 @@ export function getInitialInterfaceState(): InterfaceState {
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
     showResourcesManagementModal: false,
+    showPatientFlowModal: false,
     resourceManagementSourceLocation: undefined,
     resourceManagementCommMedia: undefined,
     selectedPatient: undefined,

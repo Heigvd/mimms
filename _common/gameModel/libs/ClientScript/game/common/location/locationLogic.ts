@@ -40,35 +40,36 @@ export function fetchLocationInfo(
   currentState: Readonly<MainSimulationState>,
   binding: LOCATION_ENUM
 ): LocationInfo | undefined {
-  const mapActivable = getActiveMapEntityFromBinding(currentState, binding);
-
-  if (mapActivable) {
-    return {
-      id: mapActivable.binding,
-      name:
-        getLocationLongTranslation(mapActivable.binding) ||
-        'missing name for ' + mapActivable.binding,
-      icon: locationEnumConfig[binding].icon,
-      actors: getActorsByLocation(mapActivable.binding),
-      resources: exludeMoving(
-        currentState,
-        ResourceState.getHumanResourcesByLocation(currentState, mapActivable.binding)
-      ),
-      ambulances: exludeMoving(
-        currentState,
-        ResourceState.getResourcesByTypeAndLocation(currentState, 'ambulance', mapActivable.binding)
-      ),
-      helicopters: exludeMoving(
-        currentState,
-        ResourceState.getResourcesByTypeAndLocation(
-          currentState,
-          'helicopter',
-          mapActivable.binding
-        )
-      ),
-      comingTo: getResourcesMovingTo(currentState, binding),
-    };
+  // The remote location (hospitals) is never built/placed on the map, but is always a valid location
+  // (see canMoveToLocation: "Someone can always be at remote location")
+  if (binding === LOCATION_ENUM.remote || getActiveMapEntityFromBinding(currentState, binding)) {
+    return buildLocationInfo(currentState, binding);
   }
+}
+
+function buildLocationInfo(
+  currentState: Readonly<MainSimulationState>,
+  binding: LOCATION_ENUM
+): LocationInfo {
+  return {
+    id: binding,
+    name: getLocationLongTranslation(binding) || 'missing name for ' + binding,
+    icon: locationEnumConfig[binding].icon,
+    actors: getActorsByLocation(binding),
+    resources: exludeMoving(
+      currentState,
+      ResourceState.getHumanResourcesByLocation(currentState, binding)
+    ),
+    ambulances: exludeMoving(
+      currentState,
+      ResourceState.getResourcesByTypeAndLocation(currentState, 'ambulance', binding)
+    ),
+    helicopters: exludeMoving(
+      currentState,
+      ResourceState.getResourcesByTypeAndLocation(currentState, 'helicopter', binding)
+    ),
+    comingTo: getResourcesMovingTo(currentState, binding),
+  };
 }
 
 /**

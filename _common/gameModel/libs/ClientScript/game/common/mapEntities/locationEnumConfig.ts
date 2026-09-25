@@ -49,14 +49,14 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     id: LOCATION_ENUM.pcFront,
     name: 'location-pcFront',
     leaderRoles: ['AL'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'pcFront',
   },
   PC: {
     id: LOCATION_ENUM.PC,
     name: 'location-pc',
     leaderRoles: ['ACS', 'MCS'],
-    accessibility: { Actors: true, Resources: true, Patients: true },
+    accessibility: { Actors: true, Resources: true, Patients: false },
     icon: 'PC',
   },
   ambulancePark: {
