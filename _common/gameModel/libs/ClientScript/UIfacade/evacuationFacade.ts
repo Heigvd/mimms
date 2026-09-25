@@ -4,6 +4,8 @@ import {
   EvacuationSquadDefinition,
   EvacuationSquadType,
   getAllSquadDefinitions,
+  getNumberDriverNeeded,
+  getNumberHealersNeeded,
 } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
@@ -58,11 +60,11 @@ export function getVehicleIcon(evacSquadDef: EvacuationSquadDefinition): string 
 }
 
 export function getNbDrivers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbDrivers;
+  return getNumberDriverNeeded(evacSquadDef.uid);
 }
 
 export function getNbHealers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbHealers;
+  return getNumberHealersNeeded(evacSquadDef.uid);
 }
 
 export function isEvacSquadEnabled(type: EvacuationSquadType): boolean {
@@ -250,7 +252,7 @@ export function canSendEvacuationOrder(): boolean {
   return values?.length == 4 && values.every(v => v !== undefined);
 }
 
-export function getEvacuationOrderPayload(): EvacuationActionPayload | {} {
+export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined {
   const selection = getTypedEvacuationSelectionState();
   if (canSendEvacuationOrder()) {
     return {
@@ -260,7 +262,6 @@ export function getEvacuationOrderPayload(): EvacuationActionPayload | {} {
       patientUnitId: selection.selectedPatientId!,
     };
   }
-  return {};
 }
 
 interface PartialSquad {

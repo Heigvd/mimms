@@ -1,4 +1,4 @@
-import { EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
+import { EvacuationSquadType, getSquadDef, getTotalResourcesNeeded } from './evacuationSquadDef';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -11,11 +11,8 @@ export function isEvacSquadAvailable(
   state: Readonly<MainSimulationState>,
   type: EvacuationSquadType
 ): boolean {
-  const neededResources = getSquadDef(type).neededResources;
-
   const matchingResources = getResourcesForEvacSquad(state, type);
-
-  return matchingResources.length === neededResources.length;
+  return matchingResources.length === getTotalResourcesNeeded(type);
 }
 
 export function getResourcesForEvacSquad(
@@ -33,10 +30,11 @@ export function getResourcesForEvacSquad(
   const result: Resource[] = [];
 
   // For each needed resource
-  for (const wantedResource of squadDef.neededResources) {
+  const allRequirements = Object.values(squadDef.resourcesTypesRequirements).flat(1);
+  for (const wantedResource of allRequirements) {
     // we try to get one of the favorite type.
     // If not available, we try to get a resource matching the second type, ... and so on
-    for (const possibleType of wantedResource.qualifiedTypes) {
+    for (const possibleType of wantedResource) {
       const matchingResource = availableResourcesAtLocation.find(
         resource => resource.type === possibleType
       );
