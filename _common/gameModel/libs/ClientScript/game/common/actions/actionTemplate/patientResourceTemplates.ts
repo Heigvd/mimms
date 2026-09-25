@@ -1,14 +1,5 @@
-import { CommMedia } from '../../radio/communicationType';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
-import { ResourceTypeAndNumber } from '../../resources/resourceType';
-import {
-  ActionTemplateUid,
-  ActorId,
-  SimDuration,
-  SimTime,
-  TaskId,
-  TranslationKey,
-} from '../../baseTypes';
+import { computeOrderDurationMinutes, ResourceOrder } from '../../resources/resourceOrdersType';
+import { ActionTemplateUid, ActorId, SimDuration, SimTime, TranslationKey } from '../../baseTypes';
 import { EvacuationAction, MoveResourcesAssignTaskAction } from '../resourceActions';
 import { MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
 import { Actor, InterventionRole } from '../../actors/actor';
@@ -19,15 +10,7 @@ import {
   EvacuationActionPayload,
 } from '../../events/evacuationMessageEvent';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
-
-export type MoveResourcesAssignTaskActionInput = {
-  commMedia: CommMedia;
-  sourceLocation: LOCATION_ENUM;
-  targetLocation: LOCATION_ENUM;
-  sentResources: ResourceTypeAndNumber;
-  sourceTaskId: TaskId;
-  targetTaskId: TaskId;
-};
+import { OneMinuteDuration } from '../../constants';
 
 /**
  * Action template to create an action to send resources to a location and assign a task
@@ -35,7 +18,7 @@ export type MoveResourcesAssignTaskActionInput = {
 export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   MoveResourcesAssignTaskAction,
   MoveResourcesAssignTaskEvent,
-  MoveResourcesAssignTaskActionInput
+  ResourceOrder
 > {
   constructor(
     uid: ActionTemplateUid,
@@ -63,17 +46,17 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
   public buildGlobalEvent(
     timeStamp: SimTime,
     initiator: Readonly<Actor>,
-    params: MoveResourcesAssignTaskActionInput
+    params: ResourceOrder
   ): MoveResourcesAssignTaskEvent {
+    const duration = computeOrderDurationMinutes(params) * OneMinuteDuration;
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
+      durationSec: duration,
       commMedia: params.commMedia,
-      sourceLocation: params.sourceLocation,
-      targetLocation: params.targetLocation,
-      sentResources: params.sentResources,
-      sourceTaskId: params.sourceTaskId,
-      targetTaskId: params.targetTaskId,
+      // orders without destination are ignored
+      orders: params.orders.filter(
+        order => order.destination != undefined && order.destinationTask != undefined
+      ),
     };
   }
 
@@ -83,19 +66,16 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
+    const duration = event.payload.durationSec;
     return new MoveResourcesAssignTaskAction(
       payload.triggerTime,
-      this.duration,
+      duration,
       this.title,
       event.id,
       ownerId,
       this.uid,
       payload.commMedia,
-      payload.sourceLocation,
-      payload.targetLocation,
-      payload.sentResources,
-      payload.sourceTaskId,
-      payload.targetTaskId
+      payload.orders
     );
   }
 }

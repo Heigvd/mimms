@@ -27,10 +27,6 @@ export enum BuildingStatus {
   removed = 'removed',
 }
 
-export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
-/** Is it a place that can contain actors / resources / patients */
-export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
-
 export interface MapChoiceEvent extends ActionCreationEvent {
   durationSec: SimDuration;
   choice: ChoiceDescriptor;

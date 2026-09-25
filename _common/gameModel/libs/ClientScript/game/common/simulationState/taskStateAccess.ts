@@ -45,7 +45,7 @@ export function isAtLeastOneResource(
   state: Readonly<MainSimulationState>,
   task: TaskBase
 ): boolean {
-  return ResourceState.getFreeResourcesByTask(state, task.Uid).length > 0;
+  return ResourceState.getResourcesByTask(state, task.Uid).length > 0;
 }
 
 /**
@@ -91,16 +91,6 @@ export function getTaskCurrentStatus(
   taskId: TaskId
 ): TaskStatus {
   return internallyGetTask(state, taskId).getStatus();
-}
-
-export function getTaskByTypeAndLocation(
-  state: Readonly<MainSimulationState>,
-  taskType: TaskType,
-  location: LOCATION_ENUM
-): TaskBase {
-  return state
-    .getInternalStateObject()
-    .tasks.find(task => task.taskType === taskType && task.location === location)!;
 }
 
 export function getLocationsByTaskType(

@@ -1,17 +1,19 @@
 import { InterventionRole } from '../actors/actor';
 import { TranslationKey } from '../baseTypes';
-import { LocationAccessibilityKind } from '../events/defineMapObjectEvent';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 
+export type LocationAccessibilityKind = 'Actors' | 'Resources' | 'Patients';
+export type LocationAccessibilityFilter = LocationAccessibilityKind | 'AnyKind';
+
 /** Is it a place that can contain actors / resources / patients */
-type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
+export type LocationAccessibility = Record<LocationAccessibilityKind, boolean>;
 
 export interface LocationEnumConfig {
   id: LOCATION_ENUM;
   name: TranslationKey;
   leaderRoles: InterventionRole[];
   accessibility: LocationAccessibility;
-  icon?: string; // TODO Do we need this or is it only for overlayed locations ?
+  icon?: string;
 }
 
 export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
@@ -92,3 +94,17 @@ export const locationEnumConfig: Record<LOCATION_ENUM, LocationEnumConfig> = {
     accessibility: { Actors: false, Resources: false, Patients: false },
   },
 };
+
+/**
+ *
+ * @param kind filter by accessibility, anykind means at least some kind can access
+ * @returns the filtered locations by accessiblity
+ */
+export function locationsByAccessibility(kind: LocationAccessibilityFilter): LocationEnumConfig[] {
+  if (kind === 'AnyKind') {
+    return Object.values(locationEnumConfig).filter(l =>
+      Object.values(l.accessibility).some(a => a)
+    );
+  }
+  return Object.values(locationEnumConfig).filter(l => l.accessibility[kind]);
+}
