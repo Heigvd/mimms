@@ -999,20 +999,6 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
-                            "className" : "unactivables-overlay__icon",
-                            "layoutClassName" : "noPadding unactivables-overlay__icon-container",
-                            "layoutStyle" : { },
-                            "name" : "Icon",
-                            "script" : {
-                              "@class" : "Script",
-                              "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.svg`",
-                              "language" : "TypeScript"
-                            },
-                            "style" : { }
-                          },
-                          "type" : "Image"
-                        }, {
-                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "role-button",
@@ -1076,11 +1062,25 @@
                             "name" : "Actor",
                             "style" : {
                               "gap" : "5px",
-                              "left" : "1rem",
-                              "position" : "absolute"
+                              "position" : "absolute",
+                              "right" : "1rem"
                             }
                           },
                           "type" : "For each"
+                        }, {
+                          "props" : {
+                            "className" : "unactivables-overlay__icon",
+                            "layoutClassName" : "noPadding unactivables-overlay__icon-container",
+                            "layoutStyle" : { },
+                            "name" : "Icon",
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.svg`",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Image"
                         } ],
                         "conditionnalClassNames" : [ {
                           "applyOn" : "Outside",

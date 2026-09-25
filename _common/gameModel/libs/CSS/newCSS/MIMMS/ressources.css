@@ -305,7 +305,7 @@ container element does not actually wrap the content */
 .incoming-resources::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: -2px;
   bottom: -5px;
   width: 0;
   height: 0;

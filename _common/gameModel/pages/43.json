@@ -1752,7 +1752,6 @@
                                           },
                                           "type" : "FlexList"
                                         } ],
-                                        "className" : "",
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Outside",
                                           "className" : "selectedFixedMapEntity",
@@ -1779,7 +1778,9 @@
                                           "flexDirection" : "column"
                                         },
                                         "layoutClassName" : "fixedEntities-container",
-                                        "layoutStyle" : { },
+                                        "layoutStyle" : {
+                                          "margin" : "0"
+                                        },
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
@@ -1858,11 +1859,53 @@
                                             "name" : "Actor",
                                             "style" : {
                                               "gap" : "5px",
-                                              "left" : "1rem",
-                                              "position" : "absolute"
+                                              "position" : "absolute",
+                                              "right" : "1rem"
                                             }
                                           },
                                           "type" : "For each"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "icon" : "user",
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "resource",
+                                                "style" : { }
+                                              },
+                                              "type" : "Icon"
+                                            }, {
+                                              "props" : {
+                                                "className" : "incoming-resources__counter",
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "number",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  `${Context.overlayItem.comingTo.length}`;",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            } ],
+                                            "className" : "incoming-resources",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.overlayItem.comingTo.length < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "layout" : {
+                                              "alignItems" : "flex-end",
+                                              "justifyContent" : "center"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "incomingResources",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
                                         } ],
                                         "conditionnalClassNames" : [ {
                                           "applyOn" : "Outside",
