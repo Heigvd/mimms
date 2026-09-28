@@ -302,6 +302,14 @@ container element does not actually wrap the content */
   transform: translateY(-50%);
 }
 
+.incoming-patients {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 1rem;
+  transform: translateY(-50%);
+}
+
 .incoming-resources::after {
   content: "";
   position: absolute;
@@ -314,11 +322,13 @@ container element does not actually wrap the content */
   border-right: 6px solid var(--grey_80);
 }
 
+.incoming-patients svg,
 .incoming-resources svg {
   height: 14px;
   color: var(--grey_80);
 }
 
+.incoming-patients__counter,
 .incoming-resources__counter {
   display: flex;
   align-items: center;

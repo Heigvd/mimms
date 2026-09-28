@@ -46,6 +46,48 @@
                   "props" : {
                     "children" : [ {
                       "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "icon" : "user-injured",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "patient",
+                            "style" : { }
+                          },
+                          "type" : "Icon"
+                        }, {
+                          "props" : {
+                            "className" : "incoming-patients__counter",
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "number",
+                            "style" : { },
+                            "text" : {
+                              "@class" : "Script",
+                              "content" : "  `1`;",
+                              "language" : "TypeScript"
+                            }
+                          },
+                          "type" : "Text"
+                        } ],
+                        "className" : "incoming-patients",
+                        "hideIf" : {
+                          "@class" : "Script",
+                          "content" : "Context.arrow.movingCount < 1;",
+                          "language" : "typescript"
+                        },
+                        "layout" : {
+                          "alignItems" : "flex-end",
+                          "justifyContent" : "center"
+                        },
+                        "layoutClassName" : "noPadding",
+                        "layoutStyle" : { },
+                        "name" : "incoming patients",
+                        "style" : { }
+                      },
+                      "type" : "FlexList"
+                    }, {
+                      "props" : {
                         "children" : [ ],
                         "className" : "",
                         "layout" : { },
@@ -68,7 +110,7 @@
                     "layout" : { },
                     "layoutClassName" : "noPadding patient-flow__arrow",
                     "layoutStyle" : { },
-                    "name" : "chantier -> pma (entry)",
+                    "name" : "segment end",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -87,7 +129,7 @@
                     "layout" : { },
                     "layoutClassName" : "noPadding patient-flow__arrow",
                     "layoutStyle" : { },
-                    "name" : "chantier -> pma (elbow)",
+                    "name" : "segment start",
                     "style" : { }
                   },
                   "type" : "FlexList"
@@ -186,11 +228,15 @@
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "id",
-                                    "layout" : { },
+                                    "layout" : {
+                                      "flexWrap" : "wrap"
+                                    },
                                     "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
                                     "name" : "patient",
-                                    "style" : { }
+                                    "style" : {
+                                      "rowGap" : "2px"
+                                    }
                                   },
                                   "type" : "For each"
                                 } ],
