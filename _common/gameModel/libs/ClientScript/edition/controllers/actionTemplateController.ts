@@ -140,17 +140,17 @@ export class ActionTemplateDataController extends DataControllerBase<
           getTemplateDef('FullyConfigurableTemplateDescriptor')!.getDefault(),
           ActionTemplateDataController.ACTION_ROOT
         );
-        this.assignNewTagName(action);
+        //this.assignNewTagName(action);
         return action;
       }
       case 'choice': {
         const choice = toFlatChoice(getChoiceDefinition().getDefault(), parentId);
-        this.assignNewTagName(choice);
+        //this.assignNewTagName(choice);
         return choice;
       }
       case 'effect': {
         const effect = toFlatEffect(getEffectDefinition().getDefault(), parentId);
-        this.assignNewTagName(effect);
+        //this.assignNewTagName(effect);
         return effect;
       }
       case 'impact': {
@@ -170,7 +170,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     if (cloned.length > 0) {
       const topLevelClone = cloned[0];
       if (topLevelClone && topLevelClone.superType !== 'impact') {
-        this.assignNewTagName(topLevelClone);
+        //this.assignNewTagName(topLevelClone);
       }
     }
 
@@ -217,7 +217,7 @@ export class ActionTemplateDataController extends DataControllerBase<
     }
   }
 
-  private assignNewTagName(newObject: FlatActionTemplate | FlatChoice | FlatEffect): void {
+  /*private assignNewTagName(newObject: FlatActionTemplate | FlatChoice | FlatEffect): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());
     let candidate = newObject.tag;
@@ -229,7 +229,7 @@ export class ActionTemplateDataController extends DataControllerBase<
       i++;
     }
     newObject.tag = candidate;
-  }
+  }*/
 
   protected validateInternal(
     value: TemplateDescriptor

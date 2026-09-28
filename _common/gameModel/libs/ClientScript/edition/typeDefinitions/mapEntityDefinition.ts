@@ -38,7 +38,7 @@ export function getMapEntityDefinition(): MapEntityDefinition {
       activableType: 'mapEntity',
       uid: generateId(10),
       index: 0,
-      tag: 'New map location',
+      tag: '',
       activeAtStart: false,
       binding: LOCATION_ENUM.custom,
       buildStatus: 'built',
