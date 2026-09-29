@@ -107,7 +107,6 @@ export function buildAvailableSquads(squadType: EvacuationSquadType): Evacuation
   return list;
 }
 
-
 export interface EvacuationSquad {
   /**
    * By convention the id is the vehicle resource id
@@ -147,7 +146,6 @@ function naiveSquadFill(
     }
   });
 }
-
 
 // -------------------------------------------------------------------------------------------------
 // Travel time to hospital

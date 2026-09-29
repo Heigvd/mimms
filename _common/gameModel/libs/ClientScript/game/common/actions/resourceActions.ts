@@ -33,7 +33,7 @@ import { entries } from '../../../tools/helper';
 import { getResourceAsSenderName } from '../radio/radioLogic';
 import { CommMedia, RadioType } from '../radio/communicationType';
 import { getTranslation } from '../../../tools/translation';
-import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
+import { EvacuationActionPayload, EvacuationSquadIds } from '../events/evacuationMessageEvent';
 import { getSquadDef } from '../evacuation/evacuationSquadDef';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
 import { getCachedHospitalById } from '../../loaders/hospitalLoader';
@@ -384,10 +384,13 @@ export class EvacuationAction extends RadioDrivenAction {
   private readonly patientId: PatientId;
   private readonly hospitalId: HospitalId;
   private readonly patientUnitId: PatientUnitId;
-  private readonly transportSquad: EvacuationLogic.EvacuationSquad;
+  private readonly transportSquad: EvacuationSquadIds;
 
   private compliantWithHierarchy: boolean;
-  private isEnoughResources: boolean;
+  /**
+   * Set to true if the ressources of the payload are confirmed to be available
+   */
+  private resourcesConfirmed: boolean;
   private involvedResourcesId: ResourceId[];
 
   constructor(
@@ -419,7 +422,7 @@ export class EvacuationAction extends RadioDrivenAction {
     this.transportSquad = evacuationActionPayload.squad;
 
     this.compliantWithHierarchy = false;
-    this.isEnoughResources = false;
+    this.resourcesConfirmed = false;
     this.involvedResourcesId = [];
   }
 
@@ -432,7 +435,13 @@ export class EvacuationAction extends RadioDrivenAction {
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, sourceLocation);
 
     const squad = this.evacuationActionPayload.squad;
-    this.involvedResourcesId = [squad.vehicle, ...squad.drivers, ...squad.healers].map(r => r.Uid);
+    const resourcesIds = [squad.vehicle, ...squad.drivers, ...squad.healers];
+
+    this.resourcesConfirmed = resourcesIds
+      .map(rid => ResourceState.getResourceById(state, rid))
+      .every(r => r.currentLocation === squadDef.location && r.isIdle(state));
+
+    this.involvedResourcesId = resourcesIds;
 
     // the squad is engaged right away, so that it cannot be claimed by anything else.
     // it only takes the patient in charge when the action is over
@@ -478,7 +487,7 @@ export class EvacuationAction extends RadioDrivenAction {
       );
     }
 
-    if (!this.isEnoughResources) {
+    if (!this.resourcesConfirmed) {
       getLocalEventManager().queueLocalEvent(
         new AddRadioMessageLocalEvent({
           parentEventId: this.eventId,
@@ -491,7 +500,10 @@ export class EvacuationAction extends RadioDrivenAction {
         })
       );
     } else {
-      const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad.type);
+      const travelTime = EvacuationLogic.computeTravelTime(
+        this.hospitalId,
+        this.transportSquad.type
+      );
 
       const evacuationTask = TaskLogic.getEvacuationTask(
         state,

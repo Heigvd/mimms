@@ -1,6 +1,8 @@
 import { getContextUidGenerator } from '../../executionContext/gameExecutionContextController';
 import { ResourceId, TaskId } from '../baseTypes';
 import { LOCATION_ENUM } from '../simulationState/locationState';
+import { MainSimulationState } from '../simulationState/mainSimulationState';
+import { getIdleTaskUid } from '../tasks/taskLogic';
 import { ResourceType } from './resourceType';
 
 const RESOURCE_SEED_ID: ResourceId = 7000;
@@ -43,5 +45,12 @@ export class Resource {
   public resetTimeCounters(): void {
     this.carryoverWorkTime = 0;
     this.cumulatedIdleTime = 0;
+  }
+
+  public isIdle(state: Readonly<MainSimulationState>): boolean {
+    return (
+      this.currentActivity === null ||
+      getIdleTaskUid(state, this.currentLocation) === this.currentActivity
+    );
   }
 }

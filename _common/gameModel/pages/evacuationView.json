@@ -99,7 +99,7 @@
                                           "className" : "patient-color--selected",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.state.state.selectedPatientId === Context.patient.patientId;",
+                                            "content" : "Context.evacuationState.state.selectedPatientId === Context.patient.patientId;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -305,7 +305,7 @@
                                           "props" : {
                                             "disableIf" : {
                                               "@class" : "Script",
-                                              "content" : "Context.evacSquad.drivers.length < 1;",
+                                              "content" : "import { hasDrivers } from \"./UIfacade/evacuationFacade\";\n!hasDrivers(Context.evacSquad);",
                                               "language" : "typescript"
                                             },
                                             "hideIf" : {
@@ -328,7 +328,7 @@
                                           "props" : {
                                             "disableIf" : {
                                               "@class" : "Script",
-                                              "content" : "Context.evacSquad.healers.length < 1;",
+                                              "content" : "import { hasHealers } from \"./UIfacade/evacuationFacade\";\n!hasHealers(Context.evacSquad);",
                                               "language" : "typescript"
                                             },
                                             "hideIf" : {
@@ -729,6 +729,11 @@
         }, {
           "props" : {
             "className" : " button-S button-neutralColor ",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { canSendEvacuationOrder } from \"./UIfacade/evacuationFacade\";\n!canSendEvacuationOrder();",
+              "language" : "typescript"
+            },
             "label" : {
               "@class" : "Script",
               "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')} (1')`;",
@@ -739,7 +744,7 @@
             "localScriptEval" : {
               "script" : {
                 "@class" : "ClientScript",
-                "content" : "import { toggleEvacuationModal } from \"./UIfacade/evacuationFacade\";\n\ntoggleEvacuationModal(false)",
+                "content" : "import { resetEvacuationState, sendEvacuationOrder, toggleEvacuationModal } from \"./UIfacade/evacuationFacade\";\n\nsendEvacuationOrder();\ntoggleEvacuationModal(false);\nresetEvacuationState();",
                 "language" : "TypeScript"
               }
             },

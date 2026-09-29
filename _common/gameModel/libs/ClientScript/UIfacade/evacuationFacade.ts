@@ -44,7 +44,7 @@ export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
     selectedPatientId: undefined,
     selectedHospitalId: undefined,
     selectedServiceId: undefined,
-    selectedSquad: undefined
+    selectedSquad: undefined,
   };
 }
 
@@ -80,10 +80,12 @@ export function sendEvacuationOrder(): void {
 
 export function canSendEvacuationOrder(): boolean {
   const selection = getTypedEvacuationSelectionState();
-  return selection.selectedHospitalId !== undefined
-  && selection.selectedServiceId !== undefined
-  && selection.selectedPatientId !== undefined
-  && isComplete(selection.selectedSquad)
+  return (
+    selection.selectedHospitalId !== undefined &&
+    selection.selectedServiceId !== undefined &&
+    selection.selectedPatientId !== undefined &&
+    isComplete(selection.selectedSquad)
+  );
 }
 
 /**
@@ -93,11 +95,17 @@ export function canSendEvacuationOrder(): boolean {
 export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined {
   const selection = getTypedEvacuationSelectionState();
   if (canSendEvacuationOrder()) {
+    const squad = selection.selectedSquad!;
     return {
       patientId: selection.selectedPatientId!,
       hospitalId: selection.selectedHospitalId!,
       patientUnitId: selection.selectedPatientId!,
-      squad: selection.selectedSquad!
+      squad: {
+        type: squad.type,
+        vehicle: squad.vehicle.Uid,
+        drivers: squad.drivers.map(d => d.Uid),
+        healers: squad.healers.map(d => d.Uid),
+      },
     };
   }
 }
