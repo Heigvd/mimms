@@ -45,7 +45,7 @@ export function isAtLeastOneResource(
   state: Readonly<MainSimulationState>,
   task: TaskBase
 ): boolean {
-  return ResourceState.getFreeResourcesByTask(state, task.Uid).length > 0;
+  return ResourceState.getResourcesByTask(state, task.Uid).length > 0;
 }
 
 /**

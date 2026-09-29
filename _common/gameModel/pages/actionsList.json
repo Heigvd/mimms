@@ -49,7 +49,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "`${Context.action.duration / 60}'`;",
+                                  "content" : "import { formatDurationMinMax } from \"./UIfacade/actionFacade\";\nformatDurationMinMax(Context.action?.duration);",
                                   "language" : "TypeScript"
                                 }
                               },
@@ -96,7 +96,7 @@
                     } ],
                     "ifCondition" : {
                       "@class" : "Script",
-                      "content" : "!!Context.action.duration",
+                      "content" : "!!Context.action?.duration;",
                       "language" : "typescript"
                     },
                     "layoutStyle" : { },

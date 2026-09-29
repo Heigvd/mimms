@@ -58,7 +58,7 @@ export function shortPatientInfo(location: LOCATION_ENUM): string {
   const pretriageStatus = getPretriageStatsForLocation(location);
   const immediate = pretriageStatus?.immediate ?? 0;
   const totalPatientsForLocation = getTotalPatientsCountForLocation(location);
-  return `<span class=\"red-patients-counter\">${immediate}</span>/${totalPatientsForLocation}`;
+  return `<span class="red-patients-counter">${immediate}</span>/${totalPatientsForLocation}`;
 }
 
 /**

@@ -7,6 +7,7 @@ import { Resource } from '../resources/resource';
 import { getActiveMapEntityFromBinding, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import * as ResourceState from '../simulationState/resourceStateAccess';
+import { getMoveToTaskUid, isMoveToTaskUid } from '../tasks/taskLogic';
 
 // -------------------------------------------------------------------------------------------------
 // translations
@@ -32,6 +33,7 @@ export interface LocationInfo {
   resources: Resource[];
   ambulances: Resource[];
   helicopters: Resource[];
+  comingTo: Resource[];
 }
 
 export function fetchLocationInfo(
@@ -48,17 +50,50 @@ export function fetchLocationInfo(
         'missing name for ' + mapActivable.binding,
       icon: locationEnumConfig[binding].icon,
       actors: getActorsByLocation(mapActivable.binding),
-      resources: ResourceState.getFreeHumanResourcesByLocation(currentState, mapActivable.binding),
-      ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
+      resources: exludeMoving(
         currentState,
-        'ambulance',
-        mapActivable.binding
+        ResourceState.getHumanResourcesByLocation(currentState, mapActivable.binding)
       ),
-      helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
+      ambulances: exludeMoving(
         currentState,
-        'helicopter',
-        mapActivable.binding
+        ResourceState.getResourcesByTypeAndLocation(currentState, 'ambulance', mapActivable.binding)
       ),
+      helicopters: exludeMoving(
+        currentState,
+        ResourceState.getResourcesByTypeAndLocation(
+          currentState,
+          'helicopter',
+          mapActivable.binding
+        )
+      ),
+      comingTo: getResourcesMovingTo(currentState, binding),
     };
   }
+}
+
+/**
+ * Fetches the resources that currently moving to this location
+ * @param currentState
+ * @param binding
+ */
+function getResourcesMovingTo(
+  currentState: Readonly<MainSimulationState>,
+  binding: LOCATION_ENUM
+): Resource[] {
+  const tid = getMoveToTaskUid(currentState, binding);
+  if (tid) {
+    return ResourceState.getResourcesByTask(currentState, tid);
+  }
+  return [];
+}
+
+/**
+ * Resources that have been given an order have taken the road, even though they physically
+ * leave the place only once the order is fully given, they are not shown at the place anymore.
+ */
+function exludeMoving(
+  currentState: Readonly<MainSimulationState>,
+  resources: Resource[]
+): Resource[] {
+  return resources.filter(resource => !isMoveToTaskUid(currentState, resource.currentActivity));
 }

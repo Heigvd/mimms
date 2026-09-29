@@ -41,6 +41,23 @@ export function getMoveToTask(
     .tasks.find((task: TaskBase) => task instanceof MoveToTask && task.location === location);
 }
 
+/**
+ * @returns whether the task is a travel, whatever its destination.
+ * A resource on such a task is on its way somewhere and is not at anyone's disposal.
+ */
+export function isMoveToTaskUid(
+  state: Readonly<MainSimulationState>,
+  taskId: TaskId | null
+): boolean {
+  if (taskId == undefined) {
+    return false;
+  }
+
+  return state
+    .getInternalStateObject()
+    .tasks.some((task: TaskBase) => task instanceof MoveToTask && task.Uid === taskId);
+}
+
 export function getEvacuationTask(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM

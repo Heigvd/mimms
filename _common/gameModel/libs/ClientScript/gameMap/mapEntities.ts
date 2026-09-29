@@ -12,7 +12,7 @@ import { fetchLocationInfo } from '../game/common/location/locationLogic';
 // Replacement based on activables/descriptors
 export function computeOverlayItems(): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
-  const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
+  const mapActivables = getAvailableMapActivables(getCurrentState(), 'AnyKind').filter(
     (a: MapEntityActivable) => {
       const accessibility = locationEnumConfig[a.binding]?.accessibility;
       return (

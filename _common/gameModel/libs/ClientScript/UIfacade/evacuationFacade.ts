@@ -12,7 +12,7 @@ import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
 import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
 import { Resource } from '../game/common/resources/resource';
 import { HumanResourceType, isHuman } from '../game/common/resources/resourceType';
-import { getFreeWaitingResourcesByLocation, getResourcesByTypeAndLocation } from '../game/common/simulationState/resourceStateAccess';
+import { getWaitingResourcesByLocation, getResourcesByTypeAndLocation } from '../game/common/simulationState/resourceStateAccess';
 import {
   getCachedHospitalById,
   getCachedHospitals,
@@ -292,7 +292,7 @@ export function listAvailableSquads(squadType: EvacuationSquadType): PartialSqua
   const location = squadDef.location;
   const vehicles = squadDef.resourcesTypesRequirements.vehicleTypes.map((type) => getResourcesByTypeAndLocation(state, type, location)).flat(1);
 
-  const humanResources = getFreeWaitingResourcesByLocation(state, location);
+  const humanResources = getWaitingResourcesByLocation(state, location);
 
   const list : PartialSquad[] = [];
   const requirements = squadDef.resourcesTypesRequirements;

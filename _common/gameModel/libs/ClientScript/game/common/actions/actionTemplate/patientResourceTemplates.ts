@@ -1,4 +1,4 @@
-import { ResourceOrder } from '../../resources/resourceOrdersType';
+import { computeOrderDurationMinutes, ResourceOrder } from '../../resources/resourceOrdersType';
 import { ActionTemplateUid, ActorId, SimDuration, SimTime, TranslationKey } from '../../baseTypes';
 import { EvacuationAction, MoveResourcesAssignTaskAction } from '../resourceActions';
 import { MoveResourcesAssignTaskEvent } from '../../events/eventTypes';
@@ -10,6 +10,7 @@ import {
   EvacuationActionPayload,
 } from '../../events/evacuationMessageEvent';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
+import { OneMinuteDuration } from '../../constants';
 
 /**
  * Action template to create an action to send resources to a location and assign a task
@@ -47,11 +48,12 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     initiator: Readonly<Actor>,
     params: ResourceOrder
   ): MoveResourcesAssignTaskEvent {
+    const duration = computeOrderDurationMinutes(params) * OneMinuteDuration;
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
+      durationSec: duration,
       commMedia: params.commMedia,
-      // an order still being edited has no destination yet, it must not reach the simulation
+      // orders without destination are ignored
       orders: params.orders.filter(
         order => order.destination != undefined && order.destinationTask != undefined
       ),
@@ -64,9 +66,10 @@ export class MoveResourcesAssignTaskActionTemplate extends StartEndTemplate<
     const payload = event.payload;
     // for historical reasons characterId could be of type string, cast it to ActorId (number)
     const ownerId = payload.emitterCharacterId as ActorId;
+    const duration = event.payload.durationSec;
     return new MoveResourcesAssignTaskAction(
       payload.triggerTime,
-      this.duration,
+      duration,
       this.title,
       event.id,
       ownerId,
