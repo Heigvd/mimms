@@ -38,6 +38,7 @@ export const triggerLogger = Helpers.getLogger('trigger');
 export const activableLogger = Helpers.getLogger('activable');
 export const scenarioEditionLogger = Helpers.getLogger('scenario.editor');
 export const sortingLogger = Helpers.getLogger('helpers.sorting');
+export const evacuationLogger = Helpers.getLogger('resource.evacuation');
 
 gameExecLogger.setLevel('INFO');
 dashboardLogger.setLevel('DEBUG');
