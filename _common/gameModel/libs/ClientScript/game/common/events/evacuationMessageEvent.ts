@@ -1,12 +1,12 @@
 import { HospitalId, PatientId, PatientUnitId, SimDuration } from '../baseTypes';
-import { EvacuationSquadType } from '../evacuation/evacuationSquadDef';
+import { EvacuationSquad } from '../evacuation/evacuationLogic';
 import { ActionCreationEvent } from './eventTypes';
 
 export interface EvacuationActionPayload {
   patientId: PatientId;
   hospitalId: HospitalId;
   patientUnitId: PatientUnitId;
-  transportSquad: EvacuationSquadType;
+  squad: EvacuationSquad;
 }
 
 export interface EvacuationActionEvent extends ActionCreationEvent {

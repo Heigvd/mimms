@@ -354,7 +354,7 @@
                                           "className" : "unactivables-overlay__vector--selected",
                                           "condition" : {
                                             "@class" : "Script",
-                                            "content" : "Context.evacuationState.state.selectedVectorSquadId === Context.evacSquad.squadId;",
+                                            "content" : "Context.evacuationState.state?.selectedSquad?.squadId === Context.evacSquad?.squadId;",
                                             "language" : "typescript"
                                           }
                                         } ],
@@ -367,7 +367,7 @@
                                         "localScriptEval" : {
                                           "script" : {
                                             "@class" : "ClientScript",
-                                            "content" : "import { isComplete, setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nif(isComplete(Context.evacSquad)){\n  setEvacuationSelectionState({ selectedVectorSquadId: Context.evacSquad.squadId });\n}",
+                                            "content" : "import { isComplete, setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nif(isComplete(Context.evacSquad)){\n  setEvacuationSelectionState({ selectedSquad: Context.evacSquad });\n}",
                                             "language" : "TypeScript"
                                           }
                                         },
@@ -379,7 +379,7 @@
                                     "exposeAs" : "evacSquad",
                                     "getItemsFn" : {
                                       "@class" : "Script",
-                                      "content" : "import { listAvailableSquads } from \"./UIfacade/evacuationFacade\";\n  listAvailableSquads(Context.evacSquadDef.uid);",
+                                      "content" : "import { getAvailableSquadsList } from \"./UIfacade/evacuationFacade\";\n  getAvailableSquadsList(Context.evacSquadDef.uid);",
                                       "language" : "TypeScript"
                                     },
                                     "itemKey" : "squadId",

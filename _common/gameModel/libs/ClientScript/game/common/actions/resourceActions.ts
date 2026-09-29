@@ -34,9 +34,8 @@ import { getResourceAsSenderName } from '../radio/radioLogic';
 import { CommMedia, RadioType } from '../radio/communicationType';
 import { getTranslation } from '../../../tools/translation';
 import { EvacuationActionPayload } from '../events/evacuationMessageEvent';
-import { EvacuationSquadType, getSquadDef } from '../evacuation/evacuationSquadDef';
+import { getSquadDef } from '../evacuation/evacuationSquadDef';
 import { SimFlag } from './actionTemplate/actionTemplateBase';
-import { Resource } from '../resources/resource';
 import { getCachedHospitalById } from '../../loaders/hospitalLoader';
 
 /**
@@ -385,7 +384,7 @@ export class EvacuationAction extends RadioDrivenAction {
   private readonly patientId: PatientId;
   private readonly hospitalId: HospitalId;
   private readonly patientUnitId: PatientUnitId;
-  private readonly transportSquad: EvacuationSquadType;
+  private readonly transportSquad: EvacuationLogic.EvacuationSquad;
 
   private compliantWithHierarchy: boolean;
   private isEnoughResources: boolean;
@@ -417,7 +416,7 @@ export class EvacuationAction extends RadioDrivenAction {
     this.patientId = evacuationActionPayload.patientId;
     this.hospitalId = evacuationActionPayload.hospitalId;
     this.patientUnitId = evacuationActionPayload.patientUnitId;
-    this.transportSquad = evacuationActionPayload.transportSquad;
+    this.transportSquad = evacuationActionPayload.squad;
 
     this.compliantWithHierarchy = false;
     this.isEnoughResources = false;
@@ -427,22 +426,13 @@ export class EvacuationAction extends RadioDrivenAction {
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event EvacuationAction');
 
-    const squadDef = getSquadDef(this.transportSquad);
+    const squadDef = getSquadDef(this.transportSquad.type);
     const sourceLocation = squadDef.location;
 
     this.compliantWithHierarchy = doesOrderRespectHierarchy(state, this.ownerId, sourceLocation);
 
-    this.isEnoughResources = EvacuationLogic.isEvacSquadAvailable(state, this.transportSquad);
-
-    if (!this.isEnoughResources) {
-      // an incomplete squad cannot evacuate anyone, we leave its resources to the others
-      return;
-    }
-
-    this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
-      state,
-      this.transportSquad
-    ).map((resource: Resource) => resource.Uid);
+    const squad = this.evacuationActionPayload.squad;
+    this.involvedResourcesId = [squad.vehicle, ...squad.drivers, ...squad.healers].map(r => r.Uid);
 
     // the squad is engaged right away, so that it cannot be claimed by anything else.
     // it only takes the patient in charge when the action is over
@@ -501,11 +491,11 @@ export class EvacuationAction extends RadioDrivenAction {
         })
       );
     } else {
-      const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad);
+      const travelTime = EvacuationLogic.computeTravelTime(this.hospitalId, this.transportSquad.type);
 
       const evacuationTask = TaskLogic.getEvacuationTask(
         state,
-        getSquadDef(this.transportSquad).location
+        getSquadDef(this.transportSquad.type).location
       );
 
       // the squad is already on the evacuation task since the order was given,
@@ -519,7 +509,7 @@ export class EvacuationAction extends RadioDrivenAction {
         this.patientUnitId,
         travelTime,
         this.feedbackWhenReturning,
-        getSquadDef(this.evacuationActionPayload.transportSquad)
+        getSquadDef(this.transportSquad.type)
       );
     }
   }
@@ -529,7 +519,7 @@ export class EvacuationAction extends RadioDrivenAction {
 
     const patientId: string = payload.patientId;
     const toHospital: string = `${I18n.translate(hospital.preposition)} ${hospital.shortName}`;
-    const squadDef = getSquadDef(payload.transportSquad);
+    const squadDef = getSquadDef(payload.squad.type);
     const byVector: string = getTranslation(
       'mainSim-actions-tasks',
       squadDef.mainVehicleTranslation,
