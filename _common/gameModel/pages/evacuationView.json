@@ -271,88 +271,126 @@
                                   "props" : {
                                     "children" : [ {
                                       "props" : {
-                                        "className" : "",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
-                                          "language" : "typescript"
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "ambulance",
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Ambulance",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "helicopter",
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Helicopter",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.evacSquad.drivers.length < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getNumberDriverNeeded } from \"./game/common/evacuation/evacuationSquadDef\";\ngetNumberDriverNeeded(Context.evacSquadDef?.uid) < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Driver",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${Context.evacSquad.drivers.length} ${getTranslation('mainSim-resources', 'driver')}`;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.evacSquad.healers.length < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getNumberHealersNeeded } from \"./game/common/evacuation/evacuationSquadDef\";\ngetNumberHealersNeeded(Context.evacSquadDef?.uid) < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Healer",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${Context.evacSquad.healers.length} ${getTranslation('mainSim-resources', 'healer')}`;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        } ],
+                                        "className" : "unactivables-overlay__vector",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "unactivables-overlay__vector--selected",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.evacuationState.state.selectedVectorSquadId === Context.evacSquad.squadId;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "layout" : {
+                                          "alignItems" : "center",
+                                          "justifyContent" : "space-between"
                                         },
-                                        "icon" : "ambulance",
                                         "layoutClassName" : "noPadding",
                                         "layoutStyle" : { },
-                                        "name" : "Ambulance",
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { isComplete, setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nif(isComplete(Context.evacSquad)){\n  setEvacuationSelectionState({ selectedVectorSquadId: Context.evacSquad.squadId });\n}",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "name" : "Vector unit",
                                         "style" : { }
                                       },
-                                      "type" : "Icon"
-                                    }, {
-                                      "props" : {
-                                        "className" : "",
-                                        "hideIf" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
-                                          "language" : "typescript"
-                                        },
-                                        "icon" : "helicopter",
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "name" : "Helicopter",
-                                        "style" : { }
-                                      },
-                                      "type" : "Icon"
-                                    }, {
-                                      "props" : {
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "name" : "Driver",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getNbDrivers } from \"./UIfacade/evacuationFacade\";\n`${getNbDrivers(Context.evacSquadDef)} ${getTranslation('mainSim-resources', 'driver')}`;",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
-                                    }, {
-                                      "props" : {
-                                        "layoutClassName" : "noPadding",
-                                        "layoutStyle" : { },
-                                        "name" : "Healer",
-                                        "style" : { },
-                                        "text" : {
-                                          "@class" : "Script",
-                                          "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getNbHealers } from \"./UIfacade/evacuationFacade\";\n`${getNbHealers(Context.evacSquadDef)} ${getTranslation('mainSim-resources', 'healer')}`;",
-                                          "language" : "TypeScript"
-                                        }
-                                      },
-                                      "type" : "Text"
+                                      "type" : "FlexList"
                                     } ],
-                                    "className" : "unactivables-overlay__vector",
-                                    "conditionnalClassNames" : [ {
-                                      "applyOn" : "Inside",
-                                      "className" : "unactivables-overlay__vector--selected",
-                                      "condition" : {
-                                        "@class" : "Script",
-                                        "content" : "Context.evacuationState.state.selectedVectorType === Context.evacSquadDef.uid;",
-                                        "language" : "typescript"
-                                      }
-                                    } ],
+                                    "exposeAs" : "evacSquad",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { listAvailableSquads } from \"./UIfacade/evacuationFacade\";\n  listAvailableSquads(Context.evacSquadDef.uid);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "squadId",
                                     "layout" : {
-                                      "alignItems" : "center",
-                                      "justifyContent" : "space-between"
+                                      "flexDirection" : "column"
                                     },
-                                    "layoutClassName" : "noPadding",
                                     "layoutStyle" : { },
-                                    "localScriptEval" : {
-                                      "script" : {
-                                        "@class" : "ClientScript",
-                                        "content" : "import { setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nsetEvacuationSelectionState({ selectedVectorType: Context.evacSquadDef.uid });",
-                                        "language" : "TypeScript"
-                                      }
-                                    },
-                                    "name" : "Vector unit",
+                                    "name" : "squad",
                                     "style" : { }
                                   },
-                                  "type" : "FlexList"
+                                  "type" : "For each"
                                 } ],
                                 "className" : "",
                                 "layout" : {
@@ -360,7 +398,7 @@
                                 },
                                 "layoutClassName" : "fixedEntities-container",
                                 "layoutStyle" : { },
-                                "name" : "genericFixedEntity",
+                                "name" : "content",
                                 "style" : { }
                               },
                               "type" : "FlexList"
@@ -412,7 +450,7 @@
                             },
                             "layoutClassName" : "noPadding",
                             "layoutStyle" : { },
-                            "name" : "Unactivables overlay",
+                            "name" : "Park location overlay",
                             "style" : { }
                           },
                           "type" : "FlexList"
@@ -431,7 +469,7 @@
                         },
                         "layoutClassName" : "noPadding fullWidth fullHeight",
                         "layoutStyle" : { },
-                        "name" : "Vector",
+                        "name" : "Vector type",
                         "style" : { }
                       },
                       "type" : "For each"

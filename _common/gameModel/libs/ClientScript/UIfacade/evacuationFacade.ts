@@ -212,7 +212,7 @@ export interface EvacuationSelectionState {
   selectedPatientId: PatientId | undefined;
   selectedHospitalId: HospitalId | undefined;
   selectedServiceId: PatientUnitId | undefined;
-  selectedVectorType: EvacuationSquadType | undefined;
+  selectedVectorSquadId: EvacuationSquadType | undefined;
 }
 
 export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
@@ -220,7 +220,7 @@ export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
     selectedPatientId: undefined,
     selectedHospitalId: undefined,
     selectedServiceId: undefined,
-    selectedVectorType: undefined,
+    selectedVectorSquadId: undefined,
   };
 }
 
@@ -264,7 +264,7 @@ export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined
   if (canSendEvacuationOrder()) {
     return {
       patientId: selection.selectedPatientId!,
-      transportSquad: selection.selectedVectorType!,
+      transportSquad: selection.selectedVectorSquadId!,
       hospitalId: selection.selectedHospitalId!,
       patientUnitId: selection.selectedPatientId!,
     };
@@ -272,7 +272,10 @@ export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined
 }
 
 interface PartialSquad {
-  id: ResourceId;
+  /**
+   * By convention the id is the vehicle resource id
+   */
+  squadId: ResourceId;
   type: EvacuationSquadType;
   vehicle: Resource;
   drivers: Resource[];
@@ -339,7 +342,7 @@ export function listAvailableSquads(squadType: EvacuationSquadType): PartialSqua
     const squad: PartialSquad = {
       type: squadType,
       vehicle: v,
-      id: v.Uid,
+      squadId: v.Uid,
       drivers: [],
       healers: [],
     };
@@ -407,13 +410,13 @@ function naiveSquadFill(
 }
 
 export function hasDrivers(formedSquad: PartialSquad): boolean {
-  return formedSquad.drivers.length === getNumberDriverNeeded(formedSquad.type);
+  return formedSquad?.drivers.length === getNumberDriverNeeded(formedSquad?.type);
 }
 
 export function hasHealers(formedSquad: PartialSquad): boolean {
-  return formedSquad.healers.length === getNumberHealersNeeded(formedSquad.type);
+  return formedSquad?.healers.length === getNumberHealersNeeded(formedSquad?.type);
 }
 
 export function isComplete(formedSquad: PartialSquad): boolean {
-  return formedSquad.vehicle !== undefined && hasDrivers(formedSquad) && hasHealers(formedSquad);
+  return formedSquad?.vehicle !== undefined && hasDrivers(formedSquad) && hasHealers(formedSquad);
 }
