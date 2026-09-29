@@ -1,4 +1,4 @@
-import { EvacuationSquadDefinition, EvacuationSquadType, getSquadDef, getTotalResourcesNeeded } from './evacuationSquadDef';
+import { EvacuationSquadDefinition, EvacuationSquadType, getSquadDef } from './evacuationSquadDef';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { Resource } from '../resources/resource';
 import * as ResourceState from '../simulationState/resourceStateAccess';
@@ -9,50 +9,6 @@ import { HospitalDefinition } from './hospitalType';
 import { evacuationLogger } from '../../../tools/logger';
 import { getCurrentState } from '../../mainSimulationLogic';
 import { isHuman, HumanResourceType } from '../resources/resourceType';
-
-export function isEvacSquadAvailable(
-  state: Readonly<MainSimulationState>,
-  type: EvacuationSquadType
-): boolean {
-  const matchingResources = getResourcesForEvacSquad(state, type);
-  return matchingResources.length === getTotalResourcesNeeded(type);
-}
-
-export function getResourcesForEvacSquad(
-  state: Readonly<MainSimulationState>,
-  type: EvacuationSquadType
-): Resource[] {
-  const squadDef = getSquadDef(type);
-  const location = squadDef.location;
-
-  const availableResourcesAtLocation = ResourceState.getWaitingResourcesByLocation(state, location);
-
-  const result: Resource[] = [];
-
-  // For each needed resource
-  const allRequirements = Object.values(squadDef.resourcesTypesRequirements).flat(1);
-  for (const wantedResource of allRequirements) {
-    // we try to get one of the favorite type.
-    // If not available, we try to get a resource matching the second type, ... and so on
-    for (const possibleType of wantedResource) {
-      const matchingResource = availableResourcesAtLocation.find(
-        resource => resource.type === possibleType
-      );
-      if (matchingResource !== undefined) {
-        result.push(matchingResource);
-        // remove from the available resources at location
-        availableResourcesAtLocation.splice(
-          availableResourcesAtLocation.indexOf(matchingResource),
-          1
-        );
-        break;
-      }
-    }
-  }
-
-  return result;
-}
-
 
 /**
  * Forms squads given the resources at some location and a squad type
