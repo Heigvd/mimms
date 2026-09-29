@@ -9,9 +9,7 @@ import {
   isMoveResourcesAssignTaskActionTemplate,
   isRadioActionTemplate,
 } from '../UIfacade/actionFacade';
-import {
-  getResourceOrdersPayload,
-} from '../UIfacade/resourceOrdersFacade';
+import { getResourceOrdersPayload } from '../UIfacade/resourceOrdersFacade';
 import { ActionTemplateBase } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';

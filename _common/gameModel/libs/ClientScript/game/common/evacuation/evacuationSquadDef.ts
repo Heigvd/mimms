@@ -92,7 +92,7 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
     resourcesTypesRequirements: {
       vehicleTypes: ['ambulance'],
       driverTypes: [['secouriste', 'technicienAmbulancier', 'ambulancier']],
-      healerTypes: [['ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior']]
+      healerTypes: [['ambulancier', 'infirmier', 'medecinJunior', 'medecinSenior']],
     },
     loadingTime: 2,
     unloadingTime: 2,
@@ -110,7 +110,7 @@ const squadDefinitions: Record<EvacuationSquadType, EvacuationSquadDefinition> =
       vehicleTypes: ['helicopter'],
       // helicopter pilot is implicit
       driverTypes: [],
-      healerTypes: [['ambulancier'], ['medecinSenior']]
+      healerTypes: [['ambulancier'], ['medecinSenior']],
     },
     loadingTime: 2,
     unloadingTime: 2,
@@ -140,7 +140,7 @@ export function getNumberHealersNeeded(id: EvacuationSquadType): number {
 
 export function getTotalResourcesNeeded(id: EvacuationSquadType): number {
   const squadDef = getSquadDef(id);
-  if(squadDef){
+  if (squadDef) {
     return Object.values(squadDef.resourcesTypesRequirements).flat(1).length;
   }
   return 0;
