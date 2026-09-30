@@ -3,11 +3,8 @@ import {
   ActionId,
   ActionTemplateUid,
   ActorId,
-  HospitalId,
   PatientId,
-  PatientUnitId,
 } from '../game/common/baseTypes';
-import { EvacuationSquadType } from '../game/common/evacuation/evacuationSquadDef';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { Uid } from '../game/common/interfaces';
 import { CommMedia, RadioType } from '../game/common/radio/communicationType';
@@ -37,10 +34,12 @@ export interface InterfaceState {
   customDurations: Record<Uid, number>;
   hospitalInfoChosenProximity: HospitalProximity | undefined;
   showPatientModal: boolean;
+  showEvacuationModal: boolean;
   showResourcesManagementModal: boolean;
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
+  patientModalLocation: LOCATION_ENUM | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -55,19 +54,6 @@ export interface InterfaceState {
   };
   resourcesManagement: {
     activityType: ResourcesManagementActivityType | undefined;
-  };
-  evacuation: {
-    data: {
-      patientId: PatientId | undefined;
-      hospitalId: HospitalId | undefined;
-      patientUnitId: PatientUnitId | undefined;
-      transportSquad: EvacuationSquadType | undefined;
-    };
-    form: {
-      showPatientChoice: boolean;
-      showDestinationChoice: boolean;
-      showVectorChoice: boolean;
-    };
   };
 }
 
@@ -101,15 +87,16 @@ export function getInitialInterfaceState(): InterfaceState {
     resources: {
       requestedResources: getEmptyResourceRequest(),
     },
-    evacuation: getEmptyEvacuationInterfaceState(),
     moveActorChosenLocation: undefined,
     customDurations: {},
     hospitalInfoChosenProximity: undefined,
     showPatientModal: false,
+    showEvacuationModal: false,
     showResourcesManagementModal: false,
     resourceManagementSourceLocation: undefined,
     resourceManagementCommMedia: undefined,
     selectedPatient: undefined,
+    patientModalLocation: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,
     selectedActionChoiceUid: '',
@@ -134,22 +121,6 @@ export function getEmptyResourceRequest(): Partial<Record<ResourceContainerType,
     resourceRequest[t] = 0;
   });
   return resourceRequest;
-}
-
-export function getEmptyEvacuationInterfaceState(): InterfaceState['evacuation'] {
-  return {
-    data: {
-      patientId: undefined,
-      hospitalId: undefined,
-      patientUnitId: undefined,
-      transportSquad: undefined,
-    },
-    form: {
-      showPatientChoice: false,
-      showDestinationChoice: false,
-      showVectorChoice: false,
-    },
-  };
 }
 
 export function triggerInterfaceStateUpdate(state: InterfaceState) {

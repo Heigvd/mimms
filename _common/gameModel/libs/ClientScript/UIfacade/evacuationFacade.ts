@@ -1,45 +1,24 @@
 import { HospitalId, PatientId, PatientUnitId } from '../game/common/baseTypes';
-import { isEvacSquadAvailable } from '../game/common/evacuation/evacuationLogic';
+import { buildAvailableSquads, EvacuationSquad } from '../game/common/evacuation/evacuationLogic';
 import {
   EvacuationSquadDefinition,
   EvacuationSquadType,
   getAllSquadDefinitions,
+  getNumberDriverNeeded,
+  getNumberHealersNeeded,
 } from '../game/common/evacuation/evacuationSquadDef';
-import { HospitalDefinition } from '../game/common/evacuation/hospitalType';
-import {
-  getCachedHospitalById,
-  getCachedHospitals,
-  getCachedPatientUnitById,
-} from '../game/loaders/hospitalLoader';
-import { getCurrentState } from '../game/mainSimulationLogic';
-import { getTypedInterfaceState } from '../gameInterface/interfaceState';
+import { EvacuationActionPayload } from '../game/common/events/evacuationMessageEvent';
+import { runActionButton } from '../gameInterface/actionsButtonLogic';
+import { setInterfaceState } from '../gameInterface/interfaceState';
+import { uniqueActionTemplates } from '../UIfacade/actionFacade';
 
 // used in radioChannelEvacuation page
 
+export function toggleEvacuationModal(show: boolean): void {
+  setInterfaceState({ showEvacuationModal: show });
+}
+
 // Data choices
-
-export function getEvacHospitalsChoices(): { label: string; value: string }[] {
-  // Note : if we would like to have only the hospital mentioned by CASU, use getHospitalsMentionedByCasu(getCurrentState())
-  const hospitals: Record<HospitalId, HospitalDefinition> = getCachedHospitals();
-  return Object.entries(hospitals).map(([id, hospital]) => {
-    return { label: hospital.shortName, value: id };
-  });
-}
-
-export function getPatientUnitsChoices(
-  hospitalId: HospitalId | undefined
-): { label: string; value: string }[] {
-  if (hospitalId == undefined) {
-    return [];
-  }
-
-  return Object.keys(getCachedHospitalById(hospitalId).units).map(patientUnitId => {
-    return {
-      label: I18n.translate(getCachedPatientUnitById(patientUnitId).name),
-      value: patientUnitId,
-    };
-  });
-}
 
 export function getEvacSquadDefinitions(): EvacuationSquadDefinition[] {
   return getAllSquadDefinitions();
@@ -49,140 +28,100 @@ export function getVehicleIcon(evacSquadDef: EvacuationSquadDefinition): string 
   return evacSquadDef.vehicleIcon;
 }
 
-export function getNbDrivers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbDrivers;
+// -------------------------------------------------------------------------------------------------
+// evacuation selection state (used in page evacuationView)
+// -------------------------------------------------------------------------------------------------
+
+export interface EvacuationSelectionState {
+  selectedPatientId: PatientId | undefined;
+  selectedHospitalId: HospitalId | undefined;
+  selectedServiceId: PatientUnitId | undefined;
+  selectedSquad: EvacuationSquad | undefined;
 }
 
-export function getNbHealers(evacSquadDef: EvacuationSquadDefinition): number {
-  return evacSquadDef.infoNbHealers;
+export function getInitialEvacuationSelectionState(): EvacuationSelectionState {
+  return {
+    selectedPatientId: undefined,
+    selectedHospitalId: undefined,
+    selectedServiceId: undefined,
+    selectedSquad: undefined,
+  };
 }
 
-export function isEvacSquadEnabled(type: EvacuationSquadType): boolean {
-  return isEvacSquadAvailable(getCurrentState(), type);
+/**
+ * @param update, an object that only contains the change set to be applied to the evacuation selection state
+ */
+export function setEvacuationSelectionState(update: Partial<EvacuationSelectionState>): void {
+  const newState = Helpers.cloneDeep(Context.evacuationState.state);
+  Object.assign(newState, update);
+  Context.evacuationState.setState(newState);
 }
 
-// get data
-
-export function getPatientId(): PatientId | undefined {
-  return getTypedInterfaceState().evacuation.data.patientId;
+/**
+ * For convenience
+ * Just casting the evacuation selection state properly
+ */
+export function getTypedEvacuationSelectionState(): EvacuationSelectionState {
+  return Context.evacuationState?.state;
 }
 
-export function getHospitalId(): HospitalId | undefined {
-  return getTypedInterfaceState().evacuation.data.hospitalId;
+export function resetEvacuationState(): void {
+  setEvacuationSelectionState(getTypedEvacuationSelectionState());
 }
 
-export function getHospitalShortName(): string {
-  const hospitalId = getHospitalId();
-  if (hospitalId != undefined) {
-    return getCachedHospitalById(hospitalId).shortName;
+export function sendEvacuationOrder(): void {
+  if (canSendEvacuationOrder()) {
+    const template = uniqueActionTemplates()?.EvacuationActionTemplate;
+    runActionButton(template);
+    resetEvacuationState();
+    toggleEvacuationModal(false);
   }
-
-  return '';
 }
 
-export function getPatientUnitId(): PatientUnitId | undefined {
-  return getTypedInterfaceState().evacuation.data.patientUnitId;
+export function canSendEvacuationOrder(): boolean {
+  const selection = getTypedEvacuationSelectionState();
+  return (
+    selection.selectedHospitalId !== undefined &&
+    selection.selectedServiceId !== undefined &&
+    selection.selectedPatientId !== undefined &&
+    isComplete(selection.selectedSquad)
+  );
 }
 
-export function getPatientUnitName(): string {
-  const patientUnitId = getTypedInterfaceState().evacuation.data.patientUnitId;
-  if (patientUnitId) {
-    return I18n.translate(getCachedPatientUnitById(patientUnitId).name);
+/**
+ *
+ * @returns the selected patient hospital and squad, undefined if missing some selection
+ */
+export function getEvacuationOrderPayload(): EvacuationActionPayload | undefined {
+  const selection = getTypedEvacuationSelectionState();
+  if (canSendEvacuationOrder()) {
+    const squad = selection.selectedSquad!;
+    return {
+      patientId: selection.selectedPatientId!,
+      hospitalId: selection.selectedHospitalId!,
+      patientUnitId: selection.selectedPatientId!,
+      squad: {
+        type: squad.type,
+        vehicle: squad.vehicle.Uid,
+        drivers: squad.drivers.map(d => d.Uid),
+        healers: squad.healers.map(d => d.Uid),
+      },
+    };
   }
-  return '';
 }
 
-export function getTransportSquad(): EvacuationSquadType | undefined {
-  return getTypedInterfaceState().evacuation.data.transportSquad;
+export function getAvailableSquadsList(squadType: EvacuationSquadType): EvacuationSquad[] {
+  return buildAvailableSquads(squadType);
 }
 
-export function isSelectedSquad(transportSquad: EvacuationSquadType): boolean {
-  return getTransportSquad() === transportSquad;
+export function hasDrivers(formedSquad: EvacuationSquad): boolean {
+  return formedSquad?.drivers.length === getNumberDriverNeeded(formedSquad?.type);
 }
 
-// update data
-
-export function selectPatientId(patientId: PatientId | undefined) {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.data.patientId = patientId;
-  Context.interfaceState.setState(newState);
+export function hasHealers(formedSquad: EvacuationSquad): boolean {
+  return formedSquad?.healers.length === getNumberHealersNeeded(formedSquad?.type);
 }
 
-export function selectHospitalId(hospitalId: HospitalId | undefined) {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.data.hospitalId = hospitalId;
-  newState.evacuation.data.patientUnitId = undefined;
-  Context.interfaceState.setState(newState);
-}
-
-export function selectPatientUnitId(patientUnitId: PatientUnitId | undefined) {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.data.patientUnitId = patientUnitId;
-  Context.interfaceState.setState(newState);
-}
-
-export function selectTransportSquad(transportSquad: EvacuationSquadType | undefined) {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.data.transportSquad = transportSquad;
-  Context.interfaceState.setState(newState);
-}
-
-// Evacuation form
-
-export function toggleOpenClosePatientChoice() {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.form.showPatientChoice =
-    !getTypedInterfaceState().evacuation.form.showPatientChoice;
-  Context.interfaceState.setState(newState);
-}
-
-export function toggleOpenCloseDestinationChoice() {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.form.showDestinationChoice =
-    !getTypedInterfaceState().evacuation.form.showDestinationChoice;
-  Context.interfaceState.setState(newState);
-}
-
-export function toggleOpenCloseVectorChoice() {
-  const newState = Helpers.cloneDeep(getTypedInterfaceState());
-  newState.evacuation.form.showVectorChoice =
-    !getTypedInterfaceState().evacuation.form.showVectorChoice;
-  Context.interfaceState.setState(newState);
-}
-
-export function isPatientChoiceOpen() {
-  return getTypedInterfaceState().evacuation.form.showPatientChoice;
-}
-
-export function isDestinationChoiceOpen() {
-  return getTypedInterfaceState().evacuation.form.showDestinationChoice;
-}
-
-export function isVectorChoiceOpen() {
-  return getTypedInterfaceState().evacuation.form.showVectorChoice;
-}
-
-export function isPatientChoiceClosedAndFilled() {
-  return !isPatientChoiceOpen() && getPatientId() !== undefined;
-}
-
-export function isDestinationChoiceClosedAndFilled() {
-  return !isDestinationChoiceOpen() && getHospitalId() !== undefined;
-  // no check of the patient unit at hospital
-}
-
-export function isVectorChoiceClosedAndFilled() {
-  return !isVectorChoiceOpen() && getTransportSquad() !== undefined;
-}
-
-export function isPatientChoiceFilled() {
-  return getPatientId() != undefined;
-}
-
-export function isDestinationChoiceFilled() {
-  return getHospitalId() != undefined && getPatientUnitId() != undefined;
-}
-
-export function isVectorChoiceFilled() {
-  return getTransportSquad() != undefined;
+export function isComplete(formedSquad: EvacuationSquad | undefined): boolean {
+  return formedSquad?.vehicle !== undefined && hasDrivers(formedSquad) && hasHealers(formedSquad);
 }
