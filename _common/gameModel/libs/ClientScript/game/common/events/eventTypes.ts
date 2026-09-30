@@ -5,10 +5,10 @@ import { ActionSource } from '../../pretri/patientProcessing';
 import { Categorization } from '../../pretri/triage';
 import { ChoiceDescriptor } from '../actions/choiceDescriptor/choiceDescriptor';
 import { InterventionRole } from '../actors/actor';
-import { ActionTemplateUid, ActorId, SimDuration, SimTime, TaskId } from '../baseTypes';
+import { ActionTemplateUid, ActorId, SimDuration, SimTime } from '../baseTypes';
 import { GameOptions } from '../gameOptions';
 import { CommMedia, RadioType } from '../radio/communicationType';
-import { ResourceTypeAndNumber } from '../resources/resourceType';
+import { SubOrder } from '../resources/resourceOrdersType';
 import { LOCATION_ENUM } from '../simulationState/locationState';
 import { BaseEvent, TargetedEvent } from './baseEvent';
 import { FullEvent } from './eventUtils';
@@ -133,11 +133,8 @@ export interface ChoiceEvent extends ActionCreationEvent {
 export interface MoveResourcesAssignTaskEvent extends ActionCreationEvent {
   durationSec: SimDuration;
   commMedia: CommMedia;
-  sourceLocation: LOCATION_ENUM;
-  targetLocation: LOCATION_ENUM;
-  sentResources: ResourceTypeAndNumber;
-  sourceTaskId: TaskId;
-  targetTaskId: TaskId;
+  /** The sub-orders to carry out, each one from a single source location to a single destination */
+  orders: SubOrder[];
 }
 
 export interface RequestPretriageReportEvent extends ActionCreationEvent {

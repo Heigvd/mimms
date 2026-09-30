@@ -3,7 +3,7 @@ import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { isTimeForwardReady } from '../simulationState/timeState';
 import { evaluateAllTriggers } from '../triggers/trigger';
 import { getLocalEventManager } from './localEventManager';
-import { TimeSliceDuration } from '../constants';
+import { LOCAL_TIME_FORWARD_EVENT_PRIORITY, TimeSliceDuration } from '../constants';
 import { computeNewPatientsState } from '../patients/handleState';
 import * as TaskState from '../simulationState/taskStateAccess';
 import { LocalEventBase, SourceType } from './localEventBase';
@@ -25,7 +25,8 @@ export class TimeForwardRequestLocalEvent extends LocalEventBase {
       readonly ignoreConditions?: boolean;
     }
   ) {
-    super({ ...props, type: 'TimeForwardLocalEvent', priority: 1 });
+    // very low priority should be processed after all other events at a given timestamp
+    super({ ...props, type: 'TimeForwardLocalEvent', priority: LOCAL_TIME_FORWARD_EVENT_PRIORITY });
     this.ignoreConditions = props.ignoreConditions || false;
   }
 

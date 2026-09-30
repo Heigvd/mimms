@@ -25,10 +25,7 @@ export function getResourcesForEvacSquad(
   const squadDef = getSquadDef(type);
   const location = squadDef.location;
 
-  const availableResourcesAtLocation = ResourceState.getFreeWaitingResourcesByLocation(
-    state,
-    location
-  );
+  const availableResourcesAtLocation = ResourceState.getWaitingResourcesByLocation(state, location);
 
   const result: Resource[] = [];
 

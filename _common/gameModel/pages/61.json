@@ -56,19 +56,6 @@
           "type" : "Text"
         }, {
           "props" : {
-            "className" : "patient-summary--header",
-            "layoutStyle" : { },
-            "name" : "reservation",
-            "style" : { },
-            "text" : {
-              "@class" : "Script",
-              "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-summary', 'summary-resource-reserved-by');",
-              "language" : "TypeScript"
-            }
-          },
-          "type" : "Text"
-        }, {
-          "props" : {
             "children" : [ {
               "props" : {
                 "children" : [ {
@@ -152,18 +139,6 @@
                     "text" : {
                       "@class" : "Script",
                       "content" : "import { getTranslation } from \"./tools/translation\";\ngetTranslation('mainSim-locations', 'location-' + String(Context.resourceDebug.currentLocation));",
-                      "language" : "TypeScript"
-                    }
-                  },
-                  "type" : "Text"
-                }, {
-                  "props" : {
-                    "layoutStyle" : { },
-                    "name" : "reservation",
-                    "style" : { },
-                    "text" : {
-                      "@class" : "Script",
-                      "content" : "String(Context.resourceDebug.reservedBy);",
                       "language" : "TypeScript"
                     }
                   },

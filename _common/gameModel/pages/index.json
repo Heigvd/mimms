@@ -202,32 +202,10 @@
           "name" : "radio"
         }, {
           "@class" : "Page",
-          "id" : "67",
-          "name" : "resources management",
-          "scenaristPage" : null,
-          "trainerPage" : null
-        }, {
-          "@class" : "Page",
           "id" : "68",
-          "name" : "resources management and reports",
+          "name" : "resources requests",
           "scenaristPage" : null,
           "trainerPage" : null
-        }, {
-          "@class" : "Folder",
-          "items" : [ {
-            "@class" : "Page",
-            "id" : "locationBase",
-            "name" : "location panel",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          }, {
-            "@class" : "Page",
-            "id" : "pmaLocationPanel",
-            "name" : "PMA location",
-            "scenaristPage" : null,
-            "trainerPage" : null
-          } ],
-          "name" : "location"
         }, {
           "@class" : "Page",
           "id" : "patientsListModale",
@@ -238,6 +216,12 @@
           "@class" : "Page",
           "id" : "64",
           "name" : "notifications",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
+          "id" : "resourcesManagement",
+          "name" : "resources management",
           "scenaristPage" : null,
           "trainerPage" : null
         } ],

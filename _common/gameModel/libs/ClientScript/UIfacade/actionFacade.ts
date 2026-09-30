@@ -41,6 +41,7 @@ import {
   EvacuationActionTemplate,
   MoveResourcesAssignTaskActionTemplate,
 } from '../game/common/actions/actionTemplate/patientResourceTemplates';
+import { OneMinuteDuration } from '../game/common/constants';
 
 // used in page 45 (actionStandardList)
 export function getAvailableActionTemplates(
@@ -209,4 +210,17 @@ export function updateCustomDurationsState(uid: number, newValue: number) {
 
   updatedCustomDurations[uid] = newValue;
   setInterfaceState({ customDurations: updatedCustomDurations });
+}
+
+/**
+ * formats display of a duration range
+ * @param min duration in seconds
+ * @param max duration in seconds if applicable
+ */
+export function formatDurationMinMax(min: number, max: number | undefined = undefined): string {
+  let result = (min || 0) / OneMinuteDuration + "'";
+  if (max !== undefined && min < max) {
+    result += ` - ${max / OneMinuteDuration}'`;
+  }
+  return result;
 }

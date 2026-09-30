@@ -29,14 +29,12 @@ export function recomputeLocalState() {
 export function getAllResources() {
   const tasks = getCurrentState().getInternalStateObject().tasks;
   const resources = getCurrentState().getInternalStateObject().resources;
-  const actions = getCurrentState().getInternalStateObject().actions;
 
   const response: {
     resourceId: number;
     resourceType: string;
     currentActivity: string;
     currentLocation: LOCATION_ENUM;
-    reservedBy: string;
   }[] = [];
 
   resources.forEach(resource => {
@@ -45,20 +43,11 @@ export function getAllResources() {
         ? tasks.find(t => t.Uid == resource.currentActivity)?.getTitle()
         : '') || '';
 
-    let reservationActor = '';
-    if (resource.reservationActionId != undefined) {
-      const actionOwnerId = actions.find(a => a.Uid === resource.reservationActionId)?.ownerId;
-      if (actionOwnerId) {
-        reservationActor = getCurrentState().getActorById(actionOwnerId)?.ShortName || '';
-      }
-    }
-
     response.push({
       resourceId: resource.Uid,
       resourceType: resource.type,
       currentActivity: activityTitle + ' (' + JSON.stringify(resource.currentActivity) + ')',
       currentLocation: resource.currentLocation,
-      reservedBy: reservationActor + ' (' + JSON.stringify(resource.reservationActionId) + ')',
     });
   });
   return response;

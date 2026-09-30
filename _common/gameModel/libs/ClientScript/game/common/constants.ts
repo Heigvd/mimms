@@ -58,3 +58,8 @@ export const PretriageReportResponseDelay = 0;
  * choice reference that means "all choices of a an action template"
  */
 export const ANY_CHOICE = 'ANY_CHOICE';
+
+/**
+ * Lowest priority, to be processed after all other events on a given timestamp
+ */
+export const LOCAL_TIME_FORWARD_EVENT_PRIORITY = 1000;

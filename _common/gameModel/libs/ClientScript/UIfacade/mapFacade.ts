@@ -13,6 +13,26 @@ export function getOverlayItems(): OverlayItem[] {
   return computeOverlayItems();
 }
 
+const UNACTIVABLES_OVERLAY_GRID_CLASS_NAMES: Partial<Record<LOCATION_ENUM, string>> = {
+  entreeChantier: 'entree-chantier',
+  chantier: 'chantier',
+  nidDeBlesses: 'nid-blesses',
+  PMA: 'pma',
+  pcFront: 'pc-front',
+  PC: 'pc-san',
+  helicopterPark: 'parc-helico',
+  ambulancePark: 'parc-ambulance',
+};
+
+/**
+ * @returns The CSS class placing the given location in the Unactivables overlay grid
+ * (see .unactivables-overlay__container in ressources.css), or an empty string for a
+ * location that has no dedicated slot in that grid
+ */
+export function getUnactivableOverlayGridClassName(location: LOCATION_ENUM): string {
+  return UNACTIVABLES_OVERLAY_GRID_CLASS_NAMES[location] ?? '';
+}
+
 /**
  * Bring the given overlayItem to the front
  * Uses a timestamp so the item is guaranteed to have the highest index among open overlay items

@@ -15,11 +15,9 @@ import { getLocalEventManager } from '../localEvents/localEventManager';
 import {
   AssignResourcesToTaskLocalEvent,
   MoveResourcesLocalEvent,
-  ReserveResourcesLocalEvent,
-  UnReserveResourcesLocalEvent,
 } from '../localEvents/localEventResources';
 import { doesOrderRespectHierarchy } from '../resources/resourceLogic';
-import { ResourceType, ResourceTypeAndNumber } from '../resources/resourceType';
+import { SubOrder } from '../resources/resourceOrdersType';
 import { canMoveToLocation, LOCATION_ENUM } from '../simulationState/locationState';
 import { MainSimulationState } from '../simulationState/mainSimulationState';
 import { RadioDrivenAction } from './radioActions';
@@ -42,22 +40,33 @@ import { Resource } from '../resources/resource';
 import { getCachedHospitalById } from '../../loaders/hospitalLoader';
 
 /**
+ * A sub-order once the resources it gets have been picked from the state.
+ * <p>
+ * The tasks themselves need no resolution, the order already refers to them by id.
+ */
+interface ResolvedOrder {
+  readonly order: SubOrder;
+  readonly targetLocation: LOCATION_ENUM;
+  readonly targetTaskId: TaskId;
+  readonly isSameLocation: boolean;
+  readonly timeDelay: number;
+  /** how many resources the order asked for */
+  readonly nbRequested: number;
+  /** the resources actually found, they can be less than asked for */
+  readonly involvedResourcesId: ResourceId[];
+}
+
+/**
  * Action to send resources to a location and assign a task
  */
 export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
   public static readonly TIME_REQUIRED_TO_MOVE_TO_LOCATION = 60;
 
   public readonly commMedia: CommMedia;
-  public readonly sourceLocation: LOCATION_ENUM;
-  public readonly targetLocation: LOCATION_ENUM;
-  public readonly sentResources: ResourceTypeAndNumber;
-  public readonly sourceTaskId: TaskId;
-  public readonly targetTaskId: TaskId;
+  public readonly orders: SubOrder[];
 
   private compliantWithHierarchy: boolean;
-  private isSameLocation: boolean;
-  private timeDelay: number;
-  private involvedResourcesId: ResourceId[];
+  private resolvedOrders: ResolvedOrder[];
 
   constructor(
     startTimeSec: SimTime,
@@ -67,59 +76,112 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     ownerId: ActorId,
     templateUid: ActionTemplateUid,
     commMedia: CommMedia,
-    sourceLocation: LOCATION_ENUM,
-    targetLocation: LOCATION_ENUM,
-    sentResources: ResourceTypeAndNumber,
-    sourceTaskId: TaskId,
-    targetTaskId: TaskId
+    orders: SubOrder[]
   ) {
     super(startTimeSec, durationSeconds, globalEventId, actionNameKey, ownerId, templateUid);
     this.commMedia = commMedia;
-    this.sourceLocation = sourceLocation;
-    this.targetLocation = targetLocation;
-    this.sentResources = sentResources;
-    this.sourceTaskId = sourceTaskId;
-    this.targetTaskId = targetTaskId;
+    this.orders = orders;
     this.compliantWithHierarchy = false;
-    this.isSameLocation = false;
-    this.timeDelay = 0;
-    this.involvedResourcesId = [];
+    this.resolvedOrders = [];
   }
 
   protected dispatchInitEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('start event MoveResourcesAssignTaskAction');
 
-    this.compliantWithHierarchy = doesOrderRespectHierarchy(
-      state,
-      this.ownerId,
-      this.sourceLocation
+    this.compliantWithHierarchy = this.orders.every(order =>
+      doesOrderRespectHierarchy(state, this.ownerId, order.source)
     );
 
-    this.isSameLocation = this.sourceLocation === this.targetLocation;
+    // the events of every sub-order are queued, not applied, before the next sub-order is resolved,
+    // so without this the same resource could be handed to two sub-orders
+    const alreadyClaimed = new Set<ResourceId>();
 
-    if (!this.isSameLocation) {
-      this.timeDelay = MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION;
-    } else {
-      this.timeDelay = 0;
+    this.resolvedOrders = this.orders
+      .map(order => this.resolveOrder(state, order, alreadyClaimed))
+      .filter((resolved): resolved is ResolvedOrder => resolved != undefined);
+
+    // the resources take the road right away, so that they cannot be claimed by anything else.
+    // they only reach their destination and their new task when the action is over,
+    // hence the travel is longer than the sole travel time
+    this.resolvedOrders.forEach(resolved => {
+      const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
+        state,
+        resolved.targetLocation
+      );
+
+      if (moveToTaskUid == undefined) {
+        this.logger.warn('No travelling task to the destination, the resources stay on their task');
+        return;
+      }
+
+      getLocalEventManager().queueLocalEvent(
+        new AssignResourcesToTaskLocalEvent({
+          parentEventId: this.eventId,
+          source: { type: 'action', id: this.Uid },
+          simTimeStamp: state.getSimTime(),
+          resourcesId: resolved.involvedResourcesId,
+          taskId: moveToTaskUid,
+        })
+      );
+    });
+  }
+
+  /**
+   * Pick the resources one sub-order gets.
+   *
+   * @param alreadyClaimed resources taken by the previous sub-orders, it is completed as we go
+   * @returns undefined when the sub-order cannot be carried out at all
+   */
+  private resolveOrder(
+    state: Readonly<MainSimulationState>,
+    order: SubOrder,
+    alreadyClaimed: Set<ResourceId>
+  ): ResolvedOrder | undefined {
+    const sourceTaskId: TaskId | undefined = order.sourceTask;
+    if (
+      sourceTaskId == undefined ||
+      order.destination == undefined ||
+      order.destinationTask == undefined
+    ) {
+      this.logger.warn('Ignoring an incomplete resource order');
+      return undefined;
     }
 
-    this.involvedResourcesId = ResourceState.getFreeResourcesByNumberTypeLocationAndTask(
-      state,
-      this.sentResources,
-      this.sourceLocation,
-      this.sourceTaskId
-    ).map(resource => resource.Uid);
+    const isSameLocation = order.source === order.destination;
+    const involvedResourcesId: ResourceId[] = [];
+    let nbRequested = 0;
 
-    // we reserve the resources for this action so that they cannot be used by anything else
-    getLocalEventManager().queueLocalEvent(
-      new ReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-        actionId: this.Uid,
-      })
-    );
+    entries(order.resources).forEach(([resourceType, nbResources]) => {
+      if (!nbResources || nbResources <= 0) {
+        return;
+      }
+      nbRequested += nbResources;
+
+      ResourceState.getResourcesByTypeLocationAndTask(
+        state,
+        resourceType,
+        order.source,
+        sourceTaskId
+      )
+        .filter(resource => !alreadyClaimed.has(resource.Uid))
+        .slice(0, nbResources)
+        .forEach(resource => {
+          alreadyClaimed.add(resource.Uid);
+          involvedResourcesId.push(resource.Uid);
+        });
+    });
+
+    return {
+      order: order,
+      targetLocation: order.destination,
+      targetTaskId: order.destinationTask,
+      isSameLocation: isSameLocation,
+      timeDelay: isSameLocation
+        ? 0
+        : MoveResourcesAssignTaskAction.TIME_REQUIRED_TO_MOVE_TO_LOCATION,
+      nbRequested: nbRequested,
+      involvedResourcesId: involvedResourcesId,
+    };
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
@@ -140,55 +202,42 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
       );
     }
 
-    // we free the resources so that they are available again
-    // ! but we free them only when everything is done !
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime() + this.timeDelay,
-        resourcesId: this.involvedResourcesId,
-      })
-    );
-
     if (!this.compliantWithHierarchy) {
       // The order is carried out anyway, but the chain of command was not respected
       this.sendFeedbackMessage(state, 'move-res-task-hierarchy-not-respected');
     }
 
-    if (!canMoveToLocation(state, 'Resources', this.targetLocation)) {
-      // Resources cannot move to a non-existent location
-      this.sendFeedbackMessage(state, 'move-res-task-no-location');
-    } else {
-      if (!this.isSameLocation) {
+    let anyUnreachableDestination = false;
+    let nbCarriedOut: number = 0;
+    let nbResourcesNeeded: number = 0;
+    let nbResourcesInvolved: number = 0;
+
+    this.resolvedOrders.forEach(resolved => {
+      if (!canMoveToLocation(state, 'Resources', resolved.targetLocation)) {
+        // Resources cannot move to a non-existent location.
+        // They took the road when the order was given, so they are sent back to wait for orders,
+        // otherwise they would travel forever to a place they cannot reach.
+        anyUnreachableDestination = true;
+        this.sendBackToWaitForOrders(state, resolved);
+        return;
+      }
+
+      nbCarriedOut++;
+      nbResourcesNeeded += resolved.nbRequested;
+      nbResourcesInvolved += resolved.involvedResourcesId.length;
+
+      if (!resolved.isSameLocation) {
+        // move the resource to its new location at end of travel
         getLocalEventManager().queueLocalEvent(
           new MoveResourcesLocalEvent({
             parentEventId: this.eventId,
             source: { type: 'action', id: this.Uid },
-            simTimeStamp: state.getSimTime(),
+            simTimeStamp: state.getSimTime() + resolved.timeDelay,
             ownerUid: this.ownerId,
-            resourcesId: this.involvedResourcesId,
-            targetLocation: this.targetLocation,
+            resourcesId: resolved.involvedResourcesId,
+            targetLocation: resolved.targetLocation,
           })
         );
-
-        // during the travel the resources moving
-        const moveToTaskUid: TaskId | undefined = TaskLogic.getMoveToTaskUid(
-          state,
-          this.targetLocation
-        );
-
-        if (moveToTaskUid != undefined) {
-          getLocalEventManager().queueLocalEvent(
-            new AssignResourcesToTaskLocalEvent({
-              parentEventId: this.eventId,
-              source: { type: 'action', id: this.Uid },
-              simTimeStamp: state.getSimTime(),
-              resourcesId: this.involvedResourcesId,
-              taskId: moveToTaskUid,
-            })
-          );
-        }
       }
 
       // once the travel is over, the resources start their new task
@@ -196,27 +245,54 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
         new AssignResourcesToTaskLocalEvent({
           parentEventId: this.eventId,
           source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime() + this.timeDelay,
-          resourcesId: this.involvedResourcesId,
-          taskId: this.targetTaskId,
+          simTimeStamp: state.getSimTime() + resolved.timeDelay,
+          resourcesId: resolved.involvedResourcesId,
+          taskId: resolved.targetTaskId,
         })
       );
+    });
 
-      let nbResourcesNeeded: number = 0;
-      // Note : please change code to be more straight forward
-      entries(this.sentResources).forEach(([_resourceType, nbResources]) => {
-        nbResourcesNeeded += nbResources || 0;
-      });
+    // one feed-back of each kind for the whole action, whatever the number of sub-orders
+    if (anyUnreachableDestination) {
+      this.sendFeedbackMessage(state, 'move-res-task-no-location');
+    }
 
-      const isEnoughResources = this.involvedResourcesId.length === nbResourcesNeeded;
-
-      if (this.involvedResourcesId.length === 0) {
+    if (nbCarriedOut > 0) {
+      if (nbResourcesInvolved === 0) {
         this.sendFeedbackMessage(state, 'move-res-task-no-resource');
-      } else if (!isEnoughResources) {
+      } else if (nbResourcesInvolved !== nbResourcesNeeded) {
         this.sendFeedbackMessage(state, 'move-res-task-not-enough-resources');
       }
       // no feed-back if everything works as expected
     }
+  }
+
+  /**
+   * Put the resources of a sub-order that cannot be carried out back on the waiting task
+   * of the location they never left.
+   */
+  private sendBackToWaitForOrders(
+    state: Readonly<MainSimulationState>,
+    resolved: ResolvedOrder
+  ): void {
+    const idleTaskUid: TaskId | undefined = TaskLogic.getIdleTaskUid(state, resolved.order.source);
+
+    if (idleTaskUid == undefined) {
+      this.logger.warn(
+        `Resources cannot wait for orders at ${resolved.order.source}, they stay on their task`
+      );
+      return;
+    }
+
+    getLocalEventManager().queueLocalEvent(
+      new AssignResourcesToTaskLocalEvent({
+        parentEventId: this.eventId,
+        source: { type: 'action', id: this.Uid },
+        simTimeStamp: state.getSimTime(),
+        resourcesId: resolved.involvedResourcesId,
+        taskId: idleTaskUid,
+      })
+    );
   }
 
   private sendFeedbackMessage(state: Readonly<MainSimulationState>, messageKey: string) {
@@ -253,21 +329,37 @@ export class MoveResourcesAssignTaskAction extends RadioDrivenAction {
     return RadioType.RESOURCES;
   }
 
+  /**
+   * One sentence per sub-order.
+   * <p>
+   * Built from the orders only, never from the resolved data : the pending radio messages
+   * are rendered from an action that has not necessarily started yet.
+   */
   public getMessage(): string {
-    const arg0 = Object.keys(this.sentResources)
-      .map(
-        res =>
-          this.sentResources[res as ResourceType] +
-          ' ' +
-          getTranslation('mainSim-resources', '' + res)
+    return this.orders
+      .filter(
+        order =>
+          order.sourceTask != undefined &&
+          order.destination != undefined &&
+          order.destinationTask != undefined
       )
-      .join(', ');
+      .map(order => this.getOrderMessage(order))
+      .join('\n');
+  }
+
+  private getOrderMessage(order: SubOrder): string {
     return getTranslation('mainSim-actions-tasks', 'move-res-task-request', true, [
-      arg0,
-      getTranslation('mainSim-locations', 'location-' + this.sourceLocation),
-      TaskLogic.getTaskTitle(this.sourceTaskId),
-      getTranslation('mainSim-locations', 'location-' + this.targetLocation),
-      TaskLogic.getTaskTitle(this.targetTaskId),
+      entries(order.resources)
+        .filter(([_resourceType, nbResources]) => nbResources)
+        .map(
+          ([resourceType, nbResources]) =>
+            nbResources + ' ' + getTranslation('mainSim-resources', '' + resourceType)
+        )
+        .join(', '),
+      getTranslation('mainSim-locations', 'location-' + order.source),
+      TaskLogic.getTaskTitle(order.sourceTask!),
+      getTranslation('mainSim-locations', 'location-' + order.destination),
+      TaskLogic.getTaskTitle(order.destinationTask!),
     ]);
   }
 
@@ -342,35 +434,31 @@ export class EvacuationAction extends RadioDrivenAction {
 
     this.isEnoughResources = EvacuationLogic.isEvacSquadAvailable(state, this.transportSquad);
 
+    if (!this.isEnoughResources) {
+      // an incomplete squad cannot evacuate anyone, we leave its resources to the others
+      return;
+    }
+
     this.involvedResourcesId = EvacuationLogic.getResourcesForEvacSquad(
       state,
       this.transportSquad
     ).map((resource: Resource) => resource.Uid);
 
-    // we reserve the resources for this action so that they cannot be used by anything else
+    // the squad is engaged right away, so that it cannot be claimed by anything else.
+    // it only takes the patient in charge when the action is over
     getLocalEventManager().queueLocalEvent(
-      new ReserveResourcesLocalEvent({
+      new AssignResourcesToTaskLocalEvent({
         parentEventId: this.eventId,
         source: { type: 'action', id: this.Uid },
         simTimeStamp: state.getSimTime(),
         resourcesId: this.involvedResourcesId,
-        actionId: this.Uid,
+        taskId: TaskLogic.getEvacuationTask(state, sourceLocation).Uid,
       })
     );
   }
 
   protected dispatchEndedEvents(state: Readonly<MainSimulationState>): void {
     this.logger.info('end event EvacuationAction');
-
-    // we free the resources so that they are available again
-    getLocalEventManager().queueLocalEvent(
-      new UnReserveResourcesLocalEvent({
-        parentEventId: this.eventId,
-        source: { type: 'action', id: this.Uid },
-        simTimeStamp: state.getSimTime(),
-        resourcesId: this.involvedResourcesId,
-      })
-    );
 
     getLocalEventManager().queueLocalEvent(
       new AddRadioMessageLocalEvent({
@@ -420,16 +508,8 @@ export class EvacuationAction extends RadioDrivenAction {
         getSquadDef(this.transportSquad).location
       );
 
-      getLocalEventManager().queueLocalEvent(
-        new AssignResourcesToTaskLocalEvent({
-          parentEventId: this.eventId,
-          source: { type: 'action', id: this.Uid },
-          simTimeStamp: state.getSimTime(),
-          resourcesId: this.involvedResourcesId,
-          taskId: evacuationTask.Uid,
-        })
-      );
-
+      // the squad is already on the evacuation task since the order was given,
+      // it now takes the patient in charge
       evacuationTask.createSubTask(
         this.eventId,
         this.ownerId,

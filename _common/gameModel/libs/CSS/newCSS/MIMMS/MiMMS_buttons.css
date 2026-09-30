@@ -99,20 +99,34 @@
   transition: var(--button-transition);
 }
 
-.button-neutralColor:hover {
+.button-neutralColor--outline {
+  color: var(--grey_80);
+	background-color: transparent;
+  outline: solid 3px var(--grey_80);
+  outline-offset: -3px;
+  transition: var(--button-transition);
+}
+
+.button-neutralColor:hover,
+.button-neutralColor--outline:hover {
+  color: var(--grey-white);
   background-color: var(--grey_90);
+  outline-color: var(--grey_90);
 	box-shadow: var(--buttonShadow);
 	cursor: pointer;
 }
 
-.button-neutralColor:active {
+.button-neutralColor:active,
+.button-neutralColor--outline:active {
 	background-color: var(--grey_90);
 	box-shadow: var(--buttonInsetShadow);
 }
 
-.disabled.button-neutralColor {
+.disabled.button-neutralColor,
+.disabled.button-neutralColor--outline {
   color: var(--grey_10);
 	background-color: var(--grey_20);
+  outline: none;
   box-shadow: none;
 	cursor: default;
 }
@@ -203,6 +217,11 @@
 .role-button.current {
   color: var(--grey-white);
   background-color: var(--primary_base);
+}
+
+.role-button.disabled {
+  background-color: var(--grey-white);
+  opacity: 50%;
 }
 
 /* - - - - -  P A T I E N T S  F L O W  B U T T O N  - - - */

@@ -3629,6 +3629,7 @@
           "ambulance" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"ambulance\"},\"FR\":{\"status\":\"\",\"translation\":\"ambulance\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-desc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"you appoint an ambulancier as EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer un ambulancier comme EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
           "appoint-evasan-title" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"appoint EVASAN\"},\"FR\":{\"status\":\"\",\"translation\":\"nommer EVASAN\",\"lang\":\"FR\"}},\"version\":0}",
+          "assign" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"assigner\"},\"EN\":{\"status\":\"\",\"translation\":\"assign\",\"lang\":\"EN\"}},\"version\":0}",
           "appoint-hierarchy-not-respected" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"the order was carried out, but the chain of command was not respected\"},\"FR\":{\"status\":\"\",\"translation\":\"l'ordre a été exécuté, mais la voie hiérarchique n'a pas été respectée\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"move and assign task\"},\"FR\":{\"status\":\"\",\"translation\":\"déplacer et assigner tâche\",\"lang\":\"FR\"}},\"version\":0}",
           "assign-task-to-selected-resources" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"command selected resources\"},\"FR\":{\"status\":\"\",\"translation\":\"ordonner aux ressources sélectionnées\",\"lang\":\"FR\"}},\"version\":0}",
@@ -3990,7 +3991,6 @@
           "summary-resource-activity" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Activity\"},\"FR\":{\"status\":\"\",\"translation\":\"activité de la resource\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-id" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource ID\"},\"FR\":{\"status\":\"\",\"translation\":\"iD de la resource\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-location" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"location\"},\"FR\":{\"status\":\"\",\"translation\":\"emplacement\",\"lang\":\"FR\"}},\"version\":0}",
-          "summary-resource-reserved-by" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"reserved by\"},\"FR\":{\"status\":\"\",\"translation\":\"réservé par\",\"lang\":\"FR\"}},\"version\":0}",
           "summary-resource-type" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"resource Type\"},\"FR\":{\"status\":\"\",\"translation\":\"type de la resource\",\"lang\":\"FR\"}},\"version\":0}"
         },
         "refId" : "ObjectDescriptor:582621:U3Go86",
@@ -5976,6 +5976,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "game/common/resources/resourceOrdersType",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#304:C3aVxY",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "game/common/resources/resourceType",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -6916,6 +6925,15 @@
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:927245:4WzOpc",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "UIfacade/resourceOrdersFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#303:Cw7JOM",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {

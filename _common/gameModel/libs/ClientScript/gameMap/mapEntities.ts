@@ -1,21 +1,18 @@
-import { getActorsByLocation } from '../UIfacade/actorFacade';
 import {
   getAvailableMapActivables,
   LOCATION_ENUM,
 } from '../game/common/simulationState/locationState';
-import * as ResourceState from '../game/common/simulationState/resourceStateAccess';
 import { getCurrentState } from '../game/mainSimulationLogic';
 import { getMapEntityDescriptor } from '../game/loaders/mapEntitiesLoader';
 import { getShapeCenter } from './utils/shapeUtils';
-import { PointMapObject } from '../game/common/mapEntities/mapEntityDescriptor';
 import { locationEnumConfig } from '../game/common/mapEntities/locationEnumConfig';
 import { MapEntityActivable } from '../game/common/simulationState/activableState';
-import { getLocationLongTranslation } from '../game/common/location/locationLogic';
+import { fetchLocationInfo } from '../game/common/location/locationLogic';
 
 // Replacement based on activables/descriptors
 export function computeOverlayItems(): OverlayItem[] {
   // fetch all map locations entities where there can be actors / resources / patients
-  const mapActivables = getAvailableMapActivables(getCurrentState(), 'anyKind').filter(
+  const mapActivables = getAvailableMapActivables(getCurrentState(), 'AnyKind').filter(
     (a: MapEntityActivable) => {
       const accessibility = locationEnumConfig[a.binding]?.accessibility;
       return (
@@ -31,7 +28,8 @@ export function computeOverlayItems(): OverlayItem[] {
     const firstMapObject = mapDescriptor?.mapObjects[0];
 
     if (firstMapObject) {
-      const currentState = getCurrentState();
+      const locationInfo = fetchLocationInfo(getCurrentState(), mapDescriptor.binding);
+
       overlayItems.push({
         overlayProps: {
           // Overlay centered over the first mapObject
@@ -39,26 +37,8 @@ export function computeOverlayItems(): OverlayItem[] {
           positioning: 'bottom-center',
           offset: [0, -20],
         },
-        payload: {
-          id: mapActivable.binding,
-          name: getLocationLongTranslation(mapActivable.binding) || 'XXX',
-          icon: firstMapObject.type === 'Point' ? (firstMapObject as PointMapObject).icon : '',
-          actors: getActorsByLocation(mapActivable.binding),
-          resources: ResourceState.getFreeHumanResourcesByLocation(
-            currentState,
-            mapActivable.binding
-          ),
-          ambulances: ResourceState.getFreeResourcesByTypeAndLocation(
-            currentState,
-            'ambulance',
-            mapActivable.binding
-          ),
-          helicopters: ResourceState.getFreeResourcesByTypeAndLocation(
-            currentState,
-            'helicopter',
-            mapActivable.binding
-          ),
-        },
+        // TODO fix OverlayTypes.d.ts typing to remove cast
+        payload: locationInfo as unknown as { [index: string]: unknown },
       });
     }
   }
