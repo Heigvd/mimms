@@ -11,6 +11,7 @@ import {
   ActionTemplateBase,
   ChoiceTemplate,
   SimFlag,
+  StartEndTemplate,
 } from '../game/common/actions/actionTemplate/actionTemplateBase';
 import { ChoiceDescriptor } from '../game/common/actions/choiceDescriptor/choiceDescriptor';
 import { ActionType } from '../game/common/actionType';
@@ -218,9 +219,33 @@ export function updateCustomDurationsState(uid: number, newValue: number) {
  * @param max duration in seconds if applicable
  */
 export function formatDurationMinMax(min: number, max: number | undefined = undefined): string {
-  let result = (min || 0) / OneMinuteDuration + "'";
+  const minMinutes = (min || 0) / OneMinuteDuration;
   if (max !== undefined && min < max) {
-    result += ` - ${max / OneMinuteDuration}'`;
+    return `${minMinutes} - ${max / OneMinuteDuration}'`;
   }
-  return result;
+  return minMinutes + "'";
+}
+
+/**
+ * @returns the duration in seconds of the action when played with the given choice
+ */
+export function getChoiceDuration(template: StartEndTemplate, choice: ChoiceDescriptor): number {
+  return Math.max(0, template.duration + (choice.durationDeltaSec || 0));
+}
+
+/**
+ * formats the duration of an action template.
+ * For choice templates, displays the range of durations among the available choices
+ */
+export function formatActionDuration(template: ActionTemplateBase): string {
+  if (!(template instanceof StartEndTemplate)) {
+    return formatDurationMinMax(0);
+  }
+  if (template instanceof ChoiceTemplate) {
+    const durations = getAvailableChoices(template).map(c => getChoiceDuration(template, c));
+    if (durations.length > 0) {
+      return formatDurationMinMax(Math.min(...durations), Math.max(...durations));
+    }
+  }
+  return formatDurationMinMax(template.duration);
 }

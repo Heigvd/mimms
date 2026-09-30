@@ -6,18 +6,44 @@
           "props" : {
             "children" : [ {
               "props" : {
-                "className" : "choice-title",
+                "children" : [ {
+                  "props" : {
+                    "className" : "choice-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "title",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "  I18n.translate(Context.choice.title);",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "className" : "noMargin choice-title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : { },
+                    "name" : "duration",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "import { formatDurationMinMax, getChoiceDuration } from \"./UIfacade/actionFacade\";\nformatDurationMinMax(getChoiceDuration(Context.action, Context.choice));",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                } ],
+                "layout" : {
+                  "justifyContent" : "space-between"
+                },
                 "layoutClassName" : "noPadding",
                 "layoutStyle" : { },
-                "name" : "title",
-                "style" : { },
-                "text" : {
-                  "@class" : "Script",
-                  "content" : "  I18n.translate(Context.choice.title);",
-                  "language" : "TypeScript"
-                }
+                "name" : "choice header",
+                "style" : { }
               },
-              "type" : "Text"
+              "type" : "FlexList"
             }, {
               "props" : {
                 "className" : "choice-description",

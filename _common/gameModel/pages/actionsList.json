@@ -49,7 +49,7 @@
                                 "style" : { },
                                 "text" : {
                                   "@class" : "Script",
-                                  "content" : "import { formatDurationMinMax } from \"./UIfacade/actionFacade\";\nformatDurationMinMax(Context.action?.duration);",
+                                  "content" : "import { formatActionDuration } from \"./UIfacade/actionFacade\";\nformatActionDuration(Context.action);",
                                   "language" : "TypeScript"
                                 }
                               },

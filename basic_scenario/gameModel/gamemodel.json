@@ -7578,7 +7578,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-707 XGO getting even closer",
+  "name" : "MIM-668",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",
