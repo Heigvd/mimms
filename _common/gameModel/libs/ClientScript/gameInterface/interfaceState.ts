@@ -1,5 +1,10 @@
 import { Actor } from '../game/common/actors/actor';
-import { ActionId, ActionTemplateUid, ActorId, PatientId } from '../game/common/baseTypes';
+import {
+  ActionId,
+  ActionTemplateUid,
+  ActorId,
+  PatientId,
+} from '../game/common/baseTypes';
 import { HospitalProximity } from '../game/common/evacuation/hospitalType';
 import { Uid } from '../game/common/interfaces';
 import { CommMedia, RadioType } from '../game/common/radio/communicationType';

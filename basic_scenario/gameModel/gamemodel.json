@@ -7588,7 +7588,7 @@
     "version" : null,
     "visibility" : "PRIVATE"
   } ],
-  "name" : "MIM-709_4",
+  "name" : "MIMMS release candidate",
   "pages" : { },
   "properties" : {
     "@class" : "GameModelProperties",

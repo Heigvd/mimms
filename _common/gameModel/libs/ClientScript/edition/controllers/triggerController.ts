@@ -94,7 +94,7 @@ export class TriggerDataController extends DataControllerBase<
           getTriggerDefinition().getDefault(),
           TriggerDataController.TRIGGER_ROOT
         );
-        this.assignNewTagName(trigger);
+        //this.assignNewTagName(trigger);
         return trigger;
       }
       case 'condition':
@@ -140,14 +140,14 @@ export class TriggerDataController extends DataControllerBase<
       cloned.push(clone);
     });
 
-    if (topLevelClone?.superType === 'trigger') {
+    /*if (topLevelClone?.superType === 'trigger') {
       this.assignNewTagName(topLevelClone);
-    }
+    }*/
 
     return cloned;
   }
 
-  private assignNewTagName(newObject: FlatTrigger): void {
+  /*private assignNewTagName(newObject: FlatTrigger): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());
     let candidate = newObject.tag;
@@ -159,7 +159,7 @@ export class TriggerDataController extends DataControllerBase<
       i++;
     }
     newObject.tag = candidate;
-  }
+  }*/
 
   protected validateInternal(value: Trigger): ValidationMessage<TriggerValidationContext>[] {
     return getTriggerDefinition().validator(value, {

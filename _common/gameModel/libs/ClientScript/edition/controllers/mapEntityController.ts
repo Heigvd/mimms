@@ -114,7 +114,7 @@ export class MapEntityController extends DataControllerBase<
           );
         }
         const fme = toFlatMapEntity(newMapEntity, MapEntityController.MAP_ENTITY_ROOT);
-        this.assignNewTagName(fme);
+        //this.assignNewTagName(fme);
         return fme;
       }
       case 'geometry': {
@@ -153,14 +153,14 @@ export class MapEntityController extends DataControllerBase<
       cloned.push(super.basicDuplicate(child, mapping));
     });
 
-    if (topLevelClone?.superType === 'mapEntity') {
+    /*if (topLevelClone?.superType === 'mapEntity') {
       this.assignNewTagName(topLevelClone);
-    }
+    }*/
 
     return cloned;
   }
 
-  private assignNewTagName(newObject: FlatMapEntity): void {
+  /*private assignNewTagName(newObject: FlatMapEntity): void {
     // fetch the already existing siblings
     const siblings = getChildren(newObject.parent, this.getFlatData());
     let candidate = newObject.tag;
@@ -172,7 +172,7 @@ export class MapEntityController extends DataControllerBase<
       i++;
     }
     newObject.tag = candidate;
-  }
+  }*/
 
   protected validateInternal(
     value: MapEntityDescriptor
