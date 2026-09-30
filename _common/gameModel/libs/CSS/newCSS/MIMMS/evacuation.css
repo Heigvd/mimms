@@ -2,7 +2,7 @@
 /* ugly selector because for some reason, the wegas 
 container element does not actually wrap the content */
 #globalInterfaceId > div:has(.evacuation-modal) {
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
   background-color: transparent;
@@ -44,6 +44,7 @@ container element does not actually wrap the content */
   margin: 0;
   padding-right: 3rem;
   border-right: 2px dashed #65696B;
+  overflow: auto;
 }
 
 .evacuation-column__container:last-of-type .evacuation-column {
@@ -112,8 +113,8 @@ container element does not actually wrap the content */
 /* buttons */
 .close-evacuation {
   position: fixed;
-  top: 30px;
-  right: 30px;
+  top: 2.75rem;
+  right: 2.75rem;
 }
 
 .close-evacuation svg {

@@ -34,6 +34,7 @@ export interface InterfaceState {
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
+  patientModalLocation: LOCATION_ENUM | undefined;
   showLeftPanel: boolean;
   showNotificationsPanel: boolean;
   selectedPanel: SelectedPanel;
@@ -90,6 +91,7 @@ export function getInitialInterfaceState(): InterfaceState {
     resourceManagementSourceLocation: undefined,
     resourceManagementCommMedia: undefined,
     selectedPatient: undefined,
+    patientModalLocation: undefined,
     showLeftPanel: true,
     showNotificationsPanel: false,
     selectedActionChoiceUid: '',

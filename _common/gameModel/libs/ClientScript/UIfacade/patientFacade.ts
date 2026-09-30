@@ -30,12 +30,18 @@ export function getAllPatients(): Readonly<PatientState[]> {
 }
 
 export function getPatientsForLocation(location: LOCATION_ENUM): Readonly<PatientState[]> {
+  if (!location) {
+    return [];
+  }
   return getPatientsByLocation(getCurrentState(), 'FixedMapEntity', location);
 }
 
 export function getPretriagedPatientsForLocation(
   location: LOCATION_ENUM
 ): Readonly<PatientState[]> {
+  if (!location) {
+    return [];
+  }
   return getPatientsForLocation(location).filter(patient => patient.preTriageResult !== undefined);
 }
 

@@ -75,7 +75,7 @@
                                             "localScriptEval" : {
                                               "script" : {
                                                 "@class" : "ClientScript",
-                                                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, showPatientModal: true});",
+                                                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, patientModalLocation: Context.location.id, showPatientModal: true});",
                                                 "language" : "TypeScript"
                                               }
                                             },
@@ -376,11 +376,17 @@
                                       },
                                       "type" : "FlexList"
                                     } ],
+                                    "className" : "resourcesSelectionAssignment",
                                     "exposeAs" : "evacSquad",
                                     "getItemsFn" : {
                                       "@class" : "Script",
                                       "content" : "import { getAvailableSquadsList } from \"./UIfacade/evacuationFacade\";\n  getAvailableSquadsList(Context.evacSquadDef.uid);",
                                       "language" : "TypeScript"
+                                    },
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAvailableSquadsList } from \"./UIfacade/evacuationFacade\";\ngetAvailableSquadsList(Context.evacSquadDef.uid).length < 1;",
+                                      "language" : "typescript"
                                     },
                                     "itemKey" : "squadId",
                                     "layout" : {
@@ -720,9 +726,7 @@
             "className" : "fullWidth fullHeight",
             "layout" : { },
             "layoutClassName" : "noPadding fullWidth fullHeight",
-            "layoutStyle" : {
-              "height" : "100vh"
-            },
+            "layoutStyle" : { },
             "style" : { }
           },
           "type" : "FlexList"
@@ -782,7 +786,7 @@
           "content" : "import { getInitialEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\ngetInitialEvacuationSelectionState();",
           "language" : "TypeScript"
         },
-        "layoutClassName" : "noPadding fullWidth",
+        "layoutClassName" : "noPadding fullWidth fullHeight",
         "layoutStyle" : { },
         "localState" : true,
         "name" : "Evacuation selection",

@@ -1094,7 +1094,7 @@
                                 },
                                 "layoutClassName" : "modalPMA-container",
                                 "layoutStyle" : { },
-                                "name" : "PMA-view",
+                                "name" : "location-patient-view",
                                 "onExitActions" : {
                                   "client" : {
                                     "@class" : "Script",
@@ -1117,7 +1117,7 @@
                                       "content" : "\"evacuationView\"",
                                       "language" : "typescript"
                                     },
-                                    "layoutClassName" : "fullWidth",
+                                    "layoutClassName" : "fullWidth fullHeight",
                                     "layoutStyle" : { },
                                     "name" : "EvacuationView",
                                     "style" : { }
@@ -1131,7 +1131,7 @@
                                   "language" : "typescript"
                                 },
                                 "layout" : { },
-                                "layoutClassName" : "noPadding fullWidth",
+                                "layoutClassName" : "noPadding fullWidth fullHeight",
                                 "layoutStyle" : { },
                                 "name" : "Evacuation",
                                 "onExitActions" : { },
