@@ -74,6 +74,11 @@ export abstract class ActionBase {
 }
 
 /**
+ * Defines a type that can be tested with instanceof
+ */
+export type ActionClass<T extends ActionBase> = new (...args: any[]) => T;
+
+/**
  * An action that has a fixed duration and only start and finish effects
  */
 export abstract class StartEndAction extends ActionBase {

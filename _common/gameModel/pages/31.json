@@ -29,7 +29,7 @@
                     "style" : { },
                     "text" : {
                       "@class" : "Script",
-                      "content" : "import { formatDurationMinMax, getChoiceDuration } from \"./UIfacade/actionFacade\";\nformatDurationMinMax(getChoiceDuration(Context.action, Context.choice));",
+                      "content" : "import { formatChoiceDuration } from \"./UIfacade/actionFacade\";\nformatChoiceDuration(Context.action, Context.choice);",
                       "language" : "TypeScript"
                     }
                   },

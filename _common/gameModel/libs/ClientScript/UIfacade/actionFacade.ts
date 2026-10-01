@@ -5,7 +5,7 @@
  */
 
 import { IUniqueActionTemplates } from '../game/actionTemplatesData';
-import { ActionBase, ChoiceAction } from '../game/common/actions/actionBase';
+import { ActionBase, ActionClass, ChoiceAction } from '../game/common/actions/actionBase';
 import * as ActionLogic from '../game/common/actions/actionLogic';
 import {
   ActionTemplateBase,
@@ -109,38 +109,12 @@ export function getAllActions(): Record<ActorId, Readonly<ActionBase>[]> {
   return getCurrentState().getActionsByActorIds();
 }
 
-export function isCurrentActorDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): boolean {
-  const currentActorUid = getTypedInterfaceState().currentActorUid;
-  const state = getCurrentState();
-
-  if (currentActorUid) {
-    return isOngoingAndStartedAction(state, currentActorUid, actionClass);
-  }
-
-  return false;
-}
-
-export function areAllActorsDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): boolean {
+export function areAllActorsDoing<T extends ActionBase>(actionClass: ActionClass<T>): boolean {
   const state = getCurrentState();
   const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
 
   return playerActors.every((actor: Actor) =>
     isOngoingAndStartedAction(state, actor.Uid, actionClass)
-  );
-}
-
-export function getActorsNotDoing<T extends ActionBase>(actionClass: {
-  new (...args: any[]): T;
-}): Actor[] {
-  const state = getCurrentState();
-  const playerActors: Readonly<Actor[]> = getCurrentPlayerActors();
-
-  return playerActors.filter(
-    (actor: Actor) => !isOngoingAndStartedAction(state, actor.Uid, actionClass)
   );
 }
 
@@ -227,10 +201,10 @@ export function formatDurationMinMax(min: number, max: number | undefined = unde
 }
 
 /**
- * @returns the duration in seconds of the action when played with the given choice
+ * @returns formats display of a choice duration
  */
-export function getChoiceDuration(template: StartEndTemplate, choice: ChoiceDescriptor): number {
-  return Math.max(0, template.duration + (choice.durationDeltaSec || 0));
+export function formatChoiceDuration(template: StartEndTemplate, choice: ChoiceDescriptor): string {
+  return formatDurationMinMax(Math.max(0, template.duration + (choice.durationDeltaSec || 0)));
 }
 
 /**
@@ -238,14 +212,13 @@ export function getChoiceDuration(template: StartEndTemplate, choice: ChoiceDesc
  * For choice templates, displays the range of durations among the available choices
  */
 export function formatActionDuration(template: ActionTemplateBase): string {
-  if (!(template instanceof StartEndTemplate)) {
-    return formatDurationMinMax(0);
-  }
   if (template instanceof ChoiceTemplate) {
-    const durations = getAvailableChoices(template).map(c => getChoiceDuration(template, c));
+    const durations = getAvailableChoices(template).map(c => template.getChoiceDuration(c));
     if (durations.length > 0) {
       return formatDurationMinMax(Math.min(...durations), Math.max(...durations));
     }
+  } else if (template instanceof StartEndTemplate) {
+    return formatDurationMinMax(template.duration);
   }
-  return formatDurationMinMax(template.duration);
+  return formatDurationMinMax(0);
 }
