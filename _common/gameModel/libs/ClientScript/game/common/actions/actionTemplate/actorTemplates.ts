@@ -3,7 +3,10 @@ import { Actor, InterventionRole } from '../../actors/actor';
 import { ActionType } from '../../actionType';
 import { FullEvent } from '../../events/eventUtils';
 import { AppointActorEvent, MoveActorEvent, StandardActionEvent } from '../../events/eventTypes';
-import { LOCATION_ENUM } from '../../simulationState/locationState';
+import {
+  getAvailableMapActivables,
+  LOCATION_ENUM,
+} from '../../simulationState/locationState';
 import { MainSimulationState } from '../../simulationState/mainSimulationState';
 import * as ActionLogic from '../actionLogic';
 import { SimFlag, StartEndTemplate } from './actionTemplateBase';
@@ -59,6 +62,14 @@ export class MoveActorActionTemplate extends StartEndTemplate {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
       location: params,
     };
+  }
+
+  // hidden as long as there is no other location to move to
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    actor: Readonly<Actor>
+  ): boolean {
+    return getAvailableMapActivables(state, 'Actors').some(a => a.binding !== actor.Location);
   }
 }
 
@@ -207,6 +218,14 @@ export class CustomDurationActionTemplate<O extends readonly number[]> extends S
       ownerId,
       this.uid
     );
+  }
+
+  // hidden as long as there is only one actor on site
+  protected override isAvailableCustom(
+    state: Readonly<MainSimulationState>,
+    _actor: Readonly<Actor>
+  ): boolean {
+    return state.getOnSiteActors().length > 1;
   }
 
   public buildGlobalEvent(
