@@ -189,7 +189,7 @@
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/GVA-lignon/" : {
     "description" : "",
@@ -251,23 +251,11 @@
     "note" : "",
     "visibility" : "INHERITED"
   },
-  "/maps/GVA/buildings.geojson.zip" : {
-    "description" : "",
-    "mimeType" : "application/zip",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/GVA/greenery.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
-  },
-  "/maps/GVA/greenery.geojson.zip" : {
-    "description" : "",
-    "mimeType" : "application/zip",
-    "note" : "",
-    "visibility" : "PRIVATE"
   },
   "/maps/GVA/rails.geojson" : {
     "description" : "",
@@ -275,23 +263,11 @@
     "note" : "",
     "visibility" : "INHERITED"
   },
-  "/maps/GVA/rails.geojson.zip" : {
-    "description" : "",
-    "mimeType" : "application/zip",
-    "note" : "",
-    "visibility" : "PRIVATE"
-  },
   "/maps/GVA/roads.geojson" : {
     "description" : "",
     "mimeType" : "application/zip",
     "note" : "",
     "visibility" : "INHERITED"
-  },
-  "/maps/GVA/roads.geojson.zip" : {
-    "description" : "",
-    "mimeType" : "application/zip",
-    "note" : "",
-    "visibility" : "PRIVATE"
   },
   "/maps/GVA/water.geojson" : {
     "description" : "",
@@ -387,7 +363,7 @@
     "description" : "",
     "mimeType" : "image/svg+xml",
     "note" : "",
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   },
   "/maps/mapIcons/helicopter-park.svg" : {
     "description" : "",
