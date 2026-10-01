@@ -1,15 +1,17 @@
 /* - - - - -  C O N T A I N E R S  - - - */
 
 /* resources flow modal */
-/* ugly selector because for some reason, the wegas 
+/* ugly selector because for some reason, the wegas
 container element does not actually wrap the content */
-#globalInterfaceId > div:has(.resources-flow-modal) {
+#globalInterfaceId > div:has(.resources-flow-modal),
+#globalInterfaceId > div:has(.flow-modal) {
   padding: 0;
   background-color: transparent;
   border-radius: 0;
 }
 
-.resources-flow-modal {
+.resources-flow-modal,
+.flow-modal {
   background-color: transparent;
   background-image: linear-gradient(to bottom right, #D0E9F380 0%, #D0E9F333 100%);
   backdrop-filter: blur(12px);
@@ -24,7 +26,8 @@ container element does not actually wrap the content */
   opacity: 75%;
 }
 
-.resources-flow-modal .close-generic-fixed-entity svg {
+.resources-flow-modal .close-generic-fixed-entity svg,
+.flow-modal .close-generic-fixed-entity svg {
   color: var(--grey_80);
   opacity: 75%;
 }
@@ -302,10 +305,18 @@ container element does not actually wrap the content */
   transform: translateY(-50%);
 }
 
+.incoming-patients {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 1rem;
+  transform: translateY(-50%);
+}
+
 .incoming-resources::after {
   content: "";
   position: absolute;
-  left: -2px;
+  left: -2;
   bottom: -5px;
   width: 0;
   height: 0;
@@ -314,11 +325,13 @@ container element does not actually wrap the content */
   border-right: 6px solid var(--grey_80);
 }
 
+.incoming-patients svg,
 .incoming-resources svg {
   height: 14px;
   color: var(--grey_80);
 }
 
+.incoming-patients__counter,
 .incoming-resources__counter {
   display: flex;
   align-items: center;

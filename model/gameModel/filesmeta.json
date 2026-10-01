@@ -395,6 +395,12 @@
     "note" : "",
     "visibility" : "INTERNAL"
   },
+  "/maps/mapIcons/hospital.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "INTERNAL"
+  },
   "/maps/mapIcons/mainAccident.svg" : {
     "description" : "",
     "mimeType" : "image/svg+xml",

@@ -158,6 +158,16 @@ export function getNonTransportedPatientsSize(
   return getPatientsByLocation(state, 'FixedMapEntity', location).length;
 }
 
+/**
+ * @returns The number of patients that have already arrived at a hospital, across all hospitals
+ * and patient units combined
+ */
+export function getHospitalizedPatientsSize(state: Readonly<MainSimulationState>): number {
+  return state
+    .getInternalStateObject()
+    .patients.filter(patient => patient.location.kind === 'Hospital').length;
+}
+
 export function getNextNonTransportedPatientsByPriority(
   state: Readonly<MainSimulationState>,
   location: LOCATION_ENUM,

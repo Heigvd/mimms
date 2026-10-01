@@ -36,6 +36,7 @@ export interface InterfaceState {
   showPatientModal: boolean;
   showEvacuationModal: boolean;
   showResourcesManagementModal: boolean;
+  showPatientFlowModal: boolean;
   resourceManagementSourceLocation: LOCATION_ENUM | undefined;
   resourceManagementCommMedia?: CommMedia;
   selectedPatient: PatientId | undefined;
@@ -93,6 +94,7 @@ export function getInitialInterfaceState(): InterfaceState {
     showPatientModal: false,
     showEvacuationModal: false,
     showResourcesManagementModal: false,
+    showPatientFlowModal: false,
     resourceManagementSourceLocation: undefined,
     resourceManagementCommMedia: undefined,
     selectedPatient: undefined,

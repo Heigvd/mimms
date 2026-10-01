@@ -215,7 +215,7 @@
                                 "className" : "notificationButton patients-flow-button",
                                 "hideIf" : {
                                   "@class" : "Script",
-                                  "content" : "true;",
+                                  "content" : "import { hasPretriageSnapShot } from \"./UIfacade/patientSnapshotFacade\";\n!hasPretriageSnapShot();",
                                   "language" : "typescript"
                                 },
                                 "icon" : "user",
@@ -226,6 +226,13 @@
                                 },
                                 "layoutClassName" : "noPadding patients-flow-button-container",
                                 "layoutStyle" : { },
+                                "localScriptEval" : {
+                                  "script" : {
+                                    "@class" : "ClientScript",
+                                    "content" : "import { openPatientFlowModal } from \"./UIfacade/patientFacade\";\n\nopenPatientFlowModal()",
+                                    "language" : "TypeScript"
+                                  }
+                                },
                                 "name" : "PatientFlow",
                                 "style" : { }
                               },
@@ -889,7 +896,7 @@
                                   },
                                   "type" : "PageLoader"
                                 } ],
-                                "className" : "fullWidth fullHeight resources-flow-modal",
+                                "className" : "fullWidth fullHeight flow-modal",
                                 "hideIf" : {
                                   "@class" : "Script",
                                   "content" : "!Context.interfaceState.state.showResourcesManagementModal;",
@@ -899,6 +906,39 @@
                                 "layoutClassName" : "noPadding fullWidth",
                                 "layoutStyle" : { },
                                 "name" : "Resources Management",
+                                "onExitActions" : { },
+                                "style" : { }
+                              },
+                              "type" : "Modal"
+                            }, {
+                              "props" : {
+                                "attachedToId" : "globalInterfaceId",
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "fullWidth fullHeight",
+                                    "exposePageSizeAs" : "",
+                                    "initialSelectedPageId" : {
+                                      "@class" : "Script",
+                                      "content" : "\"patientFlow\"",
+                                      "language" : "typescript"
+                                    },
+                                    "layoutClassName" : "noPadding fullWidth fullHeight",
+                                    "layoutStyle" : { },
+                                    "name" : "patient flow",
+                                    "style" : { }
+                                  },
+                                  "type" : "PageLoader"
+                                } ],
+                                "className" : "fullWidth fullHeight flow-modal",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "!Context.interfaceState.state.showPatientFlowModal;",
+                                  "language" : "typescript"
+                                },
+                                "layout" : { },
+                                "layoutClassName" : "noPadding fullWidth",
+                                "layoutStyle" : { },
+                                "name" : "Patient Flow",
                                 "onExitActions" : { },
                                 "style" : { }
                               },

@@ -999,6 +999,20 @@
                       "props" : {
                         "children" : [ {
                           "props" : {
+                            "className" : "unactivables-overlay__icon",
+                            "layoutClassName" : "noPadding unactivables-overlay__icon-container",
+                            "layoutStyle" : { },
+                            "name" : "Icon",
+                            "script" : {
+                              "@class" : "Script",
+                              "content" : "`/maps/mapIcons/${Context.overlayItem.icon}.svg`",
+                              "language" : "TypeScript"
+                            },
+                            "style" : { }
+                          },
+                          "type" : "Image"
+                        }, {
+                          "props" : {
                             "children" : [ {
                               "props" : {
                                 "className" : "role-button",

@@ -3804,6 +3804,7 @@
           "location-entreechantier-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"iE\"},\"FR\":{\"status\":\"\",\"translation\":\"eC\",\"lang\":\"FR\"}},\"version\":0}",
           "location-helicopterpark" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"helicopter park\"},\"FR\":{\"status\":\"\",\"translation\":\"parc hélicoptère\",\"lang\":\"FR\"}},\"version\":0}",
           "location-helicopterpark-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"hP\"},\"FR\":{\"status\":\"\",\"translation\":\"pH\",\"lang\":\"FR\"}},\"version\":0}",
+          "location-hospitals" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"FR\":{\"@class\":\"Translation\",\"lang\":\"FR\",\"status\":\"\",\"translation\":\"hôpitaux\"},\"EN\":{\"status\":\"\",\"translation\":\"hospitals\",\"lang\":\"EN\"}},\"version\":0}",
           "location-niddeblesses" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"survivor reception center\"},\"FR\":{\"status\":\"\",\"translation\":\"nid de blessés\",\"lang\":\"FR\"}},\"version\":0}",
           "location-niddeblesses-short" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"sRC\"},\"FR\":{\"status\":\"\",\"translation\":\"nB\",\"lang\":\"FR\"}},\"version\":0}",
           "location-pc" : "{\"@class\":\"TranslatableContent\",\"translations\":{\"EN\":{\"@class\":\"Translation\",\"lang\":\"EN\",\"status\":\"\",\"translation\":\"medical command post\"},\"FR\":{\"status\":\"\",\"translation\":\"pC sanitaire\",\"lang\":\"FR\"}},\"version\":0}",
@@ -6895,6 +6896,15 @@
   }, {
     "@class" : "GameModelContent",
     "content" : "",
+    "contentKey" : "UIfacade/patientFlowFacade",
+    "contentType" : "application/typescript",
+    "libraryType" : "ClientScript",
+    "refId" : "GameModelContent:#306:CDHTQW",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
     "contentKey" : "UIfacade/patientSnapshotFacade",
     "contentType" : "application/typescript",
     "libraryType" : "ClientScript",
@@ -7178,6 +7188,15 @@
     "contentType" : "text/css",
     "libraryType" : "CSS",
     "refId" : "GameModelContent:#150:4df5OW",
+    "version" : null,
+    "visibility" : "INTERNAL"
+  }, {
+    "@class" : "GameModelContent",
+    "content" : "",
+    "contentKey" : "newCSS/MIMMS/patientFlow",
+    "contentType" : "text/css",
+    "libraryType" : "CSS",
+    "refId" : "GameModelContent:#306:BxquDy",
     "version" : null,
     "visibility" : "INTERNAL"
   }, {
