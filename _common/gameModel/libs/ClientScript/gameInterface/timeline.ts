@@ -32,6 +32,8 @@ export function buildTimelineObject(): Timeline[] {
     const timeline: Action[] = [];
     if (actions[actor.Uid] !== undefined) {
       for (const action of actions[actor.Uid]!) {
+        // Zero-duration actions are not displayed
+        if (action.duration() <= 0) continue;
         timeline.push({
           startTime: action.startTime,
           duration: action.duration(),
