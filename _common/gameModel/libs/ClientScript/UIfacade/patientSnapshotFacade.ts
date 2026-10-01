@@ -34,6 +34,14 @@ export function getPretriageSnapShotTimeStamp(): SimTime {
 }
 
 /**
+ * @returns Whether a global situation report has already been made
+ * (the initial snapshot has a timestamp of 0 and a report always takes some time)
+ */
+export function hasPretriageSnapShot(): boolean {
+  return getPretriageSnapShotTimeStamp() > 0;
+}
+
+/**
  * @returns The pretriage stats (amount of patients per category) for the given location,
  * or undefined if no snapshot has been taken for that location yet
  */

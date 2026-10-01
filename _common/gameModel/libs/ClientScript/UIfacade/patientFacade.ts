@@ -68,7 +68,14 @@ export function getPatientFlowLocationsInfo(): LocationInfo[] {
   const locations = getAccessibleLocationsInfo('Patients');
   const remote = getLocationInfo(LOCATION_ENUM.remote);
   if (!remote) return locations;
-  return [...locations, { ...remote, name: 'Hôpitaux', icon: 'hospital' }];
+  return [
+    ...locations,
+    {
+      ...remote,
+      name: getTranslation('mainSim-locations', 'location-hospitals'),
+      icon: 'hospital',
+    },
+  ];
 }
 
 /**

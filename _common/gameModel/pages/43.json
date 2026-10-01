@@ -203,6 +203,11 @@
                             "children" : [ {
                               "props" : {
                                 "className" : "notificationButton patients-flow-button",
+                                "hideIf" : {
+                                  "@class" : "Script",
+                                  "content" : "import { hasPretriageSnapShot } from \"./UIfacade/patientSnapshotFacade\";\n!hasPretriageSnapShot();",
+                                  "language" : "typescript"
+                                },
                                 "icon" : "user",
                                 "label" : {
                                   "@class" : "Script",

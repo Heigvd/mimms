@@ -73,7 +73,7 @@
                         "className" : "incoming-patients",
                         "hideIf" : {
                           "@class" : "Script",
-                          "content" : "Context.arrow.movingCount < 1;",
+                          "content" : "true;",
                           "language" : "typescript"
                         },
                         "layout" : {
@@ -134,7 +134,7 @@
                   },
                   "type" : "FlexList"
                 } ],
-                "className" : "patient-flow__arrows",
+                "className" : "patient-flow__grid",
                 "layout" : { },
                 "layoutClassName" : "noPadding patient-flow__arrows-container",
                 "layoutStyle" : { },
@@ -448,7 +448,7 @@
               },
               "type" : "FlexList"
             } ],
-            "className" : "fullHeight patient-flow__unactivables-overlay",
+            "className" : "fullHeight patient-flow__grid",
             "exposeAs" : "overlayItem",
             "getItemsFn" : {
               "@class" : "Script",
@@ -467,9 +467,12 @@
         "className" : "fullWidth fullHeight",
         "layout" : { },
         "layoutClassName" : "noPadding fullWidth fullHeight",
-        "layoutStyle" : { },
+        "layoutStyle" : {
+          "overflow" : "auto"
+        },
         "name" : "Locations",
         "style" : {
+          "minWidth" : "785px",
           "position" : "relative"
         }
       },

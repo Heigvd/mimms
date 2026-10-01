@@ -83,9 +83,12 @@ export function getArrowStyleDefinitions(): ArrowStyleDefinition[] {
 }
 
 export function getActiveArrowStyleDefinitions(): ArrowStyleDefinition[] {
-  const activeLocations = getAvailableMapActivables(getCurrentState(), 'AnyKind').map(
-    mapActivable => mapActivable.binding
-  );
+  const activeLocations: LOCATION_ENUM[] = [
+    ...getAvailableMapActivables(getCurrentState(), 'AnyKind').map(
+      mapActivable => mapActivable.binding
+    ),
+    LOCATION_ENUM.remote,
+  ];
   return getArrowStyleDefinitions()
     .filter(
       def =>
