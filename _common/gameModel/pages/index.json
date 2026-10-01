@@ -220,6 +220,12 @@
           "trainerPage" : null
         }, {
           "@class" : "Page",
+          "id" : "evacuationView",
+          "name" : "evacuation",
+          "scenaristPage" : null,
+          "trainerPage" : null
+        }, {
+          "@class" : "Page",
           "id" : "resourcesManagement",
           "name" : "resources management",
           "scenaristPage" : null,

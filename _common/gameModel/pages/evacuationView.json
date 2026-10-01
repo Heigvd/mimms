@@ -1,0 +1,812 @@
+{
+  "props" : {
+    "children" : [ {
+      "props" : {
+        "children" : [ {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin evacuation__title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "flex" : "0 0 auto"
+                    },
+                    "name" : "Patient",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Patient</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "Location",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getLocationTranslation } from \"./UIfacade/locationFacade\";\n  getLocationTranslation(Context.location.id);",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Patient id",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "Context.patient.patientId",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "className" : "noPadding unactivables-overlay__button",
+                                            "icon" : "external-link-alt",
+                                            "label" : {
+                                              "@class" : "Script",
+                                              "content" : "\"\"",
+                                              "language" : "TypeScript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "localScriptEval" : {
+                                              "script" : {
+                                                "@class" : "ClientScript",
+                                                "content" : "import { setInterfaceState } from './gameInterface/interfaceState';\nsetInterfaceState({selectedPatient: Context.patient.patientId, patientModalLocation: Context.location.id, showPatientModal: true});",
+                                                "language" : "TypeScript"
+                                              }
+                                            },
+                                            "name" : "Open modal",
+                                            "stopPropagation" : true,
+                                            "style" : { }
+                                          },
+                                          "type" : "Button"
+                                        } ],
+                                        "className" : "patient-color",
+                                        "computedClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : {
+                                            "@class" : "Script",
+                                            "content" : "import { getPatientCategoryColorClassName } from \"./UIfacade/patientSnapshotFacade\";\n  getPatientCategoryColorClassName(Context.patient.preTriageResult?.categoryId)",
+                                            "language" : "TypeScript"
+                                          }
+                                        } ],
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "patient-color--selected",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.evacuationState.state.selectedPatientId === Context.patient.patientId;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "layout" : {
+                                          "alignItems" : "center",
+                                          "justifyContent" : "space-between"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : {
+                                          "flex" : "0 0 calc(50% - 2.5px)"
+                                        },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nsetEvacuationSelectionState({ selectedPatientId: Context.patient.patientId });",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "name" : "Patient",
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "resourcesSelectionAssignment",
+                                    "exposeAs" : "patient",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getPretriagedPatientsForLocation } from \"./UIfacade/patientFacade\";\n    getPretriagedPatientsForLocation(Context.location.id);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "patientId",
+                                    "layout" : {
+                                      "flexWrap" : "wrap"
+                                    },
+                                    "layoutClassName" : "noPadding evacuation-list-outer ",
+                                    "layoutStyle" : { },
+                                    "name" : "Patient",
+                                    "style" : {
+                                      "maxWidth" : "15rem"
+                                    }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "fixedEntities-container",
+                                "layoutStyle" : { },
+                                "name" : "genericFixedEntity",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__icon",
+                                    "layoutClassName" : "unactivables-overlay__icon-container",
+                                    "layoutStyle" : { },
+                                    "script" : {
+                                      "@class" : "Script",
+                                      "content" : "return`/maps/mapIcons/${Context.location.icon}.svg`;",
+                                      "language" : "TypeScript"
+                                    },
+                                    "style" : { }
+                                  },
+                                  "type" : "Image"
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "noPadding fixedEntities-arrow",
+                                "layoutStyle" : { },
+                                "name" : "genericFixedEntity-arrow",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column",
+                              "justifyContent" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Unactivables overlay",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "evacuation-column",
+                        "exposeAs" : "location",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getAccessibleLocationsInfo } from './UIfacade/locationFacade';\n  getAccessibleLocationsInfo('Patients');",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : {
+                          "flexDirection" : "column",
+                          "justifyContent" : "space-around"
+                        },
+                        "layoutClassName" : "noPadding fullWidth fullHeight",
+                        "layoutStyle" : { },
+                        "name" : "Location",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "className" : "fullWidth fullHeight",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding evacuation-list__container",
+                    "layoutStyle" : { },
+                    "name" : "Location list",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "fullWidth fullHeight",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutStyle" : { },
+                "name" : "Patient",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin evacuation__title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "flex" : "0 0 auto"
+                    },
+                    "name" : "Vector",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Vector</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "Vector",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getTranslation } from \"./tools/translation\";\nimport { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\n  if(getVehicleIcon(Context.evacSquadDef) !== 'helicopter') {\n    return getTranslation('mainSim-locations', 'location-ambulancepark');\n  }\n  getTranslation('mainSim-locations', 'location-helicopterpark');",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "ambulance",
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Ambulance",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "className" : "",
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                              "language" : "typescript"
+                                            },
+                                            "icon" : "helicopter",
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Helicopter",
+                                            "style" : { }
+                                          },
+                                          "type" : "Icon"
+                                        }, {
+                                          "props" : {
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { hasDrivers } from \"./UIfacade/evacuationFacade\";\n!hasDrivers(Context.evacSquad);",
+                                              "language" : "typescript"
+                                            },
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getNumberDriverNeeded } from \"./game/common/evacuation/evacuationSquadDef\";\ngetNumberDriverNeeded(Context.evacSquadDef?.uid) < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Driver",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${Context.evacSquad.drivers.length} ${getTranslation('mainSim-resources', 'driver')}`;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "disableIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { hasHealers } from \"./UIfacade/evacuationFacade\";\n!hasHealers(Context.evacSquad);",
+                                              "language" : "typescript"
+                                            },
+                                            "hideIf" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getNumberHealersNeeded } from \"./game/common/evacuation/evacuationSquadDef\";\ngetNumberHealersNeeded(Context.evacSquadDef?.uid) < 1;",
+                                              "language" : "typescript"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Healer",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "import { getTranslation } from \"./tools/translation\";\n`${Context.evacSquad.healers.length} ${getTranslation('mainSim-resources', 'healer')}`;",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        } ],
+                                        "className" : "unactivables-overlay__vector",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "unactivables-overlay__vector--selected",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.evacuationState.state?.selectedSquad?.squadId === Context.evacSquad?.squadId;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "layout" : {
+                                          "alignItems" : "center",
+                                          "justifyContent" : "space-between"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { isComplete, setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nif(isComplete(Context.evacSquad)){\n  setEvacuationSelectionState({ selectedSquad: Context.evacSquad });\n}",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "name" : "Vector unit",
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "resourcesSelectionAssignment",
+                                    "exposeAs" : "evacSquad",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAvailableSquadsList } from \"./UIfacade/evacuationFacade\";\n  getAvailableSquadsList(Context.evacSquadDef.uid);",
+                                      "language" : "TypeScript"
+                                    },
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAvailableSquadsList } from \"./UIfacade/evacuationFacade\";\ngetAvailableSquadsList(Context.evacSquadDef.uid).length < 1;",
+                                      "language" : "typescript"
+                                    },
+                                    "itemKey" : "squadId",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutStyle" : { },
+                                    "name" : "squad",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "fixedEntities-container",
+                                "layoutStyle" : { },
+                                "name" : "content",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__icon",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'ambulance';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "ambulance",
+                                    "layoutClassName" : "noPadding unactivables-overlay__icon-container",
+                                    "layoutStyle" : { },
+                                    "name" : "Ambulance",
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                }, {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__icon",
+                                    "hideIf" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getVehicleIcon } from \"./UIfacade/evacuationFacade\";\ngetVehicleIcon(Context.evacSquadDef) !== 'helicopter';",
+                                      "language" : "typescript"
+                                    },
+                                    "icon" : "helicopter",
+                                    "layoutClassName" : "noPadding unactivables-overlay__icon-container",
+                                    "layoutStyle" : { },
+                                    "name" : "Helicopter",
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "noPadding fixedEntities-arrow",
+                                "layoutStyle" : { },
+                                "name" : "genericFixedEntity-arrow",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column",
+                              "justifyContent" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Park location overlay",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "evacuation-column",
+                        "exposeAs" : "evacSquadDef",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getEvacSquadDefinitions } from \"./UIfacade/evacuationFacade\";\ngetEvacSquadDefinitions();",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "uid",
+                        "layout" : {
+                          "flexDirection" : "column",
+                          "justifyContent" : "space-around"
+                        },
+                        "layoutClassName" : "noPadding fullWidth fullHeight",
+                        "layoutStyle" : { },
+                        "name" : "Vector type",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "className" : "fullWidth fullHeight",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding evacuation-list__container",
+                    "layoutStyle" : { },
+                    "name" : "Vector list",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "fullWidth fullHeight",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutStyle" : { },
+                "name" : "Vector",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            }, {
+              "props" : {
+                "children" : [ {
+                  "props" : {
+                    "className" : "noMargin evacuation__title",
+                    "layoutClassName" : "noPadding",
+                    "layoutStyle" : {
+                      "flex" : "0 0 auto"
+                    },
+                    "name" : "Destination",
+                    "style" : { },
+                    "text" : {
+                      "@class" : "Script",
+                      "content" : "\"<p>Destination</p>\"",
+                      "language" : "TypeScript"
+                    }
+                  },
+                  "type" : "Text"
+                }, {
+                  "props" : {
+                    "children" : [ {
+                      "props" : {
+                        "children" : [ {
+                          "props" : {
+                            "children" : [ {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__title",
+                                    "layoutClassName" : "noPadding",
+                                    "layoutStyle" : { },
+                                    "name" : "Hospital",
+                                    "style" : { },
+                                    "text" : {
+                                      "@class" : "Script",
+                                      "content" : "  Context.hospital.shortName;",
+                                      "language" : "TypeScript"
+                                    }
+                                  },
+                                  "type" : "Text"
+                                }, {
+                                  "props" : {
+                                    "children" : [ {
+                                      "props" : {
+                                        "children" : [ {
+                                          "props" : {
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Service",
+                                            "style" : { },
+                                            "text" : {
+                                              "@class" : "Script",
+                                              "content" : "I18n.translate(Context.service.name);",
+                                              "language" : "TypeScript"
+                                            }
+                                          },
+                                          "type" : "Text"
+                                        }, {
+                                          "props" : {
+                                            "children" : [ {
+                                              "props" : {
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "Number",
+                                                "style" : { },
+                                                "text" : {
+                                                  "@class" : "Script",
+                                                  "content" : "  `${Context.hospital.units[Context.service.id] || 0}`;",
+                                                  "language" : "TypeScript"
+                                                }
+                                              },
+                                              "type" : "Text"
+                                            }, {
+                                              "props" : {
+                                                "icon" : "bed",
+                                                "layoutClassName" : "noPadding",
+                                                "layoutStyle" : { },
+                                                "name" : "Bed",
+                                                "style" : { }
+                                              },
+                                              "type" : "Icon"
+                                            } ],
+                                            "className" : "resourcesSelectionAssignment",
+                                            "layout" : {
+                                              "alignItems" : "center"
+                                            },
+                                            "layoutClassName" : "noPadding",
+                                            "layoutStyle" : { },
+                                            "name" : "Number",
+                                            "style" : { }
+                                          },
+                                          "type" : "FlexList"
+                                        } ],
+                                        "className" : "unactivables-overlay__service",
+                                        "conditionnalClassNames" : [ {
+                                          "applyOn" : "Inside",
+                                          "className" : "unactivables-overlay__service--selected",
+                                          "condition" : {
+                                            "@class" : "Script",
+                                            "content" : "Context.evacuationState.state.selectedHospitalId === Context.hospital.id&&\nContext.evacuationState.state.selectedServiceId === Context.service.id;",
+                                            "language" : "typescript"
+                                          }
+                                        } ],
+                                        "hideIf" : {
+                                          "@class" : "Script",
+                                          "content" : "Context.hospital.units[Context.service.id] === undefined;",
+                                          "language" : "typescript"
+                                        },
+                                        "layout" : {
+                                          "justifyContent" : "space-between"
+                                        },
+                                        "layoutClassName" : "noPadding",
+                                        "layoutStyle" : { },
+                                        "localScriptEval" : {
+                                          "script" : {
+                                            "@class" : "ClientScript",
+                                            "content" : "import { setEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\n\nsetEvacuationSelectionState({ selectedHospitalId: Context.hospital.id, selectedServiceId: Context.service.id });",
+                                            "language" : "TypeScript"
+                                          }
+                                        },
+                                        "name" : "Service",
+                                        "style" : { }
+                                      },
+                                      "type" : "FlexList"
+                                    } ],
+                                    "className" : "resourcesSelectionAssignment",
+                                    "exposeAs" : "service",
+                                    "getItemsFn" : {
+                                      "@class" : "Script",
+                                      "content" : "import { getAllPatientUnits } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllPatientUnits()",
+                                      "language" : "TypeScript"
+                                    },
+                                    "itemKey" : "id",
+                                    "layout" : {
+                                      "flexDirection" : "column"
+                                    },
+                                    "layoutClassName" : "noPadding evacuation-list-outer ",
+                                    "layoutStyle" : { },
+                                    "name" : "Service",
+                                    "style" : { }
+                                  },
+                                  "type" : "For each"
+                                } ],
+                                "className" : "",
+                                "layout" : {
+                                  "flexDirection" : "column"
+                                },
+                                "layoutClassName" : "fixedEntities-container",
+                                "layoutStyle" : { },
+                                "name" : "genericFixedEntity",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            }, {
+                              "props" : {
+                                "children" : [ {
+                                  "props" : {
+                                    "className" : "unactivables-overlay__icon",
+                                    "icon" : "hospital",
+                                    "layoutClassName" : "unactivables-overlay__icon-container",
+                                    "layoutStyle" : { },
+                                    "style" : { }
+                                  },
+                                  "type" : "Icon"
+                                } ],
+                                "layout" : { },
+                                "layoutClassName" : "noPadding fixedEntities-arrow",
+                                "layoutStyle" : { },
+                                "name" : "genericFixedEntity-arrow",
+                                "style" : { }
+                              },
+                              "type" : "FlexList"
+                            } ],
+                            "layout" : {
+                              "alignItems" : "center",
+                              "flexDirection" : "column",
+                              "justifyContent" : "center"
+                            },
+                            "layoutClassName" : "noPadding",
+                            "layoutStyle" : { },
+                            "name" : "Unactivables overlay",
+                            "style" : { }
+                          },
+                          "type" : "FlexList"
+                        } ],
+                        "className" : "evacuation-column",
+                        "exposeAs" : "hospital",
+                        "getItemsFn" : {
+                          "@class" : "Script",
+                          "content" : "import { getAllHospitals } from \"./edition/UIfacade/hospitalConfigFacade\";\n  getAllHospitals()",
+                          "language" : "TypeScript"
+                        },
+                        "itemKey" : "id",
+                        "layout" : {
+                          "flexDirection" : "column",
+                          "justifyContent" : "space-around"
+                        },
+                        "layoutClassName" : "noPadding fullWidth fullHeight",
+                        "layoutStyle" : { },
+                        "name" : "Hospital",
+                        "style" : { }
+                      },
+                      "type" : "For each"
+                    } ],
+                    "className" : "fullWidth fullHeight",
+                    "layout" : { },
+                    "layoutClassName" : "noPadding evacuation-list__container",
+                    "layoutStyle" : { },
+                    "name" : "Hospital list",
+                    "style" : { }
+                  },
+                  "type" : "FlexList"
+                } ],
+                "className" : "fullWidth fullHeight",
+                "layout" : {
+                  "flexDirection" : "column"
+                },
+                "layoutClassName" : "noPadding evacuation-column__container",
+                "layoutStyle" : { },
+                "name" : "Destination",
+                "style" : { }
+              },
+              "type" : "FlexList"
+            } ],
+            "className" : "fullWidth fullHeight",
+            "layout" : { },
+            "layoutClassName" : "noPadding fullWidth fullHeight",
+            "layoutStyle" : { },
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "className" : " button-S button-neutralColor ",
+            "disableIf" : {
+              "@class" : "Script",
+              "content" : "import { canSendEvacuationOrder } from \"./UIfacade/evacuationFacade\";\n!canSendEvacuationOrder();",
+              "language" : "typescript"
+            },
+            "label" : {
+              "@class" : "Script",
+              "content" : "import { getTranslation } from \"./tools/translation\";\n`${getTranslation('mainSim-interface', 'send')} (1')`;",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding evacuation-footer",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { resetEvacuationState, sendEvacuationOrder, toggleEvacuationModal } from \"./UIfacade/evacuationFacade\";\n\nsendEvacuationOrder();\ntoggleEvacuationModal(false);\nresetEvacuationState();",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Validate",
+            "style" : { }
+          },
+          "type" : "Button"
+        }, {
+          "props" : {
+            "className" : "",
+            "icon" : "times",
+            "label" : {
+              "@class" : "Script",
+              "content" : "\"\"",
+              "language" : "TypeScript"
+            },
+            "layoutClassName" : "noPadding close-evacuation",
+            "layoutStyle" : { },
+            "localScriptEval" : {
+              "script" : {
+                "@class" : "ClientScript",
+                "content" : "import { toggleEvacuationModal } from \"./UIfacade/evacuationFacade\";\n\ntoggleEvacuationModal(false)",
+                "language" : "TypeScript"
+              }
+            },
+            "name" : "Close",
+            "style" : { }
+          },
+          "type" : "Button"
+        } ],
+        "className" : "fullWidth fullHeight",
+        "exposeAs" : "evacuationState",
+        "initialState" : {
+          "@class" : "Script",
+          "content" : "import { getInitialEvacuationSelectionState } from \"./UIfacade/evacuationFacade\";\ngetInitialEvacuationSelectionState();",
+          "language" : "TypeScript"
+        },
+        "layoutClassName" : "noPadding fullWidth fullHeight",
+        "layoutStyle" : { },
+        "localState" : true,
+        "name" : "Evacuation selection",
+        "style" : {
+          "flexDirection" : "column"
+        }
+      },
+      "type" : "State"
+    } ],
+    "className" : "fullWidth fullHeight ",
+    "layout" : {
+      "flexDirection" : "column"
+    },
+    "layoutClassName" : "noPadding",
+    "layoutStyle" : {
+      "height" : "100%",
+      "overflow" : "auto",
+      "width" : "100%"
+    },
+    "style" : { }
+  },
+  "type" : "FlexList"
+}
