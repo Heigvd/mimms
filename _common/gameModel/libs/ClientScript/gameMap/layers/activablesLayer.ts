@@ -2,6 +2,7 @@ import {
   BuildStatus,
   MapEntityDescriptor,
 } from '../../game/common/mapEntities/mapEntityDescriptor';
+import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import {
   getActiveMapEntityDescriptors,
   getMapActivableFromUid,
@@ -115,6 +116,23 @@ function getGenericFeature(
         icon: mapObject.type === 'Point' ? mapObject.icon : undefined,
       },
     };
+
+    // Add a background for locations with binding
+    if (mapObject.type === 'Point' && descriptor?.binding !== LOCATION_ENUM.custom) {
+      const background: any = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: mapObject.geometry,
+        },
+        properties: {
+          ...properties,
+          type: 'Icon-Background',
+          icon: 'white-background',
+        },
+      };
+      layer.features.push(background);
+    }
 
     layer.features.push(feature);
 

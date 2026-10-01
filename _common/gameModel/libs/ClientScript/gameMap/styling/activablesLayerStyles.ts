@@ -81,9 +81,43 @@ export function getFeatureStyle(feature: any, colors: MapColorConfig): LayerStyl
       return getLineStringStyle(feature, colors);
     case 'Polygon':
       return getPolygonStyle(feature, colors);
+    case 'Icon-Background':
+      return getIconBackgroundStyle(feature, colors);
     default:
       return getUnsupportedFeatureStyle(feature, colors);
   }
+}
+
+function getIconBackgroundStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
+  const icon = feature.getProperties()?.icon;
+
+  if (icon) {
+    const iconStyle: IconStyleObject = {
+      type: 'IconStyle',
+      anchor: [0.5, 0.5],
+      displacement: [0, 0],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      src: `/maps/mapIcons/${icon}.svg`,
+      scale: 0.05,
+      opacity: 0.9,
+      color: colors.color,
+    };
+    return { image: iconStyle };
+  }
+
+  // fallback
+  const stroke: StrokeStyleObject = {
+    type: 'StrokeStyle',
+    color: colors.color,
+    width: 40,
+    lineJoin: 'round',
+  };
+  const fill: FillStyleObject = {
+    type: 'FillStyle',
+    color: colors.color,
+  };
+  return { stroke, fill };
 }
 
 function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
@@ -100,7 +134,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.05,
       opacity: colors.opacity,
-      color: colors.color,
+      color: 'white', //colors.color,
     };
 
     const text = getTextStyle(feature, colors, 30);
