@@ -1,4 +1,4 @@
-import { ActionBase } from '../actions/actionBase';
+import { ActionBase, ActionClass } from '../actions/actionBase';
 import { ActionTemplateUid } from '../baseTypes';
 import { ChoiceActivable, getChoiceActivable } from './activableState';
 import { MainSimulationState } from './mainSimulationState';
@@ -80,7 +80,7 @@ export function countStartedChoices(state: Readonly<MainSimulationState>, choice
 export function isOngoingAndStartedAction<T extends ActionBase>(
   state: Readonly<MainSimulationState>,
   actorUid: number,
-  actionClass: { new (...args: any[]): T }
+  actionClass: ActionClass<T>
 ): boolean {
   return (
     getOngoingActionsForActor(state, actorUid).find(

@@ -291,6 +291,13 @@ export abstract class ChoiceTemplate<
     this.choices = choices;
   }
 
+  /**
+   * @returns the duration in seconds of the action when played with the given choice
+   */
+  public getChoiceDuration(choice: Readonly<ChoiceDescriptor>): SimDuration {
+    return Math.max(0, this.duration + (choice.durationDeltaSec || 0));
+  }
+
   protected override isAvailableCustom(
     state: Readonly<MainSimulationState>,
     _actor: Readonly<Actor>
@@ -340,7 +347,7 @@ export class FullyConfigurableChoiceActionTemplate<
   ): ChoiceEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
+      durationSec: this.getChoiceDuration(payload),
       choice: payload,
     };
   }
@@ -351,7 +358,7 @@ export class FullyConfigurableChoiceActionTemplate<
 
     return new FullyConfigurableChoiceAction(
       payload.triggerTime,
-      this.duration,
+      this.getChoiceDuration(payload.choice),
       event.id,
       this.title,
       ownerId,

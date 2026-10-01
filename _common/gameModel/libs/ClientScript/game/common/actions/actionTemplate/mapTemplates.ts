@@ -54,7 +54,7 @@ export class MapChoiceActionTemplate<
   ): MapChoiceEvent {
     return {
       ...this.initBaseEvent(timeStamp, initiator.Uid),
-      durationSec: this.duration,
+      durationSec: this.getChoiceDuration(payload),
       choice: payload,
     };
   }
@@ -65,7 +65,7 @@ export class MapChoiceActionTemplate<
 
     return new MapChoiceAction(
       payload.triggerTime,
-      this.duration,
+      this.getChoiceDuration(payload.choice),
       event.id,
       this.title,
       ownerId,
@@ -122,7 +122,7 @@ export class PCFrontChoiceTemplate extends MapChoiceActionTemplate<PCFrontChoice
 
     return new PCFrontChoiceAction(
       payload.triggerTime,
-      this.duration,
+      this.getChoiceDuration(payload.choice),
       event.id,
       this.title,
       ownerId,
@@ -164,7 +164,7 @@ export class PCChoiceTemplate extends MapChoiceActionTemplate<PCChoiceAction> {
 
     return new PCChoiceAction(
       payload.triggerTime,
-      this.duration,
+      this.getChoiceDuration(payload.choice),
       event.id,
       this.title,
       ownerId,
@@ -211,7 +211,7 @@ export class ParkChoiceTemplate extends MapChoiceActionTemplate<ParkChoiceAction
 
     return new ParkChoiceAction(
       payload.triggerTime,
-      this.duration,
+      this.getChoiceDuration(payload.choice),
       event.id,
       this.title,
       ownerId,

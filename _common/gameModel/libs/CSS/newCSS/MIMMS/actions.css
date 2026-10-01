@@ -97,6 +97,10 @@
   font-weight: var(--boldWeight);
 }
 
+.choice-title p {
+ padding: 0; 
+}
+
 .choice-description {
   margin-top: 10px;
 }

@@ -426,6 +426,73 @@
                 "style" : { },
                 "text" : {
                   "@class" : "Script",
+                  "content" : "\"<p>Delta duration</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            }, {
+              "props" : {
+                "className" : "",
+                "layoutClassName" : "noPadding number-input",
+                "layoutStyle" : { },
+                "name" : "time",
+                "onVariableChange" : {
+                  "client" : {
+                    "@class" : "Script",
+                    "content" : "import { FlatChoice } from \"./edition/typeDefinitions/choiceDefinition\";\nimport { updateItem } from \"./edition/UIfacade/actionConfigFacade\";\nconst value = Math.round(Number(Context.value) || 0);\nupdateItem<FlatChoice>(Context.item.uid, { durationDeltaSec: value * 60 });",
+                    "language" : "TypeScript"
+                  },
+                  "exposeVariableAs" : {
+                    "@class" : "Script",
+                    "content" : "\"value\"",
+                    "language" : "TypeScript"
+                  }
+                },
+                "script" : {
+                  "@class" : "Script",
+                  "content" : "    Math.round((Context.item.durationDeltaSec || 0) / 60);",
+                  "language" : "TypeScript"
+                },
+                "style" : { }
+              },
+              "type" : "Number input"
+            }, {
+              "props" : {
+                "className" : "noMargin small-regular-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "min",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
+                  "content" : "\"<p>min</p>\"",
+                  "language" : "TypeScript"
+                }
+              },
+              "type" : "Text"
+            } ],
+            "className" : "action-gap",
+            "layout" : {
+              "alignItems" : "center"
+            },
+            "layoutClassName" : "noPadding",
+            "layoutStyle" : { },
+            "name" : "deltaDuration",
+            "style" : { }
+          },
+          "type" : "FlexList"
+        }, {
+          "props" : {
+            "children" : [ {
+              "props" : {
+                "className" : "noMargin small-bold-primary-text",
+                "layoutClassName" : "noPadding",
+                "layoutStyle" : { },
+                "name" : "title",
+                "style" : { },
+                "text" : {
+                  "@class" : "Script",
                   "content" : "\"<p>Can be played</p>\"",
                   "language" : "TypeScript"
                 }
