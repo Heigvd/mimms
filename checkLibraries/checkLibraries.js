@@ -22,6 +22,10 @@ const LIBRARY_TYPES = {
 // Fallback when a file has no descriptor anywhere to infer visibility from
 const DEFAULT_VISIBILITY = 'INTERNAL';
 
+// The scenario whose refIds are authoritative; every other scenario's
+// descriptors for the same libraryType/contentKey must match it.
+const CANONICAL_SCENARIO = 'basic_scenario';
+
 const BASE62 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 /**
@@ -401,10 +405,54 @@ function replaceLibrariesBlock(raw, libraries) {
 }
 
 /**
+ * basic_scenario is the canonical source of truth for refIds: every library
+ * file is shared across scenarios, and basic_scenario is where descriptors
+ * are first created in Wegas. Build a lookup so other scenarios' missing
+ * descriptors reuse that refId/visibility instead of inventing a new one.
+ */
+function buildCanonicalRefIds(results) {
+  const canonical = new Map();
+
+  const basicScenario = results.find(result => result.scenario.name === CANONICAL_SCENARIO);
+  if (!basicScenario) {
+    return canonical;
+  }
+
+  for (const library of basicScenario.libraries) {
+    canonical.set(`${library.libraryType}/${library.contentKey}`, library);
+  }
+
+  return canonical;
+}
+
+/**
+ * Descriptors that exist in this scenario and in basic_scenario, for the same
+ * file, but disagree on refId. These are a problem even without a missing or
+ * orphan descriptor: Wegas identifies a library by refId, so a mismatch means
+ * this scenario is quietly tracking a different (often newly invented) id
+ * than the one basic_scenario has for that exact file.
+ */
+function findRefIdMismatches(result, canonicalRefIds) {
+  if (result.scenario.name === CANONICAL_SCENARIO) {
+    return [];
+  }
+
+  const mismatches = [];
+  for (const library of result.libraries) {
+    const canonical = canonicalRefIds.get(`${library.libraryType}/${library.contentKey}`);
+    if (canonical && canonical.refId !== library.refId) {
+      mismatches.push({ library, canonical });
+    }
+  }
+
+  return mismatches;
+}
+
+/**
  * Rewrite one gamemodel.json so its descriptors match the files on disk.
  * Existing descriptors are kept as they are, renames keep their identity.
  */
-function fixScenario(result) {
+function fixScenario(result, canonicalRefIds) {
   const { libraries, missingDescriptors, orphanDescriptors, renames } = result;
 
   const renamedFrom = new Map(); // new contentKey -> descriptor being moved
@@ -420,6 +468,7 @@ function fixScenario(result) {
   // Drop duplicates as well, keeping the first occurrence
   const keptKeys = new Set();
   const kept = [];
+  const corrected = [];
   for (const library of libraries) {
     if (removedRefIds.has(library.refId) || renamedRefIds.has(library.refId)) {
       continue;
@@ -431,6 +480,13 @@ function fixScenario(result) {
       continue;
     }
     keptKeys.add(key);
+
+    const canonical = canonicalRefIds.get(key);
+    if (canonical && canonical.refId !== library.refId) {
+      corrected.push({ libraryType: library.libraryType, contentKey: library.contentKey, from: library.refId, to: canonical.refId });
+      library.refId = canonical.refId;
+    }
+
     kept.push(library);
   }
 
@@ -438,7 +494,7 @@ function fixScenario(result) {
   const added = [];
 
   for (const { libraryType, contentKey } of missingDescriptors) {
-    const source = renamedFrom.get(contentKey);
+    const source = renamedFrom.get(contentKey) || canonicalRefIds.get(`${libraryType}/${contentKey}`);
     const refId = source ? source.refId : makeRefId(libraries, libraryType, contentKey, usedRefIds);
     usedRefIds.add(refId);
 
@@ -462,7 +518,7 @@ function fixScenario(result) {
 
   fs.writeFileSync(result.scenario.filePath, replaceLibrariesBlock(result.raw, fixed), 'utf-8');
 
-  return { added, removed, renames, total: fixed.length };
+  return { added, removed, renames, corrected, total: fixed.length };
 }
 
 function reportScenario(result, verbose) {
@@ -476,6 +532,7 @@ function reportScenario(result, verbose) {
     inlinedContent,
     inversions,
     renames,
+    refIdMismatches = [],
   } = result;
 
   if (!problems.length) {
@@ -538,6 +595,31 @@ function reportScenario(result, verbose) {
         `${current.libraryType}/${current.contentKey}   (should not follow ${previous.contentKey})`
     )
   );
+  list(
+    `refId mismatch vs ${CANONICAL_SCENARIO} (--fix will use ${CANONICAL_SCENARIO}'s id):`,
+    refIdMismatches.map(
+      ({ library, canonical }) =>
+        `${library.libraryType}/${library.contentKey}   ${library.refId} -> ${canonical.refId}`
+    )
+  );
+}
+
+/**
+ * Build the canonical refId map from the current results and record, on each
+ * result, which of its descriptors disagree with it. Mutates and returns
+ * `results` so re-checking after a fix can call this again.
+ */
+function annotateRefIdMismatches(results) {
+  const canonicalRefIds = buildCanonicalRefIds(results);
+
+  for (const result of results) {
+    result.refIdMismatches = findRefIdMismatches(result, canonicalRefIds);
+    if (result.refIdMismatches.length) {
+      result.problems.push(`${result.refIdMismatches.length} refId mismatch(es) vs ${CANONICAL_SCENARIO}`);
+    }
+  }
+
+  return canonicalRefIds;
 }
 
 function checkLibraries(verbose, fix) {
@@ -566,6 +648,8 @@ function checkLibraries(verbose, fix) {
       return false;
     }
   }
+
+  const canonicalRefIds = annotateRefIdMismatches(results);
 
   for (const result of results) {
     reportScenario(result, verbose);
@@ -598,17 +682,17 @@ function checkLibraries(verbose, fix) {
 
   console.log('\n🔧 Fixing...');
   for (const result of broken) {
-    const { added, removed, renames, total } = fixScenario(result);
+    const { added, removed, renames, corrected, total } = fixScenario(result, canonicalRefIds);
     console.log(
       `   ${result.scenario.name}: +${added.length - renames.length} -${removed.length}` +
-        ` ~${renames.length} moved, sorted, ${total} descriptors`
+        ` ~${renames.length} moved, ${corrected.length} refId corrected, sorted, ${total} descriptors`
     );
   }
 
-  // Re-check, so what is reported is the state of the files as they are now
-  const remaining = broken
-    .map(result => checkScenario(result.scenario, keysByType))
-    .filter(result => result.problems.length);
+  // Re-check every scenario fresh, so what is reported is the state of the files as they are now
+  const afterResults = scenarios.map(scenario => checkScenario(scenario, keysByType));
+  annotateRefIdMismatches(afterResults);
+  const remaining = afterResults.filter(result => result.problems.length);
 
   if (!remaining.length && !unexpectedFiles.length) {
     console.log('\n✅ Descriptors updated, review the diff with `git diff`.');
