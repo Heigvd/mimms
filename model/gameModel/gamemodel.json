@@ -4858,7 +4858,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#299:aDSUSM",
     "version" : null,
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -4876,7 +4876,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#297:KPE3jU",
     "version" : null,
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -4894,7 +4894,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#296:fbtNzS",
     "version" : null,
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -4921,7 +4921,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:#298:wuvnjw",
     "version" : null,
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
@@ -5542,7 +5542,7 @@
     "libraryType" : "ClientScript",
     "refId" : "GameModelContent:3121114:EfUqiy",
     "version" : null,
-    "visibility" : "PRIVATE"
+    "visibility" : "INTERNAL"
   }, {
     "@class" : "GameModelContent",
     "content" : "",
