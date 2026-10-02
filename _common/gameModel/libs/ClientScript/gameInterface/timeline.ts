@@ -26,18 +26,18 @@ export function buildTimelineObject(): Timeline[] {
   const timelines: Timeline[] = [];
 
   const actors = getAllActors().filter(a => a.Role !== 'CASU');
-  const actions = getAllActions();
+  const actionsPerActor = getAllActions();
 
   for (const actor of actors) {
     const timeline: Action[] = [];
-    if (actions[actor.Uid] !== undefined) {
-      for (const action of actions[actor.Uid]!) {
-        timeline.push({
-          startTime: action.startTime,
-          duration: action.duration(),
-          title: (action as StartEndAction).getTitle(),
-        });
-      }
+    // Zero-duration actions are not displayed
+    const actions = (actionsPerActor[actor.Uid] || []).filter(a => a.duration() > 0);
+    for (const action of actions) {
+      timeline.push({
+        startTime: action.startTime,
+        duration: action.duration(),
+        title: (action as StartEndAction).getTitle(),
+      });
     }
     timelines.push({
       id: actor.Uid,
