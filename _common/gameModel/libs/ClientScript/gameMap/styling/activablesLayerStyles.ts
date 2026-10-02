@@ -6,12 +6,15 @@ import { floatToHexByte } from '../../tools/helper';
 import { getAvailableActionTemplateById, isChoiceTemplate } from '../../UIfacade/actionFacade';
 import { getActor, isCurrentActorAtLocation } from '../../UIfacade/actorFacade';
 
-export const DEFAULT_SELECTED_COLOR = '#3CA3CC';
+export const DEFAULT_SELECTED_COLOR = '#1591C2';
 export const DEFAULT_UNSELECTED_COLOR = '#323739';
 
 export interface MapColorConfig {
   color: string;
   opacity: number;
+  // location icons only, fall back to player defaults when undefined
+  iconOpacity?: number;
+  iconBackgroundOpacity?: number;
 }
 
 export function getInterfaceColor(id: ActorId | undefined): string {
@@ -34,7 +37,7 @@ export function getActivableLayerStyle(feature: any): LayerStyleObject {
   const interfaceColor = getInterfaceColor(currentActorUid);
   const selectionActive = getTypedMapState()?.mapSelect === true;
 
-  const { id, buildStatus, binding } = feature?.getProperties();
+  const { id, buildStatus, binding } = feature.getProperties();
   let isHighlighted = false;
   let isSelected = false;
 
@@ -81,9 +84,31 @@ export function getFeatureStyle(feature: any, colors: MapColorConfig): LayerStyl
       return getLineStringStyle(feature, colors);
     case 'Polygon':
       return getPolygonStyle(feature, colors);
+    case 'Icon-Background':
+      return getIconBackgroundStyle(feature, colors);
     default:
       return getUnsupportedFeatureStyle(feature, colors);
   }
+}
+
+function getIconBackgroundStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
+  const icon = feature.getProperties()?.icon;
+
+  if (icon) {
+    const iconStyle: IconStyleObject = {
+      type: 'IconStyle',
+      anchor: [0.5, 0.5],
+      displacement: [0, 0],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      src: `/maps/mapIcons/${icon}.svg`,
+      scale: 0.05,
+      opacity: colors.iconBackgroundOpacity ?? 1,
+      color: colors.color,
+    };
+    return { image: iconStyle };
+  }
+  return getUnsupportedFeatureStyle(feature, colors);
 }
 
 function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
@@ -99,62 +124,25 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.05,
-      opacity: colors.opacity,
-      color: colors.color,
+      opacity: colors.iconOpacity ?? colors.opacity,
+      color: 'white', //colors.color,
     };
 
     const text = getTextStyle(feature, colors, 30);
 
-    /*
-  OLD CODE for phylactère / Speech scroll
-    if (selectionActive && rotation === undefined) {
-      iconStyle.src = `/maps/mapIcons/${icon}_choice.svg`;
-      iconStyle.color = colors.highlight;
-      iconStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
-
-      textStyle.text = getLetterRepresentationOfIndex(parseInt(index, 10));
-      textStyle.offsetX = 12 + offsetX;
-      textStyle.offsetY = -38 + offsetY;
-      textStyle.scale = 1.6;
-      textStyle.opacity = isSelected ? 1 : colors.unselectedOpacity;
-      textStyle.fill = {
-        type: 'FillStyle',
-        color: 'white',
-      };
-    }
-*/
     // Arrowheads
-    // TODO specifically designed for access and egress (text on arrow heads)
-    // should be thought again (text centered on middle of feature instead ?)
-    // TODO we should rather emit a triangle when building the features
     if (rotation !== undefined) {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
       iconStyle.color = colors.color;
-      iconStyle.scale = 0.05;
-
-      /*textStyle.text = label;
-      textStyle.offsetX = 0.5 + offsetX;
-      textStyle.offsetY = -18 + offsetY;
-      textStyle.scale = 1.6;
-      textStyle.fill = {
-        type: 'FillStyle',
-        color: '#ffffff',
-      };
-      textStyle.stroke = {
-        type: 'StrokeStyle',
-        width: 3,
-        color: colors.color,
-        lineCap: 'round',
-        lineJoin: 'round',
-      };*/
+      iconStyle.opacity = colors.opacity;
       return { image: iconStyle };
     }
 
     return { image: iconStyle, text: text };
   }
 
-  return {}; // TODO Add fallback style for scenarist ?
+  return getUnsupportedFeatureStyle(feature, colors);
 }
 
 function getLineStringStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
