@@ -12,6 +12,9 @@ export const DEFAULT_UNSELECTED_COLOR = '#323739';
 export interface MapColorConfig {
   color: string;
   opacity: number;
+  // location icons only, fall back to player defaults when undefined
+  iconOpacity?: number;
+  iconBackgroundOpacity?: number;
 }
 
 export function getInterfaceColor(id: ActorId | undefined): string {
@@ -100,7 +103,7 @@ function getIconBackgroundStyle(feature: any, colors: MapColorConfig): LayerStyl
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.05,
-      opacity: 1,
+      opacity: colors.iconBackgroundOpacity ?? 1,
       color: colors.color,
     };
     return { image: iconStyle };
@@ -133,7 +136,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       anchorYUnits: 'fraction',
       src: `/maps/mapIcons/${icon}.svg`,
       scale: 0.05,
-      opacity: colors.opacity,
+      opacity: colors.iconOpacity ?? colors.opacity,
       color: 'white', //colors.color,
     };
 
@@ -165,7 +168,7 @@ function getPointStyle(feature: any, colors: MapColorConfig): LayerStyleObject {
       iconStyle.rotation = rotation;
       iconStyle.displacement = [0, 0];
       iconStyle.color = colors.color;
-      iconStyle.scale = 0.05;
+      iconStyle.opacity = colors.opacity;
 
       /*textStyle.text = label;
       textStyle.offsetX = 0.5 + offsetX;

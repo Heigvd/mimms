@@ -2,7 +2,6 @@ import {
   BuildStatus,
   MapEntityDescriptor,
 } from '../../game/common/mapEntities/mapEntityDescriptor';
-import { LOCATION_ENUM } from '../../game/common/simulationState/locationState';
 import {
   getActiveMapEntityDescriptors,
   getMapActivableFromUid,
@@ -117,8 +116,8 @@ function getGenericFeature(
       },
     };
 
-    // Add a background for locations with binding
-    if (mapObject.type === 'Point' && descriptor?.binding !== LOCATION_ENUM.custom) {
+    // Add a background behind every point icon
+    if (mapObject.type === 'Point' && mapObject.icon) {
       const background: any = {
         type: 'Feature',
         geometry: {
