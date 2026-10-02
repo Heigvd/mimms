@@ -87,6 +87,10 @@ container element does not actually wrap the content */
   transform: translate(-50%, .5rem);
 }
 
+.unactivables-overlay__icon-container svg {
+  color: var(--grey-white);
+}
+
 .unactivables-overlay__icon {
   width: 1.5rem;
   height: 1.5rem;

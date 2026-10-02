@@ -91,16 +91,25 @@ container element does not actually wrap the content */
 
 /* icon, buttons & input */
 .unactivables-overlay__icon-container {
-  width: 1.5rem;
-  height: 1.5rem;
-  transform: translate(-50%, .5rem);
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: translate(-50%, 5px);
+  padding: .5rem;
+  background-color: var(--grey_80);
+  border-radius: var(--XS_borderRadius);
 }
 
-.unactivables-overlay__icon {
+.unactivables-overlay__container .selectedFixedMapEntityArrow .unactivables-overlay__icon-container {
+  background-color: var(--primary_base);
+}
+
+/*.unactivables-overlay__icon {
   width: 1.5rem;
   height: 1.5rem;
   object-fit: contain;
-}
+}*/
 
 .unactivables-overlay__button.iconOnly {
   align-items: center;

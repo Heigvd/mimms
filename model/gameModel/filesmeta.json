@@ -389,6 +389,12 @@
     "note" : "",
     "visibility" : "INTERNAL"
   },
+  "/maps/mapIcons/white-background.svg" : {
+    "description" : "",
+    "mimeType" : "image/svg+xml",
+    "note" : "",
+    "visibility" : "INTERNAL"
+  },
   "/mask _mimms.webp" : {
     "description" : "",
     "mimeType" : "image/webp",
